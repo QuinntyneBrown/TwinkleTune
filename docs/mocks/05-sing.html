@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TwinkleTune — Singing: Twinkle Twinkle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/twinkle.css">
+<style>
+  .screen{padding-bottom:40px}
+
+  .sing-top{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+  .sing-title{flex:1}
+  .sing-title strong{font-family:var(--font-display);font-size:18px;display:block;line-height:1.1}
+  .sing-title .track{height:10px;margin-top:8px}
+  .key-chip{
+    display:inline-flex;align-items:center;gap:5px;
+    background:#E4F4EC;color:#2E7D5B;border-radius:999px;
+    padding:8px 14px;font-size:12px;font-weight:900;white-space:nowrap;
+  }
+
+  /* ------- pitch stage ------- */
+  .stage{
+    position:relative;height:300px;margin-top:14px;overflow:hidden;
+    background:
+      repeating-linear-gradient(180deg,transparent 0 47px,#EAF4FC 47px 50px),
+      linear-gradient(180deg,#FFFFFF, #F3FAFF);
+    border-radius:32px;box-shadow:var(--shadow);
+  }
+  .streak-chip{
+    position:absolute;top:14px;right:14px;z-index:5;
+    background:var(--gold);color:var(--gold-ink);
+    font-family:var(--font-display);font-weight:800;font-size:14px;
+    border-radius:999px;padding:8px 14px;
+    box-shadow:0 4px 0 var(--gold-edge);
+    animation:popin .5s cubic-bezier(.34,1.56,.64,1) both .3s;
+  }
+
+  /* sliding note pills */
+  .note{
+    position:absolute;height:34px;border-radius:999px;
+    background:var(--pale);color:var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:13px;
+    animation:laneSlide 7s linear infinite;
+  }
+  .note.hit{
+    background:linear-gradient(135deg,var(--gold),#FFE49A);
+    color:var(--gold-ink);
+    box-shadow:0 0 22px rgba(255,214,107,.85);
+  }
+  @keyframes laneSlide{
+    from{transform:translateX(480px)}
+    to{transform:translateX(-560px)}
+  }
+
+  /* the singer marker */
+  .singer{
+    position:absolute;left:21%;top:118px;z-index:6;
+    width:64px;height:64px;border-radius:50%;
+    background:linear-gradient(135deg,var(--pink),var(--pale));
+    border:4px solid #fff;display:grid;place-items:center;font-size:30px;
+    box-shadow:0 0 0 8px rgba(94,168,218,.22),0 8px 20px rgba(94,168,218,.4);
+    animation:floaty 2.2s ease-in-out infinite;
+  }
+  .singer::after{
+    content:"✨";position:absolute;left:-22px;top:6px;font-size:16px;
+    animation:twinkle 1.4s ease-in-out infinite;
+  }
+  .feedback-pop{
+    position:absolute;left:30%;top:80px;z-index:7;
+    font-family:var(--font-display);font-weight:800;font-size:22px;
+    color:var(--blue);text-shadow:0 2px 0 #fff;
+    animation:popin .5s cubic-bezier(.34,1.56,.64,1) both .6s, floaty 2s ease-in-out infinite 1s;
+  }
+  .stage-label{
+    position:absolute;left:14px;bottom:12px;z-index:5;
+    font-size:11px;font-weight:900;letter-spacing:.14em;color:#A8C6DC;
+  }
+
+  /* ------- lyrics ------- */
+  .lyrics{margin-top:16px;text-align:center;padding:20px 18px}
+  .lyr-line{font-family:var(--font-display);font-weight:700;line-height:1.3}
+  .lyr-prev,.lyr-next{font-size:16px;color:#B7CFE2}
+  .lyr-now{font-size:26px;color:var(--ink);margin:8px 0}
+  .lyr-now .word-done{color:var(--blue)}
+  .lyr-now .word-now{
+    background:var(--pink);color:var(--pink-ink);
+    border-radius:12px;padding:2px 10px;display:inline-block;
+    animation:popin .3s ease both;
+  }
+
+  /* ------- bottom feedback ------- */
+  .live-row{display:flex;align-items:center;gap:12px;margin-top:16px}
+  .live-row .bubble{flex:1;font-size:14.5px}
+  .sparkles{
+    background:#fff;border-radius:999px;padding:12px 18px;
+    font-weight:900;font-size:15px;box-shadow:var(--shadow-soft);white-space:nowrap;
+  }
+</style>
+</head>
+<body>
+
+<div class="sky" aria-hidden="true">
+  <span class="tstar" style="top:12%;left:5%">✦</span>
+  <span class="tstar" style="top:18%;right:7%;animation-delay:1s">✦</span>
+</div>
+
+<main class="screen">
+
+  <header class="sing-top rise">
+    <a class="icon-btn" href="09-dialogs.html" aria-label="Pause">⏸</a>
+    <div class="sing-title">
+      <strong>Twinkle Twinkle Little Star</strong>
+      <div class="track"><div class="fill" style="width:45%"></div></div>
+    </div>
+    <span class="key-chip" title="This song was moved into your comfortable range">🎯 Your key ✓</span>
+  </header>
+
+  <!-- pitch stage: notes slide toward the singer; land on the gold pill -->
+  <section class="stage rise d1" aria-label="Pitch game — match the sliding notes">
+    <span class="streak-chip">🔥 7 in a row!</span>
+
+    <span class="note" style="top:60px;width:84px;animation-delay:-1s">twin-kle</span>
+    <span class="note hit" style="top:130px;width:96px;animation-delay:-3.2s">twin-kle</span>
+    <span class="note" style="top:106px;width:72px;animation-delay:-5.1s">lit-tle</span>
+    <span class="note" style="top:36px;width:88px;animation-delay:-6.2s">staaar</span>
+    <span class="note" style="top:180px;width:70px;animation-delay:-2s">how I</span>
+    <span class="note" style="top:226px;width:96px;animation-delay:-4.4s">won-der</span>
+
+    <div class="singer" role="img" aria-label="You — right on the note!">🦄</div>
+    <span class="feedback-pop">Perfect! ✨</span>
+    <span class="stage-label">SING TO MOVE YOUR STAR ↑↓</span>
+  </section>
+
+  <!-- karaoke lyrics -->
+  <section class="card lyrics rise d2" aria-label="Lyrics">
+    <p class="lyr-line lyr-prev">Twinkle, twinkle, little star</p>
+    <p class="lyr-line lyr-now">
+      <span class="word-done">How</span>
+      <span class="word-done">I</span>
+      <span class="word-now">wonder</span>
+      what you are
+    </p>
+    <p class="lyr-line lyr-next">Up above the world so high</p>
+  </section>
+
+  <div class="live-row rise d3">
+    <svg class="mascot mascot-sm" viewBox="0 0 120 120" aria-hidden="true" style="width:58px">
+      <path d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z"
+            fill="#FFD66B" stroke="#E8B445" stroke-width="7" stroke-linejoin="round"/>
+      <circle cx="48" cy="56" r="4.5" fill="#2B5876"/>
+      <circle cx="72" cy="56" r="4.5" fill="#2B5876"/>
+      <circle cx="41" cy="66" r="5.5" fill="#F4DBE3"/>
+      <circle cx="79" cy="66" r="5.5" fill="#F4DBE3"/>
+      <path d="M50 66 Q60 76 70 66" fill="none" stroke="#2B5876" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+    <div class="bubble bubble-left">You're right on the note — keep that big breath going!</div>
+    <div class="sparkles" title="Sparkles earned">✨ 120</div>
+  </div>
+
+</main>
+
+<nav class="mock-nav" aria-label="Mockup navigation">
+  <span>MOCKUP</span>
+  <a href="index.html" title="All screens">⊞</a>
+  <a href="04-songs.html" title="Previous screen">◀</a>
+  <a href="06-results.html" title="Next screen">▶</a>
+</nav>
+
+</body>
+</html>

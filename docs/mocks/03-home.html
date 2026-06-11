@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TwinkleTune — Home</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/twinkle.css">
+<style>
+  .hello{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+  .hello-text{flex:1}
+  .hello-text h1{font-family:var(--font-display);font-size:26px;line-height:1.1}
+  .hello-text p{font-weight:800;color:var(--ink-soft);font-size:14px}
+  .streak{
+    display:inline-flex;align-items:center;gap:6px;
+    background:#fff;border-radius:999px;padding:10px 16px;
+    font-weight:900;font-size:14px;box-shadow:var(--shadow-soft);
+  }
+
+  .coach{display:flex;align-items:flex-end;gap:10px;margin-bottom:22px}
+  .coach .bubble{flex:1;margin-bottom:14px}
+
+  /* daily goal */
+  .goal{display:flex;align-items:center;gap:16px;padding:18px 20px;margin-bottom:18px}
+  .goal-ring{
+    width:64px;height:64px;border-radius:50%;flex:0 0 auto;
+    background:conic-gradient(var(--blue) 0 240deg,#E3F1FB 240deg 360deg);
+    display:grid;place-items:center;
+  }
+  .goal-ring b{
+    width:46px;height:46px;border-radius:50%;background:#fff;
+    display:grid;place-items:center;font-size:15px;font-weight:900;
+    font-family:var(--font-display);
+  }
+  .goal-info{flex:1}
+  .goal-info strong{font-family:var(--font-display);font-size:17px;display:block}
+  .goal-info span{font-weight:700;color:var(--ink-soft);font-size:13px}
+
+  /* hero tile */
+  .hero{
+    display:block;text-decoration:none;position:relative;overflow:hidden;
+    background:linear-gradient(135deg,var(--blue),var(--sky) 70%,var(--aqua));
+    border-radius:32px;padding:28px 24px;color:#fff;
+    box-shadow:0 16px 36px rgba(94,168,218,.45);
+    transition:transform .15s;
+  }
+  .hero:active{transform:scale(.98)}
+  .hero h2{font-family:var(--font-display);font-size:32px;line-height:1.05}
+  .hero p{font-weight:800;opacity:.95;margin-top:6px;font-size:15px}
+  .hero .go{
+    margin-top:18px;display:inline-flex;align-items:center;gap:10px;
+    background:#fff;color:var(--blue);border-radius:999px;
+    padding:12px 24px;font-family:var(--font-display);font-weight:800;font-size:19px;
+    box-shadow:0 5px 0 rgba(43,88,118,.25);
+  }
+  .hero .big-mic{
+    position:absolute;right:-8px;bottom:-14px;font-size:110px;
+    transform:rotate(-12deg);opacity:.9;
+    text-shadow:0 10px 24px rgba(43,88,118,.3);
+    animation:wiggle 4s ease-in-out infinite;
+  }
+  .hero .spark{position:absolute;animation:twinkle 2.4s ease-in-out infinite;font-size:18px}
+
+  /* tile grid */
+  .tiles{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+  .tile{
+    border-radius:26px;padding:20px 18px;text-decoration:none;
+    box-shadow:var(--shadow-soft);transition:transform .15s;
+  }
+  .tile:active{transform:scale(.97)}
+  .tile .ico{font-size:34px;display:block;margin-bottom:8px}
+  .tile strong{font-family:var(--font-display);font-size:18px;display:block;line-height:1.15}
+  .tile span{font-weight:700;font-size:12.5px;color:var(--ink-soft)}
+  .tile-pink{background:var(--pink)}
+  .tile-pink strong{color:var(--pink-ink)}
+  .tile-pink span{color:#BC85A1}
+  .tile-white{background:#fff}
+
+  /* tip of the day */
+  .tip{display:flex;gap:14px;align-items:center;margin-top:14px;padding:18px 20px}
+  .tip .lamp{
+    width:56px;height:56px;border-radius:18px;flex:0 0 auto;
+    background:linear-gradient(135deg,#FFE9AE,var(--gold));
+    display:grid;place-items:center;font-size:28px;
+  }
+  .tip-body{flex:1}
+  .tip-body strong{font-family:var(--font-display);font-size:16px;display:block}
+  .tip-body p{font-weight:700;font-size:13.5px;color:var(--ink-soft);line-height:1.4}
+  .tip-arrow{font-size:22px;color:var(--blue);text-decoration:none}
+</style>
+</head>
+<body>
+
+<div class="sky" aria-hidden="true">
+  <div class="cloud" style="width:160px;height:48px;top:7%;animation-duration:100s"></div>
+  <div class="cloud" style="width:110px;height:34px;top:30%;animation-duration:80s;animation-delay:-35s;opacity:.55"></div>
+  <span class="tstar" style="top:12%;right:12%">✦</span>
+  <span class="tstar" style="top:40%;left:5%;animation-delay:1.2s">✦</span>
+  <span class="fnote" style="top:55%;right:4%;animation-delay:1s">🎶</span>
+</div>
+
+<main class="screen">
+
+  <header class="hello rise">
+    <div class="avatar" role="img" aria-label="Your avatar">🦄</div>
+    <div class="hello-text">
+      <h1>Hi, Zoe! 👋</h1>
+      <p>Level 4 Songbird</p>
+    </div>
+    <div class="streak" title="Singing streak">⭐ 3-day streak</div>
+  </header>
+
+  <div class="coach rise d1">
+    <svg class="mascot mascot-sm" viewBox="0 0 120 120" aria-hidden="true">
+      <path d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z"
+            fill="#FFD66B" stroke="#E8B445" stroke-width="7" stroke-linejoin="round"/>
+      <circle cx="48" cy="56" r="4.5" fill="#2B5876"/>
+      <circle cx="72" cy="56" r="4.5" fill="#2B5876"/>
+      <circle cx="41" cy="66" r="5.5" fill="#F4DBE3"/>
+      <circle cx="79" cy="66" r="5.5" fill="#F4DBE3"/>
+      <path d="M50 66 Q60 76 70 66" fill="none" stroke="#2B5876" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+    <div class="bubble bubble-left">Your songs are tuned and ready. Let's make today sparkle! ✨</div>
+  </div>
+
+  <section class="card goal rise d2" aria-label="Today's goal">
+    <div class="goal-ring" role="img" aria-label="2 of 3 songs done">
+      <b>2/3</b>
+    </div>
+    <div class="goal-info">
+      <strong>Today's sparkle goal</strong>
+      <span>Sing 3 songs — just 1 more to go!</span>
+    </div>
+    <span style="font-size:28px" aria-hidden="true">✨</span>
+  </section>
+
+  <a class="hero rise d3" href="04-songs.html">
+    <span class="spark" style="top:14px;right:120px">✦</span>
+    <span class="spark" style="top:48px;right:80px;animation-delay:.8s">✦</span>
+    <span class="spark" style="bottom:24px;left:160px;animation-delay:1.4s">✦</span>
+    <h2>Sing a Song</h2>
+    <p>Every song in YOUR key 💙</p>
+    <span class="go">Let's go! ▶</span>
+    <span class="big-mic" aria-hidden="true">🎤</span>
+  </a>
+
+  <div class="tiles">
+    <a class="tile tile-pink rise d4" href="07-tips.html">
+      <span class="ico" aria-hidden="true">🎈</span>
+      <strong>Warm-Ups</strong>
+      <span>2-minute voice games</span>
+    </a>
+    <a class="tile tile-white rise d5" href="08-progress.html">
+      <span class="ico" aria-hidden="true">💖</span>
+      <strong>My Songs</strong>
+      <span>5 songs mastered</span>
+    </a>
+  </div>
+
+  <section class="card tip rise d6" aria-label="Tip of the day">
+    <div class="lamp" aria-hidden="true">💡</div>
+    <div class="tip-body">
+      <strong>Tip of the day</strong>
+      <p>Stand tall like a sunflower — tall singers sound brave!</p>
+    </div>
+    <a class="tip-arrow" href="07-tips.html" aria-label="More tips">→</a>
+  </section>
+
+</main>
+
+<nav class="bottomnav" aria-label="Main navigation">
+  <a class="bn-item active" href="03-home.html"><span class="ico">🏠</span>Home</a>
+  <a class="bn-item" href="04-songs.html"><span class="ico">🎵</span>Songs</a>
+  <a class="bn-item" href="07-tips.html"><span class="ico">💡</span>Tips</a>
+  <a class="bn-item" href="08-progress.html"><span class="ico">⭐</span>Me</a>
+</nav>
+
+<nav class="mock-nav" aria-label="Mockup navigation">
+  <span>MOCKUP</span>
+  <a href="index.html" title="All screens">⊞</a>
+  <a href="02-voice-setup.html" title="Previous screen">◀</a>
+  <a href="04-songs.html" title="Next screen">▶</a>
+</nav>
+
+</body>
+</html>

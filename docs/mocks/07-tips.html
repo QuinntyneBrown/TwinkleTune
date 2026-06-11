@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TwinkleTune — Twinkle's Tips</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/twinkle.css">
+<style>
+  .coach{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+  .coach .bubble{flex:1}
+
+  /* hero tip */
+  .tip-hero{
+    background:linear-gradient(135deg,var(--pale),var(--aqua));
+    border-radius:30px;padding:24px;box-shadow:var(--shadow);
+    position:relative;overflow:hidden;margin-bottom:18px;
+  }
+  .tip-hero .label{
+    display:inline-block;background:#fff;border-radius:999px;
+    padding:6px 14px;font-size:11.5px;font-weight:900;letter-spacing:.1em;
+    color:var(--blue);margin-bottom:12px;
+  }
+  .tip-hero h2{font-family:var(--font-display);font-size:26px;line-height:1.1}
+  .tip-hero p{font-weight:700;margin:10px 0 16px;font-size:15px;line-height:1.5;max-width:280px}
+  .tip-hero .balloon{
+    position:absolute;right:-6px;bottom:-10px;font-size:96px;opacity:.9;
+    animation:floaty 4s ease-in-out infinite;
+  }
+
+  /* tip list */
+  .tip-card{
+    display:flex;align-items:center;gap:14px;
+    background:#fff;border-radius:24px;padding:16px;
+    box-shadow:var(--shadow-soft);margin-bottom:13px;
+    text-decoration:none;transition:transform .15s;
+  }
+  .tip-card:hover{transform:translateY(-2px)}
+  .tip-ico{
+    width:56px;height:56px;border-radius:18px;flex:0 0 auto;
+    display:grid;place-items:center;font-size:28px;
+  }
+  .ti-1{background:linear-gradient(135deg,var(--aqua),var(--pale))}
+  .ti-2{background:linear-gradient(135deg,var(--pink),#FBEAF1)}
+  .ti-3{background:linear-gradient(135deg,#FFE9AE,var(--gold))}
+  .ti-4{background:linear-gradient(135deg,var(--pale),var(--sky))}
+  .tip-body{flex:1;min-width:0}
+  .tip-body strong{font-family:var(--font-display);font-size:16.5px;display:block;line-height:1.15}
+  .tip-body span{font-weight:700;font-size:13px;color:var(--ink-soft)}
+  .tip-min{
+    background:#EFF7FD;color:var(--blue);border-radius:999px;
+    padding:6px 12px;font-size:11.5px;font-weight:900;white-space:nowrap;
+  }
+
+  /* confidence corner */
+  .quote{
+    text-align:center;background:var(--pink);
+    border-radius:30px;padding:26px 24px;margin-top:18px;
+    box-shadow:var(--shadow-soft);
+  }
+  .quote .hearts{font-size:26px;display:block;margin-bottom:8px}
+  .quote p{
+    font-family:var(--font-display);font-weight:700;font-size:19px;
+    color:var(--pink-ink);line-height:1.35;
+  }
+  .quote small{display:block;margin-top:8px;font-weight:800;color:#BC85A1;font-size:12.5px}
+</style>
+</head>
+<body>
+
+<div class="sky" aria-hidden="true">
+  <div class="cloud" style="width:150px;height:46px;top:9%;animation-duration:100s"></div>
+  <div class="cloud" style="width:100px;height:32px;top:58%;animation-duration:85s;animation-delay:-40s;opacity:.5"></div>
+  <span class="tstar" style="top:18%;left:6%">✦</span>
+  <span class="tstar" style="top:30%;right:8%;animation-delay:1s">✦</span>
+  <span class="fnote" style="top:72%;right:5%;animation-delay:.6s">🎶</span>
+</div>
+
+<main class="screen">
+
+  <header class="topbar rise">
+    <a class="icon-btn" href="03-home.html" aria-label="Go back">←</a>
+    <h1 class="title">Twinkle's Tips 💡</h1>
+    <span class="spacer"></span>
+  </header>
+
+  <div class="coach rise d1">
+    <svg class="mascot mascot-sm" viewBox="0 0 120 120" aria-hidden="true">
+      <path d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z"
+            fill="#FFD66B" stroke="#E8B445" stroke-width="7" stroke-linejoin="round"/>
+      <circle cx="48" cy="56" r="4.5" fill="#2B5876"/>
+      <circle cx="72" cy="56" r="4.5" fill="#2B5876"/>
+      <circle cx="41" cy="66" r="5.5" fill="#F4DBE3"/>
+      <circle cx="79" cy="66" r="5.5" fill="#F4DBE3"/>
+      <path d="M50 66 Q60 76 70 66" fill="none" stroke="#2B5876" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+    <div class="bubble bubble-left">Every great singer started <strong>exactly</strong> where you are! 💙</div>
+  </div>
+
+  <section class="tip-hero rise d2" aria-label="Tip of the day">
+    <span class="label">⭐ TIP OF THE DAY</span>
+    <h2>Breathe like a balloon</h2>
+    <p>Put your hands on your tummy. Breathe in slooowly through your nose and feel the balloon fill up. Now sing as it floats out!</p>
+    <a class="btn btn-sm" href="05-sing.html">Try it with me ▶</a>
+    <span class="balloon" aria-hidden="true">🎈</span>
+  </section>
+
+  <div class="chip-row rise d3" role="tablist" aria-label="Tip categories">
+    <button class="chip active" role="tab" aria-selected="true">All</button>
+    <button class="chip" role="tab">🌬️ Breathing</button>
+    <button class="chip" role="tab">💪 Brave Voice</button>
+    <button class="chip" role="tab">🎶 Warm-ups</button>
+    <button class="chip" role="tab">🎭 Show Time</button>
+  </div>
+
+  <a class="tip-card rise d4" href="05-sing.html">
+    <span class="tip-ico ti-1" aria-hidden="true">🚒</span>
+    <span class="tip-body">
+      <strong>Siren like a firetruck</strong>
+      <span>Slide your voice low to high — wheee-ooo!</span>
+    </span>
+    <span class="tip-min">1 min</span>
+  </a>
+
+  <a class="tip-card rise d5" href="05-sing.html">
+    <span class="tip-ico ti-2" aria-hidden="true">🌟</span>
+    <span class="tip-body">
+      <strong>Stand like a star</strong>
+      <span>Feet apart, chin up, arms wide — feel mighty!</span>
+    </span>
+    <span class="tip-min">1 min</span>
+  </a>
+
+  <a class="tip-card rise d6" href="05-sing.html">
+    <span class="tip-ico ti-3" aria-hidden="true">🐝</span>
+    <span class="tip-body">
+      <strong>The bumblebee hum</strong>
+      <span>Hummmm gently to wake your voice up.</span>
+    </span>
+    <span class="tip-min">2 min</span>
+  </a>
+
+  <a class="tip-card rise d7" href="05-sing.html">
+    <span class="tip-ico ti-4" aria-hidden="true">✨</span>
+    <span class="tip-body">
+      <strong>Mistakes are sparkle dust</strong>
+      <span>Wobbly notes mean you're learning — keep going!</span>
+    </span>
+    <span class="tip-min">read</span>
+  </a>
+
+  <section class="quote rise d8" aria-label="Confidence corner">
+    <span class="hearts" aria-hidden="true">💖</span>
+    <p>“Your voice is one of a kind — that's your superpower.”</p>
+    <small>— Twinkle</small>
+  </section>
+
+</main>
+
+<nav class="bottomnav" aria-label="Main navigation">
+  <a class="bn-item" href="03-home.html"><span class="ico">🏠</span>Home</a>
+  <a class="bn-item" href="04-songs.html"><span class="ico">🎵</span>Songs</a>
+  <a class="bn-item active" href="07-tips.html"><span class="ico">💡</span>Tips</a>
+  <a class="bn-item" href="08-progress.html"><span class="ico">⭐</span>Me</a>
+</nav>
+
+<nav class="mock-nav" aria-label="Mockup navigation">
+  <span>MOCKUP</span>
+  <a href="index.html" title="All screens">⊞</a>
+  <a href="06-results.html" title="Previous screen">◀</a>
+  <a href="08-progress.html" title="Next screen">▶</a>
+</nav>
+
+</body>
+</html>
