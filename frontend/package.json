@@ -11,6 +11,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@microsoft/signalr": "^10.0.0",
     "pitchy": "^4.1.0"
   },
   "devDependencies": {

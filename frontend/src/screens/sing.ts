@@ -1,4 +1,5 @@
-import { getSong } from '../songs/catalog'
+import { getSongById } from '../songs/repo'
+import { duetSession } from '../api/duet'
 import type { SongNote } from '../songs/types'
 import { songBeats, songRange } from '../songs/types'
 import { SongPlayer } from '../audio/player'
@@ -32,12 +33,19 @@ interface TimedNote extends SongNote {
 }
 
 export function renderSing(root: HTMLElement, params: URLSearchParams): () => void {
-  const songMaybe = getSong(params.get('song') ?? '')
+  const songMaybe = getSongById(params.get('song') ?? '')
   if (!songMaybe) {
     location.hash = '#/songs'
     return () => {}
   }
   const song = songMaybe
+
+  // duet mode: the lobby stashed the live SignalR session before navigating here
+  const duet = params.get('duet') === '1' ? duetSession.get() : null
+  if (params.get('duet') === '1' && !duet) {
+    location.hash = '#/duet'
+    return () => {}
+  }
 
   const state = store.get()
   const profile = state.profile!
@@ -104,11 +112,12 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
 
     <section class="stage rise d1" aria-label="Pitch game — match the notes" data-stage>
       <span class="streak-chip" data-streak>🔥 0 in a row!</span>
+      <span class="opponent-chip" data-opponent hidden></span>
       <div class="note-track" data-track></div>
       <div class="singer quiet" data-singer role="img" aria-label="You">${profile.avatar}</div>
       <span class="stage-label" data-stage-label></span>
       <div class="countdown" data-countdown>
-        <button class="btn btn-xl" style="width:auto" data-start>Tap to start ▶</button>
+        <button class="btn btn-xl" style="width:auto" data-start>${duet ? "I'm ready! 🎤🎤" : 'Tap to start ▶'}</button>
       </div>
     </section>
 
@@ -137,6 +146,23 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
   const prevEl = root.querySelector('[data-prev]') as HTMLElement
   const nowEl = root.querySelector('[data-now]') as HTMLElement
   const nextEl = root.querySelector('[data-next]') as HTMLElement
+  const opponentEl = root.querySelector('[data-opponent]') as HTMLElement
+
+  if (duet) {
+    const opp = duet.opponent
+    opponentEl.hidden = false
+    opponentEl.textContent = `${opp?.avatar ?? '🎤'} ${opp?.name ?? 'Duet buddy'} · ready!`
+    duet.client.onOpponentTick((t) => {
+      opponentEl.textContent =
+        `${opp?.avatar ?? '🎤'} ${opp?.name ?? 'Buddy'} ✨${t.sparkles}${t.streak >= 3 ? ` 🔥${t.streak}` : ''}`
+    })
+    duet.client.onOpponentFinished((s) => {
+      toast(`${s.name} finished — ${s.landed} notes! 🎉`, 'gold')
+    })
+    duet.client.onDuetResult((r) => {
+      duet.result = r
+    })
+  }
 
   const stageH = 300
   const markerX = () => stage.clientWidth * MARKER_FRAC
@@ -223,6 +249,12 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
       }
       n.el?.classList.remove('now')
       finalizedUpTo++
+      duet?.client.sendTick({
+        landed: landedCount,
+        streak,
+        sparkles: landedCount * 10,
+        noteIdx: finalizedUpTo,
+      })
     }
   }
 
@@ -319,6 +351,25 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
     tracker.stop()
     const summary = summarize(song, results, noMic)
     recordPlay(store, song, summary, todayISO())
+
+    if (duet) {
+      duet.mySummary = {
+        singerId: duet.me.singerId,
+        name: duet.me.name,
+        landed: summary.landed,
+        total: summary.total,
+        stars: summary.noMic ? 0 : summary.stars,
+        sparkles: summary.sparkles,
+        maxStreak: summary.maxStreak,
+        accuracy: summary.accuracy,
+      }
+      void duet.client.finish(duet.mySummary).catch(() => {})
+      setTimeout(() => {
+        location.hash = '#/results?duet=1'
+      }, 600)
+      return
+    }
+
     setTimeout(() => {
       location.hash = '#/results'
     }, 600)
@@ -366,7 +417,7 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
   }
 
   function maybeTunedDialogThenStart(): void {
-    if (range && shift !== 0 && !tunedDialogShown.has(song.id)) {
+    if (!duet && range && shift !== 0 && !tunedDialogShown.has(song.id)) {
       tunedDialogShown.add(song.id)
       showModal({
         ariaLabel: 'Song tuned for you',
@@ -400,9 +451,9 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
         <h3>Taking a breather?</h3>
         <p>Your song is waiting right where you left it.</p>
         <button class="btn" data-resume>Keep singing ▶</button>
-        <button class="btn btn-white" data-restart>Start over 🔁</button>
+        ${duet ? '' : '<button class="btn btn-white" data-restart>Start over 🔁</button>'}
         ${practicePhrase !== null ? '<button class="btn btn-gold" data-done-practice>Back to my score 🎯</button>' : ''}
-        <button class="btn btn-pink" data-songs>Pick another song 🎵</button>
+        <button class="btn btn-pink" data-songs>${duet ? 'Leave the duet 👋' : 'Pick another song 🎵'}</button>
       `,
       onMount(modal, close) {
         modal.querySelector('[data-resume]')?.addEventListener('click', () => {
@@ -431,7 +482,12 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
         modal.querySelector('[data-songs]')?.addEventListener('click', () => {
           close()
           finished = true
-          location.hash = '#/songs'
+          if (duet) {
+            void duetSession.end()
+            location.hash = '#/duet'
+          } else {
+            location.hash = '#/songs'
+          }
         })
       },
     })

@@ -329,6 +329,8 @@
   font-family:var(--font-display);font-weight:800;font-size:84px;color:var(--blue);
   text-shadow:0 4px 0 #fff;pointer-events:none;
 }
+/* pointer-events inherits: without this the "Tap to start" button can't be tapped */
+.countdown .btn{pointer-events:auto}
 
 .lyrics{margin-top:16px;text-align:center;padding:20px 18px;min-height:128px}
 .lyr-line{font-family:var(--font-display);font-weight:700;line-height:1.3}
@@ -533,3 +535,82 @@
 }
 .tuner-cents .center{position:absolute;top:0;bottom:0;left:calc(50% - 1px);width:2px;background:#A8C6DC}
 .tuner-meta{display:flex;justify-content:space-around;font-weight:800;color:var(--ink-soft)}
+
+/* ---------- profiles ---------- */
+.avatar-photo{width:100%;height:100%;border-radius:50%;object-fit:cover}
+.profile-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.profile-card{
+  position:relative;background:#fff;border-radius:26px;padding:18px 14px;
+  box-shadow:var(--shadow-soft);display:flex;flex-direction:column;
+  align-items:center;gap:10px;border:none;font-family:var(--font-body);
+}
+.profile-card strong{font-family:var(--font-display);font-size:17px;color:var(--ink)}
+.profile-card.active{box-shadow:0 0 0 4px rgba(94,168,218,.4),var(--shadow-soft)}
+.profile-card .avatar-lg{font-size:40px}
+.profile-new{
+  cursor:pointer;border:3px dashed var(--pale);background:rgba(255,255,255,.6);
+  justify-content:center;min-height:170px;color:var(--ink-soft);
+}
+.profile-edit{position:absolute;top:8px;right:8px;width:38px;height:38px;font-size:15px}
+.profile-tag{font-size:10.5px;font-weight:900;letter-spacing:.1em;color:var(--blue)}
+
+/* ---------- duet ---------- */
+.duet-code{display:flex;gap:10px;justify-content:center;margin-top:10px}
+.duet-code span{
+  width:54px;height:64px;border-radius:16px;
+  background:linear-gradient(135deg,var(--pale),var(--aqua));
+  display:grid;place-items:center;
+  font-family:var(--font-display);font-weight:800;font-size:34px;
+}
+.code-input{
+  text-transform:uppercase;text-align:center;letter-spacing:.4em;
+  font-size:28px !important;font-family:var(--font-display);
+}
+.duet-players{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+.opponent-chip{
+  position:absolute;top:14px;left:14px;z-index:5;
+  background:#fff;border-radius:999px;padding:8px 14px;
+  font-weight:900;font-size:13px;box-shadow:var(--shadow-soft);
+  display:flex;align-items:center;gap:6px;
+}
+
+/* ---------- grown-ups managers ---------- */
+.modal-wide{width:min(440px,100%);max-height:84vh;overflow-y:auto;text-align:left}
+.modal-wide h3{text-align:center}
+.errors{
+  background:#FBE9EF;color:#A8336B;border-radius:14px;
+  padding:10px 14px;font-weight:700;font-size:13px;text-align:left;margin-top:10px;
+}
+.errors div{margin:4px 0}
+.mgr-row{
+  display:flex;align-items:center;gap:10px;background:#F4FAFE;
+  border-radius:16px;padding:10px 12px;margin-top:8px;font-weight:800;
+}
+.mgr-row .em{font-size:22px}
+.mgr-row span{flex:1;text-align:left}
+.mgr-row .icon-btn{width:38px;height:38px;font-size:14px;box-shadow:none;background:#fff;flex:0 0 auto}
+.field-label{
+  display:block;font-family:var(--font-display);font-weight:700;
+  font-size:15px;margin:12px 0 6px;text-align:left;
+}
+.field{
+  width:100%;border:3px solid var(--pale);border-radius:14px;
+  padding:10px 12px;font-size:15px;font-weight:700;color:var(--ink);
+  font-family:var(--font-body);background:#F7FBFE;outline:none;
+}
+.field:focus{border-color:var(--blue)}
+textarea.field{font-family:ui-monospace,Consolas,monospace;font-size:12.5px;min-height:160px;resize:vertical}
+
+/* ---------- high score boards ---------- */
+.board-row{
+  display:flex;align-items:center;gap:10px;padding:8px 0;
+  border-bottom:2px solid #EFF7FD;font-weight:800;text-align:left;
+}
+.board-row .pos{width:28px;font-family:var(--font-display)}
+.board-row .nm{flex:1}
+.song-actions{display:flex;gap:6px}
+.mini-btn{
+  border:none;cursor:pointer;background:#EFF7FD;color:var(--blue);
+  border-radius:999px;padding:6px 11px;font-weight:900;font-size:11.5px;
+  font-family:var(--font-body);
+}

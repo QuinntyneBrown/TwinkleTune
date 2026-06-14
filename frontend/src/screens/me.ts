@@ -1,4 +1,4 @@
-import { songs } from '../songs/catalog'
+import { currentSongs } from '../songs/repo'
 import { BADGES } from '../state/badges'
 import { level, levelTitle, sparklesToNextLevel, store, todayISO } from '../state/store'
 import { midiToName } from '../audio/range'
@@ -47,7 +47,7 @@ export function renderMe(root: HTMLElement): void {
     </div>`
   }).join('')
 
-  const mastered = songs
+  const mastered = currentSongs()
     .map((song) => ({ song, best: s.bests[song.id] }))
     .filter((x) => x.best && x.best.stars > 0)
     .sort((a, b) => b.best!.stars - a.best!.stars)

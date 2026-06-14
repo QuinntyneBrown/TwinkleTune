@@ -19,8 +19,13 @@ export interface Profile {
   name: string
   avatar: string
   range: VoiceRange | null
-  /** mic latency compensation in ms (grown-ups setting) */
+  /** mic latency compensation in ms (grown-ups setting; a device property, kept per device) */
   latencyMs: number
+  /** server singer id when linked to the family server; null/undefined = local-only profile */
+  singerId?: string | null
+  avatarId?: string | null
+  /** photo URL on the family server, shown instead of the emoji when present */
+  photoUrl?: string | null
 }
 
 export interface SongBest {
@@ -87,19 +92,26 @@ export interface Store {
   get(): AppState
   set(patch: Partial<AppState>): void
   update(fn: (s: AppState) => void): void
+  /** Re-point the store at another profile's blob (per-singer namespacing). */
+  switchKey(key: string): void
   reset(): void
 }
 
-export function createStore(storage: StorageLike): Store {
-  let state: AppState = emptyState()
-  try {
-    const raw = storage.getItem(KEY)
-    if (raw) state = { ...emptyState(), ...(JSON.parse(raw) as AppState) }
-  } catch {
-    /* corrupted state -> start fresh */
+export function createStore(storage: StorageLike, initialKey: string = KEY): Store {
+  let key = initialKey
+
+  const load = (): AppState => {
+    try {
+      const raw = storage.getItem(key)
+      if (raw) return { ...emptyState(), ...(JSON.parse(raw) as AppState) }
+    } catch {
+      /* corrupted state -> start fresh */
+    }
+    return emptyState()
   }
 
-  const save = () => storage.setItem(KEY, JSON.stringify(state))
+  let state = load()
+  const save = () => storage.setItem(key, JSON.stringify(state))
 
   return {
     get: () => state,
@@ -111,9 +123,13 @@ export function createStore(storage: StorageLike): Store {
       fn(state)
       save()
     },
+    switchKey(newKey) {
+      key = newKey
+      state = load()
+    },
     reset() {
       state = emptyState()
-      storage.removeItem(KEY)
+      storage.removeItem(key)
     },
   }
 }
@@ -177,6 +193,37 @@ const memoryStorage = (): StorageLike => {
   }
 }
 
-export const store: Store = createStore(
-  typeof localStorage !== 'undefined' ? localStorage : memoryStorage(),
-)
+const rootStorage: StorageLike = typeof localStorage !== 'undefined' ? localStorage : memoryStorage()
+
+/* ---- per-singer profile namespacing -------------------------------------- */
+
+const ACTIVE_KEY = 'twinkletune:active-singer'
+
+export const profileKey = (singerId: string): string => `${KEY}:${singerId}`
+
+export function getActiveSingerId(): string | null {
+  return rootStorage.getItem(ACTIVE_KEY)
+}
+
+export function setActiveSingerId(id: string | null): void {
+  if (id === null) rootStorage.removeItem(ACTIVE_KEY)
+  else rootStorage.setItem(ACTIVE_KEY, id)
+}
+
+/**
+ * One-time migration: the pre-profiles blob ('twinkletune:v1') is adopted by the
+ * first server profile that claims it, so nobody loses sparkles or badges.
+ */
+export function adoptLegacyState(singerId: string): void {
+  const target = profileKey(singerId)
+  if (rootStorage.getItem(target) === null) {
+    const legacy = rootStorage.getItem(KEY)
+    if (legacy !== null) {
+      rootStorage.setItem(target, legacy)
+      rootStorage.removeItem(KEY)
+    }
+  }
+}
+
+const activeId = getActiveSingerId()
+export const store: Store = createStore(rootStorage, activeId ? profileKey(activeId) : KEY)

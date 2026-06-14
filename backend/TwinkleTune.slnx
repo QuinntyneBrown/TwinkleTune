@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/TwinkleTune.Domain/TwinkleTune.Domain.csproj" />
+    <Project Path="src/TwinkleTune.Application/TwinkleTune.Application.csproj" />
+    <Project Path="src/TwinkleTune.Infrastructure/TwinkleTune.Infrastructure.csproj" />
+    <Project Path="src/TwinkleTune.Api/TwinkleTune.Api.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/TwinkleTune.UnitTests/TwinkleTune.UnitTests.csproj" />
+    <Project Path="tests/TwinkleTune.IntegrationTests/TwinkleTune.IntegrationTests.csproj" />
+  </Folder>
+</Solution>

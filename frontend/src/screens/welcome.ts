@@ -1,3 +1,5 @@
+import { api, serverOnline } from '../api/client'
+import { activateSinger } from '../state/profile'
 import { store } from '../state/store'
 import { mascotSVG, skyDecor } from '../ui/parts'
 import { parentGate } from '../ui/modal'
@@ -37,7 +39,10 @@ export function renderWelcome(root: HTMLElement): void {
       <button class="btn btn-xl" data-go>Let's Sing! 🎤</button>
     </div>
 
-    <p class="grownups rise d7"><button class="link-quiet" data-grownups>🔒 Grown-Ups Corner</button></p>
+    <p class="grownups rise d7">
+      <a class="link-quiet" href="#/profiles" style="margin-right:14px">👨‍👧‍👧 Family profiles</a>
+      <button class="link-quiet" data-grownups>🔒 Grown-Ups Corner</button>
+    </p>
   </main>`
 
   let avatar = picked
@@ -53,7 +58,7 @@ export function renderWelcome(root: HTMLElement): void {
     })
   })
 
-  root.querySelector('[data-go]')?.addEventListener('click', () => {
+  root.querySelector('[data-go]')?.addEventListener('click', async () => {
     const name = (root.querySelector('#kid-name') as HTMLInputElement).value.trim() || 'Superstar'
     const prev = store.get().profile
     store.update((s) => {
@@ -62,8 +67,29 @@ export function renderWelcome(root: HTMLElement): void {
         avatar,
         range: prev?.range ?? null,
         latencyMs: prev?.latencyMs ?? 0,
+        singerId: prev?.singerId ?? null,
+        avatarId: prev?.avatarId ?? null,
+        photoUrl: prev?.photoUrl ?? null,
       }
     })
+
+    // link to the family server when it's around (solo play works either way)
+    if (!store.get().profile?.singerId && (await serverOnline())) {
+      try {
+        const avatars = await api.avatars.list()
+        const match = avatars.find((a) => a.emoji === avatar)
+        const singer = await api.singers.create({
+          name,
+          avatarId: match?.id ?? null,
+          rangeLow: prev?.range?.low ?? null,
+          rangeHigh: prev?.range?.high ?? null,
+        })
+        activateSinger(singer)
+      } catch {
+        /* stays a local-only profile */
+      }
+    }
+
     location.hash = store.get().profile?.range ? '#/home' : '#/voice'
   })
 

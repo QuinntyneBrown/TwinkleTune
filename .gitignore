@@ -1,3 +1,16 @@
 node_modules/
 dist/
 *.local
+
+# playwright artifacts
+e2e/test-results/
+e2e/playwright-report/
+e2e/.tmp/
+
+# backend local data (family db + photos)
+backend/data/
+# the db + photos folder created at the API's content root when it runs/tests
+data/
+*.db
+bin/
+obj/

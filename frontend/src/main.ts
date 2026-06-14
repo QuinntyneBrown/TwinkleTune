@@ -11,6 +11,8 @@ import { renderResults } from './screens/results'
 import { renderTips } from './screens/tips'
 import { renderMe } from './screens/me'
 import { renderTuner } from './screens/tuner'
+import { renderProfiles } from './screens/profiles'
+import { renderDuet } from './screens/duet'
 
 export type Cleanup = (() => void) | void
 export type ScreenRenderer = (root: HTMLElement, params: URLSearchParams) => Cleanup
@@ -25,7 +27,11 @@ const routes: Record<string, ScreenRenderer> = {
   tips: renderTips,
   me: renderMe,
   tuner: renderTuner,
+  profiles: renderProfiles,
+  duet: renderDuet,
 }
+
+const NO_PROFILE_OK = new Set(['welcome', 'tuner', 'profiles'])
 
 const app = document.getElementById('app') as HTMLElement
 let cleanup: Cleanup
@@ -39,7 +45,7 @@ function route(): void {
   const [path, query = ''] = hash.split('?')
   let name = path || (store.get().profile ? 'home' : 'welcome')
   if (!routes[name]) name = 'home'
-  if (name !== 'welcome' && name !== 'tuner' && !store.get().profile) name = 'welcome'
+  if (!NO_PROFILE_OK.has(name) && !store.get().profile) name = 'welcome'
 
   app.innerHTML = ''
   window.scrollTo(0, 0)

@@ -1,5 +1,15 @@
 /** Shared visual fragments: mascot, sky decorations, bottom nav, star SVGs. */
 
+import type { Profile } from '../state/store'
+
+/** Avatar bubble showing the uploaded photo when there is one, else the emoji. */
+export function avatarHTML(profile: Pick<Profile, 'avatar' | 'photoUrl'>, cls = 'avatar', label = 'Your avatar'): string {
+  if (profile.photoUrl) {
+    return `<div class="${cls}" role="img" aria-label="${label}"><img class="avatar-photo" src="${profile.photoUrl}" alt=""></div>`
+  }
+  return `<div class="${cls}" role="img" aria-label="${label}">${profile.avatar}</div>`
+}
+
 export function mascotSVG(cls = 'mascot', happy = false): string {
   const mouth = happy
     ? '<path d="M48 64 Q60 80 72 64" fill="none" stroke="#2B5876" stroke-width="4" stroke-linecap="round"/>'

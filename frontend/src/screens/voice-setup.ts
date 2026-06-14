@@ -1,6 +1,7 @@
 import { PitchTracker } from '../audio/pitch'
 import { midiToName, StablePitchCapture } from '../audio/range'
 import { playNote } from '../audio/player'
+import { pushProfileToServer } from '../state/profile'
 import { store } from '../state/store'
 import { mascotSVG, skyDecor } from '../ui/parts'
 import { showModal, toast } from '../ui/modal'
@@ -178,6 +179,7 @@ export function renderVoiceSetup(root: HTMLElement): () => void {
     store.update((s) => {
       if (s.profile) s.profile.range = { low, high }
     })
+    void pushProfileToServer() // her range follows her to other devices
     showModal({
       ariaLabel: 'Voice found',
       dismissible: false,

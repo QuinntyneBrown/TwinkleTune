@@ -13,12 +13,14 @@ interface ModalOptions {
   /** clicking the dark backdrop closes the modal (default true) */
   dismissible?: boolean
   ariaLabel?: string
+  /** extra classes on the .modal card (e.g. 'modal-wide' for managers) */
+  className?: string
 }
 
 export function showModal(opts: ModalOptions): ModalHandle {
   const overlay = document.createElement('div')
   overlay.className = 'overlay'
-  overlay.innerHTML = `<div class="modal" role="dialog" aria-label="${opts.ariaLabel ?? 'Dialog'}">${opts.html}</div>`
+  overlay.innerHTML = `<div class="modal${opts.className ? ` ${opts.className}` : ''}" role="dialog" aria-label="${opts.ariaLabel ?? 'Dialog'}">${opts.html}</div>`
 
   const close = () => overlay.remove()
   if (opts.dismissible !== false) {

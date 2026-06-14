@@ -1,6 +1,7 @@
 import { store } from '../state/store'
 import { midiToName } from '../audio/range'
 import { showModal } from './modal'
+import { showAvatarManager, showSongManager } from './managers'
 
 /** The Grown-Ups Corner — reached only through the parent gate. */
 export function showSettings(): void {
@@ -15,7 +16,8 @@ export function showSettings(): void {
     html: `
       <span class="modal-emoji" aria-hidden="true">🧑‍🤝‍🧒</span>
       <h3>Grown-Ups Corner</h3>
-      <p>All of ${profile?.name ?? 'your singer'}'s data stays on this device — nothing is uploaded. 💙</p>
+      <p>Badges & streaks stay on this device. Profiles, songs and family high scores live on
+      <strong>your home server only</strong> — and during duets, just live scores are shared. 💙</p>
 
       <div class="setting-row">
         <span>Mic timing offset<br><small style="color:var(--ink-soft)">If cheers feel late, nudge this</small></span>
@@ -25,6 +27,18 @@ export function showSettings(): void {
       <div class="setting-row">
         <span>Voice range<br><small style="color:var(--ink-soft)">${rangeLabel}</small></span>
         <a class="btn btn-sm" style="width:auto;margin:0" href="#/voice" data-close-link>Re-do</a>
+      </div>
+
+      <div class="setting-row">
+        <span>Family content<br><small style="color:var(--ink-soft)">Songs & avatars on the server</small></span>
+        <span style="display:flex;gap:8px">
+          <button class="btn btn-sm" style="margin:0" data-songs-mgr>🎵 Songs</button>
+          <button class="btn btn-sm btn-white" style="margin:0" data-avatars-mgr>😊 Avatars</button>
+        </span>
+      </div>
+      <div class="setting-row">
+        <span>Singers<br><small style="color:var(--ink-soft)">Profiles, photos & switching</small></span>
+        <a class="btn btn-sm" style="width:auto;margin:0" href="#/profiles" data-close-link2>👨‍👧‍👧 Manage</a>
       </div>
 
       <button class="btn btn-pink" data-reset>Start everything over 🗑️</button>
@@ -41,6 +55,15 @@ export function showSettings(): void {
       })
       modal.querySelector('[data-close]')?.addEventListener('click', close)
       modal.querySelector('[data-close-link]')?.addEventListener('click', close)
+      modal.querySelector('[data-close-link2]')?.addEventListener('click', close)
+      modal.querySelector('[data-songs-mgr]')?.addEventListener('click', () => {
+        close()
+        showSongManager()
+      })
+      modal.querySelector('[data-avatars-mgr]')?.addEventListener('click', () => {
+        close()
+        showAvatarManager()
+      })
       modal.querySelector('[data-reset]')?.addEventListener('click', () => {
         close()
         showModal({

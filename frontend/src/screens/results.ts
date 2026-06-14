@@ -1,6 +1,10 @@
+import { api } from '../api/client'
+import { duetSession, type DuetResult } from '../api/duet'
+import { isServerSongId } from '../songs/repo'
 import { store } from '../state/store'
 import { badgeById } from '../state/badges'
 import { mascotSVG, skyDecor, starSVG } from '../ui/parts'
+import { toast } from '../ui/modal'
 
 const CONFETTI_COLORS = ['#F4DBE3', '#5EA8DA', '#FFD66B', '#83C5F1', '#AFE3F4']
 
@@ -15,7 +19,7 @@ function confettiHTML(): string {
   return `<div class="confetti" aria-hidden="true">${bits}</div>`
 }
 
-export function renderResults(root: HTMLElement): void {
+export function renderResults(root: HTMLElement, params: URLSearchParams): void {
   const state = store.get()
   const r = state.lastResult
   if (!r) {
@@ -23,6 +27,24 @@ export function renderResults(root: HTMLElement): void {
     return
   }
   const name = state.profile?.name ?? 'Superstar'
+  const duet = params.get('duet') === '1' ? duetSession.get() : null
+
+  // family high score — fire and forget, server optional
+  if (!r.noMic && state.profile?.singerId && isServerSongId(r.songId)) {
+    void api.highscores
+      .submit({
+        songId: r.songId,
+        singerId: state.profile.singerId,
+        stars: r.stars,
+        accuracy: r.accuracy,
+        sparkles: r.sparkles,
+        maxStreak: r.maxStreak,
+      })
+      .then((res) => {
+        if (res.improved) toast('🏆 New family record!', 'gold', 2600)
+      })
+      .catch(() => {})
+  }
 
   const headline = r.noMic
     ? 'What a fun sing-along'
@@ -91,19 +113,69 @@ export function renderResults(root: HTMLElement): void {
       <small>${r.songTitle}</small>
     </h1>
     ${starsRow}
+    ${duet ? '<div data-duet-result style="width:100%"></div>' : ''}
     ${scoreCard}
     ${badgeChips}
     <div class="result-coach rise d6">
       ${mascotSVG('mascot mascot-sm')}
-      <div class="bubble bubble-left">${coachText}</div>
+      <div class="bubble bubble-left">${duet ? 'What a duet! Singing together is the best magic. 💙' : coachText}</div>
     </div>
     <div class="result-ctas">
-      ${practiceBtn}
+      ${duet ? '' : practiceBtn}
       <div class="cta-row rise d8">
-        <a class="btn btn-white" href="#/sing?song=${r.songId}">Sing again 🔁</a>
+        ${
+          duet
+            ? '<button class="btn btn-gold" data-again-duet>Another duet 🎤🎤</button>'
+            : `<a class="btn btn-white" href="#/sing?song=${r.songId}">Sing again 🔁</a>`
+        }
         <a class="btn btn-pink" href="#/songs">New song 🎵</a>
       </div>
-      <a class="link-quiet rise d8" href="#/home" style="margin:6px auto 0">Home 🏠</a>
+      <a class="link-quiet rise d8" href="#/home" style="margin:6px auto 0" data-home>Home 🏠</a>
     </div>
   </main>`
+
+  if (duet) {
+    const box = root.querySelector('[data-duet-result]') as HTMLElement
+
+    const paintDuet = (result: DuetResult): void => {
+      const players = [...result.players].sort((a) => (a.singerId === duet.me.singerId ? -1 : 1))
+      box.innerHTML = `
+        <section class="card score-card pop" style="margin-top:6px">
+          <h2>Together you earned ${result.combinedSparkles} ✨!</h2>
+          <div class="duet-players" style="margin-top:8px">
+            ${players
+              .map(
+                (p) => `
+              <div class="profile-card" style="box-shadow:none;background:#F4FAFE">
+                <strong>${p.name}</strong>
+                <span style="font-size:18px">${'★'.repeat(p.stars)}${'☆'.repeat(Math.max(0, 3 - p.stars))}</span>
+                <span style="font-weight:800;color:var(--ink-soft);font-size:13px">${p.landed} of ${p.total} notes · ✨${p.sparkles}</span>
+              </div>`,
+              )
+              .join('')}
+          </div>
+        </section>`
+    }
+
+    if (duet.result) paintDuet(duet.result)
+    else {
+      box.innerHTML = `
+        <section class="card score-card" style="margin-top:6px;text-align:center">
+          <h2>Waiting for ${duet.opponent?.name ?? 'your duet buddy'}… 🎶</h2>
+          <p class="score-note">They're still singing their heart out!</p>
+        </section>`
+      duet.client.onDuetResult((result) => {
+        duet.result = result
+        paintDuet(result)
+      })
+    }
+
+    root.querySelector('[data-again-duet]')?.addEventListener('click', async () => {
+      await duetSession.end()
+      location.hash = '#/duet'
+    })
+    root.querySelector('[data-home]')?.addEventListener('click', () => {
+      void duetSession.end()
+    })
+  }
 }

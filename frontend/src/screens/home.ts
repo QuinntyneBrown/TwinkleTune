@@ -1,5 +1,5 @@
 import { level, levelTitle, songsSungOn, store, streakCount, todayISO } from '../state/store'
-import { mascotSVG, skyDecor, bottomNav } from '../ui/parts'
+import { avatarHTML, mascotSVG, skyDecor, bottomNav } from '../ui/parts'
 import { tipOfTheDay } from './tips-data'
 
 const DAILY_GOAL = 3
@@ -56,7 +56,9 @@ export function renderHome(root: HTMLElement): void {
   ${skyDecor()}
   <main class="screen">
     <header class="hello rise">
-      <div class="avatar" role="img" aria-label="Your avatar">${profile.avatar}</div>
+      <a href="#/profiles" style="text-decoration:none" title="Switch singer" aria-label="Switch singer">
+        ${avatarHTML(profile)}
+      </a>
       <div class="hello-text">
         <h1>Hi, ${profile.name}! 👋</h1>
         <p>Level ${lvl} ${levelTitle(lvl)}</p>
