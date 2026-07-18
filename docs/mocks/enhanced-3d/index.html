@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#AFE3F4" />
+<title>TwinkleTune — Bleeding-edge 3D / WebGPU mocks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --pink:#F4DBE3; --blue:#5EA8DA; --sky:#83C5F1; --pale:#B9DDF5; --aqua:#AFE3F4;
+    --ink:#2B5876; --ink-soft:#5E87A6; --blue-edge:#3F88BC; --gold:#FFD66B;
+    --font-display:"Baloo 2","Comic Sans MS",cursive;
+    --font-body:"Manrope","Segoe UI",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--font-body);color:var(--ink);
+    background:linear-gradient(180deg,#AFE3F4,#B9DDF5 40%,#E2F0FA 70%,#F4DBE3);
+    min-height:100vh;background-attachment:fixed;padding:48px 22px 80px}
+  a{color:inherit}
+  .wrap{max-width:1040px;margin:0 auto}
+
+  .hero{text-align:center;margin-bottom:44px}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:12.5px;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--ink-soft);background:rgba(255,255,255,.6);
+    border:1px solid rgba(255,255,255,.85);border-radius:99px;padding:7px 15px;margin-bottom:20px}
+  .kicker i{width:8px;height:8px;border-radius:50%;background:var(--blue)}
+  h1{font-family:var(--font-display);font-weight:800;font-size:clamp(34px,6vw,56px);line-height:1.04}
+  h1 em{font-style:normal;color:var(--blue)}
+  .lede{max-width:60ch;margin:18px auto 0;font-size:17px;line-height:1.6;color:var(--ink-soft);font-weight:500}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:10px}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
+  .card{background:rgba(255,255,255,.72);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.9);
+    border-radius:28px;padding:26px;box-shadow:0 20px 50px rgba(43,88,118,.16);
+    display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
+  .card:hover{transform:translateY(-4px);box-shadow:0 28px 60px rgba(43,88,118,.24)}
+  .thumb{height:180px;border-radius:20px;margin-bottom:20px;position:relative;overflow:hidden;
+    display:grid;place-items:center;font-size:60px}
+  .thumb.sky{background:radial-gradient(120% 120% at 30% 20%,#bfe6ff,#5EA8DA)}
+  .thumb.stage{background:radial-gradient(120% 120% at 60% 20%,#124a75,#0e3a5f)}
+  .thumb .float{position:absolute;font-size:22px;opacity:.85;animation:bob 4s ease-in-out infinite}
+  .thumb .f1{top:20px;left:24px} .thumb .f2{bottom:24px;right:30px;animation-delay:1.2s} .thumb .f3{top:40px;right:40px;animation-delay:.6s}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  .card h2{font-family:var(--font-display);font-size:24px;margin-bottom:6px}
+  .card p{color:var(--ink-soft);font-size:15px;line-height:1.55;font-weight:500;flex:1}
+  .tags{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 18px}
+  .tag{font-size:11.5px;font-weight:700;color:var(--ink);background:rgba(94,168,218,.14);
+    border:1px solid rgba(94,168,218,.28);border-radius:99px;padding:5px 11px}
+  .open{font-family:var(--font-display);font-weight:800;font-size:16px;color:#fff;text-align:center;text-decoration:none;
+    background:linear-gradient(180deg,#6fb4e2,var(--blue));padding:14px;border-radius:18px;
+    box-shadow:0 6px 0 var(--blue-edge);transition:transform .1s,box-shadow .1s}
+  .open:active{transform:translateY(6px);box-shadow:0 1px 0 var(--blue-edge)}
+
+  .doc-link{display:block;margin-top:26px;text-align:center;font-weight:700;color:var(--ink)}
+  .doc-link a{color:var(--blue);font-weight:800}
+
+  .support{margin-top:44px;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.85);
+    border-radius:24px;padding:24px 26px}
+  .support h3{font-family:var(--font-display);font-size:19px;margin-bottom:6px}
+  .support p{font-size:14.5px;color:var(--ink-soft);line-height:1.6}
+  .support code{background:rgba(94,168,218,.14);border-radius:6px;padding:1px 6px;font-size:13px}
+  .rlist{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  .rlist span{font-size:12.5px;font-weight:700;background:#fff;border-radius:99px;padding:7px 13px;box-shadow:0 4px 12px rgba(43,88,118,.1)}
+  .rlist b{color:var(--blue)}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <span class="kicker"><i></i> Design exploration · not yet shipped</span>
+      <h1>A brighter, faster,<br /><em>more three-dimensional</em> TwinkleTune.</h1>
+      <p class="lede">
+        Interactive mocks exploring how bleeding-edge browser APIs — WebGPU, the Web Audio pitch
+        pipeline, GPU-composited 3D transforms — could make the marketing page and the singing
+        experience feel alive, without ever compromising the calm, kid-first, privacy-first product.
+        Every page degrades gracefully all the way down to a static, reduced-motion baseline.
+      </p>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="thumb sky"><span>⭐</span>
+          <span class="float f1">♪</span><span class="float f2">✦</span><span class="float f3">♫</span></div>
+        <h2>Marketing hero — living sky studio</h2>
+        <p>
+          The hero background becomes a procedural <b>aurora sky</b> painted every frame by a WebGPU
+          fragment shader, with hundreds of GPU-instanced sparkle particles and a pointer-driven
+          “light of attention.” The product phone sits on a 3D-tilting stage. Canvas2D fallback included.
+        </p>
+        <div class="tags"><span class="tag">WebGPU · WGSL</span><span class="tag">Instanced particles</span><span class="tag">3D tilt</span><span class="tag">Canvas2D fallback</span></div>
+        <a class="open" href="./marketing-hero.html">Open the hero mock ↗</a>
+      </div>
+
+      <div class="card">
+        <div class="thumb stage"><span>🎤</span>
+          <span class="float f1">✨</span><span class="float f2">🌟</span><span class="float f3">♬</span></div>
+        <h2>In-app Sing! — audio-reactive stage</h2>
+        <p>
+          The singing screen reacts to <b>live pitch</b>: the star avatar grows and glows, sparkle
+          particles burst on-note, and a scrolling <b>pitch ribbon</b> shows the melody vs. the child’s
+          voice. Runs on the real mic (Web Audio + autocorrelation) or a self-playing demo voice.
+        </p>
+        <div class="tags"><span class="tag">Web Audio</span><span class="tag">Live pitch</span><span class="tag">Particle bursts</span><span class="tag">WebGPU-ready</span></div>
+        <a class="open" href="./sing-experience.html">Open the Sing! mock ↗</a>
+      </div>
+    </div>
+
+    <p class="doc-link">
+      Read the full strategy in
+      <a href="../../webgpu-3d-experience.md">docs/webgpu-3d-experience.md</a> —
+      approaches, progressive-enhancement tiers, performance budgets, accessibility, and a rollout plan.
+    </p>
+
+    <div class="support">
+      <h3>Best viewed in a WebGPU browser</h3>
+      <p>
+        The hero mock lights up its GPU path in <b>Chrome / Edge 113+</b> and Safari 18+ / Firefox with
+        WebGPU enabled. Everywhere else it automatically falls back to an animated Canvas2D sky — check
+        the little badge in the corner to see which renderer is live. The Sing! mock needs microphone
+        permission for live pitch; the <code>Demo voice</code> button works with no mic at all.
+        Reduced-motion preferences are always honoured.
+      </p>
+      <div class="rlist">
+        <span><b>Tier 1</b> WebGPU + WGSL shaders</span>
+        <span><b>Tier 2</b> Canvas2D / CSS</span>
+        <span><b>Tier 3</b> Static, reduced-motion</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
