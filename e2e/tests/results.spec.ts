@@ -2,6 +2,19 @@ import { test, expect } from '../fixtures/test'
 import { makeSummary, seedApp } from '../fixtures/seed'
 
 test.describe('Results & celebration', () => {
+  test('uses a still decorative scene when reduced motion is requested', async ({
+    page,
+    resultsPage,
+  }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await seedApp(page, { lastResult: makeSummary(), lastSongId: 'twinkle' })
+    await resultsPage.goto()
+
+    await expect(resultsPage.reactiveScene).toHaveAttribute('data-renderer', 'static')
+    await expect(resultsPage.reactiveScene).toHaveAttribute('aria-hidden', 'true')
+    await expect(resultsPage.headline).toContainText('Super Singing')
+  })
+
   test('a three-star song gets the full celebration', async ({ page, resultsPage }) => {
     await seedApp(page, {
       range: null,

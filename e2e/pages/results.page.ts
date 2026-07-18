@@ -15,6 +15,7 @@ export class ResultsPage extends BasePage {
   readonly singAgainLink: Locator
   readonly newSongLink: Locator
   readonly homeLink: Locator
+  readonly reactiveScene: Locator
 
   constructor(page: Page) {
     super(page, 'results')
@@ -31,5 +32,6 @@ export class ResultsPage extends BasePage {
     this.singAgainLink = page.getByRole('link', { name: 'Sing again' })
     this.newSongLink = page.getByRole('link', { name: 'New song' })
     this.homeLink = page.getByRole('link', { name: 'Home' })
+    this.reactiveScene = page.locator('[data-reactive-scene]')
   }
 }

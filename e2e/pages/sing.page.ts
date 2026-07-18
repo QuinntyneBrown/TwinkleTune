@@ -24,6 +24,7 @@ export class SingPage extends BasePage {
   readonly resumeButton: Locator
   readonly restartButton: Locator
   readonly pickAnotherButton: Locator
+  readonly reactiveScene: Locator
 
   constructor(page: Page) {
     super(page, 'sing')
@@ -49,6 +50,7 @@ export class SingPage extends BasePage {
     this.resumeButton = this.pausedDialog.getByRole('button', { name: 'Keep singing' })
     this.restartButton = this.pausedDialog.getByRole('button', { name: 'Start over' })
     this.pickAnotherButton = this.pausedDialog.getByRole('button', { name: 'Pick another song' })
+    this.reactiveScene = page.locator('[data-reactive-scene]')
   }
 
   async open(songId: string, extra = ''): Promise<void> {

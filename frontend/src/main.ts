@@ -13,6 +13,7 @@ import { renderMe } from './screens/me'
 import { renderTuner } from './screens/tuner'
 import { renderProfiles } from './screens/profiles'
 import { renderDuet } from './screens/duet'
+import { updateWithViewTransition } from './ui/view-transition'
 
 export type Cleanup = (() => void) | void
 export type ScreenRenderer = (root: HTMLElement, params: URLSearchParams) => Cleanup
@@ -35,11 +36,10 @@ const NO_PROFILE_OK = new Set(['welcome', 'tuner', 'profiles'])
 
 const app = document.getElementById('app') as HTMLElement
 let cleanup: Cleanup
+let hasRendered = false
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
 
 function route(): void {
-  if (typeof cleanup === 'function') cleanup()
-  cleanup = undefined
-
   // "#/sing?song=twinkle&practice=2" -> name "sing", params {...}
   const hash = location.hash.replace(/^#\/?/, '')
   const [path, query = ''] = hash.split('?')
@@ -47,9 +47,16 @@ function route(): void {
   if (!routes[name]) name = 'home'
   if (!NO_PROFILE_OK.has(name) && !store.get().profile) name = 'welcome'
 
-  app.innerHTML = ''
-  window.scrollTo(0, 0)
-  cleanup = routes[name](app, new URLSearchParams(query))
+  const mount = (): void => {
+    if (typeof cleanup === 'function') cleanup()
+    cleanup = undefined
+    app.innerHTML = ''
+    window.scrollTo(0, 0)
+    cleanup = routes[name](app, new URLSearchParams(query))
+    hasRendered = true
+  }
+
+  updateWithViewTransition(mount, hasRendered && !reducedMotion.matches)
 }
 
 window.addEventListener('hashchange', route)

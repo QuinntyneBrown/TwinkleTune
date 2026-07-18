@@ -43,4 +43,28 @@ test.describe('Routing', () => {
     await expect(homePage.greeting).toContainText('Hi, Quinn!')
     await expect(homePage.nav.activeTab()).toHaveAttribute('href', '#/home')
   })
+
+  test('progressively enhances route changes with View Transitions', async ({ page, homePage }) => {
+    await page.addInitScript(() => {
+      Object.defineProperty(window, '__viewTransitionCount', { value: { current: 0 } })
+      Object.defineProperty(document, 'startViewTransition', {
+        configurable: true,
+        value: (update: () => void) => {
+          ;(window as any).__viewTransitionCount.current++
+          update()
+          return {
+            finished: Promise.resolve(),
+            ready: Promise.resolve(),
+            updateCallbackDone: Promise.resolve(),
+            skipTransition: () => {},
+          }
+        },
+      })
+    })
+    await seedApp(page)
+    await homePage.goto()
+
+    await homePage.nav.tab('songs').click()
+    await expect.poll(() => page.evaluate(() => (window as any).__viewTransitionCount.current)).toBe(1)
+  })
 })
