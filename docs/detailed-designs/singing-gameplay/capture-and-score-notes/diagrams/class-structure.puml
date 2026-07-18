@@ -1,0 +1,56 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure - Capture and score notes
+
+class "renderSing (Sing! screen)" as Sing <<module>> {
+  -results: NoteResult[]
+  -finalizedUpTo: number
+  -landedCount: number
+  -streak: number
+  -scoreBeat(beat): number
+  -loop(): void
+  -finalizeNotesUpTo(beat: number): void
+}
+
+interface NoteResult {
+  +phraseIdx: number
+  +noteIdx: number
+  +midi: number
+  +hitFrames: number
+  +totalFrames: number
+  +firstHitFrac: number | null
+}
+
+class "scoring" as Scoring <<module>> {
+  +HIT_TOLERANCE_CENTS = 50
+  +foldCents(sung, target): number
+  +noteLanded(r: NoteResult, minFrames=3): boolean
+}
+
+class DuetClient {
+  +sendTick(tick: DuetTick): void
+}
+
+interface DuetTick {
+  +landed: number
+  +streak: number
+  +sparkles: number
+  +noteIdx: number
+}
+
+Sing "1" *-- "*" NoteResult : owns tallies
+Sing ..> Scoring : foldCents / noteLanded
+Sing ..> DuetClient : sendTick per note
+DuetClient ..> DuetTick : sends
+@enduml

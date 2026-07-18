@@ -1,0 +1,23 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Resolve the songbook
+
+Container_Boundary(webapp, "TwinkleTune web app") {
+  Component(screen, "renderSongs / paint", "screens/songs.ts", "Paints current list, refreshes, shows offline banner")
+  Component(repo, "repo.ts", "TypeScript module", "loadSongs / currentSongs / songsAreLive / getSongById / isServerSongId")
+  Component(client, "api.songs.list", "api/client.ts", "GET /api/songs, rejects when offline")
+  Component(catalog, "catalog.ts", "TypeScript module", "Bundled six-song fallback")
+  ComponentDb(cache, "Songbook cache", "localStorage", "twinkletune:songs-cache")
+}
+
+Container_Boundary(api, "TwinkleTune API") {
+  Component(ctrl, "SongsController", "ASP.NET Core controller", "GET /api/songs")
+}
+
+Rel(screen, repo, "currentSongs / loadSongs / songsAreLive")
+Rel(repo, client, "Awaits list()")
+Rel(client, ctrl, "GET /api/songs", "JSON/HTTPS")
+Rel(repo, cache, "Writes on success, reads when offline")
+Rel(repo, catalog, "Falls back to bundled six")
+@enduml

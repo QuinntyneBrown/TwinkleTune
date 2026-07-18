@@ -1,0 +1,45 @@
+@startuml
+title UML sequence behaviour — Start and play a song
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child" as child
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Song screen (caller)" as screen
+  participant "SongPlayer" as player
+end box
+box "Device — Browser Web Audio & speaker" #FFF4E5
+  participant "audioCtx() : AudioContext" as ctx
+  participant "Oscillator / Gain nodes" as nodes
+end box
+
+child -> screen : Tap play (user gesture)
+screen -> player : start(song, { transpose, rate, fromBeat, untilBeat, countInBeats, onDone })
+player -> player : stop() any previous playback
+player -> ctx : audioCtx() create / resume shared context (AE-L2-15)
+ctx --> player : shared AudioContext (resumed)
+player -> nodes : create master gain 0.5 -> destination
+player -> player : spb = 60 / bpm / rate (AE-L2-3)
+loop countInBeats clicks
+  player -> nodes : click at t0 + i*spb, 1568 Hz first else 1046 Hz (AE-L2-5)
+end
+player -> player : end = min(untilBeat, songBeats(song)) (AE-L2-4)
+loop each note with start in [fromBeat, end)
+  player -> player : hz = midiToHz(note.midi + transpose) (AE-L2-2)
+  player -> nodes : tone() triangle + sub-sine, ADSR gain (AE-L2-1)
+end
+nodes --> child : melody sounds in the child's key
+player -> player : playing = true; arm onDone timer
+player --> screen : playback started
+@enduml

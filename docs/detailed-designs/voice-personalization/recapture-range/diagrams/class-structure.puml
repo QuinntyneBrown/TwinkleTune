@@ -1,0 +1,50 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Re-capture the range
+
+class SettingsPanel <<ui/settings.ts>> {
+  +showSettings(): void
+  --
+  "Re-do" link -> #/voice
+}
+
+class HomeScreen <<screens/home.ts>> {
+  +renderHome(root: HTMLElement): void
+}
+
+class MeScreen <<screens/me.ts>> {
+  +renderMe(root: HTMLElement): void
+}
+
+class Router <<main.ts>> {
+  +routes: Record<string, ScreenRenderer>
+  --
+  voice -> renderVoiceSetup
+}
+
+class VoiceSetupScreen <<voice-setup.ts>> {
+  +renderVoiceSetup(root: HTMLElement): Teardown
+  -finish(low: number, high: number): void
+}
+
+class Profile <<state/store.ts>> {
+  +range: VoiceRange | null
+}
+
+SettingsPanel ..> Router : navigates #/voice
+HomeScreen ..> Router : navigates #/voice
+MeScreen ..> Router : navigates #/voice
+Router --> VoiceSetupScreen : renders
+VoiceSetupScreen ..> Profile : overwrites range
+@enduml

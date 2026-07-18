@@ -1,0 +1,57 @@
+@startuml
+title UML sequence behaviour — Tune a note
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Developer / field tester" as tester
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "renderTuner (Tuner screen)" as screen
+  participant "PitchTracker" as tracker
+end box
+box "Device — Browser Web Audio & microphone" #FFF4E5
+  participant "getUserMedia / AnalyserNode" as mic
+end box
+
+tester -> screen : Click "Start listening"
+alt tracker not running
+  screen -> tracker : start()
+  alt microphone available
+    tracker -> mic : getUserMedia + AnalyserNode
+    mic --> tracker : running
+    tracker --> screen : started
+    screen -> screen : begin requestAnimationFrame loop
+    loop each animation frame
+      screen -> tracker : read()
+      alt frame present
+        tracker --> screen : { hz, midi, clarity, rms }
+        screen -> screen : nearest = round(midi); cents = (midi - nearest) * 100 (AE-L2-17)
+        screen -> screen : note = midiToName(nearest); needle = 50% + (cents/50)*50% (AE-L2-17)
+        screen -> screen : update Hz, clarity %, rms (AE-L2-17)
+        screen --> tester : shows note, needle, clarity, level, frequency
+      else no pitch
+        tracker --> screen : null
+        screen -> screen : note = "—" neutral placeholder (AE-L2-17)
+      end
+    end
+  else microphone unavailable
+    tracker --> screen : throws
+    screen -> screen : note = "mic?" inline (AE-L2-17)
+    screen --> tester : indicates problem inline, no redirect
+  end
+else tracker running (toggle off)
+  screen -> tracker : stop()
+  screen -> screen : cancelAnimationFrame; button = "Start listening"
+  screen --> tester : listening stopped
+end
+@enduml

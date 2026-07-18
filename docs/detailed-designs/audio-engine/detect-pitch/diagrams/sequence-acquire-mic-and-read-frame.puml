@@ -1,0 +1,65 @@
+@startuml
+title UML sequence behaviour — Acquire the microphone and read a frame
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Caller (voice capture / tuner)" as caller
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "PitchTracker" as tracker
+  participant "PitchDetector (pitchy)" as detector
+end box
+box "Device — Browser Web Audio & microphone" #FFF4E5
+  participant "getUserMedia / MediaStream" as mic
+  participant "AnalyserNode" as analyser
+end box
+
+caller -> tracker : start()
+tracker -> mic : getUserMedia({ echoCancellation:false, noiseSuppression:false, autoGainControl:false }) (AE-L2-14)
+alt permission granted
+  mic --> tracker : MediaStream
+  tracker -> analyser : createMediaStreamSource + createAnalyser (fftSize 2048)
+  tracker --> caller : running = true
+else permission denied
+  mic --> tracker : NotAllowedError
+  tracker --> caller : throws NotAllowedError (AE-L2-14)
+end
+
+caller -> tracker : read()
+tracker -> analyser : getFloatTimeDomainData(buf, 2048 samples)
+analyser --> tracker : time-domain samples
+tracker -> tracker : rms = sqrt(mean(buf^2))
+alt rms < 0.01
+  tracker -> tracker : latest = null (AE-L2-11)
+  tracker --> caller : null (too quiet)
+else rms >= 0.01
+  tracker -> detector : findPitch(buf, sampleRate) (AE-L2-10)
+  detector --> tracker : [hz, clarity]
+  alt clarity < 0.8 or hz outside 70-1500 Hz
+    tracker -> tracker : latest = null (AE-L2-12)
+    tracker --> caller : null (too uncertain / out of band)
+  else accepted frame
+    tracker -> tracker : history.push(hzToMidi(hz)); keep last 5 (AE-L2-13)
+    tracker -> tracker : midi = median(history) (AE-L2-13)
+    tracker --> caller : { hz, midi, clarity, rms } (AE-L2-10)
+  end
+end
+
+opt session ends
+  caller -> tracker : stop()
+  tracker -> mic : media tracks stop()
+  tracker -> analyser : disconnect source and analyser
+  tracker -> tracker : clear history and latest (AE-L2-16)
+  tracker --> caller : later read() returns null (AE-L2-16)
+end
+@enduml

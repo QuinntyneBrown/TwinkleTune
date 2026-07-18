@@ -1,0 +1,18 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - Move the avatar to the child's pitch
+
+Container_Boundary(web, "TwinkleTune web app") {
+  Component(loop, "renderSing render loop", "TypeScript module", "Folds the sung pitch toward the song centre and eases the star")
+  Component(tracker, "PitchTracker", "Audio Engine module", "read() returns a PitchFrame or null")
+  Component(range, "computeShift / songRange", "Audio and song helpers", "Song shift and min/max range (song centre)")
+  Component(singer, "Star avatar (DOM)", "DOM element", "Vertical position and quiet / on-note state")
+}
+System_Ext(mic, "Browser microphone and Web Audio", "Pitch source")
+
+Rel(tracker, mic, "Analyses the microphone stream", "Web Audio API")
+Rel(loop, tracker, "read() each frame")
+Rel(loop, range, "Reads shift and song centre")
+Rel(loop, singer, "Eases top; toggles quiet / on-note")
+@enduml

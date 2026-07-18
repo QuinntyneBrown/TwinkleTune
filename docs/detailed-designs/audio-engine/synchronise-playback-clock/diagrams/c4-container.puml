@@ -1,0 +1,16 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Synchronise playback clock
+
+Person(child, "Child", "Sings along while visuals follow the beat")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(gameplay, "Gameplay screen and render loop", "TypeScript DOM module", "Polls currentBeat() each animation frame; supplies onDone")
+  Container(engine, "Audio engine — playback clock", "TypeScript (player.ts)", "SongPlayer clock, completion, and teardown")
+}
+System_Ext(browser, "Browser Web Audio & timers", "AudioContext currentTime and setTimeout")
+
+Rel(child, gameplay, "Plays a song", "touch")
+Rel(gameplay, engine, "currentBeat(), secondsPerBeat(), stop()")
+Rel(engine, browser, "Reads currentTime; arms and clears timer", "Web Audio")
+@enduml

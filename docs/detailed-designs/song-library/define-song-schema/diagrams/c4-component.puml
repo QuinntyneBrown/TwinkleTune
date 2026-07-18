@@ -1,0 +1,27 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Define the song schema
+
+Container_Boundary(webapp, "TwinkleTune web app") {
+  Component(types, "types.ts", "TypeScript module", "Song / SongPhrase / SongNote interfaces and derived helpers")
+  Component(repo, "repo.ts (fromApi)", "TypeScript module", "Maps an ApiSong to a client Song one-to-one")
+}
+
+Container_Boundary(api, "TwinkleTune API") {
+  Component(ctrl, "SongsController", "ASP.NET Core controller", "Exposes GET /api/songs in the shared shape")
+  Component(svc, "SongService", "Application service", "Loads songs and projects them to DTOs")
+  Component(mapping, "Mapping.ToDto", "Static mapper", "Projects Song to SongDto field-for-field")
+  Component(entity, "Song / SongPhrase / SongNote", "Domain records", "Server mirror of the canonical shape")
+  Component(ctx, "AppDbContext", "EF Core DbContext", "JSON value converter for Phrases")
+  ComponentDb(db, "Family database", "SQLite", "Phrases stored as one JSON document")
+}
+
+Rel(repo, ctrl, "GET /api/songs", "JSON/HTTPS")
+Rel(repo, types, "Maps into and reads helpers from")
+Rel(ctrl, svc, "GetAllAsync")
+Rel(svc, mapping, "ToDto(song)")
+Rel(mapping, entity, "Projects")
+Rel(svc, ctx, "Loads via repository")
+Rel(ctx, db, "Serializes / deserializes Phrases JSON")
+@enduml

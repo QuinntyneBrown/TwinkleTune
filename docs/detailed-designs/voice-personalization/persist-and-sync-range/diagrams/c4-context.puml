@@ -1,0 +1,13 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Persist and sync the range
+
+Person(child, "Child singer", "Completes Find My Voice on one device")
+System(app, "TwinkleTune web app", "Stores the captured range locally and pushes it to the family server")
+System(server, "Family Server", "TwinkleTune API and SQLite database on the home network")
+
+Rel(child, app, "Completes Find My Voice in")
+Rel(app, server, "Pushes the captured range to", "JSON/HTTPS")
+Rel(server, app, "Serves the range to her other devices", "JSON/HTTPS")
+@enduml

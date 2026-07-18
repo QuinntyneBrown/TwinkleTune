@@ -1,0 +1,42 @@
+@startuml
+title UML sequence - Pause, resume, restart, or exit (control the performance)
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child" as child
+box "Frontend - TwinkleTune web app" #E0F2FE
+  participant "pauseDialog" as pause
+  participant "SongPlayer" as player
+  participant "pause menu (modal)" as modal
+  participant "begin(from, countIn)" as begin
+  participant "Router (hash)" as router
+end box
+
+child -> pause : tap pause
+pause -> pause : pausedBeat = max(fromBeat, floor(currentBeat))
+pause -> player : stop() so the song does not advance per SG-L2-18
+pause -> modal : show pause menu (non-dismissible)
+alt Keep singing per SG-L2-18
+  child -> modal : Keep singing
+  modal -> begin : begin(pausedBeat, 2) per SG-L2-15
+else Start over per SG-L2-18
+  child -> modal : Start over
+  modal -> modal : reset results, finalizedUpTo, landedCount, streak, sparkles
+  modal -> begin : begin(fromBeat, 4) per SG-L2-15
+else Exit
+  child -> modal : Pick another song / Back to my score
+  modal -> router : finished = true; navigate away
+  router --> child : songs or results screen
+end
+@enduml

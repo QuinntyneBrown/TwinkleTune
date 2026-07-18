@@ -1,0 +1,38 @@
+@startuml
+title UML sequence behaviour — Segment completes and stops
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Gameplay screen" as game
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "SongPlayer" as player
+end box
+box "Device — Browser Web Audio & timers" #FFF4E5
+  participant "setTimeout timer" as timer
+  participant "Oscillator / Gain nodes" as nodes
+end box
+
+game -> player : start(song, { onDone, ... })
+player -> timer : arm doneTimer at (countInBeats + end - fromBeat)*spb + 0.6 s (AE-L2-7)
+alt segment elapses
+  timer -> player : doneTimer fires
+  player -> player : playing = false (AE-L2-7)
+  player -> game : onDone() invoked once (AE-L2-7)
+else stopped before completion
+  game -> player : stop()
+  player -> timer : clearTimeout(doneTimer) (AE-L2-8)
+  player -> nodes : stop() and disconnect all; clear node list (AE-L2-8)
+  player -> player : playing = false; onDone does not fire (AE-L2-7)
+end
+@enduml

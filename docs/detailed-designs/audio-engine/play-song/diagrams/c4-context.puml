@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Play a song (audio engine playback)
+
+Person(child, "Child", "Sings along on a tablet")
+System(twinkle, "TwinkleTune web app", "On-device singing app; synthesises melody from note data (TypeScript, Web Audio)")
+System_Ext(webaudio, "Browser Web Audio API", "Creates the AudioContext, oscillators, and gain nodes; drives the speaker")
+
+Rel(child, twinkle, "Starts a song or note preview from a tap")
+Rel(twinkle, webaudio, "Schedules oscillators and gains", "Web Audio")
+@enduml

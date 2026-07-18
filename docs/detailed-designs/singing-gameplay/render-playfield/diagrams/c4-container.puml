@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers - Render the scrolling playfield
+
+Person(child, "Child", "Sings along on a tablet")
+System_Boundary(tt, "TwinkleTune") {
+  Container(web, "TwinkleTune web app", "TypeScript, plain DOM modules", "Runs the Sing! screen and render loop fully on-device")
+}
+System_Ext(audio, "Browser Web Audio", "Web Audio API: melody synthesis and beat clock")
+
+Rel(child, web, "Taps to start and watches the playfield", "Touch")
+Rel(web, audio, "Reads currentBeat() and schedules tones", "Web Audio API")
+@enduml

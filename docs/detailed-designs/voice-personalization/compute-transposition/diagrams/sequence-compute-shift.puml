@@ -1,0 +1,41 @@
+@startuml
+title UML sequence behaviour — Compute the shift for a song
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child singer" as child
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "renderSongs / play flow" as caller
+  participant "store (profile.range)" as store
+  participant "computeShift" as shift
+  participant "songRange" as span
+  participant "clamp" as clampc
+end box
+
+child -> caller : Open the song list or start a song
+caller -> store : Read profile.range
+store --> caller : range or null
+caller -> shift : computeShift(song, range)
+alt no range (null)
+  shift --> caller : 0 — standard key (VP-L2-8)
+else range present
+  shift -> span : songRange(song)
+  span --> shift : {min, max}
+  shift -> shift : round((low+high)/2 - (min+max)/2) (VP-L2-8)
+  shift -> clampc : clamp(raw, -6, 6)
+  clampc --> shift : bounded shift (VP-L2-9)
+  shift --> caller : shift within -6..+6
+end
+caller -> caller : Re-key the melody / label the song card
+@enduml

@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Detect pitch
+
+Person(singer, "Singer", "Sings into the tablet microphone")
+System(twinkle, "TwinkleTune web app", "On-device singing app; detects pitch in real time (TypeScript, Web Audio)")
+System_Ext(browser, "Browser Web Audio & microphone", "getUserMedia capture and AnalyserNode time-domain data")
+
+Rel(singer, twinkle, "Sings into")
+Rel(twinkle, browser, "Requests the microphone and reads audio frames", "Web Audio")
+@enduml

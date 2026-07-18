@@ -1,0 +1,18 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Validate a song
+
+Person(grownup, "Grown-up", "Authors and edits songs")
+
+System_Boundary(twinkletune, "TwinkleTune") {
+  Container(webapp, "TwinkleTune web app", "TypeScript, DOM modules", "validateSong gates Preview and Save")
+  Container(api, "TwinkleTune API", "ASP.NET Core (.NET 10)", "SongValidator gates every write")
+  ContainerDb(db, "Family database", "SQLite via EF Core", "Stores only validated songs")
+}
+
+Rel(grownup, webapp, "Uses", "HTTPS")
+Rel(webapp, api, "Submits songs to", "JSON/HTTPS")
+Rel(api, db, "Writes after validation passes", "EF Core")
+Rel(webapp, api, "Same thresholds enforced both sides", "Validation parity")
+@enduml

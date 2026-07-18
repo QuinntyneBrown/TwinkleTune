@@ -1,0 +1,18 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - Render the scrolling playfield
+
+Container_Boundary(web, "TwinkleTune web app") {
+  Component(loop, "renderSing render loop", "TypeScript module", "requestAnimationFrame loop; scrolls track, resolves count-in, fills progress")
+  Component(player, "SongPlayer", "Web Audio module (Audio Engine)", "Beat clock: currentBeat(), secondsPerBeat()")
+  Component(track, "Note track and pills", "DOM elements", "One pill per in-window note, placed by beat, pitch, duration")
+  Component(overlay, "Count-in and progress overlay", "DOM elements", "Descending countdown, Sing cue, progress bar")
+}
+System_Ext(audio, "Browser Web Audio", "Melody synthesis and timing source")
+
+Rel(loop, player, "Reads currentBeat() each frame")
+Rel(player, audio, "Schedules tones and reads currentTime", "Web Audio API")
+Rel(loop, track, "Sets translateX to align the now marker")
+Rel(loop, overlay, "Updates countdown text and progress width")
+@enduml

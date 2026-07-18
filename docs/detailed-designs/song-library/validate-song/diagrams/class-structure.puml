@@ -1,0 +1,54 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Song validation rule-set
+
+package "Frontend — TwinkleTune web app" {
+  class TypesModule <<module: types.ts>> {
+    +validateSong(song: Song): string[]
+    +allNotes(s: Song): SongNote[]
+  }
+  class Managers <<module: managers.ts>> {
+    +parseSongForm(modal): {song, errors}
+    +songEditor(existing, onSaved): void
+    -showErrors(errors: string[]): void
+  }
+}
+
+package "Backend — Family Server (Domain + Application)" {
+  class SongValidator <<static>> {
+    +MinMidi: int = 48
+    +MaxMidi: int = 84
+    +MaxSpan: int = 16
+    +Validate(song: Song): IReadOnlyList<string>
+  }
+  class SongService {
+    +CreateAsync(request): (Song?, Errors)
+    +UpdateAsync(id, request): (Song?, Errors, Found)
+  }
+}
+
+interface Song {
+  +title: string
+  +bpm: number
+  +art: 1..4
+  +difficulty: 1..3
+  +phrases: SongPhrase[]
+}
+
+Managers ..> TypesModule : calls validateSong
+TypesModule ..> Song : validates
+SongService ..> SongValidator : Validate before write
+SongValidator ..> Song : validates
+TypesModule ..> SongValidator : identical thresholds (parity)
+@enduml

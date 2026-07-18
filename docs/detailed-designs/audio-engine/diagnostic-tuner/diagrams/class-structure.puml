@@ -1,0 +1,41 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Diagnostic tuner
+
+class "tuner.ts" as TunerMod <<module>> {
+  +renderTuner(root: HTMLElement): () => void
+}
+
+class PitchTracker {
+  +running: boolean
+  +start(): Promise<void>
+  +read(): PitchFrame?
+  +stop(): void
+}
+
+interface PitchFrame {
+  +hz: number
+  +midi: number
+  +clarity: number
+  +rms: number
+}
+
+class "range.ts" as RangeMod <<module>> {
+  +midiToName(midi: number): string
+}
+
+TunerMod ..> PitchTracker : start / read / stop
+TunerMod ..> RangeMod : midiToName
+PitchTracker --> "0..1" PitchFrame : read()
+@enduml

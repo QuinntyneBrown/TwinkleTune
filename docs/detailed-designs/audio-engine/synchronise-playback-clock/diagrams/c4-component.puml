@@ -1,0 +1,21 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Synchronise playback clock (player.ts)
+
+Container_Boundary(engine, "Audio engine — playback clock (player.ts)") {
+  Component(player, "SongPlayer", "TypeScript class", "Owns t0, spb, startBeat, countIn, doneTimer, playing")
+  Component(clock, "currentBeat() / secondsPerBeat()", "SongPlayer methods", "Musical position in beats and seconds per beat")
+  Component(done, "onDone timer", "setTimeout callback", "Fires once at segment end and sets playing = false")
+  Component(stopm, "stop()", "SongPlayer method", "Halts nodes, clears the done timer, resets state")
+  Component(ctxfn, "audioCtx()", "Module function", "Shared AudioContext and clock source")
+}
+System_Ext(browser, "Browser Web Audio & timers", "AudioContext currentTime and setTimeout")
+
+Rel(clock, ctxfn, "Reads currentTime via")
+Rel(player, done, "Arms at start via setTimeout")
+Rel(player, stopm, "Delegates teardown to")
+Rel(ctxfn, browser, "AudioContext.currentTime")
+Rel(done, browser, "Scheduled via setTimeout")
+Rel(stopm, browser, "clearTimeout, node.stop() and disconnect")
+@enduml

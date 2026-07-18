@@ -1,0 +1,17 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Manage songs
+
+Person(grownup, "Grown-up", "Manages the family songbook")
+
+System_Boundary(twinkletune, "TwinkleTune") {
+  Container(webapp, "TwinkleTune web app", "TypeScript, DOM modules", "showSongManager and songEditor in the Grown-Ups Corner")
+  Container(api, "TwinkleTune API", "ASP.NET Core (.NET 10)", "SongsController CRUD, validation, ordering")
+  ContainerDb(db, "Family database", "SQLite via EF Core", "Song rows with IsSeed and UpdatedAt")
+}
+
+Rel(grownup, webapp, "Uses", "HTTPS")
+Rel(webapp, api, "GET/POST/PUT/DELETE /api/songs", "JSON/HTTPS")
+Rel(api, db, "Reads ordered, writes validated songs", "EF Core")
+@enduml

@@ -1,0 +1,20 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Diagnostic tuner (tuner.ts)
+
+Container_Boundary(tuner, "Tuner screen (tuner.ts)") {
+  Component(render, "renderTuner()", "Module function", "Builds DOM, toggle handler, requestAnimationFrame loop")
+  Component(display, "Note / needle / meta elements", "DOM elements", "Show note name, +/-50 cents needle, clarity %, rms, Hz")
+}
+Container_Boundary(engine, "Audio engine — pitch (pitch.ts)") {
+  Component(tracker, "PitchTracker", "TypeScript class", "read() frames")
+  Component(name, "midiToName()", "range.ts helper", "Nearest note name")
+}
+System_Ext(browser, "Browser Web Audio & microphone", "getUserMedia and AnalyserNode")
+
+Rel(render, tracker, "start(), read(), stop()")
+Rel(render, name, "midiToName(round(midi))")
+Rel(render, display, "Updates per frame")
+Rel(tracker, browser, "Microphone and analysis", "Web Audio")
+@enduml

@@ -1,0 +1,15 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Find My Voice capture
+
+Person(child, "Child singer", "Sings a low note and a high note")
+System_Boundary(tt, "TwinkleTune") {
+  Container(webapp, "TwinkleTune web app", "TypeScript, plain DOM modules", "Renders the capture screen and ladder, and locks a sustained pitch")
+}
+System_Ext(mic, "Browser microphone", "getUserMedia / Web Audio")
+
+Rel(child, webapp, "Plays Find My Voice in", "on device")
+Rel(child, mic, "Sings into")
+Rel(webapp, mic, "Reads pitch frames from", "Web Audio")
+@enduml

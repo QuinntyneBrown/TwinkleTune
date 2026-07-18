@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Resolve the songbook
+
+Person(singer, "Child singer", "Plays solo whether or not a server is present")
+System(webapp, "TwinkleTune web app", "Resolves the runtime songbook from server, cache, or bundle")
+System(familyserver, "Family Server", "Optional home server exposing GET /api/songs")
+
+Rel(singer, webapp, "Browses and sings songs using", "HTTPS")
+Rel(webapp, familyserver, "Fetches the song list from when reachable", "GET /api/songs")
+@enduml

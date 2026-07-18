@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Re-capture the range
+
+Person(child, "Child singer", "Re-runs Find My Voice from home or the Me screen")
+Person(grownup, "Grown-up", "Re-runs it from the Grown-Ups Corner")
+System(app, "TwinkleTune web app", "Re-runs the capture game and overwrites the stored range, on device")
+
+Rel(child, app, "Re-runs Find My Voice in")
+Rel(grownup, app, "Triggers Re-do in")
+@enduml

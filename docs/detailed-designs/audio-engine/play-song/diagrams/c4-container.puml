@@ -1,0 +1,16 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Play a song (audio engine playback)
+
+Person(child, "Child", "Sings along on a tablet")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(screens, "Song and practice screens", "TypeScript DOM module", "Trigger playback and previews from a user gesture")
+  Container(engine, "Audio engine — playback", "TypeScript (player.ts)", "SongPlayer synthesis plus playNote preview")
+}
+System_Ext(webaudio, "Browser Web Audio API", "AudioContext, oscillator and gain nodes, speaker")
+
+Rel(child, screens, "Taps play or preview", "touch")
+Rel(screens, engine, "Calls SongPlayer.start / playNote")
+Rel(engine, webaudio, "Creates context, schedules nodes", "Web Audio")
+@enduml

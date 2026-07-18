@@ -1,0 +1,35 @@
+@startuml
+title UML sequence behaviour — Preview a single note
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child" as child
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Voice ladder / preview (caller)" as caller
+  participant "playNote()" as preview
+end box
+box "Device — Browser Web Audio & speaker" #FFF4E5
+  participant "audioCtx() : AudioContext" as ctx
+  participant "Oscillator / Gain nodes" as nodes
+end box
+
+child -> caller : Tap a rung / "tuned for you" (user gesture)
+caller -> preview : playNote(midi, 0.5) (AE-L2-9)
+preview -> ctx : audioCtx() create / resume shared context (AE-L2-15)
+ctx --> preview : shared AudioContext (resumed)
+preview -> preview : hz = midiToHz(midi)
+preview -> nodes : triangle osc + gain, schedule ~0.5 s tone (AE-L2-9)
+nodes --> child : single preview tone heard
+preview --> caller : tone scheduled
+@enduml

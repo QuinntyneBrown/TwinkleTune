@@ -1,0 +1,24 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Validate a song
+
+Container_Boundary(webapp, "TwinkleTune web app") {
+  Component(editor, "songEditor / parseSongForm", "ui/managers.ts", "Reads the form and shows validation messages")
+  Component(validateClient, "validateSong", "songs/types.ts", "Client rule-set returning friendly messages")
+  Component(apiClient, "api.songs.create/update", "api/client.ts", "Submits the song")
+}
+
+Container_Boundary(api, "TwinkleTune API") {
+  Component(ctrl, "SongsController", "ASP.NET Core controller", "POST/PUT /api/songs")
+  Component(svc, "SongService", "Application service", "Validates before persisting")
+  Component(validateServer, "SongValidator", "Domain validator", "MinMidi 48, MaxMidi 84, MaxSpan 16")
+}
+
+Rel(editor, validateClient, "Calls before Preview and Save")
+Rel(editor, apiClient, "Sends only when no errors")
+Rel(apiClient, ctrl, "POST/PUT /api/songs", "JSON/HTTPS")
+Rel(ctrl, svc, "CreateAsync / UpdateAsync")
+Rel(svc, validateServer, "Validate before write")
+Rel(validateClient, validateServer, "Same thresholds and order", "Parity")
+@enduml

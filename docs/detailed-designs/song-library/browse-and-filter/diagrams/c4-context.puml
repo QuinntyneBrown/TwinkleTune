@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Browse and filter songs
+
+Person(singer, "Child singer", "Picks a song by art, duration, and difficulty")
+System(webapp, "TwinkleTune web app", "Renders song cards and difficulty filter chips")
+System_Ext(familyserver, "Family Server", "Optional source of the songbook that was resolved earlier")
+
+Rel(singer, webapp, "Browses and filters songs using", "HTTPS")
+Rel(webapp, familyserver, "Displays the songbook resolved from", "GET /api/songs")
+@enduml

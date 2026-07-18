@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Communicate personalization
+
+Person(child, "Child singer", "Reads the tuned-song and growth cues")
+System_Boundary(tt, "TwinkleTune") {
+  Container(webapp, "TwinkleTune web app", "TypeScript, plain DOM modules", "Renders the song cards and the Me-screen growth block")
+  ContainerDb(store, "Browser storage", "Web Storage API", "Holds the active profile and its saved range")
+}
+
+Rel(child, webapp, "Reads cues in", "on device")
+Rel(webapp, store, "Reads the saved range from", "Web Storage")
+@enduml

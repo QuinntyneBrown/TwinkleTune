@@ -1,0 +1,38 @@
+@startuml
+title UML sequence - Finish and record (control the performance)
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child" as child
+box "Frontend - TwinkleTune web app" #E0F2FE
+  participant "SongPlayer" as player
+  participant "finish()" as finish
+  participant "finalizeNotesUpTo" as finalize
+  participant "summarize / recordPlay" as record
+  participant "Router (hash)" as router
+end box
+
+player -> finish : onDone at segment end
+finish -> finalize : finalizeNotesUpTo(untilBeat + 1)
+alt practice mode per SG-L2-17
+  finish -> child : toast "one more time"
+  finish -> finish : after 1200 ms, begin(fromBeat, 2) at 0.7x; no score recorded
+else non-practice performance per SG-L2-16
+  finish -> record : summarize(song, results, noMic)
+  record --> finish : SongSummary
+  finish -> record : recordPlay(store, song, summary, todayISO())
+  finish -> router : after 600 ms, location.hash = "#/results"
+  router --> child : results screen
+end
+@enduml

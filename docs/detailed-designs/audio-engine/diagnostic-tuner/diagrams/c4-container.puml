@@ -1,0 +1,16 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Diagnostic tuner
+
+Person(tester, "Developer or field tester", "Verifies pitch accuracy")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(tuner, "Tuner screen", "TypeScript DOM module (tuner.ts, #/tuner)", "Renders note, cents needle, clarity, level, frequency")
+  Container(engine, "Audio engine — pitch", "TypeScript (pitch.ts)", "PitchTracker")
+}
+System_Ext(browser, "Browser Web Audio & microphone", "getUserMedia and AnalyserNode")
+
+Rel(tester, tuner, "Toggles listening at #/tuner")
+Rel(tuner, engine, "new PitchTracker(); read() per frame")
+Rel(engine, browser, "Microphone and analysis", "Web Audio")
+@enduml

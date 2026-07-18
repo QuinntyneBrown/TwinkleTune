@@ -1,0 +1,41 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Standard-key fallback
+
+class VoiceSetupScreen <<voice-setup.ts>> {
+  -beginListening(): Promise<void>
+  -micDeniedDialog(): void
+}
+
+class PitchTracker <<audio/pitch.ts>> {
+  +start(): Promise<void>
+}
+
+class SongsScreen <<screens/songs.ts>> {
+  -songCard(song: Song, idx: number, live: boolean): string
+}
+
+class RangeMath <<audio/range.ts>> {
+  +computeShift(song: Song, range: VoiceRange | null): number
+}
+
+class Profile <<state/store.ts>> {
+  +range: VoiceRange | null
+}
+
+VoiceSetupScreen ..> PitchTracker : start() may reject
+SongsScreen ..> Profile : reads (possibly null) range
+SongsScreen ..> RangeMath : computeShift(song, null)
+RangeMath ..> Profile : returns 0 when null
+@enduml

@@ -1,0 +1,47 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Communicate personalization
+
+class SongsScreen <<screens/songs.ts>> {
+  +renderSongs(root: HTMLElement): void
+  -songCard(song: Song, idx: number, live: boolean): string
+}
+
+class MeScreen <<screens/me.ts>> {
+  +renderMe(root: HTMLElement): void
+  --
+  note count = high - low + 1
+}
+
+class RangeMath <<audio/range.ts>> {
+  +computeShift(song: Song, range: VoiceRange | null): number
+  +describeShift(shift: number): string
+  +midiToName(midi: number): string
+}
+
+class Profile <<state/store.ts>> {
+  +range: VoiceRange | null
+}
+
+class VoiceRange <<state/store.ts>> {
+  +low: number
+  +high: number
+}
+
+Profile *-- VoiceRange : holds
+SongsScreen ..> Profile : reads range
+MeScreen ..> Profile : reads range
+SongsScreen ..> RangeMath : shift + tooltip
+MeScreen ..> RangeMath : note names
+@enduml

@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - Capture and score notes
+
+Person(child, "Child", "Sings into the tablet")
+System(tt, "TwinkleTune web app", "Voice-personalized singing app (TypeScript, plain DOM)")
+System_Ext(audio, "Browser Web Audio and microphone", "getUserMedia and Web Audio API")
+System_Ext(relay, "Family Server - Duet relay", "TwinkleTune API SignalR hub (owned by Duet Multiplayer)")
+
+Rel(child, tt, "Sings; sees cheers and sparkles", "Voice / touch")
+Rel(tt, audio, "Reads live pitch frames", "Web Audio API")
+Rel(tt, relay, "Emits one score tick per finalised note (duet mode)", "SignalR/WSS")
+@enduml

@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - Move the avatar to the child's pitch
+
+Person(child, "Child", "Sings into the tablet")
+System(tt, "TwinkleTune web app", "Voice-personalized singing app (TypeScript, plain DOM)")
+System_Ext(audio, "Browser Web Audio and microphone", "getUserMedia and Web Audio API")
+
+Rel(child, tt, "Sings; watches the star move", "Voice / touch")
+Rel(tt, audio, "Reads live pitch frames", "Web Audio API")
+@enduml

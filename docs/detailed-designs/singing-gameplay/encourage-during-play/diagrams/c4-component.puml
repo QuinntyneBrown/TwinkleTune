@@ -1,0 +1,19 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - Encourage during play
+
+Container_Boundary(web, "TwinkleTune web app") {
+  Component(finalize, "finalizeNotesUpTo", "TypeScript function", "Fires feedback as each note lands")
+  Component(streak, "setStreak", "TypeScript function", "Chip at streak >= 3; toast at each multiple of 5")
+  Component(sparkles, "Sparkle pill (DOM)", "DOM element", "landedCount * 10")
+  Component(cheer, "cheerPop / toast", "UI helpers", "Random cheer and milestone toast")
+  Component(tuned, "maybeTunedDialogThenStart", "TypeScript function", "One-time tuned reveal via showModal")
+}
+
+Rel(finalize, streak, "setStreak(streak + 1) or setStreak(0)")
+Rel(finalize, sparkles, "Set to landedCount * 10")
+Rel(finalize, cheer, "cheerPop on landed note")
+Rel(streak, cheer, "toast at multiple of 5")
+Rel(tuned, cheer, "showModal reveal before start")
+@enduml

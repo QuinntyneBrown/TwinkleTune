@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Validate a song
+
+Person(grownup, "Grown-up", "Authors and edits songs in the Grown-Ups Corner")
+System(webapp, "TwinkleTune web app", "Rejects a bad song before it leaves the device")
+System(familyserver, "Family Server", "Re-validates every saved song against the same rule-set")
+
+Rel(grownup, webapp, "Creates and edits songs using", "HTTPS")
+Rel(webapp, familyserver, "Submits validated songs to", "JSON/HTTPS")
+@enduml

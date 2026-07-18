@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Per-song transposition
+
+Person(child, "Child singer", "Plays songs")
+System_Boundary(tt, "TwinkleTune") {
+  Container(webapp, "TwinkleTune web app", "TypeScript, plain DOM modules", "Computes the shift from the range and the song span")
+  ContainerDb(store, "Browser storage", "Web Storage API", "Holds the active profile and its saved range")
+}
+
+Rel(child, webapp, "Plays songs in", "on device")
+Rel(webapp, store, "Reads the saved range from", "Web Storage")
+@enduml

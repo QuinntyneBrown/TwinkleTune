@@ -1,0 +1,41 @@
+@startuml
+title UML sequence - Entry guard and window selection (render the scrolling playfield)
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child" as child
+box "Frontend - TwinkleTune web app" #E0F2FE
+  participant "Router (hash)" as router
+  participant "renderSing" as sing
+  participant "getSongById" as repo
+  participant "Note track (DOM)" as track
+end box
+
+child -> router : navigate #/sing?song=<id>
+router -> sing : renderSing(root, params)
+sing -> repo : getSongById(params.song)
+alt song missing
+  repo --> sing : undefined
+  sing -> router : location.hash = "#/songs" per SG-L2-1
+  router --> child : song list
+else song found
+  repo --> sing : Song
+  opt practice=<n>
+    sing -> sing : bound fromBeat/untilBeat to phrase n per SG-L2-1
+  end
+  sing -> sing : windowNotes = notes in [fromBeat, untilBeat) per SG-L2-1
+  sing -> track : build one pill per in-window note per SG-L2-2
+  track --> child : playfield ready (Tap to start)
+end
+@enduml

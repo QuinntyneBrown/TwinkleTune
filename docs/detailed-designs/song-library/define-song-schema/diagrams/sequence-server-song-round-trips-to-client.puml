@@ -1,0 +1,50 @@
+@startuml
+title UML sequence behaviour — A server song round-trips to the client
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child singer" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "repo.ts (fromApi)" as repo
+  participant "types.ts helpers" as helpers
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "SongsController" as ctrl
+end box
+box "Backend — TwinkleTune Application and Domain" #ECFDF3
+  participant "SongService" as svc
+  participant "Mapping.ToDto" as map
+end box
+box "Backend — TwinkleTune Infrastructure" #FFF4E5
+  participant "SongRepository" as repoDb
+  database "Family database (SQLite)" as db
+end box
+
+actor -> repo : Open the songbook
+repo -> ctrl : GET /api/songs
+ctrl -> svc : GetAllAsync()
+svc -> repoDb : GetAllAsync()
+repoDb -> db : SELECT songs
+db --> repoDb : Rows with Phrases JSON document
+repoDb -> repoDb : Deserialize Phrases JSON to List<SongPhrase> per SL-L2-13
+repoDb --> svc : List<Song>
+svc -> map : ToDto(song)
+map --> svc : SongDto in the SL-L2-1 canonical shape
+svc --> ctrl : List<SongDto>
+ctrl --> repo : 200 JSON (ApiSong shape)
+repo -> repo : fromApi maps fields 1:1 to client Song per SL-L2-1
+repo -> helpers : songRange / songBeats / songSeconds / difficultyLabel per SL-L2-2
+helpers --> repo : Range, length, difficulty label
+repo --> actor : Playable song ready
+@enduml

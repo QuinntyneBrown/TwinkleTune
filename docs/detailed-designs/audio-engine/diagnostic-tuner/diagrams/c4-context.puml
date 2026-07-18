@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Diagnostic tuner
+
+Person(tester, "Developer or field tester", "Verifies pitch accuracy against a reference instrument")
+System(twinkle, "TwinkleTune web app", "On-device singing app; hidden tuner at route #/tuner (TypeScript, Web Audio)")
+System_Ext(browser, "Browser Web Audio & microphone", "getUserMedia and AnalyserNode")
+
+Rel(tester, twinkle, "Opens #/tuner and sings or plays a reference into")
+Rel(twinkle, browser, "Reads microphone pitch frames", "Web Audio")
+@enduml

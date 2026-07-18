@@ -1,0 +1,42 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Synchronise playback clock
+
+class SongPlayer {
+  +playing: boolean
+  -nodes: AudioNode[]
+  -doneTimer: timeout handle
+  -t0: number
+  -spb: number
+  -startBeat: number
+  -countIn: number
+  +start(song: Song, opts: PlayOptions): void
+  +currentBeat(): number
+  +secondsPerBeat(): number
+  +stop(): void
+}
+
+interface PlayOptions {
+  +fromBeat?: number
+  +countInBeats?: number
+  +onDone?: () => void
+}
+
+class "player.ts" as PlayerMod <<module>> {
+  +audioCtx(): AudioContext
+}
+
+SongPlayer ..> PlayOptions : reads onDone
+SongPlayer ..> PlayerMod : reads currentTime
+@enduml

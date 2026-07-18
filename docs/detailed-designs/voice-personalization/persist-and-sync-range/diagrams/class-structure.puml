@@ -1,0 +1,60 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Persist and sync the range
+
+class Profile <<state/store.ts>> {
+  +name: string
+  +range: VoiceRange | null
+  +singerId: string | null
+}
+
+class VoiceRange <<state/store.ts>> {
+  +low: number
+  +high: number
+}
+
+class ProfileSync <<state/profile.ts>> {
+  +pushProfileToServer(): Promise<void>
+  +applySingerToProfile(s: ApiSinger): void
+}
+
+class SingersApi <<api/client.ts>> {
+  +update(id: string, body: SaveSingerRequest): Promise<ApiSinger>
+}
+
+class SaveSingerRequest <<Application/Dtos>> {
+  +Name: string
+  +AvatarId: Guid?
+  +RangeLow: int?
+  +RangeHigh: int?
+}
+
+class SingerService <<Application/Services>> {
+  +UpdateAsync(id: Guid, request: SaveSingerRequest): Task
+  -Validate(request: SaveSingerRequest): string?
+}
+
+class Singer <<Domain/Entities>> {
+  +Name: string
+  +RangeLow: int?
+  +RangeHigh: int?
+}
+
+Profile *-- VoiceRange : holds
+ProfileSync ..> Profile : reads range
+ProfileSync ..> SingersApi : PUTs through
+SingersApi ..> SaveSingerRequest : sends
+SingerService ..> SaveSingerRequest : validates high > low
+SingerService --> Singer : loads and mutates
+@enduml

@@ -1,0 +1,45 @@
+@startuml
+title UML sequence - One render-loop frame (render the scrolling playfield)
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child" as child
+box "Frontend - TwinkleTune web app" #E0F2FE
+  participant "renderSing loop()" as loop
+  participant "SongPlayer" as player
+  participant "Note track (DOM)" as track
+  participant "Count-in overlay" as overlay
+  participant "Progress bar" as progress
+end box
+box "Device - Browser Web Audio" #FFF4E5
+  participant "Web Audio beat clock" as audio
+end box
+
+child -> loop : requestAnimationFrame tick
+loop -> player : currentBeat()
+player -> audio : read currentTime
+audio --> player : elapsed seconds
+player --> loop : beat
+loop -> track : translateX(markerX - beat*90) per SG-L2-3
+note right of track : markerX = stageWidth*0.21; 90 px/beat per SG-L2-2
+alt beat < fromBeat (count-in)
+  loop -> overlay : show ceil(fromBeat - beat) per SG-L2-4
+else beat < fromBeat + 0.5
+  loop -> overlay : show "Sing!" cue per SG-L2-4
+else
+  loop -> overlay : hide overlay
+end
+loop -> progress : width = clamp((beat-fromBeat)/(untilBeat-fromBeat),0,1)*100% per SG-L2-5
+progress --> child : rendered frame
+@enduml

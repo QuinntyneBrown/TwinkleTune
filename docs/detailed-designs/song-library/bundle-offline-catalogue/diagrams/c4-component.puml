@@ -1,0 +1,23 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Bundle the offline catalogue
+
+Container_Boundary(webapp, "TwinkleTune web app") {
+  Component(catalog, "catalog.ts", "TypeScript module", "The six bundled Song objects and getSong lookup")
+  Component(repo, "repo.ts", "TypeScript module", "Falls back to the bundled catalogue when offline")
+  Component(tests, "catalog.test.ts", "Vitest suite", "Enforces the six catalogue invariants")
+}
+
+Container_Boundary(api, "TwinkleTune API") {
+  Component(seed, "SeedData", "Static seeder", "Idempotently writes the identical six songs")
+  Component(ctx, "AppDbContext", "EF Core DbContext", "Persists seeded songs")
+  ComponentDb(db, "Family database", "SQLite", "Seeded song rows")
+}
+
+Rel(repo, catalog, "Reads the six bundled songs")
+Rel(tests, catalog, "Asserts invariants over")
+Rel(seed, ctx, "AddRange the six songs when table empty")
+Rel(ctx, db, "SaveChanges")
+Rel(seed, catalog, "Encoded note-for-note identical to", "Parity")
+@enduml

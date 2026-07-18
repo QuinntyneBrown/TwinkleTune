@@ -1,0 +1,34 @@
+@startuml
+title UML sequence behaviour — Re-capture overwrites the stored range
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child or grown-up" as user
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Entry point (settings / home / me)" as entry
+  participant "routes['voice']" as router
+  participant "renderVoiceSetup" as screen
+  participant "store" as store
+end box
+
+user -> entry : Tap "Re-do" / voice card / "Find your voice"
+note over entry : Three entry points: Grown-Ups Corner, home, Me screen (VP-L2-13)
+entry -> router : location.hash = "#/voice"
+router -> screen : renderVoiceSetup(root)
+user -> screen : Complete capture with a new low and high
+screen -> store : store.update overwrites profile.range = {low, high} (VP-L2-13)
+note over store : Existing range replaced; later play uses the new shift (VP-L2-13)
+screen --> user : Completion modal "Your voice is found! 🎉"
+note over screen : The same persist-and-push then runs (see persist-and-sync-range)
+@enduml

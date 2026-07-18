@@ -1,0 +1,20 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Re-capture the range
+
+Container_Boundary(webapp, "TwinkleTune web app") {
+  Component(settings, "showSettings", "ui/settings.ts", "Grown-Ups Corner 'Re-do' link to #/voice")
+  Component(home, "renderHome", "screens/home.ts", "Home voice card link to #/voice")
+  Component(meScreen, "renderMe", "screens/me.ts", "Me-screen 'Find your voice' link to #/voice")
+  Component(router, "routes['voice']", "main.ts", "Resolves #/voice to the capture screen")
+  Component(screen, "renderVoiceSetup", "voice-setup.ts", "Runs capture and overwrites the range on finish")
+  Component(store, "store.update", "state/store.ts", "Overwrites profile.range")
+}
+
+Rel(settings, router, "Navigates to #/voice")
+Rel(home, router, "Navigates to #/voice")
+Rel(meScreen, router, "Navigates to #/voice")
+Rel(router, screen, "Renders")
+Rel(screen, store, "Overwrites profile.range through")
+@enduml

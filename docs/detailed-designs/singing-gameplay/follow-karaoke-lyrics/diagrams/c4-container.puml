@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers - Follow the karaoke lyrics
+
+Person(child, "Child", "Reads and sings the words")
+System_Boundary(tt, "TwinkleTune") {
+  Container(web, "TwinkleTune web app", "TypeScript, plain DOM modules", "Advances the karaoke display on-device")
+}
+System_Ext(audio, "Browser Web Audio", "Web Audio API: beat clock")
+
+Rel(child, web, "Follows the highlighted syllables", "Touch / reading")
+Rel(web, audio, "Reads currentBeat() each frame", "Web Audio API")
+@enduml

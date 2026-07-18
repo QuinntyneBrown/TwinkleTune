@@ -1,0 +1,16 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Standard-key fallback
+
+Person(child, "Child singer", "Plays without a range or microphone")
+System_Boundary(tt, "TwinkleTune") {
+  Container(webapp, "TwinkleTune web app", "TypeScript, plain DOM modules", "Handles mic denial and plays in a standard key with no range")
+  ContainerDb(store, "Browser storage", "Web Storage API", "May hold no range for the active profile")
+}
+System_Ext(mic, "Browser microphone", "getUserMedia; access may be denied")
+
+Rel(child, webapp, "Plays songs in", "on device")
+Rel(webapp, mic, "Requests access from (may be denied)", "getUserMedia")
+Rel(webapp, store, "Reads the (possibly absent) range from", "Web Storage")
+@enduml

@@ -1,0 +1,13 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Find My Voice capture
+
+Person(child, "Child singer", "A nine-year-old who sings into the tablet")
+System(app, "TwinkleTune web app", "Voice-personalized singing app; runs the Find My Voice game on device")
+System_Ext(mic, "Browser microphone", "getUserMedia / Web Audio pitch input")
+
+Rel(child, app, "Plays the Find My Voice game in")
+Rel(child, mic, "Sings into")
+Rel(app, mic, "Reads live pitch frames from", "Web Audio")
+@enduml

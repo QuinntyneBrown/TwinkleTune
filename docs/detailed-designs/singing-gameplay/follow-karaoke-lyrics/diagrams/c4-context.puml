@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - Follow the karaoke lyrics
+
+Person(child, "Child", "Reads and sings the words")
+System(tt, "TwinkleTune web app", "Voice-personalized singing app (TypeScript, plain DOM)")
+System_Ext(audio, "Browser Web Audio", "Supplies the beat clock the lyrics advance against")
+
+Rel(child, tt, "Follows the highlighted syllables", "Touch / reading")
+Rel(tt, audio, "Reads the beat clock", "Web Audio API")
+@enduml

@@ -1,0 +1,16 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Detect pitch (pitch.ts)
+
+Container_Boundary(engine, "Audio engine — pitch (pitch.ts)") {
+  Component(tracker, "PitchTracker", "TypeScript class", "start / read / stop detection pipeline")
+  Component(detector, "PitchDetector", "pitchy library", "McLeod pitch method over 2048-sample windows")
+  Component(range, "hzToMidi()", "range.ts helper", "Frequency to floating-point MIDI")
+}
+System_Ext(browser, "Browser Web Audio & microphone", "getUserMedia and AnalyserNode")
+
+Rel(tracker, browser, "getUserMedia (EC/NS/AGC off); getFloatTimeDomainData", "Web Audio")
+Rel(tracker, detector, "findPitch(buf, sampleRate)")
+Rel(tracker, range, "hzToMidi(hz)")
+@enduml

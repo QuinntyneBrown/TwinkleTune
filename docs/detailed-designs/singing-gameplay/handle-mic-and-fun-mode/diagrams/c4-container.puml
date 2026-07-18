@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers - Handle the microphone and fun mode
+
+Person(child, "Child", "Taps start; may lack mic access")
+System_Boundary(tt, "TwinkleTune") {
+  Container(web, "TwinkleTune web app", "TypeScript, plain DOM modules", "Requests the mic, runs fun mode, and cleans up on-device")
+}
+System_Ext(mic, "Browser microphone and Web Audio", "getUserMedia / Web Audio API")
+
+Rel(child, web, "Taps start; chooses retry / fun / back", "Touch")
+Rel(web, mic, "tracker.start() requests the mic; player plays", "getUserMedia / Web Audio API")
+@enduml

@@ -1,0 +1,67 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Play a song
+
+class SongPlayer {
+  +playing: boolean
+  -nodes: AudioNode[]
+  -doneTimer: timeout handle
+  -t0: number
+  -spb: number
+  -startBeat: number
+  -countIn: number
+  +start(song: Song, opts: PlayOptions): void
+  +stop(): void
+  -tone(ctx, out, hz, at, durSec): void
+  -click(ctx, out, at, hz): void
+}
+
+interface PlayOptions {
+  +transpose?: number
+  +rate?: number
+  +fromBeat?: number
+  +untilBeat?: number
+  +countInBeats?: number
+  +onDone?: () => void
+}
+
+class "player.ts" as PlayerMod <<module>> {
+  +audioCtx(): AudioContext
+  +playNote(midi: number, durSec: number): void
+}
+
+class "range.ts" as RangeMod <<module>> {
+  +midiToHz(m: number): number
+}
+
+interface Song {
+  +id: string
+  +bpm: number
+  +phrases: SongPhrase[]
+}
+
+interface SongNote {
+  +midi: number
+  +start: number
+  +dur: number
+  +syll: string
+}
+
+SongPlayer ..> PlayOptions : reads
+SongPlayer ..> Song : plays
+SongPlayer ..> RangeMod : midiToHz
+SongPlayer ..> PlayerMod : audioCtx
+PlayerMod ..> RangeMod : midiToHz
+Song *-- "1..*" SongNote : via phrases
+@enduml

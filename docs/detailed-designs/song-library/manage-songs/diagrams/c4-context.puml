@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Manage songs
+
+Person(grownup, "Grown-up", "Adds, edits, and deletes family songs")
+System(webapp, "TwinkleTune web app", "Grown-Ups Corner song manager")
+System(familyserver, "Family Server", "Validates, orders, and stores the family songbook")
+
+Rel(grownup, webapp, "Manages songs using", "HTTPS")
+Rel(webapp, familyserver, "Creates, reads, updates, deletes songs via", "REST/HTTPS")
+@enduml

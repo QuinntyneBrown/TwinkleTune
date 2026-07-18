@@ -1,0 +1,16 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - Follow the karaoke lyrics
+
+Container_Boundary(web, "TwinkleTune web app") {
+  Component(loop, "renderSing render loop", "TypeScript module", "Calls updateKaraoke(beat) each frame")
+  Component(karaoke, "updateKaraoke", "TypeScript function", "Resolves active phrase; styles syllables; sets phrase cue")
+  Component(lines, "Lyric lines (DOM)", "DOM elements", "prev / now / next lines and per-syllable spans")
+  Component(coach, "Coach bubble (DOM)", "DOM element", "Encouraging phrase cue")
+}
+
+Rel(loop, karaoke, "updateKaraoke(beat)")
+Rel(karaoke, lines, "Rewrites prev / now / next and syllable classes")
+Rel(karaoke, coach, "Sets PHRASE_CHEERS cue on phrase change")
+@enduml

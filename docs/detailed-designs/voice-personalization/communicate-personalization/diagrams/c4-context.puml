@@ -1,0 +1,10 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Communicate personalization
+
+Person(child, "Child singer", "Reads warm, non-technical cues about her tuned songs")
+System(app, "TwinkleTune web app", "Shows 'In your key' on song cards and celebrates range growth on the Me screen, on device")
+
+Rel(child, app, "Reads tuned-song and growth cues in")
+@enduml

@@ -1,0 +1,45 @@
+@startuml
+title UML sequence behaviour — Offline indication and song lookup
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child singer" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "renderSongs / paint" as screen
+  participant "repo.ts" as repo
+  participant "catalog.ts" as catalog
+end box
+
+screen -> repo : songsAreLive()
+repo --> screen : false (cached or bundled)
+alt Songbook not live
+  screen -> screen : Render offline banner per SL-L2-5
+  screen -> screen : Omit family-score board and duet buttons per SL-L2-5
+  screen -> screen : Keep every song's play button (singable) per SL-L2-5
+else Songbook live
+  screen -> screen : Render board and duet affordances
+end
+
+actor -> screen : Tap a song by id
+screen -> repo : getSongById(id) per SL-L2-6
+repo -> repo : Find in current list
+alt Not in current list
+  repo -> catalog : Fallback lookup in bundled six
+  catalog --> repo : Bundled song
+end
+repo --> screen : Resolved Song
+screen -> repo : isServerSongId(id) per SL-L2-6
+repo --> screen : true for GUID, false for slug (e.g. 'twinkle')
+screen --> actor : Start the song; board shown only for server ids
+@enduml

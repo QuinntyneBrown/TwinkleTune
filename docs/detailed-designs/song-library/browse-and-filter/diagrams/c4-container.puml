@@ -1,0 +1,15 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Browse and filter songs
+
+Person(singer, "Child singer", "Browses and filters")
+
+System_Boundary(twinkletune, "TwinkleTune") {
+  Container(webapp, "TwinkleTune web app", "TypeScript, DOM modules", "screens/songs.ts renders cards and filters in place")
+  Container_Ext(api, "TwinkleTune API", "ASP.NET Core (.NET 10)", "Supplied the song list; not called to filter")
+}
+
+Rel(singer, webapp, "Browses and filters songs using", "HTTPS")
+Rel(webapp, api, "Loaded the songbook once from", "GET /api/songs")
+@enduml

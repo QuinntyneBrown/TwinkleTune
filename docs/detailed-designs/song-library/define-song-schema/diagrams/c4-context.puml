@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Define the song schema
+
+Person(singer, "Child singer", "Sings songs personalized to their voice")
+System(webapp, "TwinkleTune web app", "Offline-first singing app; owns the canonical song shape and derived helpers")
+System(familyserver, "Family Server", "Optional home server that stores and serves the family songbook in the same shape")
+
+Rel(singer, webapp, "Sings and browses songs using", "HTTPS")
+Rel(webapp, familyserver, "Fetches songs in the shared shape from", "JSON/HTTPS")
+@enduml
