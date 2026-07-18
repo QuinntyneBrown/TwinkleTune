@@ -261,6 +261,11 @@ a{color:inherit}
 }
 .shake{animation:shake .3s ease 2}
 
+::view-transition-old(root){animation:.18s ease both route-out}
+::view-transition-new(root){animation:.24s cubic-bezier(.2,.8,.3,1) both route-in}
+@keyframes route-out{to{opacity:0;transform:translateY(-6px)}}
+@keyframes route-in{from{opacity:0;transform:translateY(10px)}}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
 }

@@ -5,26 +5,14 @@ import { store } from '../state/store'
 import { badgeById } from '../state/badges'
 import { mascotSVG, skyDecor, starSVG } from '../ui/parts'
 import { toast } from '../ui/modal'
+import { createReactiveScene, seedFromString } from '../rendering/reactive-scene'
 
-const CONFETTI_COLORS = ['#F4DBE3', '#5EA8DA', '#FFD66B', '#83C5F1', '#AFE3F4']
-
-function confettiHTML(): string {
-  const bits = Array.from({ length: 14 }, (_, i) => {
-    const left = 4 + i * 7
-    const color = CONFETTI_COLORS[i % CONFETTI_COLORS.length]
-    const dur = (3 + (i % 5) * 0.4).toFixed(1)
-    const delay = ((i % 7) * 0.3).toFixed(1)
-    return `<i style="left:${left}%;background:${color};animation-duration:${dur}s;animation-delay:${delay}s"></i>`
-  }).join('')
-  return `<div class="confetti" aria-hidden="true">${bits}</div>`
-}
-
-export function renderResults(root: HTMLElement, params: URLSearchParams): void {
+export function renderResults(root: HTMLElement, params: URLSearchParams): () => void {
   const state = store.get()
   const r = state.lastResult
   if (!r) {
     location.hash = '#/home'
-    return
+    return () => {}
   }
   const name = state.profile?.name ?? 'Superstar'
   const duet = params.get('duet') === '1' ? duetSession.get() : null
@@ -105,8 +93,8 @@ export function renderResults(root: HTMLElement, params: URLSearchParams): void 
       : ''
 
   root.innerHTML = `
+  <canvas class="reactive-scene reactive-scene--results" data-reactive-scene aria-hidden="true"></canvas>
   ${skyDecor()}
-  ${confettiHTML()}
   <main class="screen screen--center screen--nonav">
     ${mascotSVG('mascot pop', true)}
     <h1 class="whoop rise d1">${headline}, ${name}! 🎉
@@ -133,6 +121,18 @@ export function renderResults(root: HTMLElement, params: URLSearchParams): void 
       <a class="link-quiet rise d8" href="#/home" style="margin:6px auto 0" data-home>Home 🏠</a>
     </div>
   </main>`
+
+  const visual = createReactiveScene(root.querySelector('[data-reactive-scene]') as HTMLCanvasElement, {
+    kind: 'results',
+    seed: seedFromString(`${r.songId}:${r.sparkles}:${r.stars}`),
+  })
+  visual.update({
+    progress: 1,
+    onNote: !r.noMic && r.stars > 0,
+    intensity: r.noMic ? 0.55 : 0.55 + r.stars * 0.15,
+    streak: r.maxStreak,
+  })
+  visual.burst(r.noMic ? 0.65 : 0.7 + r.stars * 0.1)
 
   if (duet) {
     const box = root.querySelector('[data-duet-result]') as HTMLElement
@@ -178,4 +178,6 @@ export function renderResults(root: HTMLElement, params: URLSearchParams): void 
       void duetSession.end()
     })
   }
+
+  return () => visual.destroy()
 }

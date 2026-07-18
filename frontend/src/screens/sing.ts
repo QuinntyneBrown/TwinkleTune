@@ -9,6 +9,8 @@ import { foldCents, HIT_TOLERANCE_CENTS, noteLanded, summarize, type NoteResult 
 import { recordPlay, store, todayISO } from '../state/store'
 import { mascotSVG } from '../ui/parts'
 import { showModal, toast } from '../ui/modal'
+import { createReactiveScene, normalizeMicEnergy, seedFromString } from '../rendering/reactive-scene'
+import { SingingWakeLock } from '../ui/wake-lock'
 
 const PX_PER_BEAT = 90
 const MARKER_FRAC = 0.21
@@ -70,6 +72,7 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
 
   const player = new SongPlayer()
   const tracker = new PitchTracker()
+  const wakeLock = new SingingWakeLock()
   let noMic = false
   let raf = 0
   let started = false
@@ -90,6 +93,7 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
   let landedCount = 0
   let lastPhrase = -1
   let singerY = 150
+  let wasOnNote = false
 
   const keyChip = range
     ? `<span class="key-chip" title="${describeShift(shift)}">🎯 Your key ✓</span>`
@@ -99,6 +103,12 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
   <div class="sky" aria-hidden="true">
     <span class="tstar" style="top:12%;left:5%">✦</span>
     <span class="tstar" style="top:18%;right:7%;animation-delay:1s">✦</span>
+    <span class="fnote" style="top:24%;left:7%;font-size:30px;opacity:.62;animation-delay:.2s">♪</span>
+    <span class="fnote" style="top:34%;right:6%;font-size:26px;opacity:.58;animation-delay:1.1s">♫</span>
+    <span class="fnote" style="top:48%;left:4%;font-size:24px;opacity:.55;animation-delay:2.2s">♩</span>
+    <span class="fnote" style="top:57%;right:9%;font-size:32px;opacity:.6;animation-delay:.7s">♬</span>
+    <span class="fnote" style="top:71%;left:9%;font-size:27px;opacity:.58;animation-delay:1.6s">♫</span>
+    <span class="fnote" style="top:79%;right:5%;font-size:24px;opacity:.54;animation-delay:2.8s">♪</span>
   </div>
   <main class="screen screen--nonav">
     <header class="sing-top rise">
@@ -111,6 +121,7 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
     </header>
 
     <section class="stage rise d1" aria-label="Pitch game — match the notes" data-stage>
+      <canvas class="reactive-scene" data-reactive-scene aria-hidden="true"></canvas>
       <span class="streak-chip" data-streak>🔥 0 in a row!</span>
       <span class="opponent-chip" data-opponent hidden></span>
       <div class="note-track" data-track></div>
@@ -147,6 +158,10 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
   const nowEl = root.querySelector('[data-now]') as HTMLElement
   const nextEl = root.querySelector('[data-next]') as HTMLElement
   const opponentEl = root.querySelector('[data-opponent]') as HTMLElement
+  const visual = createReactiveScene(root.querySelector('[data-reactive-scene]') as HTMLCanvasElement, {
+    kind: 'sing',
+    seed: seedFromString(song.id),
+  })
 
   if (duet) {
     const opp = duet.opponent
@@ -275,7 +290,8 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
     }
 
     const total = untilBeat - fromBeat
-    progressEl.style.width = `${Math.max(0, Math.min(1, (beat - fromBeat) / total)) * 100}%`
+    const progress = Math.max(0, Math.min(1, (beat - fromBeat) / total))
+    progressEl.style.width = `${progress * 100}%`
 
     updateKaraoke(beat)
 
@@ -316,13 +332,25 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
       }
     }
     singer.classList.toggle('on-note', onNote)
+    if (onNote && !wasOnNote) visual.burst(0.55 + Math.min(0.45, streak / 20))
+    wasOnNote = onNote
 
     finalizeNotesUpTo(scoreBeat)
+    visual.update({
+      energy: frame ? normalizeMicEnergy(frame.rms) : 0,
+      onNote,
+      streak,
+      progress,
+      pitchY: singerY / stageH,
+      intensity: 0.45 + Math.min(0.5, streak / 20),
+    })
   }
 
   function begin(from = fromBeat, countIn = 4): void {
     started = true
     countdown.innerHTML = ''
+    visual.resume()
+    wakeLock.request()
     player.start(song, {
       transpose: shift,
       rate,
@@ -348,6 +376,8 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
 
     finished = true
     cancelAnimationFrame(raf)
+    wakeLock.suspend()
+    visual.burst(1)
     tracker.stop()
     const summary = summarize(song, results, noMic)
     recordPlay(store, song, summary, todayISO())
@@ -443,6 +473,8 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
     if (!started || finished) return
     const pausedBeat = Math.max(fromBeat, Math.floor(player.currentBeat()))
     player.stop()
+    wakeLock.suspend()
+    visual.pause()
     pausedModal = showModal({
       ariaLabel: 'Paused',
       dismissible: false,
@@ -506,6 +538,8 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
     cancelAnimationFrame(raf)
     player.stop()
     tracker.stop()
+    wakeLock.destroy()
+    visual.destroy()
     pausedModal?.close()
   }
 }

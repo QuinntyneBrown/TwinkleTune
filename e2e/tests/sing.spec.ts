@@ -3,6 +3,45 @@ import { FakeMic } from '../fixtures/fake-mic'
 import { readState, seedApp } from '../fixtures/seed'
 
 test.describe('Sing a song', () => {
+  test('falls back to Canvas2D and manages the singing wake lock', async ({
+    page,
+    fakeMic,
+    singPage,
+  }) => {
+    await page.addInitScript(() => {
+      Object.defineProperty(navigator, 'gpu', { configurable: true, value: undefined })
+      const stats = { requests: 0, releases: 0 }
+      Object.defineProperty(window, '__wakeLockStats', { value: stats })
+      Object.defineProperty(navigator, 'wakeLock', {
+        configurable: true,
+        value: {
+          request: async () => {
+            stats.requests++
+            const sentinel = new EventTarget() as EventTarget & { release: () => Promise<void> }
+            sentinel.release = async () => {
+              stats.releases++
+              sentinel.dispatchEvent(new Event('release'))
+            }
+            return sentinel
+          },
+        },
+      })
+    })
+    await seedApp(page)
+    await fakeMic.deny()
+    await singPage.open('hotcrossbuns')
+
+    await expect(singPage.reactiveScene).toHaveAttribute('data-renderer', 'canvas2d')
+    await singPage.startButton.click()
+    await singPage.singForFunButton.click()
+    await expect.poll(() => page.evaluate(() => (window as any).__wakeLockStats.requests)).toBe(1)
+
+    await singPage.pauseButton.click()
+    await expect.poll(() => page.evaluate(() => (window as any).__wakeLockStats.releases)).toBe(1)
+    await singPage.resumeButton.click()
+    await expect.poll(() => page.evaluate(() => (window as any).__wakeLockStats.requests)).toBe(2)
+  })
+
   test('no-mic "just for fun" play finishes the song and records the day', async ({
     page,
     fakeMic,
