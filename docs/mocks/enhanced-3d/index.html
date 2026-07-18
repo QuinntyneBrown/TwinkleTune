@@ -37,13 +37,10 @@
     border-radius:28px;padding:26px;box-shadow:0 20px 50px rgba(43,88,118,.16);
     display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
   .card:hover{transform:translateY(-4px);box-shadow:0 28px 60px rgba(43,88,118,.24)}
-  .thumb{height:180px;border-radius:20px;margin-bottom:20px;position:relative;overflow:hidden;
-    display:grid;place-items:center;font-size:60px}
-  .thumb.sky{background:radial-gradient(120% 120% at 30% 20%,#bfe6ff,#5EA8DA)}
-  .thumb.stage{background:radial-gradient(120% 120% at 60% 20%,#124a75,#0e3a5f)}
-  .thumb .float{position:absolute;font-size:22px;opacity:.85;animation:bob 4s ease-in-out infinite}
-  .thumb .f1{top:20px;left:24px} .thumb .f2{bottom:24px;right:30px;animation-delay:1.2s} .thumb .f3{top:40px;right:40px;animation-delay:.6s}
-  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  .thumb{height:200px;border-radius:20px;margin-bottom:20px;position:relative;overflow:hidden;
+    display:block;background:#dcebf7;box-shadow:inset 0 0 0 1px rgba(43,88,118,.08)}
+  .thumb img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+  .thumb.stage img{object-position:center}
   .card h2{font-family:var(--font-display);font-size:24px;margin-bottom:6px}
   .card p{color:var(--ink-soft);font-size:15px;line-height:1.55;font-weight:500;flex:1}
   .tags{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 18px}
@@ -82,8 +79,8 @@
 
     <div class="grid">
       <div class="card">
-        <div class="thumb sky"><span>⭐</span>
-          <span class="float f1">♪</span><span class="float f2">✦</span><span class="float f3">♫</span></div>
+        <a class="thumb sky" href="./marketing-hero.html">
+          <img src="./preview/marketing-hero.png" alt="Preview of the marketing hero mock: a WebGPU aurora sky with sparkle particles and a 3D-tilted product phone" loading="lazy" /></a>
         <h2>Marketing hero — living sky studio</h2>
         <p>
           The hero background becomes a procedural <b>aurora sky</b> painted every frame by a WebGPU
@@ -95,8 +92,8 @@
       </div>
 
       <div class="card">
-        <div class="thumb stage"><span>🎤</span>
-          <span class="float f1">✨</span><span class="float f2">🌟</span><span class="float f3">♬</span></div>
+        <a class="thumb stage" href="./sing-experience.html">
+          <img src="./preview/sing-experience.png" alt="Preview of the Sing! mock: a glowing reactive star avatar, live pitch readout, and scrolling pitch ribbon" loading="lazy" /></a>
         <h2>In-app Sing! — audio-reactive stage</h2>
         <p>
           The singing screen reacts to <b>live pitch</b>: the star avatar grows and glows, sparkle

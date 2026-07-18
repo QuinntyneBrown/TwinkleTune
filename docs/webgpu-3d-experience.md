@@ -13,6 +13,19 @@ Companion interactive mocks live in [`docs/mocks/enhanced-3d/`](mocks/enhanced-3
 | [`sing-experience.html`](mocks/enhanced-3d/sing-experience.html) | An **audio-reactive** Sing! screen: a star avatar that grows/glows with live pitch, on-note sparkle bursts, and a scrolling pitch ribbon. Driven by Web Audio (real mic) or a self-playing demo voice. |
 | [`index.html`](mocks/enhanced-3d/index.html) | Gallery + renderer-support notes. |
 
+### Preview
+
+**Marketing hero — live WebGPU sky + GPU sparkle particles + 3D-tilt stage**
+
+![Enhanced marketing hero mock: a procedural aurora sky rendered in WebGPU with GPU-instanced sparkle particles, brand-pastel palette, and a 3D-tilted product phone surrounded by floating glass benefit chips](mocks/enhanced-3d/preview/marketing-hero.png)
+
+**In-app Sing! — audio-reactive star, on-note sparkle bursts, live pitch ribbon**
+
+![Enhanced Sing! screen mock: a glowing star avatar reacting to live pitch, sparkle counters, a live G4 / 395 Hz note readout, and a scrolling pitch ribbon comparing the melody line to the child's voice](mocks/enhanced-3d/preview/sing-experience.png)
+
+> Screenshots captured running in Chromium; the hero shows the real WebGPU renderer active.
+> On GPU hardware the aurora is more vivid than in the software-rendered capture here.
+
 ---
 
 ## 1. Guiding principles
