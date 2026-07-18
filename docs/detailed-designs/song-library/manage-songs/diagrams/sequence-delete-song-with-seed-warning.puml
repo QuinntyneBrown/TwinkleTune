@@ -1,0 +1,61 @@
+@startuml
+title UML sequence behaviour — Delete a song with the seed warning
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "showSongManager" as manager
+  participant "Confirm modal" as confirm
+  participant "api.songs.remove" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "SongsController" as ctrl
+end box
+box "Backend — TwinkleTune Application and Domain" #ECFDF3
+  participant "SongService" as svc
+end box
+box "Backend — TwinkleTune Infrastructure" #FFF4E5
+  participant "SongRepository" as repo
+  database "Family database (SQLite)" as db
+end box
+
+actor -> manager : Tap delete on a song
+manager -> confirm : Open confirmation
+alt Song isSeed = true
+  confirm --> actor : "This is a built-in song - it will be gone from the family songbook" per SL-L2-11
+else Family-authored song
+  confirm --> actor : "Its family high scores go with it"
+end
+actor -> confirm : Confirm delete
+confirm -> client : DELETE /api/songs/{id}
+client -> ctrl : HTTPS request
+ctrl -> svc : DeleteAsync(id)
+svc -> repo : DeleteAsync(id)
+alt Row exists
+  repo -> db : DELETE row
+  db --> repo : Removed
+  repo --> svc : true
+  svc --> ctrl : true
+  ctrl --> client : 204 No Content per SL-L2-9
+  client --> manager : Removed
+  manager --> actor : Song no longer in the list
+else Unknown id
+  repo --> svc : false
+  svc --> ctrl : false
+  ctrl --> client : 404 Not Found per SL-L2-9
+  client --> manager : ApiError
+  manager --> actor : "Could not delete right now"
+end
+@enduml

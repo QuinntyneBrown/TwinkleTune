@@ -1,0 +1,68 @@
+@startuml
+title UML sequence behaviour — Create or update a song
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "songEditor" as editor
+  participant "api.songs" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "SongsController" as ctrl
+end box
+box "Backend — TwinkleTune Application and Domain" #ECFDF3
+  participant "SongService" as svc
+  participant "SongValidator" as validator
+end box
+box "Backend — TwinkleTune Infrastructure" #FFF4E5
+  participant "SongRepository" as repo
+  database "Family database (SQLite)" as db
+end box
+
+actor -> editor : Save the song
+editor -> client : POST or PUT /api/songs
+client -> ctrl : HTTPS request
+alt PUT to an unknown id
+  ctrl -> svc : UpdateAsync(id, request)
+  svc -> repo : GetAsync(id)
+  repo --> svc : null (Found = false)
+  svc --> ctrl : Found = false
+  ctrl --> client : 404 Not Found
+  client --> editor : ApiError
+  editor --> actor : "Could not find that song"
+else Target exists or is new
+  ctrl -> svc : CreateAsync / UpdateAsync(request)
+  svc -> svc : Trim Title and Emoji, set UpdatedAt per SL-L2-9
+  svc -> svc : Preserve IsSeed on update per SL-L2-11
+  svc -> validator : Validate(song)
+  alt Validation fails
+    validator --> svc : errors
+    svc --> ctrl : errors
+    ctrl --> client : 400 with errors array per SL-L2-10
+    client --> editor : ApiError.errors
+    editor --> actor : Show friendly messages per SL-L2-10
+  else Validation passes
+    validator --> svc : [] (no errors)
+    svc -> repo : AddAsync / UpdateAsync(song)
+    repo -> db : INSERT or UPDATE (Phrases JSON)
+    db --> repo : Saved
+    repo --> svc : ok
+    svc --> ctrl : Stored SongDto (GUID id, isSeed)
+    ctrl --> client : 201 Created or 200 OK per SL-L2-9
+    client --> editor : Saved song
+    editor --> actor : "Song saved!"
+  end
+end
+@enduml

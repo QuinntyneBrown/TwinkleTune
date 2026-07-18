@@ -1,0 +1,11 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Per-song transposition
+
+Person(child, "Child singer", "Plays songs tuned to her voice")
+System(app, "TwinkleTune web app", "Computes the per-song semitone shift from the saved range and the song's note span, on device")
+
+Rel(child, app, "Plays songs in")
+Rel(app, app, "Re-keys each song to the singer's range")
+@enduml

@@ -1,0 +1,10 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - Encourage during play
+
+Person(child, "Child", "Sings and watches for cheers")
+System(tt, "TwinkleTune web app", "Voice-personalized singing app (TypeScript, plain DOM)")
+
+Rel(child, tt, "Sees streaks, sparkles, and the tuned reveal", "Touch / reading")
+@enduml

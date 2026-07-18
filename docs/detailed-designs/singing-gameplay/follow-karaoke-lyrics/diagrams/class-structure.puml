@@ -1,0 +1,44 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure - Follow the karaoke lyrics
+
+class "renderSing (Sing! screen)" as Sing <<module>> {
+  -lastPhrase: number
+  -PHRASE_CHEERS: string[5]
+  -updateKaraoke(beat: number): void
+}
+
+class Song {
+  +id: string
+  +title: string
+  +phrases: SongPhrase[]
+}
+
+interface SongPhrase {
+  +lyric: string
+  +notes: SongNote[]
+}
+
+interface SongNote {
+  +midi: number
+  +start: number
+  +dur: number
+  +syll: string
+}
+
+Song "1" *-- "*" SongPhrase : phrases
+SongPhrase "1" *-- "*" SongNote : notes
+Sing ..> Song : reads phrases and syllables
+Sing ..> SongPhrase : styles now / prev / next
+@enduml

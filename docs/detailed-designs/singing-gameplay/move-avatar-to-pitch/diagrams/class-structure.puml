@@ -1,0 +1,48 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure - Move the avatar to the child's pitch
+
+class "renderSing (Sing! screen)" as Sing <<module>> {
+  -shift: number
+  -midiCenter: number
+  -singerY: number
+  -yFor(midi: number): number
+  -loop(): void
+}
+
+class PitchTracker {
+  +latest: PitchFrame | null
+  +running: boolean
+  +read(): PitchFrame | null
+  +start(): Promise<void>
+  +stop(): void
+}
+
+interface PitchFrame {
+  +hz: number
+  +midi: number
+  +clarity: number
+  +rms: number
+}
+
+class "range helpers" as Range <<module>> {
+  +computeShift(song, range): number
+  +songRange(song): { min, max }
+}
+
+Sing --> PitchTracker : reads pitch each frame
+PitchTracker ..> PitchFrame : returns
+Sing ..> PitchFrame : folds toward midiCenter
+Sing ..> Range : reads shift and centre
+@enduml

@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers - Encourage during play
+
+Person(child, "Child", "Sings and watches for cheers")
+System_Boundary(tt, "TwinkleTune") {
+  Container(web, "TwinkleTune web app", "TypeScript, plain DOM modules", "Produces streaks, sparkles, cheers, and the tuned reveal on-device")
+}
+
+Rel(child, web, "Sees streaks, sparkles, and the tuned reveal", "Touch / reading")
+@enduml

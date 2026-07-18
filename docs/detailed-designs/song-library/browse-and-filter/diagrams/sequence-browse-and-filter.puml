@@ -1,0 +1,44 @@
+@startuml
+title UML sequence behaviour — Browse and filter in place
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child singer" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "renderSongs / paint" as screen
+  participant "songCard" as card
+  participant "types.ts helpers" as helpers
+  participant "repo.ts" as repo
+end box
+
+actor -> screen : Open the song screen
+screen -> repo : currentSongs()
+repo --> screen : Resolved song list
+loop for each song
+  screen -> card : songCard(song, idx, live)
+  card -> helpers : songSeconds(song) and difficultyLabel(difficulty)
+  helpers --> card : Duration and label
+  card --> screen : Card with emoji art, title, duration, label per SL-L2-14
+end
+screen --> actor : Song cards shown (All active)
+
+actor -> screen : Select the "Brave" chip
+screen -> screen : filter = 3, mark chip active (aria-selected)
+screen -> screen : Toggle each card display where dataset.diff === filter per SL-L2-14
+note over screen
+  In-place filter over rendered cards; no re-fetch per SL-L2-14.
+  Re-selecting "All" (filter = 0) shows every card again.
+end note
+screen --> actor : Only difficulty-3 songs visible
+@enduml

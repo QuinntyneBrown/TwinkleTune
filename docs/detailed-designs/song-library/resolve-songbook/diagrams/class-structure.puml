@@ -1,0 +1,52 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Songbook resolution
+
+class SongRepo <<module: repo.ts>> {
+  -current: Song[]
+  -liveFromServer: boolean
+  -CACHE_KEY: "twinkletune:songs-cache"
+  -readCache(): Song[] | null
+  -fromApi(s: ApiSong): Song
+  +loadSongs(): Promise<{songs, online}>
+  +currentSongs(): Song[]
+  +songsAreLive(): boolean
+  +getSongById(id): Song | undefined
+  +isServerSongId(id): boolean
+}
+
+class ApiSongs <<module: api/client.ts>> {
+  +list(): Promise<ApiSong[]>
+}
+
+class Catalog <<module: catalog.ts>> {
+  +songs: Song[6]
+}
+
+class LocalStorage <<browser>> {
+  +getItem(key): string | null
+  +setItem(key, value): void
+}
+
+interface Song {
+  +id: string
+  +difficulty: 1 | 2 | 3
+  +phrases: SongPhrase[]
+}
+
+SongRepo ..> ApiSongs : awaits list()
+SongRepo ..> Catalog : bundled fallback
+SongRepo ..> LocalStorage : cache read / write
+SongRepo --> "0..*" Song : current
+@enduml

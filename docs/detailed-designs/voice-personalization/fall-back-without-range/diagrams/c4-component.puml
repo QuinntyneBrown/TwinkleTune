@@ -1,0 +1,19 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Standard-key fallback
+
+Container_Boundary(webapp, "TwinkleTune web app") {
+  Component(screen, "renderVoiceSetup", "voice-setup.ts", "Starts the tracker and shows the mic-denied dialog on rejection")
+  Component(tracker, "PitchTracker", "audio/pitch.ts", "Requests microphone access")
+  Component(dialog, "micDeniedDialog", "voice-setup.ts", "Offers 'Try again 🎤' or 'Do this later'")
+  Component(songsScreen, "renderSongs", "screens/songs.ts", "Plays and labels songs in a standard key when no range")
+  Component(shift, "computeShift", "audio/range.ts", "Returns 0 when no range is stored")
+}
+System_Ext(mic, "Browser microphone", "getUserMedia; access may be denied")
+
+Rel(screen, tracker, "Calls start()")
+Rel(tracker, mic, "Requests access through", "getUserMedia")
+Rel(screen, dialog, "Shows on denial")
+Rel(songsScreen, shift, "Requests the shift through (0 with no range)")
+@enduml

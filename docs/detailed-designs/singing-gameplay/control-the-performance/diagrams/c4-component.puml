@@ -1,0 +1,21 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - Control the performance
+
+Container_Boundary(web, "TwinkleTune web app") {
+  Component(begin, "begin(from, countIn)", "TypeScript function", "Starts playback; 4-beat or 2-beat count-in")
+  Component(finish, "finish", "TypeScript function", "Finalises, summarises, records, navigates")
+  Component(pause, "pauseDialog", "TypeScript function", "Pause menu: resume / restart / exit")
+  Component(player, "SongPlayer", "Web Audio module (Audio Engine)", "start / stop / currentBeat")
+  Component(record, "summarize / recordPlay", "Scoring and store", "Persists rewards and progress")
+}
+System_Ext(audio, "Browser Web Audio", "Playback source")
+
+Rel(begin, player, "start(song, PlayOptions)")
+Rel(player, audio, "Schedules tones and clicks", "Web Audio API")
+Rel(pause, player, "stop() so the song does not advance")
+Rel(pause, begin, "resume (2-beat) / restart (4-beat)")
+Rel(finish, record, "summarize then recordPlay")
+Rel(begin, finish, "onDone at segment end")
+@enduml

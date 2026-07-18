@@ -1,0 +1,17 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Bundle the offline catalogue
+
+Person(singer, "Child singer", "Plays fully offline")
+
+System_Boundary(twinkletune, "TwinkleTune") {
+  Container(webapp, "TwinkleTune web app", "TypeScript, DOM modules", "catalog.ts compiles the six bundled songs into the app")
+  Container(api, "TwinkleTune API", "ASP.NET Core (.NET 10)", "SeedData writes the identical six songs on first run")
+  ContainerDb(db, "Family database", "SQLite via EF Core", "Holds the seeded songs")
+}
+
+Rel(singer, webapp, "Sings the bundled songs using", "HTTPS")
+Rel(api, db, "Seeds the six songs into", "EF Core")
+Rel(webapp, api, "Bundled catalogue kept note-for-note in parity with seed data", "Design invariant")
+@enduml

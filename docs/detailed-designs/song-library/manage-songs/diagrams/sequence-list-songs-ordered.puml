@@ -1,0 +1,45 @@
+@startuml
+title UML sequence behaviour — List songs ordered
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "showSongManager" as manager
+  participant "api.songs.list" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "SongsController" as ctrl
+end box
+box "Backend — TwinkleTune Application and Domain" #ECFDF3
+  participant "SongService" as svc
+end box
+box "Backend — TwinkleTune Infrastructure" #FFF4E5
+  participant "SongRepository" as repo
+  database "Family database (SQLite)" as db
+end box
+
+actor -> manager : Open the songbook manager
+manager -> client : list()
+client -> ctrl : GET /api/songs
+ctrl -> svc : GetAllAsync()
+svc -> repo : GetAllAsync()
+repo -> db : SELECT ... ORDER BY Difficulty, Title per SL-L2-12
+db --> repo : Rows easiest-first, ties by title
+repo --> svc : List<Song> ordered
+svc --> ctrl : List<SongDto>
+ctrl --> client : 200 song list
+client --> manager : ApiSong[] ordered
+manager --> actor : Rows shown easiest-first, seeds tagged built-in
+@enduml

@@ -1,0 +1,19 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Resolve the songbook
+
+Person(singer, "Child singer", "Browses and sings")
+
+System_Boundary(twinkletune, "TwinkleTune") {
+  Container(webapp, "TwinkleTune web app", "TypeScript, DOM modules", "repo.ts resolves server, cache, or bundle")
+  ContainerDb(cache, "Songbook cache", "Browser localStorage", "twinkletune:songs-cache last server list")
+  Container(api, "TwinkleTune API", "ASP.NET Core (.NET 10)", "Serves the family song list at GET /api/songs")
+  ContainerDb(db, "Family database", "SQLite via EF Core", "Stores the family songs")
+}
+
+Rel(singer, webapp, "Uses", "HTTPS")
+Rel(webapp, api, "Fetches song list from when reachable", "GET /api/songs")
+Rel(webapp, cache, "Writes on success, reads when offline", "localStorage")
+Rel(api, db, "Reads songs from", "EF Core")
+@enduml

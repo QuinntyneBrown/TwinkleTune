@@ -1,0 +1,43 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Browse and filter songs
+
+class SongsScreen <<module: screens/songs.ts>> {
+  -filter: 0 | 1 | 2 | 3
+  +renderSongs(root: HTMLElement): void
+  -songCard(song, idx, live): string
+  -paint(songs, live): void
+  -fmtDuration(sec: number): string
+}
+
+class TypesHelpers <<module: types.ts>> {
+  +songSeconds(s: Song, rate): number
+  +difficultyLabel(d: 1|2|3): string
+}
+
+class SongRepo <<module: repo.ts>> {
+  +currentSongs(): Song[]
+}
+
+interface Song {
+  +emoji: string
+  +title: string
+  +art: 1 | 2 | 3 | 4
+  +difficulty: 1 | 2 | 3
+}
+
+SongsScreen ..> TypesHelpers : duration and label
+SongsScreen ..> SongRepo : reads currentSongs()
+SongsScreen ..> Song : renders one card each
+@enduml

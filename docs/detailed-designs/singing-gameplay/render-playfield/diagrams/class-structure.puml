@@ -1,0 +1,62 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure - Render the scrolling playfield
+
+class "renderSing (Sing! screen)" as Sing <<module>> {
+  +renderSing(root, params): () => void
+  -PX_PER_BEAT = 90
+  -MARKER_FRAC = 0.21
+  -windowNotes: TimedNote[]
+  -yFor(midi: number): number
+  -markerX(): number
+  -loop(): void
+  -begin(from: number, countIn: number): void
+}
+
+interface SongNote {
+  +midi: number
+  +start: number
+  +dur: number
+  +syll: string
+}
+
+interface TimedNote {
+  +phraseIdx: number
+  +noteIdx: number
+  +el?: HTMLElement
+}
+
+class SongPlayer {
+  +playing: boolean
+  +start(song, opts: PlayOptions): void
+  +currentBeat(): number
+  +secondsPerBeat(): number
+  +stop(): void
+}
+
+interface PlayOptions {
+  +transpose?: number
+  +rate?: number
+  +fromBeat?: number
+  +untilBeat?: number
+  +countInBeats?: number
+  +onDone?: () => void
+}
+
+SongNote <|-- TimedNote
+Sing ..> TimedNote : builds pills from
+Sing --> SongPlayer : reads beat clock
+Sing ..> PlayOptions : passes countInBeats
+SongPlayer ..> PlayOptions : configured by
+@enduml

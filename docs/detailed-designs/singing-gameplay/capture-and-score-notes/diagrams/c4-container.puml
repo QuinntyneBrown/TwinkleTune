@@ -1,0 +1,18 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers - Capture and score notes
+
+Person(child, "Child", "Sings into the tablet")
+System_Boundary(tt, "TwinkleTune") {
+  Container(web, "TwinkleTune web app", "TypeScript, plain DOM modules", "Captures per-note frames and finalises notes on-device")
+}
+System_Ext(mic, "Browser microphone and Web Audio", "getUserMedia / Web Audio API")
+System_Boundary(server, "Family Server") {
+  Container(hub, "Duet relay hub", "ASP.NET Core SignalR", "Relays score ticks between duet partners (Duet Multiplayer)")
+}
+
+Rel(child, web, "Sings; sees cheers and sparkles", "Voice / touch")
+Rel(web, mic, "Reads a pitch frame each animation frame", "Web Audio API")
+Rel(web, hub, "sendTick once per finalised note (duet mode)", "SignalR/WSS")
+@enduml

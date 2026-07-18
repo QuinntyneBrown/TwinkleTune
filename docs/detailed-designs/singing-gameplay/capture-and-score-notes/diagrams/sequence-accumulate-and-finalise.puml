@@ -1,0 +1,55 @@
+@startuml
+title UML sequence - Accumulate then finalise a note (capture and score notes)
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child" as child
+box "Frontend - TwinkleTune web app" #E0F2FE
+  participant "renderSing loop()" as rloop
+  participant "PitchTracker" as tracker
+  participant "scoring helpers" as scoring
+  participant "NoteResult tallies" as results
+  participant "finalizeNotesUpTo" as finalize
+  participant "DuetClient" as duet
+end box
+box "Backend - Family Server (Duet relay)" #D1FADF
+  participant "Duet relay hub" as hub
+end box
+
+child -> rloop : requestAnimationFrame tick
+rloop -> rloop : scoreBeat = beat - latencyBeats per SG-L2-19
+rloop -> tracker : read()
+tracker --> rloop : PitchFrame or null
+rloop -> rloop : activeIdx = note at scoreBeat (i >= finalizedUpTo)
+opt active note present
+  rloop -> results : totalFrames++ per SG-L2-9
+  rloop -> scoring : foldCents(frame.midi, note.midi + shift)
+  scoring --> rloop : cents
+  opt abs(cents) <= 50
+    rloop -> results : hitFrames++; firstHitFrac on first hit per SG-L2-9
+  end
+end
+rloop -> finalize : finalizeNotesUpTo(scoreBeat)
+finalize -> scoring : noteLanded(r)
+alt landed per SG-L2-10
+  scoring --> finalize : true
+  finalize -> finalize : landedCount++; streak+1; pill .hit; cheer; sparkles = landedCount*10
+else missed per SG-L2-10
+  scoring --> finalize : false
+  finalize -> finalize : setStreak(0); no negative message
+end
+finalize -> duet : sendTick({landed, streak, sparkles, noteIdx}) per SG-L2-22
+duet -> hub : ScoreTick (errors swallowed)
+finalize --> child : cheers and sparkle count in time
+@enduml

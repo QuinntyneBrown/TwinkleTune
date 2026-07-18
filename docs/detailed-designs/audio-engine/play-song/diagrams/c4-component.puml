@@ -1,0 +1,25 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Play a song (player.ts)
+
+Container_Boundary(engine, "Audio engine — playback (player.ts)") {
+  Component(player, "SongPlayer", "TypeScript class", "Schedules count-in and melody with transpose, rate, and segment bounds")
+  Component(tone, "tone()", "SongPlayer method", "Triangle oscillator + sub-octave sine shaped by an ADSR gain envelope")
+  Component(click, "click()", "SongPlayer method", "Count-in metronome click")
+  Component(preview, "playNote()", "Module function", "Single-note preview tone")
+  Component(ctxfn, "audioCtx()", "Module function", "Lazily creates and resumes the shared AudioContext")
+  Component(range, "midiToHz()", "range.ts helper", "Equal-temperament MIDI to frequency")
+}
+System_Ext(webaudio, "Browser Web Audio API", "Oscillator and gain nodes, destination")
+
+Rel(player, tone, "Schedules each in-window note via")
+Rel(player, click, "Schedules count-in clicks via")
+Rel(player, ctxfn, "Obtains shared context via")
+Rel(player, range, "Converts note.midi + transpose via")
+Rel(preview, ctxfn, "Obtains shared context via")
+Rel(preview, range, "Converts midi via")
+Rel(tone, webaudio, "Creates oscillators and gains in")
+Rel(click, webaudio, "Creates oscillator and gain in")
+Rel(ctxfn, webaudio, "Creates and resumes AudioContext in")
+@enduml

@@ -1,0 +1,21 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - Handle the microphone and fun mode
+
+Container_Boundary(web, "TwinkleTune web app") {
+  Component(startflow, "startFlow", "TypeScript function", "Tries the mic; begins or falls back")
+  Component(tracker, "PitchTracker", "Audio Engine module", "start() throws when the mic is denied; stop() releases it")
+  Component(micdialog, "micDialog", "TypeScript function", "Non-dismissible retry / fun / back choice")
+  Component(begin, "begin / noMic path", "TypeScript function", "Plays with or without scoring")
+  Component(teardown, "teardown closure", "TypeScript function", "Cancels RAF; stops player and tracker; closes modal")
+}
+System_Ext(mic, "Browser microphone and Web Audio", "Mic and playback")
+
+Rel(startflow, tracker, "await start()")
+Rel(tracker, mic, "getUserMedia / analyser", "Web Audio API")
+Rel(startflow, micdialog, "On permission failure")
+Rel(startflow, begin, "On grant")
+Rel(micdialog, begin, "Fun mode: noMic = true")
+Rel(teardown, tracker, "stop() releases the mic")
+@enduml

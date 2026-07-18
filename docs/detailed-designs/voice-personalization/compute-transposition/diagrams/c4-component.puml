@@ -1,0 +1,18 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Per-song transposition
+
+Container_Boundary(webapp, "TwinkleTune web app") {
+  Component(caller, "renderSongs / play flow", "screen modules", "Requests the shift for a song about to be shown or sung")
+  Component(shift, "computeShift", "audio/range.ts", "Rounds range-centre minus span-centre and bounds it")
+  Component(clampc, "clamp", "audio/range.ts", "Bounds the shift to the inclusive range −6..+6")
+  Component(span, "songRange", "songs/types.ts", "Returns the {min, max} MIDI span of a song's notes")
+  Component(desc, "describeShift", "audio/range.ts", "Renders the shift as kid-friendly words")
+}
+
+Rel(caller, shift, "Calls with (song, range)")
+Rel(shift, span, "Reads the note span through")
+Rel(shift, clampc, "Bounds the result through")
+Rel(caller, desc, "Describes the shift through")
+@enduml

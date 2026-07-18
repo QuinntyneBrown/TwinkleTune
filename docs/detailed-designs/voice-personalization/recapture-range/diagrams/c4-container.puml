@@ -1,0 +1,16 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Re-capture the range
+
+Person(child, "Child singer", "Re-runs capture")
+Person(grownup, "Grown-up", "Triggers Re-do")
+System_Boundary(tt, "TwinkleTune") {
+  Container(webapp, "TwinkleTune web app", "TypeScript, plain DOM modules", "Routes each entry point to capture and overwrites the range on finish")
+  ContainerDb(store, "Browser storage", "Web Storage API", "Holds the active profile and its range")
+}
+
+Rel(child, webapp, "Re-runs capture in", "on device")
+Rel(grownup, webapp, "Triggers Re-do in", "on device")
+Rel(webapp, store, "Overwrites the range in", "Web Storage")
+@enduml

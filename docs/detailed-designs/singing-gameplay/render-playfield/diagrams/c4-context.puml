@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - Render the scrolling playfield
+
+Person(child, "Child", "Sings along on a tablet")
+System(tt, "TwinkleTune web app", "Voice-personalized singing app (TypeScript, plain DOM)")
+System_Ext(audio, "Browser Web Audio", "Synthesizes the melody and supplies the beat clock")
+
+Rel(child, tt, "Taps to start and watches the playfield", "Touch")
+Rel(tt, audio, "Reads the beat clock and plays the melody", "Web Audio API")
+@enduml

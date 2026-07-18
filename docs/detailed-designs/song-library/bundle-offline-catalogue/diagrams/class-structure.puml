@@ -1,0 +1,65 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Bundled catalogue and seed parity
+
+package "Frontend — TwinkleTune web app" {
+  class Catalog <<module: catalog.ts>> {
+    +songs: Song[6]
+    +n(midi, start, dur, syll): SongNote
+    +getSong(id: string): Song?
+  }
+  interface Song {
+    +id: string
+    +title: string
+    +emoji: string
+    +art: 1 | 2 | 3 | 4
+    +bpm: number
+    +difficulty: 1 | 2 | 3
+    +phrases: SongPhrase[]
+  }
+  class CatalogTests <<catalog.test.ts>> {
+    +sixSongsUniqueIds()
+    +phrasesHaveNotesAndLyrics()
+    +positiveLengthSyllables()
+    +orderedWithoutOverlap()
+    +rangeC3toC6spanLE16()
+    +sensibleLength()
+  }
+}
+
+package "Backend — Family Server (Infrastructure)" {
+  class SeedData <<static>> {
+    +EnsureSeededAsync(db, ct): Task
+    -Make(title, emoji, art, bpm, difficulty, phrases): Song
+    -N(midi, start, dur, syll): SongNote
+    -Twinkle(): Song
+    -Mary(): Song
+    -HotCrossBuns(): Song
+    -LondonBridge(): Song
+    -OldMacDonald(): Song
+    -RowYourBoat(): Song
+  }
+  class SongEntity as "Song" {
+    +Id: Guid
+    +Title: string
+    +IsSeed: bool
+    +Phrases: List<SongPhrase>
+  }
+}
+
+Catalog "1" *-- "6" Song : songs
+CatalogTests ..> Catalog : asserts invariants
+SeedData ..> SongEntity : builds six (IsSeed = true)
+Catalog ..> SeedData : note-for-note parity
+@enduml

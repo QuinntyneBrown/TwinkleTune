@@ -1,0 +1,75 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Managing songs
+
+class SongsController {
+  +GetAll(ct): List<SongDto>
+  +Get(id, ct): IActionResult
+  +Create(req, ct): IActionResult
+  +Update(id, req, ct): IActionResult
+  +Delete(id, ct): IActionResult
+}
+
+interface ISongService {
+  +GetAllAsync(ct): List<SongDto>
+  +CreateAsync(request): (SongDto?, Errors)
+  +UpdateAsync(id, request): (SongDto?, Errors, Found)
+  +DeleteAsync(id): bool
+}
+class SongService {
+  -songs: ISongRepository
+  -time: TimeProvider
+}
+
+interface ISongRepository {
+  +GetAllAsync(ct): List<Song>
+  +GetAsync(id): Song?
+  +AddAsync(song): Task
+  +UpdateAsync(song): Task
+  +DeleteAsync(id): bool
+}
+class SongRepository {
+  +GetAllAsync(): OrderBy Difficulty ThenBy Title
+}
+
+class SongEntity as "Song" {
+  +Id: Guid
+  +Title: string
+  +Emoji: string
+  +IsSeed: bool
+  +UpdatedAt: DateTimeOffset
+}
+
+class SaveSongRequest {
+  +Title: string
+  +Emoji: string
+  +Art: int
+  +Bpm: int
+  +Difficulty: int
+  +Phrases: List<SongPhraseDto>
+}
+class SongDto {
+  +Id: Guid
+  +IsSeed: bool
+  +Phrases: List<SongPhraseDto>
+}
+
+SongsController ..> ISongService : dispatches
+SongService ..|> ISongService
+SongService --> ISongRepository : uses
+SongRepository ..|> ISongRepository
+SongService ..> SongEntity : trims, validates, preserves IsSeed
+SongsController ..> SaveSongRequest : binds
+SongService ..> SongDto : returns
+@enduml

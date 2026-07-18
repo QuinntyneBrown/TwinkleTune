@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Bundle the offline catalogue
+
+Person(singer, "Child singer", "Sings on first launch with no network or setup")
+System(webapp, "TwinkleTune web app", "Ships the six bundled public-domain songs for fully offline play")
+System(familyserver, "Family Server", "Optional home server seeded with the identical six songs")
+
+Rel(singer, webapp, "Sings the bundled songs using", "HTTPS")
+Rel(webapp, familyserver, "Kept in note-for-note parity with", "Seed data")
+@enduml

@@ -1,0 +1,39 @@
+@startuml
+title UML sequence - Note-landed feedback (encourage during play)
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child" as child
+box "Frontend - TwinkleTune web app" #E0F2FE
+  participant "finalizeNotesUpTo" as finalize
+  participant "setStreak" as streak
+  participant "Streak chip (DOM)" as chip
+  participant "Sparkle pill (DOM)" as sparkles
+  participant "cheerPop / toast" as cheer
+end box
+
+finalize -> finalize : note landed -> landedCount++
+finalize -> streak : setStreak(streak + 1)
+alt streak >= 3 per SG-L2-11
+  streak -> chip : show "N in a row"
+else streak < 3 per SG-L2-11
+  streak -> chip : hide chip
+end
+opt streak % 5 == 0 per SG-L2-11
+  streak -> cheer : toast milestone "N in a row"
+end
+finalize -> sparkles : set to landedCount * 10 per SG-L2-12
+finalize -> cheer : cheerPop random cheer
+cheer --> child : cheer, streak, and rising sparkle count
+@enduml

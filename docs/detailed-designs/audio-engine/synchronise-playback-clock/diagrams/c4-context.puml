@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Synchronise playback clock
+
+Person(child, "Child", "Sings along while visuals follow the beat")
+System(twinkle, "TwinkleTune web app", "On-device singing app; exposes a musical position clock and completion signal (TypeScript, Web Audio)")
+System_Ext(browser, "Browser Web Audio & timers", "AudioContext clock (currentTime) and setTimeout")
+
+Rel(child, twinkle, "Plays a song in")
+Rel(twinkle, browser, "Reads currentTime; arms and clears setTimeout", "Web Audio")
+@enduml

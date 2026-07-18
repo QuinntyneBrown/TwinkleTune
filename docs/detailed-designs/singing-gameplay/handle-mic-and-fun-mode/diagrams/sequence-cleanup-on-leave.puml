@@ -1,0 +1,37 @@
+@startuml
+title UML sequence - Cleanup on leaving (handle the microphone and fun mode)
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child" as child
+box "Frontend - TwinkleTune web app" #E0F2FE
+  participant "Router (hash)" as router
+  participant "teardown closure" as teardown
+  participant "SongPlayer" as player
+  participant "PitchTracker" as tracker
+  participant "pause menu (modal)" as modal
+end box
+box "Device - Browser microphone" #FFF4E5
+  participant "Media tracks" as mic
+end box
+
+child -> router : navigate away from #/sing
+router -> teardown : dispose()
+teardown -> teardown : finished = true; cancelAnimationFrame(raf) per SG-L2-21
+teardown -> player : stop() per SG-L2-21
+teardown -> tracker : stop()
+tracker -> mic : stop each track (release the microphone) per SG-L2-21
+teardown -> modal : pausedModal?.close() per SG-L2-21
+teardown --> child : screen fully released
+@enduml

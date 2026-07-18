@@ -1,0 +1,28 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Manage songs
+
+Container_Boundary(webapp, "TwinkleTune web app") {
+  Component(manager, "showSongManager", "ui/managers.ts", "Lists songs, tags seeds, seed-aware delete copy")
+  Component(editor, "songEditor", "ui/managers.ts", "Create/edit form; surfaces ApiError.errors")
+  Component(client, "api.songs", "api/client.ts", "list / create / update / remove")
+}
+
+Container_Boundary(api, "TwinkleTune API") {
+  Component(ctrl, "SongsController", "ASP.NET Core controller", "200/201/204/400/404")
+  Component(svc, "SongService", "Application service", "Trim, validate, set UpdatedAt, preserve IsSeed")
+  Component(validator, "SongValidator", "Domain validator", "Rejects invalid songs")
+  Component(repo, "SongRepository", "EF Core repository", "OrderBy Difficulty ThenBy Title")
+  ComponentDb(db, "Family database", "SQLite", "Song rows")
+}
+
+Rel(manager, editor, "Opens for new/edit")
+Rel(manager, client, "list / remove")
+Rel(editor, client, "create / update")
+Rel(client, ctrl, "REST", "JSON/HTTPS")
+Rel(ctrl, svc, "CreateAsync / UpdateAsync / DeleteAsync / GetAllAsync")
+Rel(svc, validator, "Validate before write")
+Rel(svc, repo, "Add / Update / Delete / GetAll")
+Rel(repo, db, "Reads and writes")
+@enduml

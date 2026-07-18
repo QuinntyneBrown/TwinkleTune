@@ -1,0 +1,44 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure - Handle the microphone and fun mode
+
+class "renderSing (Sing! screen)" as Sing <<module>> {
+  -noMic: boolean
+  -raf: number
+  -pausedModal: { close } | null
+  -startFlow(): Promise<void>
+  -micDialog(): void
+  -teardown(): void
+}
+
+class PitchTracker {
+  +running: boolean
+  +start(): Promise<void>
+  +read(): PitchFrame | null
+  +stop(): void
+}
+
+class SongPlayer {
+  +start(song, opts): void
+  +stop(): void
+}
+
+class "ui/modal" as Modal <<module>> {
+  +showModal(opts): { close }
+}
+
+Sing --> PitchTracker : start() / stop()
+Sing --> SongPlayer : start() / stop()
+Sing ..> Modal : micDialog via showModal (dismissible false)
+@enduml

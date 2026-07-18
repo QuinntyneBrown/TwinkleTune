@@ -1,0 +1,49 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure - Control the performance
+
+class "renderSing (Sing! screen)" as Sing <<module>> {
+  -practicePhrase: number | null
+  -rate: number
+  -begin(from: number, countIn: number): void
+  -finish(): void
+  -pauseDialog(): void
+}
+
+class SongPlayer {
+  +playing: boolean
+  +start(song, opts: PlayOptions): void
+  +currentBeat(): number
+  +stop(): void
+}
+
+interface PlayOptions {
+  +transpose?: number
+  +rate?: number
+  +fromBeat?: number
+  +untilBeat?: number
+  +countInBeats?: number
+  +onDone?: () => void
+}
+
+class "scoring / store" as Persist <<module>> {
+  +summarize(song, results, noMic): SongSummary
+  +recordPlay(store, song, summary, todayISO): void
+}
+
+Sing --> SongPlayer : begin() starts / pauseDialog() stops
+Sing ..> PlayOptions : countInBeats 4 or 2
+SongPlayer ..> PlayOptions : configured by
+Sing ..> Persist : finish() summarizes and records
+@enduml

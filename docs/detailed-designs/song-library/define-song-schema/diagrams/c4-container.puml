@@ -1,0 +1,17 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Define the song schema
+
+Person(singer, "Child singer", "Sings and browses songs")
+
+System_Boundary(twinkletune, "TwinkleTune") {
+  Container(webapp, "TwinkleTune web app", "TypeScript, DOM modules", "Defines Song / SongPhrase / SongNote and the derived helpers")
+  Container(api, "TwinkleTune API", "ASP.NET Core (.NET 10)", "Serves songs in the shared shape; mirrors it with C# records and DTOs")
+  ContainerDb(db, "Family database", "SQLite via EF Core", "Persists each song's phrases as one JSON document")
+}
+
+Rel(singer, webapp, "Uses", "HTTPS")
+Rel(webapp, api, "Fetches songs from", "JSON/HTTPS")
+Rel(api, db, "Reads and writes", "EF Core JSON value converter")
+@enduml

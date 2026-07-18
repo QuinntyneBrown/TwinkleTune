@@ -1,0 +1,19 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Browse and filter songs
+
+Container_Boundary(webapp, "TwinkleTune web app") {
+  Component(render, "renderSongs", "screens/songs.ts", "Builds chip row and card list; binds filter handler")
+  Component(card, "songCard / paint", "screens/songs.ts", "Renders each card with emoji, title, duration, difficulty")
+  Component(fmt, "fmtDuration", "screens/songs.ts", "Formats seconds as m:ss")
+  Component(helpers, "songSeconds / difficultyLabel", "songs/types.ts", "Derived duration and label")
+  Component(repo, "currentSongs", "songs/repo.ts", "Supplies the already-resolved list")
+}
+
+Rel(render, card, "Paints cards, applies active filter")
+Rel(render, repo, "Reads currentSongs()")
+Rel(card, fmt, "Formats duration")
+Rel(card, helpers, "songSeconds and difficultyLabel")
+Rel(render, card, "Chip click toggles card display in place (no re-fetch)")
+@enduml

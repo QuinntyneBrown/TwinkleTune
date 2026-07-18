@@ -1,0 +1,38 @@
+@startuml
+title UML sequence behaviour — Read the clock during play
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Gameplay render loop" as game
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "SongPlayer" as player
+end box
+box "Device — Browser Web Audio & timers" #FFF4E5
+  participant "audioCtx() : AudioContext" as ctx
+end box
+
+loop each animation frame
+  game -> player : currentBeat() (AE-L2-6)
+  alt playing
+    player -> ctx : audioCtx().currentTime
+    ctx --> player : now
+    player -> player : startBeat - countIn + (now - t0) / spb (AE-L2-6)
+    player --> game : beat (negative during count-in, rising after)
+  else not playing
+    player --> game : startBeat - countIn (AE-L2-6)
+  end
+  game -> player : secondsPerBeat() (AE-L2-6)
+  player --> game : spb
+end
+@enduml

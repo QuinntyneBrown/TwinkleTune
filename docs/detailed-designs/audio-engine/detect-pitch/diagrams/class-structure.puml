@@ -1,0 +1,49 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Detect pitch
+
+class PitchTracker {
+  +latest: PitchFrame?
+  -media: MediaStream?
+  -source: MediaStreamAudioSourceNode?
+  -analyser: AnalyserNode?
+  -buf: Float32Array
+  -detector: PitchDetector
+  -history: number[]
+  +running: boolean
+  +start(): Promise<void>
+  +read(): PitchFrame?
+  +stop(): void
+}
+
+interface PitchFrame {
+  +hz: number
+  +midi: number
+  +clarity: number
+  +rms: number
+}
+
+class "PitchDetector" as Detector <<pitchy>> {
+  +forFloat32Array(size: number): PitchDetector
+  +findPitch(buf, sampleRate): [number, number]
+}
+
+class "range.ts" as RangeMod <<module>> {
+  +hzToMidi(hz: number): number
+}
+
+PitchTracker --> "0..1" PitchFrame : latest
+PitchTracker ..> Detector : findPitch
+PitchTracker ..> RangeMod : hzToMidi
+@enduml

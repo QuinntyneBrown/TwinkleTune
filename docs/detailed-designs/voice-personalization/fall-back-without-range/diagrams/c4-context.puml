@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Standard-key fallback
+
+Person(child, "Child singer", "Plays even when the microphone is off or no range is set")
+System(app, "TwinkleTune web app", "Offers to retry or defer on mic denial and plays in a standard key with no range, on device")
+System_Ext(mic, "Browser microphone", "getUserMedia; access may be denied")
+
+Rel(child, app, "Plays songs in")
+Rel(app, mic, "Requests access from (may be denied)", "getUserMedia")
+@enduml

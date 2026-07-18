@@ -1,0 +1,69 @@
+@startuml
+title UML sequence behaviour — Capture a note in Find My Voice
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child singer" as child
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "renderVoiceSetup" as screen
+  participant "PitchTracker" as tracker
+  participant "StablePitchCapture" as capture
+  participant "playNote" as player
+end box
+box "Frontend — Browser Web Audio" #E0F2FE
+  participant "Microphone (getUserMedia)" as mic
+end box
+
+child -> screen : Tap "I'm ready — listen! 🎤" (VP-L2-1)
+screen -> tracker : start()
+tracker -> mic : getUserMedia()
+mic --> tracker : Live audio stream
+screen -> screen : phase = 'low', setSteps(2) (VP-L2-1)
+note over screen : Coach bubble uses playful imagery, no notation (VP-L2-7)
+
+loop every animation frame until a note locks
+  tracker -> tracker : read()
+  tracker --> screen : frame {midi} or null
+  screen -> screen : paintLadder — rung clamp(floor((m-48)/3),0,11) (VP-L2-2)
+  alt pitch present
+    screen -> capture : feed(midi)
+    capture -> capture : push onto 40-frame window (VP-L2-3)
+    alt window full and p90 - p10 <= 1.0 semitone
+      capture --> screen : median pitch (lock) (VP-L2-3)
+    else not yet stable
+      capture --> screen : null (report progress %)
+    end
+  else silent frame
+    screen -> capture : feed(null)
+    opt silence exceeds 8 consecutive frames
+      capture -> capture : reset() the buffer (VP-L2-4)
+    end
+  end
+end
+
+screen -> screen : captured(round(median))
+alt low phase
+  screen -> screen : lowMidi = m; markCaptured rung (VP-L2-5)
+  screen -> player : playNote(low)
+  player --> child : Hears her low note
+  screen --> child : Toast "Got it! Your cozy low note …🌊"; advance to high (VP-L2-5, VP-L2-1)
+else high phase and H < lowMidi + 4
+  screen -> capture : reset()
+  screen --> child : Toast "reach a little higher! 🐦"; stay in high (VP-L2-6)
+else high phase and H >= lowMidi + 4
+  screen -> player : playNote(high)
+  player --> child : Hears her high note
+  screen -> screen : finish(low, high) — capture complete (VP-L2-6)
+end
+@enduml

@@ -1,0 +1,56 @@
+@startuml
+title UML sequence behaviour — Validate on the client and the server
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "songEditor" as editor
+  participant "validateSong" as vClient
+  participant "api.songs.create" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "SongsController" as ctrl
+end box
+box "Backend — TwinkleTune Application and Domain" #ECFDF3
+  participant "SongService" as svc
+  participant "SongValidator" as vServer
+end box
+
+actor -> editor : Edit fields and press Save
+editor -> vClient : validateSong(song) per SL-L2-7
+alt Client finds a broken invariant
+  vClient --> editor : ["Note 3: midi 90 is outside 48-84 (C3-C6)"]
+  editor --> actor : Show friendly messages, block save
+else Client rule-set passes
+  vClient --> editor : [] (no errors)
+  editor -> client : POST /api/songs
+  client -> ctrl : HTTPS request
+  ctrl -> svc : CreateAsync(request)
+  svc -> vServer : Validate(song) per SL-L2-8 (same thresholds)
+  alt Server finds a broken invariant (e.g. span > 16)
+    vServer --> svc : ["The melody spans 18 semitones - keep it within 16"]
+    svc --> ctrl : errors
+    ctrl --> client : 400 with errors array
+    client --> editor : ApiError.errors
+    editor --> actor : Show the same rule messages
+  else Server rule-set passes
+    vServer --> svc : [] (no errors)
+    svc --> ctrl : Stored SongDto
+    ctrl --> client : 201 Created
+    client --> editor : Saved song
+    editor --> actor : Song saved and renderable
+  end
+end
+@enduml

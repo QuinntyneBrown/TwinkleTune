@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - Handle the microphone and fun mode
+
+Person(child, "Child", "Taps start; may lack mic access")
+System(tt, "TwinkleTune web app", "Voice-personalized singing app (TypeScript, plain DOM)")
+System_Ext(mic, "Browser microphone and Web Audio", "getUserMedia permission and audio playback")
+
+Rel(child, tt, "Taps start; chooses retry / fun / back", "Touch")
+Rel(tt, mic, "Requests the microphone; plays the song", "getUserMedia / Web Audio API")
+@enduml

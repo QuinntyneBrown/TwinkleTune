@@ -1,0 +1,34 @@
+@startuml
+title UML sequence - Update karaoke on a frame (follow the karaoke lyrics)
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child" as child
+box "Frontend - TwinkleTune web app" #E0F2FE
+  participant "renderSing loop()" as rloop
+  participant "updateKaraoke" as karaoke
+  participant "Lyric lines (DOM)" as lines
+  participant "Coach bubble (DOM)" as coach
+end box
+
+child -> rloop : requestAnimationFrame tick
+rloop -> karaoke : updateKaraoke(beat)
+karaoke -> karaoke : pi = phrase with 1-beat lead-in, 0.5-beat tail
+opt pi != lastPhrase (phrase change) per SG-L2-8
+  karaoke -> coach : text = PHRASE_CHEERS[pi % 5]
+end
+karaoke -> lines : prev = phrases[pi-1].lyric; next = phrases[pi+1].lyric per SG-L2-7
+karaoke -> lines : each syllable -> word-now (inside note) / word-done (after) / plain per SG-L2-7
+lines --> child : highlighted now line with context
+@enduml

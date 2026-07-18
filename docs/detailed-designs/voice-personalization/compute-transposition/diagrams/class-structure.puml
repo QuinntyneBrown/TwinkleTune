@@ -1,0 +1,48 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Per-song transposition
+
+class RangeMath <<audio/range.ts>> {
+  +computeShift(song: Song, range: VoiceRange | null): number
+  +describeShift(shift: number): string
+  -clamp(v: number, lo: number, hi: number): number
+  --
+  bounds: -6..+6 semitones
+}
+
+class VoiceRange <<state/store.ts>> {
+  +low: number
+  +high: number
+}
+
+class Song <<songs/types.ts>> {
+  +id: string
+  +phrases: SongPhrase[]
+}
+
+class SongSpan <<songRange() result>> {
+  +min: number
+  +max: number
+}
+
+class SongTypes <<songs/types.ts>> {
+  +songRange(s: Song): SongSpan
+}
+
+RangeMath ..> VoiceRange : centres on
+RangeMath ..> SongTypes : reads span via
+SongTypes ..> Song : scans notes
+SongTypes ..> SongSpan : returns
+RangeMath ..> SongSpan : compares centres
+@enduml

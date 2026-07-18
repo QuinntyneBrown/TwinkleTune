@@ -1,0 +1,40 @@
+@startuml
+title UML sequence - Tuned-just-for-you reveal (encourage during play)
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child" as child
+box "Frontend - TwinkleTune web app" #E0F2FE
+  participant "start handler" as start
+  participant "maybeTunedDialogThenStart" as tuned
+  participant "tunedDialogShown (Set)" as shown
+  participant "showModal" as modal
+  participant "startFlow" as flow
+end box
+
+child -> start : tap start
+start -> tuned : maybeTunedDialogThenStart()
+tuned -> shown : has(song.id)?
+shown --> tuned : false
+alt not duet AND range set AND shift != 0 AND not shown per SG-L2-13
+  tuned -> shown : add(song.id)
+  tuned -> modal : show "Tuned just for YOU" (shift notes lower/higher)
+  modal --> child : dismissible reveal
+  child -> modal : "Cool, let's go!"
+  modal -> flow : startFlow()
+else already shown or standard key
+  tuned -> flow : startFlow()
+end
+flow --> child : song begins
+@enduml

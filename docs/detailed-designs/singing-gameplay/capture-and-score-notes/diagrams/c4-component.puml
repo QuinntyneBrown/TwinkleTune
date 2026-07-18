@@ -1,0 +1,23 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - Capture and score notes
+
+Container_Boundary(web, "TwinkleTune web app") {
+  Component(loop, "renderSing render loop", "TypeScript module", "Selects active note at scoreBeat; accumulates frames")
+  Component(results, "NoteResult tallies", "TypeScript state", "hitFrames, totalFrames, firstHitFrac per note")
+  Component(scoring, "scoring helpers", "TypeScript module", "foldCents, HIT_TOLERANCE_CENTS, noteLanded")
+  Component(finalize, "finalizeNotesUpTo", "TypeScript function", "Settles landed / missed; updates streak and sparkles")
+  Component(duet, "DuetClient", "SignalR wrapper", "sendTick(DuetTick) per finalised note")
+}
+System_Ext(mic, "Browser microphone and Web Audio", "Pitch source")
+System_Ext(hub, "Family Server - Duet relay", "SignalR hub (Duet Multiplayer)")
+
+Rel(loop, mic, "Reads pitch frames", "Web Audio API")
+Rel(loop, scoring, "foldCents within 50 cents")
+Rel(loop, results, "Increments totalFrames / hitFrames; records firstHitFrac")
+Rel(finalize, results, "Reads tallies")
+Rel(finalize, scoring, "noteLanded(r)")
+Rel(finalize, duet, "sendTick per finalised note")
+Rel(duet, hub, "ScoreTick", "SignalR/WSS")
+@enduml

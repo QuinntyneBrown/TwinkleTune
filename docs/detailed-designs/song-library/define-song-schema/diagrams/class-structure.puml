@@ -1,0 +1,93 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Canonical song shape and derived helpers
+
+package "Frontend — TwinkleTune web app (types.ts)" {
+  interface Song {
+    +id: string
+    +title: string
+    +emoji: string
+    +art: 1 | 2 | 3 | 4
+    +bpm: number
+    +difficulty: 1 | 2 | 3
+    +phrases: SongPhrase[]
+  }
+  interface SongPhrase {
+    +lyric: string
+    +notes: SongNote[]
+  }
+  interface SongNote {
+    +midi: number
+    +start: number
+    +dur: number
+    +syll: string
+  }
+  class SongHelpers <<module>> {
+    +allNotes(s: Song): SongNote[]
+    +songRange(s: Song): {min, max}
+    +songBeats(s: Song): number
+    +songSeconds(s: Song, rate): number
+    +difficultyLabel(d): string
+  }
+}
+
+package "Backend — Family Server (Domain + DTOs)" {
+  class SongEntity as "Song" {
+    +Id: Guid
+    +Title: string
+    +Emoji: string
+    +Art: int
+    +Bpm: int
+    +Difficulty: int
+    +Phrases: List<SongPhrase>
+    +IsSeed: bool
+    +UpdatedAt: DateTimeOffset
+  }
+  class SongPhraseRec as "SongPhrase" {
+    +Lyric: string
+    +Notes: List<SongNote>
+  }
+  class SongNoteRec as "SongNote" {
+    +Midi: int
+    +Start: double
+    +Dur: double
+    +Syll: string
+  }
+  class SongDto {
+    +Id: Guid
+    +Title: string
+    +Emoji: string
+    +Art: int
+    +Bpm: int
+    +Difficulty: int
+    +IsSeed: bool
+    +Phrases: List<SongPhraseDto>
+  }
+  class Mapping <<static>> {
+    +ToDto(s: Song): SongDto
+    +ToDomainPhrases(p): List<SongPhrase>
+  }
+}
+
+Song "1" *-- "1..*" SongPhrase : phrases
+SongPhrase "1" *-- "1..*" SongNote : notes
+SongHelpers ..> Song : derives from
+
+SongEntity "1" *-- "1..*" SongPhraseRec : Phrases
+SongPhraseRec "1" *-- "1..*" SongNoteRec : Notes
+Mapping ..> SongEntity : projects
+Mapping ..> SongDto : produces
+
+Song ..> SongDto : deserialises 1:1 from
+@enduml

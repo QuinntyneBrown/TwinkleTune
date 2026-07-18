@@ -1,0 +1,41 @@
+@startuml
+title UML sequence - Process a pitch frame (move the avatar to the child's pitch)
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child" as child
+box "Frontend - TwinkleTune web app" #E0F2FE
+  participant "renderSing loop()" as loop
+  participant "PitchTracker" as tracker
+  participant "Star avatar (DOM)" as singer
+end box
+box "Device - Browser microphone and Web Audio" #FFF4E5
+  participant "Microphone analyser" as mic
+end box
+
+child -> loop : requestAnimationFrame tick
+loop -> tracker : read()
+tracker -> mic : getFloatTimeDomainData
+mic --> tracker : samples
+alt confident pitch (frame present) per SG-L2-6
+  tracker --> loop : PitchFrame(midi, clarity, rms)
+  loop -> loop : sungBase = frame.midi - shift
+  loop -> loop : k = round((midiCenter - sungBase)/12); displayMidi = sungBase + 12k
+  loop -> singer : singerY += (yFor(displayMidi) - singerY)*0.3; remove "quiet"
+else no pitch (null) per SG-L2-6
+  tracker --> loop : null
+  loop -> singer : singerY += (yFor(midiCenter) - singerY)*0.02; add "quiet"
+end
+singer --> child : star at new vertical position
+@enduml

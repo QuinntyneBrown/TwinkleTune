@@ -1,0 +1,43 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure - Encourage during play
+
+class "renderSing (Sing! screen)" as Sing <<module>> {
+  -streak: number
+  -landedCount: number
+  -CHEERS: string[5]
+  -setStreak(n: number): void
+  -cheerPop(): void
+  -maybeTunedDialogThenStart(): void
+}
+
+class "tunedDialogShown" as Shown <<session set>> {
+  +has(songId): boolean
+  +add(songId): void
+}
+
+class "ui/modal" as Modal <<module>> {
+  +showModal(opts): { close }
+  +toast(text, kind, ms): void
+}
+
+class "range helpers" as Range <<module>> {
+  +computeShift(song, range): number
+  +describeShift(shift: number): string
+}
+
+Sing ..> Modal : toast milestones / showModal reveal
+Sing --> Shown : once-per-song guard
+Sing ..> Range : shift and describeShift
+@enduml

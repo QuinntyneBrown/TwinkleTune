@@ -1,0 +1,18 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Persist and sync the range
+
+Person(child, "Child singer", "Completes capture")
+System_Boundary(tt, "TwinkleTune") {
+  Container(webapp, "TwinkleTune web app", "TypeScript, plain DOM modules", "Writes the range locally and pushes it fire-and-forget")
+  ContainerDb(store, "Browser storage", "Web Storage API", "Holds the active profile and its range")
+  Container(api, "TwinkleTune API", "ASP.NET Core, .NET 10", "Validates and stores the singer's range")
+  ContainerDb(db, "Family database", "SQLite via EF Core", "Singer records with RangeLow and RangeHigh")
+}
+
+Rel(child, webapp, "Completes capture in", "on device")
+Rel(webapp, store, "Writes the range to", "Web Storage")
+Rel(webapp, api, "Pushes the range to", "JSON/HTTPS")
+Rel(api, db, "Reads and writes", "EF Core")
+@enduml

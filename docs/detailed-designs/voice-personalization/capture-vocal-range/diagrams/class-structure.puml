@@ -1,0 +1,68 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Find My Voice capture
+
+enum Phase {
+  intro
+  low
+  high
+}
+
+class VoiceSetupScreen <<voice-setup.ts>> {
+  -phase: Phase
+  -lowMidi: number | null
+  -raf: number
+  +renderVoiceSetup(root: HTMLElement): Teardown
+  -beginListening(): Promise<void>
+  -loop(): void
+  -captured(midi: number): void
+  -paintLadder(currentMidi: number | null): void
+  -rungFor(midi: number): number
+  -setSteps(n: 1 | 2 | 3): void
+  -markCaptured(midi: number, label: string): void
+  -finish(low: number, high: number): void
+}
+
+class LadderConstants <<voice-setup.ts>> {
+  +LADDER_LOW: number = 48
+  +LADDER_RUNGS: number = 12
+  +RUNG_SPAN: number = 3
+}
+
+class StablePitchCapture <<audio/range.ts>> {
+  -buf: number[]
+  -silentFrames: number
+  -windowFrames: number = 40
+  -spreadSemitones: number = 1.0
+  +feed(midi: number | null): number | null
+  +progress(): number
+  +reset(): void
+}
+
+class PitchTracker <<audio/pitch.ts>> {
+  +start(): Promise<void>
+  +read(): PitchFrame | null
+  +stop(): void
+}
+
+class PitchFrame <<audio/pitch.ts>> {
+  +midi: number
+}
+
+VoiceSetupScreen --> Phase : tracks
+VoiceSetupScreen *-- StablePitchCapture : owns
+VoiceSetupScreen *-- PitchTracker : owns
+VoiceSetupScreen ..> LadderConstants : reads
+PitchTracker ..> PitchFrame : yields
+@enduml

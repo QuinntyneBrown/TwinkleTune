@@ -1,0 +1,54 @@
+@startuml
+title UML sequence behaviour — Resolve the runtime songbook
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child singer" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "renderSongs" as screen
+  participant "repo.ts" as repo
+  participant "api.songs.list" as client
+  database "Songbook cache (localStorage)" as cache
+  participant "catalog.ts" as catalog
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "SongsController" as ctrl
+end box
+
+actor -> screen : Open the song screen
+screen -> repo : currentSongs() synchronous read per SL-L2-4
+repo --> screen : Cached or bundled list (no network wait)
+screen -> repo : loadSongs() background refresh
+repo -> client : list()
+client -> ctrl : GET /api/songs
+alt Server reachable
+  ctrl --> client : 200 song list
+  client --> repo : ApiSong[]
+  repo -> repo : liveFromServer = true per SL-L2-4
+  repo -> cache : setItem(twinkletune:songs-cache, list)
+  repo --> screen : { songs: server list, online: true }
+else Server unreachable and cache exists
+  client --> repo : rejects (offline)
+  repo -> cache : getItem(twinkletune:songs-cache)
+  cache --> repo : Last cached list
+  repo -> repo : liveFromServer = false per SL-L2-4
+  repo --> screen : { songs: cached list, online: false }
+else Server unreachable and no cache
+  client --> repo : rejects (offline)
+  repo -> catalog : Read bundled six
+  catalog --> repo : Bundled songs
+  repo --> screen : { songs: bundled six, online: false }
+end
+screen --> actor : Songbook shown, singable throughout
+@enduml

@@ -1,0 +1,17 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Communicate personalization
+
+Container_Boundary(webapp, "TwinkleTune web app") {
+  Component(songsScreen, "renderSongs", "screens/songs.ts", "Renders each song card with the tuned indicator or the capture invite")
+  Component(meScreen, "renderMe", "screens/me.ts", "Renders the voice-growth block as a note-count span")
+  Component(shift, "computeShift", "audio/range.ts", "Supplies the per-song shift for the card")
+  Component(desc, "describeShift", "audio/range.ts", "Renders the shift tooltip text")
+  Component(names, "midiToName", "audio/range.ts", "Names the low and high notes")
+}
+
+Rel(songsScreen, shift, "Requests the shift through")
+Rel(songsScreen, desc, "Builds the tooltip through")
+Rel(meScreen, names, "Names the range bounds through")
+@enduml

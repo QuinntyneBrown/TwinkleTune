@@ -1,0 +1,24 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Persist and sync the range
+
+Container_Boundary(webapp, "TwinkleTune web app") {
+  Component(finish, "finish", "voice-setup.ts", "Writes the range to the profile, then triggers the push")
+  Component(push, "pushProfileToServer", "state/profile.ts", "Fire-and-forget push of the profile range")
+  Component(client, "api.singers.update", "api/client.ts", "Typed HTTP client for the singer endpoint")
+}
+Container_Boundary(api, "TwinkleTune API") {
+  Component(ctrl, "Singers endpoint", "ASP.NET Core", "Receives the singer update request")
+  Component(svc, "SingerService", "Application service", "Validates and applies the update")
+  Component(entity, "Singer", "Domain entity", "Holds RangeLow and RangeHigh")
+  ComponentDb(db, "Family database", "SQLite via EF Core", "Persists the singer record")
+}
+
+Rel(finish, push, "Calls after store.update")
+Rel(push, client, "Builds the request through")
+Rel(client, ctrl, "PUT /singers/{id}", "JSON/HTTPS")
+Rel(ctrl, svc, "UpdateAsync(id, request)")
+Rel(svc, entity, "Validates and mutates")
+Rel(svc, db, "Persists through", "EF Core")
+@enduml

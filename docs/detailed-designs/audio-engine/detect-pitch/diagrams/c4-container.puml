@@ -1,0 +1,16 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Detect pitch
+
+Person(singer, "Singer", "Sings into the tablet microphone")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(capture, "Voice capture and tuner screens", "TypeScript DOM module", "Poll read() each animation frame")
+  Container(engine, "Audio engine — pitch", "TypeScript (pitch.ts)", "PitchTracker detection pipeline")
+}
+System_Ext(browser, "Browser Web Audio & microphone", "getUserMedia and AnalyserNode")
+
+Rel(singer, capture, "Sings during a capture or tuning session")
+Rel(capture, engine, "start(), read(), stop()")
+Rel(engine, browser, "getUserMedia; read AnalyserNode", "Web Audio")
+@enduml

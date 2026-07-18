@@ -1,0 +1,36 @@
+@startuml
+title UML sequence behaviour — Load the bundled catalogue offline
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child singer" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "repo.ts" as repo
+  participant "catalog.ts" as catalog
+  participant "types.ts helpers" as helpers
+end box
+
+actor -> repo : Open the songbook with no network
+repo -> repo : readCache() returns null (no cache)
+repo -> catalog : Read bundled songs
+catalog --> repo : Six Song objects per SL-L2-3
+repo -> helpers : songRange / songBeats / songSeconds per song
+helpers --> repo : Range within 48-84, span <= 16, length 8..60 s
+note over repo, catalog
+  Catalogue invariants (SL-L2-3): six unique ids;
+  non-empty phrases and syllables; ordered non-overlapping notes.
+  Each song matches its SeedData twin note-for-note per SL-L2-15.
+end note
+repo --> actor : Six bundled songs ready to sing offline
+@enduml

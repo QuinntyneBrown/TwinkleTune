@@ -1,0 +1,64 @@
+@startuml
+title UML sequence behaviour — Persist the range and push it to the family server
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child singer" as child
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "finish (voice-setup.ts)" as finish
+  participant "store" as store
+  participant "pushProfileToServer" as push
+  participant "api.singers.update" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "Singers endpoint" as ctrl
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "SingerService" as svc
+  participant "Singer" as entity
+end box
+box "Backend — Infrastructure" #FFF4E5
+  database "Family database" as db
+end box
+
+child -> finish : Complete capture (low, high)
+finish -> store : store.update sets profile.range = {low, high} (VP-L2-10)
+note over store : Local range persists across a reload (VP-L2-10)
+finish -> push : pushProfileToServer() — fire-and-forget (VP-L2-11)
+
+alt profile linked and server reachable
+  push -> client : update(singerId, {rangeLow, rangeHigh, ...})
+  client -> ctrl : PUT /singers/{id} (JSON/HTTPS)
+  ctrl -> svc : UpdateAsync(id, request)
+  svc -> svc : Validate(request) (VP-L2-11)
+  alt rangeHigh > rangeLow
+    svc -> db : Load singer
+    db --> svc : Singer
+    svc -> entity : Set RangeLow / RangeHigh
+    svc -> db : Save changes
+    db --> svc : Committed
+    svc --> ctrl : SingerDto
+    ctrl --> client : 200 OK
+    client --> push : ApiSinger (rangeLow/rangeHigh reflect capture)
+  else rangeHigh <= rangeLow
+    svc --> ctrl : Error "The high note must be above the low note." (VP-L2-11)
+    ctrl --> client : 400 — record unchanged
+    client --> push : Rejected
+  end
+else offline / server unreachable
+  push -> client : update(...)
+  client --> push : Throws; caught and swallowed (VP-L2-11)
+  note over push : Capture still completes; local range stored; reconciles on a later successful update
+end
+@enduml

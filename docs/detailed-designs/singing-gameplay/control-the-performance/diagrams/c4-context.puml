@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - Control the performance
+
+Person(child, "Child", "Starts, pauses, and repeats the song")
+System(tt, "TwinkleTune web app", "Voice-personalized singing app (TypeScript, plain DOM)")
+System_Ext(audio, "Browser Web Audio", "Plays the melody and count-in clicks")
+
+Rel(child, tt, "Taps pause, resume, restart, exit", "Touch")
+Rel(tt, audio, "Starts and stops playback", "Web Audio API")
+@enduml

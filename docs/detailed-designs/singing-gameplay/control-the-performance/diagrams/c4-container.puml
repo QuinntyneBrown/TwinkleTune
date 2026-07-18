@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers - Control the performance
+
+Person(child, "Child", "Starts, pauses, and repeats the song")
+System_Boundary(tt, "TwinkleTune") {
+  Container(web, "TwinkleTune web app", "TypeScript, plain DOM modules", "Playback control, recording, and navigation on-device")
+}
+System_Ext(audio, "Browser Web Audio", "Web Audio API: playback and count-in")
+
+Rel(child, web, "Taps pause, resume, restart, exit", "Touch")
+Rel(web, audio, "player.start / player.stop", "Web Audio API")
+@enduml

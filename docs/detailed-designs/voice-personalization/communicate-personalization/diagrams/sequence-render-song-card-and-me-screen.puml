@@ -1,0 +1,53 @@
+@startuml
+title UML sequence behaviour — Render the tuned-song cue and the growth block
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child singer" as child
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "renderSongs" as songs
+  participant "computeShift" as shift
+  participant "describeShift" as desc
+  participant "renderMe" as me
+  participant "midiToName" as names
+  participant "store (profile.range)" as store
+end box
+
+child -> songs : Open the song list
+songs -> store : Read profile.range
+store --> songs : range or null
+loop each song card
+  alt range exists
+    songs -> shift : computeShift(song, range)
+    shift --> songs : shift
+    songs -> desc : describeShift(shift)
+    desc --> songs : "Moved n notes lower/higher for you 💙"
+    songs --> child : "✓ In your key" with tooltip (VP-L2-12)
+  else no range
+    songs --> child : "Find my voice →" linking to capture (VP-L2-12)
+  end
+end
+
+== Me screen ==
+child -> me : Open the Me screen
+me -> store : Read profile.range
+store --> me : range or null
+alt range exists
+  me -> names : midiToName(low), midiToName(high)
+  names --> me : note names
+  me --> child : "Your voice goes from <low> to <high> — that's high-low+1 notes!" (VP-L2-14)
+else no range
+  me --> child : "Find your voice!" invite (VP-L2-14)
+end
+@enduml

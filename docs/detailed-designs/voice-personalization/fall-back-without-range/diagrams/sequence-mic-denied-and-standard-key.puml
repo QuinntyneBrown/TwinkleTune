@@ -1,0 +1,46 @@
+@startuml
+title UML sequence behaviour — Mic denied and standard-key play
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child singer" as child
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "renderVoiceSetup" as screen
+  participant "PitchTracker" as tracker
+  participant "renderSongs" as songs
+  participant "computeShift" as shift
+end box
+box "Frontend — Browser Web Audio" #E0F2FE
+  participant "Microphone (getUserMedia)" as mic
+end box
+
+child -> screen : Tap "I'm ready — listen! 🎤"
+screen -> tracker : start()
+tracker -> mic : getUserMedia()
+alt permission granted
+  mic --> tracker : Live audio stream
+  tracker --> screen : Started (capture proceeds — see capture-vocal-range)
+else permission denied
+  mic --> tracker : Denied
+  tracker --> screen : start() rejects
+  screen --> child : micDeniedDialog "Try again 🎤" / "Do this later" (VP-L2-15)
+  note over screen : No range stored; "Do this later" returns home; the app is not blocked (VP-L2-15)
+end
+
+== Standard-key play with no range ==
+child -> songs : Start a song
+songs -> shift : computeShift(song, null)
+shift --> songs : 0 — standard key (VP-L2-15)
+songs --> child : Song plays untransposed; play is not blocked (VP-L2-15)
+@enduml

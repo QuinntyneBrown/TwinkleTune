@@ -1,0 +1,54 @@
+@startuml
+title UML sequence - Start flow with a microphone decision (handle the microphone and fun mode)
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child" as child
+box "Frontend - TwinkleTune web app" #E0F2FE
+  participant "startFlow" as flow
+  participant "PitchTracker" as tracker
+  participant "micDialog (modal)" as dialog
+  participant "begin / noMic path" as begin
+  participant "Router (hash)" as router
+end box
+box "Device - Browser microphone" #FFF4E5
+  participant "getUserMedia" as mic
+end box
+
+child -> flow : tap start
+flow -> tracker : start()
+tracker -> mic : getUserMedia(audio)
+alt permission granted
+  mic --> tracker : media stream
+  tracker --> flow : ok
+  flow -> begin : begin() with scoring
+  begin --> child : song plays and scores
+else permission denied per SG-L2-20
+  mic --> tracker : NotAllowedError
+  tracker --> flow : throws
+  flow -> dialog : show non-dismissible choice
+  alt "Yes, let's sing!"
+    child -> dialog : retry
+    dialog -> flow : startFlow()
+  else "Sing just for fun" per SG-L2-14
+    child -> dialog : play without scoring
+    dialog -> begin : noMic = true; begin() (sparkles stay 0)
+    begin --> child : song plays, non-scored
+  else "Back to songs"
+    child -> dialog : leave
+    dialog -> router : location.hash = "#/songs"
+    router --> child : song list
+  end
+end
+@enduml
