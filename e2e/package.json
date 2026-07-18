@@ -7,6 +7,7 @@
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
     "test:server": "playwright test -c playwright.server.config.ts",
+    "test:marketing": "playwright test -c playwright.marketing.config.ts",
     "report": "playwright show-report"
   },
   "devDependencies": {

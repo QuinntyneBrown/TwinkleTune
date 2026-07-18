@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://zealous-meadow-0adef640f.7.azurestaticapps.net/sitemap.xml

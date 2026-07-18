@@ -35,6 +35,9 @@ backend/         Family server — .NET 10, Clean Architecture
   src/TwinkleTune.Infrastructure/  EF Core + SQLite, photo storage, seeding
   src/TwinkleTune.Api/             minimal API + SignalR DuetHub
   tests/                           unit + integration (incl. 2-client duet flow)
+marketing/       Public brochure — dependency-free HTML/CSS/JS + product screenshots
+infra/           Azure Static Web Apps infrastructure (Bicep)
+.github/         CI/CD — tests every layer, publishes marketing + the PWA on main
 e2e/             Playwright suites: offline app (npm test) and
                  full-stack duets/profiles (npm run test:server)
 docs/
@@ -79,6 +82,17 @@ designed for **home-LAN use only** — don't expose it to the internet (no auth 
 ### Putting it on a tablet
 
 `npm run build`, host `frontend/dist/` anywhere (any static host, or `npm run preview` on your LAN), open it on the tablet and **Add to Home Screen** — the PWA installs with its own icon and works offline after the first visit.
+
+### Marketing site and Azure
+
+The standalone brochure in `marketing/` follows the same sibling-folder boundary as the app and backend. Preview it with the frontend's Vite installation:
+
+```bash
+cd frontend
+npm run dev -- --host 127.0.0.1 --port 4175 ../marketing
+```
+
+Production serves the brochure at `/` and the offline PWA at `/app/` through Azure Static Web Apps. The LAN-only family API is deliberately not exposed. Provisioning, GitHub environment, and deployment details are in [`docs/deployment.md`](docs/deployment.md).
 
 ### Handy hidden screen
 

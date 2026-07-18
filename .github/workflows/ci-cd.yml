@@ -1,0 +1,250 @@
+name: CI and Azure Static Web Apps deployment
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+  DOTNET_NOLOGO: "1"
+  NODE_VERSION: "22"
+
+jobs:
+  backend:
+    name: Backend (.NET 10)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@9f698171ed81b15d1823a05fc7211befd50c8ae0 # v6.0.3
+
+      - name: Set up .NET 10
+        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5.4.0
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore
+        run: dotnet restore backend/TwinkleTune.slnx
+
+      - name: Build
+        run: dotnet build backend/TwinkleTune.slnx --configuration Release --no-restore
+
+      - name: Test
+        run: >-
+          dotnet test backend/TwinkleTune.slnx
+          --configuration Release
+          --no-build
+          --logger "console;verbosity=normal"
+
+  site:
+    name: Frontend tests and immutable site artifact
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@9f698171ed81b15d1823a05fc7211befd50c8ae0 # v6.0.3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Run frontend tests
+        working-directory: frontend
+        run: npm test
+
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build
+
+      - name: Stage deployable site
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .artifacts/site/app
+          rsync --archive \
+            --exclude='.env*' \
+            --exclude='.vite/' \
+            --exclude='node_modules/' \
+            marketing/ .artifacts/site/
+          cp -a frontend/dist/. .artifacts/site/app/
+
+          test -f .artifacts/site/index.html
+          test -f .artifacts/site/staticwebapp.config.json
+          test -f .artifacts/site/app/index.html
+          test ! -e .artifacts/site/.vite
+
+      - name: Smoke-test staged routes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 --directory .artifacts/site >"${RUNNER_TEMP}/site-server.log" 2>&1 &
+          server_pid=$!
+          trap 'kill "${server_pid}" 2>/dev/null || true' EXIT
+
+          curl --fail --silent --show-error --location --retry 5 --retry-connrefused \
+            http://127.0.0.1:4173/ >"${RUNNER_TEMP}/marketing.html"
+          curl --fail --silent --show-error --location --retry 5 --retry-connrefused \
+            http://127.0.0.1:4173/app/ >"${RUNNER_TEMP}/app.html"
+
+          grep --fixed-strings "Every voice has a place to shine" "${RUNNER_TEMP}/marketing.html"
+          grep --fixed-strings "Sing your heart out!" "${RUNNER_TEMP}/app.html"
+
+      - name: Create artifact checksum manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          (
+            cd .artifacts/site
+            find . -type f ! -name artifact-manifest.sha256 -print0 \
+              | LC_ALL=C sort -z \
+              | xargs -0 sha256sum >artifact-manifest.sha256
+            sha256sum --check artifact-manifest.sha256
+          )
+
+      - name: Upload immutable site artifact
+        id: site-artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: site-${{ github.sha }}
+          path: .artifacts/site
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 7
+
+  e2e:
+    name: Browser and full-stack E2E
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@9f698171ed81b15d1823a05fc7211befd50c8ae0 # v6.0.3
+
+      - name: Set up .NET 10
+        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5.4.0
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Set up Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: |
+            frontend/package-lock.json
+            e2e/package-lock.json
+
+      - name: Restore backend dependencies
+        run: dotnet restore backend/TwinkleTune.slnx
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Install E2E dependencies
+        working-directory: e2e
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        working-directory: e2e
+        run: npx playwright install --with-deps chromium
+
+      - name: Run marketing E2E suite
+        working-directory: e2e
+        run: npm run test:marketing
+
+      - name: Run browser E2E suite
+        working-directory: e2e
+        run: npm test
+
+      - name: Run full-stack duet E2E suite
+        working-directory: e2e
+        run: npm run test:server
+
+      - name: Upload Playwright diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: playwright-diagnostics-${{ github.sha }}-${{ github.run_attempt }}
+          path: |
+            e2e/test-results
+            e2e/playwright-report
+            e2e/playwright-report-marketing
+          if-no-files-found: warn
+          retention-days: 7
+
+  deploy:
+    name: Deploy production and smoke-test
+    needs:
+      - backend
+      - site
+      - e2e
+    if: >-
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      needs.backend.result == 'success' &&
+      needs.site.result == 'success' &&
+      needs.e2e.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.static_web_app_url }}
+    steps:
+      - name: Download the tested site artifact
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          name: site-${{ github.sha }}
+          path: .deploy/site
+
+      - name: Verify artifact integrity
+        working-directory: .deploy/site
+        run: sha256sum --check artifact-manifest.sha256
+
+      - name: Deploy to Azure Static Web Apps
+        id: deploy
+        uses: Azure/static-web-apps-deploy@1a947af9992250f3bc2e68ad0754c0b0c11566c9 # v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          action: upload
+          app_location: .deploy/site
+          output_location: ""
+          skip_app_build: true
+          skip_api_build: true
+          production_branch: main
+
+      - name: Smoke-test production routes
+        env:
+          SITE_URL: ${{ steps.deploy.outputs.static_web_app_url }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${SITE_URL}"
+          site_url="${SITE_URL%/}"
+
+          curl --fail --silent --show-error --location \
+            --retry 8 --retry-all-errors --retry-delay 5 \
+            "${site_url}/" >"${RUNNER_TEMP}/marketing.html"
+          curl --fail --silent --show-error --location \
+            --retry 8 --retry-all-errors --retry-delay 5 \
+            "${site_url}/app" >"${RUNNER_TEMP}/app.html"
+
+          grep --fixed-strings "Every voice has a place to shine" "${RUNNER_TEMP}/marketing.html"
+          grep --fixed-strings "Sing your heart out!" "${RUNNER_TEMP}/app.html"

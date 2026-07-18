@@ -1,11 +1,16 @@
 node_modules/
 dist/
+.vite/
 *.local
 
 # playwright artifacts
 e2e/test-results/
 e2e/playwright-report/
+e2e/playwright-report-*/
 e2e/.tmp/
+
+# assembled Azure Static Web Apps artifact
+site/
 
 # backend local data (family db + photos)
 backend/data/
