@@ -3,8 +3,12 @@
  * Solo play NEVER requires this — every caller must degrade gracefully offline.
  */
 
-export const API_URL =
-  (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, '') ?? 'http://localhost:5240'
+const configuredApiUrl = (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, '')
+
+// Development discovers the optional home server automatically. Production is
+// same-origin by default, so the public static build never probes a visitor's
+// localhost; family-server deployments can still set VITE_API_URL explicitly.
+export const API_URL = configuredApiUrl ?? (import.meta.env.DEV ? 'http://localhost:5240' : '')
 
 export interface ApiAvatar {
   id: string
