@@ -16,7 +16,7 @@ Built for kids: one big obvious action per screen, few words, big rounded type, 
 
 **Privacy:** badges, streaks and sparkles stay in the device's `localStorage`. Profiles, songs, photos and high scores live only on *your* home server (`backend/data/` — one SQLite file plus a photos folder). During duets, only live score events cross the network. Singing audio never leaves the device, and there are no accounts. Solo play works fully offline; every server feature degrades gracefully.
 
-The seeded songs are six hand-encoded **public-domain** melodies: Twinkle Twinkle Little Star, Mary Had a Little Lamb, Hot Cross Buns, London Bridge, Old MacDonald, and Row Row Row Your Boat. Grown-ups can add more in the song editor.
+The seeded songs are six hand-encoded **public-domain** melodies: Twinkle Twinkle Little Star, Mary Had a Little Lamb, Hot Cross Buns, London Bridge, Old MacDonald, and Row Row Row Your Boat. They live as data (`backend/src/TwinkleTune.Infrastructure/Persistence/seed-data.json`), not hardcoded in source. Grown-ups can add more in the song editor, or from the command line with the [`twinkletune` CLI](backend/src/TwinkleTune.Cli/README.md).
 
 ## Repository layout
 
@@ -32,8 +32,9 @@ frontend/        The app — Vite + TypeScript, no framework
 backend/         Family server — .NET 10, Clean Architecture
   src/TwinkleTune.Domain/          entities + song invariants (no dependencies)
   src/TwinkleTune.Application/     services, DTOs, in-memory duet rooms
-  src/TwinkleTune.Infrastructure/  EF Core + SQLite, photo storage, seeding
+  src/TwinkleTune.Infrastructure/  EF Core + SQLite, photo storage, data-driven seeding
   src/TwinkleTune.Api/             minimal API + SignalR DuetHub
+  src/TwinkleTune.Cli/             installable dotnet tool (seed DB, add songs + avatars)
   tests/                           unit + integration (incl. 2-client duet flow)
 marketing/       Public brochure — dependency-free HTML/CSS/JS + product screenshots
 infra/           Azure Static Web Apps infrastructure (Bicep)
@@ -76,6 +77,7 @@ designed for **home-LAN use only** — don't expose it to the internet (no auth 
 | `npm test` (frontend/)       | Unit tests (scoring, store, badges, songs)             |
 | `npm run build` (frontend/)  | Type-check + production build to `dist/`               |
 | `dotnet test` (backend/)     | Backend unit + integration tests (incl. SignalR duet)  |
+| `dotnet run --project src/TwinkleTune.Cli -- seed` (backend/) | Seed the database from the CLI (see its README) |
 | `npm test` (e2e/)            | Playwright suite against the offline app               |
 | `npm run test:server` (e2e/) | Full-stack Playwright suite (isolated test database)   |
 

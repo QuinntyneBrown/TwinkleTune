@@ -1,8 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using TwinkleTune.Application.Abstractions;
+using TwinkleTune.Application.Abstractions.Seeding;
 using TwinkleTune.Infrastructure.Persistence;
 using TwinkleTune.Infrastructure.Repositories;
+using TwinkleTune.Infrastructure.Seeding;
 using TwinkleTune.Infrastructure.Storage;
 
 namespace TwinkleTune.Infrastructure;
@@ -18,6 +20,9 @@ public static class DependencyInjection
         services.AddScoped<ISongRepository, SongRepository>();
         services.AddScoped<IHighScoreRepository, HighScoreRepository>();
         services.AddSingleton<IPhotoStorage>(new PhotoStorage(photosPath));
+        services.AddScoped<IDatabaseInitializer, DatabaseInitializer>();
+        services.AddSingleton<ISeedDataSource, EmbeddedJsonSeedDataSource>();
+        services.AddScoped<IDatabaseSeeder, DatabaseSeeder>();
         return services;
     }
 }

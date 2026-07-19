@@ -4,6 +4,7 @@
     <Project Path="src/TwinkleTune.Application/TwinkleTune.Application.csproj" />
     <Project Path="src/TwinkleTune.Infrastructure/TwinkleTune.Infrastructure.csproj" />
     <Project Path="src/TwinkleTune.Api/TwinkleTune.Api.csproj" />
+    <Project Path="src/TwinkleTune.Cli/TwinkleTune.Cli.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/TwinkleTune.UnitTests/TwinkleTune.UnitTests.csproj" />

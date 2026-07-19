@@ -1,0 +1,35 @@
+{
+  "title": "Baa Baa Black Sheep",
+  "emoji": "🐑",
+  "art": 2,
+  "bpm": 100,
+  "difficulty": 1,
+  "phrases": [
+    {
+      "lyric": "Baa, baa, black sheep, have you any wool?",
+      "notes": [
+        { "midi": 60, "start": 0, "dur": 1, "syll": "Baa" },
+        { "midi": 60, "start": 1, "dur": 1, "syll": "baa" },
+        { "midi": 67, "start": 2, "dur": 1, "syll": "black" },
+        { "midi": 67, "start": 3, "dur": 1, "syll": "sheep" },
+        { "midi": 69, "start": 4, "dur": 0.5, "syll": "have" },
+        { "midi": 69, "start": 4.5, "dur": 0.5, "syll": "you" },
+        { "midi": 69, "start": 5, "dur": 0.5, "syll": "an" },
+        { "midi": 69, "start": 5.5, "dur": 0.5, "syll": "y" },
+        { "midi": 67, "start": 6, "dur": 2, "syll": "wool" }
+      ]
+    },
+    {
+      "lyric": "Yes sir, yes sir, three bags full",
+      "notes": [
+        { "midi": 65, "start": 8, "dur": 1, "syll": "Yes" },
+        { "midi": 65, "start": 9, "dur": 1, "syll": "sir" },
+        { "midi": 64, "start": 10, "dur": 1, "syll": "yes" },
+        { "midi": 64, "start": 11, "dur": 1, "syll": "sir" },
+        { "midi": 62, "start": 12, "dur": 1, "syll": "three" },
+        { "midi": 62, "start": 13, "dur": 1, "syll": "bags" },
+        { "midi": 60, "start": 14, "dur": 2, "syll": "full" }
+      ]
+    }
+  ]
+}

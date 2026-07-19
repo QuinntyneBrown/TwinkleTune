@@ -9,5 +9,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\TwinkleTune.Application\TwinkleTune.Application.csproj" />
+    <ProjectReference Include="..\..\src\TwinkleTune.Infrastructure\TwinkleTune.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

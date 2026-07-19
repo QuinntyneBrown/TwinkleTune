@@ -1,0 +1,364 @@
+{
+  "avatars": [
+    { "emoji": "🦄", "name": "Unicorn" },
+    { "emoji": "🐱", "name": "Kitten" },
+    { "emoji": "🐸", "name": "Frog" },
+    { "emoji": "🦊", "name": "Fox" },
+    { "emoji": "🐰", "name": "Bunny" },
+    { "emoji": "🐼", "name": "Panda" },
+    { "emoji": "🦖", "name": "Dino" },
+    { "emoji": "🐙", "name": "Octopus" }
+  ],
+  "songs": [
+    {
+      "title": "Twinkle Twinkle Little Star",
+      "emoji": "⭐",
+      "art": 1,
+      "bpm": 100,
+      "difficulty": 1,
+      "phrases": [
+        {
+          "lyric": "Twinkle, twinkle, little star",
+          "notes": [
+            { "midi": 60, "start": 0, "dur": 1, "syll": "Twin" },
+            { "midi": 60, "start": 1, "dur": 1, "syll": "kle" },
+            { "midi": 67, "start": 2, "dur": 1, "syll": "twin" },
+            { "midi": 67, "start": 3, "dur": 1, "syll": "kle" },
+            { "midi": 69, "start": 4, "dur": 1, "syll": "lit" },
+            { "midi": 69, "start": 5, "dur": 1, "syll": "tle" },
+            { "midi": 67, "start": 6, "dur": 2, "syll": "star" }
+          ]
+        },
+        {
+          "lyric": "How I wonder what you are",
+          "notes": [
+            { "midi": 65, "start": 8, "dur": 1, "syll": "How" },
+            { "midi": 65, "start": 9, "dur": 1, "syll": "I" },
+            { "midi": 64, "start": 10, "dur": 1, "syll": "won" },
+            { "midi": 64, "start": 11, "dur": 1, "syll": "der" },
+            { "midi": 62, "start": 12, "dur": 1, "syll": "what" },
+            { "midi": 62, "start": 13, "dur": 1, "syll": "you" },
+            { "midi": 60, "start": 14, "dur": 2, "syll": "are" }
+          ]
+        },
+        {
+          "lyric": "Up above the world so high",
+          "notes": [
+            { "midi": 67, "start": 16, "dur": 1, "syll": "Up" },
+            { "midi": 67, "start": 17, "dur": 1, "syll": "a" },
+            { "midi": 65, "start": 18, "dur": 1, "syll": "bove" },
+            { "midi": 65, "start": 19, "dur": 1, "syll": "the" },
+            { "midi": 64, "start": 20, "dur": 1, "syll": "world" },
+            { "midi": 64, "start": 21, "dur": 1, "syll": "so" },
+            { "midi": 62, "start": 22, "dur": 2, "syll": "high" }
+          ]
+        },
+        {
+          "lyric": "Like a diamond in the sky",
+          "notes": [
+            { "midi": 67, "start": 24, "dur": 1, "syll": "Like" },
+            { "midi": 67, "start": 25, "dur": 1, "syll": "a" },
+            { "midi": 65, "start": 26, "dur": 1, "syll": "dia" },
+            { "midi": 65, "start": 27, "dur": 1, "syll": "mond" },
+            { "midi": 64, "start": 28, "dur": 1, "syll": "in" },
+            { "midi": 64, "start": 29, "dur": 1, "syll": "the" },
+            { "midi": 62, "start": 30, "dur": 2, "syll": "sky" }
+          ]
+        },
+        {
+          "lyric": "Twinkle, twinkle, little star",
+          "notes": [
+            { "midi": 60, "start": 32, "dur": 1, "syll": "Twin" },
+            { "midi": 60, "start": 33, "dur": 1, "syll": "kle" },
+            { "midi": 67, "start": 34, "dur": 1, "syll": "twin" },
+            { "midi": 67, "start": 35, "dur": 1, "syll": "kle" },
+            { "midi": 69, "start": 36, "dur": 1, "syll": "lit" },
+            { "midi": 69, "start": 37, "dur": 1, "syll": "tle" },
+            { "midi": 67, "start": 38, "dur": 2, "syll": "star" }
+          ]
+        },
+        {
+          "lyric": "How I wonder what you are",
+          "notes": [
+            { "midi": 65, "start": 40, "dur": 1, "syll": "How" },
+            { "midi": 65, "start": 41, "dur": 1, "syll": "I" },
+            { "midi": 64, "start": 42, "dur": 1, "syll": "won" },
+            { "midi": 64, "start": 43, "dur": 1, "syll": "der" },
+            { "midi": 62, "start": 44, "dur": 1, "syll": "what" },
+            { "midi": 62, "start": 45, "dur": 1, "syll": "you" },
+            { "midi": 60, "start": 46, "dur": 2, "syll": "are" }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Mary Had a Little Lamb",
+      "emoji": "🐑",
+      "art": 2,
+      "bpm": 104,
+      "difficulty": 1,
+      "phrases": [
+        {
+          "lyric": "Mary had a little lamb",
+          "notes": [
+            { "midi": 64, "start": 0, "dur": 1, "syll": "Ma" },
+            { "midi": 62, "start": 1, "dur": 1, "syll": "ry" },
+            { "midi": 60, "start": 2, "dur": 1, "syll": "had" },
+            { "midi": 62, "start": 3, "dur": 1, "syll": "a" },
+            { "midi": 64, "start": 4, "dur": 1, "syll": "lit" },
+            { "midi": 64, "start": 5, "dur": 1, "syll": "tle" },
+            { "midi": 64, "start": 6, "dur": 2, "syll": "lamb" }
+          ]
+        },
+        {
+          "lyric": "Little lamb, little lamb",
+          "notes": [
+            { "midi": 62, "start": 8, "dur": 1, "syll": "lit" },
+            { "midi": 62, "start": 9, "dur": 1, "syll": "tle" },
+            { "midi": 62, "start": 10, "dur": 2, "syll": "lamb" },
+            { "midi": 64, "start": 12, "dur": 1, "syll": "lit" },
+            { "midi": 67, "start": 13, "dur": 1, "syll": "tle" },
+            { "midi": 67, "start": 14, "dur": 2, "syll": "lamb" }
+          ]
+        },
+        {
+          "lyric": "Mary had a little lamb, its",
+          "notes": [
+            { "midi": 64, "start": 16, "dur": 1, "syll": "Ma" },
+            { "midi": 62, "start": 17, "dur": 1, "syll": "ry" },
+            { "midi": 60, "start": 18, "dur": 1, "syll": "had" },
+            { "midi": 62, "start": 19, "dur": 1, "syll": "a" },
+            { "midi": 64, "start": 20, "dur": 1, "syll": "lit" },
+            { "midi": 64, "start": 21, "dur": 1, "syll": "tle" },
+            { "midi": 64, "start": 22, "dur": 1, "syll": "lamb" },
+            { "midi": 64, "start": 23, "dur": 1, "syll": "its" }
+          ]
+        },
+        {
+          "lyric": "Fleece was white as snow",
+          "notes": [
+            { "midi": 62, "start": 24, "dur": 1, "syll": "fleece" },
+            { "midi": 62, "start": 25, "dur": 1, "syll": "was" },
+            { "midi": 64, "start": 26, "dur": 1, "syll": "white" },
+            { "midi": 62, "start": 27, "dur": 1, "syll": "as" },
+            { "midi": 60, "start": 28, "dur": 4, "syll": "snow" }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Hot Cross Buns",
+      "emoji": "🥐",
+      "art": 4,
+      "bpm": 96,
+      "difficulty": 1,
+      "phrases": [
+        {
+          "lyric": "Hot cross buns!",
+          "notes": [
+            { "midi": 64, "start": 0, "dur": 1, "syll": "Hot" },
+            { "midi": 62, "start": 1, "dur": 1, "syll": "cross" },
+            { "midi": 60, "start": 2, "dur": 2, "syll": "buns" }
+          ]
+        },
+        {
+          "lyric": "Hot cross buns!",
+          "notes": [
+            { "midi": 64, "start": 4, "dur": 1, "syll": "Hot" },
+            { "midi": 62, "start": 5, "dur": 1, "syll": "cross" },
+            { "midi": 60, "start": 6, "dur": 2, "syll": "buns" }
+          ]
+        },
+        {
+          "lyric": "One a penny, two a penny",
+          "notes": [
+            { "midi": 60, "start": 8, "dur": 0.5, "syll": "One" },
+            { "midi": 60, "start": 8.5, "dur": 0.5, "syll": "a" },
+            { "midi": 60, "start": 9, "dur": 0.5, "syll": "pen" },
+            { "midi": 60, "start": 9.5, "dur": 0.5, "syll": "ny" },
+            { "midi": 62, "start": 10, "dur": 0.5, "syll": "two" },
+            { "midi": 62, "start": 10.5, "dur": 0.5, "syll": "a" },
+            { "midi": 62, "start": 11, "dur": 0.5, "syll": "pen" },
+            { "midi": 62, "start": 11.5, "dur": 0.5, "syll": "ny" }
+          ]
+        },
+        {
+          "lyric": "Hot cross buns!",
+          "notes": [
+            { "midi": 64, "start": 12, "dur": 1, "syll": "Hot" },
+            { "midi": 62, "start": 13, "dur": 1, "syll": "cross" },
+            { "midi": 60, "start": 14, "dur": 2, "syll": "buns" }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "London Bridge",
+      "emoji": "🌉",
+      "art": 1,
+      "bpm": 104,
+      "difficulty": 2,
+      "phrases": [
+        {
+          "lyric": "London Bridge is falling down",
+          "notes": [
+            { "midi": 67, "start": 0, "dur": 1.5, "syll": "Lon" },
+            { "midi": 69, "start": 1.5, "dur": 0.5, "syll": "don" },
+            { "midi": 67, "start": 2, "dur": 1, "syll": "Bridge" },
+            { "midi": 65, "start": 3, "dur": 1, "syll": "is" },
+            { "midi": 64, "start": 4, "dur": 1, "syll": "fall" },
+            { "midi": 65, "start": 5, "dur": 1, "syll": "ing" },
+            { "midi": 67, "start": 6, "dur": 2, "syll": "down" }
+          ]
+        },
+        {
+          "lyric": "Falling down",
+          "notes": [
+            { "midi": 62, "start": 8, "dur": 1, "syll": "fall" },
+            { "midi": 64, "start": 9, "dur": 1, "syll": "ing" },
+            { "midi": 65, "start": 10, "dur": 2, "syll": "down" }
+          ]
+        },
+        {
+          "lyric": "Falling down",
+          "notes": [
+            { "midi": 64, "start": 12, "dur": 1, "syll": "fall" },
+            { "midi": 65, "start": 13, "dur": 1, "syll": "ing" },
+            { "midi": 67, "start": 14, "dur": 2, "syll": "down" }
+          ]
+        },
+        {
+          "lyric": "London Bridge is falling down",
+          "notes": [
+            { "midi": 67, "start": 16, "dur": 1.5, "syll": "Lon" },
+            { "midi": 69, "start": 17.5, "dur": 0.5, "syll": "don" },
+            { "midi": 67, "start": 18, "dur": 1, "syll": "Bridge" },
+            { "midi": 65, "start": 19, "dur": 1, "syll": "is" },
+            { "midi": 64, "start": 20, "dur": 1, "syll": "fall" },
+            { "midi": 65, "start": 21, "dur": 1, "syll": "ing" },
+            { "midi": 67, "start": 22, "dur": 2, "syll": "down" }
+          ]
+        },
+        {
+          "lyric": "My fair lady!",
+          "notes": [
+            { "midi": 62, "start": 24, "dur": 1, "syll": "My" },
+            { "midi": 67, "start": 25, "dur": 1, "syll": "fair" },
+            { "midi": 64, "start": 26, "dur": 1, "syll": "la" },
+            { "midi": 60, "start": 27, "dur": 2, "syll": "dy" }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Old MacDonald",
+      "emoji": "🚜",
+      "art": 2,
+      "bpm": 108,
+      "difficulty": 2,
+      "phrases": [
+        {
+          "lyric": "Old MacDonald had a farm",
+          "notes": [
+            { "midi": 60, "start": 0, "dur": 1, "syll": "Old" },
+            { "midi": 60, "start": 1, "dur": 1, "syll": "Mac" },
+            { "midi": 60, "start": 2, "dur": 1, "syll": "Don" },
+            { "midi": 55, "start": 3, "dur": 1, "syll": "ald" },
+            { "midi": 57, "start": 4, "dur": 1, "syll": "had" },
+            { "midi": 57, "start": 5, "dur": 1, "syll": "a" },
+            { "midi": 55, "start": 6, "dur": 2, "syll": "farm" }
+          ]
+        },
+        {
+          "lyric": "E-I-E-I-O!",
+          "notes": [
+            { "midi": 64, "start": 8, "dur": 1, "syll": "E" },
+            { "midi": 64, "start": 9, "dur": 1, "syll": "I" },
+            { "midi": 62, "start": 10, "dur": 1, "syll": "E" },
+            { "midi": 62, "start": 11, "dur": 1, "syll": "I" },
+            { "midi": 60, "start": 12, "dur": 2, "syll": "O" }
+          ]
+        },
+        {
+          "lyric": "And on that farm he had a duck",
+          "notes": [
+            { "midi": 55, "start": 14, "dur": 0.5, "syll": "And" },
+            { "midi": 60, "start": 14.5, "dur": 0.5, "syll": "on" },
+            { "midi": 60, "start": 15, "dur": 0.5, "syll": "that" },
+            { "midi": 60, "start": 15.5, "dur": 0.5, "syll": "farm" },
+            { "midi": 55, "start": 16, "dur": 0.5, "syll": "he" },
+            { "midi": 57, "start": 16.5, "dur": 0.5, "syll": "had" },
+            { "midi": 57, "start": 17, "dur": 0.5, "syll": "a" },
+            { "midi": 55, "start": 17.5, "dur": 1.5, "syll": "duck" }
+          ]
+        },
+        {
+          "lyric": "E-I-E-I-O!",
+          "notes": [
+            { "midi": 64, "start": 19, "dur": 1, "syll": "E" },
+            { "midi": 64, "start": 20, "dur": 1, "syll": "I" },
+            { "midi": 62, "start": 21, "dur": 1, "syll": "E" },
+            { "midi": 62, "start": 22, "dur": 1, "syll": "I" },
+            { "midi": 60, "start": 23, "dur": 2, "syll": "O" }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Row, Row, Row Your Boat",
+      "emoji": "🛶",
+      "art": 3,
+      "bpm": 84,
+      "difficulty": 3,
+      "phrases": [
+        {
+          "lyric": "Row, row, row your boat",
+          "notes": [
+            { "midi": 60, "start": 0, "dur": 1, "syll": "Row" },
+            { "midi": 60, "start": 1, "dur": 1, "syll": "row" },
+            { "midi": 60, "start": 2, "dur": 0.75, "syll": "row" },
+            { "midi": 62, "start": 2.75, "dur": 0.25, "syll": "your" },
+            { "midi": 64, "start": 3, "dur": 1, "syll": "boat" }
+          ]
+        },
+        {
+          "lyric": "Gently down the stream",
+          "notes": [
+            { "midi": 64, "start": 4, "dur": 0.75, "syll": "Gent" },
+            { "midi": 62, "start": 4.75, "dur": 0.25, "syll": "ly" },
+            { "midi": 64, "start": 5, "dur": 0.75, "syll": "down" },
+            { "midi": 65, "start": 5.75, "dur": 0.25, "syll": "the" },
+            { "midi": 67, "start": 6, "dur": 2, "syll": "stream" }
+          ]
+        },
+        {
+          "lyric": "Merrily, merrily, merrily, merrily",
+          "notes": [
+            { "midi": 72, "start": 8, "dur": 0.34, "syll": "Mer" },
+            { "midi": 72, "start": 8.34, "dur": 0.33, "syll": "ri" },
+            { "midi": 72, "start": 8.67, "dur": 0.33, "syll": "ly" },
+            { "midi": 67, "start": 9, "dur": 0.34, "syll": "mer" },
+            { "midi": 67, "start": 9.34, "dur": 0.33, "syll": "ri" },
+            { "midi": 67, "start": 9.67, "dur": 0.33, "syll": "ly" },
+            { "midi": 64, "start": 10, "dur": 0.34, "syll": "mer" },
+            { "midi": 64, "start": 10.34, "dur": 0.33, "syll": "ri" },
+            { "midi": 64, "start": 10.67, "dur": 0.33, "syll": "ly" },
+            { "midi": 60, "start": 11, "dur": 0.34, "syll": "mer" },
+            { "midi": 60, "start": 11.34, "dur": 0.33, "syll": "ri" },
+            { "midi": 60, "start": 11.67, "dur": 0.33, "syll": "ly" }
+          ]
+        },
+        {
+          "lyric": "Life is but a dream",
+          "notes": [
+            { "midi": 67, "start": 12, "dur": 0.75, "syll": "Life" },
+            { "midi": 65, "start": 12.75, "dur": 0.25, "syll": "is" },
+            { "midi": 64, "start": 13, "dur": 0.75, "syll": "but" },
+            { "midi": 62, "start": 13.75, "dur": 0.25, "syll": "a" },
+            { "midi": 60, "start": 14, "dur": 2, "syll": "dream" }
+          ]
+        }
+      ]
+    }
+  ]
+}

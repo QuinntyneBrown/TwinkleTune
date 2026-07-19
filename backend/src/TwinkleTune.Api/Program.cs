@@ -1,7 +1,8 @@
 using TwinkleTune.Api.Hubs;
 using TwinkleTune.Application;
+using TwinkleTune.Application.Abstractions;
+using TwinkleTune.Application.Abstractions.Seeding;
 using TwinkleTune.Infrastructure;
-using TwinkleTune.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,9 +26,12 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.EnsureCreated();
-    await SeedData.EnsureSeededAsync(db);
+    await scope.ServiceProvider.GetRequiredService<IDatabaseInitializer>().EnsureCreatedAsync();
+
+    // Seeding is data-driven (Infrastructure/Persistence/seed-data.json) and owned by the CLI
+    // for operational use; the API auto-seeds on boot unless a deployment opts out.
+    if (builder.Configuration.GetValue("Seeding:AutoSeedOnStartup", true))
+        await scope.ServiceProvider.GetRequiredService<IDatabaseSeeder>().SeedAsync();
 }
 
 app.UseCors("app");

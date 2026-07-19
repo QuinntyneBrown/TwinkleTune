@@ -3,6 +3,10 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <!-- The default catalog lives as data, not hardcoded C#. -->
+    <EmbeddedResource Include="Persistence/seed-data.json" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\TwinkleTune.Application\TwinkleTune.Application.csproj" />
   </ItemGroup>
 </Project>
