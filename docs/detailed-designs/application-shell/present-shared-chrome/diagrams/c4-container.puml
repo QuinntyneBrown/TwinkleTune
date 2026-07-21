@@ -1,0 +1,22 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Present shared chrome
+
+Person(child, "Young singer", "Reads and taps the shared frame")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(screens, "Screen modules", "TypeScript (screens/*.ts)", "Interpolate the shared fragments into their own markup")
+  Container(parts, "Shared UI parts", "TypeScript (ui/parts.ts)", "bottomNav, skyDecor, mascotSVG, starSVG, avatarHTML")
+  Container(tokens, "Design system stylesheet", "CSS (styles/twinkle.css)", "Palette tokens, type scale, chunky controls, bottom bar, mascot sizing")
+  Container(screencss, "Per-screen stylesheet", "CSS (styles/screens.css)", "Screen-specific layout ported from the mockups")
+  ContainerDb(store, "Profile store", "TypeScript (state/store.ts)", "Supplies avatar emoji and photoUrl")
+}
+System_Ext(at, "Assistive technology", "Screen reader")
+
+Rel(screens, parts, "Call the fragment builders")
+Rel(screens, store, "Read the active profile for the avatar bubble")
+Rel(parts, tokens, "Emit class names the tokens style")
+Rel(screens, screencss, "Emit per-screen class names")
+Rel(tokens, child, "Pastel palette, 20-24 px display type, fully rounded controls")
+Rel(parts, at, "Nav landmark exposed; sky, mascot, and stars marked aria-hidden")
+@enduml

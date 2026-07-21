@@ -1,0 +1,76 @@
+@startuml
+title UML sequence behaviour — Run the host-level integration suite
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Maintainer or CI" as runner
+box "Backend — TwinkleTune.IntegrationTests" #FFF4E5
+  participant "ApiFactory" as factory
+  participant "CrudEndpointTests" as crud
+  participant "DuetFlowTests" as duet
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "Program (public partial)" as program
+  participant "Controllers" as controllers
+  participant "DuetHub" as hub
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "Application services" as services
+end box
+box "Backend — Infrastructure" #FFF4E5
+  database "Temporary SQLite database" as db
+end box
+
+runner -> factory : Construct ApiFactory
+factory -> factory : root = {temp}/twinkletune-test-{guid}
+factory -> program : UseSetting ConnectionStrings:Default, PhotosPath, DataPath -> root (FS-L2-18)
+program -> db : Create and seed six songs and default avatars
+db --> program : Empty database ready
+program --> factory : In-process host started (FS-L2-18)
+
+== CRUD round-trips over the real routes ==
+crud -> factory : CreateClient()
+factory --> crud : HttpClient bound to the test server
+crud -> controllers : GET /health
+controllers --> crud : Healthy
+crud -> controllers : Avatar, singer, photo, song, and high-score requests (FS-L2-18)
+controllers -> services : Delegate
+services -> db : Read and write
+db --> services : Rows
+services --> controllers : Typed results
+controllers --> crud : HTTP responses or ProblemDetails
+crud -> crud : Assert seed data, validation rejections, and upsert ranking (FS-L2-18)
+
+== Two-client duet over the real hub ==
+duet -> factory : Server.CreateHandler()
+factory --> duet : Message handler
+duet -> hub : Connect two HubConnection clients (LongPolling) (FS-L2-18)
+hub --> duet : Both connected
+duet -> hub : Create room, then join with the second client
+hub -> services : RoomService create and join
+services --> hub : Room with StartAtUtc
+hub --> duet : Synchronised start broadcast to both clients
+duet -> hub : Score ticks from each client
+hub --> duet : Opponent score relayed
+duet -> hub : Both clients finish
+hub -> services : Combined result
+services --> hub : Result
+hub --> duet : Combined result to both clients
+duet -> duet : Assert the flow completes within the 15 s timeout (FS-L2-18)
+
+runner -> factory : Dispose()
+factory -> db : Delete the temporary folder
+db --> factory : Removed
+factory --> runner : Next run starts from an empty, self-seeding database
+@enduml

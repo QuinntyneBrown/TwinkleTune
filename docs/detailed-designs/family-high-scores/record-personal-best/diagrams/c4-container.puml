@@ -1,0 +1,17 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Record a personal best
+
+System_Boundary(app, "TwinkleTune web app") {
+  Container(client, "REST client", "TypeScript (api/client.ts)", "api.highscores.submit")
+}
+System_Boundary(family, "Family server") {
+  Container(api, "TwinkleTune API", "ASP.NET Core", "HighScoresController, HighScoreService, HighScore entity")
+  ContainerDb(db, "TwinkleTune database", "SQLite via EF Core", "HighScores with a unique index on {SongId, SingerId} (HS-L2-1)")
+}
+
+Rel(client, api, "POST /api/highscores", "JSON/HTTP")
+Rel(api, db, "Read the stored best; insert or update in one row (HS-L2-1)", "EF Core")
+Rel_Back(client, api, "{ improved, score } (HS-L2-5, HS-L2-6)")
+@enduml

@@ -1,0 +1,71 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Show the Star Journey
+
+class "screens/me.ts" as MeMod <<module>> {
+  +renderMe(root: HTMLElement): void
+  -currentWeek(today: string): string[7]
+  -DAY_LETTERS: string[7]
+  -lvl: number
+  -toNext: number
+  -xpPct: number
+  -mastered: { song: Song, best: SongBest }[]
+}
+
+interface AppState {
+  +profile: Profile?
+  +sparkles: number
+  +singDays: string[]
+  +bests: Record<string, SongBest>
+  +badges: Record<string, string>
+}
+
+interface Profile {
+  +name: string
+  +avatar: string
+  +range: VoiceRange?
+}
+
+interface VoiceRange {
+  +low: number
+  +high: number
+}
+
+interface SongBest {
+  +stars: number
+  +accuracy: number
+  +plays: number
+}
+
+interface BadgeMeta {
+  +id: string
+  +name: string
+  +emoji: string
+  +hint: string
+}
+
+class "state/store.ts" as StoreMod <<module>> {
+  +level(sparkles: number): number
+  +levelTitle(lvl: number): string
+  +sparklesToNextLevel(sparkles: number): number
+  +todayISO(d: Date): string
+}
+
+MeMod ..> AppState : renders from
+MeMod ..> StoreMod : level derivations
+MeMod ..> BadgeMeta : renders all six
+AppState --> "0..1" Profile : profile
+Profile --> "0..1" VoiceRange : range
+AppState "1" --> "*" SongBest : bests
+@enduml

@@ -1,0 +1,27 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Create first profile
+
+Container_Boundary(web, "TwinkleTune web app — first-run onboarding") {
+  Component(render, "renderWelcome()", "welcome.ts", "Name input, AVATARS picker, start handler, routing")
+  Component(store, "store", "store.ts", "Holds and persists the Profile blob")
+  Component(activate, "activateSinger()", "profile.ts", "Namespaces state and merges the server singer")
+  Component(client, "api client", "api/client.ts", "serverOnline(), avatars.list(), singers.create()")
+}
+Container_Boundary(api, "TwinkleTune API") {
+  Component(ctrl, "SingersController", "ASP.NET Core controller", "POST /api/singers -> 201 or 400")
+  Component(svc, "SingerService", "Application service", "Validates, trims the name, stamps CreatedAt")
+  Component(avatarCtrl, "AvatarsController", "ASP.NET Core controller", "GET /api/avatars")
+  ComponentDb(db, "Family database", "SQLite", "Singers and avatars")
+}
+
+Rel(render, store, "store.update(s => s.profile = ...)")
+Rel(render, client, "serverOnline(); avatars.list(); singers.create()")
+Rel(render, activate, "activateSinger(createdSinger)")
+Rel(client, avatarCtrl, "GET /api/avatars", "JSON/HTTP")
+Rel(client, ctrl, "POST /api/singers", "JSON/HTTP")
+Rel(ctrl, svc, "CreateAsync(SaveSingerRequest)")
+Rel(svc, db, "Adds the Singer row", "EF Core")
+Rel(avatarCtrl, db, "Reads avatars", "EF Core")
+@enduml

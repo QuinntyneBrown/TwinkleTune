@@ -1,0 +1,15 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Create and join a duet room
+
+Person(host, "Singer (host device)", "Makes a room and reads the code aloud")
+Person(guest, "Singer (guest device)", "Types the 4-letter code to join")
+System(webapp, "TwinkleTune web app", "Duet screen: make a room or join with a code")
+System(familyserver, "Family Server", "Hosts the duet hub and the in-memory room registry")
+
+Rel(host, webapp, "Makes a room using", "HTTPS")
+Rel(guest, webapp, "Joins with a code using", "HTTPS")
+Rel(webapp, familyserver, "Creates and joins rooms over", "SignalR/WebSockets")
+Rel(host, guest, "Reads the 4-letter code aloud", "Same room, out of band")
+@enduml

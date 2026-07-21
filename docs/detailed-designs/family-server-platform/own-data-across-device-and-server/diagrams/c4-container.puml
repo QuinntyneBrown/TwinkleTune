@@ -1,0 +1,24 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Own data across device and server
+
+Person(ada, "Ada, the young singer", "Plays on two devices")
+System_Boundary(device, "TwinkleTune web app on one device") {
+  Container(store, "State store", "TypeScript (state/store.ts)", "Sparkles, badges, singDays, bests, latencyMs")
+  Container(profile, "Profile bridge", "TypeScript (state/profile.ts)", "Applies and pushes the server view of a singer")
+  ContainerDb(local, "localStorage", "Browser storage", "twinkletune:v1[:singerId] and twinkletune:active-singer")
+}
+System_Boundary(server, "TwinkleTune family server") {
+  Container(api, "TwinkleTune.Api", "ASP.NET Core", "Singer, avatar, song, and high-score routes")
+  ContainerDb(db, "twinkletune.db", "SQLite file", "Singers with RangeLow and RangeHigh, avatars, songs, high scores")
+  Container(photos, "photos folder", "Disk directory", "One profile photo per singer")
+}
+
+Rel(ada, store, "Earns sparkles, badges, and streaks on this device")
+Rel(store, local, "Persists device-owned state under a per-singer key")
+Rel(profile, store, "Merges the server view into the local profile")
+Rel(profile, api, "GET and PUT /api/singers with rangeLow and rangeHigh", "JSON/HTTP")
+Rel(api, db, "Reads and writes server-owned records", "EF Core")
+Rel(api, photos, "Reads and writes profile photos", "File system")
+@enduml

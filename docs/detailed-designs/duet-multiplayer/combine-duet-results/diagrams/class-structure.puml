@@ -1,0 +1,78 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Combine duet results
+
+class DuetSummary <<record>> {
+  +SingerId: Guid
+  +Name: string
+  +Landed: int
+  +Total: int
+  +Stars: int
+  +Sparkles: int
+  +MaxStreak: int
+  +Accuracy: double
+}
+
+class FinishResult <<record>> {
+  +Code: string
+  +BothDone: bool
+  +Summaries: List<DuetSummary>
+}
+
+interface IRoomService {
+  +Finish(connectionId: string, summary: DuetSummary): FinishResult?
+}
+
+class RoomService {
+  -{static} MaxPlayers: int = 2
+  +Finish(connectionId, summary): FinishResult?
+}
+
+class Player <<private nested>> {
+  +ConnectionId: string
+  +Info: DuetPlayerInfo
+  +Summary: DuetSummary?
+}
+
+class DuetHub {
+  +FinishSong(summary: DuetSummary): Task
+}
+
+interface DuetResult <<TypeScript>> {
+  +players: DuetSummary[]
+  +combinedSparkles: number
+}
+
+class DuetClient <<TypeScript>> {
+  +finish(summary: DuetSummary): Promise<void>
+  +onOpponentFinished(cb: (s: DuetSummary) => void): void
+  +onDuetResult(cb: (r: DuetResult) => void): void
+}
+
+class "results.ts" as ResultsScreen <<module>> {
+  -paintDuet(result: DuetResult): void
+  -renders the waiting card until a result arrives
+}
+
+RoomService ..|> IRoomService
+RoomService --> Player : stores Summary on
+Player --> "0..1" DuetSummary : summary
+RoomService ..> FinishResult : returns
+FinishResult o-- "1..2" DuetSummary : summaries
+DuetHub --> IRoomService : delegates to
+DuetHub ..> DuetResult : emits with summed sparkles
+DuetClient ..> DuetResult : receives
+ResultsScreen ..> DuetResult : paints
+ResultsScreen ..> DuetClient : subscribes while waiting
+@enduml

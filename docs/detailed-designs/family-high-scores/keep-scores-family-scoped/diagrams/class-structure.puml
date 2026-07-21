@@ -1,0 +1,69 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Keep scores family-scoped
+
+class Song <<entity>> {
+  +Guid Id
+  +string Title
+  +bool IsSeed
+}
+
+class Singer <<entity>> {
+  +Guid Id
+  +string Name
+  +string? PhotoFileName
+}
+
+class HighScore <<entity>> {
+  +Guid Id
+  +Guid SongId
+  +Song? Song
+  +Guid SingerId
+  +Singer? Singer
+  +int Stars
+  +double Accuracy
+}
+
+class AppDbContext <<EF Core>> {
+  +DbSet<Song> Songs
+  +DbSet<Singer> Singers
+  +DbSet<HighScore> HighScores
+  +OnModelCreating(builder): void
+  --
+  HighScore -> Song: OnDelete(Cascade)
+  HighScore -> Singer: OnDelete(Cascade)
+  unique index {SongId, SingerId}
+}
+
+class HighScoresController <<ASP.NET Core>> {
+  +Submit(req, ct): Task<IActionResult>
+  +GetForSong(songId: Guid, ct): Task<List<HighScoreDto>>
+  +GetForSinger(singerId: Guid, ct): Task<List<HighScoreDto>>
+}
+
+class SongsController <<ASP.NET Core>> {
+  +Delete(id: Guid, ct): Task<IActionResult>
+}
+
+class SingersController <<ASP.NET Core>> {
+  +Delete(id: Guid, ct): Task<IActionResult>
+}
+
+Song "1" *-- "*" HighScore : cascade delete
+Singer "1" *-- "*" HighScore : cascade delete
+AppDbContext ..> HighScore : configures referential actions
+SongsController ..> AppDbContext : removes a song and its scores
+SingersController ..> AppDbContext : removes a singer and its scores
+HighScoresController ..> HighScore : the only score surface
+@enduml

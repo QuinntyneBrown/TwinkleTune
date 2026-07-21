@@ -1,0 +1,20 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Validate a submission
+
+Container_Boundary(api, "TwinkleTune API") {
+  Component(ctrl, "HighScoresController.Submit", "ASP.NET Core controller action", "BadRequest(new { error }) when the service reports a rejection")
+  Component(svc, "HighScoreService.SubmitAsync", "Application service", "Four ordered guard clauses ahead of any comparison")
+  Component(songs, "ISongRepository.GetAsync", "Repository abstraction", "Resolves a song by id; null when unknown")
+  Component(singers, "ISingerRepository.GetAsync", "Repository abstraction", "Resolves a singer by id; null when unknown")
+  ComponentDb(db, "TwinkleTune database", "SQLite via EF Core", "Songs and Singers tables")
+}
+
+Rel(ctrl, svc, "SubmitAsync(request)")
+Rel(svc, svc, "Stars 0-3 and accuracy 0-1 range checks (HS-L2-2)")
+Rel(svc, songs, "Existence check (HS-L2-3)")
+Rel(svc, singers, "Existence check (HS-L2-3)")
+Rel(songs, db, "SELECT by id", "EF Core")
+Rel(singers, db, "SELECT by id", "EF Core")
+@enduml

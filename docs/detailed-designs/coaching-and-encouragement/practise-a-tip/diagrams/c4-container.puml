@@ -1,0 +1,20 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Practise a tip
+
+Person(child, "Young singer", "Browses tips and follows the steps")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(tips, "Tips screen", "TypeScript (screens/tips.ts)", "Hero tip, category chips, tip cards, walk-through")
+  Container(data, "Tip content module", "TypeScript (screens/tips-data.ts)", "HERO_TIP plus the 6 shipped tips")
+  Container(modal, "Modal and toast host", "TypeScript (ui/modal.ts)", "showModal and toast")
+  Container(store, "Client store", "TypeScript (state/store.ts)", "Sparkle balance and per-singer namespacing")
+}
+ContainerDb(storage, "Browser local storage", "Web Storage", "Serialized per-singer state blob")
+
+Rel(child, tips, "Filters, opens, and completes a tip", "Touch")
+Rel(tips, data, "Reads HERO_TIP and TIPS")
+Rel(tips, modal, "showModal(steps); toast('+5 sparkles ✨','gold')")
+Rel(tips, store, "update(s => s.sparkles += 5)")
+Rel(store, storage, "Writes the state blob", "JSON")
+@enduml

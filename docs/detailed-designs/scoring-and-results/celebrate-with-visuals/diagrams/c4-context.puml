@@ -1,0 +1,15 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Celebrate with visuals
+
+Person(singer, "Singer", "Sees the results screen after a performance")
+System(twinkle, "TwinkleTune web app", "On-device singing app; draws a decorative celebration behind the result (TypeScript)")
+System_Ext(gpu, "Browser graphics stack", "WebGPU adapter and 2D canvas context")
+System_Ext(prefs, "Operating system motion preference", "prefers-reduced-motion reported by the browser")
+
+Rel(singer, twinkle, "Arrives at #/results")
+Rel(twinkle, prefs, "Reads the reduced-motion preference", "matchMedia")
+Rel(twinkle, gpu, "Draws particles and bursts", "WebGPU or Canvas2D")
+Rel(twinkle, singer, "Shows a star-count-sensitive celebration behind the semantic result")
+@enduml

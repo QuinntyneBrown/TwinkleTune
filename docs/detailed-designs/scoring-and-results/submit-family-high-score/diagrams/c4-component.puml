@@ -1,0 +1,32 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Submit the family high score
+
+Container_Boundary(results, "Results screen (results.ts)") {
+  Component(guard, "Eligibility guard", "TypeScript expression", "!noMic && profile.singerId && isServerSongId(songId)")
+  Component(submit, "Fire-and-forget submission", "TypeScript block", "void api.highscores.submit(...).then(...).catch(() => {})")
+  Component(record, "Record toast", "TypeScript call", "toast('New family record!', 'gold', 2600) when improved")
+}
+Container_Boundary(clientside, "Frontend support") {
+  Component(isserver, "isServerSongId()", "TypeScript function", "GUID pattern test on the song id")
+  Component(apiclient, "api.highscores.submit()", "TypeScript function", "POST /api/highscores")
+}
+Container_Boundary(api, "TwinkleTune API") {
+  Component(ctrl, "HighScoresController", "ASP.NET Core controller", "POST /api/highscores")
+  Component(svc, "HighScoreService", "Application service", "Validates, compares and upserts")
+  Component(entity, "HighScore", "Domain entity", "IsBeatenBy(stars, accuracy)")
+  Component(hsrepo, "HighScoreRepository", "EF Core repository", "GetAsync / AddAsync / UpdateAsync")
+  ComponentDb(db, "Family database", "SQLite", "One high score per song and singer")
+}
+
+Rel(guard, isserver, "isServerSongId(songId)")
+Rel(guard, submit, "Passes only when all three conditions hold")
+Rel(submit, apiclient, "Sends the run")
+Rel(submit, record, "res.improved raises the toast")
+Rel(apiclient, ctrl, "POST /api/highscores", "JSON/HTTP")
+Rel(ctrl, svc, "SubmitAsync(request, ct)")
+Rel(svc, hsrepo, "GetAsync / AddAsync / UpdateAsync")
+Rel(svc, entity, "IsBeatenBy(stars, accuracy)")
+Rel(hsrepo, db, "Reads and writes", "EF Core")
+@enduml

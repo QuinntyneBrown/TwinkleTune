@@ -1,0 +1,66 @@
+@startuml
+title UML sequence behaviour — Apply upsert-if-better
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "api.highscores.submit (client.ts)" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "HighScoresController" as controller
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "HighScoreService" as service
+  participant "HighScore (entity)" as entity
+  participant "TimeProvider" as clock
+end box
+box "Backend — Infrastructure" #FFF4E5
+  participant "HighScoreRepository" as repo
+  database "TwinkleTune database (SQLite)" as db
+end box
+
+client -> controller : POST /api/highscores
+controller -> service : SubmitAsync(request)
+service -> repo : GetAsync(SongId, SingerId)
+repo -> db : SELECT on the unique {SongId, SingerId} key (HS-L2-1)
+db --> repo : row or none
+repo --> service : HighScore or null
+
+alt No stored best for the pair
+  service -> clock : GetUtcNow()
+  clock --> service : achievement time (HS-L2-5)
+  service -> repo : AddAsync(new HighScore { ... AchievedAt })
+  repo -> db : INSERT and SaveChangesAsync (HS-L2-1)
+  db --> repo : committed
+  repo --> service : stored row with singer include
+  service --> controller : SubmitHighScoreResult(true, dto) (HS-L2-5)
+else Stored best exists
+  service -> entity : IsBeatenBy(request.Stars, request.Accuracy) (HS-L2-4)
+  alt More stars, or equal stars with higher accuracy
+    entity --> service : true
+    service -> clock : GetUtcNow()
+    clock --> service : achievement time
+    service -> entity : Overwrite Stars, Accuracy, Sparkles, MaxStreak, AchievedAt
+    service -> repo : UpdateAsync(existing)
+    repo -> db : UPDATE the single row and SaveChangesAsync (HS-L2-1)
+    db --> repo : committed
+    service --> controller : SubmitHighScoreResult(true, existing.ToDto()) (HS-L2-4)
+  else Not beaten
+    entity --> service : false
+    service --> controller : SubmitHighScoreResult(false, existing.ToDto()) (HS-L2-6)
+  end
+end
+
+controller --> client : 200 OK { improved, score }
+@enduml

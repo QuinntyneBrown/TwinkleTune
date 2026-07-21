@@ -1,0 +1,47 @@
+@startuml
+title UML sequence behaviour — Probe reachability and cache the answer
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Welcome screen" as screen
+  participant "serverOnline()" as probe
+  participant "onlineCheck cache" as cache
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "GET /health" as health
+end box
+
+singer -> screen : finish onboarding
+screen -> probe : serverOnline() (FS-L2-14)
+probe -> cache : read the last result and its timestamp
+alt a result younger than 10 s exists
+  cache --> probe : cached result (FS-L2-14)
+  probe --> screen : cached online or offline, no network call (FS-L2-14)
+else no fresh result
+  cache --> probe : none
+  probe -> health : fetch(API_URL + "/health") with AbortSignal.timeout(1500) (FS-L2-13, FS-L2-14)
+  alt the server answers within 1500 ms
+    health --> probe : 200 { status: "ok" }
+    probe -> cache : store { at: Date.now(), result: true } (FS-L2-14)
+    probe --> screen : online
+  else timeout, rejection, or a non-ok status
+    health --> probe : abort or error
+    probe -> cache : store { at: Date.now(), result: false } (FS-L2-14)
+    probe --> screen : offline (FS-L2-14)
+  end
+end
+screen --> singer : continue, with family features offered only when online (FS-L2-15)
+@enduml

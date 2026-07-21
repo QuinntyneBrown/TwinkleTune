@@ -1,0 +1,22 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Submit a high score
+
+Container_Boundary(front, "TwinkleTune web app") {
+  Component(render, "renderResults()", "results.ts", "Reads lastResult and profile; applies the submission guard")
+  Component(guard, "isServerSongId()", "songs/repo.ts helper", "GUID test separating server songs from bundled slugs")
+  Component(toastfn, "toast()", "ui/modal.ts", "Gold 2600 ms celebration message")
+  Component(client, "api.highscores.submit", "api/client.ts", "POST /api/highscores with the submission body")
+}
+Container_Boundary(back, "TwinkleTune API") {
+  Component(ctrl, "HighScoresController.Submit", "ASP.NET Core controller action", "Accepts SubmitHighScoreRequest; returns Ok or BadRequest")
+  Component(svc, "HighScoreService.SubmitAsync", "Application service", "Produces SubmitHighScoreResult with the improved flag")
+}
+
+Rel(render, guard, "Classifies r.songId (HS-L2-11)")
+Rel(render, client, "Calls when the run is scored, linked, and server-originated")
+Rel(client, ctrl, "POST /api/highscores (HS-L2-8)", "JSON/HTTP")
+Rel(ctrl, svc, "SubmitAsync(request)")
+Rel(render, toastfn, "Shows 'New family record!' on improved = true (HS-L2-14)")
+@enduml

@@ -1,0 +1,74 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Remove singer
+
+class "ui/modal.ts" as Modal <<module>> {
+  +parentGate(onPass: () => void): void
+  +showModal(options: ModalOptions): void
+  +toast(message: string, tone?: string): void
+}
+
+class "profiles.ts" as Picker <<module>> {
+  -singerDialog(existing: ApiSinger | null, avatars, onSaved): void
+  ..
+  [data-delete] -> parentGate -> confirm -> remove
+}
+
+class "api/client.ts" as ApiClient <<module>> {
+  +singers.remove(id: string): Promise<void>
+}
+
+class SingersController {
+  +Delete(id: Guid): Task<IActionResult>
+}
+
+interface ISingerService {
+  +DeleteAsync(id: Guid): Task<bool>
+}
+
+class SingerService {
+  +DeleteAsync(id: Guid): Task<bool>
+}
+
+interface IPhotoStorage {
+  +Delete(fileName: string): void
+}
+
+interface ISingerRepository {
+  +DeleteAsync(id: Guid): Task<bool>
+}
+
+class Singer {
+  +Guid Id
+  +string Name
+  +string? PhotoFileName
+}
+
+class HighScore {
+  +Guid SongId
+  +Guid SingerId
+  +int Stars
+  +double Accuracy
+}
+
+Picker ..> Modal : parentGate and confirmation
+Picker ..> ApiClient : singers.remove
+ApiClient ..> SingersController : DELETE /api/singers/{id}
+SingersController --> ISingerService : delegates to
+SingerService ..|> ISingerService
+SingerService --> IPhotoStorage : Delete(PhotoFileName)
+SingerService --> ISingerRepository : DeleteAsync(id)
+ISingerRepository ..> Singer : removes
+Singer *-- "*" HighScore : cascade on delete
+@enduml

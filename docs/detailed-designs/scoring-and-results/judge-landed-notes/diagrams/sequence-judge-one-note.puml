@@ -1,0 +1,61 @@
+@startuml
+title UML sequence behaviour — Judge one note across its frames
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "renderSing loop (sing.ts)" as loop
+  participant "PitchTracker (pitch.ts)" as tracker
+  participant "NoteResult" as result
+  participant "scoring.ts rules" as rules
+end box
+box "Device — Browser Web Audio & microphone" #FFF4E5
+  participant "AnalyserNode" as mic
+end box
+
+singer -> loop : Sings while the note is active
+loop -> tracker : read()
+tracker -> mic : getFloatTimeDomainData
+mic --> tracker : time-domain samples
+tracker --> loop : PitchFrame { midi } or null
+
+loop -> result : totalFrames++
+alt frame present
+  loop -> rules : foldCents(frame.midi, n.midi + shift) (SR-L2-1)
+  rules --> loop : signed cents in (-600, +600]
+  alt |cents| <= HIT_TOLERANCE_CENTS (50)
+    loop -> result : hitFrames++
+    opt firstHitFrac is null
+      loop -> result : firstHitFrac = (scoreBeat - n.start) / n.dur
+    end
+    loop --> singer : Star moves to the note and cheers
+  else outside the tolerance band
+    loop --> singer : No hit credited for this frame (SR-L2-1)
+  end
+else no pitch this frame
+  loop --> singer : Star drifts to centre, note stays uncredited
+end
+
+loop -> loop : finalizeNotesUpTo(scoreBeat) when the note ends
+loop -> rules : noteLanded(result) (SR-L2-2)
+alt totalFrames < 3
+  rules --> loop : false — minimum-sample guard (SR-L2-2)
+else hitFrames / totalFrames < 0.5
+  rules --> loop : false — under half the frames (SR-L2-2)
+else at least 3 frames and at least half on-pitch
+  rules --> loop : true — note landed (SR-L2-2)
+  loop --> singer : Streak advances and sparkles rise
+end
+@enduml

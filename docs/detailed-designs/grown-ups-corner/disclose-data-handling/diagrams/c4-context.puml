@@ -1,0 +1,16 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Disclose data handling
+
+Person(grownup, "Grown-up", "Reads the disclosure before using any control")
+System(twinkle, "TwinkleTune web app", "On-device singing app; states the data split in the Grown-Ups Corner (TypeScript)")
+System_Ext(storage, "Browser localStorage", "Sparkles, badges, streaks and the device profile")
+System_Ext(server, "Family server", "Home-LAN server holding profiles, songs, avatars and family high scores")
+System_Ext(partner, "Duet partner device", "Second tablet in a live duet room")
+
+Rel(grownup, twinkle, "Reads the privacy disclosure in")
+Rel(twinkle, storage, "Keeps on-device rewards here and nowhere else")
+Rel(twinkle, server, "Sends profiles, songs, avatars and scores to the family's own hardware", "JSON/HTTPS")
+Rel(twinkle, partner, "Relays live score events only, not persisted", "SignalR via /hubs/duet")
+@enduml

@@ -1,0 +1,59 @@
+@startuml
+title UML sequence behaviour — Capture a range on one device and read it on another
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Ada, the young singer" as ada
+box "Frontend — TwinkleTune web app (tablet)" #E0F2FE
+  participant "Find My Voice screen" as voice
+  participant "state/store.ts" as store1
+  participant "state/profile.ts" as bridge1
+end box
+box "Frontend — TwinkleTune web app (family PC)" #E0F2FE
+  participant "Profiles screen" as pc
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "SingersController" as controller
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "SingerService" as service
+  participant "Singer" as singer
+end box
+box "Backend — Infrastructure" #FFF4E5
+  database "twinkletune.db" as db
+end box
+
+ada -> voice : complete Find My Voice on the tablet
+voice -> store1 : profile.range = { low, high } (FS-L2-16)
+store1 -> store1 : sparkles, badges, streaks, and latencyMs stay on this device (FS-L2-16)
+voice -> bridge1 : pushProfileToServer()
+bridge1 -> controller : PUT /api/singers/{id} with rangeLow and rangeHigh
+controller -> service : UpdateAsync(id, SaveSingerRequest)
+service -> singer : set RangeLow and RangeHigh (FS-L2-16)
+service -> db : SaveChangesAsync()
+db --> service : saved
+service --> controller : SingerDto
+controller --> bridge1 : 200 with the singer
+bridge1 --> ada : range now belongs to the person, not the tablet (FS-L2-16)
+
+ada -> pc : open the app on the family PC and pick her profile
+pc -> controller : GET /api/singers/{id}
+controller -> service : GetAsync(id)
+service -> db : read the singer
+db --> service : Singer with RangeLow and RangeHigh
+service --> controller : SingerDto
+controller --> pc : 200 with her range (FS-L2-16)
+pc -> pc : applySingerToProfile keeps this device's latencyMs (FS-L2-16)
+pc --> ada : songs already transposed to her key, with this device's own sparkle and badge totals (FS-L2-16)
+@enduml

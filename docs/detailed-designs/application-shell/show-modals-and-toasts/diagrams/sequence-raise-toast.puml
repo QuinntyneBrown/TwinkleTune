@@ -1,0 +1,43 @@
+@startuml
+title UML sequence behaviour — Raise and auto-dismiss a toast
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Young singer" as child
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Screen (results, sing, tips, duet)" as caller
+  participant "toast() (ui/modal.ts)" as toastfn
+end box
+box "Device — Browser DOM and timers" #FFF4E5
+  participant "div.toast-host" as host
+  participant "span.toast" as pill
+  participant "setTimeout" as timer
+end box
+
+caller -> toastfn : toast('New family record!', 'gold', 2600) (AS-L2-7)
+alt toastHost is null or detached from document.body
+  toastfn -> host : createElement('div').toast-host; append to body
+else the host is still live
+  toastfn -> host : Reuse the existing container
+end
+toastfn -> pill : span.toast.toast-gold with textContent (AS-L2-7)
+toastfn -> host : appendChild(pill)
+host --> child : Gold pill at the top of the screen; pointer-events none
+toastfn -> timer : setTimeout(add 'bye', ms) (AS-L2-7)
+toastfn -> timer : setTimeout(remove, ms + 450) (AS-L2-7)
+timer -> pill : Add the bye class after ms
+pill --> child : 0.4 s fade and 14 px rise
+timer -> pill : remove() 450 ms later
+pill --> host : Detached; the stack closes up (AS-L2-7)
+@enduml

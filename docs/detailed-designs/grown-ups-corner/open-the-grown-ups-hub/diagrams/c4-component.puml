@@ -1,0 +1,24 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Open the grown-ups hub (settings.ts)
+
+Container_Boundary(hub, "Grown-Ups Corner hub (settings.ts)") {
+  Component(show, "showSettings()", "TypeScript function", "Reads the profile, builds the card markup, mounts the modal")
+  Component(mount, "onMount(modal, close)", "Wiring callback", "Binds the slider, both hand-off links and the two manager buttons")
+  Component(rows, "Setting rows", "HTML fragments", "Latency, voice range, family content, singers, danger zone")
+}
+Container_Boundary(shared, "Shared UI and state") {
+  Component(host, "showModal()", "modal.ts", "Mounts the dismissible overlay card")
+  Component(range, "midiToName()", "audio/range.ts", "Formats a MIDI note as a note name")
+  Component(store, "store", "state/store.ts", "Active profile accessor")
+  Component(mgrs, "showSongManager() / showAvatarManager()", "managers.ts", "Server-backed content editors")
+}
+
+Rel(show, store, "store.get().profile")
+Rel(show, range, "midiToName(range.low / range.high)")
+Rel(show, rows, "Renders in fixed order")
+Rel(show, host, "showModal({ ariaLabel, html, onMount })")
+Rel(host, mount, "Invokes with the card and close handle")
+Rel(mount, mgrs, "close() then open the requested manager")
+@enduml

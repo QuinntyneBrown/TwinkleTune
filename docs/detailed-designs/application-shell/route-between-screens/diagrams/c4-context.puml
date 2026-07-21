@@ -1,0 +1,13 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Route between screens
+
+Person(child, "Young singer", "Taps links and reopens the app on a tablet")
+System(twinkle, "TwinkleTune web app", "Single-page singing app; resolves the URL hash to one screen (TypeScript, no framework)")
+System_Ext(browser, "Browser location and history", "Owns location.hash and raises hashchange")
+
+Rel(child, twinkle, "Navigates by tapping #/ links")
+Rel(twinkle, browser, "Reads location.hash; listens for hashchange", "DOM")
+Rel(browser, twinkle, "Reports the new hash on every navigation", "hashchange event")
+@enduml

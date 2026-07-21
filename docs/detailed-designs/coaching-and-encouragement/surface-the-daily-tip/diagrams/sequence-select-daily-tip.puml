@@ -1,0 +1,47 @@
+@startuml
+title UML sequence behaviour — Select and present the tip of the day
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Young singer" as child
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "renderHome (home.ts)" as home
+  participant "tipOfTheDay (tips-data.ts)" as select
+  participant "router" as router
+end box
+box "Device — Browser clock and DOM" #FFF4E5
+  participant "Date / local clock" as clock
+  participant "root element" as dom
+end box
+
+child -> home : Open the home dashboard
+home -> select : tipOfTheDay()
+select -> clock : new Date()
+clock --> select : Current local date
+select -> select : dayOfYear = floor((d - Dec 31 of previous year) / 86400000) (CE-L2-6)
+select -> select : index = dayOfYear % 7 over [HERO_TIP, ...TIPS] (CE-L2-6)
+select --> home : One Tip for that calendar day (CE-L2-6)
+home -> dom : Render .tip-day card with icon, title, and short line (CE-L2-6)
+dom --> child : Tip of the day in view
+
+opt the dashboard is re-rendered on the same date
+  home -> select : tipOfTheDay()
+  select --> home : The same Tip as before (CE-L2-6)
+end
+
+opt child taps the card arrow
+  child -> router : Follow #/tips
+  router --> child : Twinkle's Tips screen
+end
+@enduml

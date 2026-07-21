@@ -1,0 +1,21 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Detect the tricky part
+
+Person(singer, "Singer", "Finishes a song and may accept the invitation")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(scoring, "Scoring rules", "TypeScript (scoring.ts)", "Selects the weakest qualifying phrase")
+  Container(store, "App state store", "TypeScript (store.ts)", "Holds the summary as lastResult")
+  Container(results, "Results screen", "TypeScript (results.ts)", "Renders the practice invitation")
+  Container(sing, "Sing screen", "TypeScript (sing.ts)", "Runs the phrase-scoped slow practice session")
+  Container(router, "Application shell router", "TypeScript (main.ts)", "Resolves the #/sing route and its parameters")
+}
+
+Rel(scoring, store, "trickyPhrase and trickyLyric inside the summary")
+Rel(results, store, "Reads lastResult")
+Rel(singer, results, "Taps Practice the tricky part")
+Rel(results, router, "Navigates to #/sing?song=..&practice=..&slow=1")
+Rel(router, sing, "Renders with the practice parameters")
+Rel(sing, singer, "Plays the phrase alone at 0.7 tempo")
+@enduml

@@ -1,0 +1,22 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Cache for offline
+
+Person(singer, "Young singer", "Opens the app with or without a network")
+
+System_Boundary(app, "TwinkleTune web app") {
+  Container(shell, "Application shell", "TypeScript, main.ts", "Boots the router and registers the worker in production builds only")
+  Container(worker, "Service worker", "JavaScript, sw.js", "Intercepts GET requests and answers cache-first while revalidating")
+  ContainerDb(cache, "Cache storage", "Browser Cache API, 'twinkletune-v1'", "Holds GET responses fetched on earlier visits")
+}
+
+System_Ext(host, "Static host", "Serves the document, bundle, manifest, and icons")
+
+Rel(singer, shell, "Uses", "Home screen or browser")
+Rel(shell, worker, "register('./sw.js') on load, production only (AS-L2-11)")
+Rel(shell, worker, "GET requests intercepted by")
+Rel(worker, cache, "Matches, puts, and purges other versions (AS-L2-10)")
+Rel(worker, host, "Background revalidation; skipped when offline (AS-L2-10)", "HTTPS GET")
+Rel(shell, host, "Non-GET requests pass through untouched (AS-L2-10)", "HTTPS")
+@enduml

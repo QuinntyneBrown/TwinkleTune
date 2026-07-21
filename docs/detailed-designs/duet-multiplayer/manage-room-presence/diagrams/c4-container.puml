@@ -1,0 +1,23 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Manage room presence
+
+Person(singerA, "Singer (host device)", "Remains in the room")
+Person(singerB, "Singer (guest device)", "Leaves or disconnects")
+
+System_Boundary(twinkletune, "TwinkleTune") {
+  Container(webHost, "TwinkleTune web app (host device)", "TypeScript, DOM modules", "DuetClient with automatic reconnection; duetSession across screens")
+  Container(webGuest, "TwinkleTune web app (guest device)", "TypeScript, DOM modules", "Invokes LeaveRoom or simply drops")
+  Container(api, "TwinkleTune API", "ASP.NET Core (.NET 10)", "DuetHub.LeaveRoom and OnDisconnectedAsync")
+  Container(registry, "Room registry", "In-memory ConcurrentDictionary", "Rooms and connection mappings; nothing persisted")
+  ContainerDb(db, "Family database", "SQLite via EF Core", "Profiles, songs, and high scores — no room state")
+}
+
+Rel(singerA, webHost, "Uses", "HTTPS")
+Rel(singerB, webGuest, "Uses", "HTTPS")
+Rel(webGuest, api, "Invokes LeaveRoom, or the transport reports a disconnect", "SignalR/WebSockets")
+Rel(api, registry, "Removes the player; closes the room when empty; sweeps idle rooms", "In-process call")
+Rel(api, webHost, "Sends PlayerLeft to the remaining player", "SignalR/WebSockets")
+Rel(api, db, "Holds no room state", "No call")
+@enduml

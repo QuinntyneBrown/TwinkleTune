@@ -1,0 +1,70 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Summarize a performance
+
+interface NoteResult {
+  +phraseIdx: number
+  +noteIdx: number
+  +midi: number
+  +hitFrames: number
+  +totalFrames: number
+  +firstHitFrac: number?
+}
+
+interface SongSummary {
+  +songId: string
+  +songTitle: string
+  +landed: number
+  +total: number
+  +accuracy: number
+  +stars: 1 | 2 | 3
+  +pitchStars: number
+  +timingStars: number
+  +braveStars: number
+  +maxStreak: number
+  +sparkles: number
+  +trickyPhrase: number?
+  +trickyLyric: string?
+  +noMic: boolean
+}
+
+class "scoring.ts" as ScoringMod <<module>> {
+  +summarize(song: Song, results: NoteResult[], noMic: boolean): SongSummary
+  +noteLanded(r: NoteResult, minFrames: number): boolean
+  -starsFromRatio(r: number, hi: number, mid: number): number
+}
+
+class "songs/types.ts" as SongsMod <<module>> {
+  +songRange(s: Song): { min: number, max: number }
+}
+
+class "store.ts" as StoreMod <<module>> {
+  +recordPlay(store: Store, song: Song, summary: SongSummary, today: string): string[]
+}
+
+interface AppState {
+  +sparkles: number
+  +bests: Record<string, SongBest>
+  +lastResult: SongSummary?
+  +lastSongId: string?
+  +lastNewBadges: string[]
+}
+
+ScoringMod ..> NoteResult : reduces
+ScoringMod --> SongSummary : produces
+ScoringMod ..> SongsMod : songRange
+StoreMod ..> SongSummary : records
+StoreMod --> AppState : updates
+AppState --> "0..1" SongSummary : lastResult
+@enduml

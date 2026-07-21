@@ -1,0 +1,13 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Track the daily goal and streak
+
+Person(singer, "Singer", "Sings songs day by day on the tablet")
+System(twinkle, "TwinkleTune web app", "On-device singing app; tracks sing-days and today's play count (TypeScript)")
+System_Ext(storage, "Browser device storage", "localStorage blob holding singDays and plays")
+
+Rel(singer, twinkle, "Completes songs in")
+Rel(twinkle, singer, "Shows the goal ring and the daily streak chip to")
+Rel(twinkle, storage, "Reads and writes sing-days and per-date play counts", "localStorage")
+@enduml

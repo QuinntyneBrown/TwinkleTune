@@ -1,0 +1,44 @@
+@startuml
+title UML sequence behaviour — Hand off to another screen
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Grown-Ups Corner hub" as hub
+  participant "Hash router" as router
+  participant "Find My Voice screen" as voice
+  participant "Profiles screen" as profiles
+  participant "managers.ts" as managers
+end box
+
+alt "Re-do" voice re-setup chosen
+  actor -> hub : Click the Re-do link (href="#/voice")
+  hub -> hub : close() removes the hub overlay (GC-L2-5)
+  hub -> router : location.hash = "#/voice"
+  router -> voice : Render the range capture
+  voice --> actor : Find My Voice opens (GC-L2-5)
+else "Manage" singers chosen
+  actor -> hub : Click the Manage link (href="#/profiles")
+  hub -> hub : close() removes the hub overlay
+  hub -> router : location.hash = "#/profiles"
+  router -> profiles : Render the singer list
+  profiles --> actor : Profiles screen opens (GC-L2-3)
+else songs or avatars chosen
+  actor -> hub : Click the Songs or Avatars button
+  hub -> hub : close() removes the hub overlay
+  hub -> managers : showSongManager() or showAvatarManager() (GC-L2-3)
+  managers --> actor : Manager modal opens with one dialog on screen
+end
+@enduml

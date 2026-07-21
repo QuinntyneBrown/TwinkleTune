@@ -1,0 +1,47 @@
+@startuml
+title UML sequence behaviour — Present the disclosure on opening the hub
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "parentGate()" as gate
+  participant "showSettings()" as hub
+  participant "showModal()" as host
+  participant "store" as store
+  participant "api client" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "TwinkleTune API" as api
+  participant "DuetHub (/hubs/duet)" as duet
+end box
+box "Device — Browser storage" #FFF4E5
+  database "localStorage state blob" as local
+end box
+
+actor -> gate : Pass the parent gate
+gate -> hub : showSettings()
+hub -> host : showModal with the disclosure as the first paragraph (GC-L2-10)
+host --> actor : "Badges & streaks stay on this device." (GC-L2-10)
+host --> actor : "Profiles, songs and family high scores live on your home server only" (GC-L2-10)
+host --> actor : "and during duets, just live scores are shared." (GC-L2-10)
+
+group Behaviour the disclosure asserts
+  store -> local : save() writes sparkles, badges and streaks to this device only
+  local --> store : Stored; no request carries them
+  client -> api : Profiles, songs, avatars and family high scores
+  api --> client : Served from the family's own hardware
+  duet --> client : Live score events relayed for the room, not persisted
+end
+@enduml

@@ -1,0 +1,17 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Own data across device and server
+
+Person(ada, "Ada, the young singer", "Sings on the tablet and on the family PC")
+Person(bea, "Bea, the sister", "Shares the tablet with her own profile")
+System(tablet, "TwinkleTune on the tablet", "Keeps rewards and this tablet's mic latency")
+System(pc, "TwinkleTune on the family PC", "Keeps its own rewards and mic latency")
+System(server, "TwinkleTune family server", "Owns profiles, avatars, photos, songs, and high scores")
+
+Rel(ada, tablet, "Sings on")
+Rel(ada, pc, "Sings on")
+Rel(bea, tablet, "Sings on, under her own profile")
+Rel(tablet, server, "Reads and writes the singer, including her voice range", "JSON/HTTP")
+Rel(pc, server, "Reads the same singer and her voice range", "JSON/HTTP")
+@enduml

@@ -1,0 +1,22 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Reveal badges and coaching
+
+Person(singer, "Singer", "Reads the badge chips and the coach bubble")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(results, "Results screen", "TypeScript (results.ts)", "Composes badgeChips and coachText")
+  Container(badges, "Badge catalogue", "TypeScript (state/badges.ts)", "BADGES and badgeById")
+  Container(store, "App state store", "TypeScript (store.ts)", "lastNewBadges and lastResult")
+  Container(parts, "Shared UI parts", "TypeScript (ui/parts.ts)", "mascotSVG for the coach bubble")
+  Container(duet, "Duet session", "TypeScript (api/duet.ts)", "Signals a duet outcome")
+}
+ContainerDb(storage, "Browser local storage", "Web Storage", "Per-singer state blob")
+
+Rel(results, store, "Reads lastNewBadges and lastResult")
+Rel(store, storage, "Loads and saves the state blob", "localStorage")
+Rel(results, badges, "badgeById(id) for each new badge")
+Rel(results, parts, "mascotSVG('mascot mascot-sm')")
+Rel(results, duet, "get() to select the duet coach line")
+Rel(results, singer, "Badge chips and the coach sentence")
+@enduml

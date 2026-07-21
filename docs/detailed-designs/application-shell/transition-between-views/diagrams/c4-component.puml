@@ -1,0 +1,26 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Transition between views (view-transition.ts)
+
+Container_Boundary(vt, "View transition helper (ui/view-transition.ts)") {
+  Component(fn, "updateWithViewTransition()", "TypeScript function", "Gates on the enabled flag and API support, then starts or bypasses a transition")
+  Component(active, "activeTransition", "ViewTransition | null", "In-flight transition, skipped when a newer navigation starts")
+}
+Container_Boundary(shell, "Application shell router (main.ts)") {
+  Component(hasrendered, "hasRendered", "boolean", "False until the first mount completes")
+  Component(rm, "reducedMotion", "MediaQueryList", "prefers-reduced-motion: reduce")
+  Component(mountfn, "mount()", "TypeScript closure", "Clears #app and renders the next screen")
+}
+Component(css, "route-out / route-in keyframes", "CSS (styles/twinkle.css)", "0.18 s out, 0.24 s in on ::view-transition-old(root) and -new(root)")
+System_Ext(vtapi, "document.startViewTransition", "Browser View Transition API")
+
+Rel(hasrendered, fn, "Contributes to the enabled flag")
+Rel(rm, fn, "Contributes to the enabled flag")
+Rel(fn, mountfn, "Calls directly when disabled or unsupported")
+Rel(fn, active, "Calls skipTransition() on the previous transition")
+Rel(fn, vtapi, "startViewTransition(mount)")
+Rel(vtapi, mountfn, "Invokes the callback between snapshots")
+Rel(vtapi, css, "Animates the captured old and new roots")
+Rel(vtapi, fn, "Resolves or rejects transition.finished")
+@enduml

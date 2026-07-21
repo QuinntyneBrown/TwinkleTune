@@ -1,0 +1,54 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Transition between views
+
+class "ui/view-transition.ts" as VtMod <<module>> {
+  -activeTransition: ViewTransition?
+  +updateWithViewTransition(update: () => void, enabled: boolean): void
+}
+
+interface ViewTransition <<browser>> {
+  +finished: Promise<void>
+  +ready: Promise<void>
+  +skipTransition(): void
+}
+
+class "Document" as Doc <<browser>> {
+  +startViewTransition?(callback: () => void): ViewTransition
+}
+
+class "main.ts" as Main <<module>> {
+  -hasRendered: boolean
+  -reducedMotion: MediaQueryList
+  -mount(): void
+  -route(): void
+}
+
+class "styles/twinkle.css" as Css <<stylesheet>> {
+  +::view-transition-old(root): route-out 0.18 s ease
+  +::view-transition-new(root): route-in 0.24 s cubic-bezier
+  +@media (prefers-reduced-motion: reduce)
+}
+
+Main ..> VtMod : updateWithViewTransition(mount, hasRendered && !reducedMotion.matches)
+VtMod ..> Doc : startViewTransition
+VtMod --> "0..1" ViewTransition : activeTransition
+Doc ..> ViewTransition : creates
+ViewTransition ..> Css : drives the pseudo-element animations
+Main --> "1" MediaQueryList : reducedMotion
+
+class MediaQueryList <<browser>> {
+  +matches: boolean
+}
+@enduml

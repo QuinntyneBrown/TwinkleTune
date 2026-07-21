@@ -1,0 +1,23 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Celebrate with visuals
+
+Person(singer, "Singer", "Sees the celebration behind the result")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(results, "Results screen", "TypeScript (results.ts)", "Creates the scene, sets intensity from the stars, fires one burst")
+  Container(scene, "Reactive scene", "TypeScript (rendering/reactive-scene.ts)", "ProgressiveScene and the renderer ladder")
+  Container(webgpu, "WebGPU scene", "TypeScript + WGSL (webgpu-scene.ts)", "700 particles for the results kind")
+  Container(canvas, "Canvas2D scene", "TypeScript (canvas-scene.ts)", "220 sparks for the results kind; still when reduced")
+}
+System_Ext(gpu, "Browser graphics stack", "WebGPU adapter and 2D canvas context")
+System_Ext(prefs, "Operating system motion preference", "prefers-reduced-motion")
+
+Rel(results, scene, "createReactiveScene({ kind: 'results', seed }); update(); burst(); destroy()")
+Rel(scene, prefs, "matchMedia('(prefers-reduced-motion: reduce)')")
+Rel(scene, webgpu, "WebGpuScene.create() first")
+Rel(scene, canvas, "CanvasScene on reduced motion or on failure")
+Rel(webgpu, gpu, "Renders", "WebGPU")
+Rel(canvas, gpu, "Renders", "Canvas2D")
+Rel(results, singer, "Semantic result above the decorative canvas")
+@enduml

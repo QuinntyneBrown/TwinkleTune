@@ -1,0 +1,13 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Record a personal best
+
+Person(singer, "Young singer", "Sings a song more than once over time")
+System(app, "TwinkleTune web app", "Submits each scored run as a candidate best (TypeScript)")
+System_Ext(server, "Family server", "Keeps one best per singer per song and decides whether it improved")
+
+Rel(singer, app, "Sings the same song again")
+Rel(app, server, "Submits the run for comparison (HS-L2-4)", "JSON/HTTP")
+Rel_Back(app, server, "Improved flag and the resulting best (HS-L2-5, HS-L2-6)")
+@enduml

@@ -1,0 +1,92 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Create and join a duet room
+
+interface IRoomService {
+  +Create(connectionId: string, info: DuetPlayerInfo): RoomStateDto
+  +Join(code: string, connectionId: string, info: DuetPlayerInfo): JoinResult
+  +GetRoomCode(connectionId: string): string?
+}
+
+class RoomService {
+  -{static} MaxPlayers: int = 2
+  -{static} CodeAlphabet: string = "ABCDEFGHJKMNPQRSTUVWXYZ"
+  -_rooms: ConcurrentDictionary<string, Room>
+  -_connectionToCode: ConcurrentDictionary<string, string>
+  +Create(connectionId, info): RoomStateDto
+  +Join(code, connectionId, info): JoinResult
+  -{static} NewCode(): string
+  -{static} ToState(room: Room): RoomStateDto
+}
+
+class Room <<private nested>> {
+  +Code: string
+  +Players: List<Player>
+  +SongId: Guid?
+  +StartAtUtc: DateTimeOffset?
+  +LastActivity: DateTimeOffset
+}
+
+class Player <<private nested>> {
+  +ConnectionId: string
+  +Info: DuetPlayerInfo
+  +Summary: DuetSummary?
+}
+
+class DuetPlayerInfo <<record>> {
+  +SingerId: Guid
+  +Name: string
+  +Avatar: string
+}
+
+class RoomStateDto <<record>> {
+  +Code: string
+  +Players: List<DuetPlayerInfo>
+  +SongId: Guid?
+  +StartAtUtc: DateTimeOffset?
+}
+
+class JoinResult <<record>> {
+  +Room: RoomStateDto?
+  +Error: string?
+}
+
+class DuetHub {
+  +CreateRoom(info: DuetPlayerInfo): Task<RoomStateDto>
+  +JoinRoom(code: string, info: DuetPlayerInfo): Task<RoomStateDto>
+}
+
+class DuetClient <<TypeScript>> {
+  +createRoom(info: DuetPlayerInfo): Promise<RoomState>
+  +joinRoom(code: string, info: DuetPlayerInfo): Promise<RoomState>
+}
+
+interface RoomState <<TypeScript>> {
+  +code: string
+  +players: DuetPlayerInfo[]
+  +songId: string | null
+  +startAtUtc: string | null
+}
+
+RoomService ..|> IRoomService
+RoomService "1" *-- "*" Room : owns
+Room "1" *-- "0..2" Player : holds
+Player --> DuetPlayerInfo : info
+RoomService ..> RoomStateDto : projects
+RoomService ..> JoinResult : returns
+DuetHub --> IRoomService : delegates to
+DuetHub ..> RoomStateDto : returns
+DuetClient ..> RoomState : resolves
+DuetClient ..> DuetHub : invokes CreateRoom / JoinRoom
+@enduml

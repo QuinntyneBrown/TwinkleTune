@@ -1,0 +1,49 @@
+@startuml
+title UML sequence behaviour — Confirm and erase the device state
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Grown-Ups Corner hub" as hub
+  participant "Reset confirmation" as confirm
+  participant "store" as store
+  participant "Hash router" as router
+  participant "Welcome screen" as welcome
+end box
+box "Device — Browser storage" #FFF4E5
+  database "localStorage state blob" as local
+end box
+
+actor -> hub : Tap "Start everything over"
+hub -> hub : close() removes the hub overlay
+hub -> confirm : showModal "Really start over?" (GC-L2-9)
+confirm --> actor : "This erases the profile, sparkles, badges and voice range on this device."
+
+alt "Yes, erase everything"
+  actor -> confirm : Tap [data-yes]
+  confirm -> store : store.reset() (GC-L2-9)
+  store -> store : state = emptyState() with a null profile and zeroed counters
+  store -> local : removeItem(twinkletune:v1[:singerId])
+  local --> store : Key removed
+  confirm -> confirm : close2() removes the confirmation
+  confirm -> router : location.hash = "#/welcome"
+  router -> welcome : Render onboarding for a null profile
+  welcome --> actor : Welcome screen with no profile, sparkles or badges (GC-L2-9)
+else "Keep my stuff"
+  actor -> confirm : Tap [data-no]
+  confirm -> confirm : close2() removes the confirmation
+  confirm --> actor : Nothing is erased and no navigation occurs (GC-L2-9)
+end
+@enduml

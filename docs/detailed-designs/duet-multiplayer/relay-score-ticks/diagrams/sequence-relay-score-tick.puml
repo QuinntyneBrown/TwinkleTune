@@ -1,0 +1,52 @@
+@startuml
+title UML sequence behaviour — Relay a score tick to the opponent
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer (host device)" as host
+actor "Singer (guest device)" as guest
+box "Frontend — TwinkleTune web app (host device)" #E0F2FE
+  participant "finalizeNotesUpTo" as finalize
+  participant "DuetClient (host)" as hostClient
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "DuetHub" as hub
+end box
+box "Backend — TwinkleTune Application and Domain" #ECFDF3
+  participant "RoomService" as service
+end box
+box "Frontend — TwinkleTune web app (guest device)" #E0F2FE
+  participant "DuetClient (guest)" as guestClient
+  participant "Opponent chip" as chip
+end box
+
+host -> finalize : Note window elapses in the render loop
+finalize -> finalize : Update landedCount, streak, and sparkles = landedCount * 10
+finalize -> hostClient : sendTick({ landed, streak, sparkles, noteIdx }) — one per finalised note (DM-L2-6)
+hostClient -> hub : invoke ScoreTick(tick) — small JSON, no audio (DM-L2-17)
+opt invocation fails
+  hub --> hostClient : error
+  hostClient -> hostClient : catch(() => {}) — failure swallowed, song continues (DM-L2-6)
+end
+hub -> service : GetRoomCode(connectionId)
+service --> hub : room code
+hub -> guestClient : Send OpponentTick(tick) to others in the group only (DM-L2-6)
+note over hub : Nothing about the tick is written to storage (DM-L2-17)
+guestClient -> chip : Rewrite with avatar, name, and sparkle count (DM-L2-14)
+alt tick.streak >= 3
+  chip --> guest : "<avatar> <name> ✨60 🔥4" with the streak indicator (DM-L2-14)
+else tick.streak < 3
+  chip --> guest : "<avatar> <name> ✨60" without a streak indicator (DM-L2-14)
+end
+@enduml

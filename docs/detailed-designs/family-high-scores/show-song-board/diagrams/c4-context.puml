@@ -1,0 +1,13 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Show the per-song board
+
+Person(family, "Family member", "Browses the song list and opens a board")
+System(app, "TwinkleTune web app", "Shows the board affordance only on a live songbook (TypeScript)")
+System_Ext(server, "Family server", "Serves the ranked per-song board")
+
+Rel(family, app, "Taps the trophy button on a song card (HS-L2-13)")
+Rel(app, server, "Reads the ranked board for the song", "JSON/HTTP")
+Rel_Back(app, server, "Entries, an empty board, or no answer at all (HS-L2-12)")
+@enduml

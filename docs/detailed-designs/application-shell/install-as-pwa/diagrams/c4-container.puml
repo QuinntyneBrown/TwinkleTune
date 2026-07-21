@@ -1,0 +1,24 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Install as a PWA
+
+Person(grownup, "Grown-up", "Installs the app to the home screen")
+System_Boundary(twinkle, "TwinkleTune built app") {
+  Container(doc, "index.html", "HTML document", "Relative manifest link, theme-color, apple-touch-icon, viewport-fit=cover")
+  Container(manifest, "manifest.webmanifest", "JSON manifest", "start_url and scope './', standalone, portrait, themed, three icons")
+  Container(icons, "Icon set", "SVG and PNG assets", "icon.svg, icon-192.png, icon-512.png (any maskable)")
+  Container(bundle, "Application bundle", "Hashed JS and CSS", "Referenced relatively because Vite is configured with base './'")
+}
+System_Ext(browser, "Browser install machinery", "Manifest parsing, install prompt, standalone launch")
+System_Ext(host, "Static host", "Serves the build output from any directory")
+
+Rel(grownup, browser, "Chooses Add to Home Screen")
+Rel(host, doc, "Serves the document")
+Rel(browser, doc, "Loads index.html")
+Rel(doc, manifest, "link rel=manifest href='./manifest.webmanifest'")
+Rel(doc, bundle, "Relative script and stylesheet URLs")
+Rel(manifest, icons, "Declares icon.svg, icon-192.png, and the 512 px maskable icon")
+Rel(browser, manifest, "Reads identity, display, orientation, and colours")
+Rel(browser, icons, "Fetches the home-screen and splash artwork")
+@enduml

@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Namespace singer state
+
+Person(ada, "Ada, the young singer", "Earns sparkles and badges on the shared tablet")
+Person(bea, "Bea, the sister", "Second singer on the same device")
+System(twinkle, "TwinkleTune web app", "Keeps each singer's progress in its own storage entry (TypeScript)")
+System_Ext(storage, "Browser local storage", "Key-value store on the device")
+
+Rel(ada, twinkle, "Sings and earns rewards as the active singer")
+Rel(bea, twinkle, "Sings and earns rewards as the active singer")
+Rel(twinkle, storage, "Reads and writes one blob per singer, plus the active singer id")
+@enduml

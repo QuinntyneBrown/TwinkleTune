@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Detect the tricky part
+
+Person(singer, "Singer", "Finishes a song and may accept a practice invitation")
+System(twinkle, "TwinkleTune web app", "On-device singing app; finds the weakest phrase and offers it as practice (TypeScript)")
+
+Rel(singer, twinkle, "Finishes a performance in")
+Rel(twinkle, singer, "Offers the tricky phrase as an optional slow practice loop")
+Rel(singer, twinkle, "Accepts the invitation and sings that phrase again")
+@enduml

@@ -1,0 +1,24 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Manage room presence
+
+Container_Boundary(web, "TwinkleTune web app") {
+  Component(client, "DuetClient", "api/duet.ts adapter", "connect() with withAutomaticReconnect; leave() invokes LeaveRoom then stops")
+  Component(session, "duetSession", "api/duet.ts module holder", "get / set / end across lobby, sing, and results")
+  Component(wire, "wireRoomEvents", "duet.ts subscription wiring", "PlayerJoined and PlayerLeft repaint the lobby")
+}
+
+Container_Boundary(api, "TwinkleTune API") {
+  Component(hub, "DuetHub", "SignalR hub", "LeaveRoom and OnDisconnectedAsync both call HandleLeaveAsync")
+  Component(service, "RoomService", "IRoomService implementation", "Leave() and CleanupExpired()")
+  ComponentDb(registry, "Room registry", "ConcurrentDictionary in memory", "_rooms and _connectionToCode")
+}
+
+Rel(session, client, "leave() when the session ends")
+Rel(wire, client, "onPlayerJoined / onPlayerLeft")
+Rel(client, hub, "Holds the connection; invokes LeaveRoom", "SignalR/WebSockets")
+Rel(hub, service, "Leave(connectionId)")
+Rel(service, registry, "Removes the player; removes the room when empty; sweeps beyond 30 idle minutes")
+Rel(hub, client, "Sends PlayerLeft to the group when the room stays open", "SignalR/WebSockets")
+@enduml

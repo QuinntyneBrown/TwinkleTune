@@ -1,0 +1,31 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Award badges (state/badges.ts)
+
+Container_Boundary(badges, "Badge rules — state/badges.ts") {
+  Component(catalogue, "BADGES", "BadgeMeta[6]", "first-song, streak-3, high-note-hero, show-stopper, brave-bird, perfect-ten")
+  Component(evaluate, "evaluateBadges()", "Pure function", "Applies the six rules and returns newly earned ids")
+  Component(award, "award(id, ok)", "Local guard", "Pushes only when the rule holds and the badge is not already earned")
+  Component(scored, "scored", "Derived boolean", "!summary.noMic && summary.total > 0")
+  Component(lookup, "badgeById()", "Pure function", "Finds a BadgeMeta by id")
+}
+Container_Boundary(store, "Reward store — state/store.ts") {
+  Component(record, "recordPlay()", "TypeScript function", "Builds BadgeContext and stamps badges[id] = today")
+  Component(earned, "AppState.badges", "Record<string, string>", "Badge id to ISO date earned")
+  Component(fresh, "AppState.lastNewBadges", "string[]", "Ids earned by the most recent play")
+}
+Component(results, "renderResults()", "screens/results.ts", "Chips for newly earned badges")
+Component(me, "renderMe()", "screens/me.ts", "Six-badge grid with locks and hints")
+
+Rel(record, evaluate, "Passes totalPlays, streak, summary, songDifficulty and earned")
+Rel(record, earned, "Reads the earned key set and writes new awards (RP-L2-7)")
+Rel(record, fresh, "Stores the newly earned ids")
+Rel(evaluate, award, "Routes every rule through (RP-L2-7)")
+Rel(evaluate, scored, "Gates the three performance rules with (RP-L2-7)")
+Rel(evaluate, catalogue, "Awards ids drawn from (RP-L2-6)")
+Rel(results, fresh, "Reads")
+Rel(results, lookup, "Resolves name and emoji")
+Rel(me, catalogue, "Renders all six entries")
+Rel(me, earned, "Marks each entry earned or locked")
+@enduml

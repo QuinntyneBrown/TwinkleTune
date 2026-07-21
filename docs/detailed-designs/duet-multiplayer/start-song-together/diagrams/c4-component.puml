@@ -1,0 +1,26 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Start the song together
+
+Container_Boundary(web, "TwinkleTune web app") {
+  Component(lobby, "showLobby", "duet.ts render function", "Start action reading the selected song id")
+  Component(client, "DuetClient", "api/duet.ts adapter", "startSong() and onSongStarted()")
+  Component(sing, "renderSing", "sing.ts screen module", "Opens in duet mode and calls begin()")
+  Component(player, "SongPlayer", "audio/player.ts", "Four-beat count-in; negative beat position until the first note")
+}
+
+Container_Boundary(api, "TwinkleTune API") {
+  Component(hub, "DuetHub", "SignalR hub", "StartSong; broadcasts SongStarted to the room group")
+  Component(service, "RoomService", "IRoomService implementation", "Two-player precondition, 3-second start lead, summary reset")
+  ComponentDb(registry, "Room registry", "ConcurrentDictionary in memory", "SongId, StartAtUtc, LastActivity")
+}
+
+Rel(lobby, client, "startSong(songId)")
+Rel(client, hub, "Invokes StartSong", "SignalR/WebSockets")
+Rel(hub, service, "StartSong(connectionId, songId)")
+Rel(service, registry, "Writes SongId and StartAtUtc; clears summaries")
+Rel(hub, client, "Sends SongStarted(songId, startAtUtc) or throws HubException", "SignalR/WebSockets")
+Rel(client, sing, "Navigates to #/sing?song=...&duet=1")
+Rel(sing, player, "begin() with countInBeats = 4")
+@enduml

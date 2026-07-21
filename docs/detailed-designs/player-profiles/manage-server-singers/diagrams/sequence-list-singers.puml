@@ -1,0 +1,47 @@
+@startuml
+title UML sequence behaviour — List singers for the picker
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer at the tablet" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "renderProfiles (profiles.ts)" as picker
+  participant "api client" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "SingersController" as ctrl
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "SingerService" as svc
+end box
+box "Backend — Infrastructure" #FFF4E5
+  participant "SingerRepository" as repo
+  database "Family database (SQLite)" as db
+end box
+
+singer -> picker : Open the profiles screen
+picker -> client : singers.list()
+client -> ctrl : GET /api/singers (PP-L2-8)
+ctrl -> svc : GetAllAsync()
+svc -> repo : GetAllAsync()
+repo -> db : AsNoTracking().Include(s => s.Avatar) (PP-L2-10)
+db --> repo : Singer rows with their avatars
+repo -> repo : OrderBy(s => s.CreatedAt) in memory — SQLite cannot sort DateTimeOffset (PP-L2-10)
+repo --> svc : Singers oldest-first
+svc -> svc : ToDto — AvatarEmoji from Avatar.Emoji, HasPhoto from PhotoFileName (PP-L2-7)
+svc --> ctrl : List<SingerDto>
+ctrl --> client : 200 OK
+client --> picker : ApiSinger[]
+picker --> singer : Cards rendered with emoji and no further calls (PP-L2-10)
+@enduml

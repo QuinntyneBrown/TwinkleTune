@@ -1,0 +1,13 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Submit a high score
+
+Person(singer, "Young singer", "Finishes a song and sees the results screen")
+System(app, "TwinkleTune web app", "On-device singing app; offers a scored run as a candidate family best (TypeScript)")
+System_Ext(server, "Family server", "Optional LAN-only .NET server storing family high scores")
+
+Rel(singer, app, "Finishes a song and views results")
+Rel(app, server, "Submits an eligible scored run (HS-L2-11)", "JSON/HTTP")
+Rel_Back(app, server, "Reports improved flag and resulting score (HS-L2-8)")
+@enduml

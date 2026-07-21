@@ -1,0 +1,39 @@
+@startuml
+title UML sequence behaviour — Switch the active tab
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Young singer" as child
+box "Device — Browser DOM" #FFF4E5
+  participant "nav.bottomnav" as navel
+  participant "location / hashchange" as loc
+  participant "#app mount point" as appel
+end box
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "route() (main.ts)" as router
+  participant "renderSongs (screens/songs.ts)" as screen
+  participant "ui/parts.ts" as parts
+end box
+
+child -> navel : Tap the Songs anchor (href "#/songs") (AS-L2-5)
+navel -> loc : Set location.hash
+loc -> router : hashchange
+router -> appel : Clear the mount point
+router -> screen : renderSongs(app, params)
+screen -> parts : bottomNav('songs')
+parts -> parts : Mark the Songs anchor with the active class (AS-L2-5)
+parts --> screen : nav.bottomnav with four anchors
+screen -> appel : Write the songs markup with the bar at the bottom
+appel --> child : Songs screen; the Songs tab reads as current (AS-L2-5)
+@enduml

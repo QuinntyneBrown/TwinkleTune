@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Surface the daily tip
+
+Person(child, "Young singer", "Opens the home dashboard and reads the day's tip")
+System(twinkle, "TwinkleTune web app", "On-device singing app; selects and shows the tip of the day (TypeScript)")
+System_Ext(clock, "Device clock and locale", "Supplies the current local date")
+
+Rel(child, twinkle, "Opens the home dashboard")
+Rel(twinkle, clock, "Reads the current local date", "Date")
+@enduml

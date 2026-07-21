@@ -1,0 +1,13 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Reveal badges and coaching
+
+Person(singer, "Singer", "Reads the results screen after a performance")
+System(twinkle, "TwinkleTune web app", "On-device singing app; reveals new badges and one warm coach line (TypeScript)")
+System_Ext(storage, "Browser local storage", "Holds the badges earned and the last summary")
+
+Rel(singer, twinkle, "Arrives at #/results")
+Rel(twinkle, storage, "Reads lastNewBadges and lastResult", "localStorage")
+Rel(twinkle, singer, "Announces new badges and speaks one coach sentence")
+@enduml

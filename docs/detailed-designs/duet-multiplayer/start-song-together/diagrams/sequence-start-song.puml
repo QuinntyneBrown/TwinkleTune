@@ -1,0 +1,63 @@
+@startuml
+title UML sequence behaviour — Start a song for both devices
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer (host device)" as host
+actor "Singer (guest device)" as guest
+box "Frontend — TwinkleTune web app (host device)" #E0F2FE
+  participant "showLobby" as lobby
+  participant "DuetClient (host)" as hostClient
+  participant "renderSing / SongPlayer" as hostSing
+end box
+box "Frontend — TwinkleTune web app (guest device)" #E0F2FE
+  participant "DuetClient (guest)" as guestClient
+  participant "renderSing / SongPlayer" as guestSing
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "DuetHub" as hub
+end box
+box "Backend — TwinkleTune Application and Domain" #ECFDF3
+  participant "RoomService" as service
+end box
+box "Backend — TwinkleTune Infrastructure" #FFF4E5
+  database "Room registry (in memory)" as registry
+end box
+
+host -> lobby : Tap "Start the duet!" with the picked song
+lobby -> hostClient : startSong(songId)
+hostClient -> hub : invoke StartSong(songId)
+hub -> service : StartSong(connectionId, songId)
+service -> registry : Resolve the room from the connection mapping
+alt fewer than two players in the room
+  registry --> service : Room with Players.Count == 1
+  service --> hub : null (DM-L2-4)
+  hub --> hostClient : HubException "You need two singers in the room to start!" (DM-L2-4)
+  hostClient --> lobby : rejected promise
+  lobby --> host : Toast "Need both singers in the room!"
+else two players in the room
+  registry --> service : Room with Players.Count == 2
+  service -> registry : SongId = songId; StartAtUtc = now + 3s (DM-L2-4)
+  service -> registry : Clear every player's Summary (DM-L2-4)
+  service --> hub : StartResult(code, songId, startAtUtc)
+  hub -> hostClient : SongStarted(songId, startAtUtc) to the group (DM-L2-4)
+  hub -> guestClient : SongStarted(songId, startAtUtc) to the group (DM-L2-4)
+  hostClient -> hostSing : Navigate to #/sing?song=...&duet=1
+  guestClient -> guestSing : Navigate to #/sing?song=...&duet=1
+  hostSing -> hostSing : begin() with a four-beat count-in (DM-L2-5)
+  guestSing -> guestSing : begin() with a four-beat count-in (DM-L2-5)
+  hostSing --> host : Count-in clicks, then the first note
+  guestSing --> guest : Count-in clicks, then the first note
+end
+@enduml

@@ -1,0 +1,21 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Rank a family board
+
+Person(family, "Family member", "Opens a board")
+System_Boundary(app, "TwinkleTune web app") {
+  Container(screen, "Song screen", "TypeScript (screens/songs.ts)", "Opens the per-song board")
+  Container(client, "REST client", "TypeScript (api/client.ts)", "api.highscores.forSong / forSinger")
+}
+System_Boundary(family_server, "Family server") {
+  Container(api, "TwinkleTune API", "ASP.NET Core", "HighScoresController and HighScoreService ordering")
+  ContainerDb(db, "TwinkleTune database", "SQLite via EF Core", "HighScores joined to Singers and Avatars")
+}
+
+Rel(family, screen, "Taps the board affordance")
+Rel(screen, client, "forSong(songId)")
+Rel(client, api, "GET /api/songs/{id}/highscores and /api/singers/{id}/highscores (HS-L2-8)", "JSON/HTTP")
+Rel(api, db, "AsNoTracking read including Singer and Avatar (HS-L2-9)", "EF Core")
+Rel_Back(client, api, "HighScoreDto[] ordered by stars then accuracy (HS-L2-7)")
+@enduml

@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Create first profile
+
+Person(child, "Young singer", "Opens the app for the first time")
+System(twinkle, "TwinkleTune web app", "On-device singing app; creates and holds the device profile (TypeScript)")
+System_Ext(family, "Family server", "Optional LAN .NET server holding singers and avatars")
+
+Rel(child, twinkle, "Enters a name and picks an avatar")
+Rel(twinkle, family, "Probes /health, then creates a singer when reachable", "JSON/HTTP")
+@enduml

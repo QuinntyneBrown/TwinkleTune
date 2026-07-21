@@ -1,0 +1,13 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Record a completed play
+
+Person(singer, "Singer", "Finishes a song on the tablet")
+System(twinkle, "TwinkleTune web app", "On-device singing app; folds one completed play into every reward field (TypeScript)")
+System_Ext(storage, "Browser device storage", "localStorage blob holding the whole reward state")
+
+Rel(singer, twinkle, "Finishes a song in")
+Rel(twinkle, singer, "Shows the results screen with stars and new badges to")
+Rel(twinkle, storage, "Writes the whole reward state in one operation", "localStorage")
+@enduml

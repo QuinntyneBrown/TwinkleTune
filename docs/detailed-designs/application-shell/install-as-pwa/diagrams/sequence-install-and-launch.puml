@@ -1,0 +1,61 @@
+@startuml
+title UML sequence behaviour — Install to the home screen and launch
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as grownup
+actor "Young singer" as singer
+box "Device — Browser and platform" #FFF4E5
+  participant "Browser" as browser
+  participant "Home screen / launcher" as platform
+end box
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "index.html" as index
+  participant "manifest.webmanifest" as manifest
+  participant "Icon assets" as icons
+end box
+
+== First visit and installation ==
+grownup -> browser : Open TwinkleTune
+browser -> index : GET index.html
+index --> browser : Document with relative asset URLs (AS-L2-12)
+browser -> manifest : GET ./manifest.webmanifest (resolved against the document) (AS-L2-12)
+manifest --> browser : name, short_name, start_url "./", scope "./", display, orientation, colours, icons (AS-L2-9)
+browser -> icons : GET ./icon.svg, ./icon-192.png, ./icon-512.png (AS-L2-12)
+icons --> browser : Icon bitmaps and vector
+
+alt manifest complete and icons resolve
+  browser -> browser : Assess installability
+  browser --> grownup : Offer "Add to Home Screen"
+  grownup -> browser : Accept installation
+  browser -> platform : Register app with short_name and maskable 512px icon (AS-L2-9)
+  platform --> grownup : Icon placed on the home screen
+else served from a sub-path or non-root directory
+  browser -> browser : Resolve every URL against the document, not the server root (AS-L2-12)
+  browser --> grownup : Installability unaffected by hosting directory
+end
+
+== Later launch ==
+singer -> platform : Tap the TwinkleTune icon
+platform -> platform : Paint splash with background_color #AFE3F4 (AS-L2-9)
+platform -> browser : Launch start_url "./" in standalone display (AS-L2-9)
+browser -> browser : Lock orientation to portrait; apply theme_color #5EA8DA (AS-L2-9)
+browser -> index : Load document and relatively referenced bundle (AS-L2-12)
+index --> browser : App shell at hash route
+browser --> singer : Full-screen app with no address bar (AS-L2-9)
+
+opt navigation attempted outside scope "./"
+  browser -> browser : Hand off to the ordinary browser (AS-L2-9)
+end
+@enduml

@@ -1,0 +1,58 @@
+@startuml
+title UML sequence behaviour — Select the tricky part and offer practice
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Sing screen (sing.ts)" as sing
+  participant "summarize() (scoring.ts)" as summarize
+  participant "App state store (store.ts)" as store
+  participant "Results screen (results.ts)" as results
+end box
+
+singer -> sing : Finishes the song
+sing -> summarize : summarize(song, results, noMic)
+loop over song.phrases
+  summarize -> summarize : collect results with phraseIdx == pi
+  alt phrase holds fewer than 3 notes
+    summarize -> summarize : skip the phrase (SR-L2-7)
+  else qualifying phrase
+    summarize -> summarize : ratio = landed in phrase / notes in phrase
+    opt ratio < worst
+      summarize -> summarize : worst = ratio; trickyPhrase = pi (SR-L2-7)
+    end
+  end
+end
+alt worst >= 0.75
+  summarize -> summarize : trickyPhrase = null; trickyLyric = null (SR-L2-7)
+else worst < 0.75
+  summarize -> summarize : trickyLyric = song.phrases[trickyPhrase].lyric (SR-L2-7)
+end
+summarize --> sing : SongSummary
+sing -> store : recordPlay(...) writes lastResult
+sing -> results : navigate to #/results
+
+results -> store : read lastResult
+store --> results : SongSummary
+alt scored, non-duet run with a tricky part
+  results --> singer : "Practice the tricky part" invitation (SR-L2-14)
+  singer -> results : Taps the invitation
+  results -> sing : #/sing?song=<id>&practice=<phrase>&slow=1 (SR-L2-14)
+  sing -> sing : practicePhrase set; rate = 0.7; window = that phrase only
+  sing --> singer : The phrase alone, played slowly
+else no tricky part, no-mic run, or duet result
+  results --> singer : No practice invitation shown (SR-L2-14)
+end
+@enduml

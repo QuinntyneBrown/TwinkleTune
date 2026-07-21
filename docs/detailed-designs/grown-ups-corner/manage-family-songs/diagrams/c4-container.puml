@@ -1,0 +1,26 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Manage family songs
+
+Person(grownup, "Grown-up", "Edits the family songbook")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(hub, "Grown-Ups Corner hub", "TypeScript (settings.ts)", "Opens the song manager")
+  Container(manager, "Song manager and editor", "TypeScript (managers.ts)", "List, form, preview, delete confirmation")
+  Container(validator, "Song invariants", "TypeScript (songs/types.ts)", "validateSong, mirrored from the server")
+  Container(player, "Song player", "TypeScript (audio/player.ts)", "Web Audio melody synthesis")
+  Container(client, "REST client", "TypeScript (api/client.ts)", "api.songs and ApiError")
+}
+System_Boundary(family, "Family server") {
+  Container(api, "TwinkleTune API", "ASP.NET Core", "SongsController and SongService")
+  ContainerDb(db, "Family database", "SQLite via EF Core", "Songs and family high scores")
+}
+
+Rel(grownup, hub, "Chooses Songs")
+Rel(hub, manager, "showSongManager()")
+Rel(manager, validator, "validateSong(song) before every save and preview")
+Rel(manager, player, "start(song, { countInBeats: 1 })")
+Rel(manager, client, "api.songs.list / create / update / remove")
+Rel(client, api, "GET, POST, PUT, DELETE /api/songs", "JSON/HTTPS")
+Rel(api, db, "Reads and writes songs", "EF Core")
+@enduml

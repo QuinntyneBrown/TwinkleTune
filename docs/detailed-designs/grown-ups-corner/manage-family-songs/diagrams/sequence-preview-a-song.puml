@@ -1,0 +1,54 @@
+@startuml
+title UML sequence behaviour — Preview a song from the editor
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "songEditor()" as editor
+  participant "parseSongForm()" as parse
+  participant "validateSong()" as validate
+  participant "SongPlayer" as player
+end box
+box "Device — Browser Web Audio" #FFF4E5
+  participant "AudioContext" as ctx
+end box
+
+actor -> editor : Tap "Preview"
+editor -> parse : parseSongForm(modal)
+parse -> parse : Read title, emoji, bpm, difficulty, art
+parse -> parse : JSON.parse([data-f-phrases])
+alt phrases JSON invalid or not an array
+  parse --> editor : errors = ["The phrases box must be valid JSON (a list of phrases)."] (GC-L2-6)
+  editor --> actor : Show the message list; no playback starts
+else phrases JSON parsed
+  parse -> validate : validateSong(song)
+  validate --> parse : Invariant messages (empty when valid)
+  parse --> editor : { song, errors }
+  alt errors present
+    editor --> actor : Show each invariant message (GC-L2-6)
+  else form is clean
+    editor -> player : start(song, { countInBeats: 1 }) (GC-L2-6)
+    player -> ctx : Schedule the count-in click then the melody
+    ctx --> player : Playback scheduled
+    player --> actor : The song plays with a one-beat count-in (GC-L2-6)
+  end
+end
+
+opt editor cancelled
+  actor -> editor : Tap "Cancel"
+  editor -> player : stop()
+  editor --> actor : Modal closes with nothing saved
+end
+@enduml

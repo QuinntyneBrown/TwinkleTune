@@ -1,0 +1,77 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Persist rewards
+
+interface StorageLike {
+  +getItem(key: string): string?
+  +setItem(key: string, value: string): void
+  +removeItem(key: string): void
+}
+
+interface Store {
+  +get(): AppState
+  +set(patch: Partial<AppState>): void
+  +update(fn: (s: AppState) => void): void
+  +switchKey(key: string): void
+  +reset(): void
+}
+
+interface AppState {
+  +profile: Profile?
+  +sparkles: number
+  +singDays: string[]
+  +plays: Record<string, number>
+  +bests: Record<string, SongBest>
+  +badges: Record<string, string>
+  +lastResult: SongSummary?
+  +lastSongId: string?
+  +lastNewBadges: string[]
+}
+
+class "state/store.ts" as StoreMod <<module>> {
+  +createStore(storage: StorageLike, initialKey: string): Store
+  +profileKey(singerId: string): string
+  +getActiveSingerId(): string?
+  +setActiveSingerId(id: string?): void
+  +adoptLegacyState(singerId: string): void
+  +store: Store
+  -KEY: string = "twinkletune:v1"
+  -ACTIVE_KEY: string = "twinkletune:active-singer"
+  -emptyState(): AppState
+  -memoryStorage(): StorageLike
+  -rootStorage: StorageLike
+}
+
+class "localStorage" as LocalStorage <<browser>> {
+  +getItem(key: string): string?
+  +setItem(key: string, value: string): void
+  +removeItem(key: string): void
+}
+
+class "Map-backed storage" as MemStorage <<in-memory>> {
+  -m: Map<string, string>
+}
+
+class "state/profile.ts" as ProfileMod <<module>> {
+  +activateSinger(s: ApiSinger): void
+  +applySingerToProfile(s: ApiSinger): void
+}
+
+LocalStorage ..|> StorageLike
+MemStorage ..|> StorageLike
+StoreMod ..> StorageLike : writes the state blob through
+StoreMod ..> Store : creates
+Store --> AppState : holds
+ProfileMod ..> StoreMod : adoptLegacyState, profileKey, switchKey
+@enduml

@@ -1,0 +1,13 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Present the results screen
+
+Person(singer, "Singer", "Has just finished a song, scored or no-mic")
+System(twinkle, "TwinkleTune web app", "On-device singing app; presents the outcome and the next actions (TypeScript)")
+System_Ext(storage, "Browser local storage", "Holds the per-singer state, including the last summary")
+
+Rel(singer, twinkle, "Arrives at #/results after a performance")
+Rel(twinkle, storage, "Reads lastResult and the active profile", "localStorage")
+Rel(twinkle, singer, "Shows the headline, stars, score card and next actions")
+@enduml

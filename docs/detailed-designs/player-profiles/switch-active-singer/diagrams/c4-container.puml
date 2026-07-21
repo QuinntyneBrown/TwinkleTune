@@ -1,0 +1,27 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Switch active singer
+
+Person(singer, "Singer at the tablet", "Picks a singer card")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(picker, "Profiles screen", "TypeScript (profiles.ts)", "Cards, active tag, new-singer card, solo fallback")
+  Container(activation, "Profile activation", "TypeScript (profile.ts)", "activateSinger, applySingerToProfile, pushProfileToServer")
+  Container(store, "State store", "TypeScript (store.ts)", "switchKey and the per-singer blob")
+  Container(client, "REST client", "TypeScript (api/client.ts)", "singers.list(), singers.update(), avatars.list()")
+}
+System_Boundary(family, "Family server") {
+  Container(api, "TwinkleTune API", "ASP.NET Core", "GET /api/singers, PUT /api/singers/{id}")
+  ContainerDb(db, "Family database", "SQLite via EF Core", "Singers and avatars")
+}
+System_Ext(storage, "Browser local storage", "twinkletune:v1:{singerId}, twinkletune:active-singer")
+
+Rel(singer, picker, "Uses", "HTTPS")
+Rel(picker, client, "singers.list(); avatars.list()")
+Rel(picker, activation, "activateSinger(singer)")
+Rel(activation, store, "switchKey and profile merge")
+Rel(activation, client, "singers.update(id, body)")
+Rel(store, storage, "Reads and writes the active blob")
+Rel(client, api, "REST calls; failures fall back to solo play", "JSON/HTTP")
+Rel(api, db, "Reads and writes singers", "EF Core")
+@enduml

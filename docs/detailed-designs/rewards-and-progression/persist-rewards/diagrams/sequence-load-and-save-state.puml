@@ -1,0 +1,50 @@
+@startuml
+title UML sequence behaviour — Load, save and survive a reload
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "App start-up" as boot
+  participant "createStore()" as create
+  participant "load()" as load
+  participant "Store" as store
+  participant "Reward writer (recordPlay / tips)" as writer
+end box
+box "Device — Browser storage" #FFF4E5
+  database "localStorage" as ls
+end box
+
+singer -> boot : Open or reload the app
+boot -> create : createStore(rootStorage, activeId ? profileKey(activeId) : KEY) (RP-L2-11)
+create -> load : load()
+load -> ls : getItem(key)
+ls --> load : raw blob or null
+alt raw blob parses
+  load -> load : { ...emptyState(), ...JSON.parse(raw) } (RP-L2-11)
+  load --> create : restored AppState with sparkles, streak, bests and badges
+else blob missing or corrupted
+  load -> load : catch the parse error and return emptyState() (RP-L2-11)
+  load --> create : empty AppState, no crash (RP-L2-11)
+end
+create --> boot : Store
+boot --> singer : Screens render from the restored state
+
+singer -> writer : Complete a play or a tip
+writer -> store : update(fn) mutating the reward fields
+store -> ls : setItem(key, JSON.stringify(state)) (RP-L2-11)
+ls --> store : stored
+store --> writer : state saved
+writer --> singer : Reward shown; no server call on this path (RP-L2-11)
+@enduml

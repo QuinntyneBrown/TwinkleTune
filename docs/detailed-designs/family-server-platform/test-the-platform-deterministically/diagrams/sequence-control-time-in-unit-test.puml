@@ -1,0 +1,54 @@
+@startuml
+title UML sequence behaviour — Control time in a unit test
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Maintainer" as maintainer
+box "Backend — TwinkleTune.UnitTests" #FFF4E5
+  participant "RoomServiceTests" as test
+  participant "FakeTime : TimeProvider" as clock
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "RoomService" as service
+  participant "Room" as room
+end box
+
+maintainer -> test : dotnet test
+test -> clock : new FakeTime(Now = 2026-06-12T12:00:00Z) (FS-L2-17)
+test -> service : new RoomService(clock) (FS-L2-17)
+
+== Synchronised start is exactly three seconds ahead ==
+test -> service : Create(...) then Join(code, singer)
+service -> clock : GetUtcNow()
+clock --> service : 12:00:00Z
+service -> room : LastActivity = 12:00:00Z
+test -> service : Start(code)
+service -> clock : GetUtcNow()
+clock --> service : 12:00:00Z
+service -> room : StartAtUtc = now.AddSeconds(3)
+room --> service : 12:00:03Z
+service --> test : StartAtUtc
+test -> test : Assert StartAtUtc == Now.AddSeconds(3) (FS-L2-17)
+
+== Idle expiry observed by advancing the same clock ==
+test -> clock : Now = 12:31:00Z (advance past IdleExpiry of 30 min) (FS-L2-17)
+test -> service : CleanupExpired()
+service -> clock : GetUtcNow()
+clock --> service : 12:31:00Z
+service -> room : now - LastActivity > 30 min
+room --> service : Expired
+service --> test : Room removed
+test -> test : Assert the idle room is gone (FS-L2-17)
+test --> maintainer : Facts pass without waiting on real time
+@enduml

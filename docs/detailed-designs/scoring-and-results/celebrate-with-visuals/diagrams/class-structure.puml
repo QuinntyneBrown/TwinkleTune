@@ -1,0 +1,92 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Celebrate with visuals
+
+interface ReactiveScene {
+  +renderer: RendererKind
+  +ready: Promise<RendererKind>
+  +update(state: Partial<ReactiveVisualState>): void
+  +burst(strength: number): void
+  +pause(): void
+  +resume(): void
+  +destroy(): void
+}
+
+interface ReactiveVisualState {
+  +energy: number
+  +onNote: boolean
+  +streak: number
+  +progress: number
+  +pitchY: number
+  +intensity: number
+}
+
+interface ReactiveSceneOptions {
+  +kind: SceneKind
+  +seed: number?
+  +reducedMotion: boolean?
+  +onRendererChange: (r: RendererKind) => void
+}
+
+enum RendererKind {
+  pending
+  webgpu
+  canvas2d
+  static
+}
+
+enum SceneKind {
+  sing
+  results
+}
+
+class ProgressiveScene {
+  -active: ReactiveScene?
+  -state: ReactiveVisualState
+  -pendingBurst: number
+  -rendererKind: RendererKind
+  -initialize(): Promise<void>
+  -activate(scene: ReactiveScene): void
+  -fallBackFromDeviceLoss(): void
+  -onVisibilityChange(): void
+}
+
+class WebGpuScene {
+  +renderer = 'webgpu'
+  +create(canvas, options, onDeviceLoss): Promise<WebGpuScene>
+  -baseCount: number
+}
+
+class CanvasScene {
+  +renderer: RendererKind
+  -sparks: Spark[]
+  -makeSparks(count: number, seed: number): Spark[]
+}
+
+class "results.ts" as ResultsMod <<module>> {
+  -visual: ReactiveScene
+  +createReactiveScene(canvas, options): ReactiveScene
+  +seedFromString(value: string): number
+}
+
+ReactiveScene <|.. ProgressiveScene
+ReactiveScene <|.. WebGpuScene
+ReactiveScene <|.. CanvasScene
+ProgressiveScene o-- "0..1" ReactiveScene : active
+ProgressiveScene --> ReactiveVisualState : normalized state
+ProgressiveScene --> ReactiveSceneOptions : options
+ProgressiveScene --> RendererKind : reports
+ReactiveSceneOptions --> SceneKind : kind
+ResultsMod ..> ProgressiveScene : creates with kind 'results'
+@enduml

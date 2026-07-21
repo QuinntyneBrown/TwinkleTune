@@ -1,0 +1,60 @@
+@startuml
+title UML sequence behaviour — Announce a departure and close an empty room
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer (guest device)" as guest
+actor "Singer (host device)" as host
+box "Frontend — TwinkleTune web app (guest device)" #E0F2FE
+  participant "DuetClient (guest)" as guestClient
+end box
+box "Frontend — TwinkleTune web app (host device)" #E0F2FE
+  participant "wireRoomEvents / showLobby" as hostLobby
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "DuetHub" as hub
+end box
+box "Backend — TwinkleTune Application and Domain" #ECFDF3
+  participant "RoomService" as service
+end box
+box "Backend — TwinkleTune Infrastructure" #FFF4E5
+  database "Room registry (in memory)" as registry
+end box
+
+alt explicit leave
+  guest -> guestClient : Leave the duet
+  guestClient -> hub : invoke LeaveRoom() (DM-L2-8)
+else connection dropped
+  guest -> guestClient : Close the tab or lose the network
+  guestClient -> hub : Transport reports the disconnect
+  hub -> hub : OnDisconnectedAsync routes to the same handler (DM-L2-8)
+end
+hub -> service : Leave(connectionId)
+service -> registry : Remove the connection mapping
+service -> registry : Remove the player from the room; stamp LastActivity
+alt one player remains
+  registry --> service : Players.Count == 1
+  service --> hub : LeaveResult(code, player, RoomClosed = false)
+  hub -> hub : Groups.RemoveFromGroupAsync(connectionId, code)
+  hub -> hostLobby : Send PlayerLeft(player) to the group (DM-L2-8)
+  hostLobby --> host : Toast "<name> left 💙" and repaint with the waiting placeholder
+else last player left
+  registry --> service : Players.Count == 0
+  service -> registry : Remove the room from _rooms (DM-L2-8)
+  service --> hub : LeaveResult(code, player, RoomClosed = true)
+  hub -> hub : Groups.RemoveFromGroupAsync(connectionId, code)
+  hub --> guestClient : No PlayerLeft sent — the room is gone (DM-L2-8)
+  note over registry : Room state existed only in memory, so nothing outlives it (DM-L2-10)
+end
+@enduml

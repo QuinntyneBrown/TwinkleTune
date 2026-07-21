@@ -1,0 +1,51 @@
+@startuml
+title UML sequence behaviour — Animate or skip a route change
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Young singer" as child
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "route() (main.ts)" as router
+  participant "updateWithViewTransition()" as vt
+  participant "mount() closure" as mount
+end box
+box "Device — Browser view transitions and preferences" #FFF4E5
+  participant "matchMedia" as prefs
+  participant "document.startViewTransition" as api
+  participant "::view-transition pseudo-elements" as css
+end box
+
+child -> router : Change route
+router -> prefs : reducedMotion.matches
+prefs --> router : true or false
+router -> vt : updateWithViewTransition(mount, hasRendered && !reducedMotion.matches) (AS-L2-14)
+
+alt enabled and document.startViewTransition exists
+  vt -> api : activeTransition?.skipTransition() on any in-flight transition
+  vt -> api : startViewTransition(mount) (AS-L2-14)
+  api -> api : Capture the outgoing screen
+  api -> mount : Invoke the callback
+  mount -> mount : Run cleanup, clear #app, render the next screen
+  mount --> api : DOM updated
+  api -> css : route-out 0.18 s, route-in 0.24 s
+  css --> child : Short cross-fade between screens
+  api --> vt : transition.finished settles
+  vt -> vt : Swallow a superseded rejection; clear activeTransition
+else first render, reduced motion, or no API support
+  vt -> mount : Invoke directly, with no transition (AS-L2-14)
+  mount -> mount : Run cleanup, clear #app, render the next screen
+  mount --> vt : DOM updated
+  vt --> child : Same final content, no animation (AS-L2-14)
+end
+@enduml

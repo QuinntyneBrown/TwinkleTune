@@ -1,0 +1,16 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Keep scores family-scoped
+
+Person(family, "Family member", "Sings, views boards, and manages songs and singers")
+Enterprise_Boundary(home, "One household, one LAN") {
+  System(app, "TwinkleTune web app", "Talks only to the configured family server (TypeScript)")
+  System(server, "Family server", "Self-hosted .NET API and SQLite file holding every high score")
+}
+System_Ext(none, "Cross-family ranking service", "Not part of the product — no such system exists (HS-L2-15)")
+
+Rel(family, app, "Sings and views family boards")
+Rel(app, server, "Submits and reads scores within the household (HS-L2-15)", "JSON/HTTP over LAN")
+Rel_Back(none, server, "No route publishes scores beyond the family server (HS-L2-15)")
+@enduml

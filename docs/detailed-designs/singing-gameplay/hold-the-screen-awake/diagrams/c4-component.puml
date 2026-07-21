@@ -1,0 +1,34 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Hold the screen awake (ui/wake-lock.ts)
+
+Container_Boundary(sing, "Sing screen (screens/sing.ts)") {
+  Component(callsites, "Performance call sites", "TypeScript", "request() on start; suspend() on pause and finish; destroy() on cleanup (SG-L2-24)")
+}
+
+Container_Boundary(helper, "SingingWakeLock (ui/wake-lock.ts)") {
+  Component(intent, "wanted", "Private boolean", "Records whether a lock is currently wanted, separately from whether one is held (SG-L2-24)")
+  Component(held, "sentinel", "WakeLockSentinel or null", "The lock currently held, cleared on release")
+  Component(guard, "requesting", "Private boolean", "Guards against overlapping acquisitions while an await is outstanding")
+  Component(acquire, "acquire()", "Private async method", "Returns early on dropped intent, held sentinel, in-flight request, hidden document, or absent API (SG-L2-24)")
+  Component(release, "releaseCurrent()", "Private async method", "Clears the field before awaiting release(); swallows rejection")
+  Component(onvis, "onVisibilityChange", "Bound listener", "Reacquires while visible and wanted; otherwise clears the local reference (SG-L2-24)")
+}
+
+System_Ext(wakelock, "navigator.wakeLock", "Screen Wake Lock API, read through a Partial cast")
+System_Ext(vis, "document visibility", "visibilityState and visibilitychange")
+
+Rel(callsites, intent, "request() sets it; suspend() clears it")
+Rel(callsites, acquire, "request() starts")
+Rel(callsites, release, "suspend() and destroy() start")
+Rel(acquire, intent, "Checks before and after awaiting (SG-L2-24)")
+Rel(acquire, guard, "Sets on entry; clears in finally")
+Rel(acquire, wakelock, "await request('screen'); empty catch (SG-L2-24)")
+Rel(acquire, held, "Stores the sentinel and subscribes to its release event")
+Rel(release, held, "Clears, then awaits sentinel.release()")
+Rel(release, wakelock, "release() with a swallowed rejection (SG-L2-24)")
+Rel(onvis, vis, "Registered on the document; removed by destroy() (SG-L2-24)")
+Rel(onvis, acquire, "Reacquires on visible while wanted")
+Rel(onvis, release, "Clears the reference on hidden")
+@enduml

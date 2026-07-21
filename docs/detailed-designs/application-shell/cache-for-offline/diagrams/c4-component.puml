@@ -1,0 +1,27 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Cache for offline (sw.js and main.ts)
+
+Container_Boundary(shell, "Application shell (main.ts)") {
+  Component(registration, "Registration block", "Guarded call site", "if ('serviceWorker' in navigator && import.meta.env.PROD), inside a load listener, with an empty catch (AS-L2-11)")
+}
+
+Container_Boundary(worker, "Service worker (sw.js)") {
+  Component(cachename, "CACHE", "Module constant", "'twinkletune-v1' — the cache generation name (AS-L2-10)")
+  Component(install, "install handler", "Lifecycle handler", "self.skipWaiting() so the new worker does not wait (AS-L2-10)")
+  Component(activate, "activate handler", "Lifecycle handler", "Deletes every cache key other than CACHE, then self.clients.claim() (AS-L2-10)")
+  Component(fetchh, "fetch handler", "Lifecycle handler", "Returns early for non-GET; otherwise answers cached || refresh (AS-L2-10)")
+}
+
+ComponentDb(cache, "Cache storage", "Browser Cache API", "Entries accumulated from earlier GET responses")
+System_Ext(network, "Static host", "Answers the background revalidation fetch")
+
+Rel(registration, install, "Installs the worker in production builds (AS-L2-11)")
+Rel(install, activate, "Activates without waiting")
+Rel(activate, cache, "caches.keys() then delete every key != CACHE (AS-L2-10)")
+Rel(activate, cachename, "Compares each key against")
+Rel(fetchh, cachename, "caches.open(CACHE)")
+Rel(fetchh, cache, "cache.match(request); cache.put(request, res.clone()) when res.ok (AS-L2-10)")
+Rel(fetchh, network, "Background fetch(request); falls back to the cached response on rejection (AS-L2-10)")
+@enduml

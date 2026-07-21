@@ -1,0 +1,49 @@
+@startuml
+title UML sequence behaviour — Remove a song or singer and its scores
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as grownup
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "api.songs / api.singers (client.ts)" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "SongsController / SingersController" as controller
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "SongService / SingerService" as service
+end box
+box "Backend — Infrastructure" #FFF4E5
+  participant "AppDbContext" as ctx
+  database "TwinkleTune database (SQLite)" as db
+end box
+
+grownup -> client : Delete a song or a singer
+client -> controller : DELETE /api/songs/{id} or /api/singers/{id}
+controller -> service : DeleteAsync(id)
+service -> ctx : Remove the principal entity
+ctx -> db : DELETE the row within one SaveChangesAsync
+db -> db : Cascade the delete to dependent HighScore rows (HS-L2-10)
+db --> ctx : committed
+ctx --> service : true
+service --> controller : deleted
+controller --> client : 204 No Content
+
+opt Board read after the delete
+  client -> controller : GET /api/songs/{id}/highscores
+  controller -> db : SELECT scores for the removed id
+  db --> controller : no rows (HS-L2-10)
+  controller --> client : 200 OK with an empty board
+end
+@enduml

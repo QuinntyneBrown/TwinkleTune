@@ -1,0 +1,13 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Run the duet lobby
+
+Person(singer, "Singer", "Opens the duet screen and waits for a duet buddy")
+System(webapp, "TwinkleTune web app", "Duet lobby: room code, players, song picker, and the two gates")
+System(familyserver, "Family Server", "Serves the songbook and hosts the duet hub")
+
+Rel(singer, webapp, "Opens the duet screen", "HTTPS")
+Rel(webapp, familyserver, "Loads the songbook and holds the room", "JSON/HTTPS and SignalR")
+Rel(webapp, singer, "Routes to profile setup or solo play when a gate fails", "In-app navigation")
+@enduml

@@ -1,0 +1,60 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Validate a submission
+
+class SubmitHighScoreRequest <<record>> {
+  +Guid SongId
+  +Guid SingerId
+  +int Stars
+  +double Accuracy
+  +int Sparkles
+  +int MaxStreak
+}
+
+interface IHighScoreService {
+  +SubmitAsync(request, ct): Task<(SubmitHighScoreResult?, string?)>
+}
+
+class HighScoreService {
+  -highScores: IHighScoreRepository
+  -songs: ISongRepository
+  -singers: ISingerRepository
+  -time: TimeProvider
+  +SubmitAsync(request, ct): Task<(SubmitHighScoreResult?, string?)>
+}
+
+interface ISongRepository {
+  +GetAsync(id: Guid, ct): Task<Song?>
+}
+
+interface ISingerRepository {
+  +GetAsync(id: Guid, ct): Task<Singer?>
+}
+
+class HighScoresController <<ASP.NET Core>> {
+  +Submit(req: SubmitHighScoreRequest, ct): Task<IActionResult>
+}
+
+class ApiError <<frontend>> {
+  +message: string
+  +errors: string[]
+}
+
+HighScoreService ..|> IHighScoreService
+HighScoreService ..> SubmitHighScoreRequest : validates
+HighScoreService --> ISongRepository : song existence
+HighScoreService --> ISingerRepository : singer existence
+HighScoresController --> IHighScoreService : delegates
+HighScoresController ..> ApiError : 400 body maps to
+@enduml

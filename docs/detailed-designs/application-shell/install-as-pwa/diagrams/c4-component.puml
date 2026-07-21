@@ -1,0 +1,32 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Install as a PWA (manifest, document, and build)
+
+Container_Boundary(manifest, "manifest.webmanifest") {
+  Component(identity, "Identity fields", "name / short_name / description", "TwinkleTune — Sing your heart out!")
+  Component(display, "Display fields", "display / orientation", "standalone, portrait")
+  Component(colours, "Colour fields", "theme_color / background_color", "#5EA8DA theme, #AFE3F4 background")
+  Component(scope, "Scope fields", "start_url / scope", "Both './' — resolved against the manifest's own directory")
+  Component(iconset, "icons array", "Three entries", "icon.svg any, icon-192.png any, icon-512.png any maskable")
+}
+Container_Boundary(doc, "index.html") {
+  Component(link, "link rel=manifest", "HTML element", "href './manifest.webmanifest'")
+  Component(meta, "theme-color and Apple tags", "HTML meta elements", "#5EA8DA, apple-touch-icon, web-app-capable")
+  Component(viewport, "viewport meta", "HTML meta element", "width=device-width, viewport-fit=cover")
+}
+Component(vite, "base: './'", "Vite configuration (vite.config.ts)", "Emits every asset URL relative to the document")
+Component(publicdir, "public/", "Static directory", "Copied verbatim: manifest, icons, sw.js")
+System_Ext(browser, "Browser install machinery", "Manifest parsing and standalone launch")
+
+Rel(link, manifest, "Points the browser at the manifest")
+Rel(browser, identity, "Names the home-screen entry")
+Rel(browser, display, "Launches without browser chrome, locked to portrait")
+Rel(browser, colours, "Tints system chrome and the launch splash")
+Rel(browser, scope, "Resolves the launch URL relative to the hosting directory")
+Rel(browser, iconset, "Selects the platform-appropriate, maskable-capable icon")
+Rel(meta, browser, "Supplies the same theme and icon on Apple platforms")
+Rel(viewport, browser, "Extends the standalone window into the safe-area insets")
+Rel(vite, doc, "Rewrites bundle URLs relatively")
+Rel(publicdir, manifest, "Ships the manifest and icons into the build output")
+@enduml

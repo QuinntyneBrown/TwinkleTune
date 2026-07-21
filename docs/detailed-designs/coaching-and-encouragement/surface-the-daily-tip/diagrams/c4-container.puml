@@ -1,0 +1,18 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Surface the daily tip
+
+Person(child, "Young singer", "Opens the home dashboard and reads the day's tip")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(home, "Home screen", "TypeScript (screens/home.ts)", "Dashboard render including the tip-of-the-day card")
+  Container(data, "Tip content module", "TypeScript (screens/tips-data.ts)", "HERO_TIP, TIPS, and tipOfTheDay")
+  Container(tips, "Tips screen", "TypeScript (screens/tips.ts)", "Full library reached from the card arrow")
+}
+System_Ext(clock, "Device clock and locale", "Supplies the current local date")
+
+Rel(child, home, "Views the dashboard", "Touch")
+Rel(home, data, "tipOfTheDay()")
+Rel(data, clock, "new Date() for the local calendar day")
+Rel(home, tips, "Routes to #/tips from the card arrow")
+@enduml

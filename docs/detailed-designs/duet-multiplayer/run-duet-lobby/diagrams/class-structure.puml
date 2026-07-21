@@ -1,0 +1,80 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Run the duet lobby
+
+class "duet.ts" as DuetScreen <<module>> {
+  +renderDuet(root: HTMLElement, params: URLSearchParams): () => void
+  -me: DuetPlayerInfo
+  -preferredSong: string | null
+  -songs: Song[]
+  -lobbyRoom: RoomState | null
+  -handedOff: boolean
+  -showChoice(): void
+  -showJoin(): void
+  -showLobby(c: DuetClient, room: RoomState): void
+  -wireRoomEvents(c: DuetClient): void
+  -ensureClient(): Promise<DuetClient>
+}
+
+interface RoomState <<TypeScript>> {
+  +code: string
+  +players: DuetPlayerInfo[]
+  +songId: string | null
+  +startAtUtc: string | null
+}
+
+interface DuetPlayerInfo <<TypeScript>> {
+  +singerId: string
+  +name: string
+  +avatar: string
+}
+
+interface DuetSession <<TypeScript>> {
+  +client: DuetClient
+  +code: string
+  +me: DuetPlayerInfo
+  +opponent: DuetPlayerInfo | null
+  +result: DuetResult | null
+  +mySummary: DuetSummary | null
+}
+
+interface Profile <<TypeScript>> {
+  +singerId: string | null
+  +name: string
+  +avatar: string
+}
+
+interface Song <<TypeScript>> {
+  +id: string
+  +title: string
+  +emoji: string
+}
+
+class "songs/repo.ts" as Repo <<module>> {
+  +loadSongs(): Promise<{ songs: Song[]; online: boolean }>
+}
+
+class "ui/modal.ts" as Modal <<module>> {
+  +toast(message: string, tone: string, ms?: number): void
+}
+
+DuetScreen --> "0..1" RoomState : lobbyRoom
+DuetScreen --> DuetSession : sets before navigation
+DuetScreen --> Profile : gates on singerId
+DuetScreen --> "*" Song : song picker options
+RoomState "1" o-- "0..2" DuetPlayerInfo : players
+DuetSession --> DuetPlayerInfo : me / opponent
+DuetScreen ..> Repo : loadSongs()
+DuetScreen ..> Modal : toast(...)
+@enduml

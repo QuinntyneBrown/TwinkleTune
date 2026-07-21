@@ -1,0 +1,22 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Layer the backend
+
+Person(grownup, "Grown-up", "Manages family content")
+System_Boundary(server, "TwinkleTune family server") {
+  Container(api, "TwinkleTune.Api", "ASP.NET Core (net10.0)", "Controllers, DuetHub, composition root")
+  Container(infra, "TwinkleTune.Infrastructure", ".NET class library", "EF Core repositories and disk photo storage")
+  Container(application, "TwinkleTune.Application", ".NET class library", "Plain services, DTOs, repository interfaces")
+  Container(domain, "TwinkleTune.Domain", ".NET class library", "Entities and validation; no references")
+  ContainerDb(db, "twinkletune.db", "SQLite file", "Avatars, singers, songs, high scores")
+}
+Container(web, "TwinkleTune web app", "TypeScript PWA", "Client of the REST and hub surface")
+
+Rel(grownup, web, "Uses", "HTTPS")
+Rel(web, api, "Calls", "JSON/HTTP, WebSocket")
+Rel(api, infra, "References project")
+Rel(infra, application, "References project and implements its interfaces")
+Rel(application, domain, "References project")
+Rel(infra, db, "Reads and writes", "EF Core + SQLite")
+@enduml

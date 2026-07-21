@@ -1,0 +1,30 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Keep feedback encouraging
+
+Container_Boundary(results, "Results screen (screens/results.ts)") {
+  Component(headline, "headline selector", "Ternary chain", "Super / Beautiful / Brave Singing; no negative branch")
+  Component(coachline, "coachText selector", "Ternary chain", "Praise first, then an optional suggestion")
+  Component(practice, "practiceBtn", "Optional anchor", "Practice the tricky part, rendered only when one exists")
+  Component(marks, "marks(n)", "TypeScript function", "Clamps every mark to 1 to 3 stars")
+}
+Container_Boundary(sing, "Sing! screen (screens/sing.ts)") {
+  Component(streak, "setStreak(n)", "TypeScript function", "Chip from 3; gold toast at each multiple of 5")
+  Component(silent, "unlanded-note branch", "Control flow", "setStreak(0) with no element, class, or text")
+}
+Container_Boundary(tips, "Tips screen and content") {
+  Component(quote, ".quote confidence corner", "HTML section", "Your voice is one of a kind")
+  Component(dust, "sparkle-dust tip", "Tip constant", "Mistakes are sparkle dust")
+}
+Container_Boundary(ui, "Shared UI (ui/modal.ts)") {
+  Component(toast, "toast(message, variant, ms)", "TypeScript function", "Celebration-only transient channel")
+}
+
+Rel(headline, coachline, "Shares the same performance summary")
+Rel(coachline, practice, "Offers the tricky phrase as practice")
+Rel(headline, marks, "Renders alongside the three marks")
+Rel(streak, toast, "Milestone celebration")
+Rel(silent, streak, "setStreak(0) and nothing else")
+Rel(quote, dust, "Restates the reframing rule as tip content")
+@enduml

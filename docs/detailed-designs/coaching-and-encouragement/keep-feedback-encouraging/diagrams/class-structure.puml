@@ -1,0 +1,63 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Keep feedback encouraging
+
+interface PerformanceSummary {
+  +stars: number
+  +landed: number
+  +total: number
+  +accuracy: number
+  +pitchStars: number
+  +timingStars: number
+  +braveStars: number
+  +maxStreak: number
+  +trickyPhrase: number | null
+  +trickyLyric: string | null
+  +noMic: boolean
+}
+
+class "screens/results.ts" as Results <<module>> {
+  -headline: 'What a fun sing-along' | 'Super Singing' | 'Beautiful Singing' | 'Brave Singing'
+  -coachText: string
+  -practiceBtn: string
+  -badgeChips: string
+  -marks(n: number): string
+  +renderResults(root, params): () => void
+}
+
+class "screens/sing.ts" as Sing <<module>> {
+  -streak: number
+  +setStreak(n: number): void
+  +finalizeNotesUpTo(beat: number): void
+}
+
+class "ui/modal.ts" as Modal <<module>> {
+  +toast(message: string, variant: '' | 'gold' | 'pink', ms: number): void
+}
+
+class CelebrationCopy <<copy set>> {
+  +outcomeHeadlines: 4 positive strings
+  +coachLines: 4 praise-first strings
+  +streakMilestone: "🔥 N in a row!"
+  +tipCompletion: "+5 sparkles ✨"
+  +familyRecord: "🏆 New family record!"
+  +confidenceQuote: "Your voice is one of a kind…"
+}
+
+Results --> "1" PerformanceSummary : reads
+Results ..> CelebrationCopy : selects a headline and coach line
+Sing ..> CelebrationCopy : streak milestone
+Sing ..> Modal : toast(gold, 1600 ms)
+Results ..> Modal : record toast only on improvement
+@enduml

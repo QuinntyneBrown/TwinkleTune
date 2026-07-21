@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Pass the parent gate
+
+Person(child, "Young singer", "Uses the tablet unsupervised; unlikely to answer the addition question")
+Person(grownup, "Grown-up", "Answers the challenge to reach grown-up-only functions")
+System(twinkle, "TwinkleTune web app", "On-device singing app; hosts the parent gate as its only client-side guard (TypeScript)")
+System_Ext(server, "Family server", "Home-LAN server holding profiles, songs and avatars; no authentication by design")
+
+Rel(child, twinkle, "Taps the grown-ups entry and is turned away")
+Rel(grownup, twinkle, "Answers the addition challenge in")
+Rel(twinkle, server, "Reaches guarded server actions only after the gate passes", "JSON/HTTPS")
+@enduml

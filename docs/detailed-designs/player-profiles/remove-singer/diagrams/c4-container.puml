@@ -1,0 +1,27 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Remove singer
+
+Person(grownup, "Grown-up", "Removes a singer")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(picker, "Profiles screen", "TypeScript (profiles.ts)", "Edit dialog, remove control, confirmation")
+  Container(gate, "Parent gate", "TypeScript (ui/modal.ts)", "Arithmetic challenge guarding destructive actions")
+  Container(client, "REST client", "TypeScript (api/client.ts)", "singers.remove(id)")
+}
+System_Boundary(family, "Family server") {
+  Container(api, "TwinkleTune API", "ASP.NET Core", "DELETE /api/singers/{id}")
+  Container(app, "Application layer", "C# services", "SingerService.DeleteAsync")
+  Container(storage, "Photo storage", "PhotoStorage over the local file system", "Deletes {singerId}.{ext}")
+  ContainerDb(db, "Family database", "SQLite", "Singers and high scores, cascade on SingerId")
+}
+
+Rel(grownup, picker, "Uses", "HTTPS")
+Rel(picker, gate, "parentGate(onPass)")
+Rel(gate, picker, "Opens the confirmation only on a correct answer")
+Rel(picker, client, "singers.remove(id) after confirmation")
+Rel(client, api, "DELETE /api/singers/{id}", "JSON/HTTP")
+Rel(api, app, "DeleteAsync(id)")
+Rel(app, storage, "Delete(PhotoFileName)")
+Rel(app, db, "Removes the singer; high scores cascade", "EF Core")
+@enduml

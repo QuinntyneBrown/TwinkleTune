@@ -1,0 +1,13 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Summarize a performance
+
+Person(singer, "Singer", "Finishes singing a song")
+System(twinkle, "TwinkleTune web app", "On-device singing app; reduces a performance to one summary (TypeScript)")
+System_Ext(storage, "Browser local storage", "Holds the per-singer app state, including the last summary")
+
+Rel(singer, twinkle, "Finishes a performance in")
+Rel(twinkle, storage, "Writes the summary as lastResult", "localStorage")
+Rel(twinkle, singer, "Presents accuracy, stars, streak and sparkles")
+@enduml

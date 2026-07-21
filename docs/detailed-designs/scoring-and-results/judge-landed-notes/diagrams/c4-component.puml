@@ -1,0 +1,22 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Judge landed notes (scoring.ts)
+
+Container_Boundary(sing, "Sing screen (sing.ts)") {
+  Component(loop, "renderSing animation loop", "TypeScript closure", "Accumulates totalFrames, hitFrames and firstHitFrac on the active note")
+  Component(finalize, "finalizeNotesUpTo()", "TypeScript closure", "Applies the landed verdict as each note passes")
+}
+Container_Boundary(scoring, "Scoring rules (scoring.ts)") {
+  Component(fold, "foldCents()", "TypeScript function", "Signed cents difference folded into (-600, +600]")
+  Component(landed, "noteLanded()", "TypeScript function", "At least 3 frames and at least 50% on-pitch")
+  Component(result, "NoteResult", "TypeScript interface", "Per-note frame accumulation")
+  Component(summarize, "summarize()", "TypeScript function", "Maps noteLanded across the finished note list")
+}
+
+Rel(loop, fold, "foldCents(frame.midi, n.midi + shift) vs HIT_TOLERANCE_CENTS")
+Rel(loop, result, "Increments totalFrames, hitFrames, firstHitFrac")
+Rel(finalize, landed, "noteLanded(r) for the live streak and sparkle count")
+Rel(landed, result, "Reads totalFrames and hitFrames")
+Rel(summarize, landed, "noteLanded(r) for every note")
+@enduml

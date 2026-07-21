@@ -1,0 +1,13 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Manage server singers
+
+Person(grownup, "Grown-up", "Adds and edits the family's singers")
+System(twinkle, "TwinkleTune web app", "Singer dialog on the profiles screen (TypeScript)")
+System(family, "Family server", "Self-hosted .NET API owning the durable singer record")
+
+Rel(grownup, twinkle, "Adds or edits a singer")
+Rel(twinkle, family, "Creates, reads, and updates singers", "JSON/HTTP")
+Rel(family, twinkle, "Returns the stored singer, or a friendly validation error")
+@enduml

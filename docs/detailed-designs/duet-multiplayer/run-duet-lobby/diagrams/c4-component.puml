@@ -1,0 +1,27 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Run the duet lobby
+
+Container_Boundary(duetScreen, "Duet screen (duet.ts)") {
+  Component(render, "renderDuet", "Screen entry point", "Applies the profile gate and the server gate")
+  Component(choice, "showChoice / showJoin", "Render functions", "Make a room or join with a code")
+  Component(lobby, "showLobby", "Render function", "Per-character code, player cards, waiting placeholder, song picker")
+  Component(events, "wireRoomEvents", "Subscription wiring", "PlayerJoined, PlayerLeft, and SongStarted repaint the lobby")
+  Component(session, "duetSession", "Module-level session holder", "Carries client, code, me, and opponent across screens")
+}
+
+Component(repo, "loadSongs()", "songs/repo.ts", "Songs plus the online flag")
+Component(toastFn, "toast()", "ui/modal.ts", "Friendly non-blocking messages")
+Component(client, "DuetClient", "api/duet.ts adapter", "createRoom, joinRoom, startSong")
+
+Rel(render, repo, "Calls loadSongs() and reads online")
+Rel(render, choice, "Shows when both gates pass")
+Rel(choice, client, "createRoom(me) / joinRoom(code, me)")
+Rel(choice, lobby, "Shows the lobby with the returned room state")
+Rel(lobby, session, "duetSession.set(...) before any navigation")
+Rel(lobby, client, "startSong(songId) from the picker")
+Rel(events, lobby, "Repaints on arrival and departure")
+Rel(render, toastFn, "Reports connection, join, and start failures")
+Rel(lobby, toastFn, "Reports a refused start")
+@enduml

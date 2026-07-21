@@ -1,0 +1,59 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Show modals and toasts
+
+class "ui/modal.ts" as ModalMod <<module>> {
+  -toastHost: HTMLElement?
+  +showModal(opts: ModalOptions): ModalHandle
+  +toast(message: string, variant: ToastVariant, ms: number): void
+}
+
+interface ModalOptions {
+  +html: string
+  +onMount?: (modal: HTMLElement, close: () => void) => void
+  +dismissible?: boolean
+  +ariaLabel?: string
+  +className?: string
+}
+
+interface ModalHandle {
+  +el: HTMLElement
+  +close: () => void
+}
+
+enum ToastVariant {
+  ""
+  gold
+  pink
+}
+
+class "styles/twinkle.css" as Css <<stylesheet>> {
+  +.overlay (z-index 100, 45% scrim, 4px blur)
+  +.modal (32px radius, min(340px, 100%), popin 0.4s)
+  +.toast-host (fixed, top 18px, z-index 200)
+  +.toast / .toast-gold / .toast-pink
+  +.toast.bye (0.4s fade and -14px rise)
+}
+
+class "Caller" as Caller <<screen or manager>> {
+  +onMount(modal, close): void
+}
+
+ModalMod ..> ModalOptions : accepts
+ModalMod --> ModalHandle : returns
+ModalMod ..> ToastVariant : selects the pill styling
+ModalMod ..> Css : emits the class names
+Caller ..> ModalMod : showModal / toast
+ModalHandle --> "1" Caller : close() available to the opener
+@enduml

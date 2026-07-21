@@ -1,0 +1,17 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Validate a submission
+
+System_Boundary(app, "TwinkleTune web app") {
+  Container(client, "REST client", "TypeScript (api/client.ts)", "req() turns a 400 body into an ApiError")
+}
+System_Boundary(family, "Family server") {
+  Container(api, "TwinkleTune API", "ASP.NET Core", "HighScoresController and HighScoreService guard clauses")
+  ContainerDb(db, "TwinkleTune database", "SQLite via EF Core", "Songs and Singers rows resolved during validation")
+}
+
+Rel(client, api, "POST /api/highscores", "JSON/HTTP")
+Rel(api, db, "Resolve SongId and SingerId (HS-L2-3)", "EF Core")
+Rel_Back(client, api, "400 Bad Request with { error } (HS-L2-2, HS-L2-3)")
+@enduml

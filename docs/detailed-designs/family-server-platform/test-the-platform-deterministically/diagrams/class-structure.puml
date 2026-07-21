@@ -1,0 +1,119 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Test the platform deterministically
+
+abstract class TimeProvider <<framework>> {
+  +GetUtcNow(): DateTimeOffset
+  {static} +System: TimeProvider
+}
+
+class FakeTime <<test double>> {
+  +Now: DateTimeOffset
+  +GetUtcNow(): DateTimeOffset
+}
+
+class "Program" as Program <<public partial>> {
+  ' exposed so WebApplicationFactory can bind it
+}
+
+class "WebApplicationFactory<Program>" as WAF <<framework>> {
+  +Server: TestServer
+  +CreateClient(): HttpClient
+  +ConfigureWebHost(builder): void
+}
+
+class ApiFactory {
+  -root: string
+  +ConfigureWebHost(builder): void
+  +Dispose(): void
+}
+
+class RoomService {
+  -time: TimeProvider
+  {static} +IdleExpiry: TimeSpan = 30 min
+  +Create(...): Room
+  +Join(code, singer): JoinResult
+  +Start(code): DateTimeOffset
+  +CleanupExpired(): void
+}
+
+class HighScoreService {
+  -time: TimeProvider
+  +Submit(songId, singerId, score): HighScore
+}
+
+class SingerService {
+  -time: TimeProvider
+  +Create(name, avatar): Singer
+}
+
+class RoomServiceTests {
+  -clock: FakeTime
+  +Code_uses_expected_alphabet(): void
+  +Start_is_three_seconds_after_now(): void
+  +Idle_rooms_expire_after_thirty_minutes(): void
+}
+
+class HighScoreServiceTests {
+  +Better_score_replaces_previous(): void
+  +Worse_score_is_ignored(): void
+}
+
+class SongValidatorTests {
+  +Rejects_note_below_MinMidi(): void
+  +Rejects_span_above_MaxSpan(): void
+}
+
+class CrudEndpointTests {
+  -client: HttpClient
+  +Health_returns_ok(): Task
+  +Seeded_songs_and_avatars_are_present(): Task
+  +High_score_upsert_and_ranking(): Task
+}
+
+class DuetFlowTests {
+  {static} +Timeout: TimeSpan = 15 s
+  +Two_clients_complete_a_duet(): Task
+}
+
+interface IHighScoreRepository
+interface ISongRepository
+interface ISingerRepository
+
+class FakeHighScores <<test double>>
+class FakeSongs <<test double>>
+class FakeSingers <<test double>>
+
+TimeProvider <|-- FakeTime
+WAF <|-- ApiFactory
+ApiFactory ..> Program : binds as type argument
+RoomService --> TimeProvider : injected clock
+HighScoreService --> TimeProvider : injected clock
+SingerService --> TimeProvider : injected clock
+RoomServiceTests *-- FakeTime : owns
+RoomServiceTests ..> RoomService : constructs and drives
+HighScoreServiceTests ..> HighScoreService : constructs and drives
+SongValidatorTests ..> SongValidatorTests : exercises SongValidator.Validate
+IHighScoreRepository <|.. FakeHighScores
+ISongRepository <|.. FakeSongs
+ISingerRepository <|.. FakeSingers
+HighScoreService --> IHighScoreRepository : reads and writes
+HighScoreService --> ISongRepository : reads
+HighScoreService --> ISingerRepository : reads
+HighScoreServiceTests ..> FakeHighScores : supplies
+HighScoreServiceTests ..> FakeSongs : supplies
+HighScoreServiceTests ..> FakeSingers : supplies
+CrudEndpointTests --> ApiFactory : creates client from
+DuetFlowTests --> ApiFactory : creates hub connections from
+@enduml

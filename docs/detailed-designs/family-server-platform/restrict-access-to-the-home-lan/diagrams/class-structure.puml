@@ -1,0 +1,60 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Restrict access to the home LAN
+
+class Program <<static>> {
+  +origins: string[] = Cors:Origins ?? ["http://localhost:5173"]
+  +AddCors(policy "app"): void
+  +UseCors("app"): void
+  ' no AddAuthentication and no UseAuthentication
+}
+
+class "appsettings.json" as Settings <<configuration>> {
+  +Cors:Origins = ["http://localhost:5173", "http://localhost:4173"]
+  +AllowedHosts = "*"
+}
+
+class SingersController {
+  -MaxPhotoBytes: long = 2 * 1024 * 1024
+  +SetPhoto(id, ct): Task<IActionResult>
+  +GetPhoto(id, ct): Task<IActionResult>
+}
+
+interface IPhotoStorage {
+  +SaveAsync(singerId: Guid, content: Stream, contentType: string, ct): Task<string>
+  +OpenRead(fileName: string): (Stream, string)?
+  +Delete(fileName: string): void
+}
+
+class PhotoStorage {
+  -rootPath: string
+  -ContentTypeToExt: Dictionary<string, string>
+  +IsSupported(contentType: string): bool
+  +SaveAsync(singerId, content, contentType, ct): Task<string>
+  +OpenRead(fileName): (Stream, string)?
+  +Delete(fileName): void
+}
+
+class Singer {
+  +Guid Id
+  +string? PhotoFileName
+}
+
+Program --> Settings : reads Cors:Origins from
+PhotoStorage ..|> IPhotoStorage
+SingersController ..> PhotoStorage : IsSupported(file.ContentType)
+SingersController ..> IPhotoStorage : through ISingerService
+PhotoStorage ..> Singer : names files {Id}{ext}
+Singer --> "0..1" PhotoStorage : PhotoFileName resolves inside the root
+@enduml

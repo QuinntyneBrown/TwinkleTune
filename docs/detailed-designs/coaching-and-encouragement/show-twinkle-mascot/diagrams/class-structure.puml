@@ -1,0 +1,54 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Show Twinkle mascot
+
+class "ui/parts.ts" as Parts <<module>> {
+  +mascotSVG(cls: string, happy: boolean): string
+  +starSVG(filled: boolean): string
+  +avatarHTML(profile, cls, label): string
+  +skyDecor(): string
+  +bottomNav(active: NavTab): string
+}
+
+class MascotMarkup <<html fragment>> {
+  +class: string
+  +viewBox: "0 0 120 120"
+  +ariaHidden: true
+  +starPath: string
+  +eyes: circle x2
+  +cheeks: circle x2
+  +mouth: restingPath | happyPath
+}
+
+class CoachRow <<html fragment>> {
+  +rowClass: ".coach" | ".coach-home" | ".result-coach"
+  +mascot: MascotMarkup
+  +bubbleClass: ".bubble .bubble-left"
+  +line: string
+}
+
+class "screens/*.ts" as Screens <<modules>> {
+  +renderWelcome(root): void
+  +renderHome(root): void
+  +renderVoiceSetup(root): void
+  +renderSing(root, params): void
+  +renderTips(root): void
+  +renderResults(root, params): () => void
+}
+
+Parts ..> MascotMarkup : builds
+CoachRow *-- MascotMarkup : contains
+Screens ..> Parts : mascotSVG(cls, happy)
+Screens --> "1" CoachRow : composes per screen
+@enduml

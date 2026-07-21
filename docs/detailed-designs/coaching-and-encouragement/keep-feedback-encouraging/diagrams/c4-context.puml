@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Keep feedback encouraging
+
+Person(child, "Young singer", "Receives every message the app shows")
+Person(grownup, "Grown-up", "Relies on the encouragement-only promise")
+System(twinkle, "TwinkleTune web app", "On-device singing app; renders only celebration copy (TypeScript)")
+System_Ext(server, "Family server", "Optional LAN service holding family high scores")
+
+Rel(child, twinkle, "Sings, practises, and reads the results")
+Rel(grownup, twinkle, "Reviews the tone the child is shown")
+Rel(twinkle, server, "Submits a score and shows a record toast only when it improves", "JSON/HTTP")
+@enduml

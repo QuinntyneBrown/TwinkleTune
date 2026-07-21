@@ -1,0 +1,24 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Manage server singers
+
+Person(grownup, "Grown-up", "Adds and edits singers")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(dialog, "Singer dialog", "TypeScript (profiles.ts)", "Name, avatar pick, save and edit")
+  Container(client, "REST client", "TypeScript (api/client.ts)", "singers.create / get / list / update")
+}
+System_Boundary(family, "Family server") {
+  Container(api, "TwinkleTune API", "ASP.NET Core", "SingersController — the five singer endpoints")
+  Container(app, "Application layer", "C# services", "SingerService: validation, trimming, CreatedAt")
+  Container(infra, "Infrastructure layer", "EF Core", "SingerRepository, AppDbContext")
+  ContainerDb(db, "Family database", "SQLite", "Singers and avatars")
+}
+
+Rel(grownup, dialog, "Uses", "HTTPS")
+Rel(dialog, client, "create(body) / update(id, body)")
+Rel(client, api, "GET, POST, PUT, DELETE /api/singers", "JSON/HTTP")
+Rel(api, app, "Delegates to ISingerService")
+Rel(app, infra, "ISingerRepository")
+Rel(infra, db, "Reads and writes singer rows", "EF Core")
+@enduml

@@ -1,0 +1,22 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Keep song bests
+
+Container_Boundary(store, "Reward store — state/store.ts") {
+  Component(bests, "AppState.bests", "Record<string, SongBest>", "Song id to best stars, accuracy and play count")
+  Component(record, "recordPlay()", "TypeScript function", "Math.max fold with the no-mic guard")
+  Component(shape, "SongBest", "TypeScript interface", "stars, accuracy, plays")
+  Component(total, "totalPlays", "Derived value", "Sum of plays across every stored best")
+}
+Component(summary, "SongSummary", "state/scoring.ts", "stars, accuracy and noMic for the finished run")
+Component(home, "renderHome()", "screens/home.ts", "masteredCount = bests with stars > 0")
+Component(me, "renderMe()", "screens/me.ts", "Mastered list sorted by best stars")
+
+Rel(record, summary, "Reads stars, accuracy and noMic (RP-L2-5)")
+Rel(record, bests, "Writes the monotone update (RP-L2-5)")
+Rel(bests, shape, "Stores values of")
+Rel(record, total, "Reduces the play counts for badge evaluation")
+Rel(home, bests, "Counts entries with stars > 0 (RP-L2-10)")
+Rel(me, bests, "Reads best stars per catalogue song")
+@enduml

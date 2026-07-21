@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Reset the device
+
+Person(grownup, "Grown-up", "Starts the device over after an explicit confirmation")
+System(twinkle, "TwinkleTune web app", "On-device singing app holding the profile, sparkles, badges and range (TypeScript)")
+System_Ext(storage, "Browser localStorage", "Device state blob keyed per singer")
+System_Ext(server, "Family server", "Songs, avatars, singers and family high scores — untouched by the reset")
+
+Rel(grownup, twinkle, "Confirms the start-over in")
+Rel(twinkle, storage, "Removes the device state key")
+Rel(twinkle, server, "Makes no call during a reset")
+@enduml

@@ -1,0 +1,73 @@
+@startuml
+title UML sequence behaviour — Create a profile at first run
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Young singer" as child
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "renderWelcome (welcome.ts)" as welcome
+  participant "store (store.ts)" as store
+  participant "activateSinger (profile.ts)" as activate
+  participant "api client" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "AvatarsController" as avatarCtrl
+  participant "SingersController" as singerCtrl
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "SingerService" as svc
+end box
+box "Backend — Infrastructure" #FFF4E5
+  database "Family database (SQLite)" as db
+end box
+
+child -> welcome : Type a name and pick an avatar
+child -> welcome : Tap "Let's Sing!"
+welcome -> welcome : name = input.trim() || 'Superstar' (PP-L2-5)
+welcome -> store : update(s => s.profile = { name, avatar, range, latencyMs, singerId, avatarId, photoUrl }) (PP-L2-5)
+store --> welcome : Profile persisted
+
+opt profile has no singerId
+  welcome -> client : serverOnline()
+  client -> singerCtrl : GET /health (timeout 1500 ms)
+  alt server reachable
+    singerCtrl --> client : 200 OK
+    client --> welcome : true
+    welcome -> client : avatars.list()
+    client -> avatarCtrl : GET /api/avatars
+    avatarCtrl -> db : Read avatars
+    db --> avatarCtrl : Avatar rows
+    avatarCtrl --> client : ApiAvatar[]
+    client --> welcome : ApiAvatar[]
+    welcome -> welcome : match = avatars.find(a => a.emoji === avatar) (PP-L2-6)
+    welcome -> client : singers.create({ name, avatarId: match?.id ?? null, rangeLow, rangeHigh })
+    client -> singerCtrl : POST /api/singers
+    singerCtrl -> svc : CreateAsync(SaveSingerRequest)
+    svc -> db : Add Singer (trimmed name, CreatedAt)
+    db --> svc : Saved
+    svc --> singerCtrl : SingerDto
+    singerCtrl --> client : 201 Created
+    client --> welcome : ApiSinger
+    welcome -> activate : activateSinger(singer) (PP-L2-6)
+    activate -> store : switchKey and merge server view
+    store --> activate : Linked profile
+  else server unreachable or the call throws
+    client --> welcome : false or ApiError
+    welcome -> welcome : Swallow the failure; profile stays local-only (PP-L2-6)
+  end
+end
+
+welcome -> welcome : hash = profile.range ? '#/home' : '#/voice' (PP-L2-5)
+welcome --> child : Land on voice setup, or home when a range exists
+@enduml

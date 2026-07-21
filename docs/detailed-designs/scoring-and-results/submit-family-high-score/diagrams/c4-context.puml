@@ -1,0 +1,16 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Submit the family high score
+
+Person(singer, "Singer", "Finishes a scored run on a server song")
+Person(family, "The family", "Shares the private per-song board at home")
+System(twinkle, "TwinkleTune web app", "On-device singing app; tests eligibility and files the score (TypeScript)")
+System(server, "Family server", "Self-hosted .NET API on the home LAN; owns the high-score board")
+
+Rel(singer, twinkle, "Finishes a scored performance in")
+Rel(twinkle, server, "Submits the run when eligible", "JSON/HTTP on the LAN")
+Rel(server, twinkle, "Reports whether the family record improved")
+Rel(twinkle, singer, "Celebrates a new family record")
+Rel(family, server, "Reads the family board")
+@enduml

@@ -1,0 +1,24 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Celebrate with visuals (reactive-scene.ts)
+
+Container_Boundary(results, "Results screen (results.ts)") {
+  Component(mount, "Scene mount", "TypeScript block", "seedFromString(songId:sparkles:stars); intensity 0.55 + stars * 0.15; burst 0.7 + stars * 0.1")
+  Component(canvasnode, "Decorative canvas", "HTML element", "data-reactive-scene, aria-hidden=true")
+}
+Container_Boundary(scene, "Reactive scene (rendering)") {
+  Component(progressive, "ProgressiveScene", "TypeScript class", "Renderer ladder, pause on hidden, replay of state and pending burst")
+  Component(normalize, "normalizeVisualState()", "TypeScript function", "Clamps energy, progress, pitchY and intensity to 0..1")
+  Component(gpuscene, "WebGpuScene", "TypeScript + WGSL", "Preferred renderer; 1.25 s burst animation")
+  Component(canvasscene, "CanvasScene", "TypeScript class", "canvas2d when animated, static under reduced motion")
+}
+System_Ext(prefs, "Operating system motion preference", "prefers-reduced-motion")
+
+Rel(mount, progressive, "createReactiveScene(canvas, { kind: 'results', seed })")
+Rel(mount, canvasnode, "Renders behind the semantic result")
+Rel(progressive, normalize, "update(next) folds into the clamped state")
+Rel(progressive, prefs, "Reads the reduced-motion preference first")
+Rel(progressive, gpuscene, "WebGpuScene.create(); device loss falls back")
+Rel(progressive, canvasscene, "CanvasScene on reduced motion or failure")
+@enduml

@@ -1,0 +1,60 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Award badges
+
+interface BadgeMeta {
+  +id: string
+  +name: string
+  +emoji: string
+  +hint: string
+}
+
+interface BadgeContext {
+  +totalPlays: number
+  +streak: number
+  +summary: SongSummary
+  +songDifficulty: 1 | 2 | 3
+  +earned: ReadonlySet<string>
+}
+
+interface SongSummary {
+  +stars: 1 | 2 | 3
+  +braveStars: number
+  +accuracy: number
+  +maxStreak: number
+  +total: number
+  +noMic: boolean
+}
+
+class "state/badges.ts" as BadgesMod <<module>> {
+  +BADGES: BadgeMeta[6]
+  +badgeById(id: string): BadgeMeta?
+  +evaluateBadges(ctx: BadgeContext): string[]
+}
+
+interface AppState {
+  +badges: Record<string, string>
+  +lastNewBadges: string[]
+}
+
+class "state/store.ts" as StoreMod <<module>> {
+  +recordPlay(store, song, summary, today): string[]
+}
+
+BadgesMod *-- BadgeMeta : owns the catalogue
+BadgesMod ..> BadgeContext : evaluates
+BadgeContext --> SongSummary : summary
+StoreMod ..> BadgesMod : evaluateBadges
+StoreMod --> AppState : stamps badges[id] = today
+@enduml

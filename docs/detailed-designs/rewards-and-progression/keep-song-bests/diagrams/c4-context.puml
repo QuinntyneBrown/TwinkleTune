@@ -1,0 +1,13 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Keep song bests
+
+Person(singer, "Singer", "Replays songs to beat a personal best")
+System(twinkle, "TwinkleTune web app", "On-device singing app; keeps the highest stars and accuracy per song (TypeScript)")
+System_Ext(storage, "Browser device storage", "localStorage blob holding the bests map")
+
+Rel(singer, twinkle, "Replays songs in")
+Rel(twinkle, singer, "Shows personal bests and the mastered-song count to")
+Rel(twinkle, storage, "Reads and writes the per-song bests", "localStorage")
+@enduml

@@ -1,0 +1,47 @@
+@startuml
+title UML sequence behaviour — Apply the CORS policy to a browser call
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up on the home LAN" as grownup
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Browser" as browser
+  participant "api client (client.ts)" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "CORS middleware (policy \"app\")" as cors
+  participant "SongsController" as controller
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "ISongService" as service
+end box
+
+grownup -> browser : open the app from its origin
+browser -> client : api.songs.list()
+client -> cors : OPTIONS /api/songs with Origin header
+cors -> cors : match Origin against Cors:Origins (FS-L2-10)
+alt origin is in the configured list
+  cors --> client : 204 with Access-Control-Allow-Origin and Allow-Credentials (FS-L2-10)
+  client -> cors : GET /api/songs
+  cors -> controller : forward, with no authentication step (FS-L2-11)
+  controller -> service : GetAllAsync()
+  service --> controller : List<SongDto>
+  controller --> client : 200 with the songbook and CORS headers
+  client --> browser : songs
+else origin is not listed
+  cors --> client : response without a matching Access-Control-Allow-Origin (FS-L2-10)
+  client --> browser : the browser blocks the cross-origin read (FS-L2-10)
+end
+browser --> grownup : present the result or the offline path
+@enduml

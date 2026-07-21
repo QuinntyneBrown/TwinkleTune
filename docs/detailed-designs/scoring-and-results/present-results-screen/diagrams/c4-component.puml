@@ -1,0 +1,34 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Present the results screen (results.ts)
+
+Container_Boundary(results, "Results screen (results.ts)") {
+  Component(render, "renderResults()", "TypeScript function", "Reads lastResult, guards, composes the markup, returns the teardown")
+  Component(headline, "headline", "TypeScript expression", "No-mic / 3 / 2 / 1 star wording with the singer name")
+  Component(starsrow, "starsRow", "TypeScript template", "Three slots filled to the earned star count; empty for no-mic")
+  Component(card, "scoreCard", "TypeScript template", "Landed of total, accuracy fill and the three dimension marks")
+  Component(marks, "marks()", "TypeScript function", "Clamps a dimension mark to one to three glyphs")
+  Component(actions, "Action row", "TypeScript template", "Sing again / New song / Home, or Another duet in duet mode")
+}
+Container_Boundary(parts, "Shared UI parts (ui/parts.ts)") {
+  Component(star, "starSVG()", "TypeScript function", "Filled or outlined star mark")
+  Component(mascot, "mascotSVG() / skyDecor()", "TypeScript functions", "Twinkle mascot and sky backdrop")
+}
+Container_Boundary(state, "App state (store.ts)") {
+  Component(appstate, "AppState.lastResult", "SongSummary", "The performance being presented")
+}
+Container_Boundary(duetmod, "Duet session (api/duet.ts)") {
+  Component(session, "duetSession", "TypeScript singleton", "get() and end() around the live duet")
+}
+
+Rel(render, appstate, "Reads; redirects to #/home when absent")
+Rel(render, headline, "Selects by noMic and stars")
+Rel(render, starsrow, "Renders for a scored run only")
+Rel(starsrow, star, "starSVG(r.stars >= n)")
+Rel(render, card, "Scored or no-mic variant")
+Rel(card, marks, "marks(pitchStars), marks(timingStars), marks(braveStars)")
+Rel(render, actions, "Solo or duet action set")
+Rel(actions, session, "end() before Another duet or Home")
+Rel(render, mascot, "Frames the screen")
+@enduml

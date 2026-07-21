@@ -1,0 +1,59 @@
+@startuml
+title UML sequence behaviour — Earn sparkles and derive the level
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Sing screen" as sing
+  participant "Tips screen" as tips
+  participant "recordPlay()" as record
+  participant "Reward store" as store
+  participant "Home screen" as home
+end box
+box "Device — Browser storage" #FFF4E5
+  database "localStorage" as ls
+end box
+
+alt completed play
+  singer -> sing : Finish the song
+  sing -> sing : summary = summarize(song, results, noMic)
+  sing -> record : recordPlay(store, song, summary, todayISO())
+  record -> store : update: sparkles += summary.sparkles (10 per landed note) (RP-L2-1)
+  store -> ls : setItem(key, JSON state)
+  ls --> store : stored
+  store --> record : updated state
+  record --> sing : newly earned badge ids
+else completed tip
+  singer -> tips : Tap "I did it! ✨"
+  tips -> store : update: sparkles += 5 (RP-L2-1)
+  store -> ls : setItem(key, JSON state)
+  ls --> store : stored
+  tips --> singer : Toast "+5 sparkles ✨"
+end
+
+singer -> home : Open the home screen
+home -> store : get()
+store --> home : AppState with the new total
+home -> home : lvl = floor(sparkles / 300) + 1 (RP-L2-2)
+home -> home : title = LEVEL_TITLES[min(lvl - 1, 6)] (RP-L2-2)
+home --> singer : "Level {lvl} {title}"
+
+opt grown-up confirms a full reset
+  singer -> store : reset()
+  store -> ls : removeItem(key)
+  store -> store : state = emptyState(); sparkles = 0 (RP-L2-1)
+  store --> singer : Fresh start at level 1 "Hatchling"
+end
+@enduml

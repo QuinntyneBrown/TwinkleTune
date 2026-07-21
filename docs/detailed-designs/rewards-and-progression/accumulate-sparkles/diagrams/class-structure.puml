@@ -1,0 +1,56 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Accumulate sparkles
+
+interface AppState {
+  +profile: Profile?
+  +sparkles: number
+  +singDays: string[]
+  +plays: Record<string, number>
+  +bests: Record<string, SongBest>
+  +badges: Record<string, string>
+}
+
+interface SongSummary {
+  +landed: number
+  +total: number
+  +sparkles: number
+  +noMic: boolean
+}
+
+interface Store {
+  +get(): AppState
+  +set(patch: Partial<AppState>): void
+  +update(fn: (s: AppState) => void): void
+  +switchKey(key: string): void
+  +reset(): void
+}
+
+class "state/store.ts" as StoreMod <<module>> {
+  +recordPlay(store, song, summary, today): string[]
+  +level(sparkles: number): number
+  +sparklesToNextLevel(sparkles: number): number
+  +levelTitle(lvl: number): string
+  -LEVEL_TITLES: string[7]
+}
+
+class "screens/tips.ts" as TipsMod <<module>> {
+  -openTip(tip: Tip): void
+}
+
+StoreMod ..> Store : updates through
+StoreMod ..> SongSummary : reads sparkles from
+Store --> AppState : holds
+TipsMod ..> Store : sparkles += 5
+@enduml

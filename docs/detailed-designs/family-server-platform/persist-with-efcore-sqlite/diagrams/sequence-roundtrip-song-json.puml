@@ -1,0 +1,65 @@
+@startuml
+title UML sequence behaviour — Round-trip a song through the JSON column
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as grownup
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Song manager" as editor
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "SongsController" as controller
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "SongService" as service
+  participant "Song" as song
+end box
+box "Backend — Infrastructure" #FFF4E5
+  participant "SongRepository" as repo
+  participant "AppDbContext" as context
+  database "twinkletune.db" as db
+end box
+
+grownup -> editor : save an edited song
+editor -> controller : PUT /api/songs/{id}
+controller -> service : UpdateAsync(id, SaveSongRequest)
+service -> repo : GetAsync(id)
+repo -> context : tracked query by id
+context -> db : SELECT Phrases as text
+db --> context : JSON document
+context -> context : value converter deserializes List<SongPhrase> (FS-L2-5)
+context --> repo : tracked Song
+repo --> service : Song
+service -> song : replace Title, Bpm, Difficulty, Phrases
+service -> repo : UpdateAsync(song)
+repo -> context : SaveChangesAsync()
+context -> context : value comparer compares serialized phrases (FS-L2-5)
+alt phrases changed
+  context -> db : UPDATE Phrases with the serialized document (FS-L2-5)
+else phrases untouched
+  context -> context : property stays unmodified (FS-L2-5)
+end
+db --> context : rows written
+context --> repo : saved
+repo --> service : completed
+service -> repo : GetAllAsync() for the refreshed list
+repo -> context : AsNoTracking() query (FS-L2-6)
+context -> db : SELECT ordered by Difficulty then Title (FS-L2-6)
+db --> context : rows
+context --> repo : detached songs with phrases deserialized (FS-L2-5)
+repo --> service : List<Song>
+service --> controller : SongDto
+controller --> editor : 200 with the saved song
+editor --> grownup : show the updated song
+@enduml

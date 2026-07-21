@@ -1,0 +1,18 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Restrict access to the home LAN
+
+Person(grownup, "Grown-up", "Passes the parent gate before destructive actions")
+Person(child, "Child singer", "Uses the app on the home network")
+Person_Ext(outsider, "Anyone outside the home network", "Has no route to the server")
+System(app, "TwinkleTune web app", "Holds the parent gate; served from a configured origin")
+System(server, "TwinkleTune family server", "No authentication; CORS-restricted; home-LAN deployment")
+System_Ext(internet, "Public internet", "Explicitly out of the deployment scope (ADR-0002)")
+
+Rel(child, app, "Sings and browses using", "HTTPS on the home LAN")
+Rel(grownup, app, "Manages content after the parent gate", "HTTPS on the home LAN")
+Rel(app, server, "Calls from an allowed origin only", "JSON/HTTP")
+Rel(outsider, internet, "Reaches only the public marketing site and app build")
+Rel(internet, server, "Not exposed — revisit ADR-0002 before any exposure")
+@enduml

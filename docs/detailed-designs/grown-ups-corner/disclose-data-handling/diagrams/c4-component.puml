@@ -1,0 +1,22 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Disclose data handling (settings.ts)
+
+Container_Boundary(hub, "Grown-Ups Corner hub (settings.ts)") {
+  Component(show, "showSettings()", "TypeScript function", "Renders the card, disclosure first")
+  Component(copy, "Disclosure paragraph", "Static markup", "Three clauses: on-device rewards, home server only, duet live scores")
+}
+Container_Boundary(backing, "Behaviour the clauses assert") {
+  Component(state, "AppState", "state/store.ts", "sparkles, singDays, plays, bests, badges — serialized locally")
+  ComponentDb(local, "localStorage blob", "Browser storage", "twinkletune:v1[:singerId]")
+  Component(client, "api", "api/client.ts", "songs, avatars, singers, highscores against API_URL")
+  Component(duet, "DuetHub", "SignalR hub at /hubs/duet", "Relays live score events for the room's lifetime")
+}
+
+Rel(show, copy, "Renders before any control")
+Rel(copy, state, "Clause 1: badges and streaks stay on this device")
+Rel(state, local, "save() serializes the blob")
+Rel(copy, client, "Clause 2: profiles, songs and family high scores on the home server only")
+Rel(copy, duet, "Clause 3: during duets, just live scores are shared")
+@enduml

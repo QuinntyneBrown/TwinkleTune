@@ -1,0 +1,29 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Test the platform deterministically
+
+Person(maintainer, "Maintainer", "Runs the suite")
+
+System_Boundary(tests, "TwinkleTune test suite") {
+  Container(unit, "TwinkleTune.UnitTests", "xUnit", "Exercises Application and Domain with a substituted clock and fake repositories; no host")
+  Container(integration, "TwinkleTune.IntegrationTests", "xUnit + WebApplicationFactory", "Boots the real application in process and drives it over HTTP and SignalR")
+}
+
+System_Boundary(app, "TwinkleTune family server") {
+  Container(api, "TwinkleTune.Api", "ASP.NET Core", "Routes, hub, and the exposed entry point")
+  Container(application, "TwinkleTune.Application", ".NET class library", "Services taking TimeProvider by injection")
+  Container(domain, "TwinkleTune.Domain", ".NET class library", "Entities and invariants")
+  ContainerDb(tempdb, "Temporary SQLite database", "SQLite file", "Created per test run under a temporary folder and deleted on dispose")
+}
+
+Rel(maintainer, unit, "Runs", "dotnet test")
+Rel(maintainer, integration, "Runs", "dotnet test")
+Rel(unit, application, "Constructs services with a test double clock (FS-L2-17)")
+Rel(unit, domain, "Asserts invariants directly")
+Rel(integration, api, "Boots via WebApplicationFactory<Program> (FS-L2-18)", "In-process HTTP and SignalR")
+Rel(api, application, "Delegates to")
+Rel(application, domain, "Reads and mutates")
+Rel(integration, tempdb, "Redirects ConnectionStrings:Default, PhotosPath, and DataPath to a temporary folder")
+Rel(api, tempdb, "Creates and seeds on startup", "EF Core")
+@enduml

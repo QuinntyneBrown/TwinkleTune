@@ -1,0 +1,81 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Practise a tip
+
+interface Tip {
+  +id: string
+  +title: string
+  +short: string
+  +icon: string
+  +iconCls: 'ti-1' | 'ti-2' | 'ti-3' | 'ti-4'
+  +mins: string
+  +category: TipCategory
+  +steps: string[]
+}
+
+enum TipCategory {
+  breathing
+  brave
+  warmup
+  show
+}
+
+class "screens/tips-data.ts" as Data <<module>> {
+  +HERO_TIP: Tip
+  +TIPS: Tip[6]
+  +tipOfTheDay(d: Date): Tip
+}
+
+class "screens/tips.ts" as Screen <<module>> {
+  -CATEGORIES: {id, label}[5]
+  +renderTips(root: HTMLElement): void
+  -openTip(tip: Tip): void
+}
+
+class TipCard <<html fragment>> {
+  +dataTip: string
+  +dataCategory: TipCategory
+  +icon: string
+  +title: string
+  +short: string
+  +mins: string
+  +display: '' | 'none'
+}
+
+class TipWalkthrough <<modal>> {
+  +ariaLabel: string
+  +steps: ordered list
+  +doneLabel: "I did it! ✨"
+  +cancelLabel: "Maybe later"
+  +grant: 5 sparkles
+}
+
+class "ui/modal.ts" as Modal <<module>> {
+  +showModal(opts: ModalOptions): ModalHandle
+  +toast(message: string, variant, ms): void
+}
+
+class "state/store.ts" as Store <<module>> {
+  +sparkles: number
+  +update(fn: (s: AppState) => void): void
+}
+
+Data --> "7" Tip : HERO_TIP + TIPS
+Tip --> TipCategory : category
+Screen ..> Data : reads HERO_TIP and TIPS
+Screen --> "6" TipCard : renders
+Screen --> "0..1" TipWalkthrough : opens
+TipWalkthrough ..> Modal : showModal / toast
+TipWalkthrough ..> Store : sparkles += 5
+@enduml

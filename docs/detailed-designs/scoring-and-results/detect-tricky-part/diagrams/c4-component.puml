@@ -1,0 +1,26 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Detect the tricky part
+
+Container_Boundary(scoring, "Scoring rules (scoring.ts)") {
+  Component(pass, "Tricky-part pass in summarize()", "TypeScript block", "Lowest landed ratio among phrases with at least 3 notes")
+  Component(threshold, "Shakiness threshold", "TypeScript guard", "worst >= 0.75 nulls the tricky phrase")
+  Component(summary, "SongSummary", "TypeScript interface", "Carries trickyPhrase and trickyLyric")
+}
+Container_Boundary(results, "Results screen (results.ts)") {
+  Component(cta, "practiceBtn", "TypeScript template", "Renders the invitation when scored, non-duet and tricky")
+  Component(coach, "coachText", "TypeScript template", "Names the tricky lyric in the coach bubble")
+}
+Container_Boundary(sing, "Sing screen (sing.ts)") {
+  Component(params, "practicePhrase / slow / rate", "TypeScript closure", "Parses practice and slow from the route")
+  Component(window, "fromBeat / untilBeat window", "TypeScript closure", "Restricts windowNotes to the phrase")
+}
+
+Rel(pass, threshold, "Applies after the phrase scan")
+Rel(threshold, summary, "Writes trickyPhrase and trickyLyric")
+Rel(cta, summary, "Reads trickyPhrase and noMic")
+Rel(coach, summary, "Reads trickyLyric")
+Rel(cta, params, "Navigates with practice and slow=1")
+Rel(params, window, "Sets the played window to the phrase")
+@enduml

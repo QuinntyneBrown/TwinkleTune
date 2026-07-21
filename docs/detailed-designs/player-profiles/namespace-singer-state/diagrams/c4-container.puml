@@ -1,0 +1,19 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Namespace singer state
+
+Person(singer, "Active singer", "Whoever the store is currently pointed at")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(screens, "Screens and gameplay", "TypeScript DOM modules", "Read the profile and record completed plays")
+  Container(store, "State store", "TypeScript (store.ts)", "One state blob at a time, behind a mutable key")
+  Container(profile, "Profile activation", "TypeScript (profile.ts)", "Adopts the legacy blob and switches the key")
+}
+System_Ext(storage, "Browser local storage", "twinkletune:v1, twinkletune:v1:{singerId}, twinkletune:active-singer")
+
+Rel(singer, screens, "Uses", "HTTPS")
+Rel(screens, store, "get(), set(), update(), recordPlay()")
+Rel(profile, store, "switchKey(profileKey(singerId))")
+Rel(store, storage, "getItem / setItem / removeItem at the current key", "StorageLike")
+Rel(profile, storage, "adoptLegacyState, get/setActiveSingerId", "StorageLike")
+@enduml

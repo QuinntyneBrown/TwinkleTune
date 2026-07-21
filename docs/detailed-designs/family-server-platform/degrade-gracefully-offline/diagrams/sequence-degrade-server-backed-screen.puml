@@ -1,0 +1,60 @@
+@startuml
+title UML sequence behaviour — Degrade a server-backed screen
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "welcome.ts" as welcome
+  participant "songs.ts" as songs
+  participant "duet.ts" as duet
+  participant "songs/repo.ts" as repo
+  participant "api/client.ts" as client
+  participant "state/store.ts" as store
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "Family server (absent)" as server
+end box
+
+singer -> welcome : enter a name and pick an avatar
+welcome -> store : write the profile to localStorage first (FS-L2-15)
+store --> welcome : local profile saved
+welcome -> client : serverOnline()
+client -> server : GET /health
+server --> client : no answer within 1500 ms
+client --> welcome : offline (FS-L2-14)
+welcome --> singer : continue with a local-only profile (FS-L2-15)
+
+singer -> songs : open the songs screen
+songs -> repo : currentSongs()
+repo --> songs : cached list, or the six bundled songs (FS-L2-15)
+songs --> singer : every song playable, immediately
+songs -> repo : loadSongs()
+repo -> client : api.songs.list()
+client -> server : GET /api/songs
+server --> client : network failure
+client --> repo : rejected promise (FS-L2-13)
+repo --> songs : { songs: current, online: false } (FS-L2-15)
+songs --> singer : offline notice; family board and duet buttons hidden (FS-L2-15)
+
+singer -> duet : tap Play Together
+duet -> server : connect to /hubs/duet
+server --> duet : connection fails
+duet --> singer : "Can't reach the family server" and solo play stays available (FS-L2-15)
+
+singer -> songs : pick a song and sing
+songs -> store : record sparkles, streak, and best on device (FS-L2-15)
+store --> songs : saved locally
+songs --> singer : scoring and celebration, with no API involved (FS-L2-15)
+@enduml

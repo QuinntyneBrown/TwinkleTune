@@ -1,0 +1,70 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Route between screens
+
+class "main.ts" as Main <<module>> {
+  -routes: Record<string, ScreenRenderer>
+  -NO_PROFILE_OK: Set<string>
+  -app: HTMLElement
+  -cleanup: Cleanup
+  -hasRendered: boolean
+  -route(): void
+  -mount(): void
+}
+
+interface ScreenRenderer <<type>> {
+  +(root: HTMLElement, params: URLSearchParams): Cleanup
+}
+
+interface Cleanup <<type>> {
+  +(() => void) | void
+}
+
+class "screens/*.ts" as Screens <<module>> {
+  +renderWelcome: ScreenRenderer
+  +renderVoiceSetup: ScreenRenderer
+  +renderHome: ScreenRenderer
+  +renderSongs: ScreenRenderer
+  +renderSing: ScreenRenderer
+  +renderResults: ScreenRenderer
+  +renderTips: ScreenRenderer
+  +renderMe: ScreenRenderer
+  +renderTuner: ScreenRenderer
+  +renderProfiles: ScreenRenderer
+  +renderDuet: ScreenRenderer
+}
+
+class "store" as Store <<singleton>> {
+  +get(): AppState
+}
+
+class AppState {
+  +profile: Profile?
+}
+
+class Profile {
+  +name: string
+  +avatar: string
+  +range: VoiceRange?
+  +latencyMs: number
+}
+
+Main --> "11" ScreenRenderer : routes
+Main ..> Cleanup : retains between navigations
+Main ..> Store : reads the active profile
+Screens ..|> ScreenRenderer : implements
+ScreenRenderer --> Cleanup : returns
+Store --> AppState : get()
+AppState --> "0..1" Profile : profile
+@enduml

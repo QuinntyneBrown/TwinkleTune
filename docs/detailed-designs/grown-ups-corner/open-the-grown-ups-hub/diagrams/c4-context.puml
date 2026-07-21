@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Open the grown-ups hub
+
+Person(grownup, "Grown-up", "Tunes the app, curates content, manages singers")
+System(twinkle, "TwinkleTune web app", "On-device singing app hosting the Grown-Ups Corner hub (TypeScript)")
+System_Ext(browser, "Browser storage and hash router", "localStorage profile blob and #/ navigation")
+System_Ext(server, "Family server", "Home-LAN server holding songs, avatars and singers")
+
+Rel(grownup, twinkle, "Opens the hub after passing the parent gate")
+Rel(twinkle, browser, "Reads the active profile; routes to #/voice and #/profiles")
+Rel(twinkle, server, "Opens the song and avatar managers against", "JSON/HTTPS")
+@enduml

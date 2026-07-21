@@ -1,0 +1,53 @@
+@startuml
+title UML sequence behaviour — Answer a health probe and a REST call
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Songs screen" as screen
+  participant "serverOnline() / api" as client
+  participant "DuetClient" as duetclient
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "GET /health" as health
+  participant "SongsController" as songs
+  participant "DuetHub" as hub
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "ISongService" as service
+  participant "IRoomService" as rooms
+end box
+
+singer -> screen : open the songs screen
+screen -> client : serverOnline()
+client -> health : GET /health
+health --> client : 200 { status: "ok" } (FS-L2-9)
+client --> screen : a family server is present
+screen -> client : api.songs.list()
+client -> songs : GET /api/songs (FS-L2-8)
+songs -> service : GetAllAsync()
+service --> songs : List<SongDto>
+songs --> client : 200 with the family songbook
+client --> screen : songs
+opt the singer starts a duet
+  screen -> duetclient : connect()
+  duetclient -> hub : negotiate and connect to /hubs/duet (FS-L2-8)
+  hub -> rooms : Create or Join
+  rooms --> hub : RoomStateDto
+  hub --> duetclient : room state
+  duetclient --> screen : lobby ready
+end
+screen --> singer : present songs and duet options
+@enduml

@@ -1,0 +1,13 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Rank a family board
+
+Person(family, "Family member", "Opens a song board or reviews a singer's bests")
+System(app, "TwinkleTune web app", "Requests and renders ranked family boards (TypeScript)")
+System_Ext(server, "Family server", "Orders stored bests and joins singer identity")
+
+Rel(family, app, "Opens a board")
+Rel(app, server, "GET per-song and per-singer boards (HS-L2-8)", "JSON/HTTP")
+Rel_Back(app, server, "Entries ranked by stars then accuracy, with singer identity (HS-L2-7, HS-L2-9)")
+@enduml

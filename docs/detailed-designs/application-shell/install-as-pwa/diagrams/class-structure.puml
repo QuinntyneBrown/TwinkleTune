@@ -1,0 +1,88 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Install as PWA
+
+class "manifest.webmanifest" as Manifest <<document>> {
+  +name: "TwinkleTune — Sing your heart out!"
+  +short_name: "TwinkleTune"
+  +description: string
+  +start_url: "./"
+  +scope: "./"
+  +display: "standalone"
+  +orientation: "portrait"
+  +theme_color: "#5EA8DA"
+  +background_color: "#AFE3F4"
+  +icons: IconEntry[]
+}
+
+class IconEntry <<value>> {
+  +src: string
+  +sizes: string
+  +type: string
+  +purpose: string
+}
+
+object "icon.svg" as IconSvg {
+  src = "./icon.svg"
+  sizes = "any"
+  type = "image/svg+xml"
+  purpose = "any"
+}
+
+object "icon-192.png" as Icon192 {
+  src = "./icon-192.png"
+  sizes = "192x192"
+  type = "image/png"
+  purpose = "any"
+}
+
+object "icon-512.png" as Icon512 {
+  src = "./icon-512.png"
+  sizes = "512x512"
+  type = "image/png"
+  purpose = "any maskable"
+}
+
+class "index.html" as Index <<document>> {
+  +link rel="manifest" href="./manifest.webmanifest"
+  +meta name="theme-color" content="#5EA8DA"
+  +link rel="apple-touch-icon" href="./icon-192.png"
+  +meta name="apple-mobile-web-app-capable" content="yes"
+  +meta name="apple-mobile-web-app-status-bar-style"
+  +meta name="viewport" ... viewport-fit=cover
+}
+
+class "vite.config.ts" as ViteConfig <<build configuration>> {
+  +base: "./"
+  +publicDir: "public"
+}
+
+class "frontend/public/" as PublicDir <<static directory>> {
+  +manifest.webmanifest
+  +icon.svg
+  +icon-192.png
+  +icon-512.png
+  +sw.js
+}
+
+Manifest *-- "3" IconEntry : icons
+IconEntry <|-- IconSvg
+IconEntry <|-- Icon192
+IconEntry <|-- Icon512
+Index ..> Manifest : links relatively
+Index ..> Icon192 : apple-touch-icon
+ViteConfig --> Index : emits relative asset URLs into
+ViteConfig --> PublicDir : copies verbatim into build output
+PublicDir *-- Manifest : carries
+@enduml

@@ -1,0 +1,45 @@
+@startuml
+title UML sequence behaviour — Apply the offset during scoring
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Young singer" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Sing screen frame loop" as loop
+  participant "store" as store
+  participant "SongPlayer" as player
+  participant "PitchTracker" as tracker
+  participant "applySingerToProfile()" as merge
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "SingersController" as controller
+end box
+
+actor -> loop : Sing a note
+loop -> store : store.get().profile.latencyMs
+store --> loop : Stored device offset in ms
+loop -> player : secondsPerBeat()
+player --> loop : Beat duration for the song tempo
+loop -> loop : latencyBeats = (latencyMs / 1000) / secondsPerBeat() (GC-L2-4)
+loop -> loop : scoreBeat = beat - latencyBeats (GC-L2-4)
+loop -> tracker : read()
+tracker --> loop : Pitch frame or null
+loop --> actor : Feedback aligned with the note actually sung
+
+opt singer record refreshed from the server
+  controller --> merge : ApiSinger { name, avatarEmoji, rangeLow, rangeHigh }
+  merge -> store : Rebuild the profile with latencyMs = prev.latencyMs ?? 0 (GC-L2-4)
+  store --> merge : Device offset survives the sync
+end
+@enduml

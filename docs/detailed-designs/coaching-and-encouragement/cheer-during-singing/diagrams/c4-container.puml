@@ -1,0 +1,18 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Cheer during singing
+
+Person(child, "Young singer", "Sings a song and reads Twinkle's cheers")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(sing, "Sing! screen", "TypeScript (screens/sing.ts)", "Holds CHEERS and PHRASE_CHEERS; drives the render loop")
+  Container(scoring, "Scoring module", "TypeScript (state/scoring.ts)", "noteLanded decides whether a note counts as landed")
+  Container(styles, "Stylesheets", "CSS (styles/screens.css)", ".feedback-pop and the cheer keyframes")
+}
+System_Ext(browser, "Browser DOM, microphone, and timers", "Renders the pop and drives the frame loop")
+
+Rel(child, sing, "Sings during a song")
+Rel(sing, scoring, "noteLanded(result)")
+Rel(sing, styles, "Applies .feedback-pop and .bubble")
+Rel(sing, browser, "Appends the pop; removes it after 1100 ms")
+@enduml

@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Manage family songs
+
+Person(grownup, "Grown-up", "Adds, edits and removes songs in the family songbook")
+System(twinkle, "TwinkleTune web app", "Grown-Ups Corner song manager, editor, validator and preview (TypeScript)")
+System_Ext(server, "Family server", "Home-LAN ASP.NET Core server owning the songbook and family high scores")
+System_Ext(webaudio, "Browser Web Audio", "Synthesises the preview melody on the device")
+
+Rel(grownup, twinkle, "Edits songs and listens to the preview in")
+Rel(twinkle, server, "Lists, creates, updates and deletes songs", "JSON/HTTPS")
+Rel(twinkle, webaudio, "Plays the preview with a one-beat count-in", "Web Audio")
+@enduml

@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Practise a tip
+
+Person(child, "Young singer", "Browses tips and follows the steps")
+System(twinkle, "TwinkleTune web app", "On-device singing app; ships the tip library and grants the completion reward (TypeScript)")
+System_Ext(storage, "Browser local storage", "Per-singer state blob holding the sparkle balance")
+
+Rel(child, twinkle, "Opens Twinkle's Tips and taps I did it")
+Rel(twinkle, storage, "Persists the sparkle balance after a completion", "JSON")
+@enduml

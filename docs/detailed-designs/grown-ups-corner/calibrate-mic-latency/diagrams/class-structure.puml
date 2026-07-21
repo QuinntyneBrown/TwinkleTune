@@ -1,0 +1,65 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Calibrate mic latency
+
+interface Profile {
+  +name: string
+  +avatar: string
+  +range: VoiceRange | null
+  +latencyMs: number
+  +singerId?: string | null
+}
+
+interface AppState {
+  +profile: Profile | null
+  +sparkles: number
+  +bests: Record<string, SongBest>
+}
+
+interface Store {
+  +get(): AppState
+  +set(patch: Partial<AppState>): void
+  +update(fn: (s: AppState) => void): void
+  +switchKey(key: string): void
+  +reset(): void
+}
+
+interface StorageLike {
+  +getItem(key: string): string | null
+  +setItem(key: string, value: string): void
+  +removeItem(key: string): void
+}
+
+class "settings.ts" as SettingsMod <<module>> {
+  +showSettings(): void
+  -onLatencyInput(value: number): void
+}
+
+class "profile.ts" as ProfileMod <<module>> {
+  +applySingerToProfile(s: ApiSinger): void
+  +pushProfileToServer(): Promise<void>
+}
+
+class "sing.ts" as SingMod <<screen>> {
+  -latencyBeats: number
+  -scoreBeat: number
+}
+
+SettingsMod ..> Store : store.update
+Store --> AppState : holds
+Store ..> StorageLike : persists through
+AppState --> "0..1" Profile : profile
+ProfileMod ..> Profile : preserves prev.latencyMs
+SingMod ..> Profile : reads latencyMs each frame
+@enduml

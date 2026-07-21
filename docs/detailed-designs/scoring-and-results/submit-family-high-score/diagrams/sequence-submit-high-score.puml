@@ -1,0 +1,74 @@
+@startuml
+title UML sequence behaviour — Submit a scored run and celebrate a family record
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "renderResults() (results.ts)" as results
+  participant "isServerSongId() (songs/repo.ts)" as repo
+  participant "api.highscores (api/client.ts)" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "HighScoresController" as controller
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "HighScoreService" as service
+  participant "HighScore" as entity
+end box
+box "Backend — Infrastructure" #FFF4E5
+  database "Family database (SQLite)" as db
+end box
+
+singer -> results : Arrives at #/results
+results -> repo : isServerSongId(r.songId)
+repo --> results : GUID or bundled slug
+
+alt no-mic run, local-only profile, or bundled song
+  results -> results : no submission attempted (SR-L2-15)
+  results --> singer : Results render unchanged
+else scored run, server-linked singer, server song
+  results -> client : submit({ songId, singerId, stars, accuracy, sparkles, maxStreak }) (SR-L2-15)
+  client -> controller : POST /api/highscores
+  controller -> service : SubmitAsync(request, ct)
+  service -> db : Load song, singer and any stored score
+  db --> service : Stored HighScore or none
+  alt request out of range or unknown song or singer
+    service --> controller : error message
+    controller --> client : 400 Bad Request
+  else no stored score yet
+    service -> db : Add HighScore stamped with the current time
+    db --> service : Commit result
+    service --> controller : SubmitHighScoreResult { improved: true }
+  else stored score exists
+    service -> entity : IsBeatenBy(stars, accuracy)
+    entity --> service : stars first, then accuracy
+    alt the stored score is beaten
+      service -> db : Update the stored score
+      db --> service : Commit result
+      service --> controller : SubmitHighScoreResult { improved: true }
+    else the stored score stands
+      service --> controller : SubmitHighScoreResult { improved: false }
+    end
+  end
+  controller --> client : SubmitHighScoreResult or error
+  alt improved is true
+    client --> results : { improved: true }
+    results --> singer : Gold toast "New family record!" for 2600 ms (SR-L2-15)
+  else improved is false, or the server is unreachable
+    client --> results : { improved: false } or a swallowed rejection
+    results --> singer : Results render unchanged (SR-L2-15)
+  end
+end
+@enduml

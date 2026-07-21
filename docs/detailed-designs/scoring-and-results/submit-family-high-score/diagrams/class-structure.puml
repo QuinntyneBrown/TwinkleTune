@@ -1,0 +1,84 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Submit the family high score
+
+interface SongSummary {
+  +songId: string
+  +stars: 1 | 2 | 3
+  +accuracy: number
+  +sparkles: number
+  +maxStreak: number
+  +noMic: boolean
+}
+
+interface Profile {
+  +name: string
+  +singerId: string?
+}
+
+class "results.ts" as ResultsMod <<module>> {
+  +renderResults(root: HTMLElement, params: URLSearchParams): () => void
+  -eligible: boolean
+}
+
+class "api/client.ts" as ApiClient <<module>> {
+  +highscores.submit(body): Promise<SubmitHighScoreResult>
+}
+
+interface SubmitHighScoreResult {
+  +improved: boolean
+  +score: ApiHighScore
+}
+
+class HighScoresController {
+  +Submit(req: SubmitHighScoreRequest, ct): Task<IActionResult>
+}
+
+interface IHighScoreService {
+  +SubmitAsync(request, ct): Task<(SubmitHighScoreResult?, string?)>
+}
+
+class HighScoreService {
+  +SubmitAsync(request, ct): Task<(SubmitHighScoreResult?, string?)>
+}
+
+class HighScore {
+  +Guid Id
+  +Guid SongId
+  +Guid SingerId
+  +int Stars
+  +double Accuracy
+  +int Sparkles
+  +int MaxStreak
+  +DateTimeOffset AchievedAt
+  +IsBeatenBy(stars: int, accuracy: double): bool
+}
+
+interface IHighScoreRepository {
+  +GetAsync(songId, singerId, ct): Task<HighScore?>
+  +AddAsync(score, ct): Task
+  +UpdateAsync(score, ct): Task
+}
+
+ResultsMod ..> SongSummary : reads noMic, stars, accuracy
+ResultsMod ..> Profile : reads singerId
+ResultsMod ..> ApiClient : submits when eligible
+ApiClient --> SubmitHighScoreResult : resolves
+ApiClient ..> HighScoresController : POST /api/highscores
+IHighScoreService <|.. HighScoreService
+HighScoresController ..> IHighScoreService : SubmitAsync
+HighScoreService ..> IHighScoreRepository : GetAsync / AddAsync / UpdateAsync
+HighScoreService ..> HighScore : IsBeatenBy
+IHighScoreRepository --> "*" HighScore : stores
+@enduml

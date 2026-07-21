@@ -1,0 +1,28 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Use profile photo
+
+Container_Boundary(web, "TwinkleTune web app — photo upload and display") {
+  Component(dialog, "singerDialog photo input", "profiles.ts", "accept=image/jpeg,image/png,image/webp")
+  Component(avatarHtml, "avatarHTML()", "ui/parts.ts", "Photo when photoUrl is set, emoji otherwise (home)")
+  Component(singerHtml, "singerAvatarHTML()", "profiles.ts", "Photo with ?t= cache-buster, emoji otherwise")
+  Component(me, "Progress screen avatar", "me.ts", "Always the emoji avatar")
+  Component(client, "api client", "api/client.ts", "uploadPhoto(), photoUrl()")
+}
+Container_Boundary(api, "TwinkleTune API, Application and Infrastructure") {
+  Component(ctrl, "SingersController.SetPhoto / GetPhoto", "ASP.NET Core controller", "Form, 2 MB, and type gates; streams the file back")
+  Component(svc, "SingerService", "Application service", "SetPhotoAsync, GetPhotoFileNameAsync, OpenPhoto")
+  Component(storage, "PhotoStorage", "IPhotoStorage over the file system", "ContentTypeToExt, SaveAsync, OpenRead, Delete")
+  ComponentDb(db, "Family database", "SQLite", "Singer.PhotoFileName")
+}
+
+Rel(dialog, client, "uploadPhoto(singerId, file)")
+Rel(avatarHtml, client, "photoUrl(singerId) via Profile.photoUrl")
+Rel(singerHtml, client, "photoUrl(singerId) + ?t=Date.now()")
+Rel(client, ctrl, "PUT and GET /api/singers/{id}/photo", "HTTP")
+Rel(ctrl, storage, "PhotoStorage.IsSupported(contentType)")
+Rel(ctrl, svc, "SetPhotoAsync / GetPhotoFileNameAsync / OpenPhoto")
+Rel(svc, storage, "SaveAsync replaces {singerId}.*; OpenRead reduces to a file name")
+Rel(svc, db, "Stores the file name on the singer", "EF Core")
+@enduml

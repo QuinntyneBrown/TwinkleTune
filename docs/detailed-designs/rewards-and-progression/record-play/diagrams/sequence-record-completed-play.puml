@@ -1,0 +1,56 @@
+@startuml
+title UML sequence behaviour — Record a completed play
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Sing screen" as sing
+  participant "summarize()" as scoring
+  participant "recordPlay()" as record
+  participant "Reward store" as store
+  participant "evaluateBadges()" as badges
+  participant "Results screen" as results
+end box
+box "Device — Browser storage" #FFF4E5
+  database "localStorage" as ls
+end box
+
+singer -> sing : Finish the last note
+sing -> sing : finished = true; stop the pitch tracker
+sing -> scoring : summarize(song, results, noMic)
+scoring --> sing : SongSummary
+sing -> record : recordPlay(store, song, summary, todayISO())
+record -> store : update(state => ...) — one unit of persistence (RP-L2-8)
+record -> record : 1. sparkles += summary.sparkles (RP-L2-8)
+record -> record : 2. push today onto singDays when absent (RP-L2-8)
+record -> record : 3. plays[today] += 1 (RP-L2-8)
+record -> record : 4. bests[song.id] monotone update (RP-L2-8)
+record -> record : 5a. totalPlays = sum of bests[].plays; streak = streakCount(singDays, today)
+record -> badges : 5b. evaluateBadges({ totalPlays, streak, summary, songDifficulty, earned })
+badges --> record : newly earned badge ids
+record -> record : 5c. badges[id] = today for each new id (RP-L2-8)
+record -> record : 6. lastResult, lastSongId, lastNewBadges (RP-L2-8)
+store -> ls : setItem(key, JSON.stringify(state)) — single write (RP-L2-8)
+ls --> store : stored
+store --> record : update complete
+record --> sing : newly earned badge ids
+sing -> results : location.hash = "#/results"
+
+opt results screen renders
+  results -> store : get()
+  store --> results : AppState with lastResult, lastSongId, lastNewBadges (RP-L2-8)
+  results --> singer : Stars, marks and one chip per new badge
+end
+@enduml

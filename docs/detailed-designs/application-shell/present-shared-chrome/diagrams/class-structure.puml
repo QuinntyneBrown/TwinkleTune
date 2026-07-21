@@ -1,0 +1,66 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Present shared chrome
+
+class "ui/parts.ts" as Parts <<module>> {
+  +avatarHTML(profile: Pick<Profile,'avatar'|'photoUrl'>, cls: string, label: string): string
+  +mascotSVG(cls: string, happy: boolean): string
+  +starSVG(filled: boolean): string
+  +skyDecor(): string
+  +bottomNav(active: NavTab): string
+}
+
+enum NavTab {
+  home
+  songs
+  tips
+  me
+}
+
+class Profile {
+  +name: string
+  +avatar: string
+  +photoUrl: string?
+}
+
+class "styles/twinkle.css" as Tokens <<stylesheet>> {
+  +--pink: #F4DBE3
+  +--blue: #5EA8DA
+  +--sky: #83C5F1
+  +--pale: #B9DDF5
+  +--aqua: #AFE3F4
+  +--ink: #2B5876
+  +--gold: #FFD66B
+  +--r: 28px
+  +--font-display: Baloo 2
+  +--font-body: Nunito
+  +.btn / .btn-xl / .btn-sm
+  +.bottomnav / .bn-item.active
+  +.screen (max-width 470px)
+  +:focus-visible (3px outline)
+}
+
+class "screens/*.ts" as Screens <<module>> {
+  +renderHome(root, params): Cleanup
+  +renderSongs(root, params): Cleanup
+  +renderTips(root, params): Cleanup
+  +renderMe(root, params): Cleanup
+}
+
+Parts ..> NavTab : selects the active tab
+Parts ..> Profile : reads avatar and photoUrl
+Screens ..> Parts : interpolate the returned HTML
+Screens ..> Tokens : emit the shared class names
+Parts ..> Tokens : emit .bottomnav, .sky, .mascot, .avatar
+@enduml

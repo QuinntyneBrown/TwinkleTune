@@ -1,0 +1,77 @@
+@startuml
+title UML sequence behaviour — Upload and display a profile photo
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as grownup
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "singerDialog (profiles.ts)" as dialog
+  participant "api client" as client
+  participant "avatarHTML / singerAvatarHTML / me.ts" as render
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "SingersController" as ctrl
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "SingerService" as svc
+end box
+box "Backend — Infrastructure" #FFF4E5
+  participant "PhotoStorage" as storage
+  database "Family database (SQLite)" as db
+end box
+
+== Upload ==
+grownup -> dialog : Choose a photo file and save the singer
+dialog -> client : uploadPhoto(singerId, file)
+client -> ctrl : PUT /api/singers/{id}/photo (multipart form data) (PP-L2-13)
+alt not multipart, no file, over 2 MB, or an unsupported type
+  ctrl --> client : 400 Bad Request { error } — form, size, or type message (PP-L2-13)
+  client --> dialog : ApiError
+  dialog --> grownup : Toast carrying the friendly message
+else accepted upload
+  ctrl -> ctrl : IsSupported(contentType); length <= MaxPhotoBytes (PP-L2-13)
+  ctrl -> svc : SetPhotoAsync(id, stream, contentType)
+  svc -> storage : SaveAsync(singerId, content, contentType)
+  storage -> storage : Delete every {singerId}.* then write {singerId}{ext} (PP-L2-13)
+  storage --> svc : "{singerId}.{ext}"
+  svc -> db : Save Singer.PhotoFileName
+  db --> svc : Committed
+  svc --> ctrl : SingerDto with HasPhoto = true
+  ctrl --> client : 200 OK
+  client --> dialog : ApiSinger
+  dialog --> grownup : Toast "Saved!"
+end
+
+== Display ==
+render -> client : photoUrl(singerId)
+client --> render : /api/singers/{id}/photo
+render -> ctrl : GET /api/singers/{id}/photo (picker adds ?t=Date.now()) (PP-L2-14)
+ctrl -> svc : GetPhotoFileNameAsync(id)
+svc -> db : Read PhotoFileName
+db --> svc : File name or null
+alt no photo on file
+  svc --> ctrl : null
+  ctrl --> render : 404 Not Found
+  render --> grownup : Emoji avatar shown (PP-L2-14)
+else photo present
+  svc --> ctrl : File name
+  ctrl -> svc : OpenPhoto(fileName)
+  svc -> storage : OpenRead(fileName)
+  storage -> storage : Path.Combine(rootPath, Path.GetFileName(fileName)) — no traversal (PP-L2-13)
+  storage --> svc : Stream and mapped content type
+  svc --> ctrl : Stream and content type
+  ctrl --> render : 200 OK image bytes
+  render --> grownup : Photo on home and in the picker; emoji on the "Me" screen (PP-L2-14)
+end
+@enduml

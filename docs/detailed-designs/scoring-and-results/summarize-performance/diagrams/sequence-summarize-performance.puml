@@ -1,0 +1,63 @@
+@startuml
+title UML sequence behaviour — Reduce a finished performance to a summary
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Sing screen (sing.ts)" as sing
+  participant "summarize() (scoring.ts)" as summarize
+  participant "starsFromRatio()" as stars
+  participant "songRange() (songs/types.ts)" as range
+  participant "recordPlay() (store.ts)" as store
+  participant "Results screen (results.ts)" as results
+end box
+
+singer -> sing : Sings the last note
+sing -> sing : finished = true; tracker.stop()
+sing -> summarize : summarize(song, results, noMic)
+
+summarize -> summarize : landedFlags = results.map(noteLanded)
+summarize -> summarize : accuracy = total > 0 ? landed / total : 0 (SR-L2-3)
+summarize -> stars : starsFromRatio(accuracy, 0.85, 0.6) (SR-L2-3)
+stars --> summarize : stars and pitchStars (1, 2 or 3)
+
+summarize -> summarize : single pass keeping run and maxStreak (SR-L2-4)
+
+summarize -> summarize : hitOnes = results with firstHitFrac not null
+alt no note was ever hit
+  summarize -> summarize : timingStars = 1 (SR-L2-5)
+else at least one note hit
+  summarize -> stars : starsFromRatio(early / hitOnes.length, 0.8, 0.5) (SR-L2-5)
+  stars --> summarize : timingStars
+end
+
+summarize -> range : songRange(song)
+range --> summarize : { min, max }
+summarize -> summarize : highIdx = results with midi >= max - 2 (SR-L2-6)
+alt no qualifying high note
+  summarize -> summarize : braveStars = 3 (SR-L2-6)
+else song has high notes
+  summarize -> stars : starsFromRatio(highLanded / highIdx.length, 0.9, 0.6) (SR-L2-6)
+  stars --> summarize : braveStars
+end
+
+summarize -> summarize : sparkles = landed * 10 (SR-L2-8)
+summarize --> sing : SongSummary
+
+sing -> store : recordPlay(store, song, summary, todayISO())
+store --> sing : newly earned badge ids; lastResult set
+sing -> results : navigate to #/results
+results --> singer : Stars, accuracy and sparkles for the run (SR-L2-3, SR-L2-8)
+@enduml

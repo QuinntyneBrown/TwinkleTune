@@ -1,0 +1,13 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Cheer during singing
+
+Person(child, "Young singer", "Sings a song and reads Twinkle's cheers")
+System(twinkle, "TwinkleTune web app", "On-device singing app; raises cheers and phrase cues (TypeScript)")
+System_Ext(browser, "Browser DOM, microphone, and timers", "Renders the cheer pop and drives the animation frame")
+
+Rel(child, twinkle, "Sings notes and phrases")
+Rel(twinkle, browser, "Appends the cheer pop and rewrites the coach bubble", "DOM")
+Rel(browser, twinkle, "Reports each animation frame and microphone frame")
+@enduml

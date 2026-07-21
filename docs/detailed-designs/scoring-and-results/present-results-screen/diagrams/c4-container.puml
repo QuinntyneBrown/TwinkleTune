@@ -1,0 +1,23 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Present the results screen
+
+Person(singer, "Singer", "Reads the outcome and picks what happens next")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(router, "Application shell router", "TypeScript (main.ts)", "Resolves #/results and calls the teardown on leaving")
+  Container(results, "Results screen", "TypeScript (results.ts)", "Headline, star row, score card, action row")
+  Container(store, "App state store", "TypeScript (store.ts)", "lastResult and the active profile")
+  Container(parts, "Shared UI parts", "TypeScript (ui/parts.ts)", "starSVG, mascotSVG, skyDecor")
+  Container(duet, "Duet session", "TypeScript (api/duet.ts)", "Live duet context across screens")
+}
+ContainerDb(storage, "Browser local storage", "Web Storage", "Per-singer state blob")
+
+Rel(router, results, "renderResults(root, params)")
+Rel(results, store, "Reads lastResult and profile")
+Rel(store, storage, "Loads and saves the state blob", "localStorage")
+Rel(results, parts, "starSVG(filled), mascotSVG, skyDecor")
+Rel(results, duet, "get() when duet=1; end() when leaving")
+Rel(results, singer, "Presents the outcome and the action row")
+Rel(singer, router, "Chooses Sing again, New song, Another duet or Home")
+@enduml

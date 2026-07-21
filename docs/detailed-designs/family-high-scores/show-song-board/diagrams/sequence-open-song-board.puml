@@ -1,0 +1,65 @@
+@startuml
+title UML sequence behaviour — Open a song's family board
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Family member" as family
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "renderSongs / paint (songs.ts)" as screen
+  participant "songs/repo.ts" as repo
+  participant "showBoard (songs.ts)" as board
+  participant "showModal (ui/modal.ts)" as modal
+  participant "api.highscores.forSong (client.ts)" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "HighScoresController" as controller
+end box
+
+family -> screen : Open the song list
+screen -> repo : currentSongs() and songsAreLive()
+repo --> screen : songs and live flag
+
+alt Songbook not live (cached or bundled)
+  screen -> screen : Render the offline banner; omit the trophy button (HS-L2-13)
+  screen --> family : Song cards with a play button only
+else Songbook live
+  screen -> screen : Render the trophy button per card (HS-L2-13)
+  family -> screen : Tap the trophy button
+  screen -> repo : getSongById(id) then isServerSongId(song.id)
+  repo --> screen : song and GUID verdict
+  opt Bundled slug id
+    screen --> family : No board opens (HS-L2-13)
+  end
+  screen -> board : showBoard(song)
+  board -> modal : showModal({ ariaLabel, 'modal-wide', heading, Loading... })
+  modal --> family : Board modal showing "Loading…"
+  board -> client : forSong(song.id)
+  client -> controller : GET /api/songs/{id}/highscores
+  alt Entries returned
+    controller --> client : 200 OK with ranked HighScoreDto[]
+    client --> board : ApiHighScore[]
+    board -> modal : Render medal or number, avatar, name, star glyphs, accuracy percentage (HS-L2-12)
+    modal --> family : Ranked board rows
+  else Empty board
+    controller --> client : 200 OK with an empty array
+    client --> board : []
+    board -> modal : Render "No scores yet — be the first! ⭐" (HS-L2-12)
+    modal --> family : Friendly empty state
+  else Server unreachable
+    client --> board : Rejected promise
+    board -> modal : Render "Scores need the family server 📡" (HS-L2-12)
+    modal --> family : Friendly offline message
+  end
+end
+@enduml

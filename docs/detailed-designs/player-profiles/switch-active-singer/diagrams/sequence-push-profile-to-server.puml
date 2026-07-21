@@ -1,0 +1,58 @@
+@startuml
+title UML sequence behaviour — Push local profile changes to the server
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer at the tablet" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Voice setup (voice-setup.ts)" as voice
+  participant "pushProfileToServer (profile.ts)" as push
+  participant "store (store.ts)" as store
+  participant "api client" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "SingersController" as ctrl
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "SingerService" as svc
+end box
+box "Backend — Infrastructure" #FFF4E5
+  database "Family database (SQLite)" as db
+end box
+
+singer -> voice : Finish "Find My Voice"
+voice -> push : void pushProfileToServer() (PP-L2-17)
+push -> store : get().profile
+store --> push : Profile
+
+alt profile has no singerId
+  push --> voice : Return without a call (local-only profile)
+else profile is server-linked
+  push -> client : singers.update(singerId, { name, avatarId, rangeLow, rangeHigh }) (PP-L2-17)
+  client -> ctrl : PUT /api/singers/{id}
+  alt server reachable
+    ctrl -> svc : UpdateAsync(id, SaveSingerRequest)
+    svc -> db : Save name, avatarId, RangeLow, RangeHigh
+    db --> svc : Committed
+    svc --> ctrl : SingerDto
+    ctrl --> client : 200 OK
+    client --> push : ApiSinger
+    push --> voice : Server copy reflects the new range (PP-L2-17)
+  else offline or the call throws
+    client --> push : Rejected promise
+    push -> push : Empty catch — no error surfaced, local profile unchanged (PP-L2-17)
+    push --> voice : Resolves; the next successful update reconciles (PP-L2-17)
+  end
+end
+@enduml

@@ -1,0 +1,22 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Surface the daily tip (tips-data.ts and home.ts)
+
+Container_Boundary(data, "Tip content module (screens/tips-data.ts)") {
+  Component(select, "tipOfTheDay(d = new Date())", "TypeScript function", "day-of-year modulo 7 over [HERO_TIP, ...TIPS]")
+  Component(hero, "HERO_TIP", "Tip constant", "Index 0 of the rotation")
+  Component(list, "TIPS", "Tip[] of length 6", "Indices 1 to 6 of the rotation")
+}
+Container_Boundary(home, "Home screen (screens/home.ts)") {
+  Component(render, "renderHome(root)", "TypeScript function", "Builds the dashboard markup")
+  Component(card, ".tip-day card", "HTML section", "Lamp icon, title and short line, arrow to #/tips")
+}
+System_Ext(clock, "Device clock and locale", "Current local date")
+
+Rel(render, select, "tipOfTheDay()")
+Rel(select, clock, "d.getTime() and d.getFullYear()")
+Rel(select, hero, "Includes as element 0")
+Rel(select, list, "Spreads as elements 1 to 6")
+Rel(render, card, "Writes tip.icon, tip.title, and tip.short")
+@enduml

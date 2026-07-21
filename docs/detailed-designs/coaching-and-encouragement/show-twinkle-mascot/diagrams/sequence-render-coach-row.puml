@@ -1,0 +1,53 @@
+@startuml
+title UML sequence behaviour — Render the coach row on a screen
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Young singer" as child
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Screen renderer" as screen
+  participant "mascotSVG (ui/parts.ts)" as parts
+  participant "store" as store
+end box
+box "Device — Browser DOM" #FFF4E5
+  participant "root element" as dom
+end box
+
+child -> screen : Open a screen (welcome / home / voice / sing / tips / results)
+screen -> store : get() profile and last result
+store --> screen : Profile and result state
+screen -> parts : mascotSVG(cls, happy)
+alt celebratory screen (results)
+  parts -> parts : Select happy mouth path M48 64 Q60 80 72 64 (CE-L2-1)
+else every other screen
+  parts -> parts : Select resting mouth path M50 66 Q60 76 70 66 (CE-L2-1)
+end
+parts --> screen : <svg aria-hidden="true"> star, eyes, cheeks, mouth (CE-L2-1)
+
+alt home screen with a captured voice range
+  screen -> screen : bubbleText = "Your songs are tuned and ready…" (CE-L2-2)
+else home screen without a range
+  screen -> screen : bubbleText = "Shall we find your voice first?…" (CE-L2-2)
+else welcome / voice-setup / sing / tips / results
+  screen -> screen : Use that screen's coach line (CE-L2-2)
+end
+
+screen -> dom : innerHTML = coach row (mascot + .bubble .bubble-left)
+dom --> child : Twinkle and one warm line in view (CE-L2-1, CE-L2-2)
+
+opt voice setup advances a step
+  screen -> dom : Rewrite [data-bubble] with the next capture prompt (CE-L2-2)
+  dom --> child : Updated coach line
+end
+@enduml

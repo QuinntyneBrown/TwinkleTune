@@ -1,0 +1,69 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Present the results screen
+
+class "results.ts" as ResultsMod <<module>> {
+  +renderResults(root: HTMLElement, params: URLSearchParams): () => void
+  -headline: string
+  -starsRow: string
+  -scoreCard: string
+  -marks(n: number): string
+}
+
+interface SongSummary {
+  +songId: string
+  +songTitle: string
+  +landed: number
+  +total: number
+  +accuracy: number
+  +stars: 1 | 2 | 3
+  +pitchStars: number
+  +timingStars: number
+  +braveStars: number
+  +noMic: boolean
+}
+
+interface AppState {
+  +profile: Profile?
+  +lastResult: SongSummary?
+  +lastNewBadges: string[]
+}
+
+interface Profile {
+  +name: string
+  +avatar: string
+  +range: VoiceRange?
+  +singerId: string?
+}
+
+class "ui/parts.ts" as PartsMod <<module>> {
+  +starSVG(filled: boolean): string
+  +mascotSVG(cls: string, happy: boolean): string
+  +skyDecor(): string
+}
+
+interface DuetSession {
+  +code: string
+  +opponent: DuetPlayerInfo?
+  +result: DuetResult?
+  +end(): Promise<void>
+}
+
+AppState --> "0..1" SongSummary : lastResult
+AppState --> "0..1" Profile : profile
+ResultsMod ..> AppState : reads
+ResultsMod ..> SongSummary : renders
+ResultsMod ..> PartsMod : star and mascot marks
+ResultsMod ..> DuetSession : duet action row
+@enduml

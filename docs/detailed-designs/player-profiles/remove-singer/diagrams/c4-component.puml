@@ -1,0 +1,28 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Remove singer
+
+Container_Boundary(web, "TwinkleTune web app — guarded removal") {
+  Component(deleteBtn, "[data-delete] handler", "profiles.ts", "Closes the edit dialog and calls the parent gate")
+  Component(gate, "parentGate(onPass)", "ui/modal.ts", "Sum with three options; onPass only on the correct one")
+  Component(confirm, "Confirm remove modal", "profiles.ts", "Names the consequence; [data-yes] and [data-no]")
+  Component(client, "api client", "api/client.ts", "singers.remove(id)")
+}
+Container_Boundary(api, "TwinkleTune API, Application and Infrastructure") {
+  Component(ctrl, "SingersController.Delete", "ASP.NET Core controller", "204 No Content or 404 Not Found")
+  Component(svc, "SingerService.DeleteAsync", "Application service", "Deletes the photo file, then the row")
+  Component(storage, "PhotoStorage.Delete", "IPhotoStorage", "Removes {singerId}.{ext} from disk")
+  Component(repo, "SingerRepository.DeleteAsync", "EF Core repository", "Removes the singer row")
+  ComponentDb(db, "Family database", "SQLite", "HighScore -> Singer FK with OnDelete(Cascade)")
+}
+
+Rel(deleteBtn, gate, "parentGate(onPass)")
+Rel(gate, confirm, "Opens on a correct answer")
+Rel(confirm, client, "singers.remove(id) on accept")
+Rel(client, ctrl, "DELETE /api/singers/{id}", "JSON/HTTP")
+Rel(ctrl, svc, "DeleteAsync(id)")
+Rel(svc, storage, "Delete(PhotoFileName) when present")
+Rel(svc, repo, "DeleteAsync(id)")
+Rel(repo, db, "Removes the row; high scores cascade", "EF Core")
+@enduml

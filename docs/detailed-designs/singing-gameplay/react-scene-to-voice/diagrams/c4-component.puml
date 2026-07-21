@@ -1,0 +1,33 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — React scene to voice (rendering/)
+
+Container_Boundary(sing, "Sing screen (screens/sing.ts)") {
+  Component(loop, "Per-frame update call site", "TypeScript", "visual.update(...) each frame; visual.burst(...) on a landed note (SG-L2-23)")
+  Component(canvasel, "canvas[data-reactive-scene]", "DOM element", "Decorative layer marked aria-hidden=true, carrying dataset.renderer")
+}
+
+Container_Boundary(rendering, "Reactive scene (rendering/)") {
+  Component(factory, "createReactiveScene()", "Factory function", "Returns a ProgressiveScene over the canvas and options")
+  Component(progressive, "ProgressiveScene", "TypeScript class", "Selects and swaps renderers; holds state, pendingBurst, explicitlyPaused, destroyed (SG-L2-23)")
+  Component(webgpu, "WebGpuScene", "TypeScript class", "Preferred renderer; created via WebGpuScene.create with a device-loss callback")
+  Component(canvas2d, "CanvasScene", "TypeScript class", "Fallback renderer; a false third argument renders a still presentation (SG-L2-23)")
+  Component(types, "types.ts helpers", "TypeScript module", "clamp01, normalizeVisualState, normalizeMicEnergy, seedFromString, DEFAULT_VISUAL_STATE")
+}
+
+System_Ext(gpu, "Browser WebGPU / Canvas2D", "Graphics surfaces")
+System_Ext(prefs, "matchMedia and document visibility", "prefers-reduced-motion and visibilitychange")
+
+Rel(loop, factory, "createReactiveScene(canvas, { seed: seedFromString(song.id) })")
+Rel(factory, progressive, "Constructs")
+Rel(loop, progressive, "update() and burst() (SG-L2-23)")
+Rel(progressive, types, "normalizeVisualState and clamp01 over each update")
+Rel(loop, types, "normalizeMicEnergy(frame.rms) and seedFromString(song.id)")
+Rel(progressive, prefs, "Reads prefers-reduced-motion; pauses on hidden (SG-L2-23)")
+Rel(progressive, webgpu, "Awaits WebGpuScene.create; activates on success (SG-L2-23)")
+Rel(progressive, canvas2d, "Activates on reduced motion, thrown error, or device loss (SG-L2-23)")
+Rel(webgpu, gpu, "Renders through the WebGPU device")
+Rel(canvas2d, gpu, "Renders through the 2D context")
+Rel(progressive, canvasel, "Writes dataset.renderer; replaces the node on device loss (SG-L2-23)")
+@enduml

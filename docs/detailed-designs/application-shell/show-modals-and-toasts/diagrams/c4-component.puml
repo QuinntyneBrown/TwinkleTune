@@ -1,0 +1,27 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Show modals and toasts (ui/modal.ts)
+
+Container_Boundary(modal, "Modal and toast primitives (ui/modal.ts)") {
+  Component(show, "showModal(opts)", "TypeScript function", "Builds the overlay and dialog card, wires onMount, returns a ModalHandle")
+  Component(closefn, "close()", "TypeScript closure", "overlay.remove() — drops the card, backdrop, and listeners")
+  Component(backdrop, "backdrop click listener", "TypeScript listener", "Registered only when dismissible !== false; closes when e.target === overlay")
+  Component(toastfn, "toast(message, variant, ms)", "TypeScript function", "Appends a .toast span and schedules its exit")
+  Component(host, "toastHost", "HTMLElement | null", "Shared .toast-host container, recreated when detached")
+}
+Component(css, ".overlay / .modal / .toast", "CSS (styles/twinkle.css)", "Scrim with 4 px blur, 32 px card, pill toast in three variants")
+Component(caller, "Screen or manager", "TypeScript (screens/*.ts, ui/managers.ts)", "Supplies html, onMount, ariaLabel, className")
+System_Ext(dom, "Browser DOM and timers", "document.body, click, setTimeout")
+
+Rel(caller, show, "showModal({ html, onMount, dismissible, ariaLabel, className })")
+Rel(caller, toastfn, "toast('+5 sparkles', 'gold')")
+Rel(show, backdrop, "Registers when the modal is dismissible")
+Rel(show, closefn, "Passes to onMount and returns in the handle")
+Rel(backdrop, closefn, "Calls on a backdrop-only tap")
+Rel(show, dom, "document.body.appendChild(overlay)")
+Rel(toastfn, host, "Reuses or recreates the container")
+Rel(toastfn, dom, "setTimeout for the bye class and the removal")
+Rel(show, css, "Emits .overlay and .modal")
+Rel(toastfn, css, "Emits .toast, .toast-gold, .toast-pink, .toast.bye")
+@enduml

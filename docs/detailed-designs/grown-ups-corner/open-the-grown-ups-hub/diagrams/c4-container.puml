@@ -1,0 +1,24 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Open the grown-ups hub
+
+Person(grownup, "Grown-up", "Uses the hub controls")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(gate, "Parent gate", "TypeScript (modal.ts)", "Guards the hub")
+  Container(hub, "Grown-Ups Corner hub", "TypeScript (settings.ts)", "Six controls in one modal card")
+  Container(voice, "Find My Voice screen", "TypeScript (#/voice)", "Re-runs the range capture")
+  Container(profiles, "Profiles screen", "TypeScript (#/profiles)", "Singer management")
+  Container(managers, "Song and avatar managers", "TypeScript (managers.ts)", "Server-backed content editors")
+  ContainerDb(local, "Device profile store", "localStorage", "Active profile including range and latency")
+}
+System_Ext(api, "Family server API", "Song, avatar and singer endpoints")
+
+Rel(grownup, gate, "Passes the addition challenge")
+Rel(gate, hub, "showSettings()")
+Rel(hub, local, "Reads the active profile for the slider and range label")
+Rel(hub, voice, "Closes, then routes to #/voice")
+Rel(hub, profiles, "Closes, then routes to #/profiles")
+Rel(hub, managers, "Closes, then opens showSongManager / showAvatarManager")
+Rel(managers, api, "Lists and saves content", "JSON/HTTPS")
+@enduml

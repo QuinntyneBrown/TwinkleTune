@@ -1,0 +1,51 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Surface the daily tip
+
+interface Tip {
+  +id: string
+  +title: string
+  +short: string
+  +icon: string
+  +mins: string
+  +category: TipCategory
+  +steps: string[]
+}
+
+class "screens/tips-data.ts" as Data <<module>> {
+  +HERO_TIP: Tip
+  +TIPS: Tip[6]
+  +tipOfTheDay(d: Date = new Date()): Tip
+  -all: Tip[7]
+  -dayOfYear: number
+}
+
+class "screens/home.ts" as Home <<module>> {
+  -DAILY_GOAL: 3
+  +renderHome(root: HTMLElement): void
+  -tip: Tip
+}
+
+class TipDayCard <<html fragment>> {
+  +ariaLabel: "Tip of the day"
+  +lamp: tip.icon
+  +line: tip.title + " — " + tip.short
+  +arrowHref: "#/tips"
+}
+
+Data --> "7" Tip : rotation set
+Home ..> Data : tipOfTheDay()
+Home --> "1" TipDayCard : renders
+TipDayCard --> "1" Tip : presents
+@enduml

@@ -1,0 +1,25 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Disclose data handling
+
+Person(grownup, "Grown-up", "Reads the three disclosure clauses")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(hub, "Grown-Ups Corner hub", "TypeScript (settings.ts)", "Renders the disclosure ahead of every control")
+  Container(state, "App store", "TypeScript (state/store.ts)", "Sparkles, badges, streaks and bests")
+  Container(client, "REST client", "TypeScript (api/client.ts)", "Requests targeting API_URL only")
+  Container(duet, "Duet client", "TypeScript", "Sends and receives live score events")
+  ContainerDb(local, "Device state store", "localStorage", "twinkletune:v1[:singerId] blob")
+}
+System_Boundary(family, "Family server") {
+  Container(api, "TwinkleTune API", "ASP.NET Core", "/api/songs, /api/avatars, /api/singers, /api/highscores")
+  Container(hubsvc, "DuetHub", "SignalR hub at /hubs/duet", "Relays live score events between two devices")
+  ContainerDb(db, "Family database", "SQLite via EF Core", "Profiles, songs, avatars and family high scores")
+}
+
+Rel(grownup, hub, "Reads the disclosure on every open")
+Rel(state, local, "Writes rewards on the device only")
+Rel(client, api, "Profiles, songs, avatars and scores", "JSON/HTTPS")
+Rel(api, db, "Reads and writes", "EF Core")
+Rel(duet, hubsvc, "Live score events, not persisted", "SignalR")
+@enduml

@@ -1,0 +1,29 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Manage family avatars
+
+Container_Boundary(manager, "Avatar manager (managers.ts)") {
+  Component(list, "showAvatarManager()", "TypeScript function", "Modal shell, New control, refresh loop")
+  Component(refresh, "refresh()", "TypeScript function", "api.avatars.list(); unreachable-server message on failure")
+  Component(editor, "avatarEditor()", "TypeScript function", "Emoji and name fields, trimmed on save")
+  Component(toaster, "toast()", "modal.ts", "Reports save and removal outcomes")
+}
+Container_Boundary(api, "TwinkleTune API") {
+  Component(ctrl, "AvatarsController", "ASP.NET Core controller", "GET, POST, PUT, DELETE /api/avatars")
+  Component(svc, "AvatarService", "Application service", "Validate, trim, create, update, delete")
+  Component(entity, "Avatar", "Domain entity", "Id, Emoji, Name")
+  ComponentDb(repo, "IAvatarRepository", "EF Core repository", "Persists avatar rows")
+}
+
+Rel(list, refresh, "Loads and re-renders the rows")
+Rel(list, editor, "Opens for a new or existing avatar")
+Rel(refresh, ctrl, "GET /api/avatars", "JSON/HTTPS")
+Rel(editor, ctrl, "POST or PUT /api/avatars", "JSON/HTTPS")
+Rel(list, ctrl, "DELETE /api/avatars/{id} from the row control", "JSON/HTTPS")
+Rel(list, toaster, "Reports the removal outcome")
+Rel(editor, toaster, "Reports the save outcome")
+Rel(ctrl, svc, "CreateAsync / UpdateAsync / DeleteAsync")
+Rel(svc, entity, "Builds and mutates")
+Rel(svc, repo, "Adds, updates and deletes")
+@enduml

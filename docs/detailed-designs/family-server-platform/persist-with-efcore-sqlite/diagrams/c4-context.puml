@@ -1,0 +1,15 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Persist with EF Core and SQLite
+
+Person(grownup, "Grown-up", "Runs and backs up the family server")
+System(app, "TwinkleTune web app", "Reads and writes family data over REST")
+System(server, "TwinkleTune family server", "ASP.NET Core backend with EF Core + SQLite")
+System_Ext(files, "Home machine data directory", "twinkletune.db plus a photos folder")
+
+Rel(grownup, app, "Adds songs, profiles, and photos using", "HTTPS")
+Rel(app, server, "Calls REST endpoints", "JSON/HTTP")
+Rel(server, files, "Creates, reads, and writes durable state", "SQLite file and files on disk")
+Rel(grownup, files, "Backs up by copying the folder")
+@enduml

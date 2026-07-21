@@ -1,0 +1,57 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Judge landed notes
+
+interface NoteResult {
+  +phraseIdx: number
+  +noteIdx: number
+  +midi: number
+  +hitFrames: number
+  +totalFrames: number
+  +firstHitFrac: number?
+}
+
+class "scoring.ts" as ScoringMod <<module>> {
+  +HIT_TOLERANCE_CENTS: number = 50
+  +foldCents(sungMidi: number, targetMidi: number): number
+  +noteLanded(r: NoteResult, minFrames: number = 3): boolean
+  +summarize(song: Song, results: NoteResult[], noMic: boolean): SongSummary
+}
+
+class "sing.ts" as SingMod <<module>> {
+  +renderSing(root: HTMLElement, params: URLSearchParams): () => void
+  -finalizeNotesUpTo(beat: number): void
+}
+
+interface TimedNote {
+  +midi: number
+  +start: number
+  +dur: number
+  +phraseIdx: number
+  +noteIdx: number
+}
+
+class PitchFrame <<audio engine>> {
+  +hz: number
+  +midi: number
+  +clarity: number
+  +rms: number
+}
+
+ScoringMod ..> NoteResult : folds and judges
+SingMod --> "*" NoteResult : accumulates one per note
+SingMod --> "*" TimedNote : plays
+SingMod ..> PitchFrame : reads sung midi
+SingMod ..> ScoringMod : foldCents / noteLanded
+@enduml

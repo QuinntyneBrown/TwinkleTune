@@ -1,0 +1,59 @@
+@startuml
+title UML sequence behaviour — Offer a finished run as a family best
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Young singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "renderResults (results.ts)" as results
+  participant "isServerSongId (repo.ts)" as guard
+  participant "api.highscores (client.ts)" as client
+  participant "toast (modal.ts)" as toastui
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "HighScoresController" as controller
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "HighScoreService" as service
+end box
+
+singer -> results : Finish the song and land on results
+results -> results : Read store.lastResult and store.profile
+results -> guard : isServerSongId(r.songId)
+guard --> results : server song or bundled slug
+
+alt no-mic run, local-only profile, or bundled song
+  results -> results : Skip submission entirely (HS-L2-11)
+  results --> singer : Show results without a family-record message
+else scored run, server-linked singer, server song
+  results -> client : submit({ songId, singerId, stars, accuracy, sparkles, maxStreak }) (HS-L2-11)
+  client -> controller : POST /api/highscores (HS-L2-8)
+  controller -> service : SubmitAsync(request)
+  service --> controller : SubmitHighScoreResult(Improved, Score)
+  controller --> client : 200 OK with { improved, score } (HS-L2-8)
+  client --> results : SubmitHighScoreResult
+  alt improved = true
+    results -> toastui : toast("🏆 New family record!", "gold", 2600) (HS-L2-14)
+    toastui --> singer : Celebration message over the results screen
+  else improved = false
+    results --> singer : Show results with no celebration
+  end
+end
+
+opt family server unreachable
+  client --> results : Rejected promise
+  results -> results : Swallow the rejection (fire-and-forget)
+  results --> singer : Results screen unaffected
+end
+@enduml

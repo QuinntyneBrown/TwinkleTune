@@ -1,0 +1,49 @@
+@startuml
+title UML sequence behaviour — Create a duet room
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer (host device)" as host
+box "Frontend — TwinkleTune web app (host device)" #E0F2FE
+  participant "renderDuet" as screen
+  participant "DuetClient" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "DuetHub" as hub
+end box
+box "Backend — TwinkleTune Application and Domain" #ECFDF3
+  participant "RoomService" as service
+end box
+box "Backend — TwinkleTune Infrastructure" #FFF4E5
+  database "Room registry (in memory)" as registry
+end box
+
+host -> screen : Tap "Make a room"
+screen -> client : createRoom(me)
+client -> hub : invoke CreateRoom(DuetPlayerInfo)
+hub -> service : Create(connectionId, info)
+service -> registry : CleanupExpired()
+loop until TryAdd succeeds
+  service -> service : NewCode() from ABCDEFGHJKMNPQRSTUVWXYZ, 4 letters (DM-L2-1)
+  service -> registry : TryAdd(code, room)
+end
+service -> registry : Add creator as the first player (DM-L2-1)
+service -> registry : _connectionToCode[connectionId] = code
+registry --> service : Room stored
+service --> hub : RoomStateDto(code, players, songId, startAtUtc)
+hub -> hub : Groups.AddToGroupAsync(connectionId, code)
+hub --> client : RoomStateDto
+client --> screen : RoomState
+screen --> host : Show the lobby with the 4-letter code
+@enduml

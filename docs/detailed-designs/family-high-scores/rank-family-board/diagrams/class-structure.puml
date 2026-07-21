@@ -1,0 +1,78 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Rank a family board
+
+class HighScoresController <<ASP.NET Core>> {
+  +GetForSong(songId: Guid, ct): Task<List<HighScoreDto>>
+  +GetForSinger(singerId: Guid, ct): Task<List<HighScoreDto>>
+}
+
+interface IHighScoreService {
+  +GetForSongAsync(songId: Guid, ct): Task<List<HighScoreDto>>
+  +GetForSingerAsync(singerId: Guid, ct): Task<List<HighScoreDto>>
+}
+
+class HighScoreService {
+  +GetForSongAsync(songId, ct): Task<List<HighScoreDto>>
+  +GetForSingerAsync(singerId, ct): Task<List<HighScoreDto>>
+  --
+  OrderByDescending(Stars).ThenByDescending(Accuracy)
+}
+
+class HighScoreDto <<record>> {
+  +Guid SongId
+  +Guid SingerId
+  +string SingerName
+  +string? SingerAvatar
+  +bool SingerHasPhoto
+  +int Stars
+  +double Accuracy
+  +int Sparkles
+  +int MaxStreak
+  +DateTimeOffset AchievedAt
+}
+
+class Mapping <<static>> {
+  +ToDto(h: HighScore): HighScoreDto
+}
+
+class HighScore <<entity>> {
+  +int Stars
+  +double Accuracy
+  +Singer? Singer
+}
+
+class Singer <<entity>> {
+  +string Name
+  +Avatar? Avatar
+  +string? PhotoFileName
+}
+
+interface ApiHighScore <<frontend>> {
+  +singerName: string
+  +singerAvatar: string | null
+  +singerHasPhoto: boolean
+  +stars: number
+  +accuracy: number
+  +achievedAt: string
+}
+
+HighScoreService ..|> IHighScoreService
+HighScoresController --> IHighScoreService : delegates
+HighScoreService ..> Mapping : projects with
+Mapping ..> HighScore : reads
+Mapping --> HighScoreDto : produces
+HighScore --> "0..1" Singer : identity join
+HighScoreDto <.. ApiHighScore : mirrored on the client
+@enduml

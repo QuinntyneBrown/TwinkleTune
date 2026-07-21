@@ -1,0 +1,13 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Validate a submission
+
+Person(singer, "Young singer", "Finishes a song; the app submits the result")
+System(app, "TwinkleTune web app", "Offers a scored run to the family server (TypeScript)")
+System_Ext(server, "Family server", "LAN-only .NET server guarding board integrity")
+
+Rel(singer, app, "Finishes a song")
+Rel(app, server, "POST /api/highscores with stars, accuracy, song and singer ids", "JSON/HTTP")
+Rel_Back(app, server, "400 Bad Request with a friendly error (HS-L2-2, HS-L2-3)")
+@enduml

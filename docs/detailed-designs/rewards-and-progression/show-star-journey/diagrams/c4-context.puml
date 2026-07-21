@@ -1,0 +1,13 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Show the Star Journey
+
+Person(singer, "Singer", "Checks how her progress is going")
+System(twinkle, "TwinkleTune web app", "On-device singing app; presents level, week, badges, mastered songs and voice growth (TypeScript)")
+System_Ext(storage, "Browser device storage", "localStorage blob holding sparkles, sing-days, badges and bests")
+
+Rel(singer, twinkle, "Opens the progress screen in")
+Rel(twinkle, singer, "Presents the Star Journey to")
+Rel(twinkle, storage, "Reads the reward state", "localStorage")
+@enduml

@@ -1,0 +1,49 @@
+@startuml
+title UML sequence behaviour — Answer the gate challenge
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up (or child)" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Welcome / Progress screen" as screen
+  participant "parentGate()" as gate
+  participant "showModal()" as host
+  participant "showSettings()" as settings
+end box
+
+actor -> screen : Tap the grown-ups entry (GC-L2-2)
+screen -> gate : parentGate(showSettings)
+gate -> gate : a, b = 2 + floor(random x 7) each
+gate -> gate : answer = a + b; options = [answer, answer-1, answer+2] shuffled (GC-L2-1)
+gate -> host : showModal({ ariaLabel: 'Grown-ups only', html, onMount })
+host -> gate : onMount(modal, close) wires the three .num buttons
+host --> actor : Present "What is a + b?" with three options
+
+alt correct option chosen
+  actor -> host : Click the option whose data-val equals answer
+  host -> gate : Number(btn.dataset.val) === answer
+  gate -> host : close() removes the overlay
+  gate -> settings : onPass() opens the guarded area (GC-L2-1)
+  settings --> actor : Grown-Ups Corner hub
+else incorrect option chosen
+  actor -> host : Click a distractor
+  host -> gate : Number(btn.dataset.val) !== answer
+  gate -> host : Add the 'shake' class, remove it after 700 ms (GC-L2-1)
+  gate --> actor : Gate stays open; guarded area is not revealed (GC-L2-1)
+else cancel chosen
+  actor -> host : Click "Back to singing"
+  host -> host : close() removes the overlay
+  host --> actor : Return to play; onPass is not called (GC-L2-1)
+end
+@enduml

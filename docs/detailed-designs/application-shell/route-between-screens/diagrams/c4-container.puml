@@ -1,0 +1,19 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Route between screens
+
+Person(child, "Young singer", "Navigates the app on a tablet")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(router, "Application shell router", "TypeScript (main.ts)", "Parses the hash, applies defaults and the profile guard, mounts one screen")
+  Container(screens, "Screen modules", "TypeScript (screens/*.ts)", "Eleven render functions: welcome, voice, home, songs, sing, results, tips, me, tuner, profiles, duet")
+  ContainerDb(store, "Profile and progress store", "TypeScript (state/store.ts) over localStorage", "Holds the active singer profile read by the guard")
+}
+System_Ext(browser, "Browser location and history", "location.hash, hashchange, scroll position")
+
+Rel(child, router, "Navigates by hash", "HTTPS / DOM")
+Rel(browser, router, "hashchange and initial load", "DOM event")
+Rel(router, store, "Reads store.get().profile")
+Rel(router, screens, "Calls the resolved renderer with #app and URLSearchParams")
+Rel(router, browser, "Clears #app and scrolls to the top")
+@enduml

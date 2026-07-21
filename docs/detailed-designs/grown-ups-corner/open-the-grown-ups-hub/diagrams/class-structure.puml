@@ -1,0 +1,63 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Open the grown-ups hub
+
+class "settings.ts" as SettingsMod <<module>> {
+  +showSettings(): void
+  -rangeLabel: string
+}
+
+interface Profile {
+  +name: string
+  +avatar: string
+  +range: VoiceRange | null
+  +latencyMs: number
+  +singerId?: string | null
+  +avatarId?: string | null
+  +photoUrl?: string | null
+}
+
+interface VoiceRange {
+  +low: number
+  +high: number
+}
+
+interface Store {
+  +get(): AppState
+  +set(patch: Partial<AppState>): void
+  +update(fn: (s: AppState) => void): void
+  +switchKey(key: string): void
+  +reset(): void
+}
+
+class "modal.ts" as ModalMod <<module>> {
+  +showModal(opts: ModalOptions): ModalHandle
+}
+
+class "range.ts" as RangeMod <<module>> {
+  +midiToName(midi: number): string
+}
+
+class "managers.ts" as ManagersMod <<module>> {
+  +showSongManager(): void
+  +showAvatarManager(): void
+}
+
+SettingsMod ..> ModalMod : showModal
+SettingsMod ..> RangeMod : midiToName
+SettingsMod ..> ManagersMod : hands off to
+SettingsMod ..> Store : store.get()
+Store --> "0..1" Profile : profile
+Profile --> "0..1" VoiceRange : range
+@enduml

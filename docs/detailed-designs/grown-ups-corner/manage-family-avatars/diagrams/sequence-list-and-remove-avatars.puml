@@ -1,0 +1,64 @@
+@startuml
+title UML sequence behaviour — List and remove avatars
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "showAvatarManager()" as manager
+  participant "refresh()" as refresh
+  participant "api.avatars" as client
+  participant "toast()" as toaster
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "AvatarsController" as controller
+end box
+box "Backend — Infrastructure" #FFF4E5
+  database "Family database" as db
+end box
+
+actor -> manager : Open the avatar manager from the hub
+manager --> actor : "Loading..." placeholder
+manager -> refresh : refresh()
+refresh -> client : api.avatars.list()
+client -> controller : GET /api/avatars
+alt server reachable
+  controller -> db : Read all avatars
+  db --> controller : Avatar rows
+  controller --> client : 200 with the AvatarDto list
+  client --> refresh : ApiAvatar[]
+  refresh --> actor : One row per avatar with edit and delete controls (GC-L2-8)
+else server unreachable
+  client --> refresh : Rejected promise
+  refresh --> actor : "The family server is not reachable" message
+end
+
+actor -> manager : Tap a row's delete control
+manager -> client : api.avatars.remove(id) (GC-L2-8)
+client -> controller : DELETE /api/avatars/{id}
+controller -> db : Remove the avatar row
+db --> controller : Rows affected
+alt row removed
+  controller --> client : 204 No Content
+  client --> manager : Removed
+  manager -> toaster : "Avatar removed"
+  manager -> refresh : refresh()
+  refresh --> actor : List without the avatar (GC-L2-8)
+else removal failed
+  controller --> client : 404 or an error status
+  client --> manager : Rejected promise
+  manager -> toaster : "Could not delete right now"
+  toaster --> actor : The row remains in the list
+end
+@enduml

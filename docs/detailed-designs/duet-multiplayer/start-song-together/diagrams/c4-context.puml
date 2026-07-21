@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Start the song together
+
+Person(host, "Singer (host device)", "Presses start once both singers are in the room")
+Person(guest, "Singer (guest device)", "Waits for the shared start")
+System(webapp, "TwinkleTune web app", "Navigates to the singing screen on SongStarted and plays a four-beat count-in")
+System(familyserver, "Family Server", "Sets one start time three seconds ahead and broadcasts it")
+
+Rel(host, webapp, "Starts the duet song using", "HTTPS")
+Rel(guest, webapp, "Sings the same song on a second device", "HTTPS")
+Rel(webapp, familyserver, "Invokes StartSong and receives SongStarted", "SignalR/WebSockets")
+@enduml

@@ -1,0 +1,57 @@
+@startuml
+title UML sequence behaviour — Serve a request through the layers
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Results screen" as screen
+  participant "api.highscores" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "HighScoresController" as controller
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "HighScoreService" as service
+  participant "IHighScoreRepository" as abstraction
+  participant "HighScore" as entity
+end box
+box "Backend — Infrastructure" #FFF4E5
+  participant "HighScoreRepository" as repo
+  database "twinkletune.db" as db
+end box
+
+singer -> screen : finish a song
+screen -> client : submit(songId, singerId, stars, accuracy, ...)
+client -> controller : POST /api/highscores
+controller -> service : SubmitAsync(SubmitHighScoreRequest) (FS-L2-2)
+service -> abstraction : GetAsync(songId, singerId) (FS-L2-1)
+abstraction -> repo : resolved implementation (FS-L2-7)
+repo -> db : SELECT with Include(Singer)
+db --> repo : stored high score or none
+repo --> service : HighScore?
+alt a stored score exists
+  service -> entity : IsBeatenBy(stars, accuracy) (FS-L2-1)
+  entity --> service : true or false
+end
+service -> abstraction : AddAsync or UpdateAsync
+abstraction -> repo : resolved implementation
+repo -> db : INSERT or UPDATE
+db --> repo : rows written
+repo --> service : completed
+service --> controller : SubmitHighScoreResult DTO (FS-L2-2)
+controller --> client : 200 with the DTO
+client --> screen : improved flag and score
+screen --> singer : present the family board
+@enduml

@@ -1,0 +1,15 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Transition between views
+
+Person(child, "Young singer", "Moves between screens on a tablet")
+System(twinkle, "TwinkleTune web app", "Wraps each route change in a short same-document transition when supported (TypeScript, CSS)")
+System_Ext(vtapi, "Browser View Transition API", "document.startViewTransition and the ::view-transition pseudo-elements")
+System_Ext(prefs, "Device motion preference", "prefers-reduced-motion media query set by the operating system")
+
+Rel(child, twinkle, "Changes route")
+Rel(twinkle, vtapi, "Starts a transition around the mount callback", "DOM")
+Rel(twinkle, prefs, "Reads the reduced-motion preference", "matchMedia")
+Rel(vtapi, child, "Presents a short cross-fade between screens")
+@enduml

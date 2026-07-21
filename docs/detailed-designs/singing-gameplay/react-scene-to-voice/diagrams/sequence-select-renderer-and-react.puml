@@ -1,0 +1,76 @@
+@startuml
+title UML sequence behaviour — Select a renderer and react to singing
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Young singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "sing.ts" as sing
+  participant "ProgressiveScene" as scene
+  participant "WebGpuScene" as gpu
+  participant "CanvasScene" as canvas2d
+  participant "types.ts helpers" as types
+end box
+box "Device — Browser graphics and preferences" #FFF4E5
+  participant "matchMedia / WebGPU adapter" as browser
+  participant "canvas[data-reactive-scene]" as el
+end box
+
+== Renderer selection ==
+sing -> types : seedFromString(song.id)
+types --> sing : Stable per-song seed (SG-L2-23)
+sing -> scene : createReactiveScene(canvas, { kind: 'sing', seed })
+scene -> el : dataset.renderer = 'pending'
+scene -> browser : options.reducedMotion ?? matchMedia('(prefers-reduced-motion: reduce)').matches
+browser --> scene : Preference
+alt reduced motion requested
+  scene -> canvas2d : new CanvasScene(canvas, options, false) — still presentation (SG-L2-23)
+  canvas2d --> scene : Renderer 'static'
+else motion allowed
+  scene -> gpu : await WebGpuScene.create(canvas, options, onDeviceLoss)
+  alt WebGPU available
+    gpu --> scene : WebGpuScene (SG-L2-23)
+  else create throws
+    gpu --> scene : Error
+    scene -> canvas2d : new CanvasScene(canvas, options) — silent fallback (SG-L2-23)
+    canvas2d --> scene : Renderer 'canvas2d'
+  end
+end
+scene -> scene : activate(): replay state and pendingBurst
+scene -> el : dataset.renderer = resolved kind
+scene --> sing : ready resolves with the renderer kind
+
+== Per-frame reaction ==
+loop each animation frame while singing
+  singer -> sing : Sings a note
+  sing -> types : normalizeMicEnergy(frame.rms)
+  types --> sing : energy clamped to 0..1 (SG-L2-23)
+  sing -> scene : update({ energy, pitchY: singerY / stageH, intensity: 0.45 + min(0.5, streak / 20), onNote, streak, progress })
+  scene -> types : normalizeVisualState(current, next)
+  types --> scene : Clamped state
+  scene -> gpu : update(state) on the active renderer (SG-L2-23)
+  gpu --> singer : Atmosphere reacts behind the semantic DOM gameplay (SG-L2-23)
+end
+
+opt a note is newly landed
+  sing -> scene : burst(0.55 + min(0.45, streak / 20))
+  scene -> gpu : burst(strength)
+  gpu --> singer : Celebratory emphasis (SG-L2-23)
+end
+
+opt the song finishes
+  sing -> scene : burst(1)
+  scene -> gpu : burst(1)
+end
+@enduml

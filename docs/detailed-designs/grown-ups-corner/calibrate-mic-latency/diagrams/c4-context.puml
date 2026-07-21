@@ -1,0 +1,16 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Calibrate mic latency
+
+Person(grownup, "Grown-up", "Nudges the offset until cheers land on time")
+Person(singer, "Young singer", "Benefits from the corrected timing while singing")
+System(twinkle, "TwinkleTune web app", "On-device singing app; holds the mic timing offset per device (TypeScript)")
+System_Ext(storage, "Browser localStorage", "Device profile blob keyed per singer")
+System_Ext(server, "Family server", "Holds the singer record, which carries no latency field")
+
+Rel(grownup, twinkle, "Moves the mic timing offset slider in")
+Rel(singer, twinkle, "Sings with the compensated scoring beat")
+Rel(twinkle, storage, "Writes latencyMs on every slider event")
+Rel(twinkle, server, "Syncs name, avatar and range only — never latency", "JSON/HTTPS")
+@enduml

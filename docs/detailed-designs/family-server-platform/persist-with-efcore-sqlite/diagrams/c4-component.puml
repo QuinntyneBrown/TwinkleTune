@@ -1,0 +1,24 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Persist with EF Core and SQLite
+
+Container_Boundary(api, "TwinkleTune.Api") {
+  Component(startup, "Program.cs startup scope", "Minimal hosting", "EnsureCreated() then EnsureSeededAsync()")
+}
+Container_Boundary(infra, "TwinkleTune.Infrastructure") {
+  ComponentDb(context, "AppDbContext", "EF Core DbContext", "Four entity sets; JSON conversion for Song.Phrases")
+  Component(seed, "SeedData", "Static class", "Eight avatars and six public-domain songs, inserted only when absent")
+  Component(repos, "AvatarRepository / SingerRepository / SongRepository / HighScoreRepository", "EF Core repositories", "No-tracking, ordered reads")
+  Component(photos, "PhotoStorage", "Disk class", "Image files under the photos root")
+}
+ComponentDb(db, "twinkletune.db", "SQLite file", "The single durable database artifact")
+ComponentDb(folder, "photos folder", "Disk directory", "The second durable artifact")
+
+Rel(startup, context, "Database.EnsureCreated()")
+Rel(startup, seed, "EnsureSeededAsync(db)")
+Rel(seed, context, "AnyAsync then AddRange and SaveChangesAsync")
+Rel(repos, context, "Query and SaveChangesAsync")
+Rel(context, db, "Reads and writes", "EF Core + SQLite")
+Rel(photos, folder, "Writes and reads {singerId}{ext}", "File system")
+@enduml

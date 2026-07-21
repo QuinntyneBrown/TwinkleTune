@@ -1,0 +1,21 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Record a personal best
+
+Container_Boundary(api, "TwinkleTune API") {
+  Component(ctrl, "HighScoresController.Submit", "ASP.NET Core controller action", "POST /api/highscores")
+  Component(svc, "HighScoreService.SubmitAsync", "Application service", "Insert, replace, or leave unchanged")
+  Component(entity, "HighScore", "Domain entity", "IsBeatenBy(stars, accuracy): stars first, then accuracy")
+  Component(clock, "TimeProvider", "Injected clock", "GetUtcNow() stamps AchievedAt")
+  Component(repo, "HighScoreRepository", "EF Core repository", "GetAsync / AddAsync / UpdateAsync")
+  ComponentDb(db, "TwinkleTune database", "SQLite", "Unique index on {SongId, SingerId}")
+}
+
+Rel(ctrl, svc, "SubmitAsync(request)")
+Rel(svc, repo, "GetAsync(songId, singerId) — tracked read")
+Rel(svc, entity, "IsBeatenBy(stars, accuracy) (HS-L2-4)")
+Rel(svc, clock, "GetUtcNow() for AchievedAt (HS-L2-5)")
+Rel(svc, repo, "AddAsync on first submission; UpdateAsync when beaten (HS-L2-1)")
+Rel(repo, db, "SaveChangesAsync", "EF Core")
+@enduml

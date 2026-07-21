@@ -1,0 +1,58 @@
+@startuml
+title UML sequence behaviour — Surface a server error through the typed error
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as grownup
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Song manager" as editor
+  participant "api.songs.create" as surface
+  participant "req<T>()" as req
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "SongsController" as controller
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "SongService" as service
+  participant "SongValidator" as validator
+end box
+
+grownup -> editor : save a new song
+editor -> surface : create(SaveSongRequest)
+surface -> req : POST /api/songs with a JSON body (FS-L2-13)
+req -> controller : fetch(API_URL + "/api/songs") (FS-L2-13)
+controller -> service : CreateAsync(request)
+service -> validator : Validate(song)
+validator --> service : list of messages
+alt the song is invalid
+  service --> controller : no song, with the message list
+  controller --> req : 400 { errors: [...] }
+  req -> req : message = errors[0]; errors = the whole list (FS-L2-13)
+  req --> surface : throw ApiError(message, errors) (FS-L2-13)
+  surface --> editor : rejected promise
+  editor --> grownup : show each validation message
+else the song is valid
+  service --> controller : SongDto
+  controller --> req : 201 Created with the song
+  req --> surface : SongDto
+  surface --> editor : saved song
+  editor --> grownup : confirm the new song
+end
+
+opt the server is unreachable entirely
+  req -> controller : fetch rejects before any response
+  req --> surface : rejected promise
+  surface --> editor : caller falls back rather than failing (FS-L2-15)
+end
+@enduml
