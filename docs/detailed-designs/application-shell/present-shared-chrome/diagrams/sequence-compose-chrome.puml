@@ -1,0 +1,53 @@
+@startuml
+title UML sequence behaviour — Compose a screen with the shared chrome
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Young singer" as child
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "route() (main.ts)" as router
+  participant "renderHome (screens/home.ts)" as screen
+  participant "ui/parts.ts" as parts
+  participant "store" as store
+end box
+box "Device — Browser DOM and assistive technology" #FFF4E5
+  participant "#app mount point" as appel
+  participant "styles/twinkle.css" as css
+  participant "Screen reader" as at
+end box
+
+router -> screen : renderHome(app, params)
+screen -> store : get().profile
+store --> screen : Profile
+screen -> parts : skyDecor()
+parts --> screen : div.sky with aria-hidden, 3 clouds, 4 stars, 2 notes (AS-L2-8)
+
+alt profile.photoUrl is present
+  screen -> parts : avatarHTML(profile)
+  parts --> screen : div.avatar role=img with the photo img (AS-L2-8)
+else emoji avatar
+  screen -> parts : avatarHTML(profile)
+  parts --> screen : div.avatar role=img with the chosen emoji (AS-L2-8)
+end
+
+screen -> parts : mascotSVG('mascot mascot-sm')
+parts --> screen : Inline star SVG marked aria-hidden (AS-L2-8)
+screen -> parts : bottomNav('home')
+parts --> screen : nav.bottomnav, four anchors, Home marked active (AS-L2-5)
+screen -> appel : Write .screen markup with one .btn-xl primary action (AS-L2-13)
+appel -> css : Apply the sky studio tokens, rounded controls, fixed bottom bar (AS-L2-13)
+css --> child : Pastel screen with chunky touch targets
+appel -> at : Expose the Main navigation landmark and content
+at --> child : Four destinations announced; decor omitted (AS-L2-8)
+@enduml

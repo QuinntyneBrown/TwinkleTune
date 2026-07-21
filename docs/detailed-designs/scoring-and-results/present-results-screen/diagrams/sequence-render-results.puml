@@ -1,0 +1,60 @@
+@startuml
+title UML sequence behaviour — Render the results screen and choose the next action
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Router (main.ts)" as router
+  participant "renderResults() (results.ts)" as results
+  participant "App state store (store.ts)" as store
+  participant "ui/parts.ts" as parts
+  participant "duetSession (api/duet.ts)" as duet
+end box
+
+singer -> router : Navigates to #/results
+router -> results : renderResults(root, params)
+results -> store : get()
+store --> results : AppState
+
+alt lastResult is absent
+  results -> router : location.hash = '#/home'
+  results --> router : empty teardown
+else summary present
+  results -> results : name = profile?.name ?? 'Superstar'
+  alt no-mic run
+    results -> results : headline = 'What a fun sing-along' (SR-L2-9)
+    results -> results : starsRow = '' — stars suppressed (SR-L2-11)
+    results -> results : card = 'You sang the whole song!' with the mic invitation (SR-L2-11)
+  else scored run
+    results -> results : headline by stars: Super / Beautiful / Brave Singing (SR-L2-9)
+    results -> parts : starSVG(r.stars >= 1..3)
+    parts --> results : three star marks, filled to the earned count (SR-L2-10)
+    results -> results : card = 'You landed X of Y notes!', accuracy fill, pitch/timing/braveness marks (SR-L2-10)
+  end
+  results -> results : compose the action row (SR-L2-16)
+  results --> singer : Headline, song title, stars, score card and actions
+
+  alt solo result
+    singer -> results : Taps Sing again, New song or Home
+    results -> router : #/sing?song=<id>, #/songs or #/home (SR-L2-16)
+  else duet result
+    singer -> results : Taps Another duet or Home
+    results -> duet : end()
+    duet --> results : session closed
+    results -> router : #/duet or #/home (SR-L2-16)
+  end
+  router -> results : teardown on leaving the route
+end
+@enduml

@@ -1,0 +1,20 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Keep scores family-scoped
+
+Container_Boundary(api, "TwinkleTune API") {
+  Component(songs, "SongsController.Delete", "ASP.NET Core action", "DELETE /api/songs/{id:guid}")
+  Component(singers, "SingersController.Delete", "ASP.NET Core action", "DELETE /api/singers/{id:guid}")
+  Component(scores, "HighScoresController", "ASP.NET Core controller", "The only three score routes: POST /api/highscores, GET per song, GET per singer (HS-L2-15)")
+  Component(ctx, "AppDbContext.OnModelCreating", "EF Core model configuration", "HighScore FKs with DeleteBehavior.Cascade (HS-L2-10)")
+  Component(cors, "CORS policy 'app'", "Program.cs", "Configured origins only; default http://localhost:5173")
+  ComponentDb(db, "TwinkleTune database", "SQLite file under DataPath", "Songs, Singers, HighScores")
+}
+
+Rel(songs, ctx, "Delete cascades to dependent scores (HS-L2-10)")
+Rel(singers, ctx, "Delete cascades to dependent scores (HS-L2-10)")
+Rel(scores, ctx, "Reads and writes scores held on this server (HS-L2-15)")
+Rel(ctx, db, "Applies the configured referential actions", "EF Core")
+Rel(cors, scores, "Answers only configured browser origins")
+@enduml

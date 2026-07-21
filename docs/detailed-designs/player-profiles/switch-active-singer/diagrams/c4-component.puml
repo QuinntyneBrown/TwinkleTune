@@ -1,0 +1,31 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Switch active singer
+
+Container_Boundary(web, "TwinkleTune web app — profile switching") {
+  Component(render, "renderProfiles()", "profiles.ts", "Cards, active tag, new-singer card")
+  Component(refresh, "refresh()", "profiles.ts", "Loads singers and avatars; renders the solo fallback on failure")
+  Component(pick, "[data-pick] handler", "profiles.ts", "Activates and routes by range")
+  Component(activate, "activateSinger()", "profile.ts", "adopt, setActive, switchKey, merge")
+  Component(apply, "applySingerToProfile()", "profile.ts", "Merges the server view into Profile")
+  Component(push, "pushProfileToServer()", "profile.ts", "Fire-and-forget PUT of name, avatar, range")
+  Component(store, "store", "store.ts", "switchKey(profileKey(id)) and the active blob")
+  Component(client, "api client", "api/client.ts", "singers.list / update / photoUrl")
+}
+Container_Boundary(api, "TwinkleTune API") {
+  Component(ctrl, "SingersController", "ASP.NET Core controller", "GET /api/singers, PUT /api/singers/{id}")
+  Component(svc, "SingerService", "Application service", "GetAllAsync, UpdateAsync")
+}
+
+Rel(render, refresh, "Calls on mount")
+Rel(refresh, client, "singers.list(); avatars.list()")
+Rel(refresh, pick, "Wires card handlers")
+Rel(pick, activate, "activateSinger(singer)")
+Rel(activate, store, "switchKey(profileKey(id))")
+Rel(activate, apply, "applySingerToProfile(s)")
+Rel(apply, store, "update(st => st.profile = merged)")
+Rel(push, client, "singers.update(id, body)")
+Rel(client, ctrl, "REST calls", "JSON/HTTP")
+Rel(ctrl, svc, "GetAllAsync / UpdateAsync")
+@enduml

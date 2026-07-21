@@ -1,0 +1,27 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Cheer during singing (sing.ts)
+
+Container_Boundary(sing, "Sing! screen (screens/sing.ts)") {
+  Component(loop, "render loop", "requestAnimationFrame callback", "Advances the beat each frame")
+  Component(finalize, "finalizeNotesUpTo(beat)", "TypeScript function", "Closes out each finished note")
+  Component(pop, "cheerPop()", "TypeScript function", "Spawns a .feedback-pop with a random cheer")
+  Component(karaoke, "updateKaraoke(beat)", "TypeScript function", "Resolves the phrase index and writes the cue")
+  Component(cheers, "CHEERS / PHRASE_CHEERS", "String arrays (5 each)", "Fixed all-positive rotations")
+  Component(coach, "coachEl [data-coach]", "DOM element", "In-song coach bubble")
+}
+Container_Boundary(scoring, "Scoring module (state/scoring.ts)") {
+  Component(landed, "noteLanded(r, minFrames = 3)", "TypeScript predicate", "Landed-note decision")
+}
+System_Ext(browser, "Browser DOM and timers", "Stage element and setTimeout")
+
+Rel(loop, finalize, "finalizeNotesUpTo(beat)")
+Rel(loop, karaoke, "updateKaraoke(beat)")
+Rel(finalize, landed, "noteLanded(result)")
+Rel(finalize, pop, "cheerPop() on a landed note")
+Rel(pop, cheers, "Reads a random CHEERS entry")
+Rel(karaoke, cheers, "Reads PHRASE_CHEERS[pi % 5]")
+Rel(karaoke, coach, "Sets textContent on a phrase change")
+Rel(pop, browser, "Appends to stage; removes after 1100 ms")
+@enduml

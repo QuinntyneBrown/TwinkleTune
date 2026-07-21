@@ -1,0 +1,51 @@
+@startuml
+title UML sequence behaviour — Read a list with the required ordering
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Child singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Profiles screen" as screen
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "SingersController" as controller
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "SingerService" as service
+end box
+box "Backend — Infrastructure" #FFF4E5
+  participant "SingerRepository" as singers
+  participant "SongRepository" as songs
+  database "twinkletune.db" as db
+end box
+
+singer -> screen : open the profiles screen
+screen -> controller : GET /api/singers
+controller -> service : GetAllAsync()
+service -> singers : GetAllAsync()
+singers -> db : AsNoTracking().Include(Avatar).ToListAsync() (FS-L2-6)
+db --> singers : detached singers, unordered
+singers -> singers : OrderBy(CreatedAt) in memory, since SQLite cannot sort a DateTimeOffset (FS-L2-6)
+singers --> service : singers oldest first
+service --> controller : List<SingerDto>
+controller --> screen : 200 with the profile list
+
+opt the song list is fetched next
+  screen -> songs : GET /api/songs reaches SongRepository.GetAllAsync()
+  songs -> db : AsNoTracking() ORDER BY Difficulty, Title (FS-L2-6)
+  db --> songs : rows already ordered in SQL
+  songs --> screen : songs easiest first
+end
+screen --> singer : present the ordered lists
+@enduml

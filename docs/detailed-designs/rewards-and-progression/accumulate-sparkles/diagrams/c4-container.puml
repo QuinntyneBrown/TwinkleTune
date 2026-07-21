@@ -1,0 +1,22 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Accumulate sparkles
+
+Person(singer, "Singer", "Earns sparkles by singing and by finishing tips")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(sing, "Sing screen", "TypeScript (screens/sing.ts)", "Ends a play and records the summary")
+  Container(tips, "Tips screen", "TypeScript (screens/tips.ts)", "Marks a warm-up tip as done")
+  Container(store, "Reward store", "TypeScript (state/store.ts)", "Holds AppState.sparkles and the level derivations")
+  Container(readouts, "Home and progress screens", "TypeScript (screens/home.ts, screens/me.ts)", "Show level, title and XP progress")
+}
+System_Ext(storage, "Browser device storage", "localStorage")
+
+Rel(singer, sing, "Finishes a song in")
+Rel(singer, tips, "Completes a warm-up tip in")
+Rel(sing, store, "recordPlay(store, song, summary, today) adds summary.sparkles (RP-L2-1)")
+Rel(tips, store, "store.update: sparkles += 5 (RP-L2-1)")
+Rel(readouts, store, "level(), sparklesToNextLevel(), levelTitle() (RP-L2-2)")
+Rel(store, storage, "Writes the state blob on every update", "localStorage")
+Rel(readouts, singer, "Renders level, title and XP bar to")
+@enduml

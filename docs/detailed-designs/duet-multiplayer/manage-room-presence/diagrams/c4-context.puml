@@ -1,0 +1,15 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Manage room presence
+
+Person(singerA, "Singer (host device)", "Stays in the room and is told when the other leaves")
+Person(singerB, "Singer (guest device)", "Leaves the room, closes the tab, or drops off the network")
+System(webapp, "TwinkleTune web app", "Holds one reconnecting hub connection and a duet session across screens")
+System(familyserver, "Family Server", "Tracks presence in memory; closes empty rooms and expires idle ones")
+
+Rel(singerA, webapp, "Sings and watches the room", "HTTPS")
+Rel(singerB, webapp, "Leaves or disconnects", "HTTPS")
+Rel(webapp, familyserver, "Holds a connection; invokes LeaveRoom", "SignalR/WebSockets")
+Rel(familyserver, webapp, "Sends PlayerJoined and PlayerLeft", "SignalR/WebSockets")
+@enduml

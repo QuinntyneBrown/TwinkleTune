@@ -1,0 +1,63 @@
+@startuml
+title UML sequence behaviour — Reject an invalid submission
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "api.highscores.submit (client.ts)" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "HighScoresController" as controller
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "HighScoreService" as service
+end box
+box "Backend — Infrastructure" #FFF4E5
+  participant "SongRepository / SingerRepository" as repos
+  database "TwinkleTune database (SQLite)" as db
+end box
+
+client -> controller : POST /api/highscores
+controller -> service : SubmitAsync(request)
+
+alt Stars outside 0-3
+  service --> controller : (null, "Stars must be between 0 and 3.") (HS-L2-2)
+  controller --> client : 400 Bad Request { error }
+else Accuracy outside 0-1
+  service --> controller : (null, "Accuracy must be between 0 and 1.") (HS-L2-2)
+  controller --> client : 400 Bad Request { error }
+else Values in range
+  service -> repos : songs.GetAsync(request.SongId)
+  repos -> db : SELECT song by id
+  db --> repos : row or none
+  repos --> service : Song or null
+  alt Song not found
+    service --> controller : (null, "That song doesn't exist.") (HS-L2-3)
+    controller --> client : 400 Bad Request { error }
+  else Song found
+    service -> repos : singers.GetAsync(request.SingerId)
+    repos -> db : SELECT singer by id
+    db --> repos : row or none
+    repos --> service : Singer or null
+    alt Singer not found
+      service --> controller : (null, "That singer doesn't exist.") (HS-L2-3)
+      controller --> client : 400 Bad Request { error }
+    else Singer found
+      service -> service : Proceed to the upsert-if-better comparison
+      service --> controller : SubmitHighScoreResult
+      controller --> client : 200 OK { improved, score }
+    end
+  end
+end
+@enduml

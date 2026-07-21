@@ -1,0 +1,13 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Remove singer
+
+Person(grownup, "Grown-up", "Removes a singer after passing the parent gate")
+System(twinkle, "TwinkleTune web app", "Parent gate and confirmation before any delete request (TypeScript)")
+System(family, "Family server", "Self-hosted .NET API owning the singer, her photo, and her high scores")
+
+Rel(grownup, twinkle, "Starts a removal and confirms it")
+Rel(twinkle, family, "DELETE /api/singers/{id} once both guards pass", "JSON/HTTP")
+Rel(family, twinkle, "204 No Content, or 404 for an unknown singer")
+@enduml

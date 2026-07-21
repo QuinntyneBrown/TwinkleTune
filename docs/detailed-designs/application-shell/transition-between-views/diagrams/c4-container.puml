@@ -1,0 +1,21 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Transition between views
+
+Person(child, "Young singer", "Moves between screens")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(router, "Application shell router", "TypeScript (main.ts)", "Owns hasRendered and the reduced-motion media query; supplies the mount callback")
+  Container(vt, "View transition helper", "TypeScript (ui/view-transition.ts)", "Runs mount directly or inside a browser transition")
+  Container(css, "Design system stylesheet", "CSS (styles/twinkle.css)", "route-out and route-in keyframes on the ::view-transition pseudo-elements")
+}
+System_Ext(vtapi, "Browser View Transition API", "document.startViewTransition, ViewTransition.finished, skipTransition")
+System_Ext(prefs, "Device motion preference", "prefers-reduced-motion: reduce")
+
+Rel(child, router, "Changes route", "DOM")
+Rel(router, prefs, "matchMedia('(prefers-reduced-motion: reduce)')")
+Rel(router, vt, "updateWithViewTransition(mount, hasRendered and not reduced motion)")
+Rel(vt, vtapi, "startViewTransition(update) when available", "DOM")
+Rel(vtapi, css, "Applies the ::view-transition-old and -new animations")
+Rel(css, child, "0.18 s out, 0.24 s in")
+@enduml

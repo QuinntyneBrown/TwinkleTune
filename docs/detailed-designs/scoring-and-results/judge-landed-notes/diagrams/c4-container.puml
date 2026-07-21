@@ -1,0 +1,18 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Judge landed notes
+
+Person(singer, "Singer", "Sings into the tablet microphone")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(sing, "Sing screen", "TypeScript (sing.ts)", "Accumulates a NoteResult per note each animation frame")
+  Container(scoring, "Scoring rules", "TypeScript (scoring.ts)", "foldCents and noteLanded")
+  Container(engine, "Audio engine — pitch", "TypeScript (pitch.ts)", "Reports the sung floating-point MIDI value")
+}
+System_Ext(browser, "Browser Web Audio & microphone", "getUserMedia and AnalyserNode")
+
+Rel(singer, sing, "Sings during a performance")
+Rel(sing, engine, "read() once per animation frame")
+Rel(engine, browser, "Reads microphone audio", "Web Audio")
+Rel(sing, scoring, "foldCents(sungMidi, targetMidi); noteLanded(result)")
+@enduml

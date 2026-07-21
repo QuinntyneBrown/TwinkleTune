@@ -1,0 +1,48 @@
+@startuml
+title UML sequence behaviour — Open the hub and read its controls
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "parentGate()" as gate
+  participant "showSettings()" as hub
+  participant "store" as store
+  participant "midiToName()" as range
+  participant "showModal()" as host
+end box
+box "Device — Browser storage" #FFF4E5
+  database "localStorage profile blob" as local
+end box
+
+actor -> gate : Correct answer to the addition challenge
+gate -> hub : showSettings()
+hub -> store : store.get()
+store -> local : Read the active profile key
+local --> store : Serialized AppState
+store --> hub : { profile, sparkles, ... }
+
+alt profile.range present
+  hub -> range : midiToName(range.low), midiToName(range.high)
+  range --> hub : "C3 – A4" style label (GC-L2-5)
+else no range stored
+  hub -> hub : rangeLabel = "not set yet" (GC-L2-5)
+end
+
+hub -> hub : Compose six controls: latency, voice range, songs, avatars, singers, reset (GC-L2-3)
+hub -> host : showModal({ ariaLabel: 'Grown-ups corner', html, onMount })
+host -> hub : onMount(modal, close)
+hub -> hub : Bind slider input, close link, both hand-off links, both manager buttons
+host --> actor : Present the Grown-Ups Corner card (GC-L2-3)
+@enduml

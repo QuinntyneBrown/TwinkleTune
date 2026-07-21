@@ -1,0 +1,56 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Reveal badges and coaching
+
+interface BadgeMeta {
+  +id: string
+  +name: string
+  +emoji: string
+  +hint: string
+}
+
+class "state/badges.ts" as BadgesMod <<module>> {
+  +BADGES: BadgeMeta[]
+  +badgeById(id: string): BadgeMeta?
+  +evaluateBadges(input): string[]
+}
+
+interface AppState {
+  +badges: Record<string, string>
+  +lastNewBadges: string[]
+  +lastResult: SongSummary?
+}
+
+interface SongSummary {
+  +stars: 1 | 2 | 3
+  +trickyLyric: string?
+  +noMic: boolean
+}
+
+class "results.ts" as ResultsMod <<module>> {
+  -badgeChips: string
+  -coachText: string
+}
+
+interface DuetSession {
+  +result: DuetResult?
+}
+
+BadgesMod --> "6" BadgeMeta : BADGES
+AppState --> "0..1" SongSummary : lastResult
+ResultsMod ..> AppState : reads lastNewBadges
+ResultsMod ..> BadgesMod : badgeById
+ResultsMod ..> SongSummary : selects the coach line from
+ResultsMod ..> DuetSession : duet coach line
+@enduml

@@ -1,0 +1,22 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Expose the REST and health surface
+
+Person(grownup, "Grown-up", "Manages family content")
+Container(web, "TwinkleTune web app", "TypeScript PWA", "api/client.ts and the duet client")
+System_Boundary(server, "TwinkleTune family server") {
+  Container(api, "TwinkleTune.Api", "ASP.NET Core (net10.0)", "Controllers, DuetHub, health route, OpenAPI in development")
+  Container(application, "TwinkleTune.Application", ".NET class library", "Services and the in-memory room service")
+  ContainerDb(db, "twinkletune.db", "SQLite file", "Family data behind the REST routes")
+}
+Person(developer, "Developer", "Reads the API documentation locally")
+
+Rel(grownup, web, "Uses", "HTTPS")
+Rel(web, api, "GET /health", "JSON/HTTP")
+Rel(web, api, "Calls /api/avatars, /api/singers, /api/songs, /api/highscores", "JSON/HTTP")
+Rel(web, api, "Connects to /hubs/duet", "SignalR")
+Rel(developer, api, "Reads the OpenAPI document in development only", "HTTP")
+Rel(api, application, "Calls services and the room service")
+Rel(application, db, "Reads and writes through Infrastructure", "EF Core")
+@enduml

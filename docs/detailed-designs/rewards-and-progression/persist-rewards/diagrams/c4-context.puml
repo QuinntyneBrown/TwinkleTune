@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Persist rewards on the device
+
+Person(singer, "Singer", "Earns rewards that outlive a reload")
+System(twinkle, "TwinkleTune web app", "On-device singing app; stores all reward state in the browser (TypeScript)")
+System_Ext(storage, "Browser device storage", "localStorage, one JSON blob per singer")
+System_Ext(server, "Family server", "Profiles, songs and high scores; holds no reward state")
+
+Rel(singer, twinkle, "Earns sparkles, streaks, bests and badges in")
+Rel(twinkle, storage, "Reads and writes the whole reward state (RP-L2-11)", "localStorage")
+Rel(twinkle, server, "Reads profile identity only; no reward data crosses (RP-L2-11)", "HTTPS")
+@enduml

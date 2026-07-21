@@ -1,0 +1,15 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — React scene to voice
+
+Person(singer, "Young singer", "Sings while watching the pitch stage")
+System(app, "TwinkleTune web app", "Runs the singing gameplay and a decorative reactive scene behind it")
+System_Ext(gpu, "Browser graphics surface", "WebGPU device, or the Canvas2D context used as a fallback")
+System_Ext(prefs, "Platform accessibility preferences", "Supplies the reduced-motion setting")
+
+Rel(singer, app, "Sings into and watches", "Microphone and screen")
+Rel(app, gpu, "Renders the decorative scene through the richest available surface (SG-L2-23)")
+Rel(app, prefs, "Reads prefers-reduced-motion (SG-L2-23)")
+Rel(gpu, singer, "Presents an atmosphere reacting to voice and landed notes")
+@enduml

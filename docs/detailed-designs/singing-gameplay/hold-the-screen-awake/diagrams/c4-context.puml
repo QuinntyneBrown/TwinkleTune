@@ -1,0 +1,13 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Hold the screen awake
+
+Person(singer, "Young singer", "Sings a whole song without touching the screen")
+System(app, "TwinkleTune web app", "Requests that the display stay on while a performance is active")
+System_Ext(platform, "Browser Screen Wake Lock API", "Grants, releases, and may withhold a screen wake lock")
+
+Rel(singer, app, "Sings along to the lyric line", "Screen and microphone")
+Rel(app, platform, "Requests a screen lock while singing; releases on pause, finish, and exit (SG-L2-24)")
+Rel(platform, singer, "Keeps the display on, or declines with no effect on play (SG-L2-24)")
+@enduml

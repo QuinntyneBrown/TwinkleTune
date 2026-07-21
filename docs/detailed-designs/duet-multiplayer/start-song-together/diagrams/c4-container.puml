@@ -1,0 +1,22 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Start the song together
+
+Person(host, "Singer (host device)", "Presses start")
+Person(guest, "Singer (guest device)", "Receives the same start")
+
+System_Boundary(twinkletune, "TwinkleTune") {
+  Container(webHost, "TwinkleTune web app (host device)", "TypeScript, DOM modules", "Lobby start action and singing screen")
+  Container(webGuest, "TwinkleTune web app (guest device)", "TypeScript, DOM modules", "Singing screen opened by the broadcast")
+  Container(api, "TwinkleTune API", "ASP.NET Core (.NET 10)", "DuetHub.StartSong and the SongStarted broadcast")
+  Container(registry, "Room registry", "In-memory ConcurrentDictionary", "Holds SongId, StartAtUtc, and per-player summaries")
+}
+
+Rel(host, webHost, "Uses", "HTTPS")
+Rel(guest, webGuest, "Uses", "HTTPS")
+Rel(webHost, api, "Invokes StartSong(songId)", "SignalR/WebSockets")
+Rel(api, registry, "Stamps StartAtUtc = now + 3s and clears summaries", "In-process call")
+Rel(api, webHost, "Sends SongStarted(songId, startAtUtc)", "SignalR/WebSockets")
+Rel(api, webGuest, "Sends SongStarted(songId, startAtUtc)", "SignalR/WebSockets")
+@enduml

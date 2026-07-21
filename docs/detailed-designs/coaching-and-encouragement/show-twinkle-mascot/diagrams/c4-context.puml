@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Show Twinkle mascot
+
+Person(child, "Young singer", "Reads Twinkle's face and coach lines")
+Person(grownup, "Grown-up", "Sets the app up alongside the child")
+System(twinkle, "TwinkleTune web app", "On-device singing app; renders the mascot and coach bubbles (TypeScript, inline SVG)")
+System_Ext(browser, "Browser DOM and assistive technology", "Renders inline SVG and honours aria-hidden")
+
+Rel(child, twinkle, "Sees the mascot and reads coach lines")
+Rel(grownup, twinkle, "Sets up alongside the child")
+Rel(twinkle, browser, "Writes mascot SVG marked decorative", "innerHTML")
+@enduml

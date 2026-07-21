@@ -1,0 +1,50 @@
+@startuml
+title UML sequence behaviour — Pass over a missed note in silence
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Young singer" as child
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "finalizeNotesUpTo (sing.ts)" as finalize
+  participant "noteLanded (scoring.ts)" as scoring
+  participant "setStreak" as streak
+  participant "toast (ui/modal.ts)" as toast
+end box
+box "Device — Browser DOM" #FFF4E5
+  participant "note pill" as pill
+  participant "streak chip [data-streak]" as chip
+end box
+
+child -> finalize : A note's time passes
+finalize -> scoring : noteLanded(result, minFrames = 3)
+
+alt note not landed
+  scoring --> finalize : false
+  finalize -> streak : setStreak(0) (CE-L2-8)
+  streak -> chip : Remove the show class
+  finalize -> pill : Leave the pill unchanged; no miss class exists (CE-L2-8)
+  pill --> child : Nothing is said about the note (CE-L2-8)
+else note landed
+  scoring --> finalize : true
+  finalize -> pill : Add the hit class
+  finalize -> streak : setStreak(streak + 1)
+  opt streak reaches 3 or more
+    streak -> chip : "🔥 N in a row!" with the show class (CE-L2-9)
+  end
+  opt streak is a multiple of 5
+    streak -> toast : '🔥 N in a row!' in gold for 1600 ms (CE-L2-9)
+    toast --> child : Milestone celebration
+  end
+end
+@enduml

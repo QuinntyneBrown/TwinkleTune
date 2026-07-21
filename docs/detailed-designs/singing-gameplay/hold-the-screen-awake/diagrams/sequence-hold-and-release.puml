@@ -1,0 +1,87 @@
+@startuml
+title UML sequence behaviour — Hold, release, reacquire, and tear down
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Young singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "sing.ts" as sing
+  participant "SingingWakeLock" as lock
+end box
+box "Device — Browser" #FFF4E5
+  participant "navigator.wakeLock" as api
+  participant "WakeLockSentinel" as sentinel
+  participant "document visibility" as vis
+end box
+
+sing -> lock : new SingingWakeLock()
+lock -> vis : addEventListener('visibilitychange')
+
+== Performance starts ==
+singer -> sing : Start singing
+sing -> lock : request() (SG-L2-24)
+lock -> lock : wanted = true; acquire()
+alt API absent, already held, request in flight, or document hidden
+  lock --> sing : Return without acting (SG-L2-24)
+else eligible to acquire
+  lock -> lock : requesting = true
+  lock -> api : await wakeLock.request('screen') (SG-L2-24)
+  alt granted
+    api --> lock : sentinel
+    alt intent still held and document still visible
+      lock -> sentinel : addEventListener('release')
+      lock -> lock : store sentinel; requesting = false
+      sentinel --> singer : Display stays on through the song (SG-L2-24)
+    else intent or visibility changed while awaiting
+      lock -> sentinel : release() immediately, rejection swallowed (SG-L2-24)
+    end
+  else API rejects
+    api --> lock : Rejection
+    lock -> lock : Empty catch; requesting = false in finally (SG-L2-24)
+    lock --> sing : Audio, scoring, and navigation continue unchanged (SG-L2-24)
+  end
+end
+
+== Document hidden and restored ==
+singer -> vis : Switches away from the app
+vis -> lock : visibilitychange (hidden)
+lock -> lock : releaseCurrent(): clear sentinel first
+lock -> sentinel : release() (SG-L2-24)
+note right of lock
+  Browsers normally release automatically when hidden.
+  The local reference is cleared too, so restoring
+  visibility can request a fresh sentinel. (SG-L2-24)
+end note
+singer -> vis : Returns to the app
+vis -> lock : visibilitychange (visible)
+alt performance still active (wanted)
+  lock -> api : acquire() requests a fresh sentinel (SG-L2-24)
+  api --> lock : New sentinel
+else paused or finished
+  lock --> lock : No reacquisition (SG-L2-24)
+end
+
+== Pause, finish, and screen cleanup ==
+singer -> sing : Pause
+sing -> lock : suspend() (SG-L2-24)
+lock -> lock : wanted = false
+lock -> sentinel : release()
+singer -> sing : Song finishes
+sing -> lock : suspend() (SG-L2-24)
+singer -> sing : Leave the sing screen
+sing -> lock : destroy()
+lock -> lock : suspend()
+lock -> vis : removeEventListener('visibilitychange') (SG-L2-24)
+lock --> sing : No lock held and no listener survives the screen (SG-L2-24)
+@enduml

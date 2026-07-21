@@ -1,0 +1,117 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Layer the backend
+
+package "TwinkleTune.Domain" {
+  class Singer {
+    +Guid Id
+    +string Name
+    +Guid? AvatarId
+    +string? PhotoFileName
+    +int? RangeLow
+    +int? RangeHigh
+    +DateTimeOffset CreatedAt
+  }
+
+  class HighScore {
+    +Guid Id
+    +Guid SongId
+    +Guid SingerId
+    +int Stars
+    +double Accuracy
+    +DateTimeOffset AchievedAt
+    +IsBeatenBy(stars: int, accuracy: double): bool
+  }
+}
+
+package "TwinkleTune.Application" {
+  interface ISingerService {
+    +GetAllAsync(ct): Task<List<SingerDto>>
+    +CreateAsync(request, ct): Task<(SingerDto?, string?)>
+    +SetPhotoAsync(id, content, contentType, ct): Task<SingerDto?>
+  }
+
+  class SingerService {
+    +SingerService(singers: ISingerRepository, photos: IPhotoStorage, time: TimeProvider)
+  }
+
+  interface IHighScoreService {
+    +SubmitAsync(request, ct): Task<(SubmitHighScoreResult?, string?)>
+    +GetForSongAsync(songId, ct): Task<List<HighScoreDto>>
+  }
+
+  class HighScoreService {
+    +HighScoreService(highScores: IHighScoreRepository, songs: ISongRepository, singers: ISingerRepository, time: TimeProvider)
+  }
+
+  interface ISingerRepository {
+    +GetAllAsync(ct): Task<List<Singer>>
+    +GetAsync(id, ct): Task<Singer?>
+    +AddAsync(singer, ct): Task
+    +UpdateAsync(singer, ct): Task
+    +DeleteAsync(id, ct): Task<bool>
+  }
+
+  interface IHighScoreRepository {
+    +GetAsync(songId, singerId, ct): Task<HighScore?>
+    +GetForSongAsync(songId, ct): Task<List<HighScore>>
+    +AddAsync(score, ct): Task
+    +UpdateAsync(score, ct): Task
+  }
+
+  interface IPhotoStorage {
+    +SaveAsync(singerId, content, contentType, ct): Task<string>
+    +OpenRead(fileName): (Stream, string)?
+    +Delete(fileName): void
+  }
+
+  class DependencyInjection <<static>> {
+    +AddApplicationServices(services): IServiceCollection
+  }
+}
+
+package "TwinkleTune.Infrastructure" {
+  class SingerRepository {
+    +SingerRepository(db: AppDbContext)
+  }
+
+  class HighScoreRepository {
+    +HighScoreRepository(db: AppDbContext)
+  }
+
+  class PhotoStorage {
+    +PhotoStorage(rootPath: string)
+  }
+
+  class AppDbContext {
+    +DbSet<Singer> Singers
+    +DbSet<HighScore> HighScores
+  }
+}
+
+SingerService ..|> ISingerService
+HighScoreService ..|> IHighScoreService
+SingerRepository ..|> ISingerRepository
+HighScoreRepository ..|> IHighScoreRepository
+PhotoStorage ..|> IPhotoStorage
+
+SingerService --> ISingerRepository : singers
+SingerService --> IPhotoStorage : photos
+HighScoreService --> IHighScoreRepository : highScores
+SingerRepository --> AppDbContext : db
+HighScoreRepository --> AppDbContext : db
+AppDbContext --> "*" Singer : Singers
+AppDbContext --> "*" HighScore : HighScores
+HighScoreService ..> HighScore : IsBeatenBy
+@enduml

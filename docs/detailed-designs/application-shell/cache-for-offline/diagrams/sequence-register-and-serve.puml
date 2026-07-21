@@ -1,0 +1,79 @@
+@startuml
+title UML sequence behaviour — Register the worker and serve a request
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Young singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "main.ts" as main
+  participant "sw.js" as sw
+end box
+box "Device — Browser" #FFF4E5
+  participant "navigator.serviceWorker" as swc
+  database "Cache storage ('twinkletune-v1')" as cache
+end box
+participant "Static host" as host
+
+== Registration ==
+singer -> main : Open the app
+main -> main : Boot the router
+alt production build and serviceWorker supported
+  main -> swc : On load, register("./sw.js") (AS-L2-11)
+  alt registration succeeds
+    swc -> sw : install
+    sw -> swc : self.skipWaiting() (AS-L2-10)
+    swc -> sw : activate
+    sw -> cache : caches.keys()
+    cache --> sw : All cache names
+    sw -> cache : delete every key != "twinkletune-v1" (AS-L2-10)
+    sw -> swc : self.clients.claim() (AS-L2-10)
+    swc --> main : Open pages now under the new worker
+  else registration rejects
+    swc --> main : Rejection caught and discarded (AS-L2-11)
+    main --> singer : App continues with no error surfaced (AS-L2-11)
+  end
+else development build or no support
+  main --> singer : No worker registered; app works from the network (AS-L2-11)
+end
+
+== Serving a request ==
+main -> sw : fetch event for a request
+alt request.method != "GET"
+  sw --> main : Return without respondWith; request goes to the network (AS-L2-10)
+else GET request
+  sw -> cache : caches.open(CACHE); cache.match(request)
+  cache --> sw : Cached response or undefined
+  sw -> host : Background fetch(request) (AS-L2-10)
+  alt a cached entry exists
+    sw --> main : Serve the cached response immediately (AS-L2-10)
+    alt background fetch resolves and res.ok
+      host --> sw : Fresh response
+      sw -> cache : cache.put(request, res.clone()) (AS-L2-10)
+    else offline or rejected
+      host --> sw : Rejection
+      sw -> sw : Fall back to the cached response (AS-L2-10)
+    end
+  else no cached entry
+    alt network reachable
+      host --> sw : Fresh response
+      sw -> cache : cache.put(request, res.clone()) when res.ok (AS-L2-10)
+      sw --> main : Serve the fetched response
+    else offline on a first visit
+      host --> sw : Rejection
+      sw --> main : No cached entry to fall back to (AS-L2-10)
+    end
+  end
+end
+main --> singer : App loads from cached assets after the first visit (AS-L2-10)
+@enduml

@@ -1,0 +1,64 @@
+@startuml
+title UML sequence behaviour — Default, fall back, and guard a route
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Young singer" as child
+box "Device — Browser location and DOM" #FFF4E5
+  participant "location / hashchange" as loc
+  participant "#app mount point" as appel
+end box
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "route() (main.ts)" as router
+  participant "store" as store
+  participant "routes / NO_PROFILE_OK" as tables
+  participant "resolved screen renderer" as screen
+end box
+
+child -> loc : Open the app at an arbitrary hash
+loc -> router : hashchange or initial route() (AS-L2-4)
+router -> loc : Read location.hash
+loc --> router : Raw hash
+router -> router : path = hash before "?" (AS-L2-1)
+router -> store : get().profile
+store --> router : Profile or null
+
+alt path is empty
+  alt a profile exists
+    router -> router : name = "home" (AS-L2-2)
+  else no profile
+    router -> router : name = "welcome" (AS-L2-2)
+  end
+else path is a name
+  router -> tables : routes[path]
+  alt name is unknown
+    tables --> router : undefined
+    router -> router : name = "home" (AS-L2-2)
+  else name is known
+    tables --> router : ScreenRenderer
+  end
+end
+
+router -> tables : NO_PROFILE_OK.has(name)
+alt name is welcome, tuner, or profiles
+  tables --> router : true — reachable without a profile (AS-L2-3)
+else any other name and no profile
+  tables --> router : false
+  router -> router : name = "welcome" — redirect to onboarding (AS-L2-3)
+end
+
+router -> screen : routes[name](app, params) (AS-L2-4)
+screen -> appel : Write the screen markup
+appel --> child : A screen appropriate to the current profile state
+@enduml

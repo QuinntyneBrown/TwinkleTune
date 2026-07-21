@@ -1,0 +1,76 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Start the song together
+
+interface IRoomService {
+  +StartSong(connectionId: string, songId: Guid): StartResult?
+}
+
+class RoomService {
+  -time: TimeProvider
+  -{static} MaxPlayers: int = 2
+  +StartSong(connectionId, songId): StartResult?
+}
+
+class StartResult <<record>> {
+  +Code: string
+  +SongId: Guid
+  +StartAtUtc: DateTimeOffset
+}
+
+class Room <<private nested>> {
+  +Code: string
+  +Players: List<Player>
+  +SongId: Guid?
+  +StartAtUtc: DateTimeOffset?
+  +LastActivity: DateTimeOffset
+}
+
+class DuetHub {
+  +StartSong(songId: Guid): Task
+}
+
+class DuetClient <<TypeScript>> {
+  +startSong(songId: string): Promise<void>
+  +onSongStarted(cb: (songId: string, startAtUtc: string) => void): void
+}
+
+class SongPlayer <<TypeScript>> {
+  +playing: boolean
+  -t0: number
+  -spb: number
+  -startBeat: number
+  -countIn: number
+  +start(song: Song, opts: PlayOptions): void
+  +currentBeat(): number
+  +secondsPerBeat(): number
+}
+
+interface PlayOptions <<TypeScript>> {
+  +transpose?: number
+  +rate?: number
+  +fromBeat?: number
+  +untilBeat?: number
+  +countInBeats?: number
+  +onDone?: () => void
+}
+
+RoomService ..|> IRoomService
+RoomService --> Room : resolves from the connection mapping
+RoomService ..> StartResult : returns
+DuetHub --> IRoomService : delegates to
+DuetHub ..> StartResult : broadcasts as SongStarted
+DuetClient ..> DuetHub : invokes StartSong
+SongPlayer ..> PlayOptions : configured by
+@enduml

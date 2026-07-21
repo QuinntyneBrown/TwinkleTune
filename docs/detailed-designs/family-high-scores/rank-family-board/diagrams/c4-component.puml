@@ -1,0 +1,20 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Rank a family board
+
+Container_Boundary(api, "TwinkleTune API") {
+  Component(ctrlSong, "HighScoresController.GetForSong", "ASP.NET Core action", "GET /api/songs/{songId:guid}/highscores")
+  Component(ctrlSinger, "HighScoresController.GetForSinger", "ASP.NET Core action", "GET /api/singers/{singerId:guid}/highscores")
+  Component(svc, "HighScoreService", "Application service", "OrderByDescending(Stars).ThenByDescending(Accuracy)")
+  Component(map, "Mapping.ToDto", "Projection", "Singer name default 'Singer', avatar emoji, has-photo flag")
+  Component(repo, "HighScoreRepository", "EF Core repository", "AsNoTracking + Include(Singer).ThenInclude(Avatar)")
+  ComponentDb(db, "TwinkleTune database", "SQLite", "HighScores, Singers, Avatars")
+}
+
+Rel(ctrlSong, svc, "GetForSongAsync(songId) (HS-L2-8)")
+Rel(ctrlSinger, svc, "GetForSingerAsync(singerId) (HS-L2-8)")
+Rel(svc, repo, "Read the stored bests for the filter")
+Rel(svc, map, "Project each entity (HS-L2-9)")
+Rel(repo, db, "SELECT with singer and avatar join", "EF Core")
+@enduml

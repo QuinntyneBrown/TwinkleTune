@@ -1,0 +1,42 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Track the daily goal and streak
+
+interface AppState {
+  +singDays: string[]
+  +plays: Record<string, number>
+  +sparkles: number
+  +bests: Record<string, SongBest>
+}
+
+class "state/store.ts" as StoreMod <<module>> {
+  +todayISO(d: Date): string
+  +streakCount(singDays: readonly string[], today: string): number
+  +songsSungOn(state: AppState, day: string): number
+  +recordPlay(store, song, summary, today): string[]
+  -shiftISO(iso: string, days: number): string
+}
+
+class "screens/home.ts" as HomeMod <<module>> {
+  +renderHome(root: HTMLElement): void
+  -DAILY_GOAL: number = 3
+  -sungToday: number
+  -streak: number
+  -goalDeg: number
+}
+
+StoreMod ..> AppState : reads singDays and plays
+HomeMod ..> StoreMod : streakCount, songsSungOn, todayISO
+HomeMod ..> AppState : renders from
+@enduml

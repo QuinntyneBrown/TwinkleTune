@@ -1,0 +1,65 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Pass the parent gate
+
+class "modal.ts" as ModalMod <<module>> {
+  +parentGate(onPass: () => void): void
+  +showModal(opts: ModalOptions): ModalHandle
+  +toast(message: string, variant, ms): void
+}
+
+interface ModalOptions {
+  +html: string
+  +onMount?: (modal: HTMLElement, close: () => void) => void
+  +dismissible?: boolean
+  +ariaLabel?: string
+  +className?: string
+}
+
+interface ModalHandle {
+  +el: HTMLElement
+  +close: () => void
+}
+
+class GateChallenge <<local state>> {
+  +a: number
+  +b: number
+  +answer: number
+  +options: number[]
+}
+
+class "welcome.ts" as Welcome <<screen>> {
+  +renderWelcome(root: HTMLElement): void
+}
+
+class "me.ts" as Me <<screen>> {
+  +renderMe(root: HTMLElement): void
+}
+
+class "profiles.ts" as Profiles <<screen>> {
+  +renderProfiles(root: HTMLElement): void
+}
+
+class "settings.ts" as Settings <<module>> {
+  +showSettings(): void
+}
+
+ModalMod ..> ModalOptions : accepts
+ModalMod --> ModalHandle : returns
+ModalMod *-- GateChallenge : builds per invocation
+Welcome ..> ModalMod : parentGate(showSettings)
+Me ..> ModalMod : parentGate(showSettings)
+Profiles ..> ModalMod : parentGate(delete confirmation)
+ModalMod ..> Settings : onPass
+@enduml

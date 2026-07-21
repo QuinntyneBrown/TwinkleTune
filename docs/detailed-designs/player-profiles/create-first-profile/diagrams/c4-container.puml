@@ -1,0 +1,22 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Create first profile
+
+Person(child, "Young singer", "Enters a name and picks an avatar")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(welcome, "Welcome screen", "TypeScript (welcome.ts)", "Collects name and avatar; routes on completion")
+  Container(state, "Profile state", "TypeScript (store.ts, profile.ts)", "Writes the Profile and activates a linked singer")
+  Container(client, "REST client", "TypeScript (api/client.ts)", "serverOnline(), avatars.list(), singers.create()")
+}
+System_Boundary(family, "Family server") {
+  Container(api, "TwinkleTune API", "ASP.NET Core", "Singer and avatar endpoints, /health")
+  ContainerDb(db, "Family database", "SQLite via EF Core", "Singers and avatars")
+}
+
+Rel(child, welcome, "Uses", "HTTPS")
+Rel(welcome, state, "store.update(profile); activateSinger(singer)")
+Rel(welcome, client, "serverOnline(); avatars.list(); singers.create()")
+Rel(client, api, "GET /health, GET /api/avatars, POST /api/singers", "JSON/HTTP")
+Rel(api, db, "Reads avatars, writes the singer", "EF Core")
+@enduml

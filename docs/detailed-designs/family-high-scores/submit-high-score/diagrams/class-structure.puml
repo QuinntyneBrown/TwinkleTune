@@ -1,0 +1,66 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Submit a high score
+
+interface SongSummary <<frontend>> {
+  +songId: string
+  +stars: 1 | 2 | 3
+  +accuracy: number
+  +sparkles: number
+  +maxStreak: number
+  +noMic: boolean
+}
+
+class "results.ts" as Results <<module>> {
+  +renderResults(root, params): () => void
+  -submissionGuard: !noMic && profile.singerId && isServerSongId(songId)
+}
+
+class "api.highscores" as HighScoresApi <<client>> {
+  +submit(body): Promise<SubmitHighScoreResult>
+  +forSong(songId: string): Promise<ApiHighScore[]>
+  +forSinger(singerId: string): Promise<ApiHighScore[]>
+}
+
+interface SubmitHighScoreResult <<frontend>> {
+  +improved: boolean
+  +score: ApiHighScore
+}
+
+class HighScoresController <<ASP.NET Core>> {
+  +Submit(req: SubmitHighScoreRequest, ct): Task<IActionResult>
+}
+
+class SubmitHighScoreRequest <<record>> {
+  +Guid SongId
+  +Guid SingerId
+  +int Stars
+  +double Accuracy
+  +int Sparkles
+  +int MaxStreak
+}
+
+class "SubmitHighScoreResult" as ServerResult <<record>> {
+  +bool Improved
+  +HighScoreDto Score
+}
+
+Results ..> SongSummary : reads store.lastResult
+Results ..> HighScoresApi : submit(...)
+Results ..> SubmitHighScoreResult : celebrates when improved
+HighScoresApi --> SubmitHighScoreResult : resolves
+HighScoresApi ..> HighScoresController : POST /api/highscores
+HighScoresController ..> SubmitHighScoreRequest : binds
+HighScoresController --> ServerResult : returns
+@enduml

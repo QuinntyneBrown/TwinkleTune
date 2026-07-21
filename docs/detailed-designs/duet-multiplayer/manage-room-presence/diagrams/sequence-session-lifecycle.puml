@@ -1,0 +1,61 @@
+@startuml
+title UML sequence behaviour — Hold and end the duet session
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "renderDuet (lobby)" as lobby
+  participant "duetSession" as session
+  participant "DuetClient" as client
+  participant "renderSing / renderResults" as later
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "DuetHub" as hub
+end box
+box "Backend — TwinkleTune Application and Domain" #ECFDF3
+  participant "RoomService" as service
+end box
+box "Backend — TwinkleTune Infrastructure" #FFF4E5
+  database "Room registry (in memory)" as registry
+end box
+
+singer -> lobby : Open the duet screen and make a room
+lobby -> client : DuetClient.connect()
+client -> hub : Start the connection with withAutomaticReconnect (DM-L2-11)
+hub --> client : Connected
+client -> hub : invoke CreateRoom(info)
+hub -> service : Create(connectionId, info)
+service -> registry : CleanupExpired() removes rooms idle beyond 30 minutes (DM-L2-9)
+service -> registry : Store the room in memory only (DM-L2-10)
+registry --> service : Room stored
+service --> hub : RoomStateDto
+hub --> client : RoomStateDto
+lobby -> session : set({ client, code, me, opponent, result, mySummary }) (DM-L2-11)
+lobby -> later : Navigate to the singing screen with handedOff = true
+later -> session : get() — the same client and room context (DM-L2-11)
+session --> later : DuetSession
+opt connection drops mid-song
+  client -> hub : Automatic reconnection retries the connection (DM-L2-11)
+end
+singer -> later : Leave the duet or return home
+later -> session : end()
+session -> client : leave()
+client -> hub : invoke LeaveRoom(); rejection swallowed if already gone (DM-L2-11)
+hub -> service : Leave(connectionId)
+service -> registry : Remove the player; remove the room when empty
+client -> hub : stop() the connection (DM-L2-11)
+session -> session : session = null (DM-L2-11)
+session --> singer : Duet screen reachable again with a fresh session
+@enduml

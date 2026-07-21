@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Degrade gracefully offline
+
+Person(child, "Child singer", "Sings with or without a family server")
+System(app, "TwinkleTune web app", "Offline-first PWA; solo play never requires the API")
+System(server, "TwinkleTune family server", "Optional home backend for profiles, songs, scores, and duets")
+System_Ext(storage, "Browser localStorage", "Cached songbook, local profile, sparkles, badges, streaks")
+
+Rel(child, app, "Onboards, tunes her voice, browses, and sings", "HTTPS")
+Rel(app, server, "Probes /health, then calls family features when present", "JSON/HTTP")
+Rel(app, storage, "Reads and writes on-device state and the songbook cache")
+@enduml

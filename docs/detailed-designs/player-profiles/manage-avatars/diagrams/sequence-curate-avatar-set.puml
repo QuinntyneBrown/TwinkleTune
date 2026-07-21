@@ -1,0 +1,76 @@
+@startuml
+title UML sequence behaviour — Curate the avatar set
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as grownup
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "showAvatarManager (managers.ts)" as manager
+  participant "api client" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "AvatarsController" as ctrl
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "AvatarService" as svc
+end box
+box "Backend — Infrastructure" #FFF4E5
+  participant "SeedData / AppDbContext" as infra
+  database "Family database (SQLite)" as db
+end box
+
+== Server start-up ==
+infra -> db : Any avatars?
+alt table empty
+  db --> infra : none
+  infra -> db : Insert eight avatars (Unicorn, Kitten, Frog, Fox, Bunny, Panda, Dino, Octopus) (PP-L2-11)
+  db --> infra : Seeded
+else avatars already present
+  db --> infra : rows exist
+  infra -> infra : Skip seeding (idempotent)
+end
+
+== Add or edit an avatar ==
+grownup -> manager : Open the avatar manager and save an avatar
+manager -> client : avatars.create(emoji, name) or avatars.update(id, emoji, name)
+client -> ctrl : POST /api/avatars or PUT /api/avatars/{id} (PP-L2-11)
+ctrl -> svc : CreateAsync / UpdateAsync(SaveAvatarRequest)
+svc -> svc : Validate — emoji required, name required, name <= 30 (PP-L2-11)
+alt validation fails
+  svc --> ctrl : (null, "An avatar needs an emoji." or a name message)
+  ctrl --> client : 400 Bad Request { error } (PP-L2-11)
+  client --> manager : ApiError
+  manager --> grownup : Pink toast carrying the server message
+else valid
+  svc -> db : Insert or update with trimmed emoji and name
+  db --> svc : Committed
+  svc --> ctrl : AvatarDto
+  ctrl --> client : 201 Created or 200 OK (PP-L2-11)
+  client --> manager : ApiAvatar
+  manager --> grownup : Toast "Saved!" and the refreshed rows
+end
+
+== Remove an avatar ==
+grownup -> manager : Tap the delete control on a row
+manager -> client : avatars.remove(id)
+client -> ctrl : DELETE /api/avatars/{id} (PP-L2-11)
+ctrl -> svc : DeleteAsync(id)
+svc -> db : Remove the avatar row
+db -> db : Set Singer.AvatarId to null for each singer using it (OnDelete SetNull) (PP-L2-12)
+db --> svc : Committed; singers remain (PP-L2-12)
+svc --> ctrl : true
+ctrl --> client : 204 No Content
+client --> manager : Removed
+manager --> grownup : Toast "Avatar removed" and the refreshed rows
+@enduml

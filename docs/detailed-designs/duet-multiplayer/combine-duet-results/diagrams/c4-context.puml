@@ -1,0 +1,15 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Combine duet results
+
+Person(singerA, "Singer (host device)", "Finishes the song and sees the shared total")
+Person(singerB, "Singer (guest device)", "Finishes the song and sees the same shared total")
+System(webapp, "TwinkleTune web app", "Sends a finish summary and paints the cooperative results panel")
+System(familyserver, "Family Server", "Holds both summaries and emits one combined result")
+
+Rel(singerA, webapp, "Finishes the duet song on her device", "HTTPS")
+Rel(singerB, webapp, "Finishes the duet song on her device", "HTTPS")
+Rel(webapp, familyserver, "Sends the finish summary", "SignalR/WebSockets")
+Rel(familyserver, webapp, "Sends OpponentFinished, then DuetResult with the combined sparkles", "SignalR/WebSockets")
+@enduml

@@ -1,0 +1,99 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Manage server singers
+
+class Singer {
+  +Guid Id
+  +string Name
+  +Guid? AvatarId
+  +Avatar? Avatar
+  +string? PhotoFileName
+  +int? RangeLow
+  +int? RangeHigh
+  +DateTimeOffset CreatedAt
+}
+
+class Avatar {
+  +Guid Id
+  +string Emoji
+  +string Name
+}
+
+class SingerDto <<record>> {
+  +Guid Id
+  +string Name
+  +Guid? AvatarId
+  +string? AvatarEmoji
+  +bool HasPhoto
+  +int? RangeLow
+  +int? RangeHigh
+}
+
+class SaveSingerRequest <<record>> {
+  +string Name
+  +Guid? AvatarId
+  +int? RangeLow
+  +int? RangeHigh
+}
+
+interface ISingerService {
+  +GetAllAsync(): Task<List<SingerDto>>
+  +GetAsync(id: Guid): Task<SingerDto?>
+  +CreateAsync(request: SaveSingerRequest): Task<(SingerDto?, string?)>
+  +UpdateAsync(id: Guid, request: SaveSingerRequest): Task<(SingerDto?, string?)>
+  +DeleteAsync(id: Guid): Task<bool>
+}
+
+class SingerService {
+  -Validate(request: SaveSingerRequest): string?
+  +CreateAsync(request: SaveSingerRequest): Task<(SingerDto?, string?)>
+  +UpdateAsync(id: Guid, request: SaveSingerRequest): Task<(SingerDto?, string?)>
+}
+
+interface ISingerRepository {
+  +GetAllAsync(): Task<List<Singer>>
+  +GetAsync(id: Guid): Task<Singer?>
+  +AddAsync(singer: Singer): Task
+  +UpdateAsync(singer: Singer): Task
+  +DeleteAsync(id: Guid): Task<bool>
+}
+
+class SingerRepository {
+  +GetAllAsync(): Task<List<Singer>>
+  +GetAsync(id: Guid): Task<Singer?>
+}
+
+class SingersController {
+  +GetAll(): Task<List<SingerDto>>
+  +Get(id: Guid): Task<IActionResult>
+  +Create(req: SaveSingerRequest): Task<IActionResult>
+  +Update(id: Guid, req: SaveSingerRequest): Task<IActionResult>
+  +Delete(id: Guid): Task<IActionResult>
+}
+
+class Mapping <<static>> {
+  +ToDto(s: Singer): SingerDto
+  +ToDto(a: Avatar): AvatarDto
+}
+
+SingerService ..|> ISingerService
+SingerRepository ..|> ISingerRepository
+SingersController --> ISingerService : delegates to
+SingerService --> ISingerRepository : reads and writes
+SingerService ..> SaveSingerRequest : validates
+SingerService ..> Mapping : projects
+Mapping ..> SingerDto : produces
+Singer --> "0..1" Avatar : Avatar
+SingerRepository ..> Singer : Include(Avatar), ordered by CreatedAt
+@enduml

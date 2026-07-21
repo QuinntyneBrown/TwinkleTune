@@ -1,0 +1,23 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — React scene to voice
+
+Person(singer, "Young singer", "Sings and watches the stage")
+
+System_Boundary(app, "TwinkleTune web app") {
+  Container(sing, "Sing screen", "TypeScript, screens/sing.ts", "Owns the semantic DOM gameplay: note pills, lyric line, and avatar (SG-L2-23)")
+  Container(scene, "Reactive scene layer", "TypeScript, rendering/", "Decorative canvas marked aria-hidden, driven by normalized signals")
+  Container(pitch, "Pitch engine", "TypeScript, audio/pitch.ts", "Supplies the microphone frame whose RMS becomes energy")
+}
+
+System_Ext(gpu, "Browser WebGPU / Canvas2D", "Graphics surfaces the scene renders through")
+System_Ext(prefs, "Platform preferences and page visibility", "prefers-reduced-motion and visibilitychange")
+
+Rel(singer, sing, "Sings and watches", "Microphone and screen")
+Rel(pitch, sing, "Pitch frame with rms")
+Rel(sing, scene, "update(energy, pitchY, intensity, onNote, streak, progress) and burst() (SG-L2-23)")
+Rel(scene, gpu, "Prefers WebGPU; falls back silently to Canvas2D (SG-L2-23)")
+Rel(scene, prefs, "Renders a still presentation on reduced motion; pauses while hidden (SG-L2-23)")
+Rel(sing, singer, "Presents gameplay independently of the decorative layer (SG-L2-23)")
+@enduml

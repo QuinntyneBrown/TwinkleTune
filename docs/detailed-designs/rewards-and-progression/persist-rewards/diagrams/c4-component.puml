@@ -1,0 +1,32 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Persist rewards (state/store.ts)
+
+Container_Boundary(store, "Reward store — state/store.ts") {
+  Component(create, "createStore()", "Factory function", "Closes over the active key and the loaded state")
+  Component(load, "load()", "Private closure", "Parses the blob over emptyState(); empty state on a parse failure")
+  Component(save, "save()", "Private closure", "setItem(key, JSON.stringify(state))")
+  Component(api, "Store.get / set / update / switchKey / reset", "TypeScript methods", "The only reward write paths")
+  Component(empty, "emptyState()", "Factory function", "Zero sparkles, no sing-days, plays, bests or badges")
+  Component(keys, "KEY / ACTIVE_KEY / profileKey()", "Constants and helper", "twinkletune:v1, twinkletune:active-singer, per-singer key")
+  Component(active, "getActiveSingerId / setActiveSingerId", "TypeScript functions", "Active singer id in root storage")
+  Component(adopt, "adoptLegacyState()", "TypeScript function", "Moves the pre-profiles blob to the first claiming profile")
+  Component(mem, "memoryStorage()", "Factory function", "Map-backed StorageLike when localStorage is absent")
+}
+ComponentDb(ls, "localStorage", "Browser storage", "One JSON blob per singer key")
+Component(profile, "activateSinger()", "state/profile.ts", "Adopts, records and re-points on a profile switch")
+
+Rel(create, load, "Loads once at construction (RP-L2-11)")
+Rel(load, empty, "Falls back to on corrupted data (RP-L2-11)")
+Rel(load, ls, "getItem(key)")
+Rel(api, save, "Saves after every mutation (RP-L2-11)")
+Rel(save, ls, "setItem(key, state blob)")
+Rel(api, empty, "reset() restores")
+Rel(create, keys, "Resolves the initial key from the active singer (RP-L2-11)")
+Rel(active, ls, "Reads and writes the active singer id")
+Rel(adopt, ls, "Copies the legacy blob and removes it")
+Rel(profile, adopt, "Before re-pointing")
+Rel(profile, api, "switchKey(profileKey(singerId)) (RP-L2-11)")
+Rel(create, mem, "Uses when localStorage is undefined")
+@enduml

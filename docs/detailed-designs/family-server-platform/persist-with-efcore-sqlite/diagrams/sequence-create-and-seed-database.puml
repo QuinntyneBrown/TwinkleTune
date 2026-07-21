@@ -1,0 +1,56 @@
+@startuml
+title UML sequence behaviour — Create and seed the database on startup
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up starting the server" as grownup
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "Program.cs" as program
+  participant "IConfiguration" as config
+end box
+box "Backend — Infrastructure" #FFF4E5
+  participant "AppDbContext" as context
+  participant "SeedData" as seed
+  database "twinkletune.db" as db
+  participant "photos folder" as photos
+end box
+
+grownup -> program : run the family server
+program -> config : DataPath (FS-L2-3)
+config --> program : configured value or ContentRootPath/data
+program -> program : Directory.CreateDirectory(dataDir) (FS-L2-3, FS-L2-19)
+program -> config : ConnectionStrings:Default and PhotosPath (FS-L2-3)
+config --> program : overrides, or defaults under dataDir
+program -> photos : photos path resolved (FS-L2-19)
+program -> context : Database.EnsureCreated() (FS-L2-4)
+context -> db : create the schema when the file is new
+db --> context : schema present
+program -> seed : EnsureSeededAsync(db) (FS-L2-4)
+seed -> db : Avatars.AnyAsync()
+db --> seed : true or false
+alt no avatars yet
+  seed -> db : AddRange eight avatars; SaveChangesAsync (FS-L2-4)
+else avatars already present
+  seed -> seed : skip, so no duplicates are created (FS-L2-4)
+end
+seed -> db : Songs.AnyAsync()
+db --> seed : true or false
+alt no songs yet
+  seed -> db : AddRange the six public-domain songs; SaveChangesAsync (FS-L2-4)
+else songs already present
+  seed -> seed : skip, so no duplicates are created (FS-L2-4)
+end
+seed --> program : seeding complete
+program --> grownup : server listening with state in one folder (FS-L2-19)
+@enduml

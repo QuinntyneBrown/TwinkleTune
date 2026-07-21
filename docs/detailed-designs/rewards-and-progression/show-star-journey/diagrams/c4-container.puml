@@ -1,0 +1,23 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Show the Star Journey
+
+Person(singer, "Singer", "Checks her progress")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(me, "Progress screen", "TypeScript (screens/me.ts)", "Renders the five Star Journey panels")
+  Container(store, "Reward store", "TypeScript (state/store.ts)", "Sparkles, sing-days, badges, bests and the profile")
+  Container(badges, "Badge catalogue", "TypeScript (state/badges.ts)", "The six BadgeMeta entries with hints")
+  Container(repo, "Song repository", "TypeScript (songs/repo.ts)", "currentSongs() for titles and emoji")
+  Container(range, "Range helpers", "TypeScript (audio/range.ts)", "midiToName for the growth block")
+}
+System_Ext(storage, "Browser device storage", "localStorage")
+
+Rel(singer, me, "Opens the Me tab in")
+Rel(me, store, "get(): level, sparkles, singDays, badges, bests, profile.range (RP-L2-9)")
+Rel(me, badges, "Reads all six entries for the grid (RP-L2-9)")
+Rel(me, repo, "Reads catalogue songs for the mastered list (RP-L2-9)")
+Rel(me, range, "midiToName(low), midiToName(high) (RP-L2-9)")
+Rel(store, storage, "Loads the state blob", "localStorage")
+Rel(me, singer, "Presents XP bar, week strip, badges, mastered songs and growth to")
+@enduml

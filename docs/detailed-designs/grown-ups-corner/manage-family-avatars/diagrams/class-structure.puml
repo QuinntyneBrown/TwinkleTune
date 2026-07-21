@@ -1,0 +1,87 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Manage family avatars
+
+class "managers.ts" as ManagersMod <<module>> {
+  +showAvatarManager(): void
+  -avatarEditor(existing: ApiAvatar | null, onSaved: () => void): void
+  -refresh(): Promise<void>
+}
+
+interface ApiAvatar {
+  +id: string
+  +emoji: string
+  +name: string
+}
+
+class "api.avatars" as AvatarsApi <<client>> {
+  +list(): Promise<ApiAvatar[]>
+  +create(emoji: string, name: string): Promise<ApiAvatar>
+  +update(id: string, emoji: string, name: string): Promise<ApiAvatar>
+  +remove(id: string): Promise<void>
+}
+
+class ApiError {
+  +message: string
+  +errors: string[]
+}
+
+class AvatarsController {
+  +GetAll(ct): Task<List<AvatarDto>>
+  +Create(req: SaveAvatarRequest, ct): Task<IActionResult>
+  +Update(id: Guid, req: SaveAvatarRequest, ct): Task<IActionResult>
+  +Delete(id: Guid, ct): Task<IActionResult>
+}
+
+interface IAvatarService {
+  +GetAllAsync(ct): Task<List<AvatarDto>>
+  +GetAsync(id: Guid, ct): Task<AvatarDto?>
+  +CreateAsync(request, ct): Task<(AvatarDto? Avatar, string? Error)>
+  +UpdateAsync(id: Guid, request, ct): Task<(AvatarDto? Avatar, string? Error)>
+  +DeleteAsync(id: Guid, ct): Task<bool>
+}
+
+class AvatarService {
+  -Validate(request: SaveAvatarRequest): string?
+}
+
+class SaveAvatarRequest {
+  +Emoji: string
+  +Name: string
+}
+
+class Avatar {
+  +Id: Guid
+  +Emoji: string
+  +Name: string
+}
+
+interface IAvatarRepository {
+  +GetAllAsync(ct): Task<List<Avatar>>
+  +GetAsync(id: Guid, ct): Task<Avatar?>
+  +AddAsync(avatar: Avatar, ct): Task
+  +UpdateAsync(avatar: Avatar, ct): Task
+  +DeleteAsync(id: Guid, ct): Task<bool>
+}
+
+ManagersMod ..> AvatarsApi : calls
+ManagersMod ..> ApiAvatar : renders rows from
+AvatarsApi ..> ApiError : throws on 4xx
+AvatarsApi ..> AvatarsController : HTTP
+AvatarService ..|> IAvatarService
+AvatarsController --> IAvatarService : delegates to
+AvatarService ..> SaveAvatarRequest : validates and trims
+AvatarService --> Avatar : builds and mutates
+AvatarService --> IAvatarRepository : persists through
+@enduml

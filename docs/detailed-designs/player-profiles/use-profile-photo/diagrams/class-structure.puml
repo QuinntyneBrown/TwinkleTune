@@ -1,0 +1,83 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Use profile photo
+
+class SingersController {
+  -MaxPhotoBytes: long = 2 * 1024 * 1024
+  +SetPhoto(id: Guid): Task<IActionResult>
+  +GetPhoto(id: Guid): Task<IActionResult>
+}
+
+interface ISingerService {
+  +SetPhotoAsync(id: Guid, content: Stream, contentType: string): Task<SingerDto?>
+  +GetPhotoFileNameAsync(id: Guid): Task<string?>
+  +OpenPhoto(fileName: string): (Stream, string)?
+}
+
+interface IPhotoStorage {
+  +SaveAsync(singerId: Guid, content: Stream, contentType: string): Task<string>
+  +OpenRead(fileName: string): (Stream, string)?
+  +Delete(fileName: string): void
+}
+
+class PhotoStorage {
+  -rootPath: string
+  -ContentTypeToExt: Dictionary<string, string>
+  +{static} IsSupported(contentType: string): bool
+  +SaveAsync(singerId, content, contentType): Task<string>
+  +OpenRead(fileName: string): (Stream, string)?
+  +Delete(fileName: string): void
+}
+
+class Singer {
+  +Guid Id
+  +string? PhotoFileName
+}
+
+class SingerDto <<record>> {
+  +Guid Id
+  +string? AvatarEmoji
+  +bool HasPhoto
+}
+
+interface Profile {
+  +avatar: string
+  +photoUrl?: string | null
+}
+
+class "ui/parts.ts" as Parts <<module>> {
+  +avatarHTML(profile, cls, label): string
+}
+
+class "profiles.ts" as Picker <<module>> {
+  -singerAvatarHTML(s: ApiSinger): string
+}
+
+class "me.ts" as MeScreen <<module>> {
+  +renderMe(root: HTMLElement): void
+  ..
+  Always renders profile.avatar
+}
+
+PhotoStorage ..|> IPhotoStorage
+SingersController --> ISingerService : delegates to
+SingersController ..> PhotoStorage : IsSupported(contentType)
+ISingerService --> IPhotoStorage : SaveAsync / OpenRead / Delete
+ISingerService ..> Singer : sets PhotoFileName
+Singer ..> SingerDto : HasPhoto = PhotoFileName is not null
+SingerDto ..> Profile : photoUrl when HasPhoto
+Parts ..> Profile : photo over emoji
+Picker ..> SingerDto : photo with cache-buster
+MeScreen ..> Profile : emoji only
+@enduml

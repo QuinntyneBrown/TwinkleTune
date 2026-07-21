@@ -1,0 +1,69 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Switch active singer
+
+class "profiles.ts" as Picker <<module>> {
+  +renderProfiles(root: HTMLElement): void
+  -refresh(): Promise<void>
+  -singerAvatarHTML(s: ApiSinger): string
+  -singerDialog(existing, avatars, onSaved): void
+}
+
+class "profile.ts" as ProfileMod <<module>> {
+  +activateSinger(s: ApiSinger): void
+  +applySingerToProfile(s: ApiSinger): void
+  +pushProfileToServer(): Promise<void>
+}
+
+interface Store {
+  +get(): AppState
+  +update(fn: (s: AppState) => void): void
+  +switchKey(key: string): void
+}
+
+interface Profile {
+  +name: string
+  +avatar: string
+  +range: VoiceRange | null
+  +latencyMs: number
+  +singerId?: string | null
+  +avatarId?: string | null
+  +photoUrl?: string | null
+}
+
+interface ApiSinger {
+  +id: string
+  +name: string
+  +avatarId: string | null
+  +avatarEmoji: string | null
+  +hasPhoto: boolean
+  +rangeLow: number | null
+  +rangeHigh: number | null
+}
+
+class "api/client.ts" as ApiClient <<module>> {
+  +singers.list(): Promise<ApiSinger[]>
+  +singers.update(id: string, body: SaveSingerRequest): Promise<ApiSinger>
+  +singers.photoUrl(id: string): string
+  +avatars.list(): Promise<ApiAvatar[]>
+}
+
+Picker ..> ProfileMod : activateSinger
+Picker ..> ApiClient : lists singers and avatars
+Picker ..> ApiSinger : renders as cards
+ProfileMod ..> Store : switchKey and update
+ProfileMod ..> ApiSinger : merges into Profile
+ProfileMod ..> ApiClient : singers.update
+Store --> "0..1" Profile : state.profile
+@enduml

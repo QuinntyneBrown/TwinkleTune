@@ -1,0 +1,51 @@
+@startuml
+title UML sequence behaviour — Resolve a hash and mount a screen
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Young singer" as child
+box "Device — Browser location and DOM" #FFF4E5
+  participant "location / hashchange" as loc
+  participant "#app mount point" as appel
+end box
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "route() (main.ts)" as router
+  participant "store" as store
+  participant "mount() closure" as mount
+  participant "renderSing (screens/sing.ts)" as screen
+end box
+
+child -> loc : Tap a link to #/sing?song=twinkle&practice=2
+loc -> router : hashchange (AS-L2-4)
+router -> loc : Read location.hash
+loc --> router : "#/sing?song=twinkle&practice=2"
+router -> router : Strip the leading "#/" and split on "?" (AS-L2-1)
+router -> store : get().profile
+store --> router : Profile
+router -> router : name = "sing"; routes[name] exists (AS-L2-1)
+router -> mount : updateWithViewTransition(mount, ...)
+
+opt a previous screen is mounted
+  mount -> screen : cleanup() from the previous screen (AS-L2-4)
+  screen --> mount : Loops, timers, and audio nodes released
+end
+
+mount -> appel : innerHTML = '' (AS-L2-4)
+mount -> loc : window.scrollTo(0, 0) (AS-L2-4)
+mount -> screen : renderSing(app, URLSearchParams("song=twinkle&practice=2")) (AS-L2-1)
+screen -> appel : Write the screen markup
+screen --> mount : Cleanup callback
+mount -> mount : Retain cleanup; hasRendered = true
+appel --> child : Sing screen for "twinkle", practice phrase 2
+@enduml

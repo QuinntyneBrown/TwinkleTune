@@ -1,0 +1,19 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Track the daily goal and streak
+
+Person(singer, "Singer", "Sings songs day by day")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(sing, "Sing screen", "TypeScript (screens/sing.ts)", "Completes a play and calls recordPlay")
+  Container(store, "Reward store", "TypeScript (state/store.ts)", "Holds singDays and plays; exposes streakCount and songsSungOn")
+  Container(home, "Home dashboard", "TypeScript (screens/home.ts)", "Draws the goal ring and the streak chip")
+}
+System_Ext(storage, "Browser device storage", "localStorage")
+
+Rel(singer, sing, "Finishes a song in")
+Rel(sing, store, "recordPlay marks today as a sing-day and increments plays[today] (RP-L2-3)")
+Rel(home, store, "songsSungOn(state, today), streakCount(singDays, today) (RP-L2-3, RP-L2-4)")
+Rel(store, storage, "Persists the state blob", "localStorage")
+Rel(home, singer, "Shows the ring, the status message and the streak chip to")
+@enduml

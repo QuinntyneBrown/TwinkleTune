@@ -1,0 +1,23 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Summarize a performance
+
+Person(singer, "Singer", "Finishes singing a song")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(sing, "Sing screen", "TypeScript (sing.ts)", "Ends the song and calls summarize once")
+  Container(scoring, "Scoring rules", "TypeScript (scoring.ts)", "summarize and starsFromRatio")
+  Container(songs, "Song model", "TypeScript (songs/types.ts)", "songRange for the high-note threshold")
+  Container(store, "App state store", "TypeScript (store.ts)", "recordPlay writes lastResult")
+  Container(results, "Results screen", "TypeScript (results.ts)", "Renders the summary")
+}
+ContainerDb(storage, "Browser local storage", "Web Storage", "Per-singer state blob")
+
+Rel(singer, sing, "Finishes the song")
+Rel(sing, scoring, "summarize(song, results, noMic)")
+Rel(scoring, songs, "songRange(song).max")
+Rel(sing, store, "recordPlay(store, song, summary, today)")
+Rel(store, storage, "Persists the state blob", "localStorage")
+Rel(results, store, "Reads lastResult")
+Rel(results, singer, "Shows stars, accuracy and sparkles")
+@enduml

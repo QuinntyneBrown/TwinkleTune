@@ -1,0 +1,22 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Create and join a duet room
+
+Person(host, "Singer (host device)", "Makes the room")
+Person(guest, "Singer (guest device)", "Joins by code")
+
+System_Boundary(twinkletune, "TwinkleTune") {
+  Container(webHost, "TwinkleTune web app (host device)", "TypeScript, DOM modules", "Duet screen and DuetClient adapter")
+  Container(webGuest, "TwinkleTune web app (guest device)", "TypeScript, DOM modules", "Duet screen with the 4-character code guard")
+  Container(api, "TwinkleTune API", "ASP.NET Core (.NET 10)", "DuetHub at /hubs/duet")
+  Container(registry, "Room registry", "In-memory ConcurrentDictionary", "Rooms keyed by code; connection-to-code mapping")
+}
+
+Rel(host, webHost, "Uses", "HTTPS")
+Rel(guest, webGuest, "Uses", "HTTPS")
+Rel(webHost, api, "Invokes CreateRoom", "SignalR/WebSockets")
+Rel(webGuest, api, "Invokes JoinRoom", "SignalR/WebSockets")
+Rel(api, registry, "Creates rooms, checks the two-player cap", "In-process call")
+Rel(api, webHost, "Sends PlayerJoined to the other player", "SignalR/WebSockets")
+@enduml

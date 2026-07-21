@@ -1,0 +1,40 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Test the platform deterministically
+
+Container_Boundary(unit, "TwinkleTune.UnitTests") {
+  Component(roomtests, "RoomServiceTests", "xUnit test class", "Code alphabet, join errors, two-singer limit, synchronised start, idle expiry")
+  Component(hstests, "HighScoreServiceTests", "xUnit test class", "Upsert-if-better semantics over fake repositories")
+  Component(songtests, "SongValidatorTests", "xUnit test class", "MinMidi 48, MaxMidi 84, MaxSpan 16 invariants")
+  Component(faketime, "FakeTime", "TimeProvider subclass", "Returns a clock value the test sets (FS-L2-17)")
+  Component(fakerepos, "FakeHighScores / FakeSongs / FakeSingers", "In-memory test doubles", "Let a service be constructed without a database")
+}
+
+Container_Boundary(integration, "TwinkleTune.IntegrationTests") {
+  Component(factory, "ApiFactory", "WebApplicationFactory<Program>", "Overrides data paths to a temporary folder and deletes it on dispose")
+  Component(crudtests, "CrudEndpointTests", "xUnit test class", "Health, seed data, avatar, singer, photo, song, and high-score round-trips")
+  Component(duettests, "DuetFlowTests", "xUnit test class", "Two hub clients complete create, join, start, ticks, finish, and result")
+}
+
+Container_Boundary(app, "TwinkleTune family server") {
+  Component(program, "Program", "public partial class Program;", "Entry point exposed as a generic argument (FS-L2-18)")
+  Component(di, "DependencyInjection", "Service registration", "services.TryAddSingleton(TimeProvider.System)")
+  Component(roomsvc, "RoomService", "Application service", "LastActivity, StartAtUtc = now + 3 s, IdleExpiry 30 min")
+  Component(hssvc, "HighScoreService", "Application service", "Stamps AchievedAt from the injected clock")
+  Component(singersvc, "SingerService", "Application service", "Stamps Singer.CreatedAt from the injected clock")
+}
+
+Rel(roomtests, faketime, "Fixes and advances the clock")
+Rel(roomtests, roomsvc, "Constructs with FakeTime (FS-L2-17)")
+Rel(hstests, fakerepos, "Composes the service over")
+Rel(hstests, hssvc, "Asserts upsert-if-better")
+Rel(songtests, app, "Asserts domain invariants")
+Rel(faketime, di, "Substitutes the TryAdd registration (FS-L2-17)")
+Rel(di, roomsvc, "Injects TimeProvider into")
+Rel(di, hssvc, "Injects TimeProvider into")
+Rel(di, singersvc, "Injects TimeProvider into")
+Rel(factory, program, "Binds as WebApplicationFactory<Program> (FS-L2-18)")
+Rel(crudtests, factory, "Creates an HttpClient from")
+Rel(duettests, factory, "Creates hub connections from Server.CreateHandler()")
+@enduml

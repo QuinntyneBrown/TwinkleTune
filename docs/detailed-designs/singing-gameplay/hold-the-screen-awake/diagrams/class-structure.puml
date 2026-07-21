@@ -1,0 +1,63 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Hold the screen awake
+
+class SingingWakeLock {
+  -sentinel: WakeLockSentinel?
+  -wanted: boolean
+  -requesting: boolean
+  +SingingWakeLock()
+  +request(): void
+  +suspend(): void
+  +destroy(): void
+  -acquire(): Promise<void>
+  -releaseCurrent(): Promise<void>
+  -onVisibilityChange: () => void
+}
+
+interface WakeLock <<browser>> {
+  +request(type: "screen"): Promise<WakeLockSentinel>
+}
+
+interface WakeLockSentinel <<browser>> {
+  +released: boolean
+  +release(): Promise<void>
+  +addEventListener("release", handler): void
+}
+
+interface Navigator <<browser>> {
+  +wakeLock?: WakeLock
+}
+
+interface Document <<browser>> {
+  +visibilityState: "visible" | "hidden"
+  +addEventListener("visibilitychange", handler): void
+  +removeEventListener("visibilitychange", handler): void
+}
+
+class "sing.ts" as Sing <<screen module>> {
+  -wakeLock: SingingWakeLock
+  -onStart(): void
+  -onPause(): void
+  -onFinish(): void
+  -cleanup(): void
+}
+
+Sing *--> "1" SingingWakeLock : owns for one screen lifecycle
+SingingWakeLock --> "0..1" WakeLockSentinel : sentinel
+SingingWakeLock ..> Navigator : reads wakeLock through a Partial cast
+SingingWakeLock ..> Document : visibilityState; listener added and removed
+Navigator --> "0..1" WakeLock : wakeLock
+WakeLock ..> WakeLockSentinel : request("screen") resolves to
+@enduml

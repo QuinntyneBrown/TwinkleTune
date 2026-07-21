@@ -1,0 +1,22 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Manage family avatars
+
+Person(grownup, "Grown-up", "Curates the avatar set")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(hub, "Grown-Ups Corner hub", "TypeScript (settings.ts)", "Opens the avatar manager")
+  Container(manager, "Avatar manager and editor", "TypeScript (managers.ts)", "Row list, two-field form, delete control")
+  Container(client, "REST client", "TypeScript (api/client.ts)", "api.avatars and ApiError")
+}
+System_Boundary(family, "Family server") {
+  Container(api, "TwinkleTune API", "ASP.NET Core", "AvatarsController and AvatarService")
+  ContainerDb(db, "Family database", "SQLite via EF Core", "Avatars and singers")
+}
+
+Rel(grownup, hub, "Chooses Avatars")
+Rel(hub, manager, "showAvatarManager()")
+Rel(manager, client, "api.avatars.list / create / update / remove")
+Rel(client, api, "GET, POST, PUT, DELETE /api/avatars", "JSON/HTTPS")
+Rel(api, db, "Reads and writes avatars", "EF Core")
+@enduml

@@ -1,0 +1,69 @@
+@startuml
+title UML sequence behaviour — Join a duet room by code
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer (guest device)" as guest
+box "Frontend — TwinkleTune web app (guest device)" #E0F2FE
+  participant "renderDuet" as screen
+  participant "DuetClient" as client
+end box
+box "Frontend — TwinkleTune web app (host device)" #E0F2FE
+  participant "renderDuet (host)" as hostScreen
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "DuetHub" as hub
+end box
+box "Backend — TwinkleTune Application and Domain" #ECFDF3
+  participant "RoomService" as service
+end box
+box "Backend — TwinkleTune Infrastructure" #FFF4E5
+  database "Room registry (in memory)" as registry
+end box
+
+guest -> screen : Type the code and tap "Join the duet!"
+alt code.trim().length != 4
+  screen --> guest : Toast "Codes have 4 letters!" — no hub call (DM-L2-2)
+else 4 characters entered
+  screen -> client : joinRoom(code.trim().toUpperCase(), me)
+  client -> hub : invoke JoinRoom(code, DuetPlayerInfo)
+  hub -> service : Join(code, connectionId, info)
+  service -> service : code.Trim().ToUpperInvariant() (DM-L2-2)
+  service -> registry : TryGetValue(code)
+  alt code not found
+    registry --> service : miss
+    service --> hub : JoinResult(null, "That room code wasn't found — check the letters!") (DM-L2-2)
+    hub --> client : HubException with the message
+    client --> screen : rejected promise
+    screen --> guest : Toast "That code wasn't found — check the letters!"
+  else room already holds two players
+    registry --> service : Room with Players.Count == 2
+    service --> hub : JoinResult(null, "That room already has two singers!") (DM-L2-3)
+    hub --> client : HubException with the message
+    client --> screen : rejected promise
+    screen --> guest : Toast "That room is already full!"
+  else room open
+    registry --> service : Room with Players.Count == 1
+    service -> registry : Add player and set LastActivity (DM-L2-3)
+    service -> registry : _connectionToCode[connectionId] = code
+    service --> hub : JoinResult(RoomStateDto, null)
+    hub -> hub : Groups.AddToGroupAsync(connectionId, code)
+    hub -> hostScreen : Send PlayerJoined(info) to others in the group
+    hostScreen --> hub : Lobby repainted with both singers
+    hub --> client : RoomStateDto
+    client --> screen : RoomState
+    screen --> guest : Show the lobby with both singers
+  end
+end
+@enduml

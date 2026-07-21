@@ -1,0 +1,72 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Record a completed play
+
+interface Store {
+  +get(): AppState
+  +set(patch: Partial<AppState>): void
+  +update(fn: (s: AppState) => void): void
+  +switchKey(key: string): void
+  +reset(): void
+}
+
+interface AppState {
+  +sparkles: number
+  +singDays: string[]
+  +plays: Record<string, number>
+  +bests: Record<string, SongBest>
+  +badges: Record<string, string>
+  +lastResult: SongSummary?
+  +lastSongId: string?
+  +lastNewBadges: string[]
+}
+
+interface SongSummary {
+  +songId: string
+  +songTitle: string
+  +stars: 1 | 2 | 3
+  +accuracy: number
+  +sparkles: number
+  +noMic: boolean
+}
+
+interface Song {
+  +id: string
+  +title: string
+  +difficulty: 1 | 2 | 3
+}
+
+interface SongBest {
+  +stars: number
+  +accuracy: number
+  +plays: number
+}
+
+class "state/store.ts" as StoreMod <<module>> {
+  +recordPlay(store: Store, song: Song, summary: SongSummary, today: string): string[]
+  +streakCount(singDays: readonly string[], today: string): number
+}
+
+class "state/badges.ts" as BadgesMod <<module>> {
+  +evaluateBadges(ctx: BadgeContext): string[]
+}
+
+StoreMod ..> Store : update
+StoreMod ..> Song : keys the best and reads difficulty
+StoreMod ..> SongSummary : folds
+StoreMod ..> BadgesMod : evaluateBadges
+Store --> AppState : holds
+AppState "1" --> "*" SongBest : bests
+AppState --> "0..1" SongSummary : lastResult
+@enduml

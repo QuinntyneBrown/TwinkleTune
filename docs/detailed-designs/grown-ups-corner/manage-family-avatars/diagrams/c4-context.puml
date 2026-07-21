@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Manage family avatars
+
+Person(grownup, "Grown-up", "Curates the family's avatar set")
+Person(singer, "Young singer", "Picks an avatar from the curated set")
+System(twinkle, "TwinkleTune web app", "Grown-Ups Corner avatar manager and editor (TypeScript)")
+System_Ext(server, "Family server", "Home-LAN ASP.NET Core server owning avatars and singers")
+
+Rel(grownup, twinkle, "Adds, edits and removes avatars in")
+Rel(singer, twinkle, "Chooses from the curated avatars in")
+Rel(twinkle, server, "Lists, creates, updates and deletes avatars", "JSON/HTTPS")
+@enduml

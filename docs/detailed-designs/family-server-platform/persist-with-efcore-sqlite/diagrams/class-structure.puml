@@ -1,0 +1,93 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Persist with EF Core and SQLite
+
+class AppDbContext {
+  +DbSet<Avatar> Avatars
+  +DbSet<Singer> Singers
+  +DbSet<Song> Songs
+  +DbSet<HighScore> HighScores
+  -JsonOptions: JsonSerializerOptions
+  #OnModelCreating(modelBuilder: ModelBuilder): void
+}
+
+class Song {
+  +Guid Id
+  +string Title
+  +string Emoji
+  +int Art
+  +int Bpm
+  +int Difficulty
+  +List<SongPhrase> Phrases
+  +bool IsSeed
+  +DateTimeOffset UpdatedAt
+}
+
+class SongPhrase <<record>> {
+  +string Lyric
+  +List<SongNote> Notes
+}
+
+class SongNote <<record>> {
+  +int Midi
+  +double Start
+  +double Dur
+  +string Syll
+}
+
+class "ValueConverter<List<SongPhrase>, string>" as Converter {
+  +to: JsonSerializer.Serialize(v, JsonOptions)
+  +from: JsonSerializer.Deserialize<List<SongPhrase>>(v, JsonOptions)
+}
+
+class "ValueComparer<List<SongPhrase>>" as Comparer {
+  +equals: serialized text equality
+  +hashCode: serialized text hash
+  +snapshot: serialize then deserialize
+}
+
+class SeedData <<static>> {
+  +EnsureSeededAsync(db: AppDbContext, ct): Task
+  -Make(title, emoji, art, bpm, difficulty, phrases): Song
+}
+
+class SongRepository {
+  +GetAllAsync(ct): Task<List<Song>>
+  +GetAsync(id, ct): Task<Song?>
+  +AddAsync(song, ct): Task
+  +UpdateAsync(song, ct): Task
+  +DeleteAsync(id, ct): Task<bool>
+}
+
+class SingerRepository {
+  +GetAllAsync(ct): Task<List<Singer>>
+  +GetAsync(id, ct): Task<Singer?>
+}
+
+class PhotoStorage {
+  -rootPath: string
+  +SaveAsync(singerId, content, contentType, ct): Task<string>
+  +OpenRead(fileName): (Stream, string)?
+  +Delete(fileName): void
+}
+
+AppDbContext "1" *-- "*" Song : Songs
+Song "1" *-- "*" SongPhrase : Phrases
+SongPhrase "1" *-- "*" SongNote : Notes
+AppDbContext ..> Converter : maps Song.Phrases with
+Converter --> Comparer : paired with
+SeedData ..> AppDbContext : seeds when empty
+SongRepository --> AppDbContext : db
+SingerRepository --> AppDbContext : db
+@enduml

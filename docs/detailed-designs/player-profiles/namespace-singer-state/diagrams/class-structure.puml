@@ -1,0 +1,76 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Namespace singer state
+
+interface StorageLike {
+  +getItem(key: string): string | null
+  +setItem(key: string, value: string): void
+  +removeItem(key: string): void
+}
+
+interface Store {
+  +get(): AppState
+  +set(patch: Partial<AppState>): void
+  +update(fn: (s: AppState) => void): void
+  +switchKey(key: string): void
+  +reset(): void
+}
+
+interface AppState {
+  +profile: Profile | null
+  +sparkles: number
+  +singDays: string[]
+  +plays: Record<string, number>
+  +bests: Record<string, SongBest>
+  +badges: Record<string, string>
+  +lastResult: SongSummary | null
+  +lastSongId: string | null
+  +lastNewBadges: string[]
+}
+
+interface Profile {
+  +name: string
+  +avatar: string
+  +range: VoiceRange | null
+  +latencyMs: number
+  +singerId?: string | null
+  +avatarId?: string | null
+  +photoUrl?: string | null
+}
+
+interface VoiceRange {
+  +low: number
+  +high: number
+}
+
+class "store.ts" as StoreMod <<module>> {
+  -KEY: string = 'twinkletune:v1'
+  -ACTIVE_KEY: string = 'twinkletune:active-singer'
+  -rootStorage: StorageLike
+  +store: Store
+  +profileKey(singerId: string): string
+  +createStore(storage: StorageLike, initialKey: string): Store
+  +getActiveSingerId(): string | null
+  +setActiveSingerId(id: string | null): void
+  +adoptLegacyState(singerId: string): void
+  +recordPlay(store, song, summary, today): string[]
+}
+
+StoreMod ..> Store : creates
+StoreMod --> StorageLike : rootStorage
+Store ..> AppState : reads and writes
+Store ..> StorageLike : persists at the current key
+AppState --> "0..1" Profile : profile
+Profile --> "0..1" VoiceRange : range
+@enduml

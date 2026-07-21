@@ -1,0 +1,58 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Keep song bests
+
+interface SongBest {
+  +stars: number
+  +accuracy: number
+  +plays: number
+}
+
+interface AppState {
+  +bests: Record<string, SongBest>
+  +sparkles: number
+  +singDays: string[]
+  +plays: Record<string, number>
+}
+
+interface SongSummary {
+  +songId: string
+  +stars: 1 | 2 | 3
+  +accuracy: number
+  +landed: number
+  +total: number
+  +noMic: boolean
+}
+
+interface Song {
+  +id: string
+  +title: string
+  +emoji: string
+  +difficulty: 1 | 2 | 3
+}
+
+class "state/store.ts" as StoreMod <<module>> {
+  +recordPlay(store, song, summary, today): string[]
+}
+
+class "screens/home.ts" as HomeMod <<module>> {
+  -masteredCount: number
+}
+
+AppState "1" --> "*" SongBest : bests keyed by song id
+StoreMod ..> SongSummary : folds
+StoreMod ..> Song : keys the best by id
+StoreMod ..> SongBest : writes with Math.max
+HomeMod ..> SongBest : counts stars > 0
+@enduml

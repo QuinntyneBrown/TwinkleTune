@@ -1,0 +1,57 @@
+@startuml
+title UML sequence behaviour — Reveal the badges and choose the coach message
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "renderResults() (results.ts)" as results
+  participant "App state store (store.ts)" as store
+  participant "badgeById() (state/badges.ts)" as badges
+  participant "duetSession (api/duet.ts)" as duet
+end box
+
+results -> store : get()
+store --> results : lastNewBadges and lastResult
+
+loop for each id in lastNewBadges
+  results -> badges : badgeById(id)
+  alt id resolves
+    badges --> results : BadgeMeta { emoji, name }
+    results -> results : chip "<emoji> New badge: <name>!" (SR-L2-12)
+  else id unknown
+    badges --> results : undefined
+    results -> results : chip dropped (SR-L2-12)
+  end
+end
+
+results -> duet : get()
+alt duet outcome
+  duet --> results : DuetSession
+  results -> results : bubble = "What a duet! Singing together is the best magic." (SR-L2-13)
+else solo outcome
+  duet --> results : null
+  alt no-mic run
+    results -> results : invite a scored run with Twinkle listening (SR-L2-13)
+  else trickyLyric present
+    results -> results : name the phrase and invite practising just that bit (SR-L2-13)
+  else stars == 3
+    results -> results : celebrate the clean run and suggest a brave new song (SR-L2-13)
+  else one or two stars
+    results -> results : warm encouragement for one more sing (SR-L2-13)
+  end
+end
+
+results --> singer : Badge chips and the coach bubble
+@enduml

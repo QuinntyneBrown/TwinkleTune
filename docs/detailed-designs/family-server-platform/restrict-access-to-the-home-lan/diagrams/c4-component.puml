@@ -1,0 +1,28 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Restrict access to the home LAN
+
+Container_Boundary(api, "TwinkleTune.Api") {
+  Component(cors, "CORS policy \"app\"", "AddCors + UseCors", "WithOrigins(Cors:Origins).AllowAnyHeader().AllowAnyMethod().AllowCredentials()")
+  Component(program, "Program.cs", "Minimal hosting", "Reads Cors:Origins; registers no authentication")
+  Component(singers, "SingersController", "ASP.NET Core controller", "SetPhoto guards size and type; GetPhoto reads the stored name")
+}
+Container_Boundary(application, "TwinkleTune.Application") {
+  Component(service, "SingerService", "Plain service", "SetPhotoAsync, OpenPhoto, GetPhotoFileNameAsync")
+  Component(abstraction, "IPhotoStorage", "Interface", "SaveAsync, OpenRead, Delete")
+}
+Container_Boundary(infra, "TwinkleTune.Infrastructure") {
+  Component(storage, "PhotoStorage", "Disk class", "Path.GetFileName reduction; three supported content types")
+  ComponentDb(folder, "photos root", "Disk directory", "Every stored photo lives here")
+}
+Container(web, "TwinkleTune web app", "TypeScript PWA", "Calls from a configured origin")
+
+Rel(web, cors, "Preflight and actual request", "JSON/HTTP")
+Rel(program, cors, "Builds from Cors:Origins (FS-L2-10)")
+Rel(cors, singers, "Passes allowed origins through to routing (FS-L2-10)")
+Rel(singers, service, "SetPhotoAsync / OpenPhoto (FS-L2-12)")
+Rel(service, abstraction, "Depends on")
+Rel(storage, abstraction, "Implements")
+Rel(storage, folder, "Resolves paths only inside (FS-L2-12)", "File system")
+@enduml

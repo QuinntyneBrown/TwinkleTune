@@ -1,0 +1,20 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Persist with EF Core and SQLite
+
+Person(grownup, "Grown-up", "Configures and backs up the server")
+System_Boundary(server, "TwinkleTune family server") {
+  Container(api, "TwinkleTune.Api", "ASP.NET Core (net10.0)", "Resolves DataPath, connection string, and PhotosPath at startup")
+  Container(infra, "TwinkleTune.Infrastructure", ".NET class library", "AppDbContext, SeedData, repositories, PhotoStorage")
+  ContainerDb(db, "twinkletune.db", "SQLite file", "Avatars, singers, songs (phrases as JSON), high scores")
+  Container(photos, "photos folder", "Disk directory", "One image file per singer, named {singerId}{ext}")
+}
+Container(config, "appsettings.json and environment", "Configuration", "DataPath, ConnectionStrings:Default, PhotosPath")
+
+Rel(grownup, config, "Overrides locations in")
+Rel(api, config, "Reads locations from", "IConfiguration")
+Rel(api, infra, "Calls AddInfrastructure(connectionString, photosPath)")
+Rel(infra, db, "Creates schema, seeds, queries, saves", "EF Core + SQLite")
+Rel(infra, photos, "Writes and reads image files", "File system")
+@enduml

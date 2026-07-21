@@ -1,0 +1,16 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Present shared chrome
+
+Person(child, "Young singer", "Taps the bottom bar and reads every screen through the same frame")
+Person(grownup, "Grown-up", "Sets the app up and occasionally sings too")
+System(twinkle, "TwinkleTune web app", "Renders one screen at a time inside a shared kid-first frame (TypeScript, CSS)")
+System_Ext(at, "Assistive technology", "Screen reader consuming the accessibility tree")
+System_Ext(mocks, "Design mockups", "docs/mocks — the visual source of truth for palette, type, and controls")
+
+Rel(child, twinkle, "Navigates with the four-item bottom bar")
+Rel(grownup, twinkle, "Reads the same shell on a shared device")
+Rel(twinkle, at, "Exposes navigation and content; hides decor with aria-hidden")
+Rel(mocks, twinkle, "Defines the pastel palette and chunky control styling")
+@enduml

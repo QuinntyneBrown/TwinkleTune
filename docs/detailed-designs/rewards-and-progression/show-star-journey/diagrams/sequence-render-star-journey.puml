@@ -1,0 +1,66 @@
+@startuml
+title UML sequence behaviour — Render the Star Journey
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "renderMe()" as me
+  participant "Reward store" as store
+  participant "BADGES catalogue" as badges
+  participant "currentSongs()" as repo
+  participant "midiToName()" as range
+end box
+box "Device — Browser storage" #FFF4E5
+  database "localStorage" as ls
+end box
+
+singer -> me : Open the Me tab
+me -> store : get()
+store -> ls : getItem(key)
+ls --> store : stored state blob
+store --> me : AppState snapshot
+
+me -> me : lvl = level(sparkles); toNext = sparklesToNextLevel(sparkles) (RP-L2-9)
+me -> me : xpPct = round(((sparkles mod 300) / 300) * 100) (RP-L2-9)
+me -> me : week = currentWeek(todayISO()) — seven dates, Monday first (RP-L2-9)
+me -> me : mark each cell ⭐ when in singDays, 🎤 for today, · otherwise (RP-L2-9)
+
+me -> badges : BADGES
+badges --> me : six BadgeMeta entries
+loop for each badge
+  alt badge.id in state.badges
+    me -> me : render the emoji as earned (RP-L2-9)
+  else not yet earned
+    me -> me : render 🔒 with badge.hint as the title (RP-L2-9)
+  end
+end
+
+me -> repo : currentSongs()
+repo --> me : catalogue songs
+me -> me : pair with bests, keep stars > 0, sort by stars descending (RP-L2-9)
+alt at least one mastered song
+  me -> me : row per song with ★ repeated to best stars (RP-L2-9)
+else none mastered
+  me -> me : "Sing your first song and it'll shine here!" (RP-L2-9)
+end
+
+opt profile.range captured
+  me -> range : midiToName(low), midiToName(high)
+  range --> me : note names
+  me -> me : growth block with high - low + 1 notes (RP-L2-9)
+end
+
+me --> singer : Star Journey with XP bar, week strip, badges, mastered songs and growth
+@enduml

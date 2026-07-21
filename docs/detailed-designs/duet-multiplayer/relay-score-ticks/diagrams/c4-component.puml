@@ -1,0 +1,26 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Relay score ticks
+
+Container_Boundary(webHost, "TwinkleTune web app (host device)") {
+  Component(finalize, "finalizeNotesUpTo", "sing.ts loop function", "Settles a note, updates landed and streak, sends one tick")
+  Component(clientA, "DuetClient (sender)", "api/duet.ts adapter", "sendTick() with a swallowed failure")
+}
+
+Container_Boundary(webGuest, "TwinkleTune web app (guest device)") {
+  Component(clientB, "DuetClient (receiver)", "api/duet.ts adapter", "onOpponentTick() and onOpponentFinished()")
+  Component(chip, "Opponent chip", "sing.ts [data-opponent] element", "Avatar, name, sparkles, streak indicator from 3")
+}
+
+Container_Boundary(api, "TwinkleTune API") {
+  Component(hub, "DuetHub", "SignalR hub", "ScoreTick relays OpponentTick to others in the group")
+  Component(service, "RoomService", "IRoomService implementation", "GetRoomCode(connectionId); no write on relay")
+}
+
+Rel(finalize, clientA, "sendTick({ landed, streak, sparkles, noteIdx })")
+Rel(clientA, hub, "Invokes ScoreTick", "SignalR/WebSockets")
+Rel(hub, service, "GetRoomCode(connectionId)")
+Rel(hub, clientB, "Sends OpponentTick to others in the group", "SignalR/WebSockets")
+Rel(clientB, chip, "Rewrites the chip text")
+@enduml

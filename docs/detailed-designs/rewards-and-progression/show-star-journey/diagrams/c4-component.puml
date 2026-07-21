@@ -1,0 +1,34 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Show the Star Journey (screens/me.ts)
+
+Container_Boundary(me, "Progress screen — screens/me.ts") {
+  Component(render, "renderMe()", "TypeScript function", "Reads one state snapshot and composes the page")
+  Component(xp, "XP card", "DOM section", "Level, toNext sparkles and the xpPct fill")
+  Component(week, "Week strip", "DOM section", "Seven cells marked sung, today or empty")
+  Component(currentWeek, "currentWeek()", "Local helper", "Seven ISO dates, Monday first")
+  Component(letters, "DAY_LETTERS", "Constant", "M T W T F S S")
+  Component(grid, "Badge grid", "DOM section", "Six badges, earned emoji or padlock with hint")
+  Component(mastered, "Mastered list", "DOM section", "Songs with best stars > 0, sorted by stars")
+  Component(growth, "Growth block", "DOM section", "Voice range in note names, or a link to voice setup")
+}
+Component(store, "Reward store", "state/store.ts", "sparkles, singDays, badges, bests, profile")
+Component(levels, "level / levelTitle / sparklesToNextLevel", "state/store.ts", "Level derivations")
+Component(catalogue, "BADGES", "state/badges.ts", "Six BadgeMeta entries")
+Component(repo, "currentSongs()", "songs/repo.ts", "Catalogue songs")
+Component(midi, "midiToName()", "audio/range.ts", "MIDI number to note name")
+
+Rel(render, store, "get() once per render")
+Rel(render, levels, "level, levelTitle, sparklesToNextLevel (RP-L2-9)")
+Rel(render, xp, "Fills with xpPct = (sparkles mod 300) / 300 (RP-L2-9)")
+Rel(render, currentWeek, "Seven dates of the current week")
+Rel(currentWeek, week, "Supplies the cell dates (RP-L2-9)")
+Rel(letters, week, "Labels the cells")
+Rel(render, grid, "Marks each badge earned or locked (RP-L2-9)")
+Rel(catalogue, grid, "Names, emoji and hints")
+Rel(render, mastered, "Filters bests on stars > 0 and sorts (RP-L2-9)")
+Rel(repo, mastered, "Song titles and emoji")
+Rel(render, growth, "Renders the range or the voice-setup invitation (RP-L2-9)")
+Rel(midi, growth, "Low and high note names")
+@enduml

@@ -1,0 +1,22 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Reset the device
+
+Container_Boundary(hub, "Grown-Ups Corner hub (settings.ts)") {
+  Component(button, "[data-reset] button", "HTML control", "'Start everything over' in the danger zone")
+  Component(dialog, "Reset confirmation", "showModal card", "'Really start over?' with [data-yes] and [data-no]")
+}
+Container_Boundary(state, "State layer (state/store.ts)") {
+  Component(reset, "Store.reset()", "TypeScript method", "state = emptyState(); storage.removeItem(key)")
+  Component(empty, "emptyState()", "TypeScript factory", "Null profile, zeroed sparkles, empty bests and badges")
+  ComponentDb(local, "localStorage blob", "Browser storage", "twinkletune:v1[:singerId]")
+}
+Component(router, "Hash router", "TypeScript", "Navigates to #/welcome")
+
+Rel(button, dialog, "close() then open")
+Rel(dialog, reset, "Only from [data-yes]")
+Rel(reset, empty, "Builds the replacement state")
+Rel(reset, local, "removeItem(key)")
+Rel(dialog, router, "location.hash = '#/welcome'")
+@enduml

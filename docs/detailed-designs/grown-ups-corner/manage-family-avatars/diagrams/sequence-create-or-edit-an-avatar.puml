@@ -1,0 +1,62 @@
+@startuml
+title UML sequence behaviour — Create or edit an avatar
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "showAvatarManager()" as manager
+  participant "avatarEditor()" as editor
+  participant "api.avatars" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "AvatarsController" as controller
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "AvatarService" as service
+  participant "Avatar" as entity
+end box
+box "Backend — Infrastructure" #FFF4E5
+  database "Family database" as db
+end box
+
+actor -> manager : Tap "+ New avatar" or a row's edit control
+manager -> editor : avatarEditor(existing | null, onSaved)
+editor --> actor : Emoji field (max 4) and name field (max 30)
+actor -> editor : Enter the emoji and name, tap Save
+editor -> editor : Trim both field values
+editor -> client : create(emoji, name) or update(id, emoji, name) (GC-L2-8)
+client -> controller : POST /api/avatars or PUT /api/avatars/{id}
+controller -> service : CreateAsync / UpdateAsync
+service -> service : Validate: emoji present, name present, name at most 30 characters
+
+alt request valid
+  service -> entity : Build or mutate with trimmed Emoji and Name
+  entity --> service : Avatar
+  service -> db : Add or update the row
+  db --> service : Saved
+  service --> controller : AvatarDto
+  controller --> client : 201 Created or 200 OK
+  client --> editor : Stored avatar
+  editor -> manager : close(); toast "Saved!"; onSaved() (GC-L2-8)
+  manager -> client : api.avatars.list()
+  client --> manager : Refreshed avatar set
+  manager --> actor : List including the saved avatar (GC-L2-8)
+else request invalid or id unknown
+  service --> controller : Error message, or a null avatar for an unknown id
+  controller --> client : 400 with { error }, or 404
+  client --> editor : ApiError
+  editor --> actor : Toast the message; the form stays open with the entered values
+end
+@enduml

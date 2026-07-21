@@ -1,0 +1,83 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Expose the REST and health surface
+
+class Program <<static>> {
+  +AddControllers(): void
+  +AddSignalR(): void
+  +AddOpenApi(): void
+  +MapGet("/health"): Results.Ok(new { status = "ok" })
+  +MapControllers(): void
+  +MapHub<DuetHub>("/hubs/duet"): void
+}
+
+class AvatarsController <<Route api/avatars>> {
+  +GetAll(ct): Task<List<AvatarDto>>
+  +Create(req, ct): Task<IActionResult>
+  +Update(id, req, ct): Task<IActionResult>
+  +Delete(id, ct): Task<IActionResult>
+}
+
+class SingersController <<Route api/singers>> {
+  -MaxPhotoBytes: long = 2 * 1024 * 1024
+  +GetAll(ct): Task<List<SingerDto>>
+  +Get(id, ct): Task<IActionResult>
+  +Create(req, ct): Task<IActionResult>
+  +Update(id, req, ct): Task<IActionResult>
+  +Delete(id, ct): Task<IActionResult>
+  +SetPhoto(id, ct): Task<IActionResult>
+  +GetPhoto(id, ct): Task<IActionResult>
+}
+
+class SongsController <<Route api/songs>> {
+  +GetAll(ct): Task<List<SongDto>>
+  +Get(id, ct): Task<IActionResult>
+  +Create(req, ct): Task<IActionResult>
+  +Update(id, req, ct): Task<IActionResult>
+  +Delete(id, ct): Task<IActionResult>
+}
+
+class HighScoresController {
+  +Submit(req, ct): Task<IActionResult> "POST /api/highscores"
+  +ForSong(songId, ct): Task<List<HighScoreDto>> "GET /api/songs/{songId}/highscores"
+  +ForSinger(singerId, ct): Task<List<HighScoreDto>> "GET /api/singers/{singerId}/highscores"
+}
+
+class DuetHub <<SignalR hub>> {
+  +CreateRoom(info): Task<RoomStateDto>
+  +JoinRoom(code, info): Task<RoomStateDto>
+  +StartSong(songId): Task
+  +ScoreTick(tick): Task
+  +FinishSong(summary): Task
+  +LeaveRoom(): Task
+  +OnDisconnectedAsync(exception): Task
+}
+
+interface IAvatarService
+interface ISingerService
+interface ISongService
+interface IHighScoreService
+interface IRoomService
+
+Program ..> AvatarsController : maps
+Program ..> SingersController : maps
+Program ..> SongsController : maps
+Program ..> HighScoresController : maps
+Program ..> DuetHub : maps at /hubs/duet
+AvatarsController --> IAvatarService : svc
+SingersController --> ISingerService : svc
+SongsController --> ISongService : svc
+HighScoresController --> IHighScoreService : svc
+DuetHub --> IRoomService : rooms
+@enduml

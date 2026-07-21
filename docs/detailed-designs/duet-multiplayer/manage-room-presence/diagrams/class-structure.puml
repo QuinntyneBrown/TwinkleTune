@@ -1,0 +1,87 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Manage room presence
+
+interface IRoomService {
+  +Leave(connectionId: string): LeaveResult?
+  +GetRoomCode(connectionId: string): string?
+}
+
+class RoomService {
+  -time: TimeProvider
+  -{static} IdleExpiry: TimeSpan = 30 min
+  -_rooms: ConcurrentDictionary<string, Room>
+  -_connectionToCode: ConcurrentDictionary<string, string>
+  +Leave(connectionId): LeaveResult?
+  -CleanupExpired(): void
+}
+
+class LeaveResult <<record>> {
+  +Code: string
+  +Player: DuetPlayerInfo
+  +RoomClosed: bool
+}
+
+class Room <<private nested>> {
+  +Code: string
+  +Players: List<Player>
+  +LastActivity: DateTimeOffset
+}
+
+class DuetHub {
+  +LeaveRoom(): Task
+  +OnDisconnectedAsync(exception: Exception?): Task
+  -HandleLeaveAsync(): Task
+}
+
+class DuetClient <<TypeScript>> {
+  -conn: HubConnection
+  +{static} connect(): Promise<DuetClient>
+  +onPlayerJoined(cb): void
+  +onPlayerLeft(cb): void
+  +leave(): Promise<void>
+}
+
+class HubConnection <<@microsoft/signalr>> {
+  +start(): Promise<void>
+  +invoke(method, ...args): Promise<T>
+  +on(event, handler): void
+  +stop(): Promise<void>
+}
+
+interface DuetSession <<TypeScript>> {
+  +client: DuetClient
+  +code: string
+  +me: DuetPlayerInfo
+  +opponent: DuetPlayerInfo | null
+  +result: DuetResult | null
+  +mySummary: DuetSummary | null
+}
+
+class duetSession <<module holder>> {
+  +get(): DuetSession | null
+  +set(s: DuetSession | null): void
+  +end(): Promise<void>
+}
+
+RoomService ..|> IRoomService
+RoomService "1" *-- "*" Room : owns in memory
+RoomService ..> LeaveResult : returns
+DuetHub --> IRoomService : delegates to
+DuetHub ..> LeaveResult : announces as PlayerLeft
+DuetClient *-- HubConnection : wraps with automatic reconnection
+duetSession --> "0..1" DuetSession : holds
+DuetSession --> DuetClient : client
+duetSession ..> DuetClient : leave() on end()
+@enduml

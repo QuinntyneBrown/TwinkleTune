@@ -1,0 +1,31 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Degrade gracefully offline
+
+Container_Boundary(client, "API client (frontend/src/api/client.ts)") {
+  Component(url, "API_URL", "Module constant", "VITE_API_URL, else http://localhost:5240 in DEV, else same origin")
+  Component(req, "req<T>(path, init)", "Fetch wrapper", "Throws ApiError carrying message and errors")
+  Component(probe, "serverOnline()", "Reachability probe", "GET /health, 1500 ms timeout, cached 10 s")
+  Component(surface, "api.avatars / singers / songs / highscores", "Typed callers", "Every family feature enters here")
+}
+Container_Boundary(screens, "Screens") {
+  Component(welcome, "welcome.ts", "Onboarding screen", "Links to a server singer only when the probe says online")
+  Component(songsScreen, "songs.ts", "Song list screen", "Offline notice; hides board and duet buttons")
+  Component(duetScreen, "duet.ts", "Duet screen", "Reports an unreachable server and leaves solo play intact")
+}
+Component(repo, "songs/repo.ts", "Song repository", "Server list, then cache, then bundle")
+ComponentDb(cacheDb, "localStorage", "Browser storage", "Songbook cache and on-device state")
+Container(server, "TwinkleTune family server", "ASP.NET Core", "Optional backend")
+
+Rel(req, url, "Prefixes every path with (FS-L2-13)")
+Rel(probe, url, "Prefixes /health with")
+Rel(surface, req, "Calls")
+Rel(req, server, "fetch", "JSON/HTTP")
+Rel(probe, server, "GET /health (FS-L2-14)", "JSON/HTTP")
+Rel(welcome, probe, "Awaits before linking a profile (FS-L2-15)")
+Rel(welcome, surface, "api.singers.create inside try/catch (FS-L2-15)")
+Rel(songsScreen, repo, "currentSongs() then loadSongs() (FS-L2-15)")
+Rel(duetScreen, server, "Hub connection; failure becomes a toast (FS-L2-15)", "SignalR")
+Rel(repo, cacheDb, "Reads and writes the cached songbook (FS-L2-15)")
+@enduml

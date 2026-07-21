@@ -1,0 +1,53 @@
+@startuml
+title UML sequence behaviour — Switch the storage namespace on a profile change
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Profiles screen" as screen
+  participant "activateSinger()" as activate
+  participant "adoptLegacyState()" as adopt
+  participant "Store" as store
+end box
+box "Device — Browser storage" #FFF4E5
+  database "localStorage" as ls
+end box
+
+singer -> screen : Choose a singer
+screen -> activate : activateSinger(apiSinger)
+activate -> adopt : adoptLegacyState(singerId)
+adopt -> ls : getItem(profileKey(singerId))
+ls --> adopt : null or an existing blob
+alt profile key empty and a legacy blob exists
+  adopt -> ls : setItem(profileKey(singerId), legacy blob)
+  adopt -> ls : removeItem("twinkletune:v1") (RP-L2-11)
+else profile already has its own blob
+  adopt -> adopt : leave both entries untouched (RP-L2-11)
+end
+adopt --> activate : adoption complete
+
+activate -> ls : setItem("twinkletune:active-singer", singerId) (RP-L2-11)
+activate -> store : switchKey(profileKey(singerId)) (RP-L2-11)
+store -> ls : getItem(profileKey(singerId))
+ls --> store : that singer's state blob
+store -> store : state = load() for the new namespace (RP-L2-11)
+store --> activate : store re-pointed
+activate -> store : update: apply the server profile fields
+store -> ls : setItem(profileKey(singerId), JSON state)
+ls --> store : stored
+store --> activate : state saved
+activate --> screen : Active singer switched
+screen --> singer : Sparkles, streak, bests and badges of this singer only (RP-L2-11)
+@enduml

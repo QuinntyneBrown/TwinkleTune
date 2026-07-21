@@ -1,0 +1,59 @@
+@startuml
+title UML sequence behaviour — Open and close a modal
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Young singer" as child
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Screen or manager" as caller
+  participant "showModal() (ui/modal.ts)" as show
+end box
+box "Device — Browser DOM" #FFF4E5
+  participant "div.overlay" as overlay
+  participant "div.modal (role=dialog)" as card
+  participant "Screen reader" as at
+end box
+
+caller -> show : showModal({ html, onMount, ariaLabel, dismissible })
+show -> overlay : createElement('div'), className 'overlay'
+show -> card : innerHTML: div.modal role=dialog aria-label (AS-L2-6)
+
+alt dismissible (the default)
+  show -> overlay : addEventListener('click', ...) (AS-L2-6)
+else dismissible: false
+  show -> show : Register no backdrop listener (AS-L2-6)
+end
+
+show -> overlay : document.body.appendChild(overlay)
+show -> caller : onMount(modal, close) — wire the card's buttons
+caller --> show : Listeners attached
+show --> caller : ModalHandle { el, close }
+overlay -> at : Dialog announced with its aria-label (AS-L2-6)
+at --> child : Dialog and its label
+
+child -> overlay : Tap
+alt the tap lands on the backdrop and the modal is dismissible
+  overlay -> overlay : e.target === overlay
+  overlay -> overlay : close() — overlay.remove() (AS-L2-6)
+  overlay --> child : Dialog closed, screen restored
+else the tap lands on the card, or the modal is non-dismissible
+  overlay -> card : Event handled by the card's own controls
+  card --> child : Dialog stays open (AS-L2-6)
+end
+
+opt the opener closes the dialog itself
+  caller -> overlay : handle.close()
+  overlay --> child : Dialog removed
+end
+@enduml

@@ -1,0 +1,22 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Show modals and toasts
+
+Person(child, "Young singer", "Interacts with dialogs and reads toasts")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(screens, "Screen modules", "TypeScript (screens/*.ts)", "Songs, sing, voice setup, profiles, tips, results, duet")
+  Container(managers, "Grown-ups managers", "TypeScript (ui/managers.ts)", "Song and avatar managers opened as modal-wide dialogs")
+  Container(modal, "Modal and toast primitives", "TypeScript (ui/modal.ts)", "showModal and toast")
+  Container(css, "Design system stylesheet", "CSS (styles/twinkle.css)", ".overlay, .modal, .toast-host, .toast variants")
+}
+System_Ext(dom, "Browser DOM and timers", "document.body, click events, setTimeout")
+
+Rel(screens, modal, "showModal(opts) / toast(message, variant, ms)")
+Rel(managers, modal, "showModal({ className: 'modal-wide' })")
+Rel(modal, dom, "Appends the overlay and the toast host to document.body")
+Rel(modal, dom, "Schedules the fade at ms and removal at ms + 450", "setTimeout")
+Rel(modal, css, "Emits .overlay, .modal, .toast, .toast-gold, .toast-pink")
+Rel(css, child, "Dimmed blurred backdrop, popin card, pill toast")
+Rel(child, dom, "Taps the backdrop or a dialog control")
+@enduml

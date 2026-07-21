@@ -1,0 +1,16 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Layer the backend
+
+Person(child, "Child singer", "Sings, browses songs, and duets")
+Person(grownup, "Grown-up", "Manages profiles, avatars, and songs")
+System(app, "TwinkleTune web app", "Offline-first singing PWA (TypeScript)")
+System(server, "TwinkleTune family server", "Four-project .NET backend on the home LAN")
+System_Ext(host, "Home machine file system", "Holds the SQLite file and the photos folder")
+
+Rel(child, app, "Sings and plays using", "HTTPS")
+Rel(grownup, app, "Manages family content using", "HTTPS")
+Rel(app, server, "Calls REST endpoints and the duet hub", "JSON/HTTP, WebSocket")
+Rel(server, host, "Reads and writes durable state", "File system")
+@enduml

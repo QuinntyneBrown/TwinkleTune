@@ -1,0 +1,65 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Relay score ticks
+
+interface DuetTick <<TypeScript>> {
+  +landed: number
+  +streak: number
+  +sparkles: number
+  +noteIdx: number
+}
+
+class ScoreTick <<record>> {
+  +Landed: int
+  +Streak: int
+  +Sparkles: int
+  +NoteIdx: int
+}
+
+class DuetClient <<TypeScript>> {
+  +sendTick(tick: DuetTick): void
+  +onOpponentTick(cb: (t: DuetTick) => void): void
+  +onOpponentFinished(cb: (s: DuetSummary) => void): void
+}
+
+class "sing.ts" as SingScreen <<module>> {
+  -landedCount: number
+  -streak: number
+  -finalizedUpTo: number
+  -opponentEl: HTMLElement
+  -finalizeNotesUpTo(beat: number): void
+  -setStreak(n: number): void
+}
+
+class DuetHub {
+  +ScoreTick(tick: ScoreTick): Task
+}
+
+interface IRoomService {
+  +GetRoomCode(connectionId: string): string?
+}
+
+class RoomService {
+  -_connectionToCode: ConcurrentDictionary<string, string>
+  +GetRoomCode(connectionId): string?
+}
+
+SingScreen ..> DuetClient : sendTick per finalised note
+SingScreen ..> DuetTick : renders into the opponent chip
+DuetClient ..> DuetTick : sends and receives
+DuetHub ..> ScoreTick : relays unchanged
+DuetHub --> IRoomService : GetRoomCode
+RoomService ..|> IRoomService
+DuetTick ..> ScoreTick : serialises as
+@enduml

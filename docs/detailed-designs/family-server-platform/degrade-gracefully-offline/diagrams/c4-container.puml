@@ -1,0 +1,27 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Degrade gracefully offline
+
+Person(child, "Child singer", "Plays with or without a server")
+System_Boundary(app, "TwinkleTune web app") {
+  Container(screens, "Screens", "TypeScript DOM modules", "welcome.ts, songs.ts, duet.ts, sing.ts")
+  Container(client, "API client", "TypeScript (api/client.ts)", "API_URL, req(), ApiError, serverOnline()")
+  Container(repo, "Song repository", "TypeScript (songs/repo.ts)", "Server list, cache, bundle")
+  Container(store, "State store", "TypeScript (state/store.ts)", "Sparkles, badges, streaks, latency, local profile")
+  ContainerDb(cache, "localStorage", "Browser storage", "twinkletune:songs-cache and twinkletune:v1")
+  Container(bundle, "Bundled catalogue", "TypeScript (songs/catalog.ts)", "Six public-domain songs compiled in")
+}
+Container(server, "TwinkleTune family server", "ASP.NET Core", "Optional; may be absent or unreachable")
+Container(env, "Build configuration", "Vite env", "VITE_API_URL and import.meta.env.DEV")
+
+Rel(child, screens, "Uses")
+Rel(client, env, "Resolves API_URL from")
+Rel(screens, client, "serverOnline() and api.* calls")
+Rel(screens, repo, "currentSongs(), loadSongs()")
+Rel(screens, store, "Reads and writes on-device state")
+Rel(client, server, "GET /health and /api routes when reachable", "JSON/HTTP")
+Rel(repo, cache, "Reads and writes the cached songbook")
+Rel(repo, bundle, "Falls back to the six bundled songs")
+Rel(store, cache, "Persists per-profile state")
+@enduml

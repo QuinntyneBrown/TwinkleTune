@@ -1,0 +1,26 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Show Twinkle mascot (parts.ts and the coach rows)
+
+Container_Boundary(parts, "Shared UI parts (ui/parts.ts)") {
+  Component(mascot, "mascotSVG(cls, happy)", "TypeScript function", "Star body, eyes, cheeks, and one of two mouth paths; aria-hidden")
+  Component(star, "starSVG(filled)", "TypeScript function", "Same star path, used for earned result stars")
+}
+Container_Boundary(screens, "Screen modules (screens/*.ts)") {
+  Component(welcome, "renderWelcome", "TypeScript module", "Large mascot and the introduction bubble")
+  Component(home, "renderHome", "TypeScript module", "Range-dependent bubbleText")
+  Component(voice, "renderVoiceSetup", "TypeScript module", "[data-bubble] rewritten per capture step")
+  Component(sing, "renderSing", "TypeScript module", "[data-coach] in-song bubble")
+  Component(tips, "renderTips", "TypeScript module", "Coach row above the hero tip")
+  Component(results, "renderResults", "TypeScript module", "Happy mascot plus .result-coach row")
+}
+
+Rel(welcome, mascot, "mascotSVG('mascot mascot-lg pop')")
+Rel(home, mascot, "mascotSVG('mascot mascot-sm')")
+Rel(voice, mascot, "mascotSVG('mascot mascot-sm')")
+Rel(sing, mascot, "mascotSVG('mascot mascot-sm')")
+Rel(tips, mascot, "mascotSVG('mascot mascot-sm')")
+Rel(results, mascot, "mascotSVG('mascot pop', true)")
+Rel(results, star, "starSVG(filled) for the stars row")
+@enduml

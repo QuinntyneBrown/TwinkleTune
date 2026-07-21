@@ -1,0 +1,25 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Show the per-song board
+
+Container_Boundary(screen, "Song screen (screens/songs.ts)") {
+  Component(render, "renderSongs()", "Screen entry point", "Paints currentSongs() then repaints from loadSongs()")
+  Component(paint, "paint(songs, live)", "Renderer", "Offline banner and card list; binds [data-board] clicks")
+  Component(card, "songCard(song, idx, live)", "Template", "Emits the trophy button only when live (HS-L2-13)")
+  Component(board, "showBoard(song)", "Modal controller", "Loading, ranked rows, empty state, error state (HS-L2-12)")
+}
+Container_Boundary(support, "Supporting frontend modules") {
+  Component(repo, "songs/repo.ts", "Songbook repository", "songsAreLive, currentSongs, getSongById, isServerSongId")
+  Component(modal, "ui/modal.ts", "Overlay helper", "showModal(opts): ModalHandle")
+  Component(client, "api.highscores.forSong", "api/client.ts", "GET /api/songs/{id}/highscores")
+}
+
+Rel(render, repo, "currentSongs(), songsAreLive(), loadSongs()")
+Rel(render, paint, "paint(songs, online)")
+Rel(paint, card, "Render each card")
+Rel(paint, repo, "getSongById and isServerSongId on click (HS-L2-13)")
+Rel(paint, board, "showBoard(song) for a server song")
+Rel(board, modal, "showModal({ ariaLabel, className: 'modal-wide', html })")
+Rel(board, client, "forSong(song.id)")
+@enduml

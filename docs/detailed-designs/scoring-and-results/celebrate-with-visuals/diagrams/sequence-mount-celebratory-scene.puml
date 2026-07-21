@@ -1,0 +1,61 @@
+@startuml
+title UML sequence behaviour — Mount the celebratory scene and pick a renderer
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "renderResults() (results.ts)" as results
+  participant "ProgressiveScene (reactive-scene.ts)" as scene
+  participant "WebGpuScene" as gpu
+  participant "CanvasScene" as canvas
+end box
+box "Device — Browser graphics and motion preference" #FFF4E5
+  participant "matchMedia / WebGPU adapter" as device
+end box
+
+results -> results : write canvas[data-reactive-scene] with aria-hidden=true (SR-L2-17)
+results -> scene : createReactiveScene(canvas, { kind: 'results', seed: seedFromString(songId:sparkles:stars) })
+scene -> device : matchMedia('(prefers-reduced-motion: reduce)')
+device --> scene : preference
+
+alt reduced motion requested
+  scene -> canvas : new CanvasScene(canvas, options, animated = false)
+  canvas --> scene : renderer = 'static' — a still scene (SR-L2-17)
+else motion allowed
+  scene -> gpu : WebGpuScene.create(canvas, options, onDeviceLoss)
+  alt adapter and device acquired
+    gpu --> scene : renderer = 'webgpu' (SR-L2-17)
+  else creation throws
+    scene -> canvas : new CanvasScene(canvas, options)
+    canvas --> scene : renderer = 'canvas2d' fallback (SR-L2-17)
+  end
+end
+scene -> scene : activate(): replay state, replay pending burst, set canvas.dataset.renderer
+
+results -> scene : update({ progress: 1, onNote: !noMic && stars > 0, intensity: noMic ? 0.55 : 0.55 + stars * 0.15, streak: maxStreak }) (SR-L2-17)
+results -> scene : burst(noMic ? 0.65 : 0.7 + stars * 0.1) (SR-L2-17)
+scene --> singer : Celebration behind the semantic result
+
+opt WebGPU device is lost
+  gpu -> scene : onDeviceLoss()
+  scene -> scene : replace the decorative canvas node only
+  scene -> canvas : new CanvasScene(replacement, options) (SR-L2-17)
+end
+
+opt the route is left
+  results -> scene : destroy()
+  scene -> scene : detach the visibility listener and drop the active scene
+end
+@enduml

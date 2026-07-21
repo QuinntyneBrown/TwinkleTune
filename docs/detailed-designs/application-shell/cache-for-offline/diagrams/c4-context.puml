@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Cache for offline
+
+Person(singer, "Young singer", "Opens TwinkleTune from the home screen, often with no network")
+System(app, "TwinkleTune web app", "Singing app whose assets are served from the browser cache after the first visit")
+System_Ext(browser, "Browser service worker and cache storage", "Runs the worker apart from the page and holds cached responses")
+System_Ext(host, "Static host", "Serves index.html, the bundle, and the assets on a first visit or a background refresh")
+
+Rel(singer, app, "Opens and sings in", "Home screen or browser")
+Rel(app, browser, "Registers the worker and reads cached responses through it (AS-L2-10, AS-L2-11)")
+Rel(browser, host, "Fetches on a first visit and revalidates in the background (AS-L2-10)", "HTTPS GET")
+@enduml

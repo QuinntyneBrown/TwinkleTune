@@ -1,0 +1,62 @@
+@startuml
+title UML sequence behaviour — Namespace and adopt state
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Active singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Screens and gameplay" as screens
+  participant "activateSinger (profile.ts)" as activate
+  participant "adoptLegacyState (store.ts)" as adopt
+  participant "store (store.ts)" as store
+end box
+box "Device — Browser local storage" #FFF4E5
+  database "localStorage" as ls
+end box
+
+== Start-up ==
+store -> ls : getItem('twinkletune:active-singer') (PP-L2-2)
+ls --> store : activeId or null
+store -> ls : getItem(activeId ? 'twinkletune:v1:{activeId}' : 'twinkletune:v1')
+ls --> store : Stored blob or null
+store -> store : state = { ...emptyState(), ...parsed } (PP-L2-1)
+
+== Earning rewards ==
+singer -> screens : Finish a song
+screens -> store : update(s => sparkles, singDays, bests, badges)
+store -> ls : setItem('twinkletune:v1:{activeId}', JSON.stringify(state)) (PP-L2-2)
+ls --> store : Written
+
+== First activation of a singer ==
+activate -> adopt : adoptLegacyState(singerId) (PP-L2-4)
+adopt -> ls : getItem('twinkletune:v1:{singerId}')
+alt no per-singer blob yet
+  ls --> adopt : null
+  adopt -> ls : getItem('twinkletune:v1')
+  alt legacy blob present
+    ls --> adopt : Legacy state
+    adopt -> ls : setItem('twinkletune:v1:{singerId}', legacy) (PP-L2-4)
+    adopt -> ls : removeItem('twinkletune:v1') (PP-L2-4)
+  else nothing to adopt
+    ls --> adopt : null
+  end
+else singer already has a blob
+  ls --> adopt : Existing state
+  adopt -> adopt : Leave both entries untouched (no overwrite) (PP-L2-4)
+end
+activate -> store : switchKey(profileKey(singerId)) (PP-L2-2)
+store -> ls : getItem('twinkletune:v1:{singerId}')
+ls --> store : That singer's blob
+store --> activate : State re-pointed
+@enduml

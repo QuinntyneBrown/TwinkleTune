@@ -1,0 +1,64 @@
+@startuml
+title UML sequence behaviour — Validate and save a song
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "songEditor()" as editor
+  participant "parseSongForm()" as parse
+  participant "validateSong()" as validate
+  participant "api.songs" as client
+  participant "showSongManager()" as manager
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "SongsController" as controller
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "SongService" as service
+end box
+box "Backend — Infrastructure" #FFF4E5
+  database "Family database" as db
+end box
+
+actor -> editor : Tap "Create" or "Save"
+editor -> parse : parseSongForm(modal)
+parse -> validate : validateSong(song) with the server's invariants (GC-L2-6)
+validate --> parse : Messages for title, bpm, midi range, overlap and span
+parse --> editor : { song, errors }
+
+alt errors present
+  editor --> actor : Render the messages; no request is sent (GC-L2-6)
+else form is clean
+  editor -> client : create(body) or update(existing.id, body) (GC-L2-6)
+  client -> controller : POST /api/songs or PUT /api/songs/{id}
+  controller -> service : CreateAsync / UpdateAsync
+  service -> db : Persist the validated song
+  db --> service : Stored song
+  service --> controller : SongDto or validation errors
+  alt server accepted
+    controller --> client : 201 Created or 200 OK
+    client --> editor : Stored song
+    editor -> editor : preview.stop(); close()
+    editor -> manager : onSaved() triggers refresh (GC-L2-6)
+    manager -> client : api.songs.list()
+    client --> manager : Songbook including the saved song
+    manager --> actor : Toast and refreshed list
+  else server rejected
+    controller --> client : 400 with an errors array
+    client --> editor : ApiError { errors }
+    editor --> actor : Render ApiError.errors in the same box (GC-L2-6)
+  end
+end
+@enduml

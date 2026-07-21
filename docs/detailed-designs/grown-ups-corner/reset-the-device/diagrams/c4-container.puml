@@ -1,0 +1,22 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Reset the device
+
+Person(grownup, "Grown-up", "Chooses to start over")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(hub, "Grown-Ups Corner hub", "TypeScript (settings.ts)", "Danger-zone reset button")
+  Container(confirm, "Reset confirmation", "TypeScript (modal.ts)", "Erase and keep options")
+  Container(state, "App store", "TypeScript (state/store.ts)", "reset() swaps in the empty state")
+  Container(router, "Hash router", "TypeScript", "Routes to #/welcome")
+  Container(welcome, "Welcome screen", "TypeScript (welcome.ts)", "Onboarding for a null profile")
+  ContainerDb(local, "Device state store", "localStorage", "twinkletune:v1[:singerId] blob")
+}
+
+Rel(grownup, hub, "Taps 'Start everything over'")
+Rel(hub, confirm, "close() then open the confirmation")
+Rel(confirm, state, "store.reset() only on 'Yes, erase everything'")
+Rel(state, local, "removeItem(current key)")
+Rel(confirm, router, "location.hash = '#/welcome'")
+Rel(router, welcome, "Renders onboarding")
+@enduml

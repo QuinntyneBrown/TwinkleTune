@@ -1,0 +1,22 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Restrict access to the home LAN
+
+Person(grownup, "Grown-up", "Uploads a profile photo after the parent gate")
+Container(web, "TwinkleTune web app", "TypeScript PWA", "Served from http://localhost:5173 or :4173 in the shipped configuration")
+System_Boundary(server, "TwinkleTune family server") {
+  Container(api, "TwinkleTune.Api", "ASP.NET Core (net10.0)", "CORS policy \"app\"; no authentication middleware")
+  Container(infra, "TwinkleTune.Infrastructure", ".NET class library", "PhotoStorage under a controlled root")
+  Container(photos, "photos folder", "Disk directory", "One image per singer, named {singerId}{ext}")
+  ContainerDb(db, "twinkletune.db", "SQLite file", "Singer.PhotoFileName references the stored file")
+}
+Container(config, "appsettings.json", "Configuration", "Cors:Origins list")
+
+Rel(grownup, web, "Uses", "HTTPS")
+Rel(web, api, "Calls with credentials from an allowed origin", "JSON/HTTP")
+Rel(api, config, "Reads Cors:Origins at startup")
+Rel(api, infra, "SaveAsync, OpenRead, Delete")
+Rel(infra, photos, "Writes and reads image files", "File system")
+Rel(api, db, "Stores the file name on the singer", "EF Core")
+@enduml

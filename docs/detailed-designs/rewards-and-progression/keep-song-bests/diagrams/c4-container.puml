@@ -1,0 +1,21 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Keep song bests
+
+Person(singer, "Singer", "Replays songs to beat a personal best")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(sing, "Sing screen", "TypeScript (screens/sing.ts)", "Produces the SongSummary for a finished run")
+  Container(store, "Reward store", "TypeScript (state/store.ts)", "Folds the summary into AppState.bests")
+  Container(home, "Home dashboard", "TypeScript (screens/home.ts)", "Counts mastered songs for the My Songs tile")
+  Container(me, "Progress screen", "TypeScript (screens/me.ts)", "Lists mastered songs sorted by stars")
+}
+System_Ext(storage, "Browser device storage", "localStorage")
+
+Rel(singer, sing, "Finishes a run of a song in")
+Rel(sing, store, "recordPlay with stars, accuracy and noMic (RP-L2-5)")
+Rel(home, store, "Reads bests and filters on stars > 0 (RP-L2-10)")
+Rel(me, store, "Reads bests for the Songs I shine at list")
+Rel(store, storage, "Persists the bests map", "localStorage")
+Rel(home, singer, "Shows \"n songs mastered\" to (RP-L2-10)")
+@enduml

@@ -1,0 +1,19 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Keep scores family-scoped
+
+Person(grownup, "Grown-up", "Deletes a song or a singer")
+System_Boundary(app, "TwinkleTune web app") {
+  Container(client, "REST client", "TypeScript (api/client.ts)", "API_URL points at the configured family server only")
+}
+System_Boundary(family, "Family server") {
+  Container(api, "TwinkleTune API", "ASP.NET Core", "CORS policy 'app' restricted to configured origins")
+  ContainerDb(db, "TwinkleTune database", "SQLite file on family hardware", "HighScores cascade with Songs and Singers (HS-L2-10)")
+}
+
+Rel(grownup, client, "Deletes a song or a singer")
+Rel(client, api, "DELETE /api/songs/{id} or /api/singers/{id}", "JSON/HTTP")
+Rel(api, db, "Delete the principal row; dependents cascade (HS-L2-10)", "EF Core")
+Rel(client, api, "Reads boards scoped to this server only (HS-L2-15)", "JSON/HTTP")
+@enduml

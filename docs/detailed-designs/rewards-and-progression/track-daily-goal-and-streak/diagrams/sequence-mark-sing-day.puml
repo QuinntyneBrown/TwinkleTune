@@ -1,0 +1,41 @@
+@startuml
+title UML sequence behaviour — Mark a sing-day when a play completes
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Sing screen" as sing
+  participant "recordPlay()" as record
+  participant "Reward store" as store
+end box
+box "Device — Browser storage" #FFF4E5
+  database "localStorage" as ls
+end box
+
+singer -> sing : Finish the last note of the song
+sing -> record : recordPlay(store, song, summary, todayISO())
+record -> store : update(state => ...)
+alt today is not yet in singDays
+  record -> record : singDays.push(today) (RP-L2-4)
+else today already recorded
+  record -> record : leave singDays unchanged, no duplicate date (RP-L2-4)
+end
+record -> record : plays[today] = (plays[today] ?? 0) + 1 (RP-L2-3)
+store -> ls : setItem(key, JSON state)
+ls --> store : stored
+store --> record : state saved
+record --> sing : newly earned badge ids
+sing --> singer : Results screen; the home ring advances one third (RP-L2-3)
+@enduml

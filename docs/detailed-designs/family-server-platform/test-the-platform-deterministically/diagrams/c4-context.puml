@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Test the platform deterministically
+
+Person(maintainer, "Maintainer", "Runs the suite locally before pushing")
+System_Ext(ci, "Continuous integration", "Runs the suite on every pull request")
+System(suite, "TwinkleTune test suite", "Unit tests over the pure core and host-level integration tests over the real application")
+System(server, "TwinkleTune family server", "The .NET application under test, booted in process by the integration tests")
+
+Rel(maintainer, suite, "Runs", "dotnet test")
+Rel(ci, suite, "Runs on every pull request", "dotnet test")
+Rel(suite, server, "Boots in process and drives the real routes and hub (FS-L2-18)", "HTTP and SignalR")
+@enduml

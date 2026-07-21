@@ -1,0 +1,77 @@
+@startuml
+title UML sequence behaviour — Remove a singer behind the parent gate
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as grownup
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "singerDialog (profiles.ts)" as dialog
+  participant "parentGate (ui/modal.ts)" as gate
+  participant "Confirm remove modal" as confirm
+  participant "api client" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "SingersController" as ctrl
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "SingerService" as svc
+end box
+box "Backend — Infrastructure" #FFF4E5
+  participant "PhotoStorage" as storage
+  participant "SingerRepository" as repo
+  database "Family database (SQLite)" as db
+end box
+
+grownup -> dialog : Tap "Remove singer"
+dialog -> gate : parentGate(onPass) (PP-L2-15)
+gate --> grownup : "What is a + b?" with three options
+alt incorrect answer
+  grownup -> gate : Tap a wrong option
+  gate -> gate : Shake for 700 ms; gate stays open (PP-L2-15)
+else correct answer
+  grownup -> gate : Tap the correct option
+  gate -> confirm : Open "Remove {name}?" naming the lost high scores (PP-L2-15)
+  alt confirmation declined
+    grownup -> confirm : Tap "Keep them"
+    confirm --> grownup : Modal closes; the singer remains (PP-L2-15)
+  else confirmation accepted
+    grownup -> confirm : Tap "Yes, remove"
+    confirm -> client : singers.remove(id)
+    client -> ctrl : DELETE /api/singers/{id}
+    ctrl -> svc : DeleteAsync(id)
+    svc -> repo : GetAsync(id)
+    repo --> svc : Singer or null
+    alt singer absent
+      svc --> ctrl : false
+      ctrl --> client : 404 Not Found
+      client --> confirm : Rejected
+      confirm --> grownup : Toast "Could not remove right now"
+    else singer found
+      opt PhotoFileName is not null
+        svc -> storage : Delete(PhotoFileName) (PP-L2-15)
+        storage --> svc : File removed
+      end
+      svc -> repo : DeleteAsync(id)
+      repo -> db : Remove the singer row
+      db -> db : Cascade-delete her HighScore rows (PP-L2-15)
+      db --> repo : Committed
+      repo --> svc : true
+      svc --> ctrl : true
+      ctrl --> client : 204 No Content
+      client --> confirm : Removed
+      confirm --> grownup : Toast "Removed" and the refreshed picker
+    end
+  end
+end
+@enduml

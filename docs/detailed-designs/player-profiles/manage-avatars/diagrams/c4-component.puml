@@ -1,0 +1,22 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Manage avatars
+
+Container_Boundary(api, "TwinkleTune API, Application and Infrastructure") {
+  Component(ctrl, "AvatarsController", "ASP.NET Core controller", "GET / POST / PUT / DELETE; 200, 201, 204, 400, 404")
+  Component(svc, "AvatarService", "Application service", "Create, update, delete with trimming")
+  Component(validate, "AvatarService.Validate", "Private guard", "Emoji required; name required and <= 30")
+  Component(repo, "AvatarRepository", "EF Core repository", "Ordered by Name; add, update, delete")
+  Component(seed, "SeedData.EnsureSeededAsync", "Start-up seeding", "Eight avatars when the table is empty")
+  Component(model, "AppDbContext.OnModelCreating", "EF Core model", "Singer -> Avatar FK with OnDelete(SetNull)")
+  ComponentDb(db, "Family database", "SQLite", "Avatars and singers")
+}
+
+Rel(ctrl, svc, "GetAllAsync / CreateAsync / UpdateAsync / DeleteAsync")
+Rel(svc, validate, "Checks each SaveAvatarRequest")
+Rel(svc, repo, "Reads and writes avatars")
+Rel(repo, db, "EF Core queries and saves", "EF Core")
+Rel(seed, db, "Inserts the eight seeded avatars when none exist", "EF Core")
+Rel(model, db, "Nulls Singer.AvatarId when an avatar is deleted", "FK SetNull")
+@enduml

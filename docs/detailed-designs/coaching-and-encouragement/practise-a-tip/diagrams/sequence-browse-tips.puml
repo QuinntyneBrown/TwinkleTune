@@ -1,0 +1,45 @@
+@startuml
+title UML sequence behaviour — Browse and filter the tips library
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Young singer" as child
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "renderTips (tips.ts)" as screen
+  participant "tips-data.ts" as data
+  participant "category filter handler" as filter
+end box
+box "Device — Browser DOM" #FFF4E5
+  participant "root element" as dom
+end box
+
+child -> screen : Open Twinkle's Tips
+screen -> data : Read HERO_TIP and TIPS (CE-L2-7)
+data --> screen : 1 hero tip + 6 tips across breathing, warm-up, brave, show (CE-L2-7)
+screen -> dom : Render .tip-hero from HERO_TIP (CE-L2-4)
+screen -> dom : Render 5 category chips as role=tablist (CE-L2-4)
+screen -> dom : Render 6 .tip-card entries with icon, title, short line, mins (CE-L2-4)
+screen -> dom : Render the .quote confidence corner
+dom --> child : Hero tip, chips, cards, and quote in view
+
+child -> filter : Tap a category chip
+filter -> dom : Set active class and aria-selected across the chips
+alt chip is "All"
+  filter -> dom : display = '' on every card (CE-L2-4)
+else a specific category
+  filter -> dom : display = '' where data-category matches, 'none' otherwise (CE-L2-4)
+end
+filter -> dom : Leave the hero tip and quote untouched (CE-L2-4)
+dom --> child : Only that category's tips remain visible
+@enduml

@@ -1,0 +1,79 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Cache for offline
+
+class "sw.js" as Worker <<service worker module>> {
+  +CACHE: string = "twinkletune-v1"
+  +onInstall(): void
+  +onActivate(event: ExtendableEvent): void
+  +onFetch(event: FetchEvent): void
+}
+
+class "main.ts" as Main <<module>> {
+  -registerServiceWorker(): void
+}
+
+interface ServiceWorkerGlobalScope <<browser>> {
+  +skipWaiting(): Promise<void>
+  +clients: Clients
+  +addEventListener(type, handler): void
+}
+
+interface Clients <<browser>> {
+  +claim(): Promise<void>
+}
+
+interface CacheStorage <<browser>> {
+  +open(name: string): Promise<Cache>
+  +keys(): Promise<string[]>
+  +delete(name: string): Promise<boolean>
+}
+
+interface Cache <<browser>> {
+  +match(request: Request): Promise<Response?>
+  +put(request: Request, response: Response): Promise<void>
+}
+
+interface FetchEvent <<browser>> {
+  +request: Request
+  +respondWith(response: Promise<Response>): void
+}
+
+interface ServiceWorkerContainer <<browser>> {
+  +register(url: string): Promise<ServiceWorkerRegistration>
+}
+
+class Request <<browser>> {
+  +method: string
+  +url: string
+}
+
+class Response <<browser>> {
+  +ok: boolean
+  +clone(): Response
+}
+
+Worker ..|> ServiceWorkerGlobalScope : runs inside
+Worker ..> Clients : claim() on activate
+Worker ..> CacheStorage : keys / delete / open
+Worker ..> Cache : match and put
+Worker ..> FetchEvent : respondWith(cached || refresh)
+Worker ..> Request : reads method and url
+Worker ..> Response : checks ok, stores clone()
+ServiceWorkerGlobalScope --> Clients : clients
+CacheStorage --> "*" Cache : named generations
+FetchEvent --> Request : request
+Main ..> ServiceWorkerContainer : register("./sw.js") in production only
+ServiceWorkerContainer ..> Worker : installs
+@enduml

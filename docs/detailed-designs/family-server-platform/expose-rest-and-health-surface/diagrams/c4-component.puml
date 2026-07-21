@@ -1,0 +1,37 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Expose the REST and health surface
+
+Container_Boundary(api, "TwinkleTune.Api") {
+  Component(program, "Program.cs", "Minimal hosting", "AddControllers, AddSignalR, AddOpenApi, MapControllers, MapHub, MapGet")
+  Component(health, "GET /health", "Minimal API route", "Returns 200 with { status: ok }")
+  Component(openapi, "MapOpenApi()", "OpenAPI document", "Mapped only when IsDevelopment() is true")
+  Component(avatars, "AvatarsController", "ASP.NET Core controller", "api/avatars")
+  Component(singers, "SingersController", "ASP.NET Core controller", "api/singers and api/singers/{id}/photo")
+  Component(songs, "SongsController", "ASP.NET Core controller", "api/songs")
+  Component(scores, "HighScoresController", "ASP.NET Core controller", "api/highscores and the per-song and per-singer boards")
+  Component(hub, "DuetHub", "SignalR hub", "Mapped at /hubs/duet")
+}
+Container(web, "TwinkleTune web app", "TypeScript PWA", "client.ts and the duet client")
+Container_Boundary(application, "TwinkleTune.Application") {
+  Component(services, "Avatar / Singer / Song / HighScore services", "Plain services", "Business logic behind the routes")
+  Component(rooms, "IRoomService", "In-memory registry", "Duet rooms")
+}
+
+Rel(program, health, "Maps (FS-L2-9)")
+Rel(program, openapi, "Maps in development only (FS-L2-8)")
+Rel(program, avatars, "MapControllers()")
+Rel(program, singers, "MapControllers()")
+Rel(program, songs, "MapControllers()")
+Rel(program, scores, "MapControllers()")
+Rel(program, hub, "MapHub<DuetHub>(/hubs/duet) (FS-L2-8)")
+Rel(web, health, "Probes", "GET")
+Rel(web, songs, "Lists and edits songs", "JSON/HTTP")
+Rel(web, hub, "Joins duet rooms", "SignalR")
+Rel(avatars, services, "Calls IAvatarService")
+Rel(singers, services, "Calls ISingerService")
+Rel(songs, services, "Calls ISongService")
+Rel(scores, services, "Calls IHighScoreService")
+Rel(hub, rooms, "Creates and joins rooms")
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Use profile photo
+
+Person(grownup, "Grown-up", "Uploads a photo for a singer")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(dialog, "Singer dialog", "TypeScript (profiles.ts)", "File input; upload after save")
+  Container(render, "Avatar rendering", "TypeScript (parts.ts, home.ts, profiles.ts, me.ts)", "Photo or emoji per surface")
+  Container(client, "REST client", "TypeScript (api/client.ts)", "uploadPhoto(), photoUrl()")
+}
+System_Boundary(family, "Family server") {
+  Container(api, "TwinkleTune API", "ASP.NET Core", "PUT and GET /api/singers/{id}/photo")
+  Container(app, "Application layer", "C# services", "SingerService: SetPhotoAsync, OpenPhoto")
+  Container(storage, "Photo storage", "PhotoStorage over the local file system", "{singerId}.{ext} in the photo folder")
+  ContainerDb(db, "Family database", "SQLite", "Singer.PhotoFileName")
+}
+
+Rel(grownup, dialog, "Uses", "HTTPS")
+Rel(dialog, client, "uploadPhoto(singerId, file)")
+Rel(render, client, "photoUrl(singerId)")
+Rel(client, api, "PUT multipart photo; GET photo", "HTTP")
+Rel(api, app, "SetPhotoAsync / GetPhotoFileNameAsync / OpenPhoto")
+Rel(app, storage, "SaveAsync, OpenRead, Delete")
+Rel(app, db, "Persists the stored file name", "EF Core")
+@enduml

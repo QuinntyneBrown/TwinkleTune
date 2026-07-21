@@ -1,0 +1,46 @@
+@startuml
+title UML sequence behaviour — Confine a board read to the family server
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Family member" as family
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "api.highscores (client.ts)" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "CORS policy 'app' (Program.cs)" as cors
+  participant "HighScoresController" as controller
+end box
+box "Backend — Infrastructure" #FFF4E5
+  database "TwinkleTune database (SQLite on family hardware)" as db
+end box
+
+family -> client : Ask for a board
+client -> cors : Request from the app origin (API_URL)
+alt Origin is on the configured allow-list
+  cors -> controller : Forward to a score route
+  controller -> db : SELECT filtered by this server's song id or singer id (HS-L2-15)
+  db --> controller : rows held on this server only
+  controller --> client : 200 OK with the family board
+  client --> family : Family-scoped ranking
+else Origin is not allow-listed
+  cors --> client : Request blocked by CORS
+  client --> family : No board data
+end
+
+note over controller, db
+  The API exposes three score routes and no cross-family
+  or global ranking route (HS-L2-15).
+end note
+@enduml

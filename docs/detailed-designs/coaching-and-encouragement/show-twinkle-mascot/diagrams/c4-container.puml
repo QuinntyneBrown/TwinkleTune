@@ -1,0 +1,18 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Show Twinkle mascot
+
+Person(child, "Young singer", "Reads Twinkle's face and coach lines")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(screens, "Screen modules", "TypeScript (welcome, home, voice-setup, sing, tips, results)", "Render each screen and supply its coach line")
+  Container(parts, "Shared UI parts", "TypeScript (ui/parts.ts)", "mascotSVG, starSVG, skyDecor, bottomNav")
+  Container(styles, "Stylesheets", "CSS (twinkle.css, screens.css)", "Coach row, bubble, and mascot sizing")
+}
+System_Ext(browser, "Browser DOM and assistive technology", "Renders inline SVG and honours aria-hidden")
+
+Rel(child, screens, "Views a screen")
+Rel(screens, parts, "Calls mascotSVG(cls, happy)")
+Rel(screens, styles, "Applies .coach, .bubble, .mascot classes")
+Rel(screens, browser, "Sets innerHTML")
+@enduml

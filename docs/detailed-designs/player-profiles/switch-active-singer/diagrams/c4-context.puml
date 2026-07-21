@@ -1,0 +1,15 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Switch active singer
+
+Person(singer, "Singer at the tablet", "Picks who is singing now")
+System(twinkle, "TwinkleTune web app", "Re-keys the whole app to the chosen singer (TypeScript)")
+System_Ext(family, "Family server", "Optional LAN .NET server holding singers and avatars")
+System_Ext(storage, "Browser local storage", "Per-singer state blobs and the active singer id")
+
+Rel(singer, twinkle, "Picks a singer card")
+Rel(twinkle, family, "Lists singers and pushes profile changes", "JSON/HTTP")
+Rel(twinkle, storage, "Switches namespace and merges the server view")
+Rel(twinkle, singer, "Offers a keep-singing-solo path when the server is silent")
+@enduml

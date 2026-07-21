@@ -1,0 +1,72 @@
+@startuml
+title UML sequence behaviour — Degrade on device loss, hide, and exit
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Young singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "sing.ts" as sing
+  participant "ProgressiveScene" as scene
+  participant "WebGpuScene" as gpu
+  participant "CanvasScene" as canvas2d
+end box
+box "Device — Browser" #FFF4E5
+  participant "GPU device" as device
+  participant "canvas[data-reactive-scene]" as el
+  participant "document visibility" as vis
+end box
+
+== GPU device lost mid-song ==
+device -> gpu : Device lost
+gpu -> scene : onDeviceLoss callback (SG-L2-23)
+alt still active and currently webgpu
+  scene -> el : cloneNode(false) then replaceWith(replacement)
+  note right of scene
+    A canvas cannot switch context modes after
+    WebGPU has claimed it. Only the decorative
+    node is replaced; gameplay DOM and state
+    remain untouched. (SG-L2-23)
+  end note
+  scene -> canvas2d : new CanvasScene(replacement, options)
+  canvas2d --> scene : Renderer 'canvas2d'
+  scene -> scene : activate(): replay state, restore pause state
+  scene -> el : dataset.renderer = 'canvas2d'
+  scene --> singer : Song continues with no error shown (SG-L2-23)
+else already destroyed or not webgpu
+  scene --> scene : Ignore the callback
+end
+
+== Document hidden and restored ==
+singer -> vis : Switches away from the app
+vis -> scene : visibilitychange (hidden)
+scene -> canvas2d : pause() (SG-L2-23)
+canvas2d --> scene : Animation loop stopped
+singer -> vis : Returns to the app
+vis -> scene : visibilitychange (visible)
+alt not explicitly paused
+  scene -> canvas2d : resume() (SG-L2-23)
+else paused by the performance controls
+  scene --> scene : Stay paused
+end
+
+== Leaving the screen ==
+singer -> sing : Leaves the sing screen
+sing -> scene : destroy()
+scene -> vis : removeEventListener('visibilitychange')
+scene -> canvas2d : destroy() on the active renderer (SG-L2-23)
+canvas2d -> device : Release graphics resources (SG-L2-23)
+device --> canvas2d : Released
+scene -> scene : active = null; destroyed = true
+scene --> sing : No renderer and no listener survives the screen (SG-L2-23)
+@enduml

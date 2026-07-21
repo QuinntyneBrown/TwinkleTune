@@ -1,0 +1,26 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Route between screens (main.ts)
+
+Container_Boundary(shell, "Application shell router (main.ts)") {
+  Component(routefn, "route()", "TypeScript function", "Strips #/ , splits path and query, resolves the route name")
+  Component(table, "routes", "Record<string, ScreenRenderer>", "Eleven known route names to render functions")
+  Component(guard, "NO_PROFILE_OK", "Set<string>", "welcome, tuner, profiles — reachable without a profile")
+  Component(mountfn, "mount()", "TypeScript closure", "Runs the previous cleanup, clears #app, scrolls to top, mounts the screen")
+  Component(vt, "updateWithViewTransition()", "TypeScript (ui/view-transition.ts)", "Invokes mount once, with or without a transition")
+}
+ComponentDb(store, "store", "TypeScript (state/store.ts)", "Active singer profile")
+Component(screen, "renderSing / renderHome / ...", "TypeScript (screens/*.ts)", "Screen renderers returning a Cleanup")
+System_Ext(browser, "Browser location and history", "location.hash, hashchange, window.scrollTo")
+
+Rel(browser, routefn, "hashchange and initial call")
+Rel(routefn, table, "Looks up the parsed name")
+Rel(routefn, guard, "Tests the name before applying the profile guard")
+Rel(routefn, store, "Reads store.get().profile")
+Rel(routefn, vt, "Passes mount and the enabled flag")
+Rel(vt, mountfn, "Invokes once")
+Rel(mountfn, browser, "app.innerHTML = ''; window.scrollTo(0, 0)")
+Rel(mountfn, screen, "renderer(app, new URLSearchParams(query))")
+Rel(screen, mountfn, "Returns Cleanup")
+@enduml

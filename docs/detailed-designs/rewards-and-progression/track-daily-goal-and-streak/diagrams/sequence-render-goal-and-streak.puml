@@ -1,0 +1,56 @@
+@startuml
+title UML sequence behaviour — Render the goal ring and the streak chip
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "renderHome()" as home
+  participant "Reward store" as store
+  participant "streakCount()" as streak
+  participant "songsSungOn()" as sung
+end box
+box "Device — Browser storage" #FFF4E5
+  database "localStorage" as ls
+end box
+
+singer -> home : Open the home screen
+home -> store : get()
+store -> ls : getItem(key)
+ls --> store : stored state blob
+store --> home : AppState
+home -> home : today = todayISO()
+home -> sung : songsSungOn(state, today)
+sung --> home : sungToday
+home -> home : goalDeg = min(1, sungToday / 3) * 360 (RP-L2-3)
+
+alt sungToday >= 3
+  home -> home : status = "Goal complete — you did it! 🎉" (RP-L2-3)
+else sungToday == 0
+  home -> home : status = "Sing 3 songs today" (RP-L2-3)
+else 0 < sungToday < 3
+  home -> home : status = "just {3 - sungToday} more to go!" (RP-L2-3)
+end
+
+home -> streak : streakCount(singDays, today)
+alt today is a sing-day
+  streak -> streak : cursor = today (RP-L2-4)
+else today has no sing-day yet
+  streak -> streak : cursor = shiftISO(today, -1) (RP-L2-4)
+end
+streak -> streak : while singDays contains cursor: count++, cursor = shiftISO(cursor, -1) (RP-L2-4)
+streak --> home : streak count
+
+home --> singer : Ring filled to goalDeg, status message and "⭐ {streak}-day streak"
+@enduml

@@ -1,0 +1,75 @@
+@startuml
+title UML sequence behaviour — Store and serve a profile photo safely
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as grownup
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Profiles screen" as screen
+  participant "api.singers.uploadPhoto" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "SingersController" as controller
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "SingerService" as service
+  participant "IPhotoStorage" as abstraction
+end box
+box "Backend — Infrastructure" #FFF4E5
+  participant "PhotoStorage" as storage
+  participant "photos root" as folder
+  database "twinkletune.db" as db
+end box
+
+grownup -> screen : choose a photo after the parent gate
+screen -> client : uploadPhoto(singerId, file)
+client -> controller : PUT /api/singers/{id}/photo (multipart)
+controller -> controller : reject non-multipart, empty, or over 2 MB uploads
+controller -> storage : PhotoStorage.IsSupported(file.ContentType) (FS-L2-12)
+alt unsupported content type
+  storage --> controller : false
+  controller --> client : 400 { error: "Use a JPEG, PNG or WebP photo." } (FS-L2-12)
+else supported content type
+  storage --> controller : true
+  controller -> service : SetPhotoAsync(id, stream, contentType)
+  service -> abstraction : SaveAsync(singerId, content, contentType)
+  abstraction -> storage : resolved implementation
+  storage -> folder : delete any previous {singerId}.* then write {singerId}{ext} (FS-L2-12)
+  folder --> storage : file written
+  storage --> service : stored file name
+  service -> db : persist Singer.PhotoFileName
+  db --> service : saved
+  service --> controller : SingerDto
+  controller --> client : 200 with the updated singer
+end
+
+grownup -> screen : view the profile photo
+screen -> controller : GET /api/singers/{id}/photo
+controller -> service : GetPhotoFileNameAsync(id)
+service -> db : read the stored file name, not a caller-supplied one (FS-L2-12)
+db --> service : file name or none
+service --> controller : file name
+controller -> storage : OpenRead(fileName)
+storage -> storage : Path.Combine(rootPath, Path.GetFileName(fileName)) discards any separators (FS-L2-12)
+alt the file exists inside the root
+  storage -> folder : File.OpenRead(path)
+  folder --> storage : stream and content type
+  storage --> controller : (Stream, ContentType)
+  controller --> screen : 200 with the image
+else nothing resolves inside the root
+  storage --> controller : null (FS-L2-12)
+  controller --> screen : 404
+end
+screen --> grownup : show the photo or the avatar fallback
+@enduml

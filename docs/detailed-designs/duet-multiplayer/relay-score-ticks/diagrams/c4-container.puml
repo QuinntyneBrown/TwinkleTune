@@ -1,0 +1,23 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Relay score ticks
+
+Person(singerA, "Singer (host device)", "Finalises notes as the song runs")
+Person(singerB, "Singer (guest device)", "Watches the opponent chip")
+
+System_Boundary(twinkletune, "TwinkleTune") {
+  Container(webHost, "TwinkleTune web app (host device)", "TypeScript, DOM modules", "Singing screen; sendTick per finalised note")
+  Container(webGuest, "TwinkleTune web app (guest device)", "TypeScript, DOM modules", "Opponent chip fed by OpponentTick")
+  Container(api, "TwinkleTune API", "ASP.NET Core (.NET 10)", "DuetHub.ScoreTick relays to others in the group")
+  Container(registry, "Room registry", "In-memory ConcurrentDictionary", "Connection-to-code mapping only; ticks are not stored")
+  ContainerDb(db, "Family database", "SQLite via EF Core", "Holds profiles, songs, and high scores — no duet score events")
+}
+
+Rel(singerA, webHost, "Sings", "Microphone, on device")
+Rel(singerB, webGuest, "Sings", "Microphone, on device")
+Rel(webHost, api, "Invokes ScoreTick(tick)", "SignalR/WebSockets")
+Rel(api, registry, "Resolves the room code for the connection", "In-process call")
+Rel(api, webGuest, "Sends OpponentTick(tick)", "SignalR/WebSockets")
+Rel(api, db, "Writes nothing about the live duet", "No call")
+@enduml

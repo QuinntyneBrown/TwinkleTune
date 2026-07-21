@@ -1,0 +1,23 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Record a completed play
+
+Person(singer, "Singer", "Finishes a song")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(sing, "Sing screen", "TypeScript (screens/sing.ts)", "Summarises the run and calls recordPlay")
+  Container(scoring, "Scoring", "TypeScript (state/scoring.ts)", "summarize() produces the SongSummary")
+  Container(store, "Reward store", "TypeScript (state/store.ts)", "recordPlay folds the summary into AppState in one update")
+  Container(badges, "Badge rules", "TypeScript (state/badges.ts)", "evaluateBadges returns newly earned ids")
+  Container(results, "Results screen", "TypeScript (screens/results.ts)", "Reads lastResult and lastNewBadges")
+}
+System_Ext(storage, "Browser device storage", "localStorage")
+
+Rel(singer, sing, "Finishes the last note in")
+Rel(sing, scoring, "summarize(song, results, noMic)")
+Rel(sing, store, "recordPlay(store, song, summary, todayISO()) (RP-L2-8)")
+Rel(store, badges, "evaluateBadges within the same update (RP-L2-8)")
+Rel(store, storage, "One setItem per update (RP-L2-8)", "localStorage")
+Rel(results, store, "Reads the results hand-off fields")
+Rel(results, singer, "Presents stars, marks and new badges to")
+@enduml

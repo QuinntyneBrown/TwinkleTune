@@ -1,0 +1,45 @@
+@startuml
+title UML sequence behaviour — Adjust the offset and persist it
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Grown-Ups Corner hub" as hub
+  participant "[data-latency] slider" as slider
+  participant "[data-latency-label]" as label
+  participant "store" as store
+end box
+box "Device — Browser storage" #FFF4E5
+  database "localStorage profile blob" as local
+end box
+
+hub -> store : store.get().profile
+store --> hub : profile with latencyMs (0 when unset)
+hub -> slider : Render min=-300, max=300, step=10, value=latencyMs (GC-L2-4)
+hub -> label : Render "`${latencyMs} ms`"
+
+actor -> slider : Drag from 0 ms to 120 ms
+slider -> hub : input event
+hub -> label : textContent = "120 ms" (GC-L2-4)
+hub -> store : store.update(st => st.profile.latencyMs = 120) (GC-L2-4)
+store -> local : setItem(key, JSON.stringify(state))
+local --> store : Written
+store --> hub : Profile updated live
+
+opt no profile on this device
+  hub -> store : store.update leaves state unchanged when st.profile is null
+  store --> hub : Slider still reads back its default of 0 ms
+end
+@enduml

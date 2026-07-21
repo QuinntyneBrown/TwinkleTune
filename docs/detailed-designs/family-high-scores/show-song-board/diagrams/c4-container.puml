@@ -1,0 +1,23 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Show the per-song board
+
+Person(family, "Family member", "Opens a song board")
+System_Boundary(app, "TwinkleTune web app") {
+  Container(screen, "Song screen", "TypeScript (screens/songs.ts)", "paint, songCard, showBoard")
+  Container(repo, "Songbook repository", "TypeScript (songs/repo.ts)", "songsAreLive, getSongById, isServerSongId")
+  Container(modal, "Modal and toast UI", "TypeScript (ui/modal.ts)", "showModal overlay host")
+  Container(client, "REST client", "TypeScript (api/client.ts)", "api.highscores.forSong")
+}
+System_Boundary(family_server, "Family server") {
+  Container(api, "TwinkleTune API", "ASP.NET Core", "GET /api/songs/{id}/highscores")
+}
+
+Rel(family, screen, "Taps the trophy button")
+Rel(screen, repo, "songsAreLive() and isServerSongId(id) (HS-L2-13)")
+Rel(screen, modal, "showModal with the board region")
+Rel(screen, client, "forSong(song.id)")
+Rel(client, api, "GET /api/songs/{id}/highscores", "JSON/HTTP")
+Rel_Back(screen, client, "Entries, empty list, or rejection (HS-L2-12)")
+@enduml

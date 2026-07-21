@@ -1,0 +1,21 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Hold the screen awake
+
+Person(singer, "Young singer", "Sings without touching the screen")
+
+System_Boundary(app, "TwinkleTune web app") {
+  Container(sing, "Sing screen", "TypeScript, screens/sing.ts", "Starts, pauses, finishes, and cleans up a performance")
+  Container(helper, "Wake-lock helper", "TypeScript, ui/wake-lock.ts", "SingingWakeLock scoped to one screen lifecycle (SG-L2-24)")
+}
+
+System_Ext(wakelock, "navigator.wakeLock", "Screen Wake Lock API; absent on some browsers")
+System_Ext(vis, "Document visibility", "visibilitychange and visibilityState")
+
+Rel(singer, sing, "Sings", "Screen and microphone")
+Rel(sing, helper, "request() on start; suspend() on pause and finish; destroy() on cleanup (SG-L2-24)")
+Rel(helper, wakelock, "request('screen') and sentinel.release(); absence and rejection are silent (SG-L2-24)")
+Rel(helper, vis, "Listens for visibilitychange to release and reacquire (SG-L2-24)")
+Rel(wakelock, singer, "Keeps the display on during the performance")
+@enduml

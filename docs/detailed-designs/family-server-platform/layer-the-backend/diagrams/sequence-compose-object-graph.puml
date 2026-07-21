@@ -1,0 +1,53 @@
+@startuml
+title UML sequence behaviour — Compose the object graph at startup
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Family server host process" as host
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "Program.cs" as program
+  participant "IServiceCollection / container" as container
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "AddApplicationServices()" as appdi
+  participant "RoomService" as rooms
+  participant "SingerService" as service
+end box
+box "Backend — Infrastructure" #FFF4E5
+  participant "AddInfrastructure()" as infradi
+  participant "SingerRepository" as repo
+  participant "PhotoStorage" as photos
+end box
+
+host -> program : start
+program -> appdi : AddApplicationServices() (FS-L2-2)
+appdi -> container : TryAddSingleton(TimeProvider.System) (FS-L2-7)
+appdi -> container : AddScoped for the four services (FS-L2-7)
+appdi -> container : AddSingleton<IRoomService, RoomService> (FS-L2-7)
+appdi --> program : registrations added
+program -> infradi : AddInfrastructure(connectionString, photosPath)
+infradi -> container : AddDbContext<AppDbContext>(UseSqlite)
+infradi -> container : AddScoped for the four repositories (FS-L2-7)
+infradi -> container : AddSingleton(new PhotoStorage(photosPath)) (FS-L2-7)
+infradi --> program : registrations added
+program --> host : host built
+
+host -> container : first request begins a scope
+container -> rooms : resolve existing singleton (FS-L2-7)
+rooms --> container : process-wide room registry
+container -> service : construct scoped SingerService (FS-L2-7)
+container -> repo : construct scoped SingerRepository (FS-L2-7)
+container -> photos : resolve existing singleton (FS-L2-7)
+container --> host : graph ready for the request
+@enduml

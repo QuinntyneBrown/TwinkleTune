@@ -1,0 +1,58 @@
+@startuml
+title UML sequence behaviour — Delete a song with context-aware wording
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "showSongManager()" as manager
+  participant "Delete confirmation" as confirm
+  participant "api.songs" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "SongsController" as controller
+end box
+box "Backend — Infrastructure" #FFF4E5
+  database "Family database" as db
+end box
+
+actor -> manager : Tap the delete control on a row
+manager -> confirm : Open "Delete <title>?" (GC-L2-7)
+alt song.isSeed is true
+  confirm --> actor : "This is a built-in song - it will be gone from the family songbook." (GC-L2-7)
+else family-authored song
+  confirm --> actor : "Its family high scores go with it." (GC-L2-7)
+end
+
+alt confirmed
+  actor -> confirm : Tap "Yes, delete"
+  confirm -> client : api.songs.remove(song.id)
+  client -> controller : DELETE /api/songs/{id}
+  controller -> db : Remove the song and its family high scores
+  db --> controller : Rows affected
+  alt server accepted
+    controller --> client : 204 No Content
+    client --> confirm : Deleted
+    confirm -> manager : close2(); toast "Song deleted"; refresh()
+    manager --> actor : Songbook without the song
+  else request failed
+    controller --> client : Error status
+    client --> confirm : Rejected promise
+    confirm --> actor : Toast "Could not delete right now"; the song remains (GC-L2-7)
+  end
+else declined
+  actor -> confirm : Tap "Keep it"
+  confirm --> actor : Dialog closes; nothing is deleted (GC-L2-7)
+end
+@enduml

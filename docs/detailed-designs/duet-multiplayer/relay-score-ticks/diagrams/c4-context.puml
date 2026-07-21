@@ -1,0 +1,15 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Relay score ticks
+
+Person(singerA, "Singer (host device)", "Sings and scores locally")
+Person(singerB, "Singer (guest device)", "Sings and scores locally")
+System(webapp, "TwinkleTune web app", "Scores on the device; sends one small tick per finalised note")
+System(familyserver, "Family Server", "Relays each tick to the other singer only; stores nothing about the live duet")
+
+Rel(singerA, webapp, "Sings into her own device", "Microphone, on device")
+Rel(singerB, webapp, "Sings into her own device", "Microphone, on device")
+Rel(webapp, familyserver, "Sends { landed, streak, sparkles, noteIdx } — no audio", "SignalR/WebSockets")
+Rel(familyserver, webapp, "Relays OpponentTick to the other singer", "SignalR/WebSockets")
+@enduml

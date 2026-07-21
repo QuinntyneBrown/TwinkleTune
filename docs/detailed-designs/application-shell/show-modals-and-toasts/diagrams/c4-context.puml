@@ -1,0 +1,15 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Show modals and toasts
+
+Person(child, "Young singer", "Answers dialogs and reads short cheers")
+Person(grownup, "Grown-up", "Passes the parent gate and uses the managers")
+System(twinkle, "TwinkleTune web app", "Raises dialogs and transient messages through one shell primitive pair (TypeScript, CSS)")
+System_Ext(at, "Assistive technology", "Screen reader consuming role=dialog and its aria-label")
+
+Rel(child, twinkle, "Taps a dialog control or a backdrop")
+Rel(twinkle, child, "Presents a dialog over a dimmed backdrop, or a toast that leaves on its own")
+Rel(grownup, twinkle, "Opens the song and avatar managers as wide modals")
+Rel(twinkle, at, "Announces each modal as a labelled dialog")
+@enduml

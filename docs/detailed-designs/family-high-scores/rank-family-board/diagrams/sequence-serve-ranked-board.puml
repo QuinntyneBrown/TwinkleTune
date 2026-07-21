@@ -1,0 +1,58 @@
+@startuml
+title UML sequence behaviour — Serve a ranked board
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Family member" as family
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Song screen (songs.ts)" as screen
+  participant "api.highscores (client.ts)" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "HighScoresController" as controller
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "HighScoreService" as service
+  participant "Mapping.ToDto" as mapping
+end box
+box "Backend — Infrastructure" #FFF4E5
+  participant "HighScoreRepository" as repo
+  database "TwinkleTune database (SQLite)" as db
+end box
+
+family -> screen : Open a board
+
+alt Per-song board
+  screen -> client : forSong(songId)
+  client -> controller : GET /api/songs/{songId}/highscores (HS-L2-8)
+  controller -> service : GetForSongAsync(songId)
+  service -> repo : GetForSongAsync(songId)
+else Per-singer board
+  screen -> client : forSinger(singerId)
+  client -> controller : GET /api/singers/{singerId}/highscores (HS-L2-8)
+  controller -> service : GetForSingerAsync(singerId)
+  service -> repo : GetForSingerAsync(singerId)
+end
+
+repo -> db : AsNoTracking SELECT including Singer and Avatar
+db --> repo : matching HighScore rows
+repo --> service : List<HighScore>
+service -> service : OrderByDescending(Stars).ThenByDescending(Accuracy) (HS-L2-7)
+service -> mapping : ToDto(each entity)
+mapping --> service : HighScoreDto with SingerName (default "Singer"), avatar emoji, has-photo (HS-L2-9)
+service --> controller : List<HighScoreDto>
+controller --> client : 200 OK with the ranked board (HS-L2-7)
+client --> screen : ApiHighScore[]
+screen --> family : Ranked entries with singer identity
+@enduml

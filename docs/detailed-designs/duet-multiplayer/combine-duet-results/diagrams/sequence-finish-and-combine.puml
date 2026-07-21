@@ -1,0 +1,62 @@
+@startuml
+title UML sequence behaviour — Finish and combine the two results
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer (host device)" as host
+actor "Singer (guest device)" as guest
+box "Frontend — TwinkleTune web app (host device)" #E0F2FE
+  participant "finish() / DuetClient" as hostSing
+  participant "results.ts paintDuet" as hostResults
+end box
+box "Frontend — TwinkleTune web app (guest device)" #E0F2FE
+  participant "finish() / DuetClient" as guestSing
+  participant "results.ts paintDuet" as guestResults
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "DuetHub" as hub
+end box
+box "Backend — TwinkleTune Application and Domain" #ECFDF3
+  participant "RoomService" as service
+end box
+box "Backend — TwinkleTune Infrastructure" #FFF4E5
+  database "Room registry (in memory)" as registry
+end box
+
+host -> hostSing : Last note of the song elapses
+hostSing -> hostSing : Build mySummary from summarize(song, results, noMic)
+hostSing -> hub : invoke FinishSong(summary)
+hub -> service : Finish(connectionId, summary)
+service -> registry : Store the summary on the player; stamp LastActivity
+registry --> service : One of two summaries present
+service --> hub : FinishResult(code, BothDone = false, [summary])
+hub -> guestSing : Send OpponentFinished(summary) to the other player (DM-L2-7)
+guestSing --> guest : Toast "<name> finished — 24 notes!"
+hostSing -> hostResults : Navigate to #/results?duet=1 after 600 ms
+hostResults --> host : "Waiting for <buddy>… 🎶" card, no winner declared (DM-L2-15)
+
+guest -> guestSing : Last note of the song elapses
+guestSing -> hub : invoke FinishSong(summary)
+hub -> service : Finish(connectionId, summary)
+service -> registry : Store the second summary
+registry --> service : Both players hold a summary
+service --> hub : FinishResult(code, BothDone = true, [summaryA, summaryB]) (DM-L2-7)
+hub -> hub : CombinedSparkles = Summaries.Sum(s => s.Sparkles) (DM-L2-7)
+hub -> hostResults : Send DuetResult(players, combinedSparkles) to the group (DM-L2-7)
+hub -> guestResults : Send DuetResult(players, combinedSparkles) to the group (DM-L2-7)
+hostResults -> hostResults : Sort players with the local singer first (DM-L2-15)
+guestResults -> guestResults : Sort players with the local singer first (DM-L2-15)
+hostResults --> host : "Together you earned 260 ✨!" with both players' stars and notes (DM-L2-15)
+guestResults --> guest : "Together you earned 260 ✨!" with both players' stars and notes (DM-L2-15)
+@enduml

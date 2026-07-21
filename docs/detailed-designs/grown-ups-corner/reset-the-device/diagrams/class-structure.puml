@@ -1,0 +1,79 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Reset the device
+
+class "settings.ts" as SettingsMod <<module>> {
+  +showSettings(): void
+  -onReset(): void
+}
+
+interface Store {
+  +get(): AppState
+  +set(patch: Partial<AppState>): void
+  +update(fn: (s: AppState) => void): void
+  +switchKey(key: string): void
+  +reset(): void
+}
+
+interface AppState {
+  +profile: Profile | null
+  +sparkles: number
+  +singDays: string[]
+  +plays: Record<string, number>
+  +bests: Record<string, SongBest>
+  +badges: Record<string, string>
+  +lastResult: SongSummary | null
+  +lastSongId: string | null
+  +lastNewBadges: string[]
+}
+
+interface Profile {
+  +name: string
+  +avatar: string
+  +range: VoiceRange | null
+  +latencyMs: number
+  +singerId?: string | null
+}
+
+interface SongBest {
+  +stars: number
+  +accuracy: number
+  +plays: number
+}
+
+interface StorageLike {
+  +getItem(key: string): string | null
+  +setItem(key: string, value: string): void
+  +removeItem(key: string): void
+}
+
+class "store.ts" as StoreMod <<module>> {
+  +createStore(storage: StorageLike, initialKey: string): Store
+  +profileKey(singerId: string): string
+  -emptyState(): AppState
+  -KEY: 'twinkletune:v1'
+}
+
+class "modal.ts" as ModalMod <<module>> {
+  +showModal(opts: ModalOptions): ModalHandle
+}
+
+SettingsMod ..> ModalMod : opens the confirmation
+SettingsMod ..> Store : store.reset()
+StoreMod ..> Store : creates
+Store --> AppState : holds
+Store ..> StorageLike : removeItem(key) on reset
+AppState --> "0..1" Profile : profile
+AppState --> "*" SongBest : bests
+@enduml

@@ -1,0 +1,33 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Present shared chrome (parts.ts and twinkle.css)
+
+Container_Boundary(parts, "Shared UI parts (ui/parts.ts)") {
+  Component(nav, "bottomNav(active)", "TypeScript function", "Four anchors: Home, Songs, Tips, Me; active tab gets the active class")
+  Component(sky, "skyDecor()", "TypeScript function", "Three clouds, four stars, two notes; aria-hidden, pointer-events none")
+  Component(mascot, "mascotSVG(cls, happy)", "TypeScript function", "Inline 120x120 star mascot, neutral or happy mouth")
+  Component(star, "starSVG(filled)", "TypeScript function", "Gold or pale rating star")
+  Component(avatar, "avatarHTML(profile, cls, label)", "TypeScript function", "Photo bubble or emoji bubble with role=img")
+}
+Container_Boundary(css, "Design system stylesheet (styles/twinkle.css)") {
+  Component(tokens, ":root tokens", "CSS custom properties", "Sky studio palette, ink pair, gold accent, --r 28px, Baloo 2 and Nunito")
+  Component(btn, ".btn / .btn-xl / .btn-sm", "CSS rules", "Fully rounded controls, 16-20 px padding, 20-24 px display type")
+  Component(navcss, ".bottomnav / .bn-item.active", "CSS rules", "Fixed pill bar, min(440px, 100vw - 32px); active gradient")
+  Component(screencss, ".screen", "CSS rule", "max-width 470px, centred, 130 px bottom padding for the bar")
+  Component(focus, ":focus-visible", "CSS rule", "3 px blue outline, 3 px offset")
+}
+Component(screen, "renderHome / renderSongs / renderTips / renderMe", "TypeScript (screens/*.ts)", "Compose the chrome into screen markup")
+
+Rel(screen, nav, "bottomNav('home' | 'songs' | 'tips' | 'me')")
+Rel(screen, sky, "skyDecor()")
+Rel(screen, mascot, "mascotSVG('mascot mascot-sm')")
+Rel(screen, avatar, "avatarHTML(profile)")
+Rel(screen, star, "starSVG(earned)")
+Rel(nav, navcss, "Emits .bottomnav and .bn-item.active")
+Rel(screen, btn, "Emits one .btn-xl primary action")
+Rel(screen, screencss, "Emits .screen")
+Rel(btn, tokens, "Reads the palette and type tokens")
+Rel(navcss, tokens, "Reads the palette tokens")
+Rel(btn, focus, "Receives the shared focus ring")
+@enduml

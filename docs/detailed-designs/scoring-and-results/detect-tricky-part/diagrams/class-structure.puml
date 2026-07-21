@@ -1,0 +1,72 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Detect the tricky part
+
+interface SongPhrase {
+  +lyric: string
+  +notes: SongNote[]
+}
+
+interface Song {
+  +id: string
+  +title: string
+  +bpm: number
+  +phrases: SongPhrase[]
+}
+
+interface NoteResult {
+  +phraseIdx: number
+  +noteIdx: number
+  +hitFrames: number
+  +totalFrames: number
+}
+
+interface SongSummary {
+  +songId: string
+  +noMic: boolean
+  +trickyPhrase: number?
+  +trickyLyric: string?
+}
+
+class "scoring.ts" as ScoringMod <<module>> {
+  +summarize(song: Song, results: NoteResult[], noMic: boolean): SongSummary
+  -worst: number
+  -trickyPhrase: number?
+  .. inline thresholds ..
+  -phrase note minimum: 3
+  -shakiness threshold: 0.75
+}
+
+class "results.ts" as ResultsMod <<module>> {
+  +renderResults(root: HTMLElement, params: URLSearchParams): () => void
+  -practiceBtn: string
+}
+
+class "sing.ts" as SingMod <<module>> {
+  +renderSing(root: HTMLElement, params: URLSearchParams): () => void
+  -practicePhrase: number?
+  -slow: boolean
+  -rate: number
+  -fromBeat: number
+  -untilBeat: number
+}
+
+Song *-- "*" SongPhrase : phrases
+ScoringMod ..> NoteResult : groups by phraseIdx
+ScoringMod ..> Song : reads phrases
+ScoringMod --> SongSummary : writes trickyPhrase / trickyLyric
+ResultsMod ..> SongSummary : renders the invitation from
+ResultsMod ..> SingMod : navigates with practice and slow
+SingMod --> SongPhrase : plays the practice phrase
+@enduml

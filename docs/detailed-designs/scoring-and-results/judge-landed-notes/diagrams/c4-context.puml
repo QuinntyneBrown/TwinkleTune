@@ -1,0 +1,13 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Judge landed notes
+
+Person(singer, "Singer", "Sings the song into the tablet microphone")
+System(twinkle, "TwinkleTune web app", "On-device singing app; judges each note octave-forgivingly (TypeScript)")
+System_Ext(browser, "Browser Web Audio & microphone", "Supplies the sung pitch frame on the device")
+
+Rel(singer, twinkle, "Sings a note against a target pitch")
+Rel(twinkle, browser, "Reads the sung pitch frame", "Web Audio")
+Rel(twinkle, singer, "Shows the landed-note verdict as live encouragement")
+@enduml

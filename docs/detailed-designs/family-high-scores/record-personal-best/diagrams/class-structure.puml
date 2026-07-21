@@ -1,0 +1,70 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Record a personal best
+
+class HighScore <<entity>> {
+  +Guid Id
+  +Guid SongId
+  +Song? Song
+  +Guid SingerId
+  +Singer? Singer
+  +int Stars
+  +double Accuracy
+  +int Sparkles
+  +int MaxStreak
+  +DateTimeOffset AchievedAt
+  +IsBeatenBy(stars: int, accuracy: double): bool
+}
+
+class HighScoreService {
+  +SubmitAsync(request, ct): Task<(SubmitHighScoreResult?, string?)>
+}
+
+interface IHighScoreRepository {
+  +GetAsync(songId: Guid, singerId: Guid, ct): Task<HighScore?>
+  +AddAsync(score: HighScore, ct): Task
+  +UpdateAsync(score: HighScore, ct): Task
+}
+
+class HighScoreRepository {
+  -db: AppDbContext
+  +GetAsync(songId, singerId, ct): Task<HighScore?>
+  +AddAsync(score, ct): Task
+  +UpdateAsync(score, ct): Task
+}
+
+class SubmitHighScoreResult <<record>> {
+  +bool Improved
+  +HighScoreDto Score
+}
+
+class TimeProvider <<abstract>> {
+  +GetUtcNow(): DateTimeOffset
+}
+
+class AppDbContext <<EF Core>> {
+  +DbSet<HighScore> HighScores
+  +OnModelCreating(builder): void
+  --
+  unique index {SongId, SingerId}
+}
+
+HighScoreRepository ..|> IHighScoreRepository
+HighScoreService --> IHighScoreRepository : reads and writes the stored best
+HighScoreService --> TimeProvider : stamps AchievedAt
+HighScoreService ..> HighScore : IsBeatenBy
+HighScoreService --> SubmitHighScoreResult : returns
+HighScoreRepository --> AppDbContext : queries
+AppDbContext "1" o-- "*" HighScore : HighScores
+@enduml

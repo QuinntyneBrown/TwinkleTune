@@ -1,0 +1,32 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Record a completed play (state/store.ts)
+
+Container_Boundary(store, "Reward store — state/store.ts") {
+  Component(record, "recordPlay()", "TypeScript function", "Six ordered steps inside one store.update")
+  Component(update, "Store.update()", "TypeScript method", "Applies the mutation then saves the whole blob")
+  Component(sparkles, "AppState.sparkles", "Field", "Running sparkle total")
+  Component(singDays, "AppState.singDays", "Field", "ISO dates with at least one song")
+  Component(plays, "AppState.plays", "Field", "Per-date completed play count")
+  Component(bests, "AppState.bests", "Field", "Per-song best stars, accuracy and plays")
+  Component(badgeMap, "AppState.badges", "Field", "Badge id to ISO date earned")
+  Component(handoff, "lastResult / lastSongId / lastNewBadges", "Fields", "Results hand-off")
+  Component(streak, "streakCount()", "Pure function", "Streak passed into the badge context")
+}
+Component(evaluate, "evaluateBadges()", "state/badges.ts", "Returns the ids newly earned by this play")
+Component(sing, "Sing screen end-of-song block", "screens/sing.ts", "Calls recordPlay before navigating")
+Component(results, "renderResults()", "screens/results.ts", "Reads the hand-off fields")
+
+Rel(sing, record, "recordPlay(store, song, summary, today) (RP-L2-8)")
+Rel(record, update, "Wraps all six steps in one call (RP-L2-8)")
+Rel(record, sparkles, "Step 1: adds summary.sparkles")
+Rel(record, singDays, "Step 2: appends today when absent")
+Rel(record, plays, "Step 3: increments today's count")
+Rel(record, bests, "Step 4: monotone best update")
+Rel(record, streak, "Step 5: streak for the badge context")
+Rel(record, evaluate, "Step 5: evaluates the six rules")
+Rel(record, badgeMap, "Step 5: stamps each new badge with today")
+Rel(record, handoff, "Step 6: stashes result, song id and new badges")
+Rel(results, handoff, "Reads after navigation")
+@enduml

@@ -1,0 +1,62 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Disclose data handling
+
+class "settings.ts" as SettingsMod <<module>> {
+  +showSettings(): void
+  -disclosure: string
+}
+
+interface AppState {
+  +profile: Profile | null
+  +sparkles: number
+  +singDays: string[]
+  +plays: Record<string, number>
+  +bests: Record<string, SongBest>
+  +badges: Record<string, string>
+}
+
+interface StorageLike {
+  +getItem(key: string): string | null
+  +setItem(key: string, value: string): void
+  +removeItem(key: string): void
+}
+
+class "api" as ApiClient <<client>> {
+  +songs: SongsApi
+  +avatars: AvatarsApi
+  +singers: SingersApi
+  +highscores: HighScoresApi
+}
+
+class DuetHub {
+  +JoinRoom(code: string): Task
+  +SendScore(payload): Task
+}
+
+class HighScore {
+  +SongId: Guid
+  +SingerId: Guid
+  +Stars: int
+  +Accuracy: double
+  +Sparkles: int
+}
+
+SettingsMod ..> AppState : clause 1 — rewards stay on the device
+SettingsMod ..> ApiClient : clause 2 — content on the home server only
+SettingsMod ..> DuetHub : clause 3 — live scores only during duets
+AppState ..> StorageLike : serialized into localStorage
+ApiClient --> HighScore : persists family high scores
+DuetHub ..> HighScore : relays live values without persisting them
+@enduml

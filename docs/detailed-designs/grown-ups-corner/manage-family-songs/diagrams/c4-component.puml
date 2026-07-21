@@ -1,0 +1,33 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Manage family songs (managers.ts)
+
+Container_Boundary(manager, "Song manager and editor (managers.ts)") {
+  Component(list, "showSongManager()", "TypeScript function", "Renders rows, tags isSeed as 'built-in', wires edit and delete")
+  Component(refresh, "refresh()", "TypeScript function", "api.songs.list(); shows the unreachable-server message on failure")
+  Component(editor, "songEditor()", "TypeScript function", "Structured fields plus the phrases JSON textarea")
+  Component(parse, "parseSongForm()", "TypeScript function", "Reads fields, parses the JSON, collects errors")
+  Component(errors, "showErrors()", "TypeScript function", "Renders the [data-errors] message list")
+  Component(confirm, "Delete confirmation", "Modal", "Seed and non-seed wording (isSeed)")
+}
+Container_Boundary(support, "Supporting modules") {
+  Component(validate, "validateSong()", "songs/types.ts", "Invariants mirrored from the server SongValidator")
+  Component(player, "SongPlayer", "audio/player.ts", "start(song, { countInBeats: 1 }) and stop()")
+  Component(client, "api.songs", "api/client.ts", "list, create, update, remove")
+  Component(apierr, "ApiError", "api/client.ts", "Carries the errors array from a 400 body")
+}
+
+Rel(list, refresh, "Loads and re-renders the songbook")
+Rel(refresh, client, "api.songs.list()")
+Rel(list, editor, "Opens for a new or existing song")
+Rel(list, confirm, "Opens on the delete control")
+Rel(confirm, client, "api.songs.remove(id) only on confirm")
+Rel(editor, parse, "Reads the current form")
+Rel(parse, validate, "validateSong(song)")
+Rel(editor, errors, "Shows parse and invariant messages")
+Rel(editor, player, "Previews the parsed song")
+Rel(editor, client, "api.songs.create / update")
+Rel(client, apierr, "Throws on a non-2xx response")
+Rel(apierr, errors, "Server messages rendered in the same box")
+@enduml

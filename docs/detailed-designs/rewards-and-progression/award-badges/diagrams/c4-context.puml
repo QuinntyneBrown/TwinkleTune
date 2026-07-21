@@ -1,0 +1,13 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Award badges
+
+Person(singer, "Singer", "Sings songs and reaches milestones")
+System(twinkle, "TwinkleTune web app", "On-device singing app; evaluates six badge rules per completed play (TypeScript)")
+System_Ext(storage, "Browser device storage", "localStorage blob holding badge id to award date")
+
+Rel(singer, twinkle, "Completes plays in")
+Rel(twinkle, singer, "Celebrates newly earned badges and shows locked ones to")
+Rel(twinkle, storage, "Reads the earned set and stamps new awards", "localStorage")
+@enduml

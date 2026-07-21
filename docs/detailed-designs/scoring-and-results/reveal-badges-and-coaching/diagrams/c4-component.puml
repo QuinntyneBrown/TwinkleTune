@@ -1,0 +1,29 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Reveal badges and coaching (results.ts)
+
+Container_Boundary(results, "Results screen (results.ts)") {
+  Component(chips, "badgeChips", "TypeScript template", "One chip per newly earned badge, emoji and name")
+  Component(coach, "coachText", "TypeScript expression", "No-mic / tricky lyric / 3-star / default wording")
+  Component(bubble, "result-coach block", "TypeScript template", "Small mascot beside the speech bubble")
+}
+Container_Boundary(badges, "Badge catalogue (state/badges.ts)") {
+  Component(lookup, "badgeById()", "TypeScript function", "Resolves a badge id to its metadata")
+  Component(meta, "BADGES", "BadgeMeta[]", "Six shipped badges with emoji, name and hint")
+}
+Container_Boundary(state, "App state (store.ts)") {
+  Component(newbadges, "AppState.lastNewBadges", "string[]", "Badge ids awarded by this play")
+  Component(summary, "AppState.lastResult", "SongSummary", "noMic, trickyLyric and stars")
+}
+Container_Boundary(duetmod, "Duet session (api/duet.ts)") {
+  Component(session, "duetSession", "TypeScript singleton", "Present when the results host a duet")
+}
+
+Rel(chips, newbadges, "Iterates the ids")
+Rel(chips, lookup, "badgeById(id); unresolved ids dropped")
+Rel(lookup, meta, "Finds by id")
+Rel(coach, summary, "Branches on noMic, trickyLyric and stars")
+Rel(bubble, coach, "Renders the chosen sentence")
+Rel(bubble, session, "Duet outcome replaces the sentence")
+@enduml

@@ -1,0 +1,33 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Track the daily goal and streak
+
+Container_Boundary(store, "Reward store — state/store.ts") {
+  Component(singDays, "AppState.singDays", "TypeScript field", "ISO dates with at least one completed song")
+  Component(plays, "AppState.plays", "TypeScript field", "ISO date to completed play count")
+  Component(streak, "streakCount()", "Pure function", "Consecutive sing-days ending today or yesterday")
+  Component(sung, "songsSungOn()", "Pure function", "plays[day] or 0")
+  Component(shift, "shiftISO()", "Module-private helper", "Offsets an ISO date by a whole number of days")
+  Component(today, "todayISO()", "Pure function", "Formats a Date as YYYY-MM-DD")
+  Component(record, "recordPlay()", "TypeScript function", "Appends today once and increments plays[today]")
+}
+Container_Boundary(home, "Home dashboard — screens/home.ts") {
+  Component(render, "renderHome()", "TypeScript function", "Computes sungToday, goalDeg and streak")
+  Component(ring, "Goal ring markup", "conic-gradient element", "Filled sweep with the 3-song status message")
+  Component(chip, "Streak chip markup", "DOM element", "Renders the n-day streak")
+  Component(goal, "DAILY_GOAL", "Constant", "3 songs per day")
+}
+
+Rel(record, singDays, "Appends today when absent")
+Rel(record, plays, "Increments today's count")
+Rel(streak, singDays, "Walks backwards through (RP-L2-4)")
+Rel(streak, shift, "Steps one day back")
+Rel(sung, plays, "Reads today's count (RP-L2-3)")
+Rel(render, today, "Resolves the current ISO date")
+Rel(render, sung, "sungToday")
+Rel(render, streak, "streak")
+Rel(render, goal, "Caps progress at 3 (RP-L2-3)")
+Rel(render, ring, "Sets goalDeg = min(1, sungToday / 3) * 360 (RP-L2-3)")
+Rel(render, chip, "Sets the streak count (RP-L2-4)")
+@enduml

@@ -1,0 +1,21 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Namespace singer state (store.ts)
+
+Container_Boundary(state, "TwinkleTune web app — state (store.ts)") {
+  Component(create, "createStore(storage, initialKey)", "Factory", "Closes over one mutable key; load, save, switchKey, reset")
+  Component(keys, "profileKey(singerId)", "Helper", "twinkletune:v1:{singerId}")
+  Component(active, "getActiveSingerId / setActiveSingerId", "Helpers", "Read and write twinkletune:active-singer")
+  Component(adopt, "adoptLegacyState(singerId)", "Migration helper", "Moves twinkletune:v1 into the singer's key once")
+  Component(record, "recordPlay(store, song, summary, today)", "Writer", "Sparkles, sing days, bests, badges")
+  Component(root, "rootStorage", "StorageLike", "localStorage, or an in-memory map when absent")
+}
+
+Rel(create, root, "getItem / setItem / removeItem at the current key")
+Rel(create, keys, "Opens profileKey(activeId) at start-up")
+Rel(active, root, "Reads and writes twinkletune:active-singer")
+Rel(adopt, root, "Copies twinkletune:v1 then removes it")
+Rel(adopt, keys, "Targets profileKey(singerId)")
+Rel(record, create, "update(fn) into the active blob")
+@enduml

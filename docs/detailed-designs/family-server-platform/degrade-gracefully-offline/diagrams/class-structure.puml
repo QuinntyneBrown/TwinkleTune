@@ -1,0 +1,71 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Degrade gracefully offline
+
+class "api/client.ts" as ClientMod <<module>> {
+  +API_URL: string
+  -configuredApiUrl: string | undefined
+  -onlineCheck: { at: number; result: boolean } | null
+  -req<T>(path: string, init?: RequestInit): Promise<T>
+  +serverOnline(): Promise<boolean>
+  +api: ApiSurface
+}
+
+class ApiError <<extends Error>> {
+  +message: string
+  +errors: string[]
+}
+
+class ApiSurface {
+  +avatars: { list, create, update, remove }
+  +singers: { list, get, create, update, remove, uploadPhoto, photoUrl }
+  +songs: { list, create, update, remove }
+  +highscores: { submit, forSong, forSinger }
+}
+
+interface ApiSong {
+  +id: string
+  +title: string
+  +emoji: string
+  +art: number
+  +bpm: number
+  +difficulty: number
+  +isSeed: boolean
+  +phrases: ApiSongPhrase[]
+}
+
+class "songs/repo.ts" as RepoMod <<module>> {
+  -current: Song[]
+  -liveFromServer: boolean
+  +currentSongs(): Song[]
+  +loadSongs(): Promise<{ songs: Song[]; online: boolean }>
+  +songsAreLive(): boolean
+}
+
+class "screens/welcome.ts" as WelcomeMod <<module>> {
+  +renderWelcome(root): void
+}
+
+class "screens/duet.ts" as DuetMod <<module>> {
+  -createRoom(): Promise<void>
+  -joinRoom(code: string): Promise<void>
+}
+
+ClientMod --> ApiSurface : api
+ClientMod ..> ApiError : throws
+ClientMod ..> ApiSong : returns
+RepoMod ..> ClientMod : api.songs.list()
+WelcomeMod ..> ClientMod : serverOnline(), api.singers.create()
+DuetMod ..> ClientMod : API_URL for the hub connection
+@enduml

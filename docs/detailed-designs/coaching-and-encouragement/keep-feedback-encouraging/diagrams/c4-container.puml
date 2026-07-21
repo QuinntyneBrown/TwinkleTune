@@ -1,0 +1,25 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Keep feedback encouraging
+
+Person(child, "Young singer", "Receives every message the app shows")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(results, "Results screen", "TypeScript (screens/results.ts)", "Headline, coach line, marks, practice offer")
+  Container(sing, "Sing! screen", "TypeScript (screens/sing.ts)", "Streak chip, milestone toast, silent miss")
+  Container(tips, "Tips screen", "TypeScript (screens/tips.ts)", "Confidence quote and the sparkle-dust tip")
+  Container(modal, "Modal and toast host", "TypeScript (ui/modal.ts)", "Single transient-message channel")
+  Container(scoring, "Scoring module", "TypeScript (state/scoring.ts)", "Stars, tricky phrase, landed counts")
+}
+System_Ext(server, "Family server", "Optional LAN high-score service")
+
+Rel(child, sing, "Sings a song")
+Rel(child, results, "Reads the outcome")
+Rel(child, tips, "Reads the confidence corner")
+Rel(sing, scoring, "Landed decision per note")
+Rel(results, scoring, "Reads the performance summary")
+Rel(results, modal, "Record toast only on an improvement")
+Rel(sing, modal, "Streak milestone toast")
+Rel(tips, modal, "Completion celebration toast")
+Rel(results, server, "Submits the score", "JSON/HTTP")
+@enduml

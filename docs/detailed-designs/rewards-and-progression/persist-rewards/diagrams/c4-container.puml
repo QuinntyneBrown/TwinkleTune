@@ -1,0 +1,20 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Persist rewards on the device
+
+Person(singer, "Singer", "Earns rewards and switches profiles")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(record, "Record-play orchestration", "TypeScript (state/store.ts)", "Writes every reward field through one update")
+  Container(store, "Reward store", "TypeScript (createStore in state/store.ts)", "Loads, saves, switches key and resets")
+  Container(profile, "Profile activation", "TypeScript (state/profile.ts)", "activateSinger adopts and re-points the store")
+  Container(screens, "Reward screens", "TypeScript (screens/home.ts, screens/me.ts, screens/tips.ts)", "Read state and write sparkles on a completed tip")
+}
+System_Ext(storage, "Browser device storage", "localStorage")
+
+Rel(singer, screens, "Uses")
+Rel(record, store, "update(fn) per completed play")
+Rel(screens, store, "get() and update(fn)")
+Rel(profile, store, "switchKey(profileKey(singerId)) (RP-L2-11)")
+Rel(store, storage, "getItem on load, setItem on every save, removeItem on reset (RP-L2-11)", "localStorage")
+@enduml

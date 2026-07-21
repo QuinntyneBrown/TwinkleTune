@@ -1,0 +1,49 @@
+@startuml
+title UML sequence behaviour — Guard a singer deletion
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Profiles screen (profiles.ts)" as profiles
+  participant "parentGate()" as gate
+  participant "Confirmation modal" as confirm
+  participant "api.singers" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "SingersController" as controller
+end box
+box "Backend — Infrastructure" #FFF4E5
+  database "Family database" as db
+end box
+
+actor -> profiles : Open the singer editor and tap Remove
+profiles -> gate : parentGate(onPass = show the confirmation) (GC-L2-2)
+alt gate passed
+  gate -> confirm : Show "Remove <name>?" with the score consequence
+  alt confirmed
+    confirm -> client : api.singers.remove(id)
+    client -> controller : DELETE /api/singers/{id}
+    controller -> db : Remove the singer row
+    db --> controller : Rows affected
+    controller --> client : 204 No Content
+    client --> profiles : Deletion complete
+    profiles --> actor : Toast "Removed" and refreshed list
+  else declined
+    confirm --> actor : Nothing is deleted
+  end
+else gate not passed
+  gate --> actor : Deletion does not proceed (GC-L2-2)
+end
+@enduml

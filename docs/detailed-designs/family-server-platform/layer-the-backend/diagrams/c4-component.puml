@@ -1,0 +1,34 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Layer the backend
+
+Container_Boundary(api, "TwinkleTune.Api") {
+  Component(controllers, "SingersController / SongsController / AvatarsController / HighScoresController", "ASP.NET Core controllers", "Translate HTTP to service calls")
+  Component(hub, "DuetHub", "SignalR hub", "Relays duet room messages")
+  Component(program, "Program.cs", "Minimal hosting", "Composition root")
+}
+Container_Boundary(application, "TwinkleTune.Application") {
+  Component(services, "ISingerService / ISongService / IAvatarService / IHighScoreService", "Plain services", "Business logic over repository interfaces")
+  Component(rooms, "IRoomService", "In-memory registry", "Duet rooms held for the process lifetime")
+  Component(abstractions, "IRepositories.cs", "Interfaces", "Repository and photo-storage abstractions")
+}
+Container_Boundary(infra, "TwinkleTune.Infrastructure") {
+  Component(repos, "AvatarRepository / SingerRepository / SongRepository / HighScoreRepository", "EF Core classes", "Implement the repository interfaces")
+  Component(photos, "PhotoStorage", "Disk class", "Implements IPhotoStorage under a root path")
+  ComponentDb(db, "AppDbContext", "EF Core DbContext", "SQLite-backed entity sets")
+}
+Container_Boundary(domain, "TwinkleTune.Domain") {
+  Component(entities, "Avatar / Singer / Song / HighScore", "Entities", "State and rules, no dependencies")
+}
+
+Rel(controllers, services, "Call service interfaces")
+Rel(hub, rooms, "Create, join, start, finish")
+Rel(program, services, "Registers via AddApplicationServices()")
+Rel(program, repos, "Registers via AddInfrastructure()")
+Rel(services, abstractions, "Depend on")
+Rel(repos, abstractions, "Implement")
+Rel(photos, abstractions, "Implements IPhotoStorage")
+Rel(repos, db, "Query and save")
+Rel(services, entities, "Read and mutate")
+@enduml

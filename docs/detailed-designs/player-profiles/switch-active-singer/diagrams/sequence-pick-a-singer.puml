@@ -1,0 +1,61 @@
+@startuml
+title UML sequence behaviour — Pick a singer from the picker
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer at the tablet" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "renderProfiles (profiles.ts)" as picker
+  participant "api client" as client
+  participant "activateSinger (profile.ts)" as activate
+  participant "store (store.ts)" as store
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "SingersController" as ctrl
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "SingerService" as svc
+end box
+box "Backend — Infrastructure" #FFF4E5
+  database "Family database (SQLite)" as db
+end box
+
+singer -> picker : Open "Who's singing?"
+picker -> client : Promise.all([singers.list(), avatars.list()])
+client -> ctrl : GET /api/singers
+ctrl -> svc : GetAllAsync()
+svc -> db : Read singers ordered by CreatedAt, including Avatar
+db --> svc : Singer rows
+svc --> ctrl : List<SingerDto>
+ctrl --> client : 200 OK
+
+alt server reachable
+  client --> picker : ApiSinger[] and ApiAvatar[]
+  picker -> store : getActiveSingerId()
+  store --> picker : activeId
+  picker --> singer : Cards, "SINGING NOW" on the active one, "+ New singer" card (PP-L2-16)
+
+  singer -> picker : Tap "Sing as me!"
+  picker -> activate : activateSinger(singer) (PP-L2-3)
+  activate -> store : adoptLegacyState(id); setActiveSingerId(id)
+  activate -> store : switchKey(profileKey(id)) (PP-L2-3)
+  activate -> store : applySingerToProfile(s) — name, avatar, range, avatarId, photoUrl (PP-L2-3)
+  store --> activate : Profile merged
+  picker -> picker : hash = profile.range ? '#/home' : '#/voice' (PP-L2-3)
+  picker --> singer : Toast "Hi, {name}!" and the routed screen
+else server unreachable
+  client --> picker : Throws
+  picker --> singer : "Keep singing solo" panel linking to #/home (PP-L2-16)
+end
+@enduml

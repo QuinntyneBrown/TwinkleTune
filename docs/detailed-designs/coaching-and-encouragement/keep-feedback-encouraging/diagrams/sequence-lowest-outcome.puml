@@ -1,0 +1,59 @@
+@startuml
+title UML sequence behaviour — Present the lowest scored outcome
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Young singer" as child
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "renderResults (results.ts)" as results
+  participant "store (lastResult)" as store
+  participant "toast (ui/modal.ts)" as toast
+end box
+box "Device — Browser DOM" #FFF4E5
+  participant "root element" as dom
+end box
+
+child -> results : Finish a song with the lowest scored outcome
+results -> store : get().lastResult
+store --> results : Performance summary (stars, landed, tricky phrase)
+
+alt no-microphone session
+  results -> results : headline = 'What a fun sing-along' (CE-L2-8)
+else three stars
+  results -> results : headline = 'Super Singing' (CE-L2-9)
+else two stars
+  results -> results : headline = 'Beautiful Singing' (CE-L2-9)
+else one or zero stars
+  results -> results : headline = 'Brave Singing' (CE-L2-8)
+end
+
+results -> results : coachText opens with praise before any suggestion (CE-L2-9)
+results -> dom : Render "{headline}, {name}! 🎉" and the song title (CE-L2-9)
+results -> dom : Render "You landed X of Y notes! 🎯"; the unlanded count is not stated (CE-L2-8)
+results -> dom : Render Pitch, Timing, Braveness marks clamped to 1 to 3 stars (CE-L2-8)
+
+opt a tricky phrase was detected
+  results -> dom : Render "Practice the tricky part 🎯" as an optional offer (CE-L2-8)
+end
+
+opt the family high score improved
+  results -> toast : '🏆 New family record!' (CE-L2-9)
+end
+note right of results
+  No branch reports failure, a wrong note,
+  or a loss to another singer (CE-L2-8)
+end note
+
+dom --> child : A positive outcome and a warm invitation to sing again
+@enduml

@@ -1,0 +1,20 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Manage server singers
+
+Container_Boundary(api, "TwinkleTune API and Application") {
+  Component(ctrl, "SingersController", "ASP.NET Core controller", "GET / GET{id} / POST / PUT / DELETE; 200, 201, 204, 400, 404")
+  Component(svc, "SingerService", "Application service", "Validate, trim the name, stamp CreatedAt")
+  Component(validate, "SingerService.Validate", "Private guard", "Blank name, name > 30, high <= low")
+  Component(map, "Mapping.ToDto", "Extension method", "Singer -> SingerDto with AvatarEmoji and HasPhoto")
+  Component(repo, "SingerRepository", "EF Core repository", "Include(Avatar); order by CreatedAt in memory")
+  ComponentDb(db, "Family database", "SQLite", "Singers and avatars")
+}
+
+Rel(ctrl, svc, "GetAllAsync / GetAsync / CreateAsync / UpdateAsync / DeleteAsync")
+Rel(svc, validate, "Checks each SaveSingerRequest")
+Rel(svc, repo, "GetAllAsync / GetAsync / AddAsync / UpdateAsync")
+Rel(svc, map, "Projects entities to DTOs")
+Rel(repo, db, "Reads and writes", "EF Core")
+@enduml

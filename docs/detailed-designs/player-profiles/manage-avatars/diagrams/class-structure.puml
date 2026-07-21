@@ -1,0 +1,95 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Manage avatars
+
+class Avatar {
+  +Guid Id
+  +string Emoji
+  +string Name
+}
+
+class Singer {
+  +Guid Id
+  +string Name
+  +Guid? AvatarId
+  +Avatar? Avatar
+}
+
+class AvatarDto <<record>> {
+  +Guid Id
+  +string Emoji
+  +string Name
+}
+
+class SaveAvatarRequest <<record>> {
+  +string Emoji
+  +string Name
+}
+
+interface IAvatarService {
+  +GetAllAsync(): Task<List<AvatarDto>>
+  +GetAsync(id: Guid): Task<AvatarDto?>
+  +CreateAsync(request: SaveAvatarRequest): Task<(AvatarDto?, string?)>
+  +UpdateAsync(id: Guid, request: SaveAvatarRequest): Task<(AvatarDto?, string?)>
+  +DeleteAsync(id: Guid): Task<bool>
+}
+
+class AvatarService {
+  -Validate(request: SaveAvatarRequest): string?
+  +CreateAsync(request: SaveAvatarRequest): Task<(AvatarDto?, string?)>
+  +UpdateAsync(id: Guid, request: SaveAvatarRequest): Task<(AvatarDto?, string?)>
+  +DeleteAsync(id: Guid): Task<bool>
+}
+
+interface IAvatarRepository {
+  +GetAllAsync(): Task<List<Avatar>>
+  +GetAsync(id: Guid): Task<Avatar?>
+  +AddAsync(avatar: Avatar): Task
+  +UpdateAsync(avatar: Avatar): Task
+  +DeleteAsync(id: Guid): Task<bool>
+}
+
+class AvatarRepository {
+  +GetAllAsync(): Task<List<Avatar>>
+  +DeleteAsync(id: Guid): Task<bool>
+}
+
+class AvatarsController {
+  +GetAll(): Task<List<AvatarDto>>
+  +Create(req: SaveAvatarRequest): Task<IActionResult>
+  +Update(id: Guid, req: SaveAvatarRequest): Task<IActionResult>
+  +Delete(id: Guid): Task<IActionResult>
+}
+
+class SeedData <<static>> {
+  +EnsureSeededAsync(db: AppDbContext): Task
+  ..
+  Eight avatars when db.Avatars is empty
+}
+
+class "ui/managers.ts" as Manager <<module>> {
+  +showAvatarManager(): void
+  -avatarEditor(existing: ApiAvatar | null, onSaved: () => void): void
+}
+
+AvatarService ..|> IAvatarService
+AvatarRepository ..|> IAvatarRepository
+AvatarsController --> IAvatarService : delegates to
+AvatarService --> IAvatarRepository : reads and writes
+AvatarService ..> SaveAvatarRequest : validates
+AvatarService ..> AvatarDto : produces
+Singer o-- "0..1" Avatar : AvatarId, nulled on delete (SetNull)
+SeedData ..> Avatar : seeds eight
+Manager ..> AvatarsController : REST calls
+@enduml

@@ -1,0 +1,15 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Manage avatars
+
+Person(grownup, "Grown-up", "Curates the avatar set from the Grown-Ups Corner")
+Person(child, "Young singer", "Picks an avatar from the curated set")
+System(twinkle, "TwinkleTune web app", "Avatar manager modal (TypeScript)")
+System(family, "Family server", "Self-hosted .NET API owning the shared avatar set")
+
+Rel(grownup, twinkle, "Adds, edits, and removes avatars")
+Rel(child, twinkle, "Picks an avatar for her profile")
+Rel(twinkle, family, "Lists and edits avatars", "JSON/HTTP")
+Rel(family, twinkle, "Returns the avatar set, or a friendly validation error")
+@enduml

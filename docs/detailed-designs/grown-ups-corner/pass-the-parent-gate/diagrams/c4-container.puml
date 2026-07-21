@@ -1,0 +1,24 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Pass the parent gate
+
+Person(grownup, "Grown-up", "Answers the addition challenge")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(welcome, "Welcome screen", "TypeScript (welcome.ts)", "Grown-ups link on first run")
+  Container(me, "Progress screen", "TypeScript (me.ts)", "Gear control on the Me view")
+  Container(profiles, "Profiles screen", "TypeScript (profiles.ts)", "Singer editor with a delete action")
+  Container(gate, "Parent gate", "TypeScript (modal.ts)", "Addition challenge and modal host")
+  Container(settings, "Grown-Ups Corner hub", "TypeScript (settings.ts)", "Guarded settings hub")
+}
+System_Ext(api, "Family server API", "Singer, song and avatar endpoints")
+
+Rel(grownup, welcome, "Taps the grown-ups link")
+Rel(grownup, me, "Taps the settings gear")
+Rel(grownup, profiles, "Requests a singer deletion")
+Rel(welcome, gate, "parentGate(showSettings)")
+Rel(me, gate, "parentGate(showSettings)")
+Rel(profiles, gate, "parentGate(confirm then delete)")
+Rel(gate, settings, "Opens only on a correct answer")
+Rel(profiles, api, "DELETE /api/singers/{id} after the gate and confirmation", "JSON/HTTPS")
+@enduml

@@ -1,0 +1,21 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Submit a high score
+
+Person(singer, "Young singer", "Finishes a song")
+System_Boundary(app, "TwinkleTune web app") {
+  Container(results, "Results screen", "TypeScript (results.ts)", "Applies the submission guard and shows the celebration")
+  Container(client, "REST client", "TypeScript (api/client.ts)", "api.highscores.submit")
+}
+System_Boundary(family, "Family server") {
+  Container(api, "TwinkleTune API", "ASP.NET Core", "HighScoresController and HighScoreService")
+  ContainerDb(db, "TwinkleTune database", "SQLite via EF Core", "HighScores, Songs, Singers")
+}
+
+Rel(singer, results, "Views the results of a finished song")
+Rel(results, client, "submit({ songId, singerId, stars, accuracy, sparkles, maxStreak }) (HS-L2-11)")
+Rel(client, api, "POST /api/highscores (HS-L2-8)", "JSON/HTTP")
+Rel(api, db, "Reads and writes the stored best", "EF Core")
+Rel_Back(results, client, "improved flag drives the celebration (HS-L2-14)")
+@enduml

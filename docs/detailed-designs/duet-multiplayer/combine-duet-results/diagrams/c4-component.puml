@@ -1,0 +1,26 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Combine duet results
+
+Container_Boundary(web, "TwinkleTune web app") {
+  Component(finishFn, "finish()", "sing.ts", "Builds duet.mySummary from summarize() and sends it")
+  Component(client, "DuetClient", "api/duet.ts adapter", "finish(); onOpponentFinished(); onDuetResult()")
+  Component(paint, "paintDuet", "results.ts render function", "Combined headline, local singer first, stars and notes")
+  Component(waiting, "Waiting card", "results.ts render branch", "Stands in until the combined result arrives")
+}
+
+Container_Boundary(api, "TwinkleTune API") {
+  Component(hub, "DuetHub", "SignalR hub", "FinishSong; OpponentFinished; DuetResult with summed sparkles")
+  Component(service, "RoomService", "IRoomService implementation", "Finish() stores the summary and reports BothDone")
+  ComponentDb(registry, "Room registry", "ConcurrentDictionary in memory", "Per-player summaries for the life of the room")
+}
+
+Rel(finishFn, client, "finish(mySummary)")
+Rel(client, hub, "Invokes FinishSong", "SignalR/WebSockets")
+Rel(hub, service, "Finish(connectionId, summary)")
+Rel(service, registry, "Stores the summary; tests both summaries present")
+Rel(hub, client, "Sends OpponentFinished, then DuetResult to the group", "SignalR/WebSockets")
+Rel(client, waiting, "No result yet — show the waiting card")
+Rel(client, paint, "DuetResult received — paint the combined panel")
+@enduml

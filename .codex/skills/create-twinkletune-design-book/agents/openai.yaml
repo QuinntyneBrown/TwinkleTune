@@ -1,0 +1,4 @@
+interface:
+  display_name: "TwinkleTune Design Book"
+  short_description: "Build the branded engineering design PDF"
+  default_prompt: "Use $create-twinkletune-design-book to regenerate the branded engineering design handbook PDF."

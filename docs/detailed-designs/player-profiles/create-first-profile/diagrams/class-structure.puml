@@ -1,0 +1,75 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Create first profile
+
+class "welcome.ts" as Welcome <<module>> {
+  +AVATARS: string[] = ['🦄','🐱','🐸','🦊']
+  +renderWelcome(root: HTMLElement): void
+}
+
+interface Profile {
+  +name: string
+  +avatar: string
+  +range: VoiceRange | null
+  +latencyMs: number
+  +singerId?: string | null
+  +avatarId?: string | null
+  +photoUrl?: string | null
+}
+
+interface VoiceRange {
+  +low: number
+  +high: number
+}
+
+interface ApiSinger {
+  +id: string
+  +name: string
+  +avatarId: string | null
+  +avatarEmoji: string | null
+  +hasPhoto: boolean
+  +rangeLow: number | null
+  +rangeHigh: number | null
+}
+
+interface ApiAvatar {
+  +id: string
+  +emoji: string
+  +name: string
+}
+
+class "api/client.ts" as ApiClient <<module>> {
+  +serverOnline(): Promise<boolean>
+  +avatars.list(): Promise<ApiAvatar[]>
+  +singers.create(body: SaveSingerRequest): Promise<ApiSinger>
+}
+
+class "profile.ts" as ProfileMod <<module>> {
+  +activateSinger(s: ApiSinger): void
+  +applySingerToProfile(s: ApiSinger): void
+}
+
+class SingerService {
+  +CreateAsync(request: SaveSingerRequest): Task<(SingerDto?, string?)>
+}
+
+Welcome ..> Profile : writes
+Welcome ..> ApiClient : probes and creates
+Welcome ..> ProfileMod : activateSinger
+Profile --> "0..1" VoiceRange : range
+ApiClient ..> ApiSinger : returns
+ApiClient ..> ApiAvatar : returns
+ProfileMod ..> ApiSinger : merges into Profile
+ApiClient ..> SingerService : POST /api/singers
+@enduml

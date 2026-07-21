@@ -1,0 +1,47 @@
+@startuml
+title UML sequence behaviour — Complete a tip and collect sparkles
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Young singer" as child
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "renderTips (tips.ts)" as screen
+  participant "openTip" as open
+  participant "showModal / toast (ui/modal.ts)" as modal
+  participant "store (state/store.ts)" as store
+end box
+box "Device — Browser local storage" #FFF4E5
+  database "Per-singer state blob" as storage
+end box
+
+child -> screen : Tap the hero button or a tip card
+screen -> open : openTip(tip)
+open -> modal : showModal({ ariaLabel: tip.title, steps, actions })
+modal --> child : Ordered steps, "I did it! ✨", "Maybe later" (CE-L2-5)
+
+alt child taps "I did it! ✨"
+  child -> modal : Tap [data-done]
+  modal -> store : update(s => s.sparkles += 5) with no performance check (CE-L2-5)
+  store -> storage : Persist the state blob
+  storage --> store : Written
+  store --> modal : Updated balance
+  modal -> modal : toast('+5 sparkles ✨', 'gold') (CE-L2-5)
+  modal -> modal : close()
+  modal --> child : Celebration toast; the dialog closes (CE-L2-5)
+else child taps "Maybe later"
+  child -> modal : Tap [data-close]
+  modal -> modal : close()
+  modal --> child : Dialog closes with the balance unchanged (CE-L2-5)
+end
+@enduml

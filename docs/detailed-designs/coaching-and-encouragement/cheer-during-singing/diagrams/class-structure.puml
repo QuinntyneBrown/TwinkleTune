@@ -1,0 +1,53 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Cheer during singing
+
+class "screens/sing.ts" as Sing <<module>> {
+  -CHEERS: string[5]
+  -PHRASE_CHEERS: string[5]
+  -lastPhrase: number
+  -singerY: number
+  -landedCount: number
+  -noMic: boolean
+  -coachEl: HTMLElement
+  -stage: HTMLElement
+  +cheerPop(): void
+  +updateKaraoke(beat: number): void
+  +finalizeNotesUpTo(beat: number): void
+}
+
+class CheerPop <<html fragment>> {
+  +className: "feedback-pop"
+  +top: singerY - 46 px
+  +textContent: string
+  +lifetimeMs: 1100
+}
+
+class "state/scoring.ts" as Scoring <<module>> {
+  +noteLanded(r: NoteResult, minFrames: number): boolean
+}
+
+interface TimedNote {
+  +phraseIdx: number
+  +noteIdx: number
+  +start: number
+  +dur: number
+  +el?: HTMLElement
+}
+
+Sing ..> Scoring : noteLanded
+Sing --> "0..*" CheerPop : spawns per landed note
+Sing --> "*" TimedNote : finalizes in beat order
+CheerPop ..> Sing : reads CHEERS at random
+@enduml

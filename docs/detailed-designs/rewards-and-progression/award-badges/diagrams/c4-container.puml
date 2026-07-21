@@ -1,0 +1,24 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Award badges
+
+Person(singer, "Singer", "Completes a play and reaches a milestone")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(sing, "Sing screen", "TypeScript (screens/sing.ts)", "Ends the play and calls recordPlay")
+  Container(store, "Reward store", "TypeScript (state/store.ts)", "Builds the badge context and stamps awards with today's date")
+  Container(badges, "Badge rules", "TypeScript (state/badges.ts)", "BADGES catalogue and evaluateBadges")
+  Container(results, "Results screen", "TypeScript (screens/results.ts)", "Shows a chip per newly earned badge")
+  Container(me, "Progress screen", "TypeScript (screens/me.ts)", "Shows all six badges as earned or locked")
+}
+System_Ext(storage, "Browser device storage", "localStorage")
+
+Rel(singer, sing, "Finishes a song in")
+Rel(sing, store, "recordPlay(store, song, summary, today)")
+Rel(store, badges, "evaluateBadges(context with earned set) (RP-L2-6, RP-L2-7)")
+Rel(store, storage, "Persists badges and lastNewBadges", "localStorage")
+Rel(results, store, "Reads lastNewBadges")
+Rel(me, badges, "Reads the BADGES catalogue for names, emoji and hints")
+Rel(me, store, "Reads the earned badge map")
+Rel(results, singer, "Celebrates each new badge to")
+@enduml

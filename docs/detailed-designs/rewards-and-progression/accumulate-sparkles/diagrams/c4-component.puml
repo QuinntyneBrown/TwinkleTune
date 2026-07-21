@@ -1,0 +1,29 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Accumulate sparkles (state/store.ts)
+
+Container_Boundary(store, "Reward store — state/store.ts") {
+  Component(state, "AppState.sparkles", "TypeScript field", "Running total, initialised to 0 by emptyState()")
+  Component(record, "recordPlay()", "TypeScript function", "sparkles += summary.sparkles inside one store.update")
+  Component(level, "level()", "Pure function", "floor(sparkles / 300) + 1")
+  Component(toNext, "sparklesToNextLevel()", "Pure function", "300 - (sparkles mod 300)")
+  Component(title, "levelTitle()", "Pure function", "LEVEL_TITLES clamped at Superstar")
+  Component(reset, "Store.reset()", "TypeScript method", "Restores emptyState() and clears storage")
+}
+Component(tips, "openTip() done handler", "screens/tips.ts", "sparkles += 5 on a completed tip")
+Component(summary, "SongSummary.sparkles", "state/scoring.ts", "landed * 10 for the finished play")
+Component(home, "renderHome()", "screens/home.ts", "Prints Level and title in the greeting")
+Component(me, "renderMe()", "screens/me.ts", "Draws the XP bar and sparkle count")
+
+Rel(record, summary, "Reads the per-play award (RP-L2-1)")
+Rel(record, state, "Increments (RP-L2-1)")
+Rel(tips, state, "Increments by 5 (RP-L2-1)")
+Rel(level, state, "Reads (RP-L2-2)")
+Rel(toNext, state, "Reads (RP-L2-2)")
+Rel(home, level, "level(s.sparkles)")
+Rel(home, title, "levelTitle(lvl)")
+Rel(me, toNext, "sparklesToNextLevel(s.sparkles)")
+Rel(me, title, "levelTitle(lvl)")
+Rel(reset, state, "Returns to 0 (RP-L2-1)")
+@enduml

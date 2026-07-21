@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Use profile photo
+
+Person(grownup, "Grown-up", "Chooses a photograph for a singer")
+Person(child, "Young singer", "Sees her own face on home and in the picker")
+System(twinkle, "TwinkleTune web app", "Uploads the photo and applies display precedence (TypeScript)")
+System(family, "Family server", "Self-hosted .NET API storing photos on its own disk")
+
+Rel(grownup, twinkle, "Picks a JPEG, PNG, or WebP file")
+Rel(child, twinkle, "Sees the photo in place of her emoji")
+Rel(twinkle, family, "Uploads bounded photos and reads them back", "multipart and JSON over HTTP")
+@enduml

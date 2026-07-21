@@ -1,0 +1,76 @@
+@startuml
+title UML sequence behaviour — Create or update a singer
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as grownup
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "singerDialog (profiles.ts)" as dialog
+  participant "api client" as client
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "SingersController" as ctrl
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "SingerService" as svc
+  participant "Singer (entity)" as entity
+end box
+box "Backend — Infrastructure" #FFF4E5
+  participant "SingerRepository" as repo
+  database "Family database (SQLite)" as db
+end box
+
+grownup -> dialog : Enter a name, pick an avatar, save
+dialog -> dialog : Reject an empty name locally with a toast
+dialog -> client : singers.create(body) or singers.update(id, body)
+client -> ctrl : POST /api/singers or PUT /api/singers/{id}
+ctrl -> svc : CreateAsync / UpdateAsync(SaveSingerRequest) (PP-L2-8)
+svc -> svc : Validate — blank name, name > 30, high <= low (PP-L2-9)
+
+alt validation fails
+  svc --> ctrl : (null, friendly error)
+  ctrl --> client : 400 Bad Request { error } (PP-L2-9)
+  client --> dialog : ApiError with the server message
+  dialog --> grownup : Toast carrying the friendly error
+else create
+  svc -> entity : new Singer { Guid.NewGuid(), Name.Trim(), AvatarId, range, CreatedAt } (PP-L2-8)
+  svc -> repo : AddAsync(singer)
+  repo -> db : Insert singer row
+  db --> repo : Committed
+  repo --> svc : Saved
+  svc -> repo : GetAsync(id) including Avatar
+  repo --> svc : Singer with Avatar
+  svc --> ctrl : SingerDto with AvatarEmoji and HasPhoto (PP-L2-7)
+  ctrl --> client : 201 Created at /api/singers/{id} (PP-L2-8)
+  client --> dialog : ApiSinger
+  dialog --> grownup : Toast "Welcome, {name}!"
+else update an existing singer
+  svc -> repo : GetAsync(id)
+  alt singer absent
+    repo --> svc : null
+    svc --> ctrl : (null, null)
+    ctrl --> client : 404 Not Found (PP-L2-8)
+  else singer found
+    repo --> svc : Singer
+    svc -> entity : Name = Name.Trim(); AvatarId, RangeLow, RangeHigh assigned
+    svc -> repo : UpdateAsync(singer)
+    repo -> db : Save changes
+    db --> repo : Committed
+    svc --> ctrl : SingerDto (PP-L2-7)
+    ctrl --> client : 200 OK (PP-L2-8)
+    client --> dialog : ApiSinger
+    dialog --> grownup : Toast "Saved!"
+  end
+end
+@enduml

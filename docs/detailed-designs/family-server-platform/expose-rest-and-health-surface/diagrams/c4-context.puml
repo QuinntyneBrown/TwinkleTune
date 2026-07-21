@@ -1,0 +1,15 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Expose the REST and health surface
+
+Person(child, "Child singer", "Browses songs, duets, and sees family scores")
+Person(grownup, "Grown-up", "Manages songs, avatars, and profiles")
+System(app, "TwinkleTune web app", "Offline-first PWA; the only client of the server")
+System(server, "TwinkleTune family server", "Hosts /api routes, /hubs/duet, and /health")
+
+Rel(child, app, "Plays and duets using", "HTTPS")
+Rel(grownup, app, "Manages family content using", "HTTPS")
+Rel(app, server, "Probes /health and calls /api routes", "JSON/HTTP")
+Rel(app, server, "Opens a duet connection to /hubs/duet", "SignalR")
+@enduml

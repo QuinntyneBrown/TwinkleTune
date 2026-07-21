@@ -1,0 +1,58 @@
+@startuml
+title UML sequence behaviour — Cheer a landed note and cue a new phrase
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Young singer" as child
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "render loop (sing.ts)" as loop
+  participant "finalizeNotesUpTo" as finalize
+  participant "noteLanded (scoring.ts)" as scoring
+  participant "cheerPop" as pop
+  participant "updateKaraoke" as karaoke
+end box
+box "Device — Browser DOM and timers" #FFF4E5
+  participant "stage element" as stage
+  participant "coach bubble [data-coach]" as coach
+end box
+
+child -> loop : Sings while the song plays
+loop -> finalize : finalizeNotesUpTo(beat)
+
+alt microphone session (noMic = false)
+  finalize -> scoring : noteLanded(result, minFrames = 3)
+  alt note landed
+    scoring --> finalize : true
+    finalize -> pop : cheerPop() (CE-L2-3)
+    pop -> pop : Pick CHEERS[random of 5] (CE-L2-3)
+    pop -> stage : Append .feedback-pop at singerY - 46 px
+    stage --> child : "Perfect! ✨" rises and fades
+    pop -> stage : Remove the pop after 1100 ms
+  else note not landed
+    scoring --> finalize : false
+    finalize -> finalize : setStreak(0) only; no element, no text (CE-L2-3)
+  end
+else no-microphone session (noMic = true)
+  finalize -> finalize : Skip the landed branch entirely; no cheer and no miss
+end
+
+loop -> karaoke : updateKaraoke(beat)
+karaoke -> karaoke : Resolve phrase index pi from the beat
+opt pi differs from lastPhrase
+  karaoke -> karaoke : lastPhrase = pi
+  karaoke -> coach : textContent = PHRASE_CHEERS[pi % 5] (CE-L2-3)
+  coach --> child : "Sing it out, superstar! ⭐"
+end
+karaoke --> loop : Karaoke line refreshed
+@enduml

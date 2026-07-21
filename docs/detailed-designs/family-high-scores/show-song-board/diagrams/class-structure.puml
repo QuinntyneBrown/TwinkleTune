@@ -1,0 +1,67 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Show the per-song board
+
+class "screens/songs.ts" as SongsScreen <<module>> {
+  +renderSongs(root: HTMLElement): void
+  -paint(songs: Song[], live: boolean): void
+  -songCard(song: Song, idx: number, live: boolean): string
+  -showBoard(song: Song): void
+  -fmtDuration(sec: number): string
+}
+
+class "songs/repo.ts" as Repo <<module>> {
+  +currentSongs(): Song[]
+  +songsAreLive(): boolean
+  +loadSongs(): Promise<{ songs: Song[]; online: boolean }>
+  +getSongById(id: string): Song | undefined
+  +isServerSongId(id: string): boolean
+}
+
+class "ui/modal.ts" as ModalMod <<module>> {
+  +showModal(opts: ModalOptions): ModalHandle
+}
+
+interface ModalOptions {
+  +ariaLabel?: string
+  +className?: string
+  +html: string
+  +onMount?(modal: HTMLElement, close: () => void): void
+}
+
+class "api.highscores" as HighScoresApi <<client>> {
+  +forSong(songId: string): Promise<ApiHighScore[]>
+}
+
+interface ApiHighScore <<frontend>> {
+  +singerName: string
+  +singerAvatar: string | null
+  +stars: number
+  +accuracy: number
+}
+
+interface Song <<frontend>> {
+  +id: string
+  +title: string
+  +emoji: string
+  +difficulty: number
+}
+
+SongsScreen ..> Repo : live flag and id classification
+SongsScreen ..> ModalMod : showModal
+SongsScreen ..> HighScoresApi : forSong
+ModalMod ..> ModalOptions : accepts
+HighScoresApi --> "*" ApiHighScore : resolves
+SongsScreen ..> Song : renders cards for
+@enduml

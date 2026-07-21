@@ -1,0 +1,20 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Run the duet lobby
+
+Person(singer, "Singer", "Makes or joins a room and picks the duet song")
+
+System_Boundary(twinkletune, "TwinkleTune") {
+  Container(duetScreen, "Duet screen", "TypeScript (duet.ts)", "Gates, choice, join, and lobby rendering")
+  Container(songRepo, "Song repository", "TypeScript (songs/repo.ts)", "loadSongs() reports songs and an online flag")
+  ContainerDb(local, "Browser local storage", "localStorage", "Active profile, including singerId")
+  Container(api, "TwinkleTune API", "ASP.NET Core (.NET 10)", "Songbook endpoints and DuetHub at /hubs/duet")
+}
+
+Rel(singer, duetScreen, "Uses", "HTTPS")
+Rel(duetScreen, local, "Reads the active profile and its singerId")
+Rel(duetScreen, songRepo, "Calls loadSongs()")
+Rel(songRepo, api, "Requests the songbook; reports online = false on failure", "JSON/HTTPS")
+Rel(duetScreen, api, "Creates or joins the room and starts the song", "SignalR/WebSockets")
+@enduml

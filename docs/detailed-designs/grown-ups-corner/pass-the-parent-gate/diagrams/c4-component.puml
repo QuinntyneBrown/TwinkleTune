@@ -1,0 +1,17 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Pass the parent gate (modal.ts)
+
+Container_Boundary(ui, "TwinkleTune UI layer") {
+  Component(entry, "Guarded entry points", "welcome.ts, me.ts, profiles.ts", "Pass the guarded action as onPass")
+  Component(gate, "parentGate()", "TypeScript function", "Draws operands 2-8, builds [answer, answer-1, answer+2], compares the choice")
+  Component(host, "showModal()", "TypeScript function", "Mounts the .overlay card, wires backdrop dismissal, returns close")
+  Component(action, "Guarded action", "showSettings() or singer deletion", "Runs only from the onPass callback")
+}
+
+Rel(entry, gate, "parentGate(onPass)")
+Rel(gate, host, "showModal({ html, onMount })")
+Rel(host, gate, "onMount(modal, close) for option wiring")
+Rel(gate, action, "Calls onPass() after a correct choice")
+@enduml

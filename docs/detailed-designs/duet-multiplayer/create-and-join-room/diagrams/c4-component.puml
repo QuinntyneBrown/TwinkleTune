@@ -1,0 +1,22 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Create and join a duet room
+
+Container_Boundary(web, "TwinkleTune web app") {
+  Component(screen, "renderDuet", "duet.ts screen module", "showChoice, showJoin, createRoom, joinRoom")
+  Component(client, "DuetClient", "api/duet.ts adapter", "createRoom() and joinRoom() over the hub connection")
+}
+
+Container_Boundary(api, "TwinkleTune API") {
+  Component(hub, "DuetHub", "SignalR hub", "CreateRoom and JoinRoom; adds the connection to the room group")
+  Component(service, "RoomService", "IRoomService implementation", "NewCode, Create, Join, MaxPlayers cap")
+  ComponentDb(registry, "Room registry", "ConcurrentDictionary in memory", "_rooms by code and _connectionToCode")
+}
+
+Rel(screen, client, "Calls createRoom(me) / joinRoom(code, me)")
+Rel(client, hub, "Invokes CreateRoom / JoinRoom", "SignalR/WebSockets")
+Rel(hub, service, "Create(connectionId, info) / Join(code, connectionId, info)")
+Rel(service, registry, "Adds rooms and connection mappings")
+Rel(hub, client, "Returns RoomStateDto or throws HubException", "SignalR/WebSockets")
+@enduml

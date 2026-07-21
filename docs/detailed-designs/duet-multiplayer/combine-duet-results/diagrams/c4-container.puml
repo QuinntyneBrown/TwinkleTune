@@ -1,0 +1,23 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Combine duet results
+
+Person(singerA, "Singer (host device)", "Finishes first")
+Person(singerB, "Singer (guest device)", "Finishes second")
+
+System_Boundary(twinkletune, "TwinkleTune") {
+  Container(webHost, "TwinkleTune web app (host device)", "TypeScript, DOM modules", "Sing screen finish; results panel with the waiting state")
+  Container(webGuest, "TwinkleTune web app (guest device)", "TypeScript, DOM modules", "Sing screen finish; results panel")
+  Container(api, "TwinkleTune API", "ASP.NET Core (.NET 10)", "DuetHub.FinishSong; sums the sparkles")
+  Container(registry, "Room registry", "In-memory ConcurrentDictionary", "Holds each player's latest summary until the room closes")
+}
+
+Rel(singerA, webHost, "Uses", "HTTPS")
+Rel(singerB, webGuest, "Uses", "HTTPS")
+Rel(webHost, api, "Invokes FinishSong(summary)", "SignalR/WebSockets")
+Rel(webGuest, api, "Invokes FinishSong(summary)", "SignalR/WebSockets")
+Rel(api, registry, "Stores the summary and tests whether both are in", "In-process call")
+Rel(api, webHost, "Sends OpponentFinished and DuetResult", "SignalR/WebSockets")
+Rel(api, webGuest, "Sends OpponentFinished and DuetResult", "SignalR/WebSockets")
+@enduml

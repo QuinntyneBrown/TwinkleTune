@@ -1,0 +1,48 @@
+@startuml
+title UML sequence behaviour — Compose and map the surface at startup
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Family server host process" as host
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "Program.cs" as program
+  participant "IServiceCollection / container" as container
+  participant "Endpoint routing" as routes
+  participant "IWebHostEnvironment" as env
+end box
+box "Backend — Application and Domain" #ECFDF3
+  participant "IRoomService" as rooms
+end box
+
+host -> program : start
+program -> container : AddControllers() (FS-L2-8)
+program -> container : AddSignalR() (FS-L2-8)
+program -> container : AddOpenApi() (FS-L2-8)
+container --> program : services registered
+program -> env : IsDevelopment()
+alt development environment
+  env --> program : true
+  program -> routes : MapOpenApi() (FS-L2-8)
+else any other environment
+  env --> program : false
+  program -> program : OpenAPI stays unmapped (FS-L2-8)
+end
+program -> routes : MapGet("/health") returning 200 { status: "ok" } (FS-L2-9)
+program -> routes : MapControllers() for the four api routes (FS-L2-8)
+program -> routes : MapHub<DuetHub>("/hubs/duet") (FS-L2-8)
+routes -> rooms : hub resolves the singleton room registry
+rooms --> routes : registry available
+routes --> program : endpoint table built
+program --> host : app.Run() listening
+@enduml

@@ -1,0 +1,32 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Practise a tip (tips.ts and tips-data.ts)
+
+Container_Boundary(tips, "Tips screen (screens/tips.ts)") {
+  Component(render, "renderTips(root)", "TypeScript function", "Builds hero, chip row, card list, and quote")
+  Component(cats, "CATEGORIES", "Array of 5 filter entries", "All, Breathing, Brave Voice, Warm-ups, Show Time")
+  Component(filter, "category filter handler", "DOM listener", "Toggles active/aria-selected and card display")
+  Component(open, "openTip(tip)", "TypeScript function", "Renders ordered steps and the I did it action")
+  Component(done, "completion handler", "DOM listener", "Adds 5 sparkles with no performance check")
+}
+Container_Boundary(data, "Tip content (screens/tips-data.ts)") {
+  Component(hero, "HERO_TIP", "Tip constant", "Breathe like a balloon, 4 steps")
+  Component(list, "TIPS", "Tip[] of length 6", "Siren, star pose, bee hum, sparkle dust, mouse/lion, teddy audience")
+}
+Container_Boundary(ui, "Shared UI (ui/modal.ts)") {
+  Component(modal, "showModal(opts)", "TypeScript function", "Overlay dialog with role=dialog")
+  Component(toast, "toast(message, variant, ms)", "TypeScript function", "Transient gold celebration")
+}
+ComponentDb(store, "store.sparkles", "Client store (state/store.ts)", "Sparkle balance persisted per singer")
+
+Rel(render, hero, "Reads the hero title, short line, and icon")
+Rel(render, list, "Maps each tip to a .tip-card")
+Rel(render, cats, "Renders the chip row")
+Rel(render, filter, "Wires each [data-cat] chip")
+Rel(render, open, "Opens the hero tip or a tapped card")
+Rel(open, modal, "showModal with the ordered steps")
+Rel(open, done, "Wires [data-done]")
+Rel(done, store, "sparkles += 5")
+Rel(done, toast, "'+5 sparkles ✨' in gold")
+@enduml

@@ -1,0 +1,47 @@
+@startuml
+title UML sequence behaviour — Show earned and locked badges
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Results screen" as results
+  participant "Progress screen" as me
+  participant "badgeById() / BADGES" as catalogue
+  participant "Reward store" as store
+end box
+
+singer -> results : Arrive at the results screen
+results -> store : get()
+store --> results : AppState with lastNewBadges
+loop for each id in lastNewBadges
+  results -> catalogue : badgeById(id)
+  catalogue --> results : BadgeMeta with name and emoji (RP-L2-6)
+end
+results --> singer : "New badge: {name}!" chip per newly earned badge
+
+singer -> me : Open the progress screen
+me -> catalogue : BADGES
+catalogue --> me : all six BadgeMeta entries (RP-L2-6)
+me -> store : get()
+store --> me : AppState with the earned badge map
+loop for each badge in BADGES
+  alt badge.id in badges
+    me -> me : Render the badge emoji as earned
+  else not yet earned
+    me -> me : Render 🔒 with badge.hint as the title
+  end
+end
+me --> singer : Six-badge grid, earned ones lit and locked ones hinted
+@enduml

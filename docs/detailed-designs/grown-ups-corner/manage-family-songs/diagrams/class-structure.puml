@@ -1,0 +1,110 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Manage family songs
+
+class "managers.ts" as ManagersMod <<module>> {
+  +showSongManager(): void
+  -songEditor(existing: ApiSong | null, onSaved: () => void): void
+  -parseSongForm(modal: HTMLElement): { song: Song; errors: string[] }
+  -PHRASES_TEMPLATE: SongPhrase[]
+}
+
+interface Song {
+  +id: string
+  +title: string
+  +emoji: string
+  +art: 1 | 2 | 3 | 4
+  +bpm: number
+  +difficulty: 1 | 2 | 3
+  +phrases: SongPhrase[]
+}
+
+interface SongPhrase {
+  +lyric: string
+  +notes: SongNote[]
+}
+
+interface SongNote {
+  +midi: number
+  +start: number
+  +dur: number
+  +syll: string
+}
+
+interface ApiSong {
+  +id: string
+  +title: string
+  +emoji: string
+  +art: number
+  +bpm: number
+  +difficulty: number
+  +isSeed: boolean
+  +phrases: ApiSongPhrase[]
+}
+
+interface SaveSongRequest {
+  +title: string
+  +emoji: string
+  +art: number
+  +bpm: number
+  +difficulty: number
+  +phrases: ApiSongPhrase[]
+}
+
+class "songs/types.ts" as TypesMod <<module>> {
+  +validateSong(song: Song): string[]
+  +allNotes(s: Song): SongNote[]
+  +songBeats(s: Song): number
+}
+
+class SongPlayer {
+  +playing: boolean
+  +start(song: Song, opts: PlayOptions): void
+  +stop(): void
+  +secondsPerBeat(): number
+}
+
+interface PlayOptions {
+  +transpose?: number
+  +rate?: number
+  +fromBeat?: number
+  +untilBeat?: number
+  +countInBeats?: number
+  +onDone?: () => void
+}
+
+class ApiError {
+  +message: string
+  +errors: string[]
+}
+
+class "api.songs" as SongsApi <<client>> {
+  +list(): Promise<ApiSong[]>
+  +create(body: SaveSongRequest): Promise<ApiSong>
+  +update(id: string, body: SaveSongRequest): Promise<ApiSong>
+  +remove(id: string): Promise<void>
+}
+
+Song "1" *-- "1..*" SongPhrase : phrases
+SongPhrase "1" *-- "1..*" SongNote : notes
+ManagersMod ..> Song : parses the form into
+ManagersMod ..> ApiSong : lists and edits
+ManagersMod ..> TypesMod : validateSong
+ManagersMod --> SongPlayer : previews with
+ManagersMod ..> SongsApi : persists through
+SongPlayer ..> PlayOptions : accepts
+SongsApi ..> SaveSongRequest : sends
+SongsApi ..> ApiError : throws on 4xx
+ManagersMod ..> ApiError : renders errors from
+@enduml

@@ -1,0 +1,97 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Own data across device and server
+
+package "Device — localStorage" {
+  interface Profile {
+    +name: string
+    +avatar: string
+    +range: VoiceRange | null
+    +latencyMs: number
+    +singerId?: string | null
+    +avatarId?: string | null
+    +photoUrl?: string | null
+  }
+
+  interface VoiceRange {
+    +low: number
+    +high: number
+  }
+
+  interface AppState {
+    +profile: Profile | null
+    +sparkles: number
+    +singDays: string[]
+    +plays: Record<string, number>
+    +bests: Record<string, SongBest>
+    +badges: Record<string, string>
+  }
+
+  interface SongBest {
+    +stars: number
+    +accuracy: number
+    +plays: number
+  }
+
+  class "state/profile.ts" as Bridge <<module>> {
+    +applySingerToProfile(s: ApiSinger): void
+    +activateSinger(s: ApiSinger): void
+    +pushProfileToServer(): Promise<void>
+  }
+}
+
+package "Server — twinkletune.db" {
+  class Singer {
+    +Guid Id
+    +string Name
+    +Guid? AvatarId
+    +string? PhotoFileName
+    +int? RangeLow
+    +int? RangeHigh
+    +DateTimeOffset CreatedAt
+  }
+
+  class Avatar {
+    +Guid Id
+    +string Emoji
+    +string Name
+  }
+
+  class Song {
+    +Guid Id
+    +string Title
+    +List<SongPhrase> Phrases
+  }
+
+  class HighScore {
+    +Guid SongId
+    +Guid SingerId
+    +int Stars
+    +double Accuracy
+    +int Sparkles
+    +int MaxStreak
+    +DateTimeOffset AchievedAt
+  }
+}
+
+AppState --> "0..1" Profile : profile
+AppState --> "*" SongBest : bests
+Profile --> "0..1" VoiceRange : range
+Bridge ..> Profile : merges into
+Bridge ..> Singer : reads and writes
+Profile ..> Singer : linked by singerId
+Singer --> "0..1" Avatar : AvatarId
+HighScore --> Singer : SingerId
+HighScore --> Song : SongId
+@enduml

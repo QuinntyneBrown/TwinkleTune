@@ -1,0 +1,106 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — React scene to voice
+
+interface ReactiveScene {
+  +renderer: RendererKind
+  +ready: Promise<RendererKind>
+  +update(state: Partial<ReactiveVisualState>): void
+  +burst(strength?: number): void
+  +pause(): void
+  +resume(): void
+  +destroy(): void
+}
+
+interface ReactiveVisualState {
+  +energy: number
+  +onNote: boolean
+  +streak: number
+  +progress: number
+  +pitchY: number
+  +intensity: number
+}
+
+interface ReactiveSceneOptions {
+  +kind: SceneKind
+  +seed?: number
+  +reducedMotion?: boolean
+  +onRendererChange?: (renderer: RendererKind) => void
+}
+
+enum SceneKind {
+  sing
+  results
+}
+
+enum RendererKind {
+  pending
+  webgpu
+  canvas2d
+  static
+}
+
+class ProgressiveScene {
+  -canvas: HTMLCanvasElement
+  -options: ReactiveSceneOptions
+  -active: ReactiveScene?
+  -state: ReactiveVisualState
+  -pendingBurst: number
+  -explicitlyPaused: boolean
+  -destroyed: boolean
+  -rendererKind: RendererKind
+  +ready: Promise<RendererKind>
+  -initialize(): Promise<void>
+  -activate(scene: ReactiveScene): void
+  -fallBackFromDeviceLoss(): void
+  -onVisibilityChange(): void
+}
+
+class WebGpuScene {
+  {static} +create(canvas, options, onDeviceLoss): Promise<WebGpuScene>
+  +renderer: RendererKind
+}
+
+class CanvasScene {
+  +CanvasScene(canvas, options, animated: boolean = true)
+  +renderer: RendererKind
+}
+
+class "types.ts" as Types <<module>> {
+  +DEFAULT_VISUAL_STATE: ReactiveVisualState
+  +clamp01(value: number): number
+  +normalizeVisualState(current, next): ReactiveVisualState
+  +normalizeMicEnergy(rms: number): number
+  +seedFromString(value: string): number
+}
+
+class "sing.ts" as Sing <<screen module>> {
+  -visual: ReactiveScene
+  -wakeLock: SingingWakeLock
+}
+
+ReactiveScene <|.. ProgressiveScene
+ReactiveScene <|.. WebGpuScene
+ReactiveScene <|.. CanvasScene
+ProgressiveScene o--> "0..1" ReactiveScene : active renderer
+ProgressiveScene --> ReactiveVisualState : accumulated state
+ProgressiveScene --> ReactiveSceneOptions : options
+ProgressiveScene --> RendererKind : rendererKind
+ProgressiveScene ..> WebGpuScene : create, preferred
+ProgressiveScene ..> CanvasScene : fallback and still variant
+ProgressiveScene ..> Types : normalizeVisualState
+ReactiveSceneOptions --> SceneKind : kind
+Sing ..> ProgressiveScene : createReactiveScene()
+Sing ..> Types : normalizeMicEnergy, seedFromString
+@enduml

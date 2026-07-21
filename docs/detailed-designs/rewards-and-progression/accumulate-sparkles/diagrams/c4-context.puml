@@ -1,0 +1,13 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Accumulate sparkles
+
+Person(singer, "Singer", "Sings songs and completes warm-up tips on the tablet")
+System(twinkle, "TwinkleTune web app", "On-device singing app; awards sparkles and derives level and title (TypeScript)")
+System_Ext(storage, "Browser device storage", "localStorage blob holding the sparkle total")
+
+Rel(singer, twinkle, "Sings songs and completes tips in")
+Rel(twinkle, singer, "Shows level, title and sparkle total to")
+Rel(twinkle, storage, "Persists the sparkle total in", "localStorage")
+@enduml
