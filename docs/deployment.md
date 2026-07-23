@@ -6,7 +6,7 @@ TwinkleTune deploys one tested static artifact to Azure Static Web Apps:
 - `/app` contains the production Vite build from `frontend/dist/`.
 - The .NET 10 family server is built and tested by CI, but it is not hosted by this Static Web Apps resource. The public app therefore keeps its offline-first behavior; multiplayer and shared family data still require a separately hosted family server.
 
-The production resource is `twinkletune-web` in the `twinkletune-rg` resource group. Its default URL is [https://zealous-meadow-0adef640f.7.azurestaticapps.net](https://zealous-meadow-0adef640f.7.azurestaticapps.net).
+The production resource is `twinkletune-web` in the `twinkletune-rg` resource group. Its public URL is [https://twinkletune.app](https://twinkletune.app); the Azure-generated hostname is [https://zealous-meadow-0adef640f.7.azurestaticapps.net](https://zealous-meadow-0adef640f.7.azurestaticapps.net).
 
 Pull requests and pushes to `main` run backend tests, frontend tests/build, browser E2E, and the full-stack duet E2E suite. Only a green push to `main` can enter the `production` GitHub Environment. The deploy job downloads the exact `site-<commit SHA>` artifact produced by CI, verifies its checksum manifest, uploads it without rebuilding, then smoke-tests `/` and `/app` on Azure.
 

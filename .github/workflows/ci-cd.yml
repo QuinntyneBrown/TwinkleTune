@@ -206,7 +206,7 @@ jobs:
     timeout-minutes: 15
     environment:
       name: production
-      url: ${{ steps.deploy.outputs.static_web_app_url }}
+      url: https://twinkletune.app
     steps:
       - name: Download the tested site artifact
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
@@ -230,7 +230,7 @@ jobs:
 
       - name: Smoke-test production routes
         env:
-          SITE_URL: ${{ steps.deploy.outputs.static_web_app_url }}
+          SITE_URL: https://twinkletune.app
         shell: bash
         run: |
           set -euo pipefail
