@@ -22,11 +22,12 @@ public class CrudEndpointTests : IClassFixture<ApiFactory>
     }
 
     [Fact]
-    public async Task Seeds_six_songs_and_default_avatars()
+    public async Task Seeds_seven_songs_and_default_avatars()
     {
         var songs = await _client.GetFromJsonAsync<List<SongDto>>("/api/songs");
-        Assert.Equal(6, songs!.Count);
+        Assert.Equal(7, songs!.Count);
         Assert.Contains(songs, s => s.Title == "Twinkle Twinkle Little Star" && s.IsSeed);
+        Assert.Contains(songs, s => s.Title == "Jesus Loves Me" && s.IsSeed);
 
         var avatars = await _client.GetFromJsonAsync<List<AvatarDto>>("/api/avatars");
         Assert.True(avatars!.Count >= 4);

@@ -8,18 +8,19 @@ const ALL_TITLES = [
   'London Bridge',
   'Old MacDonald',
   'Row, Row, Row Your Boat',
+  'Jesus Loves Me',
 ]
 
 test.describe('Pick a Song', () => {
-  test('lists all six songs, tuned to the saved voice', async ({ page, songsPage }) => {
+  test('lists all seven songs, tuned to the saved voice', async ({ page, songsPage }) => {
     await seedApp(page)
     await songsPage.goto()
 
-    await expect(songsPage.cards).toHaveCount(6)
+    await expect(songsPage.cards).toHaveCount(7)
     for (const title of ALL_TITLES) {
       await expect(songsPage.card(title)).toBeVisible()
     }
-    await expect(songsPage.inKeyBadges).toHaveCount(6)
+    await expect(songsPage.inKeyBadges).toHaveCount(7)
     await expect(songsPage.card('Hot Cross Buns')).toContainText('0:10')
     await expect(songsPage.card('Hot Cross Buns')).toContainText('Easy')
     await expect(songsPage.card('Row, Row, Row Your Boat')).toContainText('Brave')
@@ -34,12 +35,16 @@ test.describe('Pick a Song', () => {
     await expect(songsPage.visibleCards).toHaveCount(3)
     await expect(songsPage.card('London Bridge')).toBeHidden()
 
+    await songsPage.filterChip('Medium').click()
+    await expect(songsPage.visibleCards).toHaveCount(3)
+    await expect(songsPage.card('Jesus Loves Me')).toBeVisible()
+
     await songsPage.filterChip('Brave').click()
     await expect(songsPage.visibleCards).toHaveCount(1)
     await expect(songsPage.card('Row, Row, Row Your Boat')).toBeVisible()
 
     await songsPage.filterChip('All').click()
-    await expect(songsPage.visibleCards).toHaveCount(6)
+    await expect(songsPage.visibleCards).toHaveCount(7)
   })
 
   test('songs prompt for voice setup when no range is saved', async ({
@@ -50,7 +55,7 @@ test.describe('Pick a Song', () => {
     await seedApp(page, { range: null })
     await songsPage.goto()
 
-    await expect(songsPage.findVoiceCtas).toHaveCount(6)
+    await expect(songsPage.findVoiceCtas).toHaveCount(7)
     await songsPage.findVoiceCtas.first().click()
     await expect(voiceSetupPage.title).toBeVisible()
   })

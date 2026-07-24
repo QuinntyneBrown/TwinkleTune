@@ -16,7 +16,7 @@ Built for kids: one big obvious action per screen, few words, big rounded type, 
 
 **Privacy:** badges, streaks and sparkles stay in the device's `localStorage`. Profiles, songs, photos and high scores live only on *your* home server (`backend/data/` — one SQLite file plus a photos folder). During duets, only live score events cross the network. Singing audio never leaves the device, and there are no accounts. Solo play works fully offline; every server feature degrades gracefully.
 
-The seeded songs are six hand-encoded **public-domain** melodies: Twinkle Twinkle Little Star, Mary Had a Little Lamb, Hot Cross Buns, London Bridge, Old MacDonald, and Row Row Row Your Boat. Grown-ups can add more in the song editor.
+The seeded songs are seven hand-encoded **public-domain** melodies: Twinkle Twinkle Little Star, Mary Had a Little Lamb, Hot Cross Buns, London Bridge, Old MacDonald, Row Row Row Your Boat, and Jesus Loves Me. Grown-ups can add more in the song editor.
 
 ## Repository layout
 

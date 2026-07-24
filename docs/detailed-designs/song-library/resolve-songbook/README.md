@@ -19,7 +19,7 @@ serves — and guarantees that solo play never waits on the network.
   the server, versus a bundled slug id such as `twinkle`
 
 Resolution follows one order: the family-server list when reachable (and then
-cached), otherwise the last cached list, otherwise the six bundled songs. A
+cached), otherwise the last cached list, otherwise the seven bundled songs. A
 synchronous read always returns a usable list immediately; the network refresh
 happens in the background. When the list is not live, the song screen shows an
 offline notice and hides server-only affordances while keeping every song

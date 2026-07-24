@@ -35,7 +35,7 @@ test.describe('Find My Voice', () => {
 
     await voiceSetupPage.toMySongsButton.click()
     await expect(page).toHaveURL(/#\/songs$/)
-    await expect(songsPage.inKeyBadges).toHaveCount(6)
+    await expect(songsPage.inKeyBadges).toHaveCount(7)
   })
 
   test('a blocked microphone gets a friendly dialog, not an error', async ({
