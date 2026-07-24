@@ -4,7 +4,7 @@ import type { Song } from './types'
 
 /**
  * Song source of truth at runtime: the family server when reachable,
- * else the last fetched list (cached), else the bundled six.
+ * else the last fetched list (cached), else the bundled catalog.
  * Solo play therefore never requires the network.
  */
 

@@ -80,7 +80,7 @@ minimal and on-premises.
   `/hubs/duet`. `public partial class Program {}` enables `WebApplicationFactory` integration tests.
 - Integration tests run SQLite on a temp file and SignalR over the TestServer handler with
   long-polling transport.
-- Seed data ports the six public-domain songs from `frontend/src/songs/catalog.ts` so the API and
+- Seed data ports the seven public-domain songs from `frontend/src/songs/catalog.ts` so the API and
   the offline bundle agree.
 
 ## References

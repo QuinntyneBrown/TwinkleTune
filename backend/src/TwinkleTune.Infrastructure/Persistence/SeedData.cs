@@ -4,7 +4,7 @@ using TwinkleTune.Domain.Entities;
 namespace TwinkleTune.Infrastructure.Persistence;
 
 /// <summary>
-/// Idempotent seeding: the default avatars plus the six public-domain songs,
+/// Idempotent seeding: the default avatars plus the seven public-domain songs,
 /// note-for-note identical to the frontend's bundled catalog (frontend/src/songs/catalog.ts).
 /// </summary>
 public static class SeedData
@@ -27,7 +27,7 @@ public static class SeedData
 
         if (!await db.Songs.AnyAsync(ct))
         {
-            db.Songs.AddRange(Twinkle(), Mary(), HotCrossBuns(), LondonBridge(), OldMacDonald(), RowYourBoat());
+            db.Songs.AddRange(Twinkle(), Mary(), HotCrossBuns(), LondonBridge(), OldMacDonald(), RowYourBoat(), JesusLovesMe());
             await db.SaveChangesAsync(ct);
         }
     }
@@ -183,6 +183,47 @@ public static class SeedData
         [
             N(67, 12, 0.75, "Life"), N(65, 12.75, 0.25, "is"), N(64, 13, 0.75, "but"), N(62, 13.75, 0.25, "a"),
             N(60, 14, 2, "dream"),
+        ]),
+    ]);
+
+    private static Song JesusLovesMe() => Make("Jesus Loves Me", "✝️", 3, 100, 2,
+    [
+        new SongPhrase("Jesus loves me, this I know",
+        [
+            N(67, 0, 1, "Je"), N(64, 1, 1, "sus"), N(64, 2, 1, "loves"), N(62, 3, 1, "me"),
+            N(64, 4, 1, "this"), N(67, 5, 1, "I"), N(67, 6, 2, "know"),
+        ]),
+        new SongPhrase("For the Bible tells me so",
+        [
+            N(69, 8, 1, "For"), N(69, 9, 1, "the"), N(72, 10, 1, "Bi"), N(69, 11, 1, "ble"),
+            N(69, 12, 1, "tells"), N(67, 13, 1, "me"), N(67, 14, 2, "so"),
+        ]),
+        new SongPhrase("Little ones to Him belong",
+        [
+            N(67, 16, 1, "Lit"), N(64, 17, 1, "tle"), N(64, 18, 1, "ones"), N(62, 19, 1, "to"),
+            N(64, 20, 1, "Him"), N(67, 21, 1, "be"), N(67, 22, 2, "long"),
+        ]),
+        new SongPhrase("They are weak, but He is strong",
+        [
+            N(69, 24, 1, "They"), N(69, 25, 1, "are"), N(67, 26, 1, "weak"), N(65, 27, 1, "but"),
+            N(64, 28, 1, "He"), N(62, 29, 1, "is"), N(60, 30, 2, "strong"),
+        ]),
+        new SongPhrase("Yes, Jesus loves me",
+        [
+            N(72, 32, 2, "Yes"), N(69, 34, 1, "Je"), N(69, 35, 1, "sus"), N(67, 36, 2, "loves"), N(67, 38, 2, "me"),
+        ]),
+        new SongPhrase("Yes, Jesus loves me",
+        [
+            N(72, 40, 2, "Yes"), N(69, 42, 1, "Je"), N(69, 43, 1, "sus"), N(67, 44, 2, "loves"), N(67, 46, 2, "me"),
+        ]),
+        new SongPhrase("Yes, Jesus loves me",
+        [
+            N(72, 48, 2, "Yes"), N(69, 50, 1, "Je"), N(69, 51, 1, "sus"), N(67, 52, 2, "loves"), N(67, 54, 2, "me"),
+        ]),
+        new SongPhrase("The Bible tells me so",
+        [
+            N(69, 56, 1, "The"), N(67, 57, 1, "Bi"), N(65, 58, 1, "ble"), N(64, 59, 1, "tells"),
+            N(62, 60, 1, "me"), N(60, 61, 3, "so"),
         ]),
     ]);
 }

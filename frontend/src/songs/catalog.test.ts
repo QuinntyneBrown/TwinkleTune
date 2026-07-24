@@ -3,9 +3,9 @@ import { songs } from './catalog'
 import { allNotes, songBeats, songRange, songSeconds } from './types'
 
 describe('song catalog', () => {
-  it('has six songs with unique ids', () => {
-    expect(songs.length).toBe(6)
-    expect(new Set(songs.map((s) => s.id)).size).toBe(6)
+  it('has seven songs with unique ids', () => {
+    expect(songs.length).toBe(7)
+    expect(new Set(songs.map((s) => s.id)).size).toBe(7)
   })
 
   for (const song of songs) {

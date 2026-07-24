@@ -54,7 +54,7 @@ Backend — ordering and persistence:
 - **`SongRepository.GetAllAsync`**
   (`backend/src/TwinkleTune.Infrastructure/Repositories/Repositories.cs`) —
   `OrderBy(s => s.Difficulty).ThenBy(s => s.Title)`.
-- **`SeedData`** — sets `IsSeed = true` on the six built-in songs.
+- **`SeedData`** — sets `IsSeed = true` on the seven built-in songs.
 
 Frontend — Grown-Ups Corner (`frontend/src/ui/managers.ts`):
 

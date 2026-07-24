@@ -158,7 +158,7 @@ The product is decomposed into thirteen subsystems. Each has its own `L1.md` and
 | **Tricky part** | The phrase in a song with the lowest landed ratio, offered afterward as an optional practice loop — never a penalty. |
 | **Duet room** | An ephemeral, in‑memory, 4‑letter‑code room hosting exactly two singers for a synchronised head‑to‑head song. |
 | **Family server** | The optional self‑hosted .NET backend that stores profiles, songs, photos, and high scores on the home LAN. |
-| **Seed song** | One of the six bundled public‑domain melodies, present both in the offline bundle and in the server's seed data. |
+| **Seed song** | One of the seven bundled public‑domain melodies, present both in the offline bundle and in the server's seed data. |
 | **Parent gate** | A client‑side challenge (a simple arithmetic question) that guards the Grown‑Ups Corner and destructive actions. |
 | **No‑mic mode** | A "just for fun" play mode with no microphone; it never earns scored badges or high scores. |
 

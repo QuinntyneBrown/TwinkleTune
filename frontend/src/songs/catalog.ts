@@ -242,6 +242,70 @@ export const songs: Song[] = [
       },
     ],
   },
+
+  {
+    id: 'jesuslovesme',
+    title: 'Jesus Loves Me',
+    emoji: '✝️',
+    art: 3,
+    bpm: 100,
+    difficulty: 2,
+    phrases: [
+      {
+        lyric: 'Jesus loves me, this I know',
+        notes: [
+          n(67, 0, 1, 'Je'), n(64, 1, 1, 'sus'), n(64, 2, 1, 'loves'), n(62, 3, 1, 'me'),
+          n(64, 4, 1, 'this'), n(67, 5, 1, 'I'), n(67, 6, 2, 'know'),
+        ],
+      },
+      {
+        lyric: 'For the Bible tells me so',
+        notes: [
+          n(69, 8, 1, 'For'), n(69, 9, 1, 'the'), n(72, 10, 1, 'Bi'), n(69, 11, 1, 'ble'),
+          n(69, 12, 1, 'tells'), n(67, 13, 1, 'me'), n(67, 14, 2, 'so'),
+        ],
+      },
+      {
+        lyric: 'Little ones to Him belong',
+        notes: [
+          n(67, 16, 1, 'Lit'), n(64, 17, 1, 'tle'), n(64, 18, 1, 'ones'), n(62, 19, 1, 'to'),
+          n(64, 20, 1, 'Him'), n(67, 21, 1, 'be'), n(67, 22, 2, 'long'),
+        ],
+      },
+      {
+        lyric: 'They are weak, but He is strong',
+        notes: [
+          n(69, 24, 1, 'They'), n(69, 25, 1, 'are'), n(67, 26, 1, 'weak'), n(65, 27, 1, 'but'),
+          n(64, 28, 1, 'He'), n(62, 29, 1, 'is'), n(60, 30, 2, 'strong'),
+        ],
+      },
+      {
+        lyric: 'Yes, Jesus loves me',
+        notes: [
+          n(72, 32, 2, 'Yes'), n(69, 34, 1, 'Je'), n(69, 35, 1, 'sus'), n(67, 36, 2, 'loves'), n(67, 38, 2, 'me'),
+        ],
+      },
+      {
+        lyric: 'Yes, Jesus loves me',
+        notes: [
+          n(72, 40, 2, 'Yes'), n(69, 42, 1, 'Je'), n(69, 43, 1, 'sus'), n(67, 44, 2, 'loves'), n(67, 46, 2, 'me'),
+        ],
+      },
+      {
+        lyric: 'Yes, Jesus loves me',
+        notes: [
+          n(72, 48, 2, 'Yes'), n(69, 50, 1, 'Je'), n(69, 51, 1, 'sus'), n(67, 52, 2, 'loves'), n(67, 54, 2, 'me'),
+        ],
+      },
+      {
+        lyric: 'The Bible tells me so',
+        notes: [
+          n(69, 56, 1, 'The'), n(67, 57, 1, 'Bi'), n(65, 58, 1, 'ble'), n(64, 59, 1, 'tells'),
+          n(62, 60, 1, 'me'), n(60, 61, 3, 'so'),
+        ],
+      },
+    ],
+  },
 ]
 
 export const getSong = (id: string): Song | undefined => songs.find((s) => s.id === id)
