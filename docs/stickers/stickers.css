@@ -1,0 +1,126 @@
+@font-face {
+  font-family: "Baloo 2";
+  src: url("fonts/Baloo2-Variable.ttf") format("truetype-variations");
+  font-weight: 400 800;
+}
+@font-face {
+  font-family: "Manrope";
+  src: url("fonts/Manrope-Variable.ttf") format("truetype-variations");
+  font-weight: 400 800;
+}
+
+:root {
+  --ink: #16354a;
+  --ink-deep: #0d283a;
+  --white: #ffffff;
+  --blue: #5ea8da;
+  --blue-deep: #286d99;
+  --sky: #83c5f1;
+  --pale: #b9ddf5;
+  --aqua: #afe3f4;
+  --pink: #f4dbe3;
+  --pink-deep: #d99fbb;
+  --gold: #ffd66b;
+  --gold-deep: #e5b347;
+  --display: "Baloo 2", "Arial Rounded MT Bold", sans-serif;
+  --body: "Manrope", "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #e8eef2;
+  font-family: var(--body);
+}
+
+@page {
+  size: 8.5in 11in;
+  margin: 0;
+}
+
+.sheet {
+  width: 8.5in;
+  height: 11in;
+  padding: 0.35in 0.4in;
+  background: #ffffff;
+  position: relative;
+  overflow: hidden;
+  page-break-after: always;
+}
+.sheet:last-child {
+  page-break-after: auto;
+}
+
+.sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.22in;
+}
+.sheet-head .brand {
+  display: flex;
+  align-items: center;
+  gap: 0.1in;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--blue-deep);
+}
+.sheet-head .brand svg {
+  width: 30px;
+  height: 30px;
+}
+.sheet-head .sheet-title {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--ink-soft, #52778f);
+  text-align: right;
+}
+.sheet-head .sheet-title small {
+  display: block;
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: 10px;
+  color: #7d95a4;
+  margin-top: 2px;
+}
+
+.cutline-note {
+  position: absolute;
+  bottom: 0.18in;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: var(--body);
+  font-size: 9px;
+  letter-spacing: 0.02em;
+  color: #93a7b3;
+}
+
+/* --- generic star / mascot artwork, shared brand shape --- */
+.star-shape {
+  fill: var(--gold);
+  stroke: var(--gold-deep);
+  stroke-width: 6;
+  stroke-linejoin: round;
+}
+.face-eye {
+  fill: #2b5876;
+}
+.face-cheek {
+  fill: #f4dbe3;
+}
+.face-mouth {
+  fill: none;
+  stroke: #2b5876;
+  stroke-width: 4;
+  stroke-linecap: round;
+}

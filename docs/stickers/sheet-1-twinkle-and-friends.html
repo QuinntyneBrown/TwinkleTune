@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>TwinkleTune Stickers — Twinkle &amp; Friends</title>
+<link rel="stylesheet" href="stickers.css" />
+<style>
+  .sheet-head .sheet-title { color: var(--blue-deep); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 2.28in);
+    grid-auto-rows: 2.28in;
+    row-gap: 0.16in;
+    column-gap: 0.28in;
+    justify-content: center;
+  }
+
+  .sticker {
+    position: relative;
+    width: 2.28in;
+    height: 2.28in;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 7px solid #ffffff;
+    outline: 2px dashed rgba(22, 53, 74, 0.28);
+    outline-offset: 5px;
+    box-shadow: 0 3px 8px rgba(13, 40, 58, 0.18);
+    text-align: center;
+    padding-top: 4px;
+  }
+  .sticker svg.mascot { width: 1.05in; height: 1.05in; }
+  .sticker .caption {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 1.15;
+    margin-top: 2px;
+    padding: 0 0.15in;
+  }
+
+  .bg-blue   { background: radial-gradient(circle at 33% 28%, var(--aqua), var(--blue) 68%, var(--blue-deep)); }
+  .bg-blue   .caption { color: #ffffff; }
+  .bg-gold   { background: radial-gradient(circle at 33% 28%, #fff3d2, var(--gold) 62%, var(--gold-deep)); }
+  .bg-gold   .caption { color: var(--ink-deep); }
+  .bg-pink   { background: radial-gradient(circle at 33% 28%, #fdf1f5, var(--pink) 58%, var(--pink-deep)); }
+  .bg-pink   .caption { color: var(--blue-deep); }
+  .bg-aqua   { background: radial-gradient(circle at 33% 28%, #ffffff, var(--aqua) 55%, var(--sky)); }
+  .bg-aqua   .caption { color: var(--blue-deep); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <g id="mascot-body">
+      <path class="star-shape" d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z"/>
+      <circle class="face-eye" cx="48" cy="56" r="4.5"/>
+      <circle class="face-eye" cx="72" cy="56" r="4.5"/>
+      <circle class="face-cheek" cx="41" cy="66" r="5.5"/>
+      <circle class="face-cheek" cx="79" cy="66" r="5.5"/>
+    </g>
+    <g id="mascot-happy">
+      <use href="#mascot-body"/>
+      <path class="face-mouth" d="M48 64 Q60 80 72 64"/>
+    </g>
+    <g id="mascot-resting">
+      <use href="#mascot-body"/>
+      <path class="face-mouth" d="M50 66 Q60 76 70 66"/>
+    </g>
+  </defs>
+</svg>
+
+<div class="sheet">
+  <div class="sheet-head">
+    <div class="brand">
+      <svg viewBox="0 0 120 120"><use href="#mascot-happy"/></svg>
+      <span>TwinkleTune</span>
+    </div>
+    <div class="sheet-title">Twinkle &amp; Friends<small>Sticker Sheet 1 of 3 &middot; Every voice has a place to shine</small></div>
+  </div>
+
+  <div class="grid">
+    <div class="sticker bg-gold"><svg class="mascot" viewBox="0 0 120 120"><use href="#mascot-happy"/></svg><div class="caption">Sparkle On! &#10024;</div></div>
+    <div class="sticker bg-blue"><svg class="mascot" viewBox="0 0 120 120"><use href="#mascot-happy"/></svg><div class="caption">Star Singer!</div></div>
+    <div class="sticker bg-pink"><svg class="mascot" viewBox="0 0 120 120"><use href="#mascot-resting"/></svg><div class="caption">Brave Voice &#128153;</div></div>
+
+    <div class="sticker bg-aqua"><svg class="mascot" viewBox="0 0 120 120"><use href="#mascot-happy"/></svg><div class="caption">Keep Singing!</div></div>
+    <div class="sticker bg-gold"><svg class="mascot" viewBox="0 0 120 120"><use href="#mascot-resting"/></svg><div class="caption">Twinkle Star</div></div>
+    <div class="sticker bg-blue"><svg class="mascot" viewBox="0 0 120 120"><use href="#mascot-happy"/></svg><div class="caption">Sing Loud,<br/>Sing Proud</div></div>
+
+    <div class="sticker bg-pink"><svg class="mascot" viewBox="0 0 120 120"><use href="#mascot-happy"/></svg><div class="caption">My Voice<br/>Shines</div></div>
+    <div class="sticker bg-aqua"><svg class="mascot" viewBox="0 0 120 120"><use href="#mascot-resting"/></svg><div class="caption">High Note<br/>Hero</div></div>
+    <div class="sticker bg-gold"><svg class="mascot" viewBox="0 0 120 120"><use href="#mascot-happy"/></svg><div class="caption">Super Singer!</div></div>
+
+    <div class="sticker bg-blue"><svg class="mascot" viewBox="0 0 120 120"><use href="#mascot-resting"/></svg><div class="caption">Practice Pal</div></div>
+    <div class="sticker bg-pink"><svg class="mascot" viewBox="0 0 120 120"><use href="#mascot-happy"/></svg><div class="caption">Duet Buddy</div></div>
+    <div class="sticker bg-aqua"><svg class="mascot" viewBox="0 0 120 120"><use href="#mascot-happy"/></svg><div class="caption">Every Voice<br/>Shines</div></div>
+  </div>
+
+  <div class="cutline-note">&#9986; Cut along the dashed lines &middot; twinkletune.app</div>
+</div>
+</body>
+</html>

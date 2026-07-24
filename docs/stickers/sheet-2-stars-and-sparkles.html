@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>TwinkleTune Stickers — Stars &amp; Sparkles</title>
+<link rel="stylesheet" href="stickers.css" />
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1.58in);
+    grid-auto-rows: 1.58in;
+    row-gap: 0.2in;
+    column-gap: 0.22in;
+    justify-content: center;
+  }
+
+  .sticker {
+    position: relative;
+    width: 1.58in;
+    height: 1.58in;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 5px solid #ffffff;
+    outline: 2px dashed rgba(22, 53, 74, 0.28);
+    outline-offset: 4px;
+    box-shadow: 0 2px 6px rgba(13, 40, 58, 0.16);
+  }
+
+  .star-icon { width: 0.95in; height: 0.95in; }
+  .star-icon path { stroke-width: 7; stroke-linejoin: round; }
+  .c-gold  path { fill: var(--gold); stroke: var(--gold-deep); }
+  .c-blue  path { fill: var(--blue); stroke: var(--blue-deep); }
+  .c-pink  path { fill: var(--pink-deep); stroke: #b97998; }
+  .c-aqua  path { fill: var(--aqua); stroke: var(--blue); }
+  .c-outline path { fill: none; stroke: var(--blue-deep); }
+
+  .note-icon { width: 0.85in; height: 0.85in; }
+  .note-icon path { fill: currentColor; }
+  .n-blue { color: var(--blue-deep); }
+  .n-pink { color: var(--pink-deep); }
+  .n-gold { color: var(--gold-deep); }
+
+  .bg-plain { background: #ffffff; }
+
+  .word-sticker {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 15px;
+    text-align: center;
+    line-height: 1.15;
+    padding: 0 0.12in;
+  }
+  .bg-w-blue { background: radial-gradient(circle at 33% 28%, var(--aqua), var(--blue) 70%, var(--blue-deep)); }
+  .bg-w-blue .word-sticker { color: #ffffff; }
+  .bg-w-gold { background: radial-gradient(circle at 33% 28%, #fff3d2, var(--gold) 65%, var(--gold-deep)); }
+  .bg-w-gold .word-sticker { color: var(--ink-deep); }
+  .bg-w-pink { background: radial-gradient(circle at 33% 28%, #fdf1f5, var(--pink) 60%, var(--pink-deep)); }
+  .bg-w-pink .word-sticker { color: var(--blue-deep); }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="sheet-head">
+    <div class="brand">
+      <svg viewBox="0 0 120 120">
+        <path d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z" fill="#FFD66B" stroke="#E8B445" stroke-width="6" stroke-linejoin="round"/>
+        <circle cx="48" cy="56" r="4.5" fill="#2B5876"/><circle cx="72" cy="56" r="4.5" fill="#2B5876"/>
+        <circle cx="41" cy="66" r="5.5" fill="#F4DBE3"/><circle cx="79" cy="66" r="5.5" fill="#F4DBE3"/>
+        <path d="M48 64 Q60 80 72 64" fill="none" stroke="#2B5876" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <span>TwinkleTune</span>
+    </div>
+    <div class="sheet-title">Stars &amp; Sparkles<small>Sticker Sheet 2 of 3 &middot; mix &amp; match decorations</small></div>
+  </div>
+
+  <div class="grid">
+    <div class="sticker bg-plain"><svg class="star-icon c-gold" viewBox="0 0 120 120"><path d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z"/></svg></div>
+    <div class="sticker bg-plain"><svg class="star-icon c-blue" viewBox="0 0 120 120"><path d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z"/></svg></div>
+    <div class="sticker bg-plain"><svg class="star-icon c-pink" viewBox="0 0 120 120"><path d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z"/></svg></div>
+    <div class="sticker bg-plain"><svg class="star-icon c-aqua" viewBox="0 0 120 120"><path d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z"/></svg></div>
+
+    <div class="sticker bg-w-gold"><div class="word-sticker">La La La! &#127925;</div></div>
+    <div class="sticker bg-plain"><svg class="note-icon n-blue" viewBox="0 0 60 90"><path d="M34 8 C50 13 51 28 38 33 L38 12Z M20 60 a14 10 -20 1 0 0.1 0 Z" transform="translate(0,0)"/><path d="M32 8h6v58h-6z"/><ellipse cx="20" cy="70" rx="14" ry="10" transform="rotate(-18 20 70)"/><path d="M36 10 C54 16 54 32 40 36 L36 20Z"/></svg></div>
+    <div class="sticker bg-w-pink"><div class="word-sticker">Do-Re-Mi</div></div>
+    <div class="sticker bg-plain"><svg class="star-icon c-outline" viewBox="0 0 120 120"><path d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z"/></svg></div>
+
+    <div class="sticker bg-plain"><svg class="note-icon n-pink" viewBox="0 0 60 90"><path d="M36 10 C54 16 54 32 40 36 L36 20Z"/><path d="M32 8h6v58h-6z"/><ellipse cx="20" cy="70" rx="14" ry="10" transform="rotate(-18 20 70)"/></svg></div>
+    <div class="sticker bg-w-blue"><div class="word-sticker">Twinkle! &#10024;</div></div>
+    <div class="sticker bg-plain"><svg class="star-icon c-gold" viewBox="0 0 120 120" style="transform:scale(0.75)"><path d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z"/></svg></div>
+    <div class="sticker bg-plain"><svg class="note-icon n-gold" viewBox="0 0 60 90"><path d="M36 10 C54 16 54 32 40 36 L36 20Z"/><path d="M32 8h6v58h-6z"/><ellipse cx="20" cy="70" rx="14" ry="10" transform="rotate(-18 20 70)"/></svg></div>
+
+    <div class="sticker bg-w-pink"><div class="word-sticker">Ta-Da! &#127881;</div></div>
+    <div class="sticker bg-plain"><svg class="star-icon c-blue" viewBox="0 0 120 120" style="transform:scale(0.75)"><path d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z"/></svg></div>
+    <div class="sticker bg-plain"><svg class="star-icon c-pink" viewBox="0 0 120 120" style="transform:scale(0.75)"><path d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z"/></svg></div>
+    <div class="sticker bg-w-gold"><div class="word-sticker">Sing!</div></div>
+
+    <div class="sticker bg-plain"><svg class="star-icon c-aqua" viewBox="0 0 120 120" style="transform:scale(0.75)"><path d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z"/></svg></div>
+    <div class="sticker bg-w-blue"><div class="word-sticker">Encore! &#128077;</div></div>
+    <div class="sticker bg-plain"><svg class="note-icon n-blue" viewBox="0 0 60 90"><path d="M36 10 C54 16 54 32 40 36 L36 20Z"/><path d="M32 8h6v58h-6z"/><ellipse cx="20" cy="70" rx="14" ry="10" transform="rotate(-18 20 70)"/></svg></div>
+    <div class="sticker bg-plain"><svg class="star-icon c-outline" viewBox="0 0 120 120" style="transform:scale(0.75)"><path d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z"/></svg></div>
+  </div>
+
+  <div class="cutline-note">&#9986; Cut along the dashed lines &middot; twinkletune.app</div>
+</div>
+</body>
+</html>

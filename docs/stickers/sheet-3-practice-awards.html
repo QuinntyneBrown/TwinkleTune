@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>TwinkleTune Stickers — Practice Awards</title>
+<link rel="stylesheet" href="stickers.css" />
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 2.55in);
+    grid-auto-rows: 2.95in;
+    row-gap: 0.05in;
+    column-gap: 0.5in;
+    justify-content: center;
+  }
+  .badge-wrap { display: flex; align-items: flex-start; justify-content: center; }
+  .badge-wrap svg { width: 2.55in; height: 2.95in; overflow: visible; }
+
+  .tail { }
+  .badge-gold .petal-ring circle { fill: var(--gold-deep); }
+  .badge-gold .seal { fill: var(--gold); }
+  .badge-gold .tail { fill: var(--gold-deep); }
+  .badge-blue .petal-ring circle { fill: var(--blue-deep); }
+  .badge-blue .seal { fill: var(--blue); }
+  .badge-blue .tail { fill: var(--blue-deep); }
+  .badge-pink .petal-ring circle { fill: var(--pink-deep); }
+  .badge-pink .seal { fill: var(--pink); }
+  .badge-pink .tail { fill: var(--pink-deep); }
+  .badge-aqua .petal-ring circle { fill: var(--blue); }
+  .badge-aqua .seal { fill: var(--aqua); }
+  .badge-aqua .tail { fill: var(--blue); }
+
+  .badge-caption {
+    font-family: var(--display);
+    font-weight: 700;
+    fill: var(--ink-deep);
+    text-anchor: middle;
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <g id="mascot-body">
+      <path class="star-shape" d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z"/>
+      <circle class="face-eye" cx="48" cy="56" r="4.5"/>
+      <circle class="face-eye" cx="72" cy="56" r="4.5"/>
+      <circle class="face-cheek" cx="41" cy="66" r="5.5"/>
+      <circle class="face-cheek" cx="79" cy="66" r="5.5"/>
+    </g>
+    <g id="mascot-happy">
+      <use href="#mascot-body"/>
+      <path class="face-mouth" d="M48 64 Q60 80 72 64"/>
+    </g>
+  </defs>
+</svg>
+
+<div class="sheet">
+  <div class="sheet-head">
+    <div class="brand">
+      <svg viewBox="0 0 120 120"><use href="#mascot-happy"/></svg>
+      <span>TwinkleTune</span>
+    </div>
+    <div class="sheet-title">Practice Awards<small>Sticker Sheet 3 of 3 &middot; a badge for every milestone</small></div>
+  </div>
+
+  <div class="grid">
+    <!-- badge template repeated with different class + caption -->
+    <div class="badge-wrap badge-gold">
+      <svg viewBox="0 0 220 300">
+        <polygon class="tail" points="55,150 85,150 95,290 70,248 45,290"/>
+        <polygon class="tail" points="135,150 165,150 175,290 150,248 125,290"/>
+        <g class="petal-ring" data-cx="110" data-cy="110" data-r="66" data-pr="28"></g>
+        <circle class="seal" cx="110" cy="110" r="60"/>
+        <circle fill="#ffffff" cx="110" cy="110" r="51"/>
+        <circle fill="#fdf8ea" cx="110" cy="110" r="45"/>
+        <g transform="translate(85,72) scale(0.42)"><use href="#mascot-happy"/></g>
+        <text class="badge-caption" x="110" y="132" font-size="15">Practice</text>
+        <text class="badge-caption" x="110" y="150" font-size="15">Champion</text>
+      </svg>
+    </div>
+
+    <div class="badge-wrap badge-blue">
+      <svg viewBox="0 0 220 300">
+        <polygon class="tail" points="55,150 85,150 95,290 70,248 45,290"/>
+        <polygon class="tail" points="135,150 165,150 175,290 150,248 125,290"/>
+        <g class="petal-ring" data-cx="110" data-cy="110" data-r="66" data-pr="28"></g>
+        <circle class="seal" cx="110" cy="110" r="60"/>
+        <circle fill="#ffffff" cx="110" cy="110" r="51"/>
+        <circle fill="#eef7fd" cx="110" cy="110" r="45"/>
+        <g transform="translate(85,72) scale(0.42)"><use href="#mascot-happy"/></g>
+        <text class="badge-caption" x="110" y="132" font-size="15">5-Day</text>
+        <text class="badge-caption" x="110" y="150" font-size="15">Streak!</text>
+      </svg>
+    </div>
+
+    <div class="badge-wrap badge-pink">
+      <svg viewBox="0 0 220 300">
+        <polygon class="tail" points="55,150 85,150 95,290 70,248 45,290"/>
+        <polygon class="tail" points="135,150 165,150 175,290 150,248 125,290"/>
+        <g class="petal-ring" data-cx="110" data-cy="110" data-r="66" data-pr="28"></g>
+        <circle class="seal" cx="110" cy="110" r="60"/>
+        <circle fill="#ffffff" cx="110" cy="110" r="51"/>
+        <circle fill="#fdf1f5" cx="110" cy="110" r="45"/>
+        <g transform="translate(85,72) scale(0.42)"><use href="#mascot-happy"/></g>
+        <text class="badge-caption" x="110" y="128" font-size="13">New Song</text>
+        <text class="badge-caption" x="110" y="146" font-size="13">Learned!</text>
+      </svg>
+    </div>
+
+    <div class="badge-wrap badge-aqua">
+      <svg viewBox="0 0 220 300">
+        <polygon class="tail" points="55,150 85,150 95,290 70,248 45,290"/>
+        <polygon class="tail" points="135,150 165,150 175,290 150,248 125,290"/>
+        <g class="petal-ring" data-cx="110" data-cy="110" data-r="66" data-pr="28"></g>
+        <circle class="seal" cx="110" cy="110" r="60"/>
+        <circle fill="#ffffff" cx="110" cy="110" r="51"/>
+        <circle fill="#eef9fd" cx="110" cy="110" r="45"/>
+        <g transform="translate(85,72) scale(0.42)"><use href="#mascot-happy"/></g>
+        <text class="badge-caption" x="110" y="128" font-size="13">Brave First</text>
+        <text class="badge-caption" x="110" y="146" font-size="13">Solo</text>
+      </svg>
+    </div>
+
+    <div class="badge-wrap badge-pink">
+      <svg viewBox="0 0 220 300">
+        <polygon class="tail" points="55,150 85,150 95,290 70,248 45,290"/>
+        <polygon class="tail" points="135,150 165,150 175,290 150,248 125,290"/>
+        <g class="petal-ring" data-cx="110" data-cy="110" data-r="66" data-pr="28"></g>
+        <circle class="seal" cx="110" cy="110" r="60"/>
+        <circle fill="#ffffff" cx="110" cy="110" r="51"/>
+        <circle fill="#fdf1f5" cx="110" cy="110" r="45"/>
+        <g transform="translate(85,72) scale(0.42)"><use href="#mascot-happy"/></g>
+        <text class="badge-caption" x="110" y="128" font-size="13">Family Duet</text>
+        <text class="badge-caption" x="110" y="146" font-size="13">Star</text>
+      </svg>
+    </div>
+
+    <div class="badge-wrap badge-gold">
+      <svg viewBox="0 0 220 300">
+        <polygon class="tail" points="55,150 85,150 95,290 70,248 45,290"/>
+        <polygon class="tail" points="135,150 165,150 175,290 150,248 125,290"/>
+        <g class="petal-ring" data-cx="110" data-cy="110" data-r="66" data-pr="28"></g>
+        <circle class="seal" cx="110" cy="110" r="60"/>
+        <circle fill="#ffffff" cx="110" cy="110" r="51"/>
+        <circle fill="#fdf8ea" cx="110" cy="110" r="45"/>
+        <g transform="translate(85,72) scale(0.42)"><use href="#mascot-happy"/></g>
+        <text class="badge-caption" x="110" y="128" font-size="13">Voice of</text>
+        <text class="badge-caption" x="110" y="146" font-size="13">the Week</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="cutline-note">&#9986; Cut along the dashed lines &middot; twinkletune.app</div>
+</div>
+
+<script>
+  document.querySelectorAll('g.petal-ring').forEach(function (g) {
+    var cx = parseFloat(g.dataset.cx);
+    var cy = parseFloat(g.dataset.cy);
+    var r = parseFloat(g.dataset.r);
+    var pr = parseFloat(g.dataset.pr);
+    for (var i = 0; i < 12; i++) {
+      var angle = (i * Math.PI * 2) / 12;
+      var x = cx + r * Math.cos(angle);
+      var y = cy + r * Math.sin(angle);
+      var c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      c.setAttribute('cx', x);
+      c.setAttribute('cy', y);
+      c.setAttribute('r', pr);
+      g.appendChild(c);
+    }
+  });
+</script>
+</body>
+</html>
