@@ -88,15 +88,23 @@ body.preview .sticker {
   paint-order: stroke;
 }
 
-/* Width = the shape's own art stroke + 60, so exactly 30px of white shows
-   beyond the artwork edge (0.1in at 300 DPI). */
-.cut-star { stroke-width: 98; }    /* big star, art stroke 38.5  */
-.cut-icon { stroke-width: 76; }    /* icon star, art stroke 15.6 */
-.cut-mini { stroke-width: 73; }    /* small star, art stroke 13  */
-.cut-band { stroke-width: 68; }    /* ribbon banner, art stroke 8 */
-.cut-line { stroke-width: 70; }    /* bubble, art stroke 10      */
-.cut-cloud { stroke-width: 70; }   /* cloud, art stroke 10       */
-.cut-flat { stroke-width: 60; }    /* unstroked art (sparkles)   */
+/* Width = the shape's own art stroke + --cut-extra, half of which shows as
+   white beyond the artwork edge. The rim is wide enough to carry the
+   TWINKLETUNE.APP edge type.
+
+   --cut-extra is in ART-SPACE units, and each sticker scales its art group by
+   a different factor, so every sticker overrides it with 130px / its own scale.
+   That lands the visible rim at a uniform 65 canvas px (0.217in at 300 DPI)
+   across all three. Setting one shared value here instead would make the rim
+   visibly thicker on the more-scaled-up stickers. */
+:root { --cut-extra: 130px; }
+.cut-star { stroke-width: calc(38.5px + var(--cut-extra)); } /* big star   */
+.cut-icon { stroke-width: calc(15.6px + var(--cut-extra)); } /* icon star  */
+.cut-mini { stroke-width: calc(13px + var(--cut-extra)); }   /* small star */
+.cut-band { stroke-width: calc(8px + var(--cut-extra)); }    /* banner     */
+.cut-line { stroke-width: calc(10px + var(--cut-extra)); }   /* bubble     */
+.cut-cloud { stroke-width: calc(10px + var(--cut-extra)); }  /* cloud      */
+.cut-flat { stroke-width: var(--cut-extra); }                /* sparkles   */
 
 .tt-star-face circle { stroke: none; }
 
