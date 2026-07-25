@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>TwinkleTune sticker — mistakes are sparkle dust</title>
+    <link rel="stylesheet" href="stickers.css" />
+  </head>
+  <body>
+    <div class="stage">
+      <!--
+        Sticker 3 — Twinkle's Tips line "mistakes are sparkle dust", in the
+        app's speech-bubble idiom. Star geometry is mascotSVG() from
+        frontend/src/ui/parts.ts mapped with x' = 1.85x + 579, y' = 1.85y + 582.7.
+      -->
+      <!-- --cut-extra = 130 / 0.9351, so the white rim lands at 65 canvas px
+           like the other two stickers. See stickers.css. -->
+      <svg
+        class="sticker"
+        viewBox="0 0 900 900"
+        xmlns="http://www.w3.org/2000/svg"
+        style="--cut-extra: 139px"
+      >
+        <title>Speech bubble reading "mistakes are sparkle dust"</title>
+
+        <!-- This sticker's art was drawn at 1:1 on the 900px canvas. The wider
+             rim needs room, so everything is wrapped in one group and scaled
+             down; every coordinate below is still the original art space. -->
+        <g transform="translate(30.7 30.5) scale(0.9327)">
+
+          <defs>
+            <!-- Arc for the edge URL, on the white rim ABOVE the bubble. The
+                 bottom edge can't carry it: the tail (x ~300, down to y 760)
+                 and Twinkle (x 590-790) leave only ~250px of clean run. The top
+                 edge is straight and clear from x 160 to x 740. -->
+            <path id="urlArc" fill="none" d="M 215 101 Q 450 89 685 101" />
+          </defs>
+
+          <!-- ── Die-cut silhouette ────────────────────────────────────────── -->
+          <g>
+            <path
+              class="keyline cut-flat"
+              d="M104 106 Q111 145 150 152 Q111 159 104 198 Q97 159 58 152 Q97 145 104 106 Z"
+            />
+            <path
+              class="keyline cut-flat"
+              d="M798 108 Q805 143 840 150 Q805 157 798 192 Q791 157 756 150 Q791 143 798 108 Z"
+            />
+            <path
+              class="keyline cut-flat"
+              d="M100 580 Q106 612 138 618 Q106 624 100 656 Q94 624 62 618 Q94 612 100 580 Z"
+            />
+            <path
+              class="keyline cut-line"
+              d="M160 130 L740 130 Q830 130 830 220 L830 550 Q830 640 740 640 L452 640 L300 760 L340 640 L160 640 Q70 640 70 550 L70 220 Q70 130 160 130 Z"
+            />
+            <path
+              class="keyline cut-mini"
+              d="M690 593.8 L717.8 660.4 L789.9 666 L734.4 714.1 L752.9 786.2 L690 747.4 L627.1 786.2 L645.6 714.1 L590.1 666 L662.3 660.4 Z"
+            />
+          </g>
+
+          <!-- ── Bubble ────────────────────────────────────────────────────── -->
+          <path
+            d="M160 130 L740 130 Q830 130 830 220 L830 550 Q830 640 740 640 L452 640 L300 760 L340 640 L160 640 Q70 640 70 550 L70 220 Q70 130 160 130 Z"
+            fill="#F4DBE3"
+            stroke="#DDAEC6"
+            stroke-width="10"
+            stroke-linejoin="round"
+          />
+
+          <!-- Edge sparkles sit on top of the bubble, straddling its outline, so
+               the die cut picks up their points and each one reads whole. -->
+          <path
+            d="M104 106 Q111 145 150 152 Q111 159 104 198 Q97 159 58 152 Q97 145 104 106 Z"
+            fill="#FFD66B"
+          />
+          <path
+            d="M798 108 Q805 143 840 150 Q805 157 798 192 Q791 157 756 150 Q791 143 798 108 Z"
+            fill="#5EA8DA"
+          />
+          <path
+            d="M100 580 Q106 612 138 618 Q106 624 100 656 Q94 624 62 618 Q94 612 100 580 Z"
+            fill="#DDAEC6"
+          />
+
+          <!-- ── Copy ──────────────────────────────────────────────────────── -->
+          <text
+            x="450"
+            y="248"
+            text-anchor="middle"
+            dominant-baseline="central"
+            font-family="'Nunito'"
+            font-weight="800"
+            font-size="46"
+            letter-spacing="8"
+            fill="#A05F83"
+          >
+            MISTAKES ARE
+          </text>
+          <text
+            x="450"
+            y="390"
+            text-anchor="middle"
+            dominant-baseline="central"
+            font-family="'Baloo 2'"
+            font-weight="800"
+            font-size="128"
+            letter-spacing="-2"
+            fill="#2B5876"
+          >
+            SPARKLE
+          </text>
+          <text
+            x="450"
+            y="528"
+            text-anchor="middle"
+            dominant-baseline="central"
+            font-family="'Baloo 2'"
+            font-weight="800"
+            font-size="128"
+            letter-spacing="-2"
+            fill="#2B5876"
+          >
+            DUST
+          </text>
+
+          <!-- Sparkles flanking DUST -->
+          <path d="M212 492 Q218 522 248 528 Q218 534 212 564 Q206 534 176 528 Q206 522 212 492 Z" fill="#FFD66B" />
+          <path d="M688 492 Q694 522 724 528 Q694 534 688 564 Q682 534 652 528 Q682 522 688 492 Z" fill="#FFD66B" />
+
+          <!-- ── Twinkle, peeking over the bubble's bottom-right corner ────── -->
+          <path
+            d="M690 593.8 L717.8 660.4 L789.9 666 L734.4 714.1 L752.9 786.2 L690 747.4 L627.1 786.2 L645.6 714.1 L590.1 666 L662.3 660.4 Z"
+            fill="#FFD66B"
+            stroke="#E8B445"
+            stroke-width="12.95"
+            stroke-linejoin="round"
+          />
+          <g class="tt-star-face">
+            <circle cx="654.9" cy="704.8" r="10.2" fill="#F4DBE3" />
+            <circle cx="725.2" cy="704.8" r="10.2" fill="#F4DBE3" />
+            <circle cx="667.8" cy="686.3" r="8.3" fill="#2B5876" />
+            <circle cx="712.2" cy="686.3" r="8.3" fill="#2B5876" />
+            <circle cx="665.1" cy="683.6" r="2.7" fill="#FFFFFF" />
+            <circle cx="709.5" cy="683.6" r="2.7" fill="#FFFFFF" />
+          </g>
+          <path
+            d="M667.8 701.1 Q690 730.7 712.2 701.1"
+            fill="none"
+            stroke="#2B5876"
+            stroke-width="7.4"
+            stroke-linecap="round"
+          />
+
+          <!-- ── Edge URL ──────────────────────────────────────────────────── -->
+          <!-- Inside the scale(0.9351) group, so 30/7.5 here render at ~28/7
+               canvas px — matching the other two stickers. -->
+          <text
+            text-anchor="middle"
+            font-family="'Nunito'"
+            font-weight="800"
+            font-size="30"
+            letter-spacing="7.5"
+            fill="#000000"
+          >
+            <textPath href="#urlArc" startOffset="50%">TWINKLETUNE.APP</textPath>
+          </text>
+        </g>
+      </svg>
+    </div>
+  </body>
+</html>

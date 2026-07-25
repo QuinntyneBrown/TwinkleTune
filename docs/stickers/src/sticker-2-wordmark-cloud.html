@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>TwinkleTune sticker — wordmark cloud</title>
+    <link rel="stylesheet" href="stickers.css" />
+  </head>
+  <body>
+    <div class="stage">
+      <!--
+        Sticker 2 — the wordmark on a cloud, with the app-icon star breaking
+        the top of the outline. Star geometry is frontend/public/icon.svg
+        mapped with x' = 2.6x + 294, y' = 2.6y + 171. Wordmark follows
+        .logo / .logo .tw from frontend/src/styles/screens.css: "Twinkle" in
+        --blue, "Tune" in --ink.
+      -->
+      <!-- --cut-extra = 130 / 1.0292, so the white rim lands at 65 canvas px
+           like the other two stickers. See stickers.css. -->
+      <svg
+        class="sticker"
+        viewBox="0 0 900 900"
+        xmlns="http://www.w3.org/2000/svg"
+        style="--cut-extra: 126px"
+      >
+        <title>TwinkleTune wordmark on a cloud</title>
+
+        <!-- Fit to the 3in canvas: cut long edge 860px (2.87in). Note the left
+             extreme is the pink sparkle (x 80), not the cloud, so it sets the
+             scale. -->
+        <g transform="translate(2.5 -17.6) scale(1.0292)">
+
+
+          <defs>
+            <linearGradient id="cloudFill" gradientUnits="userSpaceOnUse" x1="0" y1="310" x2="0" y2="712">
+              <stop offset="0" stop-color="#FFFFFF" />
+              <stop offset="0.45" stop-color="#F3FAFE" />
+              <stop offset="0.8" stop-color="#DCEFFA" />
+              <stop offset="1" stop-color="#C9E6F8" />
+            </linearGradient>
+
+            <!-- Arc for the edge URL, down the middle of the white rim below the
+                 cloud. The cloud's bottom artwork edge only varies from y ~700
+                 (ends) to ~709 (around x 335), so the rim is near enough flat
+                 here and the arc barely needs to curve; this keeps ~22px clear of
+                 the artwork and the same again outside the type.
+                 Centred on x 437, not 450: this sticker's translate is +2.5 at
+                 scale 1.0292, so 437 is what puts the type on the cut's centre
+                 line (allowing for the trailing letter-space). -->
+            <path id="urlArc" fill="none" d="M 217 743 Q 437 737 657 743" />
+          </defs>
+
+          <!-- ── Die-cut silhouette ────────────────────────────────────────── -->
+          <g>
+            <path
+              class="keyline cut-flat"
+              d="M140 428 Q147 463 182 470 Q147 477 140 512 Q133 477 98 470 Q133 463 140 428 Z"
+            />
+            <path
+              class="keyline cut-flat"
+              d="M735 363 Q742 398 777 405 Q742 412 735 447 Q728 412 693 405 Q728 398 735 363 Z"
+            />
+            <path
+              class="keyline cut-flat"
+              d="M120 585 Q126 619 160 625 Q126 631 120 665 Q114 631 80 625 Q114 619 120 585 Z"
+            />
+            <path
+              class="keyline cut-cloud"
+              d="M165 690 C115 682 110 600 155 570 C133 500 190 442 258 462 C270 365 380 325 445 380 C500 325 600 345 613 420 C690 395 768 452 748 535 C798 563 795 655 738 690 C655 710 570 682 490 694 C400 706 275 710 165 690 Z"
+            />
+            <path
+              class="keyline cut-icon"
+              d="M450 207.4 L482.5 285.4 L567 291.9 L502 347.8 L523.6 432.3 L450 386.8 L376.4 432.3 L398 347.8 L333 291.9 L417.5 285.4 Z"
+            />
+          </g>
+
+          <!-- ── Cloud ─────────────────────────────────────────────────────── -->
+          <path
+            d="M165 690 C115 682 110 600 155 570 C133 500 190 442 258 462 C270 365 380 325 445 380 C500 325 600 345 613 420 C690 395 768 452 748 535 C798 563 795 655 738 690 C655 710 570 682 490 694 C400 706 275 710 165 690 Z"
+            fill="url(#cloudFill)"
+            stroke="#83C5F1"
+            stroke-width="10"
+            stroke-linejoin="round"
+          />
+
+          <!-- Edge sparkles sit on top of the cloud, straddling its outline, so
+               the die cut picks up their points and each one reads whole. -->
+          <path
+            d="M140 428 Q147 463 182 470 Q147 477 140 512 Q133 477 98 470 Q133 463 140 428 Z"
+            fill="#FFD66B"
+          />
+          <path
+            d="M735 363 Q742 398 777 405 Q742 412 735 447 Q728 412 693 405 Q728 398 735 363 Z"
+            fill="#5EA8DA"
+          />
+          <path
+            d="M120 585 Q126 619 160 625 Q126 631 120 665 Q114 631 80 625 Q114 619 120 585 Z"
+            fill="#DDAEC6"
+          />
+
+          <!-- ── Wordmark ──────────────────────────────────────────────────── -->
+          <text
+            x="450"
+            y="520"
+            text-anchor="middle"
+            dominant-baseline="central"
+            font-family="'Baloo 2'"
+            font-weight="800"
+            font-size="84"
+            letter-spacing="-1"
+          >
+            <tspan fill="#5EA8DA">Twinkle</tspan><tspan fill="#2B5876">Tune</tspan>
+          </text>
+
+          <!-- Tagline in the app's pink chip -->
+          <rect x="185" y="565" width="530" height="76" rx="38" fill="#F4DBE3" />
+          <text
+            x="450"
+            y="604"
+            text-anchor="middle"
+            dominant-baseline="central"
+            font-family="'Nunito'"
+            font-weight="800"
+            font-size="34"
+            letter-spacing="0.4"
+            fill="#A05F83"
+          >
+            Sing your heart out!
+          </text>
+
+          <!-- ── The app-icon star, breaking the top of the cloud ──────────── -->
+          <path
+            d="M450 207.4 L482.5 285.4 L567 291.9 L502 347.8 L523.6 432.3 L450 386.8 L376.4 432.3 L398 347.8 L333 291.9 L417.5 285.4 Z"
+            fill="#FFD66B"
+            stroke="#E8B445"
+            stroke-width="15.6"
+            stroke-linejoin="round"
+          />
+          <g class="tt-star-face">
+            <circle cx="408.4" cy="337.4" r="12" fill="#F4DBE3" />
+            <circle cx="491.6" cy="337.4" r="12" fill="#F4DBE3" />
+            <circle cx="424" cy="316.6" r="9.9" fill="#2B5876" />
+            <circle cx="476" cy="316.6" r="9.9" fill="#2B5876" />
+            <circle cx="420.8" cy="313.4" r="3.2" fill="#FFFFFF" />
+            <circle cx="472.8" cy="313.4" r="3.2" fill="#FFFFFF" />
+          </g>
+          <path
+            d="M424 337.4 Q450 372 476 337.4"
+            fill="none"
+            stroke="#2B5876"
+            stroke-width="8.8"
+            stroke-linecap="round"
+          />
+
+          <!-- ── Edge URL ────────────────────────────────────────────────── -->
+          <!-- Inside the scale(1.0292) group, so 27/7 here render at ~28/7
+               canvas px — matching the other two stickers. -->
+          <text
+            text-anchor="middle"
+            font-family="'Nunito'"
+            font-weight="800"
+            font-size="27"
+            letter-spacing="7"
+            fill="#000000"
+          >
+            <textPath href="#urlArc" startOffset="50%">TWINKLETUNE.APP</textPath>
+          </text>
+        </g>
+      </svg>
+    </div>
+  </body>
+</html>

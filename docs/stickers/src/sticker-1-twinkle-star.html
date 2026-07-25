@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>TwinkleTune sticker — Twinkle the star</title>
+    <link rel="stylesheet" href="stickers.css" />
+  </head>
+  <body>
+    <div class="stage">
+      <!--
+        Sticker 1 — Twinkle the star coach.
+        Star geometry is mascotSVG() from frontend/src/ui/parts.ts, mapped from
+        its 120-unit viewBox onto this 900px canvas with x' = 5.5x + 120,
+        y' = 5.5y + 70. Proportions (including the 6.5%-of-width gold edge)
+        are therefore identical to the in-app mascot.
+      -->
+      <!-- --cut-extra = 130 / 0.9669, so the white rim lands at 65 canvas px
+           like the other two stickers. See stickers.css. -->
+      <svg
+        class="sticker"
+        viewBox="0 0 900 900"
+        xmlns="http://www.w3.org/2000/svg"
+        style="--cut-extra: 134px"
+      >
+        <title>Twinkle the star coach with a TwinkleTune banner</title>
+
+        <!-- Fit to the 3in canvas. Note the widest points are the two side
+             sparkles, not the star: their white rim reaches x 9 and x 898 in this
+             coordinate space, so the scale is set by 889 art-px of width, not by
+             the star's 594. -->
+        <g transform="translate(11.5 38.2) scale(0.9669)">
+
+          <defs>
+            <!-- Arc for the edge URL, down the middle of the white rim below the
+                 banner. The banner's bottom edge runs (750,764) -> control
+                 (450,739) -> (150,764); adding its 4px half-stroke puts the
+                 artwork edge at y 768 (ends) / 755.5 (centre), and the rim runs
+                 67px out from there. This arc parallels it 24px clear of the
+                 artwork, leaving the same clearance again outside the type. -->
+            <path id="urlArc" fill="none" d="M 210 811 Q 450 786 690 811" />
+          </defs>
+
+          <!-- ── Die-cut silhouette ──────────────────────────────────────────
+               White fill + fat white stroke with paint-order:stroke, so the
+               stroke lies wholly outside each shape. The pieces all overlap,
+               so their union is one continuous cut line. -->
+          <g>
+            <path
+              class="keyline cut-flat"
+              d="M130 246 Q139 291 184 300 Q139 309 130 354 Q121 309 76 300 Q121 291 130 246 Z"
+            />
+            <path
+              class="keyline cut-flat"
+              d="M785 222 Q792 261 831 268 Q792 275 785 314 Q778 275 739 268 Q778 261 785 222 Z"
+            />
+            <path
+              class="keyline cut-flat"
+              d="M600 152 Q606 184 638 190 Q606 196 600 228 Q594 196 562 190 Q594 184 600 152 Z"
+            />
+            <path
+              class="keyline cut-star"
+              d="M450 103 L532.5 301 L747 317.5 L582 460.5 L637 675 L450 559.5 L263 675 L318 460.5 L153 317.5 L367.5 301 Z"
+            />
+            <path
+              class="keyline cut-band"
+              d="M150 650 Q450 625 750 650 L700 707 L750 764 Q450 739 150 764 L200 707 Z"
+            />
+          </g>
+
+          <!-- ── Sparkles (behind the star, so only the outside petals show) ── -->
+          <path
+            d="M130 246 Q139 291 184 300 Q139 309 130 354 Q121 309 76 300 Q121 291 130 246 Z"
+            fill="#FFD66B"
+          />
+          <path
+            d="M785 222 Q792 261 831 268 Q792 275 785 314 Q778 275 739 268 Q778 261 785 222 Z"
+            fill="#5EA8DA"
+          />
+          <path
+            d="M600 152 Q606 184 638 190 Q606 196 600 228 Q594 196 562 190 Q594 184 600 152 Z"
+            fill="#FFD66B"
+          />
+
+          <!-- ── The star ──────────────────────────────────────────────────── -->
+          <path
+            d="M450 103 L532.5 301 L747 317.5 L582 460.5 L637 675 L450 559.5 L263 675 L318 460.5 L153 317.5 L367.5 301 Z"
+            fill="#FFD66B"
+            stroke="#E8B445"
+            stroke-width="38.5"
+            stroke-linejoin="round"
+          />
+
+          <!-- Face — happy variant of mascotSVG(), same coordinates scaled -->
+          <g class="tt-star-face">
+            <circle cx="345.5" cy="433" r="30.25" fill="#F4DBE3" />
+            <circle cx="554.5" cy="433" r="30.25" fill="#F4DBE3" />
+            <circle cx="384" cy="378" r="24.75" fill="#2B5876" />
+            <circle cx="516" cy="378" r="24.75" fill="#2B5876" />
+            <circle cx="376" cy="370" r="8" fill="#FFFFFF" />
+            <circle cx="508" cy="370" r="8" fill="#FFFFFF" />
+          </g>
+          <path
+            d="M384 422 Q450 510 516 422"
+            fill="none"
+            stroke="#2B5876"
+            stroke-width="22"
+            stroke-linecap="round"
+          />
+
+          <!-- ── Banner ────────────────────────────────────────────────────── -->
+          <!-- Darker pink underlay gives the app's chunky-toy-button edge. -->
+          <path
+            d="M150 658 Q450 633 750 658 L700 715 L750 772 Q450 747 150 772 L200 715 Z"
+            fill="#DDAEC6"
+          />
+          <path
+            d="M150 650 Q450 625 750 650 L700 707 L750 764 Q450 739 150 764 L200 707 Z"
+            fill="#F4DBE3"
+            stroke="#DDAEC6"
+            stroke-width="8"
+            stroke-linejoin="round"
+          />
+          <text
+            x="450"
+            y="708"
+            text-anchor="middle"
+            dominant-baseline="central"
+            font-family="'Baloo 2'"
+            font-weight="800"
+            font-size="72"
+            letter-spacing="-1"
+            fill="#A05F83"
+          >
+            TwinkleTune
+          </text>
+
+          <!-- ── Edge URL ────────────────────────────────────────────────── -->
+          <!-- Inside the scale(0.9669) group, so 29/7.2 here render at ~28/7
+               canvas px — matching the other two stickers. -->
+          <text
+            text-anchor="middle"
+            font-family="'Nunito'"
+            font-weight="800"
+            font-size="29"
+            letter-spacing="7.2"
+            fill="#000000"
+          >
+            <textPath href="#urlArc" startOffset="50%">TWINKLETUNE.APP</textPath>
+          </text>
+        </g>
+      </svg>
+    </div>
+  </body>
+</html>
