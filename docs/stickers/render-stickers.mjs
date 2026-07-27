@@ -52,9 +52,23 @@ async function exportSvg(slug, title) {
   const html = await readFile(path.join(here, 'src', `${slug}.html`), 'utf8')
   const css = await readFile(path.join(here, 'src', 'stickers.css'), 'utf8')
 
-  const fontFaces = [...css.matchAll(/@font-face\s*\{[^}]*\}/g)]
-    .map((m) => m[0].replace(/url\("fonts\//g, 'url("src/fonts/'))
-    .join('\n')
+  // Inline each face's TTF as a base64 data URI rather than pointing at the
+  // file on disk. A relative url() only resolves when the SVG is opened as a
+  // top-level document; embedded as an <img> (GitHub, image viewers, most
+  // editors) the browser refuses to fetch an external font and falls back to a
+  // system serif — the text would no longer be Baloo 2 / Nunito like the PNG.
+  // The data URI travels inside the file, so the type renders identically
+  // everywhere and stays live (still selectable/editable, unlike outlines).
+  const fontFaces = (
+    await Promise.all(
+      [...css.matchAll(/@font-face\s*\{[^}]*\}/g)].map(async (m) => {
+        const ref = m[0].match(/url\("fonts\/([^"]+)"\)/)
+        if (!ref) return m[0]
+        const data = (await readFile(path.join(here, 'src', 'fonts', ref[1]))).toString('base64')
+        return m[0].replace(/url\("fonts\/[^"]+"\)/, `url("data:font/ttf;base64,${data}")`)
+      })
+    )
+  ).join('\n')
   const idioms = css.slice(css.indexOf('/* --- Shared artwork idioms')).trim()
 
   // Matched on /<svg[\s>]/ rather than the literal '<svg ' so that a source file
