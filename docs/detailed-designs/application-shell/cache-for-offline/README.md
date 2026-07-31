@@ -8,10 +8,17 @@ itself loadable when the network is gone: a service worker that keeps a copy of
 every asset the app has already fetched, and serves that copy first on later
 visits.
 
-The strategy is deliberately modest. The service worker pre-caches nothing and
-declares no asset list; it fills its cache as a side effect of ordinary browsing,
-then serves what it holds and refreshes it in the background. A first visit
-therefore requires the network, and every visit after it does not.
+The strategy is deliberately modest. Apart from the four font files, the service
+worker declares no asset list; it fills its cache as a side effect of ordinary
+browsing, then serves what it holds and refreshes it in the background. A first
+visit therefore requires the network, and every visit after it does not.
+
+The fonts are the one exception, and they are pre-cached for a reason particular
+to them: they are declared `font-display: optional`, so a webface that is not
+ready within about 100 ms is not used for that page view at all. Having the bytes
+already in the cache is what makes the real typeface certain from the second
+visit onward. See
+[Load Fonts Without Swapping](../load-fonts-without-swapping/README.md).
 
 Offline support is treated as a bonus rather than a guarantee. Registration is
 confined to production builds and its failure is swallowed, so a browser without
@@ -44,17 +51,24 @@ and either may hold without the other.
 The feature is realized by `frontend/public/sw.js` and one registration block in
 `frontend/src/main.ts`. No server logic participates.
 
-- **`CACHE`** — the module constant naming the cache generation, `'twinkletune-v1'`.
+- **`CACHE`** — the module constant naming the cache generation, `'twinkletune-v2'`.
   Changing this string is what retires the previous generation.
-- **`install` handler** — calls `self.skipWaiting()`, so a newly installed worker
-  does not wait for existing pages to close before activating.
+- **`PRECACHE`** — the module constant listing the four woff2 font paths under
+  `./fonts/`, the only assets the worker fetches ahead of being asked for them.
+- **`install` handler** — wraps its work in `event.waitUntil`. It opens `CACHE`,
+  passes `PRECACHE` to `cache.addAll`, swallows a rejection so a cold cache never
+  fails the install, and then calls `self.skipWaiting()`, so a newly installed
+  worker does not wait for existing pages to close before activating.
 - **`activate` handler** — wraps its work in `event.waitUntil`. It reads
   `caches.keys()`, deletes every key that is not `CACHE`, and then calls
   `self.clients.claim()` so already-open pages come under the new worker's control
   immediately.
 - **`fetch` handler** — returns without calling `respondWith` when
   `request.method !== 'GET'`, leaving non-`GET` requests to the network untouched.
-  For a `GET` it opens `CACHE`, awaits `cache.match(request)`, and starts a
+  A `GET` whose `request.destination` is `'font'` takes a separate branch: a
+  cached entry is returned as-is with no background refresh, since font filenames
+  carry a version and can never be stale. For every other `GET` it opens `CACHE`,
+  awaits `cache.match(request)`, and starts a
   background `fetch(request)`. The background fetch calls
   `cache.put(request, res.clone())` when `res && res.ok`, and falls back to the
   cached response on rejection. The handler answers with `cached || refresh`, so a
@@ -65,8 +79,8 @@ The feature is realized by `frontend/public/sw.js` and one registration block in
   path, and attaches a `.catch()` whose body is empty apart from the comment that
   offline support is a bonus and never an error.
 
-The cache holds no explicit pre-cache list, so the set of entries is exactly the
-set of `GET` responses the app has already made.
+Beyond the fonts in `PRECACHE`, the set of entries is exactly the set of `GET`
+responses the app has already made.
 
 ## Requirements
 

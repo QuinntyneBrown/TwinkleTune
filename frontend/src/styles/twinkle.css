@@ -27,8 +27,12 @@
   --shadow-soft:0 6px 18px rgba(94,168,218,.18);
   --r:28px;
 
-  --font-display:"Baloo 2","Comic Sans MS",cursive;
-  --font-body:"Nunito","Segoe UI",sans-serif;
+  /* @font-face lives inline in index.html so the fetch starts on first parse.
+     The "* Fallback" families are metric-matched to the real ones; `cursive`
+     is deliberately absent — on iOS it resolves to Snell Roundhand, which
+     looks nothing like Baloo 2. */
+  --font-display:"Baloo 2","Baloo 2 Fallback",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-body:"Nunito","Nunito Fallback",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 
 html{scroll-behavior:smooth}

@@ -14,8 +14,10 @@
   --pink-deep: #d99fbb;
   --gold: #ffd66b;
   --gold-deep: #e5b347;
-  --display: "Baloo 2", "Arial Rounded MT Bold", sans-serif;
-  --body: "Nunito", "Segoe UI", sans-serif;
+  /* @font-face lives inline in index.html so the fetch starts on first parse.
+     The "* Fallback" families are metric-matched to the real ones. */
+  --display: "Baloo 2", "Baloo 2 Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --body: "Nunito", "Nunito Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
   --shell: 1320px;
   --header: 76px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);

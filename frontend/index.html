@@ -10,8 +10,71 @@
   <link rel="apple-touch-icon" href="./icon-192.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Fonts are self-hosted and declared inline so the browser can start
+       fetching them during the very first HTML parse. Combined with
+       font-display:optional this makes the typeface stable: the text is
+       painted once, in one font, and never re-flows into another.
+       See docs/detailed-designs/application-shell/load-fonts-without-swapping/. -->
+  <link rel="preload" href="./fonts/baloo2-v23-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./fonts/nunito-v32-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <style>
+    /* --- real webfaces ------------------------------------------------- */
+    @font-face {
+      font-family: "Baloo 2";
+      font-style: normal;
+      font-weight: 400 800;
+      font-display: optional;
+      src: url("./fonts/baloo2-v23-latin.woff2") format("woff2");
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+    @font-face {
+      font-family: "Baloo 2";
+      font-style: normal;
+      font-weight: 400 800;
+      font-display: optional;
+      src: url("./fonts/baloo2-v23-latin-ext.woff2") format("woff2");
+      unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+    }
+    @font-face {
+      font-family: "Nunito";
+      font-style: normal;
+      font-weight: 400 900;
+      font-display: optional;
+      src: url("./fonts/nunito-v32-latin.woff2") format("woff2");
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+    @font-face {
+      font-family: "Nunito";
+      font-style: normal;
+      font-weight: 400 900;
+      font-display: optional;
+      src: url("./fonts/nunito-v32-latin-ext.woff2") format("woff2");
+      unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+    }
+
+    /* --- metric-matched fallbacks --------------------------------------
+       Used only when a webface is not ready inside the font-display:optional
+       window. The overrides are derived from the real fonts (Baloo 2:
+       x-height .460, ascent 1.078, descent .524; Nunito: x-height .484,
+       ascent 1.011, descent .353) against a system-sans x-height of ~.52,
+       so line boxes and apparent size match and nothing shifts. */
+    @font-face {
+      font-family: "Baloo 2 Fallback";
+      src: local("Helvetica Neue"), local("Arial"), local("Segoe UI"), local("Roboto");
+      size-adjust: 88.5%;
+      ascent-override: 121.8%;
+      descent-override: 59.2%;
+      line-gap-override: 0%;
+    }
+    @font-face {
+      font-family: "Nunito Fallback";
+      src: local("Helvetica Neue"), local("Arial"), local("Segoe UI"), local("Roboto");
+      size-adjust: 93.1%;
+      ascent-override: 108.6%;
+      descent-override: 37.9%;
+      line-gap-override: 0%;
+    }
+  </style>
 </head>
 <body>
   <div id="app"></div>
