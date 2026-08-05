@@ -8,6 +8,7 @@
     "test:ui": "playwright test --ui",
     "test:server": "playwright test -c playwright.server.config.ts",
     "test:marketing": "playwright test -c playwright.marketing.config.ts",
+    "test:mocks": "playwright test -c playwright.mocks.config.ts",
     "report": "playwright show-report"
   },
   "devDependencies": {

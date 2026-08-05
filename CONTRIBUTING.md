@@ -31,7 +31,9 @@ TwinkleTune is built for young kids. Keep these in mind for any change:
 - **Privacy first.** All data stays in `localStorage`. No accounts, no
   analytics, and no audio ever leaves the device. Don't add network calls.
 - **The mockups are the visual source of truth.** Check `docs/mocks/`
-  (start at `docs/mocks/index.html`) before changing any UI.
+  (start at `docs/mocks/index.html`) before changing any UI. A new screen needs
+  a new mockup, and the mockups must stay responsive — `npm run test:mocks` in
+  `e2e/` checks every page at phone, tablet and desktop widths.
 
 ## Adding songs
 

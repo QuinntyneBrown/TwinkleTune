@@ -170,6 +170,10 @@ jobs:
         working-directory: e2e
         run: npm run test:marketing
 
+      - name: Run design mockup E2E suite
+        working-directory: e2e
+        run: npm run test:mocks
+
       - name: Run browser E2E suite
         working-directory: e2e
         run: npm test
@@ -187,6 +191,7 @@ jobs:
             e2e/test-results
             e2e/playwright-report
             e2e/playwright-report-marketing
+            e2e/playwright-report-mocks
           if-no-files-found: warn
           retention-days: 7
 
