@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>TwinkleTune — Who's singing?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/twinkle.css">
+<link rel="stylesheet" href="css/screens.css">
+</head>
+<body>
+
+<div class="sky" aria-hidden="true">
+  <div class="cloud" style="width:150px;height:46px;top:9%;animation-duration:98s"></div>
+  <div class="cloud" style="width:105px;height:34px;top:52%;animation-duration:88s;animation-delay:-40s;opacity:.55"></div>
+  <span class="tstar" style="top:15%;left:7%">✦</span>
+  <span class="tstar" style="top:24%;right:9%;animation-delay:.9s">✦</span>
+  <span class="fnote" style="top:66%;right:5%;animation-delay:1.3s">🎶</span>
+</div>
+
+<main class="screen screen--nonav">
+
+  <header class="topbar rise">
+    <a class="icon-btn" href="03-home.html" aria-label="Go back">←</a>
+    <h1 class="title">Who's singing? 🎤</h1>
+    <span class="spacer"></span>
+  </header>
+
+  <div class="coach rise d1">
+    <svg class="mascot mascot-sm" viewBox="0 0 120 120" aria-hidden="true">
+      <path d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z"
+            fill="#FFD66B" stroke="#E8B445" stroke-width="7" stroke-linejoin="round"/>
+      <circle cx="48" cy="56" r="4.5" fill="#2B5876"/>
+      <circle cx="72" cy="56" r="4.5" fill="#2B5876"/>
+      <circle cx="41" cy="66" r="5.5" fill="#F4DBE3"/>
+      <circle cx="79" cy="66" r="5.5" fill="#F4DBE3"/>
+      <path d="M50 66 Q60 76 70 66" fill="none" stroke="#2B5876" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+    <div class="bubble bubble-left">Tap your card and the whole app becomes <strong>yours</strong> — your songs, your key, your sparkles!</div>
+  </div>
+
+  <!-- Singers live on the family server, so a picked card swaps the songbook,
+       the voice range and the sparkle jar all at once. -->
+  <div class="profile-grid">
+
+    <div class="profile-card active rise d2">
+      <button class="profile-edit icon-btn" aria-label="Edit Mia">✏️</button>
+      <div class="avatar avatar-lg" role="img" aria-label="Mia's avatar">🦄</div>
+      <strong>Mia</strong>
+      <span class="profile-tag">SINGING NOW ⭐</span>
+      <button class="btn btn-sm">That's me!</button>
+    </div>
+
+    <div class="profile-card rise d3">
+      <button class="profile-edit icon-btn" aria-label="Edit Ada">✏️</button>
+      <div class="avatar avatar-lg" role="img" aria-label="Ada's avatar">🐱</div>
+      <strong>Ada</strong>
+      <button class="btn btn-sm">Sing as me! 🎤</button>
+    </div>
+
+    <div class="profile-card rise d4">
+      <button class="profile-edit icon-btn" aria-label="Edit Nan">✏️</button>
+      <div class="avatar avatar-lg" role="img" aria-label="Nan's avatar">🐸</div>
+      <strong>Nan</strong>
+      <button class="btn btn-sm">Sing as me! 🎤</button>
+    </div>
+
+    <div class="profile-card rise d5">
+      <button class="profile-edit icon-btn" aria-label="Edit Dad">✏️</button>
+      <div class="avatar avatar-lg" role="img" aria-label="Dad's avatar">🦊</div>
+      <strong>Dad</strong>
+      <button class="btn btn-sm">Sing as me! 🎤</button>
+    </div>
+
+    <button class="profile-card profile-new rise d6">
+      <span style="font-size:44px">➕</span>
+      <strong>New singer</strong>
+    </button>
+
+  </div>
+
+  <!-- Without the family server this whole list is replaced by a friendly
+       offline panel: "Keep singing solo ▶" -->
+  <div class="why rise d7" style="margin-top:22px">
+    <span class="ico">📡</span>
+    <span>Singers, photos and family scores live on <strong>your home server only</strong>. If it's off, TwinkleTune keeps working solo.</span>
+  </div>
+
+</main>
+
+<nav class="mock-nav" aria-label="Mockup navigation">
+  <span>MOCKUP</span>
+  <a href="index.html" title="All screens">⊞</a>
+  <a href="09-dialogs.html" title="Previous screen">◀</a>
+  <a href="11-duet.html" title="Next screen">▶</a>
+</nav>
+
+</body>
+</html>

@@ -38,13 +38,16 @@ backend/         Family server — .NET 10, Clean Architecture
 marketing/       Public brochure — dependency-free HTML/CSS/JS + product screenshots
 infra/           Azure Static Web Apps infrastructure (Bicep)
 .github/         CI/CD — tests every layer, publishes marketing + the PWA on main
-e2e/             Playwright suites: offline app (npm test) and
-                 full-stack duets/profiles (npm run test:server)
+e2e/             Playwright suites: offline app (npm test), full-stack
+                 duets/profiles (npm run test:server), marketing brochure
+                 (npm run test:marketing) and the mockups (npm run test:mocks)
 docs/
-  PLAN.md            Build plan (mockups → working app)
-  PLAN-BACKEND.md    Build plan (backend milestone)
+  specs/             L1/L2 requirements, one folder per subsystem
+  detailed-designs/  Per-feature design docs with C4/class/sequence diagrams
   adr/               Architecture decision records
-  mocks/             The original HTML design mockups (open mocks/index.html)
+  mocks/             The HTML design mockups (open mocks/index.html)
+  stickers/          Print/brand assets and their renderer
+  deployment.md      Azure Static Web Apps delivery
 ```
 
 Palette: `#F4DBE3` · `#5EA8DA` · `#83C5F1` · `#B9DDF5` · `#AFE3F4`
@@ -101,3 +104,25 @@ Production serves the brochure at `/` and the offline PWA at `/app/` through Azu
 ## Design
 
 The design mockups in `docs/mocks/` are the visual source of truth — a soft pastel "sky studio" built from the palette above, with Baloo 2 + Nunito type. Start at `docs/mocks/index.html` for a gallery of every screen and dialog.
+
+They are **responsive**, and the phone design is the base — every breakpoint above it only adds:
+
+| Width | Form factor | What changes |
+|--------|-------------|--------------|
+| `< 700px` | Phone | One 470px column, navigation floats along the bottom |
+| `≥ 700px` | Large phone / tablet | Fluid column; song, tip and badge lists become card grids |
+| `≥ 980px` | Tablet landscape / desktop | Bottom nav becomes a left rail; screens split into real columns |
+| `≥ 1180px` | Wide desktop | Grids reach three-up |
+
+`docs/mocks/css/twinkle.css` holds the design system and the shell; `css/screens.css` holds the
+per-screen layout and deliberately shares its class vocabulary with `frontend/src/styles/screens.css`.
+The same ladder is not yet ported into the app itself — the shipped stylesheets still declare no
+width breakpoints.
+
+Preview the mockups with the frontend's Vite installation, and check every form factor with
+Playwright:
+
+```bash
+cd frontend && npm run dev -- --host 127.0.0.1 --port 4177 ../docs/mocks
+cd e2e && npm run test:mocks     # phone, tablet and desktop viewports
+```

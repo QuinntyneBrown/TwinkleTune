@@ -2,62 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>TwinkleTune — Welcome</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/twinkle.css">
-<style>
-  .screen{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:46px}
-
-  .logo{
-    font-family:var(--font-display);font-weight:800;font-size:44px;line-height:1;
-    color:var(--ink);letter-spacing:-.5px;margin-top:6px;
-  }
-  .logo .tw{color:var(--blue)}
-  .tagline{font-weight:800;color:var(--ink-soft);font-size:17px;margin-top:6px}
-
-  .hello{display:flex;align-items:center;gap:6px;margin:30px 0 8px;max-width:340px}
-
-  .name-card{width:100%;max-width:360px;margin-top:18px;text-align:left}
-  .name-card label{
-    display:block;font-family:var(--font-display);font-weight:700;
-    font-size:18px;margin-bottom:10px;
-  }
-  .name-input{
-    width:100%;border:3px solid var(--pale);border-radius:20px;
-    padding:16px 20px;font-size:22px;font-weight:800;color:var(--ink);
-    font-family:var(--font-body);background:#F7FBFE;outline:none;
-  }
-  .name-input:focus{border-color:var(--blue)}
-  .name-input::placeholder{color:#A8C6DC}
-
-  .pick-label{
-    font-family:var(--font-display);font-weight:700;font-size:18px;
-    margin:26px 0 14px;
-  }
-  .avatars{display:flex;gap:14px;justify-content:center}
-  .avatar-pick{
-    width:72px;height:72px;border-radius:50%;border:4px solid #fff;
-    background:linear-gradient(135deg,var(--pale),var(--aqua));
-    font-size:36px;display:grid;place-items:center;cursor:pointer;
-    box-shadow:var(--shadow-soft);transition:transform .15s;
-  }
-  .avatar-pick:hover{transform:scale(1.08)}
-  .avatar-pick.picked{
-    border-color:var(--blue);
-    background:linear-gradient(135deg,var(--pink),var(--pale));
-    transform:scale(1.12);
-    box-shadow:0 0 0 5px rgba(94,168,218,.25),var(--shadow-soft);
-  }
-  .picked-tag{
-    display:block;font-size:12px;font-weight:900;color:var(--blue);
-    margin-top:6px;letter-spacing:.08em;
-  }
-
-  .cta{width:100%;max-width:360px;margin-top:34px}
-  .grownups{margin-top:22px;font-size:14px}
-</style>
+<link rel="stylesheet" href="css/screens.css">
 </head>
 <body>
 
@@ -73,7 +24,7 @@
   <span class="fnote" style="top:38%;right:7%;animation-delay:1.8s">🎶</span>
 </div>
 
-<main class="screen">
+<main class="screen screen--center screen--nonav">
 
   <svg class="mascot mascot-lg pop" viewBox="0 0 120 120" aria-hidden="true">
     <path d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z"
@@ -88,13 +39,13 @@
   <h1 class="logo rise d1"><span class="tw">Twinkle</span>Tune</h1>
   <p class="tagline rise d2">Sing your heart out! 🎤</p>
 
-  <div class="hello rise d3">
+  <div class="hello-bubble rise d3">
     <div class="bubble bubble-left">Hi! I'm <strong>Twinkle</strong>, your singing buddy. What should I call you?</div>
   </div>
 
   <div class="card name-card rise d4">
     <label for="kid-name">My name is…</label>
-    <input class="name-input" id="kid-name" type="text" value="Zoe" placeholder="Type your name">
+    <input class="name-input" id="kid-name" type="text" value="Mia" maxlength="20" placeholder="Type your name">
   </div>
 
   <p class="pick-label rise d5">Pick your singer! 🌟</p>
@@ -103,16 +54,19 @@
       <button class="avatar-pick picked" aria-pressed="true">🦄</button>
       <span class="picked-tag">PICKED!</span>
     </div>
-    <button class="avatar-pick">🐱</button>
-    <button class="avatar-pick">🐸</button>
-    <button class="avatar-pick">🦊</button>
+    <button class="avatar-pick" aria-pressed="false">🐱</button>
+    <button class="avatar-pick" aria-pressed="false">🐸</button>
+    <button class="avatar-pick" aria-pressed="false">🦊</button>
   </div>
 
-  <div class="cta rise d6">
+  <div class="welcome-cta rise d6">
     <a class="btn btn-xl" href="02-voice-setup.html">Let's Sing! 🎤</a>
   </div>
 
-  <p class="grownups rise d7"><a class="link-quiet" href="09-dialogs.html">🔒 Grown-Ups Corner</a></p>
+  <p class="grownups rise d7">
+    <a class="link-quiet" href="10-profiles.html">👨‍👧‍👧 Family profiles</a>
+    <a class="link-quiet" href="09-dialogs.html">🔒 Grown-Ups Corner</a>
+  </p>
 
 </main>
 

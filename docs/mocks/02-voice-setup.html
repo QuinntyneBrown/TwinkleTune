@@ -2,95 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>TwinkleTune — Find My Voice</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/twinkle.css">
-<style>
-  .steps{display:flex;gap:10px;justify-content:center;margin-bottom:22px}
-  .step-dot{
-    width:14px;height:14px;border-radius:50%;background:#fff;
-    box-shadow:var(--shadow-soft);
-  }
-  .step-dot.done{background:var(--blue)}
-  .step-dot.now{
-    background:var(--gold);transform:scale(1.3);
-    box-shadow:0 0 0 5px rgba(255,214,107,.35);
-  }
-
-  .coach{display:flex;align-items:center;gap:14px;margin-bottom:20px}
-  .coach .bubble{flex:1}
-
-  /* star ladder */
-  .ladder-card{display:flex;gap:18px;padding:26px 22px}
-  .ladder{
-    flex:1;display:flex;flex-direction:column-reverse;gap:12px;
-  }
-  .rung{
-    height:34px;border-radius:999px;background:#E9F3FB;
-    position:relative;display:flex;align-items:center;padding:0 14px;
-    font-weight:900;font-size:13px;color:#A8C6DC;
-  }
-  .rung.lit{
-    background:linear-gradient(90deg,var(--aqua),var(--sky));
-    color:#fff;
-  }
-  .rung.now{
-    background:linear-gradient(90deg,var(--sky),var(--blue));
-    color:#fff;animation:pulse-ring 1.6s ease-out infinite;
-  }
-  .rung .singer{
-    position:absolute;right:8px;top:50%;transform:translateY(-50%);
-    width:44px;height:44px;border-radius:50%;
-    background:linear-gradient(135deg,var(--pink),var(--pale));
-    border:3px solid #fff;display:grid;place-items:center;font-size:22px;
-    animation:floaty 2s ease-in-out infinite;
-  }
-  .ladder-side{
-    display:flex;flex-direction:column;justify-content:space-between;
-    align-items:center;padding:4px 0;font-size:22px;
-  }
-  .ladder-side small{
-    writing-mode:vertical-rl;font-weight:900;font-size:11px;
-    letter-spacing:.18em;color:var(--ink-soft);
-  }
-
-  /* listening */
-  .listen{display:flex;align-items:center;gap:16px;margin-top:18px}
-  .mic{
-    width:92px;height:92px;border-radius:50%;flex:0 0 auto;
-    background:linear-gradient(135deg,var(--blue),var(--sky));
-    color:#fff;font-size:38px;display:grid;place-items:center;
-    border:6px solid #fff;
-    box-shadow:0 10px 24px rgba(94,168,218,.45);
-    animation:pulse-ring 1.8s ease-out infinite;
-  }
-  .listen-info{flex:1}
-  .listen-info strong{font-family:var(--font-display);font-size:18px;display:block;margin-bottom:8px}
-  .eq{display:flex;gap:6px;align-items:flex-end;height:42px}
-  .eq i{
-    width:9px;border-radius:6px;background:var(--blue);
-    animation:eqb 1s ease-in-out infinite;
-  }
-  .eq i:nth-child(1){height:40%;animation-delay:0s}
-  .eq i:nth-child(2){height:75%;animation-delay:.12s;background:var(--sky)}
-  .eq i:nth-child(3){height:100%;animation-delay:.24s}
-  .eq i:nth-child(4){height:60%;animation-delay:.36s;background:var(--sky)}
-  .eq i:nth-child(5){height:85%;animation-delay:.48s}
-  .eq i:nth-child(6){height:45%;animation-delay:.6s;background:var(--sky)}
-  .eq i:nth-child(7){height:70%;animation-delay:.72s}
-  @keyframes eqb{0%,100%{transform:scaleY(.5)}50%{transform:scaleY(1.1)}}
-
-  .why{
-    display:flex;gap:12px;align-items:center;margin-top:18px;
-    background:rgba(255,255,255,.7);border-radius:20px;padding:14px 16px;
-    font-weight:700;font-size:14px;color:var(--ink-soft);
-  }
-  .why .ico{font-size:26px}
-
-  .ctas{margin-top:22px;display:flex;flex-direction:column;gap:14px}
-</style>
+<link rel="stylesheet" href="css/screens.css">
 </head>
 <body>
 
@@ -102,7 +20,7 @@
   <span class="fnote" style="top:46%;right:5%;animation-delay:.8s">🎵</span>
 </div>
 
-<main class="screen">
+<main class="screen screen--nonav voice-grid">
 
   <header class="topbar rise">
     <a class="icon-btn" href="01-welcome.html" aria-label="Go back">←</a>
@@ -110,10 +28,10 @@
     <a class="link-quiet spacer" style="width:auto;font-size:13px" href="03-home.html">Later</a>
   </header>
 
-  <div class="steps rise d1" aria-label="Step 2 of 3">
+  <div class="steps rise d1" aria-label="Step 3 of 3">
+    <span class="step-dot done"></span>
     <span class="step-dot done"></span>
     <span class="step-dot now"></span>
-    <span class="step-dot"></span>
   </div>
 
   <div class="coach rise d2">
@@ -129,12 +47,19 @@
     <div class="bubble bubble-left">Sing <strong>“Laaaa”</strong> and climb the star ladder with me — as high as feels comfy!</div>
   </div>
 
+  <!-- 12 rungs spanning C3–C6, three semitones each (LADDER_LOW 48, RUNG_SPAN 3) -->
   <section class="card ladder-card rise d3" aria-label="Your vocal range ladder">
     <div class="ladder">
-      <div class="rung lit">so cozy 🌊</div>
+      <div class="rung captured">your low note 🌊</div>
       <div class="rung lit"></div>
       <div class="rung lit"></div>
-      <div class="rung now"><span class="singer">🦄</span>you're here!</div>
+      <div class="rung lit"></div>
+      <div class="rung lit"></div>
+      <div class="rung now"><span class="singer-dot">🦄</span>you're here!</div>
+      <div class="rung"></div>
+      <div class="rung"></div>
+      <div class="rung"></div>
+      <div class="rung"></div>
       <div class="rung"></div>
       <div class="rung">super sparkly ⭐</div>
     </div>
@@ -146,10 +71,10 @@
   </section>
 
   <div class="card card-soft listen rise d4">
-    <div class="mic" role="img" aria-label="Microphone listening">🎤</div>
+    <div class="mic live" role="img" aria-label="Microphone listening">🎤</div>
     <div class="listen-info">
-      <strong>I can hear you! Keep going…</strong>
-      <div class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <strong>Keep holding it… 70%</strong>
+      <div class="eq live" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     </div>
   </div>
 

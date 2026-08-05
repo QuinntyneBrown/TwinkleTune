@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>TwinkleTune — Duet Time</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/twinkle.css">
+<link rel="stylesheet" href="css/screens.css">
+</head>
+<body>
+
+<div class="sky" aria-hidden="true">
+  <div class="cloud" style="width:145px;height:45px;top:11%;animation-duration:92s"></div>
+  <span class="tstar" style="top:16%;left:8%">✦</span>
+  <span class="tstar" style="top:21%;right:9%;animation-delay:1s">✦</span>
+  <span class="fnote" style="top:58%;left:5%;animation-delay:.8s">🎵</span>
+</div>
+
+<main class="screen screen--nonav screen--narrow">
+
+  <header class="topbar rise">
+    <a class="icon-btn" href="04-songs.html" aria-label="Go back">←</a>
+    <h1 class="title">Duet Time 🎤🎤</h1>
+    <span class="spacer"></span>
+  </header>
+
+  <div class="coach rise d1">
+    <svg class="mascot mascot-sm" viewBox="0 0 120 120" aria-hidden="true">
+      <path d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z"
+            fill="#FFD66B" stroke="#E8B445" stroke-width="7" stroke-linejoin="round"/>
+      <circle cx="48" cy="56" r="4.5" fill="#2B5876"/>
+      <circle cx="72" cy="56" r="4.5" fill="#2B5876"/>
+      <circle cx="41" cy="66" r="5.5" fill="#F4DBE3"/>
+      <circle cx="79" cy="66" r="5.5" fill="#F4DBE3"/>
+      <path d="M48 64 Q60 80 72 64" fill="none" stroke="#2B5876" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+    <div class="bubble bubble-left">Two devices, one song — and Twinkle cheers for <strong>both</strong> of you. 💙</div>
+  </div>
+
+  <!-- The lobby, once the second singer has joined. Before that this card
+       shows "Tell your duet buddy this code!" and one ⏳ Waiting… player. -->
+  <section class="card rise d2" style="text-align:center">
+    <p style="font-weight:900;color:var(--ink-soft);letter-spacing:.12em;font-size:12px">ROOM CODE</p>
+    <div class="duet-code" aria-label="Room code S T A R">
+      <span>S</span><span>T</span><span>A</span><span>R</span>
+    </div>
+    <p style="font-weight:800;color:var(--ink-soft);font-size:13.5px;margin-top:8px">Everyone is here! 🎉</p>
+  </section>
+
+  <div class="duet-players rise d3">
+    <div class="profile-card">
+      <div class="avatar avatar-lg" role="img" aria-label="Mia's avatar">🦄</div>
+      <strong>Mia</strong>
+    </div>
+    <div class="profile-card">
+      <div class="avatar avatar-lg" role="img" aria-label="Ada's avatar">🐱</div>
+      <strong>Ada</strong>
+    </div>
+  </div>
+
+  <div class="ctas rise d4">
+    <label for="duet-song" style="font-family:var(--font-display);font-weight:700;font-size:17px">Pick the duet song 🎵</label>
+    <select class="name-input" id="duet-song" style="font-size:18px">
+      <option>⭐ Twinkle Twinkle Little Star</option>
+      <option>🐑 Mary Had a Little Lamb</option>
+      <option>🥐 Hot Cross Buns</option>
+      <option>🌉 London Bridge</option>
+      <option>🚜 Old MacDonald</option>
+      <option>🛶 Row, Row, Row Your Boat</option>
+      <option>✝️ Jesus Loves Me</option>
+    </select>
+    <a class="btn btn-xl btn-gold" href="05-sing.html">Start the duet! 🎤🎤</a>
+  </div>
+
+  <div class="why rise d5">
+    <span class="ico">🔒</span>
+    <span>Only <strong>live scores</strong> cross the network — the singing itself never leaves the device.</span>
+  </div>
+
+</main>
+
+<nav class="mock-nav" aria-label="Mockup navigation">
+  <span>MOCKUP</span>
+  <a href="index.html" title="All screens">⊞</a>
+  <a href="10-profiles.html" title="Previous screen">◀</a>
+  <a href="index.html" title="Back to start">▶</a>
+</nav>
+
+</body>
+</html>

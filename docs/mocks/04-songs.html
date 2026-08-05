@@ -2,70 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>TwinkleTune — Pick a Song</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/twinkle.css">
-<style>
-  /* continue card */
-  .continue{
-    background:linear-gradient(135deg,var(--pink),#FBEAF1);
-    border-radius:26px;padding:18px 20px;margin-bottom:18px;
-    display:flex;align-items:center;gap:14px;box-shadow:var(--shadow-soft);
-  }
-  .continue .art{font-size:38px}
-  .continue-body{flex:1}
-  .continue-body strong{font-family:var(--font-display);font-size:16px;color:var(--pink-ink);display:block}
-  .continue-body .track{height:10px;margin-top:8px;background:rgba(255,255,255,.7)}
-  .continue-body small{font-weight:800;font-size:11.5px;color:#BC85A1}
-  .continue .btn{padding:12px 18px;font-size:16px}
-
-  /* song cards */
-  .song{
-    display:flex;align-items:center;gap:14px;
-    background:#fff;border-radius:26px;padding:14px 16px;
-    box-shadow:var(--shadow-soft);margin-bottom:14px;
-    transition:transform .15s;
-  }
-  .song:hover{transform:translateY(-2px)}
-  .song .art{
-    width:64px;height:64px;border-radius:20px;flex:0 0 auto;
-    display:grid;place-items:center;font-size:32px;
-  }
-  .art-1{background:linear-gradient(135deg,var(--aqua),var(--pale))}
-  .art-2{background:linear-gradient(135deg,var(--pink),#FBEAF1)}
-  .art-3{background:linear-gradient(135deg,var(--pale),var(--sky))}
-  .art-4{background:linear-gradient(135deg,#FFE9AE,var(--gold))}
-
-  .song-body{flex:1;min-width:0}
-  .song-body strong{
-    font-family:var(--font-display);font-size:17px;display:block;line-height:1.15;
-  }
-  .song-meta{
-    display:flex;align-items:center;gap:10px;margin-top:5px;
-    font-weight:800;font-size:12px;color:var(--ink-soft);flex-wrap:wrap;
-  }
-  .tuned{
-    display:inline-flex;align-items:center;gap:4px;
-    background:#E4F4EC;color:#2E7D5B;border-radius:999px;
-    padding:3px 10px;font-size:11px;font-weight:900;
-  }
-  .play{
-    width:52px;height:52px;border-radius:50%;flex:0 0 auto;
-    background:var(--blue);color:#fff;font-size:20px;
-    display:grid;place-items:center;text-decoration:none;
-    box-shadow:0 5px 0 var(--blue-edge);transition:transform .12s,box-shadow .12s;
-  }
-  .play:active{transform:translateY(4px);box-shadow:0 1px 0 var(--blue-edge)}
-
-  .new-songs{
-    text-align:center;border:3px dashed var(--pale);
-    border-radius:26px;padding:20px;margin-top:6px;
-    font-weight:800;color:var(--ink-soft);background:rgba(255,255,255,.5);
-  }
-  .new-songs .ico{font-size:30px;display:block;margin-bottom:6px}
-</style>
+<link rel="stylesheet" href="css/screens.css">
 </head>
 <body>
 
@@ -82,78 +25,147 @@
   <header class="topbar rise">
     <a class="icon-btn" href="03-home.html" aria-label="Go back">←</a>
     <h1 class="title">Pick a Song 🎵</h1>
-    <button class="icon-btn" aria-label="Search songs">🔍</button>
+    <span class="spacer"></span>
   </header>
 
-  <div class="chip-row rise d1" role="tablist" aria-label="Song categories">
+  <div class="chip-row rise d1" role="tablist" aria-label="Song difficulty">
     <button class="chip active" role="tab" aria-selected="true">⭐ All</button>
-    <button class="chip" role="tab">🎬 Movie Magic</button>
-    <button class="chip" role="tab">✨ Pop</button>
-    <button class="chip" role="tab">🤪 Silly</button>
-    <button class="chip" role="tab">🌙 Calm</button>
+    <button class="chip" role="tab">😊 Easy</button>
+    <button class="chip" role="tab">🙂 Medium</button>
+    <button class="chip" role="tab">😤 Brave</button>
   </div>
 
-  <section class="continue rise d2" aria-label="Continue singing">
-    <span class="art" aria-hidden="true">🌈</span>
-    <div class="continue-body">
-      <strong>Keep singing!</strong>
-      <small>Somewhere Over the Rainbow · almost there</small>
-      <div class="track"><div class="fill fill-pink" style="width:70%"></div></div>
-    </div>
-    <a class="btn btn-pink" href="05-sing.html">▶</a>
-  </section>
+  <!-- Server reachable: every card also offers the 🏆 family board and a duet.
+       When the family server is away this list drops those two buttons and
+       gains an "Offline songbook" note in its place. -->
+  <div class="song-list">
 
-  <article class="song rise d3">
-    <div class="art art-1" aria-hidden="true">⭐</div>
-    <div class="song-body">
-      <strong>Twinkle Twinkle Little Star</strong>
-      <div class="song-meta">
-        <span>⏱ 1:30</span><span>⭐ Easy</span>
-        <span class="tuned">✓ In your key</span>
+    <section class="again-card rise d2" aria-label="Sing it again">
+      <span class="art-emoji" aria-hidden="true">⭐</span>
+      <div class="again-body">
+        <strong>Sing it again!</strong>
+        <small>Twinkle Twinkle Little Star · you know this one ✨</small>
       </div>
-    </div>
-    <a class="play" href="05-sing.html" aria-label="Sing Twinkle Twinkle Little Star">▶</a>
-  </article>
+      <a class="btn btn-pink" href="05-sing.html" aria-label="Sing Twinkle Twinkle Little Star again">▶</a>
+    </section>
 
-  <article class="song rise d4">
-    <div class="art art-2" aria-hidden="true">☀️</div>
-    <div class="song-body">
-      <strong>You Are My Sunshine</strong>
-      <div class="song-meta">
-        <span>⏱ 2:10</span><span>⭐⭐ Medium</span>
-        <span class="tuned">✓ In your key</span>
+    <article class="song rise d3" data-diff="1">
+      <div class="art art-1" aria-hidden="true">⭐</div>
+      <div class="song-body">
+        <strong>Twinkle Twinkle Little Star</strong>
+        <div class="song-meta">
+          <span>⏱ 0:29</span><span>⭐ Easy</span>
+          <span class="tuned">✓ In your key</span>
+          <span class="song-actions">
+            <button class="mini-btn" aria-label="High scores for Twinkle Twinkle Little Star">🏆</button>
+            <button class="mini-btn" aria-label="Duet Twinkle Twinkle Little Star">🎤🎤 Duet</button>
+          </span>
+        </div>
       </div>
-    </div>
-    <a class="play" href="05-sing.html" aria-label="Sing You Are My Sunshine">▶</a>
-  </article>
+      <a class="play" href="05-sing.html" aria-label="Sing Twinkle Twinkle Little Star">▶</a>
+    </article>
 
-  <article class="song rise d5">
-    <div class="art art-3" aria-hidden="true">🎶</div>
-    <div class="song-body">
-      <strong>Do-Re-Mi</strong>
-      <div class="song-meta">
-        <span>⏱ 2:40</span><span>⭐⭐ Medium</span>
-        <span class="tuned">✓ In your key</span>
+    <article class="song rise d4" data-diff="1">
+      <div class="art art-2" aria-hidden="true">🐑</div>
+      <div class="song-body">
+        <strong>Mary Had a Little Lamb</strong>
+        <div class="song-meta">
+          <span>⏱ 0:18</span><span>⭐ Easy</span>
+          <span class="tuned">✓ In your key</span>
+          <span class="song-actions">
+            <button class="mini-btn" aria-label="High scores for Mary Had a Little Lamb">🏆</button>
+            <button class="mini-btn" aria-label="Duet Mary Had a Little Lamb">🎤🎤 Duet</button>
+          </span>
+        </div>
       </div>
-    </div>
-    <a class="play" href="05-sing.html" aria-label="Sing Do-Re-Mi">▶</a>
-  </article>
+      <a class="play" href="05-sing.html" aria-label="Sing Mary Had a Little Lamb">▶</a>
+    </article>
 
-  <article class="song rise d6">
-    <div class="art art-4" aria-hidden="true">💫</div>
-    <div class="song-body">
-      <strong>A Million Dreams</strong>
-      <div class="song-meta">
-        <span>⏱ 3:05</span><span>⭐⭐⭐ Brave</span>
-        <span class="tuned">✓ In your key</span>
+    <article class="song rise d5" data-diff="1">
+      <div class="art art-4" aria-hidden="true">🥐</div>
+      <div class="song-body">
+        <strong>Hot Cross Buns</strong>
+        <div class="song-meta">
+          <span>⏱ 0:10</span><span>⭐ Easy</span>
+          <span class="tuned">✓ In your key</span>
+          <span class="song-actions">
+            <button class="mini-btn" aria-label="High scores for Hot Cross Buns">🏆</button>
+            <button class="mini-btn" aria-label="Duet Hot Cross Buns">🎤🎤 Duet</button>
+          </span>
+        </div>
       </div>
-    </div>
-    <a class="play" href="05-sing.html" aria-label="Sing A Million Dreams">▶</a>
-  </article>
+      <a class="play" href="05-sing.html" aria-label="Sing Hot Cross Buns">▶</a>
+    </article>
 
-  <div class="new-songs rise d7">
-    <span class="ico" aria-hidden="true">🎁</span>
-    New songs land every Friday!
+    <article class="song rise d6" data-diff="2">
+      <div class="art art-1" aria-hidden="true">🌉</div>
+      <div class="song-body">
+        <strong>London Bridge</strong>
+        <div class="song-meta">
+          <span>⏱ 0:17</span><span>⭐⭐ Medium</span>
+          <span class="tuned">✓ In your key</span>
+          <span class="song-actions">
+            <button class="mini-btn" aria-label="High scores for London Bridge">🏆</button>
+            <button class="mini-btn" aria-label="Duet London Bridge">🎤🎤 Duet</button>
+          </span>
+        </div>
+      </div>
+      <a class="play" href="05-sing.html" aria-label="Sing London Bridge">▶</a>
+    </article>
+
+    <article class="song rise d7" data-diff="2">
+      <div class="art art-2" aria-hidden="true">🚜</div>
+      <div class="song-body">
+        <strong>Old MacDonald</strong>
+        <div class="song-meta">
+          <span>⏱ 0:14</span><span>⭐⭐ Medium</span>
+          <span class="tuned">✓ In your key</span>
+          <span class="song-actions">
+            <button class="mini-btn" aria-label="High scores for Old MacDonald">🏆</button>
+            <button class="mini-btn" aria-label="Duet Old MacDonald">🎤🎤 Duet</button>
+          </span>
+        </div>
+      </div>
+      <a class="play" href="05-sing.html" aria-label="Sing Old MacDonald">▶</a>
+    </article>
+
+    <article class="song rise d8" data-diff="3">
+      <div class="art art-3" aria-hidden="true">🛶</div>
+      <div class="song-body">
+        <strong>Row, Row, Row Your Boat</strong>
+        <div class="song-meta">
+          <span>⏱ 0:11</span><span>⭐⭐⭐ Brave</span>
+          <span class="tuned">✓ In your key</span>
+          <span class="song-actions">
+            <button class="mini-btn" aria-label="High scores for Row, Row, Row Your Boat">🏆</button>
+            <button class="mini-btn" aria-label="Duet Row, Row, Row Your Boat">🎤🎤 Duet</button>
+          </span>
+        </div>
+      </div>
+      <a class="play" href="05-sing.html" aria-label="Sing Row, Row, Row Your Boat">▶</a>
+    </article>
+
+    <article class="song rise d8" data-diff="2">
+      <div class="art art-3" aria-hidden="true">✝️</div>
+      <div class="song-body">
+        <strong>Jesus Loves Me</strong>
+        <div class="song-meta">
+          <span>⏱ 0:38</span><span>⭐⭐ Medium</span>
+          <span class="tuned">✓ In your key</span>
+          <span class="song-actions">
+            <button class="mini-btn" aria-label="High scores for Jesus Loves Me">🏆</button>
+            <button class="mini-btn" aria-label="Duet Jesus Loves Me">🎤🎤 Duet</button>
+          </span>
+        </div>
+      </div>
+      <a class="play" href="05-sing.html" aria-label="Sing Jesus Loves Me">▶</a>
+    </article>
+
+    <div class="new-songs rise d8">
+      <span class="ico" aria-hidden="true">🎁</span>
+      Grown-ups can add new songs in the Grown-Ups Corner!
+    </div>
+
   </div>
 
 </main>

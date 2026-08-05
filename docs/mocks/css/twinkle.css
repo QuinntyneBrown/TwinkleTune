@@ -2,6 +2,12 @@
    TwinkleTune — shared design system
    Palette: #F4DBE3 · #5EA8DA · #83C5F1 · #B9DDF5 · #AFE3F4
    Fonts:   Baloo 2 (display) · Nunito (body)
+
+   Responsive ladder (mirrors marketing/assets/twinkletune.css):
+     < 700px   phone            — single 470px column, floating bottom nav
+     >= 700px  large phone/tablet — fluid shell, grids go multi-column
+     >= 980px  tablet landscape / desktop — bottom nav becomes a left rail
+     >= 1180px wide desktop     — widest grids
    ============================================================ */
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -28,6 +34,11 @@
   --shadow-soft:0 6px 18px rgba(94,168,218,.18);
   --r:28px;
 
+  /* layout */
+  --shell:1180px;         /* widest the content column ever grows */
+  --gutter:22px;          /* breathing room either side of the column */
+  --rail:232px;           /* desktop sidebar navigation width */
+
   --font-display:"Baloo 2","Comic Sans MS",cursive;
   --font-body:"Nunito","Segoe UI",sans-serif;
 }
@@ -39,7 +50,7 @@ body{
   color:var(--ink);
   background:linear-gradient(180deg,var(--aqua) 0%,var(--pale) 40%,#E2F0FA 68%,var(--pink) 100%);
   background-attachment:fixed;
-  min-height:100vh;
+  min-height:100dvh;
   overflow-x:hidden;
 }
 
@@ -66,16 +77,29 @@ a{color:inherit}
 .fnote{position:absolute;font-size:22px;opacity:.45;animation:floaty 5s ease-in-out infinite}
 
 /* ---------- layout ---------- */
+/* The column is fluid: it grows to --shell and keeps --gutter either side.
+   Below 700px it is capped at the original 470px phone column, so the phone
+   design is byte-for-byte what it always was. */
 .screen{
   position:relative;z-index:1;
-  max-width:470px;margin:0 auto;
-  padding:28px 22px 130px;
-  min-height:100vh;
+  width:min(var(--shell),calc(100% - var(--gutter) * 2));
+  margin-inline:auto;
+  padding:28px 0 130px;
+  min-height:100dvh;
+}
+.screen--center{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:46px}
+.screen--nonav{padding-bottom:40px}
+/* single-purpose flows (a lobby, a form) read better staying narrow on a
+   wide screen rather than stretching a handful of controls across it */
+.screen--narrow{max-width:760px}
+
+@media (max-width:699px){
+  .screen{width:min(470px,calc(100% - var(--gutter) * 2))}
 }
 
 .topbar{display:flex;align-items:center;gap:14px;margin-bottom:22px}
 .topbar .title{
-  font-family:var(--font-display);font-size:26px;font-weight:700;
+  font-family:var(--font-display);font-size:clamp(26px,2.2vw,34px);font-weight:700;
   flex:1;text-align:center;
 }
 .topbar .spacer{width:52px}
@@ -111,7 +135,7 @@ a{color:inherit}
 .btn-gold{background:var(--gold);color:var(--gold-ink);box-shadow:0 6px 0 var(--gold-edge)}
 .btn-gold:active{box-shadow:0 1px 0 var(--gold-edge)}
 
-.btn-xl{width:100%;padding:20px 30px;font-size:24px}
+.btn-xl{width:100%;padding:20px 30px;font-size:clamp(24px,1.9vw,28px)}
 .btn-sm{padding:10px 22px;font-size:16px}
 
 .link-quiet{
@@ -132,7 +156,13 @@ a{color:inherit}
 .chip-row{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 12px;scrollbar-width:none}
 .chip-row::-webkit-scrollbar{display:none}
 
-/* ---------- bottom navigation ---------- */
+/* On anything wider than a phone the chips fit — let them wrap instead of scroll. */
+@media (min-width:700px){
+  .chip-row{flex-wrap:wrap;overflow-x:visible}
+}
+
+/* ---------- navigation ---------- */
+/* Phone: a floating pill along the bottom. Desktop: a left rail (see below). */
 .bottomnav{
   position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:50;
   display:flex;justify-content:space-around;gap:4px;
@@ -162,11 +192,6 @@ a{color:inherit}
   content:"";position:absolute;left:-7px;top:50%;
   width:16px;height:16px;background:#fff;
   transform:translateY(-50%) rotate(45deg);border-radius:4px;
-}
-.bubble-bottom::after{
-  content:"";position:absolute;bottom:-7px;left:46px;
-  width:16px;height:16px;background:#fff;
-  transform:rotate(45deg);border-radius:4px;
 }
 
 .mascot{
@@ -208,6 +233,35 @@ a{color:inherit}
 .modal p{color:var(--ink-soft);font-weight:700;font-size:15px;line-height:1.5}
 .modal .modal-emoji{font-size:46px;line-height:1}
 .modal .btn{margin-top:8px}
+.modal-wide{width:min(440px,100%);text-align:left}
+.modal-wide h3{text-align:center}
+
+@media (min-width:700px){
+  .modal{width:min(380px,100%)}
+  .modal-wide{width:min(520px,100%)}
+}
+
+/* ---------- desktop: bottom nav becomes a left rail ---------- */
+@media (min-width:980px){
+  /* Reserve the rail's space on pages that actually have a nav, so the
+     content column stays centred in what is left. */
+  body:has(.bottomnav){padding-left:calc(var(--rail) + 44px)}
+
+  .bottomnav{
+    left:22px;right:auto;bottom:auto;top:50%;
+    transform:translateY(-50%);
+    flex-direction:column;justify-content:flex-start;gap:6px;
+    width:var(--rail);border-radius:32px;padding:16px 14px;
+  }
+  .bn-item{
+    flex-direction:row;justify-content:flex-start;gap:12px;
+    width:100%;font-size:15px;padding:14px 18px;border-radius:20px;
+  }
+  .bn-item .ico{font-size:24px}
+
+  /* the 130px gutter existed only to clear the floating bottom pill */
+  .screen{padding-bottom:60px}
+}
 
 /* ---------- mockup navigation (reviewer toolbar) ---------- */
 .mock-nav{

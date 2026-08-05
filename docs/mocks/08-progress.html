@@ -2,76 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>TwinkleTune — My Star Journey</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/twinkle.css">
-<style>
-  .me-head{text-align:center;margin-bottom:20px}
-  .me-head .avatar-lg{margin:0 auto 10px}
-  .me-head h1{font-family:var(--font-display);font-size:28px;line-height:1.1}
-  .me-head p{font-weight:800;color:var(--ink-soft);font-size:14px;margin-top:2px}
-
-  .xp{padding:18px 20px;margin-bottom:16px}
-  .xp-row{display:flex;justify-content:space-between;font-weight:900;font-size:13px;margin-bottom:8px}
-  .xp-row b{font-family:var(--font-display);font-size:15px}
-  .xp .track{height:18px}
-
-  .section-title{
-    font-family:var(--font-display);font-weight:700;font-size:19px;
-    margin:20px 0 12px;display:flex;align-items:center;gap:8px;
-  }
-
-  /* week streak */
-  .week{display:flex;justify-content:space-between;padding:18px 20px}
-  .day{text-align:center;font-weight:900;font-size:11px;color:var(--ink-soft)}
-  .day i{
-    display:grid;place-items:center;width:42px;height:42px;border-radius:50%;
-    background:#EDF5FB;font-style:normal;font-size:18px;margin-bottom:5px;
-    color:#B7CFE2;
-  }
-  .day.done i{background:linear-gradient(135deg,#FFE9AE,var(--gold));color:var(--gold-ink)}
-  .day.today i{
-    box-shadow:0 0 0 4px rgba(94,168,218,.35);
-    background:linear-gradient(135deg,var(--pale),var(--aqua));color:var(--ink);
-  }
-
-  /* badges */
-  .badges{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
-  .badge{
-    background:#fff;border-radius:24px;padding:16px 10px;text-align:center;
-    box-shadow:var(--shadow-soft);
-  }
-  .badge .ico{
-    width:54px;height:54px;border-radius:50%;margin:0 auto 8px;
-    display:grid;place-items:center;font-size:26px;
-    background:linear-gradient(135deg,var(--pink),var(--pale));
-  }
-  .badge strong{font-family:var(--font-display);font-size:13px;display:block;line-height:1.2}
-  .badge.locked{opacity:.62}
-  .badge.locked .ico{background:#E8EEF3;filter:grayscale(1)}
-  .badge.locked strong{color:#9FB4C5}
-
-  /* mastered songs */
-  .mastered{
-    display:flex;align-items:center;gap:12px;background:#fff;
-    border-radius:22px;padding:14px 16px;margin-bottom:11px;
-    box-shadow:var(--shadow-soft);font-weight:800;
-  }
-  .mastered .em{font-size:24px}
-  .mastered span{flex:1;font-family:var(--font-display);font-size:15.5px}
-  .mastered b{color:var(--gold-edge);letter-spacing:2px;font-size:14px}
-
-  /* growth */
-  .growth{
-    display:flex;gap:14px;align-items:center;margin-top:18px;
-    background:linear-gradient(135deg,var(--aqua),var(--pale));
-    border-radius:26px;padding:18px 20px;box-shadow:var(--shadow-soft);
-  }
-  .growth .em{font-size:36px}
-  .growth p{font-weight:800;font-size:14.5px;line-height:1.45}
-</style>
+<link rel="stylesheet" href="css/screens.css">
 </head>
 <body>
 
@@ -82,52 +19,62 @@
   <span class="fnote" style="top:60%;left:4%;animation-delay:1.4s">🎵</span>
 </div>
 
-<main class="screen">
+<main class="screen me-grid">
 
   <header class="me-head rise">
+    <button class="icon-btn me-gear" aria-label="Grown-ups corner">⚙️</button>
     <div class="avatar avatar-lg pop" role="img" aria-label="Your avatar">🦄</div>
-    <h1>Zoe's Star Journey</h1>
-    <p>Level 4 Songbird 🐦</p>
+    <h1>Mia's Star Journey</h1>
+    <p>Level 5 Skylark 🐦</p>
   </header>
 
   <section class="card xp rise d1" aria-label="Level progress">
     <div class="xp-row">
-      <b>Level 4</b>
-      <span>120 ✨ to Level 5!</span>
-      <b style="color:#B7CFE2">Level 5</b>
+      <b>Level 5</b>
+      <span>180 ✨ to Level 6!</span>
+      <b style="color:#B7CFE2">Level 6</b>
     </div>
-    <div class="track"><div class="fill" style="width:68%"></div></div>
+    <div class="track"><div class="fill" style="width:40%"></div></div>
+    <p style="margin-top:8px;font-weight:800;font-size:13px;color:var(--ink-soft)">✨ 1320 sparkles collected</p>
   </section>
 
-  <h2 class="section-title rise d2">⭐ This week</h2>
-  <section class="card week rise d2" aria-label="Weekly singing streak">
-    <div class="day done"><i>⭐</i>M</div>
-    <div class="day done"><i>⭐</i>T</div>
-    <div class="day done"><i>⭐</i>W</div>
-    <div class="day today"><i>🎤</i>T</div>
-    <div class="day"><i>·</i>F</div>
-    <div class="day"><i>·</i>S</div>
-    <div class="day"><i>·</i>S</div>
+  <section class="block-week">
+    <h2 class="section-title rise d2">⭐ This week</h2>
+    <section class="card week rise d2" aria-label="Weekly singing streak">
+      <div class="day"><i>·</i>M</div>
+      <div class="day"><i>·</i>T</div>
+      <div class="day"><i>·</i>W</div>
+      <div class="day today"><i>🎤</i>T</div>
+      <div class="day"><i>·</i>F</div>
+      <div class="day"><i>·</i>S</div>
+      <div class="day"><i>·</i>S</div>
+    </section>
   </section>
 
-  <h2 class="section-title rise d3">🏅 My badges</h2>
-  <div class="badges">
-    <div class="badge pop d3"><span class="ico">🎤</span><strong>First Song</strong></div>
-    <div class="badge pop d4"><span class="ico">🔥</span><strong>3-Day Streak</strong></div>
-    <div class="badge pop d5"><span class="ico">🚀</span><strong>High Note Hero</strong></div>
-    <div class="badge locked pop d6"><span class="ico">🎭</span><strong>Show Stopper</strong></div>
-    <div class="badge locked pop d7"><span class="ico">🐦</span><strong>Brave Bird</strong></div>
-    <div class="badge locked pop d8"><span class="ico">🔟</span><strong>Perfect Ten</strong></div>
-  </div>
+  <section class="block-badges">
+    <h2 class="section-title rise d3">🏅 My badges</h2>
+    <div class="badges">
+      <div class="badge pop d3" title="Sing your very first song"><span class="ico">🎤</span><strong>First Song</strong></div>
+      <div class="badge locked pop d4" title="Sing three days in a row"><span class="ico">🔥</span><strong>3-Day Streak</strong></div>
+      <div class="badge pop d5" title="Land the highest notes of a song"><span class="ico">🚀</span><strong>High Note Hero</strong></div>
+      <div class="badge pop d6" title="Earn three stars on any song"><span class="ico">🎭</span><strong>Show Stopper</strong></div>
+      <div class="badge locked pop d7" title="Finish a Brave (3-star difficulty) song"><span class="ico">🐦</span><strong>Brave Bird</strong></div>
+      <div class="badge pop d8" title="Land ten notes in a row"><span class="ico">🔟</span><strong>Perfect Ten</strong></div>
+    </div>
+  </section>
 
-  <h2 class="section-title rise d6">💖 Songs I shine at</h2>
-  <div class="mastered rise d6"><span class="em">⭐</span><span>Twinkle Twinkle Little Star</span><b>★★★</b></div>
-  <div class="mastered rise d7"><span class="em">☀️</span><span>You Are My Sunshine</span><b>★★★</b></div>
-  <div class="mastered rise d8"><span class="em">🎶</span><span>Do-Re-Mi</span><b>★★☆</b></div>
+  <section class="block-shine">
+    <h2 class="section-title rise d6">💖 Songs I shine at</h2>
+    <div class="mastered-list">
+      <div class="mastered rise d6"><span class="em">⭐</span><span>Twinkle Twinkle Little Star</span><b>★★★</b></div>
+      <div class="mastered rise d7"><span class="em">🐑</span><span>Mary Had a Little Lamb</span><b>★★☆</b></div>
+    </div>
+  </section>
 
   <div class="growth rise d8">
     <span class="em" aria-hidden="true">📈</span>
-    <p>Wow! Your singing range grew <strong>2 whole notes</strong> this month. Twinkle re-tuned your songs to match!</p>
+    <p>Your voice goes from <strong>C3</strong> to <strong>A4</strong> —
+    that's <strong>22 notes</strong>! Twinkle keeps every song tuned to match.</p>
   </div>
 
 </main>

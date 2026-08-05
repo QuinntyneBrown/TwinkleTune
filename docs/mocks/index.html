@@ -2,27 +2,27 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>TwinkleTune — UI Mockups</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/twinkle.css">
 <style>
-  .screen{max-width:1060px;padding-bottom:80px}
+  /* The contact sheet is not an app screen, so it keeps its own styles and
+     deliberately does not load css/screens.css. */
+  .screen{padding-bottom:80px}
 
-  .hero{text-align:center;padding-top:20px;margin-bottom:34px}
-  .hero h1{font-family:var(--font-display);font-weight:800;font-size:46px;line-height:1.05}
-  .hero h1 .tw{color:var(--blue)}
-  .hero .sub{
+  .index-hero{text-align:center;padding-top:20px;margin-bottom:34px}
+  .index-hero h1{font-family:var(--font-display);font-weight:800;font-size:clamp(38px,4.4vw,58px);line-height:1.05}
+  .index-hero h1 .tw{color:var(--blue)}
+  .index-hero .sub{
     font-weight:800;color:var(--ink-soft);font-size:17px;
-    max-width:560px;margin:12px auto 0;line-height:1.5;
+    max-width:640px;margin:12px auto 0;line-height:1.5;
   }
 
   /* palette */
-  .palette{
-    display:flex;gap:10px;justify-content:center;flex-wrap:wrap;
-    margin:26px auto 0;
-  }
+  .palette{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:26px auto 0}
   .swatch{
     display:flex;flex-direction:column;align-items:center;gap:6px;
     font-weight:900;font-size:11.5px;color:var(--ink-soft);
@@ -35,7 +35,7 @@
   /* principles */
   .principles{
     display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
-    gap:14px;margin:30px 0 40px;
+    gap:14px;margin:30px 0 34px;
   }
   .principle{
     background:rgba(255,255,255,.85);border-radius:24px;padding:18px;
@@ -45,12 +45,33 @@
   .principle strong{font-family:var(--font-display);font-size:15.5px;display:block;margin-bottom:3px}
   .principle span{font-weight:700;font-size:13px;color:var(--ink-soft);line-height:1.45}
 
-  .section-title{
+  /* breakpoint ladder */
+  .sizes{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:14px;margin-bottom:40px;
+  }
+  .size{
+    background:rgba(255,255,255,.85);border-radius:22px;padding:16px 18px;
+    box-shadow:var(--shadow-soft);
+  }
+  .size b{font-family:var(--font-display);font-size:16px;display:block}
+  .size code{
+    font-family:ui-monospace,Consolas,monospace;font-size:11.5px;
+    color:var(--blue);font-weight:700;
+  }
+  .size span{font-weight:700;font-size:13px;color:var(--ink-soft);line-height:1.45;display:block;margin-top:4px}
+
+  .gallery-title{
     font-family:var(--font-display);font-weight:700;font-size:26px;
-    margin:10px 0 20px;text-align:center;
+    margin:10px 0 8px;text-align:center;
+  }
+  .gallery-note{
+    text-align:center;font-weight:700;font-size:13.5px;color:var(--ink-soft);
+    margin-bottom:20px;
   }
 
-  /* screen gallery */
+  /* screen gallery — thumbnails scale from one unitless custom property, so
+     the preview grows with the viewport instead of a hand-tuned magic number */
   .gallery{
     display:grid;grid-template-columns:repeat(auto-fill,minmax(225px,1fr));
     gap:24px;
@@ -60,17 +81,20 @@
     box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;
   }
   .thumb{
-    position:relative;width:194px;height:330px;margin:0 auto;
+    --thumb-w:194;                 /* unitless on purpose: used as both size and scale */
+    position:relative;margin:0 auto;
+    width:calc(var(--thumb-w) * 1px);
+    height:calc(var(--thumb-w) * 1px * 733 / 430);
     border-radius:18px;overflow:hidden;background:var(--pale);
   }
   .thumb iframe{
     width:430px;height:733px;border:0;
-    transform:scale(.4512);transform-origin:top left;
+    transform:scale(calc(var(--thumb-w) / 430));transform-origin:top left;
     pointer-events:none;
   }
   .thumb a{position:absolute;inset:0;z-index:2}
   .shot-info{text-align:center}
-  .shot-info .num{
+  .shot-num{
     display:inline-block;background:var(--pink);color:var(--pink-ink);
     border-radius:999px;padding:2px 12px;font-weight:900;font-size:11px;
     letter-spacing:.1em;margin-bottom:5px;
@@ -84,6 +108,15 @@
     margin-top:36px;font-size:14px;line-height:1.7;
   }
   .flow-note b{color:var(--ink)}
+
+  @media (min-width:700px){
+    .thumb{--thumb-w:220}
+    .gallery{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+  }
+  @media (min-width:1180px){
+    .thumb{--thumb-w:250}
+    .gallery{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+  }
 </style>
 </head>
 <body>
@@ -97,9 +130,9 @@
   <span class="fnote" style="top:30%;right:4%;animation-delay:1.9s">🎶</span>
 </div>
 
-<main class="screen">
+<main class="screen screen--nonav">
 
-  <header class="hero">
+  <header class="index-hero">
     <svg class="mascot pop" viewBox="0 0 120 120" aria-hidden="true" style="width:104px">
       <path d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z"
             fill="#FFD66B" stroke="#E8B445" stroke-width="7" stroke-linejoin="round"/>
@@ -107,8 +140,8 @@
       <circle cx="41" cy="66" r="5.5" fill="#F4DBE3"/><circle cx="79" cy="66" r="5.5" fill="#F4DBE3"/>
       <path d="M50 66 Q60 76 70 66" fill="none" stroke="#2B5876" stroke-width="4" stroke-linecap="round"/>
     </svg>
-    <h1 class="rise d1"><span class="tw">Twinkle</span>Tune <span style="font-size:30px">· UI Mockups</span></h1>
-    <p class="sub rise d2">A singing buddy for young performers: every song re-tuned to <em>her</em> voice, friendly note-by-note feedback, and a coach who only knows how to cheer.</p>
+    <h1 class="rise d1"><span class="tw">Twinkle</span>Tune <span style="font-size:.62em">· UI Mockups</span></h1>
+    <p class="sub rise d2">A singing buddy for young performers: every song re-tuned to <em>her</em> voice, friendly note-by-note feedback, and a coach who only knows how to cheer. Every screen below is responsive — resize the window and watch it rearrange.</p>
 
     <div class="palette rise d3" aria-label="Color palette">
       <span class="swatch"><i style="background:#F4DBE3"></i>#F4DBE3</span>
@@ -126,69 +159,92 @@
     <div class="principle rise d4"><span class="em">🎯</span><div><strong>Her voice first</strong><span>Voice setup learns her range; every song shows "In your key ✓."</span></div></div>
   </div>
 
-  <h2 class="section-title">All screens — tap to open</h2>
+  <h2 class="gallery-title">Form factors</h2>
+  <p class="gallery-note">The phone design is the base; every breakpoint above it only adds.</p>
+  <div class="sizes">
+    <div class="size rise d1"><b>Phone</b><code>&lt; 700px</code><span>One 470px column, thumb-friendly, nav floats along the bottom.</span></div>
+    <div class="size rise d2"><b>Large phone &amp; tablet</b><code>≥ 700px</code><span>Fluid column; song, tip and badge lists become card grids.</span></div>
+    <div class="size rise d3"><b>Tablet landscape &amp; desktop</b><code>≥ 980px</code><span>Bottom nav becomes a left rail; screens split into real columns.</span></div>
+    <div class="size rise d4"><b>Wide desktop</b><code>≥ 1180px</code><span>Grids reach three-up and the celebration stars grow.</span></div>
+  </div>
+
+  <h2 class="gallery-title">All screens — tap to open</h2>
+  <p class="gallery-note">Previews are live pages rendered at phone width.</p>
 
   <div class="gallery">
 
     <div class="shot rise d1">
       <div class="thumb"><iframe src="01-welcome.html" title="Welcome preview" loading="lazy" scrolling="no" tabindex="-1"></iframe><a href="01-welcome.html" aria-label="Open Welcome screen"></a></div>
-      <div class="shot-info"><span class="num">01</span><strong>Welcome</strong><span>Meet Twinkle, pick a name & avatar</span></div>
+      <div class="shot-info"><span class="shot-num">01</span><strong>Welcome</strong><span>Meet Twinkle, pick a name &amp; avatar</span></div>
       <a class="btn btn-sm" href="01-welcome.html">Open →</a>
     </div>
 
     <div class="shot rise d2">
       <div class="thumb"><iframe src="02-voice-setup.html" title="Voice setup preview" loading="lazy" scrolling="no" tabindex="-1"></iframe><a href="02-voice-setup.html" aria-label="Open Voice Setup screen"></a></div>
-      <div class="shot-info"><span class="num">02</span><strong>Find My Voice</strong><span>Star-ladder range test that tunes every song</span></div>
+      <div class="shot-info"><span class="shot-num">02</span><strong>Find My Voice</strong><span>12-rung star ladder that tunes every song</span></div>
       <a class="btn btn-sm" href="02-voice-setup.html">Open →</a>
     </div>
 
     <div class="shot rise d3">
       <div class="thumb"><iframe src="03-home.html" title="Home preview" loading="lazy" scrolling="no" tabindex="-1"></iframe><a href="03-home.html" aria-label="Open Home screen"></a></div>
-      <div class="shot-info"><span class="num">03</span><strong>Home</strong><span>Daily goal, hero "Sing a Song," tip of the day</span></div>
+      <div class="shot-info"><span class="shot-num">03</span><strong>Home</strong><span>Daily goal, hero "Sing a Song," tip of the day</span></div>
       <a class="btn btn-sm" href="03-home.html">Open →</a>
     </div>
 
     <div class="shot rise d4">
       <div class="thumb"><iframe src="04-songs.html" title="Songs preview" loading="lazy" scrolling="no" tabindex="-1"></iframe><a href="04-songs.html" aria-label="Open Song Picker screen"></a></div>
-      <div class="shot-info"><span class="num">04</span><strong>Pick a Song</strong><span>Every card promises "In your key ✓"</span></div>
+      <div class="shot-info"><span class="shot-num">04</span><strong>Pick a Song</strong><span>Seven public-domain songs, each "In your key ✓"</span></div>
       <a class="btn btn-sm" href="04-songs.html">Open →</a>
     </div>
 
     <div class="shot rise d5">
       <div class="thumb"><iframe src="05-sing.html" title="Sing screen preview" loading="lazy" scrolling="no" tabindex="-1"></iframe><a href="05-sing.html" aria-label="Open Sing screen"></a></div>
-      <div class="shot-info"><span class="num">05</span><strong>Sing!</strong><span>Pitch game + karaoke lyrics + live cheers</span></div>
+      <div class="shot-info"><span class="shot-num">05</span><strong>Sing!</strong><span>Reactive stage, karaoke lyrics, live cheers</span></div>
       <a class="btn btn-sm" href="05-sing.html">Open →</a>
     </div>
 
     <div class="shot rise d6">
       <div class="thumb"><iframe src="06-results.html" title="Results preview" loading="lazy" scrolling="no" tabindex="-1"></iframe><a href="06-results.html" aria-label="Open Results screen"></a></div>
-      <div class="shot-info"><span class="num">06</span><strong>Celebration</strong><span>Confetti, stars, and a kind next step</span></div>
+      <div class="shot-info"><span class="shot-num">06</span><strong>Celebration</strong><span>Stars, badges, and a kind next step</span></div>
       <a class="btn btn-sm" href="06-results.html">Open →</a>
     </div>
 
     <div class="shot rise d7">
       <div class="thumb"><iframe src="07-tips.html" title="Tips preview" loading="lazy" scrolling="no" tabindex="-1"></iframe><a href="07-tips.html" aria-label="Open Tips screen"></a></div>
-      <div class="shot-info"><span class="num">07</span><strong>Twinkle's Tips</strong><span>Warm-ups & confidence boosters</span></div>
+      <div class="shot-info"><span class="shot-num">07</span><strong>Twinkle's Tips</strong><span>Seven warm-ups &amp; confidence boosters</span></div>
       <a class="btn btn-sm" href="07-tips.html">Open →</a>
     </div>
 
     <div class="shot rise d8">
       <div class="thumb"><iframe src="08-progress.html" title="Progress preview" loading="lazy" scrolling="no" tabindex="-1"></iframe><a href="08-progress.html" aria-label="Open Progress screen"></a></div>
-      <div class="shot-info"><span class="num">08</span><strong>My Star Journey</strong><span>Streaks, badges, growing vocal range</span></div>
+      <div class="shot-info"><span class="shot-num">08</span><strong>My Star Journey</strong><span>Levels, streaks, badges, growing range</span></div>
       <a class="btn btn-sm" href="08-progress.html">Open →</a>
     </div>
 
     <div class="shot rise d8">
       <div class="thumb"><iframe src="09-dialogs.html" title="Dialogs preview" loading="lazy" scrolling="no" tabindex="-1"></iframe><a href="09-dialogs.html" aria-label="Open Dialogs gallery"></a></div>
-      <div class="shot-info"><span class="num">09</span><strong>Dialogs & Pop-ups</strong><span>Mic ask, pause, badges, parent gate, toasts</span></div>
+      <div class="shot-info"><span class="shot-num">09</span><strong>Dialogs &amp; Overlays</strong><span>Mic ask, count-in, pause, Grown-Ups, boards, toasts</span></div>
       <a class="btn btn-sm" href="09-dialogs.html">Open →</a>
+    </div>
+
+    <div class="shot rise d8">
+      <div class="thumb"><iframe src="10-profiles.html" title="Profiles preview" loading="lazy" scrolling="no" tabindex="-1"></iframe><a href="10-profiles.html" aria-label="Open Profiles screen"></a></div>
+      <div class="shot-info"><span class="shot-num">10</span><strong>Who's Singing?</strong><span>Family profiles — swap singer, songbook and key</span></div>
+      <a class="btn btn-sm" href="10-profiles.html">Open →</a>
+    </div>
+
+    <div class="shot rise d8">
+      <div class="thumb"><iframe src="11-duet.html" title="Duet preview" loading="lazy" scrolling="no" tabindex="-1"></iframe><a href="11-duet.html" aria-label="Open Duet screen"></a></div>
+      <div class="shot-info"><span class="shot-num">11</span><strong>Duet Time</strong><span>4-letter room code, lobby, two devices one song</span></div>
+      <a class="btn btn-sm" href="11-duet.html">Open →</a>
     </div>
 
   </div>
 
   <p class="flow-note">
     <b>First-time flow:</b> Welcome → Find My Voice → Home → Pick a Song → Sing! → Celebration<br>
-    Use the little <b>◀ ⊞ ▶</b> pill in the corner of any screen to flip through the mockups.
+    Use the little <b>◀ ⊞ ▶</b> pill in the corner of any screen to flip through the mockups.<br>
+    The app also ships a hidden developer tuner at <b>#/tuner</b>, which has no mockup by design.
   </p>
 
 </main>
