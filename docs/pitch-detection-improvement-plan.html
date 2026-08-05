@@ -1,0 +1,1997 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>TwinkleTune Pitch Detection — Architecture Assessment &amp; Improvement Plan</title>
+  <style>
+    :root {
+      --ink: #172340;
+      --muted: #5c6883;
+      --paper: #fffdf9;
+      --cloud: #f5f6ff;
+      --line: #dfe3f2;
+      --blue: #4169e1;
+      --blue-dark: #2546a8;
+      --violet: #7855c8;
+      --pink: #e45b9d;
+      --gold: #e3a622;
+      --green: #248b6b;
+      --red: #bd4252;
+      --orange: #c86c25;
+      --shadow: 0 18px 48px rgba(34, 49, 92, .12);
+      --radius: 20px;
+      --mono: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      --sans: Inter, ui-rounded, "Nunito Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 28px;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% 2%, rgba(120, 85, 200, .14), transparent 25rem),
+        radial-gradient(circle at 92% 12%, rgba(65, 105, 225, .13), transparent 28rem),
+        linear-gradient(180deg, #f9f8ff 0, #fffdf9 36rem);
+      font-family: var(--sans);
+      line-height: 1.58;
+    }
+
+    a {
+      color: var(--blue-dark);
+      text-decoration-thickness: .08em;
+      text-underline-offset: .18em;
+    }
+
+    a:hover { color: var(--pink); }
+
+    code {
+      padding: .12rem .35rem;
+      color: #2c3d73;
+      background: #eef0fb;
+      border: 1px solid #e0e4f4;
+      border-radius: 6px;
+      font-family: var(--mono);
+      font-size: .9em;
+    }
+
+    pre {
+      margin: 0;
+      padding: 1.15rem;
+      overflow: auto;
+      color: #edf3ff;
+      background: #172340;
+      border-radius: 14px;
+      font: .82rem/1.55 var(--mono);
+    }
+
+    pre code {
+      padding: 0;
+      color: inherit;
+      background: transparent;
+      border: 0;
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: minmax(190px, 240px) minmax(0, 1020px);
+      gap: clamp(1.25rem, 4vw, 4rem);
+      width: min(1320px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 1rem 0 5rem;
+    }
+
+    .side {
+      position: sticky;
+      top: 1rem;
+      align-self: start;
+      max-height: calc(100vh - 2rem);
+      overflow: auto;
+      padding: 1.15rem;
+      background: rgba(255, 255, 255, .78);
+      border: 1px solid rgba(223, 227, 242, .95);
+      border-radius: var(--radius);
+      box-shadow: 0 12px 32px rgba(34, 49, 92, .08);
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      margin-bottom: 1rem;
+      color: var(--ink);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      color: white;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      border-radius: 12px;
+      box-shadow: 0 7px 16px rgba(65, 105, 225, .26);
+    }
+
+    nav ol {
+      display: grid;
+      gap: .18rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: nav;
+    }
+
+    nav li { counter-increment: nav; }
+
+    nav a {
+      display: grid;
+      grid-template-columns: 1.5rem 1fr;
+      gap: .35rem;
+      padding: .42rem .45rem;
+      color: var(--muted);
+      border-radius: 9px;
+      font-size: .88rem;
+      text-decoration: none;
+    }
+
+    nav a::before {
+      content: counter(nav, decimal-leading-zero);
+      color: var(--violet);
+      font: 700 .71rem/1.6 var(--mono);
+    }
+
+    nav a:hover {
+      color: var(--ink);
+      background: var(--cloud);
+    }
+
+    .side-meta {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .76rem;
+    }
+
+    main { min-width: 0; }
+
+    .hero {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      min-height: 480px;
+      padding: clamp(2rem, 6vw, 4.75rem);
+      color: white;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,.17), transparent 11rem),
+        linear-gradient(135deg, #284caf 0%, #634db7 56%, #b94c91 100%);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero::before,
+    .hero::after {
+      position: absolute;
+      z-index: -1;
+      content: "";
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 50%;
+    }
+
+    .hero::before {
+      width: 300px;
+      height: 300px;
+      right: -80px;
+      bottom: -110px;
+    }
+
+    .hero::after {
+      width: 520px;
+      height: 520px;
+      right: -180px;
+      bottom: -240px;
+    }
+
+    .eyebrow {
+      margin: 0 0 .75rem;
+      font: 800 .78rem/1.2 var(--mono);
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      opacity: .86;
+    }
+
+    h1 {
+      max-width: 820px;
+      margin: 0;
+      font-size: clamp(2.6rem, 7vw, 5.9rem);
+      line-height: .96;
+      letter-spacing: -.055em;
+    }
+
+    .hero .lede {
+      max-width: 760px;
+      margin: 1.5rem 0 0;
+      color: rgba(255,255,255,.91);
+      font-size: clamp(1rem, 2vw, 1.25rem);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem;
+      margin-top: 2rem;
+    }
+
+    .hero-meta span {
+      padding: .4rem .7rem;
+      background: rgba(255,255,255,.13);
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 999px;
+      font: 700 .75rem/1.2 var(--mono);
+      backdrop-filter: blur(5px);
+    }
+
+    section {
+      margin-top: 4rem;
+      scroll-margin-top: 1rem;
+    }
+
+    .section-kicker {
+      margin: 0 0 .4rem;
+      color: var(--violet);
+      font: 800 .74rem/1.2 var(--mono);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 0 0 1rem;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1.08;
+      letter-spacing: -.035em;
+    }
+
+    h3 {
+      margin: 1.5rem 0 .55rem;
+      font-size: 1.22rem;
+      line-height: 1.25;
+    }
+
+    h4 {
+      margin: 1rem 0 .4rem;
+      font-size: 1rem;
+    }
+
+    p { margin: .65rem 0; }
+
+    .section-intro {
+      max-width: 800px;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .card,
+    .callout {
+      padding: clamp(1.15rem, 3vw, 1.75rem);
+      background: rgba(255,255,255,.86);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 32px rgba(34, 49, 92, .07);
+    }
+
+    .callout {
+      position: relative;
+      overflow: hidden;
+      margin-top: 1.2rem;
+      border-left: 5px solid var(--blue);
+    }
+
+    .callout::after {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      right: -55px;
+      top: -60px;
+      content: "";
+      background: var(--cloud);
+      border-radius: 50%;
+    }
+
+    .callout strong:first-child { color: var(--blue-dark); }
+    .callout.risk { border-left-color: var(--red); }
+    .callout.risk strong:first-child { color: var(--red); }
+    .callout.decision { border-left-color: var(--gold); }
+    .callout.decision strong:first-child { color: #966b0d; }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+
+    .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .metric {
+      min-height: 150px;
+      padding: 1.2rem;
+      background: linear-gradient(145deg, #fff, #f8f8ff);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+    }
+
+    .metric .num {
+      display: block;
+      margin-bottom: .45rem;
+      color: var(--blue);
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -.04em;
+    }
+
+    .metric .label {
+      display: block;
+      margin-bottom: .3rem;
+      font-weight: 800;
+    }
+
+    .metric p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .87rem;
+    }
+
+    .flow {
+      display: flex;
+      align-items: stretch;
+      gap: .55rem;
+      margin: 1.2rem 0;
+      padding: 1rem;
+      overflow-x: auto;
+      background: #f6f6fd;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+    }
+
+    .flow-node {
+      flex: 1 0 125px;
+      min-width: 125px;
+      padding: .85rem;
+      background: white;
+      border: 1px solid #d8deef;
+      border-radius: 13px;
+      text-align: center;
+    }
+
+    .flow-node strong {
+      display: block;
+      font-size: .88rem;
+      line-height: 1.25;
+    }
+
+    .flow-node small {
+      display: block;
+      margin-top: .35rem;
+      color: var(--muted);
+      font-size: .72rem;
+      line-height: 1.35;
+    }
+
+    .flow-arrow {
+      display: grid;
+      flex: 0 0 18px;
+      place-items: center;
+      color: var(--violet);
+      font-weight: 900;
+    }
+
+    .consumer-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: .8rem;
+      margin-top: .9rem;
+    }
+
+    .consumer {
+      padding: .9rem;
+      background: white;
+      border: 1px solid var(--line);
+      border-top: 4px solid var(--blue);
+      border-radius: 12px;
+    }
+
+    .consumer:nth-child(2) { border-top-color: var(--pink); }
+    .consumer:nth-child(3) { border-top-color: var(--gold); }
+
+    .consumer strong { display: block; }
+    .consumer small { color: var(--muted); }
+
+    .feedback {
+      margin: 1rem 0;
+      padding: 1rem;
+      color: #74323c;
+      background: #fff1f2;
+      border: 1px dashed #df909a;
+      border-radius: 14px;
+      text-align: center;
+      font-size: .9rem;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: .26rem .55rem;
+      border-radius: 999px;
+      font: 800 .69rem/1.2 var(--mono);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .p0 { color: #8d2634; background: #ffe4e8; }
+    .p1 { color: #8b5119; background: #ffeddc; }
+    .p2 { color: #355496; background: #e5ecff; }
+    .good { color: #16684f; background: #ddf5ec; }
+    .fact { color: #4e3b91; background: #ebe6ff; }
+    .measure { color: #755306; background: #fff1c7; }
+
+    .table-wrap {
+      margin-top: 1.1rem;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: 0 8px 26px rgba(34, 49, 92, .05);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(255,255,255,.92);
+      font-size: .87rem;
+    }
+
+    th,
+    td {
+      padding: .78rem .85rem;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: #35446c;
+      background: #f3f4fb;
+      font: 800 .73rem/1.25 var(--mono);
+      letter-spacing: .03em;
+      text-transform: uppercase;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+    tbody tr:hover { background: #fbfbff; }
+
+    .finding-list {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+
+    .finding {
+      display: grid;
+      grid-template-columns: 82px minmax(0, 1fr);
+      overflow: hidden;
+      background: rgba(255,255,255,.9);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 8px 25px rgba(34,49,92,.05);
+    }
+
+    .finding-id {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: .45rem;
+      padding: 1rem .55rem;
+      color: white;
+      background: linear-gradient(180deg, var(--blue), var(--violet));
+      font: 900 1rem/1 var(--mono);
+    }
+
+    .finding-body { padding: 1.15rem 1.3rem; }
+    .finding-body h3 { margin: 0 0 .45rem; }
+    .finding-body p { color: var(--muted); }
+
+    .evidence {
+      margin-top: .75rem;
+      padding: .7rem .8rem;
+      color: #45516c;
+      background: #f5f6fb;
+      border-radius: 10px;
+      font-size: .82rem;
+    }
+
+    .evidence strong { color: var(--ink); }
+
+    .target {
+      margin-top: 1.2rem;
+      padding: 1.2rem;
+      background: #f6f7fe;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+    }
+
+    .target-row {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(115px, 1fr));
+      gap: .65rem;
+      overflow-x: auto;
+    }
+
+    .target-node {
+      position: relative;
+      min-width: 115px;
+      padding: 1rem;
+      background: white;
+      border: 1px solid #d8deef;
+      border-radius: 13px;
+    }
+
+    .target-node:not(:last-child)::after {
+      position: absolute;
+      top: 50%;
+      right: -.62rem;
+      z-index: 2;
+      content: "›";
+      color: var(--violet);
+      font-size: 1.5rem;
+      font-weight: 900;
+      transform: translateY(-54%);
+    }
+
+    .target-node strong {
+      display: block;
+      color: var(--blue-dark);
+      font-size: .86rem;
+    }
+
+    .target-node small {
+      display: block;
+      margin-top: .35rem;
+      color: var(--muted);
+      font-size: .73rem;
+    }
+
+    .target-branches {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .7rem;
+      margin-top: 1rem;
+    }
+
+    .target-branch {
+      padding: .9rem;
+      background: white;
+      border: 1px solid var(--line);
+      border-bottom: 4px solid var(--blue);
+      border-radius: 12px;
+    }
+
+    .target-branch:nth-child(2) { border-bottom-color: var(--pink); }
+    .target-branch:nth-child(3) { border-bottom-color: var(--gold); }
+
+    .target-branch strong {
+      display: block;
+      font-size: .86rem;
+    }
+
+    .target-branch small {
+      color: var(--muted);
+      font-size: .73rem;
+    }
+
+    .principles {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .8rem;
+      margin-top: 1rem;
+    }
+
+    .principle {
+      padding: 1rem;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+    }
+
+    .principle b {
+      display: block;
+      margin-bottom: .3rem;
+      color: var(--violet);
+    }
+
+    .principle span {
+      color: var(--muted);
+      font-size: .84rem;
+    }
+
+    .timeline {
+      position: relative;
+      display: grid;
+      gap: 1rem;
+      margin-top: 1.4rem;
+      padding-left: 2.6rem;
+    }
+
+    .timeline::before {
+      position: absolute;
+      top: .9rem;
+      bottom: .9rem;
+      left: 1rem;
+      width: 3px;
+      content: "";
+      background: linear-gradient(var(--blue), var(--pink), var(--gold), var(--green));
+      border-radius: 3px;
+    }
+
+    .phase {
+      position: relative;
+      padding: 1.2rem 1.3rem;
+      background: rgba(255,255,255,.9);
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      box-shadow: 0 8px 26px rgba(34, 49, 92, .05);
+    }
+
+    .phase::before {
+      position: absolute;
+      top: 1.2rem;
+      left: -2.18rem;
+      display: grid;
+      place-items: center;
+      width: 1.35rem;
+      height: 1.35rem;
+      content: "";
+      background: white;
+      border: 5px solid var(--blue);
+      border-radius: 50%;
+    }
+
+    .phase:nth-child(2)::before { border-color: var(--violet); }
+    .phase:nth-child(3)::before { border-color: var(--pink); }
+    .phase:nth-child(4)::before { border-color: var(--gold); }
+    .phase:nth-child(5)::before { border-color: var(--green); }
+
+    .phase-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: .5rem;
+    }
+
+    .phase h3 { margin: 0; }
+
+    .phase-label {
+      color: var(--violet);
+      font: 800 .71rem/1.2 var(--mono);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .phase ul,
+    .check-list,
+    .plain-list {
+      margin: .75rem 0 0;
+      padding-left: 1.15rem;
+    }
+
+    .phase li,
+    .check-list li,
+    .plain-list li { margin: .36rem 0; }
+
+    .gate {
+      margin-top: .8rem;
+      padding: .65rem .75rem;
+      color: #285d4d;
+      background: #e9f8f2;
+      border-radius: 9px;
+      font-size: .82rem;
+    }
+
+    .gate strong { color: #16684f; }
+
+    .decision-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1.2rem;
+    }
+
+    .decision-card {
+      padding: 1.1rem;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+    }
+
+    .decision-card h3 { margin-top: 0; }
+
+    .decision-card .status {
+      display: inline-block;
+      margin-bottom: .45rem;
+      color: #835c05;
+      font: 800 .68rem/1 var(--mono);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    details {
+      margin-top: .75rem;
+      padding: .8rem .95rem;
+      background: #f7f8fd;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+
+    summary {
+      cursor: pointer;
+      color: var(--blue-dark);
+      font-weight: 800;
+    }
+
+    .source-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: .7rem;
+      margin-top: 1rem;
+    }
+
+    .source {
+      padding: .8rem;
+      background: #f7f8fd;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      font-size: .8rem;
+    }
+
+    .source a {
+      display: block;
+      font-family: var(--mono);
+      overflow-wrap: anywhere;
+    }
+
+    .source span {
+      display: block;
+      margin-top: .25rem;
+      color: var(--muted);
+    }
+
+    footer {
+      margin-top: 4rem;
+      padding: 1.5rem 0;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      font-size: .82rem;
+    }
+
+    @media (max-width: 980px) {
+      .shell { grid-template-columns: 1fr; }
+      .side {
+        position: static;
+        max-height: none;
+      }
+      nav ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 700px) {
+      .shell { width: min(100% - 1rem, 1320px); }
+      .side { padding: .9rem; }
+      .brand { margin-bottom: .6rem; }
+      .side-meta { display: none; }
+      .hero { min-height: auto; padding: 2rem 1.4rem; border-radius: 22px; }
+      .grid.two,
+      .grid.three,
+      .grid.four,
+      .consumer-grid,
+      .target-branches,
+      .principles,
+      .decision-grid,
+      .source-list { grid-template-columns: 1fr; }
+      .finding { grid-template-columns: 1fr; }
+      .finding-id {
+        flex-direction: row;
+        justify-content: flex-start;
+      }
+      .target-row {
+        grid-template-columns: 1fr;
+        overflow: visible;
+      }
+      .target-node:not(:last-child)::after {
+        top: auto;
+        right: 50%;
+        bottom: -.98rem;
+        transform: rotate(90deg) translateY(-50%);
+      }
+      nav ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      nav a { padding: .32rem; font-size: .78rem; }
+      th, td { padding: .65rem; }
+    }
+
+    @media print {
+      @page { margin: 14mm; }
+      body { background: white; }
+      .shell { display: block; width: 100%; padding: 0; }
+      .side { display: none; }
+      .hero {
+        min-height: auto;
+        color: var(--ink);
+        background: white;
+        border: 2px solid var(--blue);
+        box-shadow: none;
+        break-after: page;
+      }
+      .hero .lede { color: var(--muted); }
+      .hero-meta span { border-color: var(--line); }
+      section { break-inside: avoid-page; }
+      .card, .callout, .finding, .phase, .table-wrap { box-shadow: none; }
+      a { color: inherit; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="side" aria-label="Document navigation">
+      <a class="brand" href="#top">
+        <span class="brand-mark" aria-hidden="true">✦</span>
+        <span>TwinkleTune<br>Engineering</span>
+      </a>
+      <nav aria-label="Sections">
+        <ol>
+          <li><a href="#summary">Executive summary</a></li>
+          <li><a href="#scope">Scope &amp; method</a></li>
+          <li><a href="#current">Current architecture</a></li>
+          <li><a href="#strengths">What works</a></li>
+          <li><a href="#findings">Findings</a></li>
+          <li><a href="#target">Target architecture</a></li>
+          <li><a href="#plan">Delivery plan</a></li>
+          <li><a href="#quality">Quality gates</a></li>
+          <li><a href="#traceability">Traceability</a></li>
+          <li><a href="#decisions">Open decisions</a></li>
+          <li><a href="#sources">Evidence index</a></li>
+        </ol>
+      </nav>
+      <div class="side-meta">
+        Assessment date: 2026-07-25<br>
+        Baseline commit: <code>cccc978</code><br>
+        Deliverable: architecture plan
+      </div>
+    </aside>
+
+    <main id="top">
+      <header class="hero">
+        <p class="eyebrow">Architecture assessment · Audio engine</p>
+        <h1>Pitch detection, tuned for reality.</h1>
+        <p class="lede">
+          TwinkleTune has a compact, privacy-aligned pitch path that works for clean tones.
+          The next step is to make timing, confidence, and scoring independent of display
+          frame rate, device gain, and the app’s own speaker output.
+        </p>
+        <div class="hero-meta" aria-label="Document metadata">
+          <span>On-device audio</span>
+          <span>3 consumers</span>
+          <span>9 architecture findings</span>
+          <span>5 delivery phases</span>
+        </div>
+      </header>
+
+      <section id="summary">
+        <p class="section-kicker">01 · Outcome</p>
+        <h2>Executive summary</h2>
+        <p class="section-intro">
+          The current implementation is a credible product prototype. It combines a McLeod
+          pitch estimator, level and clarity gates, median smoothing, octave-forgiving
+          scoring, microphone cleanup, and a no-microphone fallback in about 80 lines of
+          detector code.
+        </p>
+
+        <div class="callout decision">
+          <strong>Recommended direction.</strong>
+          The first milestone should establish repeatable signal and device measurements.
+          The second should separate capture, estimation, temporal filtering, and consumer
+          policy. Algorithm replacement, fixed threshold changes, and acoustic echo
+          cancellation should follow only when the baseline data shows which change is
+          justified.
+        </div>
+
+        <div class="grid four" aria-label="Assessment at a glance">
+          <article class="metric">
+            <span class="num">P0</span>
+            <span class="label">Speaker-bleed experiment</span>
+            <p>The guide melody and raw microphone form a plausible false-score path that current tests cannot reproduce.</p>
+          </article>
+          <article class="metric">
+            <span class="num">rAF</span>
+            <span class="label">Logic clock today</span>
+            <p>Detection, stability capture, and score accumulation inherit display cadence and render stalls.</p>
+          </article>
+          <article class="metric">
+            <span class="num">0</span>
+            <span class="label">Direct detector unit tests</span>
+            <p>The unit suite covers range and scoring rules, while <code>PitchTracker</code> is exercised only through browser flows.</p>
+          </article>
+          <article class="metric">
+            <span class="num">3</span>
+            <span class="label">Different consumers</span>
+            <p>Gameplay, vocal-range capture, and the tuner currently share one hard-coded smoothing and gate policy.</p>
+          </article>
+        </div>
+
+        <div class="callout risk">
+          <strong>Highest unverified product risk.</strong>
+          <code>SongPlayer</code> emits an exact target pitch through the speaker while
+          <code>PitchTracker</code> requests microphone input with echo cancellation disabled.
+          The clean oscillator fixture bypasses that acoustic loop. A playback-only negative
+          control on physical devices should precede detector tuning.
+        </div>
+      </section>
+
+      <section id="scope">
+        <p class="section-kicker">02 · Investigation</p>
+        <h2>Scope and method</h2>
+        <p class="section-intro">
+          The assessment traces pitch from browser acquisition to all three consumers, then
+          compares implementation behavior with approved L1/L2 requirements, detailed design
+          pages, unit tests, and Playwright fixtures.
+        </p>
+
+        <div class="grid two">
+          <article class="card">
+            <h3>In scope</h3>
+            <ul class="plain-list">
+              <li>Microphone and shared <code>AudioContext</code> lifecycle.</li>
+              <li>PCM window capture, RMS calculation, <code>pitchy</code> estimation, bounds, and median smoothing.</li>
+              <li>Gameplay timing, latency compensation, octave folding, and note accumulation.</li>
+              <li>Stable vocal-range capture and diagnostic tuner behavior.</li>
+              <li>Automated test realism, architecture boundaries, and traceability.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Evidence limits</h3>
+            <ul class="plain-list">
+              <li>No physical microphone or supported-device matrix was available.</li>
+              <li>No labelled vocal corpus exists in the repository.</li>
+              <li>Speaker bleed and device-level latency remain hypotheses until Phase 0 measures them.</li>
+              <li>The focused Playwright command exceeded a 180 s local run limit; the unit suite and production build completed successfully.</li>
+              <li>No raw voice recording should enter source control without an approved consent and retention policy.</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Evidence type</th>
+                <th>Observed</th>
+                <th>What it proves</th>
+                <th>What it does not prove</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Source inspection</td>
+                <td><code>pitch.ts</code>, <code>range.ts</code>, <code>sing.ts</code>, <code>tuner.ts</code>, <code>player.ts</code></td>
+                <td>Control flow, constants, ownership, lifecycle paths, and timing dependencies.</td>
+                <td>Accuracy in rooms, on devices, or with human voices.</td>
+              </tr>
+              <tr>
+                <td>Unit suite</td>
+                <td>76 tests passed across 6 files.</td>
+                <td>Range math, stable capture at synthetic MIDI inputs, scoring rules, state, catalogue, and rendering types remain green.</td>
+                <td>PCM-to-pitch estimation; no unit test imports <code>PitchTracker</code>.</td>
+              </tr>
+              <tr>
+                <td>Production build</td>
+                <td>TypeScript and Vite build passed.</td>
+                <td>The reviewed baseline compiles and bundles.</td>
+                <td>Runtime audio correctness.</td>
+              </tr>
+              <tr>
+                <td>Browser fixtures</td>
+                <td>Pure sine oscillator, live retune, mute, and permission denial.</td>
+                <td>The main browser flow can lock clean tones and handle denial.</td>
+                <td>Noise, breathiness, harmonics, speaker leakage, clipping, onset behavior, and device variation.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="current">
+        <p class="section-kicker">03 · Baseline</p>
+        <h2>Current architecture</h2>
+        <p class="section-intro">
+          <code>PitchTracker</code> owns acquisition, Web Audio nodes, estimation,
+          rejection, smoothing, and session state. Each screen creates its own tracker and
+          polls <code>read()</code> from a display animation loop.
+        </p>
+
+        <figure class="card" aria-labelledby="current-flow-caption">
+          <div class="flow" role="img" aria-label="Current pitch processing pipeline">
+            <div class="flow-node">
+              <strong>Microphone</strong>
+              <small><code>getUserMedia</code><br>EC / NS / AGC off</small>
+            </div>
+            <div class="flow-arrow" aria-hidden="true">›</div>
+            <div class="flow-node">
+              <strong>Analyser</strong>
+              <small>2048 latest samples<br>polled by rAF</small>
+            </div>
+            <div class="flow-arrow" aria-hidden="true">›</div>
+            <div class="flow-node">
+              <strong>RMS gate</strong>
+              <small>reject below<br><code>0.01</code></small>
+            </div>
+            <div class="flow-arrow" aria-hidden="true">›</div>
+            <div class="flow-node">
+              <strong>McLeod MPM</strong>
+              <small><code>pitchy 4.1.0</code><br>Hz + clarity</small>
+            </div>
+            <div class="flow-arrow" aria-hidden="true">›</div>
+            <div class="flow-node">
+              <strong>Quality gate</strong>
+              <small>clarity ≥ 0.8<br>70–1500 Hz</small>
+            </div>
+            <div class="flow-arrow" aria-hidden="true">›</div>
+            <div class="flow-node">
+              <strong>Median</strong>
+              <small>last 5 accepted<br>MIDI values</small>
+            </div>
+          </div>
+          <div class="consumer-grid" aria-label="Current pitch consumers">
+            <div class="consumer">
+              <strong>Find My Voice</strong>
+              <small>40-frame stability window, 8-frame dropout tolerance, low/high capture.</small>
+            </div>
+            <div class="consumer">
+              <strong>Sing gameplay</strong>
+              <small>Manual latency offset, ±50 cents, frame tallies, majority decision.</small>
+            </div>
+            <div class="consumer">
+              <strong>Developer tuner</strong>
+              <small>Filtered note and cents beside raw Hz, clarity, and RMS.</small>
+            </div>
+          </div>
+          <div class="feedback">
+            <strong>Physical path outside the code:</strong>
+            <code>SongPlayer → device speaker → room → microphone</code>.
+            The current fixture supplies a separate oscillator stream and cannot exercise this path.
+          </div>
+          <figcaption id="current-flow-caption">
+            <strong>Figure 1.</strong> Current microphone-to-consumer flow. Display timing drives
+            each read and each downstream accumulation.
+          </figcaption>
+        </figure>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Responsibility</th>
+                <th>Current owner</th>
+                <th>Important coupling</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Shared audio context</td>
+                <td><a href="../frontend/src/audio/player.ts"><code>audio/player.ts</code></a></td>
+                <td>Microphone input imports context creation from the synthesis player.</td>
+              </tr>
+              <tr>
+                <td>Capture, estimate, gate, smooth, lifecycle</td>
+                <td><a href="../frontend/src/audio/pitch.ts"><code>audio/pitch.ts</code></a></td>
+                <td>One class contains browser adapters, signal policy, and temporal state.</td>
+              </tr>
+              <tr>
+                <td>Pitch units and stable range capture</td>
+                <td><a href="../frontend/src/audio/range.ts"><code>audio/range.ts</code></a></td>
+                <td>Pitch conversion shares a module with song transposition and voice-range policy.</td>
+              </tr>
+              <tr>
+                <td>Live score capture</td>
+                <td><a href="../frontend/src/screens/sing.ts"><code>screens/sing.ts</code></a></td>
+                <td>Audio observations, DOM animation, reactive visuals, playback, and score integration share one rAF loop.</td>
+              </tr>
+              <tr>
+                <td>Device latency setting</td>
+                <td><a href="../frontend/src/state/store.ts"><code>state/store.ts</code></a> <code>Profile.latencyMs</code></td>
+                <td>The requirements call latency a device property, while persistence namespaces it with singer state.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="strengths">
+        <p class="section-kicker">04 · Preserve</p>
+        <h2>What already works</h2>
+        <p class="section-intro">
+          The improvement should retain the current privacy boundary and user fallback while
+          changing the internal contracts.
+        </p>
+
+        <div class="grid three">
+          <article class="card">
+            <span class="pill good">Keep</span>
+            <h3>Local processing</h3>
+            <p>Microphone audio stays inside the browser. No detector path calls the API or persists raw audio.</p>
+          </article>
+          <article class="card">
+            <span class="pill good">Keep</span>
+            <h3>Audio-clock transport</h3>
+            <p><code>SongPlayer.currentBeat()</code> derives position from <code>AudioContext.currentTime</code>, which avoids wall-clock drift.</p>
+          </article>
+          <article class="card">
+            <span class="pill good">Keep</span>
+            <h3>Octave forgiveness</h3>
+            <p><code>foldCents()</code> judges pitch class rather than vocal register, matching the product’s child-friendly scoring intent.</p>
+          </article>
+          <article class="card">
+            <span class="pill good">Keep</span>
+            <h3>Explicit quality signals</h3>
+            <p><code>PitchFrame</code> already exposes frequency, floating MIDI, clarity, and level.</p>
+          </article>
+          <article class="card">
+            <span class="pill good">Keep</span>
+            <h3>Graceful fallback</h3>
+            <p>Voice setup can defer capture. Gameplay can continue in a no-microphone mode. Permission denial does not block solo play.</p>
+          </article>
+          <article class="card">
+            <span class="pill good">Keep</span>
+            <h3>Small dependency surface</h3>
+            <p>The estimator uses one focused dependency, <code>pitchy 4.1.0</code>. A replaceable interface can preserve that simplicity.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="findings">
+        <p class="section-kicker">05 · Risks</p>
+        <h2>Architecture findings</h2>
+        <p class="section-intro">
+          Each finding separates code-proven behavior from hypotheses that require physical
+          measurement. P0 identifies the first validation or architecture gate, not a confirmed
+          production incident.
+        </p>
+
+        <div class="finding-list">
+          <article class="finding">
+            <div class="finding-id">F-01 <span class="pill p0">P0</span></div>
+            <div class="finding-body">
+              <h3>The guide melody forms an untested acoustic feedback path</h3>
+              <p>
+                The player sends tonal output to <code>ctx.destination</code>. The tracker requests
+                unprocessed microphone input with echo cancellation disabled. The resulting
+                speaker-to-room-to-microphone path may produce high-confidence detections at the
+                exact target pitch.
+              </p>
+              <p>
+                The path is plausible from source inspection, but its severity is not established.
+                The first implementation task should run playback-only negative controls through
+                speakers and headphones at representative volumes.
+              </p>
+              <div class="evidence">
+                <strong>Evidence:</strong>
+                <a href="../frontend/src/audio/player.ts"><code>player.ts</code></a> connects the
+                melody master to the destination.
+                <a href="../frontend/src/audio/pitch.ts"><code>pitch.ts</code></a> sets
+                <code>echoCancellation: false</code>.
+                <a href="../e2e/fixtures/fake-mic.ts"><code>fake-mic.ts</code></a> injects a
+                separate clean oscillator, while Playwright also launches with <code>--mute-audio</code>.
+              </div>
+            </div>
+          </article>
+
+          <article class="finding">
+            <div class="finding-id">F-02 <span class="pill p0">P0</span></div>
+            <div class="finding-body">
+              <h3>Display cadence controls audio decisions</h3>
+              <p>
+                Gameplay and voice setup call <code>read()</code> from
+                <code>requestAnimationFrame</code>. Gameplay counts render frames. Stable capture
+                defines hold and dropout windows as frame counts. A 30 Hz, 60 Hz, or 120 Hz display
+                therefore changes elapsed smoothing, hold duration, minimum evidence, and exposure
+                to render stalls.
+              </p>
+              <p>
+                The render loop should display the latest observation. A fixed-hop audio source
+                should drive logic, and consumer decisions should use timestamps or elapsed duration.
+              </p>
+              <div class="evidence">
+                <strong>Evidence:</strong>
+                <a href="../frontend/src/screens/sing.ts"><code>sing.ts</code></a> increments
+                <code>totalFrames</code> and <code>hitFrames</code> in rAF.
+                <a href="../frontend/src/audio/range.ts"><code>range.ts</code></a> uses
+                40 window frames and 8 silent frames.
+                <a href="../e2e/playwright.config.ts"><code>playwright.config.ts</code></a>
+                caps workers because rAF starvation makes audio tests flaky.
+              </div>
+            </div>
+          </article>
+
+          <article class="finding">
+            <div class="finding-id">F-03 <span class="pill p0">P0</span></div>
+            <div class="finding-body">
+              <h3>The detector has no repeatable signal-quality baseline</h3>
+              <p>
+                The unit suite tests <code>StablePitchCapture</code> after MIDI values already exist
+                and tests scoring after observations already exist. No unit test supplies PCM to the
+                estimator. Browser tests use a loud, steady sine wave and cover permission denial.
+              </p>
+              <p>
+                A pure estimator boundary and labelled fixture runner should precede threshold,
+                filter, frequency-band, detector, or echo-processing changes. The baseline should
+                report pitch error, octave errors, voiced false positives, detection delay, gaps,
+                and processing cost.
+              </p>
+              <div class="evidence">
+                <strong>Evidence:</strong>
+                76 unit tests pass, and none reference <code>PitchTracker</code> or
+                <code>PitchDetector</code>. Existing E2E coverage uses
+                <a href="../e2e/fixtures/fake-mic.ts"><code>FakeMic</code></a>.
+              </div>
+            </div>
+          </article>
+
+          <article class="finding">
+            <div class="finding-id">F-04 <span class="pill p1">P1</span></div>
+            <div class="finding-body">
+              <h3>Temporal history has no age or discontinuity</h3>
+              <p>
+                Rejected frames clear <code>latest</code> but retain the median history. A new note
+                after silence can initially report the prior note. The frame also combines raw
+                <code>hz</code> and clarity with a median-filtered <code>midi</code>, so its fields
+                may describe different pitches.
+              </p>
+              <p>
+                The observation contract should expose raw and filtered values separately.
+                Temporal state should expire by audio time and reset across silence, source changes,
+                or sequence gaps.
+              </p>
+              <div class="evidence">
+                <strong>Evidence:</strong>
+                <a href="../frontend/src/audio/pitch.ts"><code>pitch.ts</code></a> updates
+                <code>history</code> only for accepted values and clears it only in <code>stop()</code>.
+                <code>latest = { hz, midi, clarity, rms }</code> mixes raw Hz with filtered MIDI.
+              </div>
+            </div>
+          </article>
+
+          <article class="finding">
+            <div class="finding-id">F-05 <span class="pill p1">P1</span></div>
+            <div class="finding-body">
+              <h3>One hard-coded signal policy serves three different jobs</h3>
+              <p>
+                Gameplay favors low delay and reliable onsets. Vocal-range capture favors sustained
+                stability. The tuner favors transparent raw accuracy. All three receive the same
+                2048-sample window, absolute RMS gate, clarity threshold, broad frequency bounds,
+                and 5-value median.
+              </p>
+              <p>
+                Capture and estimation should stay shared. Filtering and acceptance policy should
+                be named, configurable consumer profiles backed by the fixture baseline.
+              </p>
+              <div class="evidence">
+                <strong>Evidence:</strong>
+                <a href="../frontend/src/audio/pitch.ts"><code>pitch.ts</code></a> declares all
+                constants at module scope. Each consumer calls <code>new PitchTracker()</code>
+                without options.
+              </div>
+            </div>
+          </article>
+
+          <article class="finding">
+            <div class="finding-id">F-06 <span class="pill p1">P1</span></div>
+            <div class="finding-body">
+              <h3>Async lifecycle state is underspecified</h3>
+              <p>
+                <code>running</code> becomes true only after microphone permission resolves and the
+                analyser exists. Concurrent <code>start()</code> calls can open multiple requests.
+                A <code>stop()</code> during a pending start cannot cancel the request, and a later
+                resolution can attach a stream after teardown.
+              </p>
+              <p>
+                A microphone session should implement
+                <code>idle → starting → running → stopping</code>, accept an
+                <code>AbortSignal</code>, dispose partially-created resources on every failure, and
+                classify denial, absence, busy-device, and browser-policy errors.
+              </p>
+              <div class="evidence">
+                <strong>Evidence:</strong>
+                <a href="../frontend/src/audio/pitch.ts"><code>PitchTracker.start()</code></a>
+                guards only <code>this.running</code>. Screen callers use broad <code>catch {}</code>
+                blocks and render every acquisition failure as a microphone-denied path.
+              </div>
+            </div>
+          </article>
+
+          <article class="finding">
+            <div class="finding-id">F-07 <span class="pill p1">P1</span></div>
+            <div class="finding-body">
+              <h3>Observations have no audio timestamp or sequence identity</h3>
+              <p>
+                <code>PitchFrame</code> describes signal values but not when the window was captured,
+                how old the result is, or whether it is new. Gameplay aligns the polled result to the
+                current playback beat, then applies one manual millisecond offset.
+              </p>
+              <p>
+                Each observation should carry the audio-window midpoint, emission time, sequence,
+                window size, and source settings. Scoring should map capture time to the transport
+                before applying a separately stored device calibration.
+              </p>
+              <div class="evidence">
+                <strong>Evidence:</strong>
+                <a href="../frontend/src/audio/pitch.ts"><code>PitchFrame</code></a> has four signal
+                fields only.
+                <a href="../frontend/src/screens/sing.ts"><code>sing.ts</code></a> computes
+                <code>scoreBeat = beat - latencyBeats</code> at poll time.
+              </div>
+            </div>
+          </article>
+
+          <article class="finding">
+            <div class="finding-id">F-08 <span class="pill p2">P2</span></div>
+            <div class="finding-body">
+              <h3>Low-level input depends on player and personalization modules</h3>
+              <p>
+                <code>pitch.ts</code> imports the shared context from <code>player.ts</code> and
+                frequency conversion from <code>range.ts</code>. The latter also owns voice-range
+                stability and song transposition. This arrangement hides reusable audio primitives
+                behind feature modules.
+              </p>
+              <p>
+                A context provider, pitch-unit module, browser capture adapter, pure estimator, and
+                temporal policy should establish inward dependencies. The player and tracker may
+                still share one context through the provider.
+              </p>
+              <div class="evidence">
+                <strong>Evidence:</strong>
+                Imports at the top of
+                <a href="../frontend/src/audio/pitch.ts"><code>pitch.ts</code></a> and
+                <a href="../frontend/src/audio/player.ts"><code>player.ts</code></a>.
+              </div>
+            </div>
+          </article>
+
+          <article class="finding">
+            <div class="finding-id">F-09 <span class="pill p2">P2</span></div>
+            <div class="finding-body">
+              <h3>Requirements freeze constants before quality is measured</h3>
+              <p>
+                Approved L2 requirements prescribe a 2048-sample window, RMS 0.01, clarity 0.8,
+                70–1500 Hz, five accepted values, 40 range frames, and three scoring frames. These
+                values describe the implementation but do not define device-level error, false
+                positives, onset delay, or fairness across render rates.
+              </p>
+              <p>
+                The existing identifiers should remain traceable. Their wording should shift toward
+                measurable outcomes after Phase 0, while configuration baselines move to an
+                architecture decision record or tuning profile.
+              </p>
+              <div class="evidence">
+                <strong>Evidence:</strong>
+                <a href="specs/audio-engine/L2.md"><code>AE-L2-10…16</code></a>,
+                <a href="specs/voice-personalization/L2.md"><code>VP-L2-3…4</code></a>,
+                <a href="specs/scoring-and-results/L2.md"><code>SR-L2-2</code></a>, and
+                <a href="specs/singing-gameplay/L2.md"><code>SG-L2-9</code></a>.
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="target">
+        <p class="section-kicker">06 · Direction</p>
+        <h2>Target architecture</h2>
+        <p class="section-intro">
+          The target separates real-time capture from estimation and policy. It lets gameplay
+          consume each unique audio observation while the UI renders the latest state at any display
+          rate.
+        </p>
+
+        <figure class="target" aria-labelledby="target-caption">
+          <div class="target-row" role="img" aria-label="Proposed pitch processing architecture">
+            <div class="target-node">
+              <strong>AudioContextProvider</strong>
+              <small>One lazy context, explicit activation, shared audio clock.</small>
+            </div>
+            <div class="target-node">
+              <strong>MicrophoneSession</strong>
+              <small>State machine, constraints, actual settings, typed errors, abort.</small>
+            </div>
+            <div class="target-node">
+              <strong>PcmFrameSource</strong>
+              <small>Fixed-hop windows, sequence and midpoint timestamp, analyser fallback.</small>
+            </div>
+            <div class="target-node">
+              <strong>PitchEstimator</strong>
+              <small>Pure PCM → raw Hz, MIDI, clarity, RMS. <code>pitchy</code> adapter first.</small>
+            </div>
+            <div class="target-node">
+              <strong>PitchPipeline</strong>
+              <small>Voicing gate, time-aware filter, rejection reason, coherent raw/filtered output.</small>
+            </div>
+          </div>
+          <div class="target-branches">
+            <div class="target-branch">
+              <strong>Gameplay policy + ScoreIntegrator</strong>
+              <small>Low-delay observations, audio-time mapping, duration-weighted note evidence.</small>
+            </div>
+            <div class="target-branch">
+              <strong>Range-capture policy</strong>
+              <small>Elapsed hold duration, dropout time, percentile stability, explicit reset.</small>
+            </div>
+            <div class="target-branch">
+              <strong>Tuner + local diagnostics</strong>
+              <small>Raw and filtered values, gate reasons, actual constraints, cadence, processing age.</small>
+            </div>
+          </div>
+          <figcaption id="target-caption">
+            <strong>Figure 2.</strong> Proposed boundaries. An <code>AudioWorklet</code> and worker
+            may implement <code>PcmFrameSource</code> after profiling; the contract does not force
+            that implementation.
+          </figcaption>
+        </figure>
+
+        <div class="principles">
+          <div class="principle">
+            <b>Audio time is authoritative.</b>
+            <span>Every result carries capture time. Display time never defines hold duration, score evidence, or filter age.</span>
+          </div>
+          <div class="principle">
+            <b>Raw and filtered are explicit.</b>
+            <span>Frequency, MIDI, clarity, and level refer to the same raw window. Filtered pitch appears in a separate field.</span>
+          </div>
+          <div class="principle">
+            <b>Policy follows the consumer.</b>
+            <span>Gameplay, range capture, and tuner policies use named configurations over one capture and estimator core.</span>
+          </div>
+          <div class="principle">
+            <b>Rejection remains observable.</b>
+            <span>Quiet, unclear, out-of-band, stale, and discontinuous results remain typed local events instead of becoming indistinguishable <code>null</code>.</span>
+          </div>
+          <div class="principle">
+            <b>Fallback stays available.</b>
+            <span>An analyser-based source and no-microphone play preserve browser and offline resilience.</span>
+          </div>
+          <div class="principle">
+            <b>Audio stays private.</b>
+            <span>Diagnostics aggregate local metrics. Raw PCM is neither transmitted nor persisted by default.</span>
+          </div>
+        </div>
+
+        <h3>Proposed contract shape</h3>
+        <pre><code>type PitchObservation =
+  | {
+      kind: 'voiced'
+      sequence: number
+      capturedAtAudioTime: number   // midpoint of the analysed PCM window
+      emittedAtPerformanceTime: number
+      windowSamples: number
+      raw: { hz: number; midi: number; clarity: number; rms: number }
+      filtered: { hz: number; midi: number }
+    }
+  | {
+      kind: 'unvoiced'
+      sequence: number
+      capturedAtAudioTime: number
+      rms: number
+      reason: 'quiet' | 'unclear' | 'out-of-band' | 'discontinuity'
+    }
+
+interface PitchEstimator {
+  estimate(samples: Float32Array, sampleRate: number): RawPitchEstimate
+}
+
+interface PcmFrameSource {
+  start(signal: AbortSignal): AsyncIterable&lt;PcmWindow&gt;
+  stop(): Promise&lt;void&gt;
+}</code></pre>
+
+        <div class="callout">
+          <strong>Worklet decision boundary.</strong>
+          A fixed-hop capture adapter is the target. An <code>AudioWorkletProcessor</code> should
+          capture and timestamp PCM only if the device benchmark supports it. CPU-heavy McLeod
+          estimation should run outside the audio render callback, typically in a worker, so detector
+          cost cannot interrupt output audio.
+        </div>
+      </section>
+
+      <section id="plan">
+        <p class="section-kicker">07 · Sequence</p>
+        <h2>Phased delivery plan</h2>
+        <p class="section-intro">
+          Each phase ends with evidence that unlocks the next. Threshold and DSP work starts after a
+          reproducible baseline exists.
+        </p>
+
+        <div class="timeline">
+          <article class="phase">
+            <div class="phase-head">
+              <h3>Phase 0 — Establish the truth set</h3>
+              <span class="phase-label">Measurement before tuning</span>
+            </div>
+            <ul>
+              <li>Extract a pure <code>PitchEstimator</code> adapter around the current <code>pitchy</code> call without changing shipped behavior.</li>
+              <li>Create deterministic PCM generators for sine sweeps, vibrato, glides, harmonics, amplitude ramps, clipping, dropouts, pink noise, rumble, and competing tones.</li>
+              <li>Add legally usable vocal fixtures with annotated steady regions. Raw recordings of children shall not enter the repository without approved consent and retention controls.</li>
+              <li>Build a metrics runner for cents error, octave-error rate, voiced precision/recall, onset and release delay, observation gaps, and estimator CPU cost.</li>
+              <li>Run speaker playback-only controls at multiple volumes, device distances, and headphone states. Record actual track constraints and room notes.</li>
+              <li>Confirm the supported browser and device matrix. The current specification is <code>&lt;TO SUPPLY&gt;</code>.</li>
+            </ul>
+            <div class="gate">
+              <strong>Exit gate:</strong> The baseline report is reproducible in CI, the physical
+              bleed experiment is recorded, and product owners approve measurable quality thresholds.
+            </div>
+          </article>
+
+          <article class="phase">
+            <div class="phase-head">
+              <h3>Phase 1 — Fix boundaries and lifecycle</h3>
+              <span class="phase-label">Behavior-preserving refactor</span>
+            </div>
+            <ul>
+              <li>Move shared context creation to <code>audio/context.ts</code> and equal-temperament conversion to <code>audio/pitch-units.ts</code>.</li>
+              <li>Split browser acquisition into <code>MicrophoneSession</code> with explicit states, cancellation, idempotent stop, typed failures, and partial-start cleanup.</li>
+              <li>Add sequence and audio timestamps to observations. Separate <code>raw</code> and <code>filtered</code> pitch fields.</li>
+              <li>Represent rejections with reasons for diagnostics while preserving a simple latest-voiced view for screens.</li>
+              <li>Expire median state by elapsed time and reset it across silence or discontinuity. Add regression tests for old-note carryover and field coherence.</li>
+              <li>Introduce named <code>gameplay</code>, <code>rangeCapture</code>, and <code>tuner</code> policies with current constants as the initial values.</li>
+            </ul>
+            <div class="gate">
+              <strong>Exit gate:</strong> Existing clean-tone behavior remains within the Phase 0
+              baseline, concurrent lifecycle tests leave zero active tracks, and current UI flows
+              retain no-microphone fallback behavior.
+            </div>
+          </article>
+
+          <article class="phase">
+            <div class="phase-head">
+              <h3>Phase 2 — Make time deterministic</h3>
+              <span class="phase-label">Decouple audio from rendering</span>
+            </div>
+            <ul>
+              <li>Implement fixed-hop <code>PcmFrameSource</code> prototypes. Compare analyser polling, worklet-to-worker capture, and browser fallback on the supported matrix.</li>
+              <li>Publish each unique observation to logic once. Let rAF read only the latest state for avatar and tuner rendering.</li>
+              <li>Replace <code>StablePitchCapture.windowFrames</code> and <code>silentFrames</code> with hold and dropout durations measured in audio time.</li>
+              <li>Replace gameplay frame tallies with an interval-based contour or duration-weighted accumulator. Track observed, voiced, matched, and unavailable durations separately.</li>
+              <li>Map each observation’s capture timestamp to the song transport before applying device calibration. Preserve octave folding and current child-friendly score semantics until shadow comparisons are approved.</li>
+              <li>Handle source gaps explicitly so a render or worker stall does not become a silent score penalty.</li>
+            </ul>
+            <div class="gate">
+              <strong>Exit gate:</strong> One recorded observation stream produces the same range
+              lock and note outcomes when the UI is simulated at 30, 60, and 120 Hz. Device CPU and
+              output-audio glitch budgets pass approved thresholds.
+            </div>
+          </article>
+
+          <article class="phase">
+            <div class="phase-head">
+              <h3>Phase 3 — Adapt to device and room</h3>
+              <span class="phase-label">Data-driven signal policy</span>
+            </div>
+            <ul>
+              <li>Compare unprocessed input with browser echo cancellation enabled during gameplay. Select by false-score and vocal-accuracy results, not by assumption.</li>
+              <li>Measure guide-volume changes, cue-only playback, speaker placement, and headphone guidance before implementing reference cancellation.</li>
+              <li>If residual guide leakage remains material, prototype known-reference suppression behind the pipeline interface. Full adaptive cancellation should require a separate DSP design and benchmark.</li>
+              <li>Estimate local noise floor during explicit quiet windows. Tune adaptive level gating and hysteresis against the fixture and device corpus.</li>
+              <li>Tune frequency bounds, clarity use, smoothing, and onset behavior per consumer policy. Preserve current values when evidence does not support a change.</li>
+              <li>Move microphone latency from singer state into device-local audio settings. Store measured calibration separately from detector processing delay.</li>
+            </ul>
+            <div class="gate">
+              <strong>Exit gate:</strong> Playback-only sessions cannot land notes on the supported
+              speaker matrix, vocal fixtures meet approved accuracy gates, and quiet/noisy conditions
+              produce distinguishable local diagnostics.
+            </div>
+          </article>
+
+          <article class="phase">
+            <div class="phase-head">
+              <h3>Phase 4 — Diagnose, roll out, and align documentation</h3>
+              <span class="phase-label">Operational confidence</span>
+            </div>
+            <ul>
+              <li>Extend <code>#/tuner</code> with raw versus filtered pitch, rejection reason, noise floor, actual track settings, analysis cadence, observation age, and device calibration.</li>
+              <li>Add a local diagnostic export containing aggregate metrics and configuration only. The export shall exclude raw PCM and identity data.</li>
+              <li>Run old and new pipelines in local shadow mode against the same PCM during development. Compare observations and note outcomes before switching the active policy.</li>
+              <li>Roll out through a local feature flag with an immediate fallback to the baseline implementation.</li>
+              <li>Revise L2 requirements from fixed implementation constants to approved quality outcomes where appropriate.</li>
+              <li>Update detailed design diagrams and add an ADR for capture cadence, estimator placement, signal policy, and acoustic leakage handling.</li>
+            </ul>
+            <div class="gate">
+              <strong>Exit gate:</strong> The selected pipeline passes the full unit, signal,
+              lifecycle, browser, physical-device, privacy, and fallback gates. Requirements and
+              detailed designs describe the shipped architecture.
+            </div>
+          </article>
+        </div>
+
+        <div class="callout risk">
+          <strong>Changes outside the first slice.</strong>
+          A new detector algorithm, aggressive threshold reduction, clarity-weighted scoring, graded
+          cents scoring, attack discounts, and adaptive echo cancellation all change product behavior.
+          Each should enter through the Phase 0 corpus and a separately approved scoring or DSP change.
+        </div>
+      </section>
+
+      <section id="quality">
+        <p class="section-kicker">08 · Proof</p>
+        <h2>Quality gates and test design</h2>
+        <p class="section-intro">
+          The gates below define evidence categories. Numeric device and vocal thresholds remain
+          <code>&lt;TO SUPPLY&gt;</code> until the baseline report exists.
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Gate</th>
+                <th>Test input</th>
+                <th>Required evidence</th>
+                <th>Initial target</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Estimator accuracy</td>
+                <td>Known-frequency synthetic sweep across the supported singing band.</td>
+                <td>Median and P95 cents error, missing frames, octave errors by pitch and amplitude.</td>
+                <td>No octave errors on clean steady tones; cents threshold <code>&lt;TO SUPPLY&gt;</code>.</td>
+              </tr>
+              <tr>
+                <td>Vocal robustness</td>
+                <td>Annotated legal vocal fixtures with breathiness, vibrato, glides, and attacks.</td>
+                <td>Voiced recall, false voiced rate, cents error, onset/release delay.</td>
+                <td><code>&lt;TO SUPPLY after Phase 0&gt;</code></td>
+              </tr>
+              <tr>
+                <td>Room rejection</td>
+                <td>Silence, speech, TV-like mixtures, fan/rumble, claps, and competing music.</td>
+                <td>False voiced duration and false landed notes.</td>
+                <td>Zero landed notes in no-singer cases; voiced threshold <code>&lt;TO SUPPLY&gt;</code>.</td>
+              </tr>
+              <tr>
+                <td>Speaker isolation</td>
+                <td>TwinkleTune guide playback with no singer, speakers/headphones, volume and distance matrix.</td>
+                <td>Detected contours, target correlation, and note outcomes.</td>
+                <td>Zero landed notes for every supported speaker configuration.</td>
+              </tr>
+              <tr>
+                <td>Render-rate fairness</td>
+                <td>One timestamped observation recording replayed with 30, 60, and 120 Hz UI schedules plus injected stalls.</td>
+                <td>Range lock time, landed flags, timing fields, and summary.</td>
+                <td>Identical logical outcomes; rendering differences do not change evidence.</td>
+              </tr>
+              <tr>
+                <td>Lifecycle safety</td>
+                <td>Concurrent start, stop-during-permission, denial, no-device, busy-device, navigation, repeated sessions.</td>
+                <td>State transitions, rejected promises, active tracks/nodes, post-stop observations.</td>
+                <td>Zero leaked tracks or nodes; stop remains idempotent.</td>
+              </tr>
+              <tr>
+                <td>Latency alignment</td>
+                <td>Timestamped loopback or calibrated reference on each supported device class.</td>
+                <td>Capture-to-transport alignment distribution and score-boundary errors.</td>
+                <td><code>&lt;TO SUPPLY after device baseline&gt;</code></td>
+              </tr>
+              <tr>
+                <td>Performance</td>
+                <td>Long gameplay with reactive scene, estimator load, thermal and background pressure.</td>
+                <td>Estimator CPU P50/P95, observation gaps, UI frame time, output underruns.</td>
+                <td><code>&lt;TO SUPPLY per baseline device&gt;</code></td>
+              </tr>
+              <tr>
+                <td>Privacy</td>
+                <td>Network and storage inspection during detection and diagnostic export.</td>
+                <td>No raw audio request payload, cache entry, IndexedDB record, localStorage value, or diagnostic file.</td>
+                <td>Zero raw-audio persistence or transmission.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Recommended automated test layers</h3>
+        <div class="grid three">
+          <article class="card">
+            <span class="pill fact">Fast</span>
+            <h3>Pure signal tests</h3>
+            <p>Node/Vitest runs PCM generators and fixture clips through estimator, gate, filter, range policy, and score integration without Web Audio globals.</p>
+          </article>
+          <article class="card">
+            <span class="pill fact">Browser</span>
+            <h3>Adapter and lifecycle tests</h3>
+            <p>Playwright validates permission states, actual Web Audio graph behavior, fixed-hop delivery, navigation cleanup, and no-mic fallback.</p>
+          </article>
+          <article class="card">
+            <span class="pill measure">Physical</span>
+            <h3>Device qualification</h3>
+            <p>A repeatable manual harness records aggregate results for supported tablets, phones, and laptops in speaker and headphone modes.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="traceability">
+        <p class="section-kicker">09 · Requirements</p>
+        <h2>Impact and traceability</h2>
+        <p class="section-intro">
+          The plan preserves approved capability identifiers. Phase 4 should revise detailed wording
+          only after quality targets and target architecture are approved.
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Requirement</th>
+                <th>Current concern</th>
+                <th>Plan response</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>AE-L1-4</code><br><code>AE-L2-10</code>, <code>AE-L2-13</code></td>
+                <td>Real-time reporting has no timestamp. Raw Hz and filtered MIDI may disagree.</td>
+                <td>Timestamped, sequenced observations with explicit raw and filtered fields; pure estimator baseline.</td>
+              </tr>
+              <tr>
+                <td><code>AE-L1-5</code><br><code>AE-L2-11</code>, <code>AE-L2-12</code></td>
+                <td>Noise robustness is represented by fixed constants without room/device outcome tests.</td>
+                <td>Noise corpus, physical controls, observable rejection reasons, then evidence-backed policy tuning.</td>
+              </tr>
+              <tr>
+                <td><code>AE-L1-6</code><br><code>AE-L2-14…16</code></td>
+                <td>Pending acquisition cannot be cancelled; errors are not classified; partial-start cleanup is untested.</td>
+                <td>Stateful <code>MicrophoneSession</code>, abort, typed failures, idempotent disposal, stress tests.</td>
+              </tr>
+              <tr>
+                <td><code>AE-L1-7</code><br><code>AE-L2-17</code></td>
+                <td>The tuner lacks enough information to explain rejection, cadence, or processing delay.</td>
+                <td>Raw/filtered values, actual constraints, gate reasons, cadence, age, noise floor, and local metric export.</td>
+              </tr>
+              <tr>
+                <td><code>VP-L1-4</code><br><code>VP-L2-3</code>, <code>VP-L2-4</code></td>
+                <td>Stable hold and dropout tolerance are display-frame counts.</td>
+                <td>Audio-time duration policy with percentile stability and explicit discontinuities.</td>
+              </tr>
+              <tr>
+                <td><code>SG-L1-4</code><br><code>SG-L2-9</code>, <code>SG-L2-10</code></td>
+                <td>Score evidence counts render iterations and treats missing/rejected audio as one undifferentiated state.</td>
+                <td>Unique observation stream and duration/contour integration with observed, voiced, matched, and unavailable states.</td>
+              </tr>
+              <tr>
+                <td><code>SG-L1-8</code><br><code>SG-L2-19</code></td>
+                <td>One manual offset compensates poll-time data without a capture timestamp or explicit pipeline delay.</td>
+                <td>Audio-time mapping plus separately owned device calibration.</td>
+              </tr>
+              <tr>
+                <td><code>SR-L1-1…2</code><br><code>SR-L2-1…2</code></td>
+                <td>Octave folding is sound; the three-frame minimum and frame ratio inherit display cadence.</td>
+                <td>Preserve <code>foldCents</code>; express the landed decision over time-based evidence after shadow comparison.</td>
+              </tr>
+              <tr>
+                <td><code>GC-L1-3</code><br><code>GC-L2-4</code></td>
+                <td>Latency is described as device-local but stored inside each singer’s profile namespace.</td>
+                <td>Move calibration to device audio settings and retain the grown-up override.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="decisions">
+        <p class="section-kicker">10 · Decision log</p>
+        <h2>Open decisions</h2>
+        <p class="section-intro">
+          These choices affect architecture or product behavior. Phase 0 supplies the evidence for
+          each decision.
+        </p>
+
+        <div class="decision-grid">
+          <article class="decision-card">
+            <span class="status">Decide after benchmark</span>
+            <h3>PCM capture implementation</h3>
+            <p>
+              Compare current analyser polling with an <code>AudioWorklet</code> capture adapter and
+              worker estimation. The selected implementation should meet cadence, CPU, output-audio,
+              and browser-fallback gates.
+            </p>
+          </article>
+          <article class="decision-card">
+            <span class="status">Decide after bleed test</span>
+            <h3>Speaker leakage strategy</h3>
+            <p>
+              Compare browser echo cancellation, guide mix changes, cue-only output, headphone
+              guidance, and known-reference processing. The smallest strategy that passes the
+              playback-only gate should ship first.
+            </p>
+          </article>
+          <article class="decision-card">
+            <span class="status">Decide with product</span>
+            <h3>Supported device matrix</h3>
+            <p>
+              Browser and device support is not stated as a verifiable requirement. The matrix should
+              name the minimum browser, operating system, and representative low-end device used for
+              quality and performance gates.
+            </p>
+          </article>
+          <article class="decision-card">
+            <span class="status">Decide with privacy review</span>
+            <h3>Human vocal fixtures</h3>
+            <p>
+              The corpus should use licensed or consented recordings with defined provenance,
+              retention, and access. Synthetic audio alone cannot qualify human singing, while child
+              audio requires added safeguards.
+            </p>
+          </article>
+          <article class="decision-card">
+            <span class="status">Separate product change</span>
+            <h3>Scoring semantics</h3>
+            <p>
+              Time-based evidence removes display dependence without requiring graded cents credit,
+              attack discounts, or clarity weighting. Those changes should receive separate
+              acceptance criteria and child-experience validation.
+            </p>
+          </article>
+          <article class="decision-card">
+            <span class="status">Decide after timing baseline</span>
+            <h3>Calibration experience</h3>
+            <p>
+              The architecture should separate output, capture, analysis, and manual calibration
+              terms. An automatic sound check may replace the zero default only after device
+              measurements establish a safe method.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="sources">
+        <p class="section-kicker">11 · Evidence</p>
+        <h2>Evidence index</h2>
+        <p class="section-intro">
+          Source files are the authority for current behavior. Specifications define approved intent.
+          Existing detailed designs supplied the documented architecture baseline.
+        </p>
+
+        <h3>Implementation</h3>
+        <div class="source-list">
+          <div class="source">
+            <a href="../frontend/src/audio/pitch.ts">frontend/src/audio/pitch.ts</a>
+            <span>Acquisition, 2048-sample analyser, MPM, gates, median history, cleanup.</span>
+          </div>
+          <div class="source">
+            <a href="../frontend/src/audio/range.ts">frontend/src/audio/range.ts</a>
+            <span>Pitch units, shift computation, 40-frame stable capture, dropout handling.</span>
+          </div>
+          <div class="source">
+            <a href="../frontend/src/audio/player.ts">frontend/src/audio/player.ts</a>
+            <span>Shared context, synthesized guide output, audio transport clock.</span>
+          </div>
+          <div class="source">
+            <a href="../frontend/src/screens/sing.ts">frontend/src/screens/sing.ts</a>
+            <span>rAF polling, latency beat, pitch display, frame tally, note finalization.</span>
+          </div>
+          <div class="source">
+            <a href="../frontend/src/screens/voice-setup.ts">frontend/src/screens/voice-setup.ts</a>
+            <span>Range-capture loop, ladder, low/high guard, denial handling.</span>
+          </div>
+          <div class="source">
+            <a href="../frontend/src/screens/tuner.ts">frontend/src/screens/tuner.ts</a>
+            <span>Raw Hz/clarity/RMS and filtered MIDI display.</span>
+          </div>
+          <div class="source">
+            <a href="../frontend/src/state/scoring.ts">frontend/src/state/scoring.ts</a>
+            <span>Octave folding, ±50 cents tolerance, three-frame and majority rule.</span>
+          </div>
+          <div class="source">
+            <a href="../frontend/src/state/store.ts">frontend/src/state/store.ts</a>
+            <span>Singer-namespaced <code>Profile.latencyMs</code> persistence.</span>
+          </div>
+        </div>
+
+        <h3>Tests and fixtures</h3>
+        <div class="source-list">
+          <div class="source">
+            <a href="../frontend/src/audio/range.test.ts">frontend/src/audio/range.test.ts</a>
+            <span>Stable capture and range math after MIDI values are supplied.</span>
+          </div>
+          <div class="source">
+            <a href="../frontend/src/state/scoring.test.ts">frontend/src/state/scoring.test.ts</a>
+            <span>Octave folding, note landing, and summaries after pitch comparisons.</span>
+          </div>
+          <div class="source">
+            <a href="../e2e/fixtures/fake-mic.ts">e2e/fixtures/fake-mic.ts</a>
+            <span>Clean Web Audio oscillator, retune, mute, and denial.</span>
+          </div>
+          <div class="source">
+            <a href="../e2e/playwright.config.ts">e2e/playwright.config.ts</a>
+            <span>Real-time rAF starvation note, 2-worker limit, muted browser output.</span>
+          </div>
+          <div class="source">
+            <a href="../e2e/tests/voice-setup.spec.ts">e2e/tests/voice-setup.spec.ts</a>
+            <span>Low/high capture and denial flows.</span>
+          </div>
+          <div class="source">
+            <a href="../e2e/tests/sing.spec.ts">e2e/tests/sing.spec.ts</a>
+            <span>Clean-tone scoring and no-microphone play.</span>
+          </div>
+        </div>
+
+        <h3>Requirements and current designs</h3>
+        <div class="source-list">
+          <div class="source">
+            <a href="specs/audio-engine/L1.md">docs/specs/audio-engine/L1.md</a>
+            <span><code>AE-L1-4…7</code> capability and quality intent.</span>
+          </div>
+          <div class="source">
+            <a href="specs/audio-engine/L2.md">docs/specs/audio-engine/L2.md</a>
+            <span><code>AE-L2-10…17</code> shipped constants and acceptance criteria.</span>
+          </div>
+          <div class="source">
+            <a href="specs/voice-personalization/L2.md">docs/specs/voice-personalization/L2.md</a>
+            <span>Stable hold, dropouts, range separation, fallback.</span>
+          </div>
+          <div class="source">
+            <a href="specs/singing-gameplay/L2.md">docs/specs/singing-gameplay/L2.md</a>
+            <span>Frame accumulation, note finalization, latency compensation.</span>
+          </div>
+          <div class="source">
+            <a href="specs/scoring-and-results/L2.md">docs/specs/scoring-and-results/L2.md</a>
+            <span>Octave fold and landed-note rule.</span>
+          </div>
+          <div class="source">
+            <a href="detailed-designs/audio-engine/detect-pitch/README.md">docs/detailed-designs/audio-engine/detect-pitch/README.md</a>
+            <span>Current documented detector component and sequence.</span>
+          </div>
+          <div class="source">
+            <a href="detailed-designs/singing-gameplay/capture-and-score-notes/README.md">docs/detailed-designs/singing-gameplay/capture-and-score-notes/README.md</a>
+            <span>Current gameplay capture and score integration.</span>
+          </div>
+          <div class="source">
+            <a href="singing-detection-accuracy.md">docs/singing-detection-accuracy.md</a>
+            <span>Related working investigation reviewed as supporting context; code and specs remain authoritative.</span>
+          </div>
+        </div>
+
+        <details>
+          <summary>Validation record for this assessment</summary>
+          <ul class="check-list">
+            <li><code>npm test</code> in <code>frontend</code>: 6 files and 76 tests passed.</li>
+            <li><code>npm run build</code> in <code>frontend</code>: TypeScript and Vite completed successfully.</li>
+            <li>Focused Playwright command for voice setup, tuner, and singing exceeded the 180 s local command limit and did not provide a completion result.</li>
+            <li>The worktree contained <code>docs/singing-detection-accuracy.md</code> as an untracked related document when final validation ran. This HTML assessment did not modify it.</li>
+          </ul>
+        </details>
+      </section>
+
+      <footer>
+        TwinkleTune pitch-detection architecture assessment · 2026-07-25 · baseline
+        <code>cccc978</code>. This plan proposes changes; the current approved requirements remain
+        authoritative until revised through the repository’s specification process.
+      </footer>
+    </main>
+  </div>
+</body>
+</html>
