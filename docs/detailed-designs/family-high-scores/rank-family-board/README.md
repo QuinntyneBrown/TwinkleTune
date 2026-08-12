@@ -65,7 +65,7 @@ Backend — infrastructure
 - **`HighScoreRepository.GetForSingerAsync`** — the same shape filtered by
   `SingerId`.
 
-Frontend — REST client (`frontend/src/api/client.ts`):
+Frontend — REST client (`frontend/apps/game/src/api/client.ts`):
 
 - **`api.highscores.forSong`** — `GET /api/songs/${songId}/highscores` resolving
   `ApiHighScore[]`.

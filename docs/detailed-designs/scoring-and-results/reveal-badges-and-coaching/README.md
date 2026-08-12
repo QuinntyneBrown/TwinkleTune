@@ -35,8 +35,8 @@ The terms below are used throughout.
 Both elements are composed inside `renderResults` from state written at the end
 of the performance. No server participates.
 
-Frontend — badge reveal (`frontend/src/screens/results.ts`,
-`frontend/src/state/badges.ts`):
+Frontend — badge reveal (`frontend/apps/game/src/screens/results.ts`,
+`frontend/apps/game/src/state/badges.ts`):
 
 - **`badgeChips`** — maps `state.lastNewBadges` through `badgeById`, drops the ids
   that resolve to nothing, and renders one `div.badge-toast` per badge reading
@@ -50,7 +50,7 @@ Frontend — badge reveal (`frontend/src/screens/results.ts`,
 - **`state.lastNewBadges`** — the ids `recordPlay` wrote for this play, empty when
   the play earned nothing new; a badge already held is never re-announced.
 
-Frontend — coach message (`frontend/src/screens/results.ts`):
+Frontend — coach message (`frontend/apps/game/src/screens/results.ts`):
 
 - **`coachText`** — selected in one chain: a no-mic run invites a scored run
   ("Want to sing it again with Twinkle listening?"); otherwise a present

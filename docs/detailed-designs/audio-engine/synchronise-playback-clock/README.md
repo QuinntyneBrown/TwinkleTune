@@ -31,7 +31,7 @@ The terms below are used throughout.
 
 ## Description
 
-The feature is a frontend-only slice inside `frontend/src/audio/player.ts`. No
+The feature is a frontend-only slice inside `frontend/packages/audio-engine/src/player.ts`. No
 server participates. The relevant members of `SongPlayer` are:
 
 - **`currentBeat()`** — method returning the position in beats relative to the

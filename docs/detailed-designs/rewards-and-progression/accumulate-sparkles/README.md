@@ -30,7 +30,7 @@ to the next level.
 
 ## Description
 
-Frontend — reward state (`frontend/src/state/store.ts`):
+Frontend — reward state (`frontend/apps/game/src/state/store.ts`):
 
 - **`AppState.sparkles`** — running total, initialised to `0` by `emptyState()`
   and only ever incremented.
@@ -47,25 +47,25 @@ Frontend — reward state (`frontend/src/state/store.ts`):
 - **`Store.reset()`** — replaces the state with `emptyState()` and removes the
   storage key, returning the total to `0`.
 
-Frontend — scoring input (`frontend/src/state/scoring.ts`):
+Frontend — scoring input (`frontend/apps/game/src/state/scoring.ts`):
 
 - **`SongSummary.sparkles`** — per-play award computed by `summarize` as
   `landed * 10`. RP consumes this value and does not recompute it.
 
-Frontend — tips (`frontend/src/screens/tips.ts`):
+Frontend — tips (`frontend/apps/game/src/screens/tips.ts`):
 
 - **`openTip`** — the `I did it! ✨` handler runs `store.update((s) => { s.sparkles += 5 })`
   and raises the `+5 sparkles ✨` toast.
 
 Frontend — readouts:
 
-- **`renderHome`** (`frontend/src/screens/home.ts`) — computes `lvl = level(s.sparkles)`
+- **`renderHome`** (`frontend/apps/game/src/screens/home.ts`) — computes `lvl = level(s.sparkles)`
   and prints `Level ${lvl} ${levelTitle(lvl)}` under the greeting.
-- **`renderMe`** (`frontend/src/screens/me.ts`) — computes `lvl`,
+- **`renderMe`** (`frontend/apps/game/src/screens/me.ts`) — computes `lvl`,
   `toNext = sparklesToNextLevel(s.sparkles)`, and
   `xpPct = Math.round(((s.sparkles % 300) / 300) * 100)` for the XP bar.
 
-Frontend — reset (`frontend/src/ui/settings.ts`):
+Frontend — reset (`frontend/apps/game/src/ui/settings.ts`):
 
 - **`showSettings`** — the confirmed `Yes, erase everything` action calls
   `store.reset()`, the only path that lowers the sparkle total.

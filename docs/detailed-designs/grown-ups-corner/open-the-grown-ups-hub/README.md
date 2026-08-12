@@ -30,7 +30,7 @@ copy each have their own feature; this one covers the container that holds them.
 
 ## Description
 
-The feature is a frontend-only slice in `frontend/src/ui/settings.ts`, using the
+The feature is a frontend-only slice in `frontend/apps/game/src/ui/settings.ts`, using the
 modal host from `ui/modal.ts`, the range formatter from `audio/range.ts`, and the
 two manager entry points from `ui/managers.ts`.
 
@@ -40,7 +40,7 @@ two manager entry points from `ui/managers.ts`.
 - **`rangeLabel`** — computed as
   `` `${midiToName(profile.range.low)} – ${midiToName(profile.range.high)}` ``
   when `profile.range` is present, and the literal `not set yet` otherwise.
-- **`midiToName(midi)`** — helper from `frontend/src/audio/range.ts` that renders
+- **`midiToName(midi)`** — helper from `frontend/packages/audio-engine/src/range.ts` that renders
   a MIDI note number as a note name.
 - **hub composition** — five `.setting-row` blocks plus the danger-zone button,
   in fixed order: mic timing offset (`[data-latency]` with
@@ -59,7 +59,7 @@ two manager entry points from `ui/managers.ts`.
   the hub. Its sub-label shows `rangeLabel`.
 - **profiles shortcut** — the "Manage" control is an `<a>` with
   `href="#/profiles"`, wired to the same close-on-click behaviour.
-- **`store`** — the app store from `frontend/src/state/store.ts`. `showSettings`
+- **`store`** — the app store from `frontend/apps/game/src/state/store.ts`. `showSettings`
   reads `store.get().profile` for the slider value and the range label.
 - **`showModal` / `ModalHandle`** — modal host from `ui/modal.ts`; the hub is
   dismissible, so a backdrop click also closes it.

@@ -30,7 +30,7 @@ opponent overlay on the other device. Nothing about a tick is stored.
 
 ## Description
 
-Frontend — singing screen (`frontend/src/screens/sing.ts`):
+Frontend — singing screen (`frontend/apps/game/src/screens/sing.ts`):
 
 - **`finalizeNotesUpTo(beat)`** — advances `finalizedUpTo` past every note whose
   window has elapsed. For each note it updates `landedCount` and the streak, then
@@ -48,7 +48,7 @@ Frontend — singing screen (`frontend/src/screens/sing.ts`):
 - **`[data-opponent]`** — the `span.opponent-chip` in the stage markup, hidden
   outside duet mode.
 
-Frontend — duet API adapter (`frontend/src/api/duet.ts`):
+Frontend — duet API adapter (`frontend/apps/game/src/api/duet.ts`):
 
 - **`DuetClient.sendTick(tick)`** — invokes `ScoreTick` and attaches
   `.catch(() => {})`, so a failed tick is swallowed and never interrupts the

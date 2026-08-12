@@ -36,7 +36,7 @@ The terms below are used throughout.
 
 ## Description
 
-The feature is a frontend-only slice inside `frontend/src/audio/player.ts`, with
+The feature is a frontend-only slice inside `frontend/packages/audio-engine/src/player.ts`, with
 one helper from `range.ts`. No server participates.
 
 - **`SongPlayer`** — class that schedules a song's count-in and melody.

@@ -30,7 +30,7 @@ The terms below are used throughout.
 
 ## Description
 
-Frontend — progress screen (`frontend/src/screens/me.ts`):
+Frontend — progress screen (`frontend/apps/game/src/screens/me.ts`):
 
 - **`renderMe(root)`** — the whole screen. It reads `store.get()` once and derives
   everything from that snapshot.

@@ -24,7 +24,7 @@ already on the page; no network request is made to filter.
 
 ## Description
 
-Frontend — TwinkleTune web app (`frontend/src/screens/songs.ts`):
+Frontend — TwinkleTune web app (`frontend/apps/game/src/screens/songs.ts`):
 
 - **`renderSongs`** — builds the screen: a chip row (`data-filter` values 0–3,
   where 0 is All) and a list container. It paints `currentSongs()` first, then
@@ -40,12 +40,12 @@ Frontend — TwinkleTune web app (`frontend/src/screens/songs.ts`):
   (`aria-selected`), and re-applies the visibility rule to the existing
   `.song` cards — no re-fetch.
 
-Frontend — derived helpers (`frontend/src/songs/types.ts`):
+Frontend — derived helpers (`frontend/apps/game/src/songs/types.ts`):
 
 - **`songSeconds`** — length in seconds from note data, feeding `fmtDuration`.
 - **`difficultyLabel`** — the star-prefixed label shown on each card.
 
-Frontend — songbook source (`frontend/src/songs/repo.ts`):
+Frontend — songbook source (`frontend/apps/game/src/songs/repo.ts`):
 
 - **`currentSongs`** — supplies the list the screen renders; its resolution is
   covered by the resolve-songbook feature.

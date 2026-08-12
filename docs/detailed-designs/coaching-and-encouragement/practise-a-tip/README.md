@@ -34,9 +34,9 @@ The terms below are used throughout.
 
 ## Description
 
-The feature spans `frontend/src/screens/tips.ts` (screen and dialog),
-`frontend/src/screens/tips-data.ts` (content), `frontend/src/ui/modal.ts`
-(dialog and toast host), and `frontend/src/state/store.ts` (sparkle balance). No
+The feature spans `frontend/apps/game/src/screens/tips.ts` (screen and dialog),
+`frontend/apps/game/src/screens/tips-data.ts` (content), `frontend/apps/game/src/ui/modal.ts`
+(dialog and toast host), and `frontend/apps/game/src/state/store.ts` (sparkle balance). No
 server participates; the content is compiled into the bundle.
 
 - **`Tip`** — interface in `tips-data.ts` with `id`, `title`, `short`, `icon`,

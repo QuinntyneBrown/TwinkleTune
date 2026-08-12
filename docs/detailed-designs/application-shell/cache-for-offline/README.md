@@ -48,8 +48,8 @@ and either may hold without the other.
 
 ## Description
 
-The feature is realized by `frontend/public/sw.js` and one registration block in
-`frontend/src/main.ts`. No server logic participates.
+The feature is realized by `frontend/apps/game/public/sw.js` and one registration block in
+`frontend/apps/game/src/main.ts`. No server logic participates.
 
 - **`CACHE`** — the module constant naming the cache generation, `'twinkletune-v2'`.
   Changing this string is what retires the previous generation.
@@ -74,7 +74,7 @@ The feature is realized by `frontend/public/sw.js` and one registration block in
   cached response on rejection. The handler answers with `cached || refresh`, so a
   cached entry is served immediately and an uncached request waits on the network.
 - **Registration block** — the guard `if ('serviceWorker' in navigator &&
-  import.meta.env.PROD)` in `frontend/src/main.ts`. It registers inside a `load`
+  import.meta.env.PROD)` in `frontend/apps/game/src/main.ts`. It registers inside a `load`
   listener, calls `navigator.serviceWorker.register('./sw.js')` with a relative
   path, and attaches a `.catch()` whose body is empty apart from the comment that
   offline support is a bonus and never an error.

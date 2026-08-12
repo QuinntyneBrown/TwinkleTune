@@ -39,10 +39,10 @@ tick, whose relay is owned by Duet Multiplayer.
 ## Description
 
 Capture and scoring live in the `loop()` and `finalizeNotesUpTo()` functions of
-`frontend/src/screens/sing.ts`, over the `results` array of `NoteResult`.
+`frontend/apps/game/src/screens/sing.ts`, over the `results` array of `NoteResult`.
 
 - **`results`** — one `NoteResult` per `windowNotes` entry, holding `hitFrames`,
-  `totalFrames`, and `firstHitFrac` (from `frontend/src/state/scoring.ts`).
+  `totalFrames`, and `firstHitFrac` (from `frontend/apps/game/src/state/scoring.ts`).
 - **`latencyBeats` / `scoreBeat`** — `latencyBeats = (profile.latencyMs / 1000) /
   player.secondsPerBeat()`; `scoreBeat = beat - latencyBeats`. Visuals use `beat`;
   scoring uses `scoreBeat`.
@@ -63,7 +63,7 @@ Capture and scoring live in the `loop()` and `finalizeNotesUpTo()` functions of
   `landedCount * 10`. On a missed note, `setStreak(0)`; no negative message shows.
 - **`duet?.client.sendTick(...)`** — after each finalised note, one `DuetTick`
   (`{ landed, streak, sparkles, noteIdx }`) is sent through the `DuetClient`
-  (`frontend/src/api/duet.ts`). `sendTick` swallows delivery errors so play
+  (`frontend/apps/game/src/api/duet.ts`). `sendTick` swallows delivery errors so play
   continues.
 
 ## Requirements

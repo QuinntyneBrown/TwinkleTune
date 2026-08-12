@@ -34,7 +34,7 @@ The terms below are used throughout.
 
 ## Description
 
-The feature is a frontend-only slice inside `frontend/src/audio/pitch.ts`, with
+The feature is a frontend-only slice inside `frontend/packages/audio-engine/src/pitch.ts`, with
 one helper from `range.ts` and the `pitchy` library. No server participates.
 
 - **`PitchTracker`** — class that owns the microphone and analysis graph.

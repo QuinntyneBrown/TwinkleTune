@@ -31,9 +31,9 @@ The terms below are used throughout.
 
 ## Description
 
-The feature lives entirely in `frontend/src/screens/sing.ts`, with the animation
-in `frontend/src/styles/screens.css` and the landed-note decision in
-`frontend/src/state/scoring.ts`. No server participates.
+The feature lives entirely in `frontend/apps/game/src/screens/sing.ts`, with the animation
+in `frontend/apps/game/src/styles/screens.css` and the landed-note decision in
+`frontend/apps/game/src/state/scoring.ts`. No server participates.
 
 - **`CHEERS`** — module-level array of 5 strings:
   `'Perfect! ✨'`, `'Great! 🌟'`, `'Yes! 💙'`, `'Sparkly! ✨'`, `'Wow! 🎉'`. Every
@@ -65,7 +65,7 @@ in `frontend/src/styles/screens.css` and the landed-note decision in
   streak, adds the `hit` class to the note pill, and calls `cheerPop()`. On an
   unlanded note it calls `setStreak(0)` and nothing else — no element is created
   and no text is written.
-- **`noteLanded(r, minFrames = 3)`** (`frontend/src/state/scoring.ts`) — predicate
+- **`noteLanded(r, minFrames = 3)`** (`frontend/apps/game/src/state/scoring.ts`) — predicate
   deciding whether a note counts as landed.
 - **`noMic`** — flag set when the child plays without a microphone. While `noMic`
   is true the whole landed/unlanded branch is skipped, so a no-microphone session

@@ -30,11 +30,11 @@ The terms below are used throughout.
 
 ## Description
 
-The feature is frontend-only. The artwork lives in `frontend/src/ui/parts.ts`
+The feature is frontend-only. The artwork lives in `frontend/apps/game/src/ui/parts.ts`
 and each screen module composes it with its own bubble copy. No server
 participates.
 
-- **`mascotSVG(cls, happy)`** — function in `frontend/src/ui/parts.ts` returning
+- **`mascotSVG(cls, happy)`** — function in `frontend/apps/game/src/ui/parts.ts` returning
   the mascot markup as an HTML string. `cls` defaults to `'mascot'`; `happy`
   defaults to `false`. The returned `<svg>` carries `viewBox="0 0 120 120"` and
   `aria-hidden="true"`, so the mascot is decorative to assistive technology.
@@ -52,25 +52,25 @@ participates.
   `mascotSVG('mascot pop', true)` for the celebratory portrait and
   `mascotSVG('mascot mascot-sm')` for the coach row beneath it.
 - **`.coach` / `.bubble` / `.bubble-left`** — classes in
-  `frontend/src/styles/screens.css` and `frontend/src/styles/twinkle.css`.
+  `frontend/apps/game/src/styles/screens.css` and `frontend/apps/game/src/styles/twinkle.css`.
   `.coach` is a flex row with a 14 px gap; `.coach .bubble` takes the remaining
   width; `.bubble-left::after` draws the tail.
-- **`renderWelcome`** (`frontend/src/screens/welcome.ts`) — renders a large
+- **`renderWelcome`** (`frontend/apps/game/src/screens/welcome.ts`) — renders a large
   mascot plus the bubble `Hi! I'm Twinkle, your singing buddy. What should I call
   you?`.
-- **`renderHome`** (`frontend/src/screens/home.ts`) — computes `bubbleText` from
+- **`renderHome`** (`frontend/apps/game/src/screens/home.ts`) — computes `bubbleText` from
   `profile.range`: with a captured range it reads `Your songs are tuned and ready.
   Let's make today sparkle! ✨`; without one it reads `Shall we find your voice
   first? Then every song fits YOU! 💙`, steering the child toward voice setup.
-- **`renderVoiceSetup`** (`frontend/src/screens/voice-setup.ts`) — holds the
+- **`renderVoiceSetup`** (`frontend/apps/game/src/screens/voice-setup.ts`) — holds the
   bubble in `[data-bubble]` and rewrites it as the game advances, from the
   opening invitation to `Sing your lowest comfy note…` and then `Beautiful! Now
   squeak up high like a baby bird…`.
-- **`coachEl`** (`frontend/src/screens/sing.ts`, `[data-coach]`) — the in-song
+- **`coachEl`** (`frontend/apps/game/src/screens/sing.ts`, `[data-coach]`) — the in-song
   bubble, seeded with `Take a big balloon breath… 🎈`.
-- **`renderTips`** (`frontend/src/screens/tips.ts`) — pairs a small mascot with
+- **`renderTips`** (`frontend/apps/game/src/screens/tips.ts`) — pairs a small mascot with
   `Every great singer started exactly where you are! 💙`.
-- **`renderResults`** (`frontend/src/screens/results.ts`) — renders the happy
+- **`renderResults`** (`frontend/apps/game/src/screens/results.ts`) — renders the happy
   mascot above the headline and a `.result-coach` row whose bubble carries
   `coachText`, or the duet line `What a duet! Singing together is the best magic.
   💙`.

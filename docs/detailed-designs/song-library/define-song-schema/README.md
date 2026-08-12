@@ -31,7 +31,7 @@ The schema lives in the frontend as TypeScript interfaces and in the backend as
 C# records and one entity, with a mapping layer that proves the two are the same
 shape.
 
-Frontend — TwinkleTune web app (`frontend/src/songs/types.ts`):
+Frontend — TwinkleTune web app (`frontend/apps/game/src/songs/types.ts`):
 
 - **`SongNote`** — interface with `midi`, `start`, `dur`, and `syll`. `midi` is
   the pitch at the base key (60 = C4); `start` and `dur` are in beats.
@@ -69,7 +69,7 @@ Backend — Family Server, Infrastructure
   `ValueComparer` over the serialized form drives change tracking.
 
 Frontend — mapping across the boundary
-(`frontend/src/songs/repo.ts`, `frontend/src/api/client.ts`):
+(`frontend/apps/game/src/songs/repo.ts`, `frontend/apps/game/src/api/client.ts`):
 
 - **`ApiSong`** / **`ApiSongPhrase`** / **`ApiSongNote`** — TypeScript types for
   the server response, structurally equal to `Song` aside from the server-only

@@ -36,8 +36,8 @@ covered separately by [Transition Between Views](../transition-between-views/REA
 
 ## Description
 
-The feature lives entirely in `frontend/src/main.ts`, with the profile read from
-`frontend/src/state/store.ts`. No server participates.
+The feature lives entirely in `frontend/apps/game/src/main.ts`, with the profile read from
+`frontend/apps/game/src/state/store.ts`. No server participates.
 
 - **`routes`** — `Record<string, ScreenRenderer>` holding the eleven known route
   names: `welcome`, `voice`, `home`, `songs`, `sing`, `results`, `tips`, `me`,

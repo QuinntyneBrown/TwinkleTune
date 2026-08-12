@@ -31,8 +31,8 @@ and its survival is what the confirmation copy is careful not to overstate.
 
 ## Description
 
-The slice spans the hub in `frontend/src/ui/settings.ts`, the store in
-`frontend/src/state/store.ts`, and the hash router's welcome route. No server
+The slice spans the hub in `frontend/apps/game/src/ui/settings.ts`, the store in
+`frontend/apps/game/src/state/store.ts`, and the hash router's welcome route. No server
 call takes part.
 
 - **`[data-reset]` button** — the danger-zone control labelled "Start everything

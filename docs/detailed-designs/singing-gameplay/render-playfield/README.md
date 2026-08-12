@@ -36,7 +36,7 @@ the Audio Engine's `SongPlayer` and draws to the DOM, with no server involved.
 
 ## Description
 
-The feature is realized by the `renderSing` module in `frontend/src/screens/sing.ts`.
+The feature is realized by the `renderSing` module in `frontend/apps/game/src/screens/sing.ts`.
 
 - **`renderSing(root, params)`** — entry function. It resolves the song with
   `getSongById`, redirects to `#/songs` when the song is missing, builds the
@@ -62,7 +62,7 @@ The feature is realized by the `renderSing` module in `frontend/src/screens/sing
 - **`loop()`** — the render loop. Each frame it reads `player.currentBeat()`, sets
   `track.style.transform = translateX(markerX() - beat * PX_PER_BEAT)`, updates the
   count-in overlay, and sets the progress-bar width.
-- **`SongPlayer`** (`frontend/src/audio/player.ts`) — the consumed Audio Engine
+- **`SongPlayer`** (`frontend/packages/audio-engine/src/player.ts`) — the consumed Audio Engine
   playback voice. `currentBeat()` supplies the beat clock (negative during the
   count-in) and `start(song, opts)` begins playback with a `countInBeats` option.
 - **`countdown`** (`[data-countdown]`) — the overlay element. It shows

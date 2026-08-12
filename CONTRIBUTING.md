@@ -35,7 +35,7 @@ TwinkleTune is built for young kids. Keep these in mind for any change:
 
 ## Adding songs
 
-Songs are hand-encoded note data, not recordings, in `frontend/src/songs/`.
+Songs are hand-encoded note data, not recordings, in `frontend/apps/game/src/songs/`.
 Only **public-domain** melodies can be accepted — please note the song's
 provenance in your pull request.
 
@@ -43,8 +43,8 @@ provenance in your pull request.
 
 1. Fork the repo and create a branch from `main`.
 2. Keep changes focused — one feature or fix per pull request.
-3. Add or update unit tests for anything in `src/audio/`, `src/songs/`, or
-   `src/state/`.
+3. Add or update unit tests for anything in `packages/audio-engine/`,
+   `apps/game/src/songs/`, or `apps/game/src/state/`.
 4. Make sure `npm test` and `npm run build` pass.
 5. Open the pull request with a short description of what changed and why.
 

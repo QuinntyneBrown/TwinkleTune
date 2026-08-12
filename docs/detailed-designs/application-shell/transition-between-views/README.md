@@ -31,9 +31,9 @@ The terms below are used throughout.
 
 ## Description
 
-The feature is realized by `frontend/src/ui/view-transition.ts`, the call site in
-`frontend/src/main.ts`, and the pseudo-element rules in
-`frontend/src/styles/twinkle.css`.
+The feature is realized by `frontend/apps/game/src/ui/view-transition.ts`, the call site in
+`frontend/apps/game/src/main.ts`, and the pseudo-element rules in
+`frontend/apps/game/src/styles/twinkle.css`.
 
 - **`updateWithViewTransition(update, enabled)`** — the exported function. It reads
   `document.startViewTransition` through a narrowing cast and, when `enabled` is

@@ -21,14 +21,18 @@ The seeded songs are seven hand-encoded **public-domain** melodies: Twinkle Twin
 ## Repository layout
 
 ```
-frontend/        The app — Vite + TypeScript, no framework
-  src/audio/     Web Audio synth player, mic pitch tracker, voice-range math
-  src/songs/     Song schema + bundled catalog + server songbook w/ offline cache
-  src/state/     per-profile localStorage store, octave-folded scoring, badges
-  src/screens/   One module per screen (incl. profiles picker + duet lobby)
-  src/api/       REST client + SignalR duet client
-  src/ui/        Shared parts: mascot, modals, toasts, managers, bottom nav
-  public/        PWA manifest, icons, service worker
+frontend/        npm-workspaces monorepo — Vite + TypeScript, no framework
+  packages/audio-engine/   The audio engine as a library: Web Audio synth
+                           player, mic pitch tracker, voice-range math, song model
+  apps/game/               The app itself
+    src/songs/             Song schema + bundled catalog + server songbook w/ offline cache
+    src/state/             per-profile localStorage store, octave-folded scoring, badges
+    src/screens/           One module per screen (incl. profiles picker + duet lobby)
+    src/api/               REST client + SignalR duet client
+    src/ui/                Shared parts: mascot, modals, toasts, managers, bottom nav
+    public/                PWA manifest, icons, service worker
+  apps/audio-lab/          Dev-only diagnostic app: piano-key loopback check,
+                           reference-tone sweep + diagnostics CSV (never deployed)
 backend/         Family server — .NET 10, Clean Architecture
   src/TwinkleTune.Domain/          entities + song invariants (no dependencies)
   src/TwinkleTune.Application/     services, DTOs, in-memory duet rooms
@@ -73,15 +77,16 @@ designed for **home-LAN use only** — don't expose it to the internet (no auth 
 
 | Command (where)              | What it does                                           |
 |------------------------------|--------------------------------------------------------|
-| `npm test` (frontend/)       | Unit tests (scoring, store, badges, songs)             |
-| `npm run build` (frontend/)  | Type-check + production build to `dist/`               |
+| `npm test` (frontend/)       | Unit tests across workspaces (engine, scoring, store…) |
+| `npm run build` (frontend/)  | Type-check + production build to `apps/game/dist/`     |
+| `npm run dev:lab` (frontend/)| Audio-lab diagnostic app → http://localhost:5180       |
 | `dotnet test` (backend/)     | Backend unit + integration tests (incl. SignalR duet)  |
 | `npm test` (e2e/)            | Playwright suite against the offline app               |
 | `npm run test:server` (e2e/) | Full-stack Playwright suite (isolated test database)   |
 
 ### Putting it on a tablet
 
-`npm run build`, host `frontend/dist/` anywhere (any static host, or `npm run preview` on your LAN), open it on the tablet and **Add to Home Screen** — the PWA installs with its own icon and works offline after the first visit.
+`npm run build`, host `frontend/apps/game/dist/` anywhere (any static host, or `npm run preview` on your LAN), open it on the tablet and **Add to Home Screen** — the PWA installs with its own icon and works offline after the first visit.
 
 ### Marketing site and Azure
 
@@ -89,14 +94,14 @@ The standalone brochure in `marketing/` follows the same sibling-folder boundary
 
 ```bash
 cd frontend
-npm run dev -- --host 127.0.0.1 --port 4175 ../marketing
+npm run dev:marketing    # → http://127.0.0.1:4175
 ```
 
 Production serves the brochure at `/` and the offline PWA at `/app/` through Azure Static Web Apps. The LAN-only family API is deliberately not exposed. Provisioning, GitHub environment, and deployment details are in [`docs/deployment.md`](docs/deployment.md).
 
 ### Handy hidden screen
 
-`#/tuner` is a developer tuner (note name, cents needle, clarity) for sanity-checking pitch detection against a piano app.
+`#/tuner` is a developer tuner (note name, cents needle, clarity) for sanity-checking pitch detection against a piano app. For deeper checks — a piano-key loopback test, the reference-tone sweep from the [device test plan](docs/audio-engine-device-test-plan.html), and diagnostics recording — run the audio lab: `npm run dev:lab` in `frontend/`.
 
 ## Design
 

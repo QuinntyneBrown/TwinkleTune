@@ -34,7 +34,7 @@ id, and are written by the same single `recordPlay` operation.
 
 ## Description
 
-Frontend — reward state (`frontend/src/state/store.ts`):
+Frontend — reward state (`frontend/apps/game/src/state/store.ts`):
 
 - **`SongBest`** — interface with `stars: number`, `accuracy: number`, and
   `plays: number`.
@@ -49,20 +49,20 @@ Frontend — reward state (`frontend/src/state/store.ts`):
   `Object.values(s.bests).reduce((sum, b) => sum + b.plays, 0)`, feeding the badge
   evaluation.
 
-Frontend — scoring input (`frontend/src/state/scoring.ts`):
+Frontend — scoring input (`frontend/apps/game/src/state/scoring.ts`):
 
 - **`SongSummary.stars`** — `1 | 2 | 3` overall rating for the run.
 - **`SongSummary.accuracy`** — landed-note ratio for the run.
 - **`SongSummary.noMic`** — true when the run was played without the microphone.
 
-Frontend — home dashboard (`frontend/src/screens/home.ts`):
+Frontend — home dashboard (`frontend/apps/game/src/screens/home.ts`):
 
 - **`masteredCount`** — `Object.values(s.bests).filter((b) => b.stars > 0).length`.
 - **`My Songs` tile** — renders
   `${masteredCount} song${masteredCount === 1 ? '' : 's'} mastered`, which yields
   `1 song mastered` for one and `3 songs mastered` for three.
 
-Frontend — progress screen (`frontend/src/screens/me.ts`):
+Frontend — progress screen (`frontend/apps/game/src/screens/me.ts`):
 
 - **`mastered`** — pairs each catalogue song from `currentSongs()` with
   `s.bests[song.id]`, filters to `best && best.stars > 0`, and sorts descending by

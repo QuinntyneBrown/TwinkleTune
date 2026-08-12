@@ -40,7 +40,7 @@ The terms below are used throughout.
 The results screen creates one scene and drives it with three calls; the scene
 itself picks its renderer. No server participates.
 
-Frontend — the results-screen instance (`frontend/src/screens/results.ts`):
+Frontend — the results-screen instance (`frontend/apps/game/src/screens/results.ts`):
 
 - **Scene canvas** — a `<canvas class="reactive-scene reactive-scene--results"
   data-reactive-scene aria-hidden="true">` written as the first node of the
@@ -56,7 +56,7 @@ Frontend — the results-screen instance (`frontend/src/screens/results.ts`):
 - **Teardown** — `renderResults` returns `() => visual.destroy()`, so leaving the
   route releases the scene.
 
-Frontend — the scene (`frontend/src/rendering/reactive-scene.ts`,
+Frontend — the scene (`frontend/apps/game/src/rendering/reactive-scene.ts`,
 `types.ts`, `webgpu-scene.ts`, `canvas-scene.ts`):
 
 - **`ProgressiveScene`** — class implementing `ReactiveScene`. Its `initialize()`

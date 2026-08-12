@@ -27,7 +27,7 @@ singable.
 
 ## Description
 
-Frontend — TwinkleTune web app (`frontend/src/songs/repo.ts`):
+Frontend — TwinkleTune web app (`frontend/apps/game/src/songs/repo.ts`):
 
 - **`CACHE_KEY`** — the constant `'twinkletune:songs-cache'`.
 - **`current`** — module-level list initialized to `readCache() ?? bundledSongs`,
@@ -47,12 +47,12 @@ Frontend — TwinkleTune web app (`frontend/src/songs/repo.ts`):
   catalogue.
 - **`isServerSongId`** — tests an id against a GUID regular expression.
 
-Frontend — REST client (`frontend/src/api/client.ts`):
+Frontend — REST client (`frontend/apps/game/src/api/client.ts`):
 
 - **`api.songs.list`** — issues `GET /api/songs` and returns `ApiSong[]`; any
   network or non-2xx result rejects, which `loadSongs` treats as offline.
 
-Frontend — song screen (`frontend/src/screens/songs.ts`):
+Frontend — song screen (`frontend/apps/game/src/screens/songs.ts`):
 
 - **`renderSongs`** — paints `currentSongs()` immediately, then calls
   `loadSongs()` and repaints with the resolved list and its `online` flag.

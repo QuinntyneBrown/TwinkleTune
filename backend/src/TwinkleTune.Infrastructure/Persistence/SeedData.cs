@@ -5,7 +5,7 @@ namespace TwinkleTune.Infrastructure.Persistence;
 
 /// <summary>
 /// Idempotent seeding: the default avatars plus the seven public-domain songs,
-/// note-for-note identical to the frontend's bundled catalog (frontend/src/songs/catalog.ts).
+/// note-for-note identical to the frontend's bundled catalog (frontend/apps/game/src/songs/catalog.ts).
 /// </summary>
 public static class SeedData
 {

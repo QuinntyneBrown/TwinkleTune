@@ -28,7 +28,7 @@ in that era is lost.
 
 ## Description
 
-Frontend — state store (`frontend/src/state/store.ts`):
+Frontend — state store (`frontend/apps/game/src/state/store.ts`):
 
 - **`KEY`** — the module constant `'twinkletune:v1'`, the base key and also the
   legacy blob's key.

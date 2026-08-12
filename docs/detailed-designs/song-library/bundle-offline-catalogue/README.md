@@ -26,7 +26,7 @@ unchanging set of starter songs.
 
 ## Description
 
-Frontend — TwinkleTune web app (`frontend/src/songs/catalog.ts`):
+Frontend — TwinkleTune web app (`frontend/apps/game/src/songs/catalog.ts`):
 
 - **`songs`** — exported array of seven `Song` objects: `twinkle` (Twinkle Twinkle
   Little Star), `mary` (Mary Had a Little Lamb), `hotcrossbuns` (Hot Cross Buns),
@@ -40,7 +40,7 @@ Frontend — TwinkleTune web app (`frontend/src/songs/catalog.ts`):
   transposes per voice at run time.
 
 Frontend — catalogue invariant tests
-(`frontend/src/songs/catalog.test.ts`):
+(`frontend/apps/game/src/songs/catalog.test.ts`):
 
 - Asserts `songs.length` is `7` with seven distinct ids.
 - Per song: every phrase has a non-empty lyric and at least one note; every note
@@ -59,7 +59,7 @@ Backend — Family Server, Infrastructure
   sets `IsSeed = true` and a fresh `Guid` id.
 - **`Twinkle`**, **`Mary`**, **`HotCrossBuns`**, **`LondonBridge`**,
   **`OldMacDonald`**, **`RowYourBoat`**, **`JesusLovesMe`** — one builder per
-  song, encoded note-for-note identical to `frontend/src/songs/catalog.ts` per
+  song, encoded note-for-note identical to `frontend/apps/game/src/songs/catalog.ts` per
   the file's own header comment.
 
 ## Requirements

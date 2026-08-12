@@ -27,7 +27,7 @@ it. On-device badges and sparkles are not touched; the confirmation says so.
 
 ## Description
 
-Frontend — profiles screen (`frontend/src/screens/profiles.ts`):
+Frontend — profiles screen (`frontend/apps/game/src/screens/profiles.ts`):
 
 - **`[data-delete]` handler** — present in `singerDialog` only when editing an
   existing singer. It closes the edit dialog and calls `parentGate(...)`.
@@ -40,7 +40,7 @@ Frontend — profiles screen (`frontend/src/screens/profiles.ts`):
   modal, the toast `Removed 💙`, and the `onSaved()` callback that refreshes the
   picker. A throw yields the toast `Could not remove right now`.
 
-Frontend — parent gate (`frontend/src/ui/modal.ts`):
+Frontend — parent gate (`frontend/apps/game/src/ui/modal.ts`):
 
 - **`parentGate(onPass)`** — draws two addends, each `2 + Math.floor(Math.random()
   * 7)`, and offers three shuffled options: the answer, the answer minus one, and

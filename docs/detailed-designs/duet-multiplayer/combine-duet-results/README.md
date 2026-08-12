@@ -30,7 +30,7 @@ and it is the last thing the duet session is used for before it ends.
 
 ## Description
 
-Frontend — singing screen (`frontend/src/screens/sing.ts`):
+Frontend — singing screen (`frontend/apps/game/src/screens/sing.ts`):
 
 - **`finish()`** — builds `summary` through `summarize(song, results, noMic)` and
   records the local play. In duet mode it then fills `duet.mySummary` with
@@ -41,7 +41,7 @@ Frontend — singing screen (`frontend/src/screens/sing.ts`):
 - **`duet.client.onDuetResult(r)`** — registered on the singing screen so a
   combined result arriving before navigation is captured into `duet.result`.
 
-Frontend — results screen (`frontend/src/screens/results.ts`):
+Frontend — results screen (`frontend/apps/game/src/screens/results.ts`):
 
 - **`paintDuet(result)`** — sorts `result.players` so the local singer comes
   first by comparing `a.singerId === duet.me.singerId`, then renders a
@@ -59,7 +59,7 @@ Frontend — results screen (`frontend/src/screens/results.ts`):
   omitted, and the actions are `Another duet 🎤🎤` and home, both of which call
   `duetSession.end()`.
 
-Frontend — duet API adapter (`frontend/src/api/duet.ts`):
+Frontend — duet API adapter (`frontend/apps/game/src/api/duet.ts`):
 
 - **`DuetClient.finish(summary)`** — invokes `FinishSong` and returns the
   invocation promise.

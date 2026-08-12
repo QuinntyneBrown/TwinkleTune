@@ -68,7 +68,7 @@ class "vite.config.ts" as ViteConfig <<build configuration>> {
   +publicDir: "public"
 }
 
-class "frontend/public/" as PublicDir <<static directory>> {
+class "frontend/apps/game/public/" as PublicDir <<static directory>> {
   +manifest.webmanifest
   +icon.svg
   +icon-192.png

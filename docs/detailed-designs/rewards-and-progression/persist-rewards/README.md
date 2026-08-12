@@ -30,7 +30,7 @@ The terms below are used throughout.
 
 ## Description
 
-Frontend — reward store (`frontend/src/state/store.ts`):
+Frontend — reward store (`frontend/apps/game/src/state/store.ts`):
 
 - **`StorageLike`** — the storage port: `getItem(key): string | null`,
   `setItem(key, value)`, `removeItem(key)`.
@@ -64,7 +64,7 @@ Frontend — reward store (`frontend/src/state/store.ts`):
 - **`store`** — the module-level singleton, created as
   `createStore(rootStorage, activeId ? profileKey(activeId) : KEY)`.
 
-Frontend — profile switching (`frontend/src/state/profile.ts`):
+Frontend — profile switching (`frontend/apps/game/src/state/profile.ts`):
 
 - **`activateSinger(s)`** — calls `adoptLegacyState(s.id)`, `setActiveSingerId(s.id)`,
   `store.switchKey(profileKey(s.id))`, and then `applySingerToProfile(s)`, in that

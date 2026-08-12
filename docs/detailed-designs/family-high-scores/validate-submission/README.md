@@ -51,7 +51,7 @@ Backend — API
 - **`Submit`** — maps a non-null `error` onto `BadRequest(new { error })`, so the
   response body is `{ "error": "<friendly error>" }` with status `400`.
 
-Frontend — REST client (`frontend/src/api/client.ts`):
+Frontend — REST client (`frontend/apps/game/src/api/client.ts`):
 
 - **`req`** — reads the `error` property from a non-2xx JSON body and throws an
   `ApiError` carrying it as the message.

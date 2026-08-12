@@ -38,15 +38,15 @@ Profiles; this feature writes the range field.
 
 The feature is a vertical slice from the capture screen to the family database.
 
-- **`finish`** — completion step in `frontend/src/screens/voice-setup.ts`. It calls `store.update`
+- **`finish`** — completion step in `frontend/apps/game/src/screens/voice-setup.ts`. It calls `store.update`
   to set `profile.range` to `{ low, high }`, then calls `pushProfileToServer`.
-- **`store`** — state container in `frontend/src/state/store.ts`; it persists the profile to browser
+- **`store`** — state container in `frontend/apps/game/src/state/store.ts`; it persists the profile to browser
   storage so the local range survives a reload.
 - **`VoiceRange`** — type in `store.ts` with integer `low` and `high` MIDI notes.
-- **`pushProfileToServer`** — function in `frontend/src/state/profile.ts`. It returns early when the
+- **`pushProfileToServer`** — function in `frontend/apps/game/src/state/profile.ts`. It returns early when the
   profile has no `singerId`, and otherwise PUTs the profile through `api.singers.update` inside a
   `try/catch` that swallows offline errors.
-- **`api.singers.update`** — typed client in `frontend/src/api/client.ts`. It sends a body with
+- **`api.singers.update`** — typed client in `frontend/apps/game/src/api/client.ts`. It sends a body with
   `rangeLow` and `rangeHigh` (and `name`, `avatarId`).
 - **`SaveSingerRequest`** — request DTO carrying `Name`, `AvatarId`, `RangeLow`, `RangeHigh`.
 - **`SingerService`** — application service in

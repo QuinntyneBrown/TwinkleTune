@@ -42,8 +42,8 @@ transient messages are separate primitives, covered by
 
 ## Description
 
-The feature is realized by `frontend/src/ui/parts.ts` for the markup fragments and
-by `frontend/src/styles/twinkle.css` and `frontend/src/styles/screens.css` for the
+The feature is realized by `frontend/apps/game/src/ui/parts.ts` for the markup fragments and
+by `frontend/apps/game/src/styles/twinkle.css` and `frontend/apps/game/src/styles/screens.css` for the
 design system. `docs/mocks/` holds the design source of truth the stylesheets were
 ported from.
 
@@ -98,7 +98,7 @@ ported from.
 - **`:focus-visible`** — global rule drawing a `3px` `--blue` outline with `3px`
   offset on every focusable control.
 - **viewport meta** — `width=device-width, initial-scale=1.0, viewport-fit=cover`
-  in `frontend/index.html`, paired with the fluid `min()` widths rather than
+  in `frontend/apps/game/index.html`, paired with the fluid `min()` widths rather than
   breakpoint media queries; the stylesheets declare no width-based `@media` block.
 
 ## Requirements

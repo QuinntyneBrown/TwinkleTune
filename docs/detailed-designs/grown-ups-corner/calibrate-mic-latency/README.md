@@ -33,9 +33,9 @@ singing gameplay subsystem.
 ## Description
 
 The feature is a frontend-only slice. The control lives in
-`frontend/src/ui/settings.ts`, the value lives on `Profile` in
-`frontend/src/state/store.ts`, and the consumer is the play loop in
-`frontend/src/screens/sing.ts`.
+`frontend/apps/game/src/ui/settings.ts`, the value lives on `Profile` in
+`frontend/apps/game/src/state/store.ts`, and the consumer is the play loop in
+`frontend/apps/game/src/screens/sing.ts`.
 
 - **latency slider markup** — `<input type="range" min="-300" max="300"
   step="10" value="${profile?.latencyMs ?? 0}" data-latency>`, so the control
@@ -57,7 +57,7 @@ The feature is a frontend-only slice. The control lives in
   singer is linked, `` `twinkletune:v1:${singerId}` `` in the browser's
   `localStorage`. The blob never leaves the device.
 - **`applySingerToProfile(s: ApiSinger)`** — profile merge in
-  `frontend/src/state/profile.ts`. It rebuilds the profile from the server's
+  `frontend/apps/game/src/state/profile.ts`. It rebuilds the profile from the server's
   singer record but carries latency across as `prev?.latencyMs ?? 0`, so a server
   round trip cannot overwrite the device's own offset.
 - **`pushProfileToServer()`** — the outbound sync in `profile.ts`. Its request

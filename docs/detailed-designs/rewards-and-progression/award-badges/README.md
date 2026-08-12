@@ -32,7 +32,7 @@ the earned map and stamps each newly earned badge with the date.
 
 ## Description
 
-Frontend — badge catalogue and rules (`frontend/src/state/badges.ts`):
+Frontend — badge catalogue and rules (`frontend/apps/game/src/state/badges.ts`):
 
 - **`BadgeMeta`** — interface with `id`, `name`, `emoji`, and `hint`.
 - **`BADGES`** — the six-entry catalogue: `first-song` (`First Song`, 🎤,
@@ -52,7 +52,7 @@ Frontend — badge catalogue and rules (`frontend/src/state/badges.ts`):
   `show-stopper` at `scored && summary.stars === 3`; `brave-bird` at
   `songDifficulty === 3`; `perfect-ten` at `scored && summary.maxStreak >= 10`.
 
-Frontend — reward state (`frontend/src/state/store.ts`):
+Frontend — reward state (`frontend/apps/game/src/state/store.ts`):
 
 - **`AppState.badges`** — `Record<string, string>` mapping badge id to the ISO
   date earned; its key set is the earned set.
@@ -63,10 +63,10 @@ Frontend — reward state (`frontend/src/state/store.ts`):
 
 Frontend — presentation:
 
-- **`renderResults`** (`frontend/src/screens/results.ts`) — maps
+- **`renderResults`** (`frontend/apps/game/src/screens/results.ts`) — maps
   `state.lastNewBadges` through `badgeById` and renders one
   `New badge: ${b.name}!` chip each.
-- **`renderMe`** (`frontend/src/screens/me.ts`) — renders all six `BADGES`, using
+- **`renderMe`** (`frontend/apps/game/src/screens/me.ts`) — renders all six `BADGES`, using
   `b.id in s.badges` to choose between the badge emoji and a `🔒`, with `b.hint`
   as the element title.
 

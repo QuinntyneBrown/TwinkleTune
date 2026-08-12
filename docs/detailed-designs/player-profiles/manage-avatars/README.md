@@ -73,7 +73,7 @@ Backend — Infrastructure (`.../Persistence/SeedData.cs`,
 - **`AvatarRepository.GetAllAsync`** — reads `AsNoTracking()` ordered by
   `a.Name`.
 
-Frontend — avatar manager (`frontend/src/ui/managers.ts`):
+Frontend — avatar manager (`frontend/apps/game/src/ui/managers.ts`):
 
 - **`showAvatarManager()`** — the Grown-Ups Corner modal. `refresh()` loads
   `api.avatars.list()` and renders one `.mgr-row` per avatar with its emoji, its

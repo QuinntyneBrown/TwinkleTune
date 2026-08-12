@@ -63,7 +63,7 @@ Backend — API surface:
 
 Frontend:
 
-- **`API_URL`** (`frontend/src/api/client.ts`) — `VITE_API_URL` when configured,
+- **`API_URL`** (`frontend/apps/game/src/api/client.ts`) — `VITE_API_URL` when configured,
   otherwise `http://localhost:5240` in development and the empty string (same
   origin) in production, so the public static build never probes a visitor's
   machine for a family server.

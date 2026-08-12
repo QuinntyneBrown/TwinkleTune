@@ -26,7 +26,7 @@ syllables.
 
 ## Description
 
-Frontend — TwinkleTune web app (`frontend/src/songs/types.ts`):
+Frontend — TwinkleTune web app (`frontend/apps/game/src/songs/types.ts`):
 
 - **`validateSong`** — returns a `string[]` of friendly messages, empty when the
   song is well-formed. It checks: missing or over-long title (> 80), missing
@@ -36,7 +36,7 @@ Frontend — TwinkleTune web app (`frontend/src/songs/types.ts`):
   a note overlapping the previous note (`n.start + 1e-6 < prev.start + prev.dur`),
   and a melody `span` exceeding 16 semitones.
 
-Frontend — song editor (`frontend/src/ui/managers.ts`):
+Frontend — song editor (`frontend/apps/game/src/ui/managers.ts`):
 
 - **`parseSongForm`** — reads the editor fields, parses the phrases JSON, then
   appends `validateSong(song)` to the error list.

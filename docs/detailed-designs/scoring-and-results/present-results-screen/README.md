@@ -35,11 +35,11 @@ The terms below are used throughout.
 
 ## Description
 
-The screen is one function in `frontend/src/screens/results.ts` that reads the
+The screen is one function in `frontend/apps/game/src/screens/results.ts` that reads the
 last summary from the store and writes markup into the route root. No server
 participates in this slice.
 
-Frontend — the screen (`frontend/src/screens/results.ts`):
+Frontend — the screen (`frontend/apps/game/src/screens/results.ts`):
 
 - **`renderResults(root, params)`** — route renderer returning a teardown
   function. It reads `store.get()`, and when `state.lastResult` is absent it sets
@@ -74,14 +74,14 @@ Frontend — the screen (`frontend/src/screens/results.ts`):
   `duetSession.end()` without awaiting, so leaving by either path closes the
   session.
 
-Frontend — shared UI parts (`frontend/src/ui/parts.ts`):
+Frontend — shared UI parts (`frontend/apps/game/src/ui/parts.ts`):
 
 - **`starSVG(filled)`** — returns the filled or outlined star mark used in each
   star slot.
 - **`mascotSVG(cls, happy)`** and **`skyDecor()`** — the Twinkle mascot and the
   sky backdrop that frame the screen.
 
-Frontend — the state read (`frontend/src/state/store.ts`):
+Frontend — the state read (`frontend/apps/game/src/state/store.ts`):
 
 - **`store.get().lastResult`** — the `SongSummary` written by `recordPlay` at the
   end of the performance, and the only input the screen scores from.

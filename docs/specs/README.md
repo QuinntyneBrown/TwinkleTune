@@ -166,7 +166,7 @@ The product is decomposed into thirteen subsystems. Each has its own `L1.md` and
 
 ## 6. Document conventions & maintenance
 
-- Source references use repository‑relative paths (e.g. `frontend/src/state/scoring.ts`) and, where
+- Source references use repository‑relative paths (e.g. `frontend/apps/game/src/state/scoring.ts`) and, where
   useful, a symbol or line anchor.
 - Numeric constants quoted in acceptance criteria are the values in the shipped baseline; any change
   to a constant is a change to the requirement and shall be reflected here.

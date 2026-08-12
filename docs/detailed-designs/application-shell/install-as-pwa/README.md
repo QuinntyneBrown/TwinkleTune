@@ -36,9 +36,9 @@ support are declared independently and either may hold without the other.
 
 ## Description
 
-The feature is realized by `frontend/public/manifest.webmanifest`,
-`frontend/index.html`, `frontend/vite.config.ts`, and the three icon files in
-`frontend/public/`. No server logic participates.
+The feature is realized by `frontend/apps/game/public/manifest.webmanifest`,
+`frontend/apps/game/index.html`, `frontend/apps/game/vite.config.ts`, and the three icon files in
+`frontend/apps/game/public/`. No server logic participates.
 
 - **`manifest.webmanifest`** — the manifest. `name` is
   `"TwinkleTune — Sing your heart out!"`, `short_name` is `"TwinkleTune"`, and
@@ -57,7 +57,7 @@ The feature is realized by `frontend/public/manifest.webmanifest`,
   and `icon-512.png` at `512x512` with purpose `"any maskable"`, which is the entry
   satisfying the maskable requirement.
 - **`<link rel="manifest" href="./manifest.webmanifest">`** — the relative manifest
-  link in `frontend/index.html`.
+  link in `frontend/apps/game/index.html`.
 - **`<meta name="theme-color" content="#5EA8DA">`** — the document-level theme
   colour, matching the manifest value.
 - **iOS install tags** — `<link rel="apple-touch-icon" href="./icon-192.png">`,
@@ -67,9 +67,9 @@ The feature is realized by `frontend/public/manifest.webmanifest`,
   than the manifest.
 - **`<meta name="viewport" ... viewport-fit=cover>`** — the viewport declaration
   that lets the standalone window extend into a device's safe-area insets.
-- **`base: './'`** — the Vite configuration option in `frontend/vite.config.ts`. It
+- **`base: './'`** — the Vite configuration option in `frontend/apps/game/vite.config.ts`. It
   makes every emitted script, stylesheet, and asset URL relative to the document.
-- **`frontend/public/`** — the static directory copied verbatim into the build
+- **`frontend/apps/game/public/`** — the static directory copied verbatim into the build
   output, carrying `manifest.webmanifest`, `icon.svg`, `icon-192.png`,
   `icon-512.png`, and `sw.js` alongside the hashed bundle assets.
 - **hash-based routes** — the router's `#/...` URLs keep every in-app navigation

@@ -10,7 +10,7 @@ comes from, how server errors reach a screen, how the app decides cheaply whethe
 a server is present, and what each server-backed feature does when the answer is
 no.
 
-The contract is stated at the top of `frontend/src/api/client.ts`: solo play
+The contract is stated at the top of `frontend/apps/game/src/api/client.ts`: solo play
 never requires the API, and every caller degrades. The requirements below make
 that statement verifiable.
 
@@ -33,7 +33,7 @@ The terms below are used throughout.
 
 ## Description
 
-Base URL and errors (`frontend/src/api/client.ts`):
+Base URL and errors (`frontend/apps/game/src/api/client.ts`):
 
 - **`configuredApiUrl`** — `import.meta.env.VITE_API_URL` with any trailing
   slash removed.
@@ -62,22 +62,22 @@ Reachability probe (`client.ts`):
 
 Degradation per feature:
 
-- **Songbook** (`frontend/src/songs/repo.ts`) — `current` initializes to
+- **Songbook** (`frontend/apps/game/src/songs/repo.ts`) — `current` initializes to
   `readCache() ?? bundledSongs`, so a synchronous read is usable before any
   network call; `loadSongs()` returns `{ songs, online }` and sets
   `liveFromServer` only after a successful fetch.
-- **Songs screen** (`frontend/src/screens/songs.ts`) — `paint(songs, live)`
+- **Songs screen** (`frontend/apps/game/src/screens/songs.ts`) — `paint(songs, live)`
   renders every song as playable, and when `live` is false it adds the notice
   "Offline songbook — duets and family scores come back when the server does."
   and omits the per-card family-score board and duet buttons.
-- **Onboarding** (`frontend/src/screens/welcome.ts`) — writes the profile to
+- **Onboarding** (`frontend/apps/game/src/screens/welcome.ts`) — writes the profile to
   local storage first, then attempts to link it to a server singer only when
   `await serverOnline()` is true; the `catch` around `api.singers.create`
   leaves a local-only profile.
-- **Duet** (`frontend/src/screens/duet.ts`) — `createRoom` and `joinRoom` wrap
+- **Duet** (`frontend/apps/game/src/screens/duet.ts`) — `createRoom` and `joinRoom` wrap
   the hub call in `try/catch` and, on failure, show "Can't reach the family
   server 📡" rather than blocking the screen; solo singing is unaffected.
-- **On-device state** (`frontend/src/state/store.ts`) — sparkles, badges,
+- **On-device state** (`frontend/apps/game/src/state/store.ts`) — sparkles, badges,
   streaks, per-song bests, and the mic latency offset live under the
   `twinkletune:v1` storage key and never depend on the API.
 

@@ -36,10 +36,10 @@ freezing. The feature runs on-device, reading pitch from the Audio Engine's
 ## Description
 
 The avatar movement lives in the `loop()` function of
-`frontend/src/screens/sing.ts`, in the block that runs each frame after the beat
+`frontend/apps/game/src/screens/sing.ts`, in the block that runs each frame after the beat
 is read.
 
-- **`PitchTracker`** (`frontend/src/audio/pitch.ts`) — the consumed Audio Engine
+- **`PitchTracker`** (`frontend/packages/audio-engine/src/pitch.ts`) — the consumed Audio Engine
   component. `read()` returns a `PitchFrame` or `null` once per frame; `null`
   means no confident pitch (loudness below `MIN_RMS`, clarity below `MIN_CLARITY`,
   or frequency out of range).

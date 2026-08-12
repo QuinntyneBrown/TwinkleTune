@@ -34,20 +34,20 @@ feature supplies only the shift value that the Audio Engine applies.
 
 The feature is a frontend computation in the TwinkleTune web app, centred on one module.
 
-- **`computeShift`** — function in `frontend/src/audio/range.ts`. It takes a `Song` and a
+- **`computeShift`** — function in `frontend/packages/audio-engine/src/range.ts`. It takes a `Song` and a
   `VoiceRange | null`. With a null range it returns 0. Otherwise it reads the song's span through
   `songRange`, computes `round(voiceCenter − songCenter)`, and bounds the result through `clamp`.
 - **`clamp`** — private helper in `range.ts`, `clamp(v, lo, hi)`, applied as `clamp(raw, −6, 6)` so
   the shift stays within −6..+6 semitones inclusive.
-- **`songRange`** — function in `frontend/src/songs/types.ts`. It flattens a song's notes and
+- **`songRange`** — function in `frontend/apps/game/src/songs/types.ts`. It flattens a song's notes and
   returns `{ min, max }`, the lowest and highest MIDI notes.
 - **`describeShift`** — function in `range.ts`. It renders a shift as kid-friendly words ("Already a
   perfect fit!" at 0, "Moved n notes lower/higher for you 💙" otherwise) for the song-card tooltip;
   the tooltip surface is detailed in `communicate-personalization`.
-- **`VoiceRange`** — type in `frontend/src/state/store.ts` with integer `low` and `high` MIDI notes.
+- **`VoiceRange`** — type in `frontend/apps/game/src/state/store.ts` with integer `low` and `high` MIDI notes.
 - **`Song`** — type in `songs/types.ts` whose `phrases` hold the notes `songRange` scans.
 
-`frontend/src/audio/range.test.ts` fixes the behaviour: 0 when the range is null, 0 when the song
+`frontend/packages/audio-engine/src/range.test.ts` fixes the behaviour: 0 when the range is null, 0 when the song
 already sits centred, a negative shift for a lower voice, and exactly +6 or −6 at the clamp bounds.
 
 ## Requirements

@@ -29,7 +29,7 @@ the child. All of this runs on-device.
 ## Description
 
 Performance control lives in `begin`, `finish`, and `pauseDialog` in
-`frontend/src/screens/sing.ts`.
+`frontend/apps/game/src/screens/sing.ts`.
 
 - **`begin(from = fromBeat, countIn = 4)`** — starts playback via `player.start`
   with `transpose`, `rate`, `fromBeat`, `untilBeat`, `countInBeats`, and
@@ -55,7 +55,7 @@ Performance control lives in `begin`, `finish`, and `pauseDialog` in
   navigates to `#/results`.
 - **exit** — "Pick another song" (or "Leave the duet") sets `finished` and
   navigates away.
-- **`recordPlay` / `summarize` / `todayISO`** (`frontend/src/state/store.ts`,
+- **`recordPlay` / `summarize` / `todayISO`** (`frontend/apps/game/src/state/store.ts`,
   `scoring.ts`) — the consumed Scoring and store primitives that persist the run.
 
 ## Requirements

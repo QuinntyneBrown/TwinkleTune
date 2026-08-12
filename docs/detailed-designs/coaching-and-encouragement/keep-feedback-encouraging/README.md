@@ -36,9 +36,9 @@ The terms below are used throughout.
 ## Description
 
 The feature has no single module. It is realised by the copy and the branch
-structure of `frontend/src/screens/results.ts`,
-`frontend/src/screens/sing.ts`, `frontend/src/screens/tips.ts`, and
-`frontend/src/ui/modal.ts`.
+structure of `frontend/apps/game/src/screens/results.ts`,
+`frontend/apps/game/src/screens/sing.ts`, `frontend/apps/game/src/screens/tips.ts`, and
+`frontend/apps/game/src/ui/modal.ts`.
 
 - **`headline`** (`results.ts`) — the outcome line. `r.noMic` yields
   `'What a fun sing-along'`; otherwise `r.stars === 3` yields `'Super Singing'`,

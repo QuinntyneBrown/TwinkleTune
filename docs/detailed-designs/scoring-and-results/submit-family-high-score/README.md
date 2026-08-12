@@ -40,7 +40,7 @@ The terms below are used throughout.
 The frontend decides eligibility and fires the request; the backend decides
 whether the score is an improvement.
 
-Frontend — the trigger (`frontend/src/screens/results.ts`):
+Frontend — the trigger (`frontend/apps/game/src/screens/results.ts`):
 
 - **Eligibility guard** — `if (!r.noMic && state.profile?.singerId &&
   isServerSongId(r.songId))`, evaluated once as the screen renders. A no-mic run,
@@ -52,8 +52,8 @@ Frontend — the trigger (`frontend/src/screens/results.ts`):
 - **`toast('🏆 New family record!', 'gold', 2600)`** — the record moment, shown
   for 2600 ms in the gold variant when `res.improved` is true.
 
-Frontend — supporting checks and clients (`frontend/src/songs/repo.ts`,
-`frontend/src/api/client.ts`):
+Frontend — supporting checks and clients (`frontend/apps/game/src/songs/repo.ts`,
+`frontend/apps/game/src/api/client.ts`):
 
 - **`isServerSongId(id)`** — returns true when the id matches the GUID pattern
   `^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$`; bundled songs

@@ -37,10 +37,10 @@ The terms below are used throughout.
 
 ## Description
 
-The whole reduction is one function in `frontend/src/state/scoring.ts`, called
+The whole reduction is one function in `frontend/apps/game/src/state/scoring.ts`, called
 once by the sing screen when a performance finishes. No server participates.
 
-Frontend — the reduction (`frontend/src/state/scoring.ts`):
+Frontend — the reduction (`frontend/apps/game/src/state/scoring.ts`):
 
 - **`summarize(song, results, noMic = false)`** — function reducing a
   `NoteResult[]` and its `Song` into a `SongSummary`. It computes `landedFlags` by
@@ -68,12 +68,12 @@ Frontend — the reduction (`frontend/src/state/scoring.ts`):
   `total`, `accuracy`, `stars`, `pitchStars`, `timingStars`, `braveStars`,
   `maxStreak`, `sparkles`, `trickyPhrase`, `trickyLyric`, and `noMic`.
 
-Frontend — song geometry (`frontend/src/songs/types.ts`):
+Frontend — song geometry (`frontend/apps/game/src/songs/types.ts`):
 
 - **`songRange(s)`** — helper returning `{ min, max }` over the MIDI values of
   every note in the song, used for the high-note threshold.
 
-Frontend — the caller (`frontend/src/screens/sing.ts`, `frontend/src/state/store.ts`):
+Frontend — the caller (`frontend/apps/game/src/screens/sing.ts`, `frontend/apps/game/src/state/store.ts`):
 
 - **`renderSing` finish path** — calls `summarize(song, results, noMic)` after
   stopping the tracker, then `recordPlay(store, song, summary, todayISO())`.

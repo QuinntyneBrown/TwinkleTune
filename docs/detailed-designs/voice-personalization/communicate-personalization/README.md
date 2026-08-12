@@ -37,14 +37,14 @@ into every surface where the shift appears. The completion summary shown immedia
 
 The feature spans two screen modules in the TwinkleTune web app.
 
-- **`renderSongs`** — screen module in `frontend/src/screens/songs.ts`. Its inner `songCard` reads
+- **`renderSongs`** — screen module in `frontend/apps/game/src/screens/songs.ts`. Its inner `songCard` reads
   the profile range once; when a range exists it renders `<span class="tuned" title="…">✓ In your
   key</span>` with the tooltip from `describeShift(computeShift(song, range))`, and when it does not
   it renders `<a class="tuned tuned-cta" href="#/voice">Find my voice →</a>`.
-- **`renderMe`** — screen module in `frontend/src/screens/me.ts`. Its `growthHTML` block, when a
+- **`renderMe`** — screen module in `frontend/apps/game/src/screens/me.ts`. Its `growthHTML` block, when a
   range exists, states "Your voice goes from <low> to <high> — that's <high − low + 1> notes!" using
   `midiToName`; otherwise it renders a "Find your voice!" link to `#/voice`.
-- **`computeShift`** — function in `frontend/src/audio/range.ts` supplying the per-song shift (see
+- **`computeShift`** — function in `frontend/packages/audio-engine/src/range.ts` supplying the per-song shift (see
   `compute-transposition`).
 - **`describeShift`** — function in `range.ts` rendering a shift as "Already a perfect fit!" at 0 or
   "Moved n notes lower/higher for you 💙" otherwise.

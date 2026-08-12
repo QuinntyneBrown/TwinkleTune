@@ -31,7 +31,7 @@ on-device; the reveal reads only the computed song shift.
 ## Description
 
 The encouragement lives in `setStreak`, `finalizeNotesUpTo`, and
-`maybeTunedDialogThenStart` in `frontend/src/screens/sing.ts`.
+`maybeTunedDialogThenStart` in `frontend/apps/game/src/screens/sing.ts`.
 
 - **`setStreak(n)`** — sets `streak` and the chip. `streakEl` gains `show` and
   reads `🔥 N in a row!` only when `streak >= 3`; otherwise `show` is removed. When
@@ -43,7 +43,7 @@ The encouragement lives in `setStreak`, `finalizeNotesUpTo`, and
   `landedCount * 10`.
 - **`cheerPop()`** — spawns a short-lived `feedback-pop` from the `CHEERS` array
   above the star on a landed note.
-- **`toast(...)`** (`frontend/src/ui/modal.ts`) — the transient celebratory
+- **`toast(...)`** (`frontend/apps/game/src/ui/modal.ts`) — the transient celebratory
   message used for milestones.
 - **`maybeTunedDialogThenStart()`** — before the first start of a personalized
   song, shows the tuned reveal. It fires only when `!duet && range && shift !== 0

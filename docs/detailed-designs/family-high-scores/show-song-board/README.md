@@ -29,7 +29,7 @@ which songbook is live is owned by the song library subsystem (`SL-L2-4`,
 
 ## Description
 
-Frontend — song screen (`frontend/src/screens/songs.ts`):
+Frontend — song screen (`frontend/apps/game/src/screens/songs.ts`):
 
 - **`renderSongs`** — screen function that paints `currentSongs()` with
   `songsAreLive()` immediately, then repaints from `loadSongs()` with the
@@ -62,13 +62,13 @@ Frontend — song screen (`frontend/src/screens/songs.ts`):
 
 Frontend — supporting modules:
 
-- **`api.highscores.forSong`** (`frontend/src/api/client.ts`) — issues
+- **`api.highscores.forSong`** (`frontend/apps/game/src/api/client.ts`) — issues
   `GET /api/songs/${songId}/highscores` and resolves `ApiHighScore[]`; a non-2xx
   or network failure rejects and drives the error state.
 - **`songsAreLive`**, **`currentSongs`**, **`loadSongs`**, **`getSongById`**,
-  **`isServerSongId`** (`frontend/src/songs/repo.ts`) — the songbook accessors
+  **`isServerSongId`** (`frontend/apps/game/src/songs/repo.ts`) — the songbook accessors
   that supply the live flag, the list, and the GUID id test.
-- **`showModal`** (`frontend/src/ui/modal.ts`) — builds the overlay and returns a
+- **`showModal`** (`frontend/apps/game/src/ui/modal.ts`) — builds the overlay and returns a
   handle; `onMount` receives the modal element and a `close` callback.
 
 ## Requirements

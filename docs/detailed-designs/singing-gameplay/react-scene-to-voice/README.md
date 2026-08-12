@@ -36,8 +36,8 @@ The terms below are used throughout.
 
 ## Description
 
-The feature spans `frontend/src/screens/sing.ts` and four modules under
-`frontend/src/rendering/`. No server participates.
+The feature spans `frontend/apps/game/src/screens/sing.ts` and four modules under
+`frontend/apps/game/src/rendering/`. No server participates.
 
 - **`ReactiveVisualState`** — the interface in `rendering/types.ts` carrying
   `energy` (0 silent to 1 loud), `onNote`, `streak`, `progress`, `pitchY`

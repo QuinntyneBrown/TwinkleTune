@@ -72,7 +72,7 @@ Seeding (`Infrastructure/Persistence/SeedData.cs`):
 - **Seeded songs** — `Twinkle()`, `Mary()`, `HotCrossBuns()`, `LondonBridge()`,
   `OldMacDonald()`, and `RowYourBoat()`, each built by `Make(...)` with
   `IsSeed = true` and note-for-note identical to
-  `frontend/src/songs/catalog.ts`.
+  `frontend/apps/game/src/songs/catalog.ts`.
 
 Repositories (`Infrastructure/Repositories/Repositories.cs`):
 

@@ -38,7 +38,7 @@ The selection happens inside `summarize`; the invitation is rendered by the
 results screen; the practice session is set up by the sing screen from URL
 parameters. No server participates.
 
-Frontend — phrase selection (`frontend/src/state/scoring.ts`):
+Frontend — phrase selection (`frontend/apps/game/src/state/scoring.ts`):
 
 - **Tricky-part pass inside `summarize`** — iterates `song.phrases` with their
   index, collects the `NoteResult` entries whose `phraseIdx` matches, and skips
@@ -51,7 +51,7 @@ Frontend — phrase selection (`frontend/src/state/scoring.ts`):
 - **`SongSummary.trickyLyric`** — `song.phrases[trickyPhrase].lyric` when a tricky
   phrase exists, otherwise `null`; the lyric is what the coach message names.
 
-Frontend — the invitation (`frontend/src/screens/results.ts`):
+Frontend — the invitation (`frontend/apps/game/src/screens/results.ts`):
 
 - **`practiceBtn`** — markup produced when `!r.noMic && r.trickyPhrase !== null`,
   rendering an anchor styled `btn btn-gold btn-xl rise d7` and labelled
@@ -60,7 +60,7 @@ Frontend — the invitation (`frontend/src/screens/results.ts`):
 - **Duet suppression** — the CTA row renders `${duet ? '' : practiceBtn}`, so a
   duet result offers another duet instead of a solo practice loop.
 
-Frontend — practice mode (`frontend/src/screens/sing.ts`):
+Frontend — practice mode (`frontend/apps/game/src/screens/sing.ts`):
 
 - **`practicePhrase`** — `Number(params.get('practice'))` when the parameter is
   present, otherwise `null`.

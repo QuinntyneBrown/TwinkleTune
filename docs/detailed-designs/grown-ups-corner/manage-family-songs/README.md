@@ -32,13 +32,13 @@ subsystem; this feature covers the grown-up's editing surface over them.
 
 ## Description
 
-The slice spans the frontend manager in `frontend/src/ui/managers.ts`, the shared
-invariant check in `frontend/src/songs/types.ts`, the synthesiser in
-`frontend/src/audio/player.ts`, the REST client in
-`frontend/src/api/client.ts`, and the server endpoints in
+The slice spans the frontend manager in `frontend/apps/game/src/ui/managers.ts`, the shared
+invariant check in `frontend/apps/game/src/songs/types.ts`, the synthesiser in
+`frontend/packages/audio-engine/src/player.ts`, the REST client in
+`frontend/apps/game/src/api/client.ts`, and the server endpoints in
 `backend/src/TwinkleTune.Api/Controllers/SongsController.cs`.
 
-Frontend — manager and editor (`frontend/src/ui/managers.ts`):
+Frontend — manager and editor (`frontend/apps/game/src/ui/managers.ts`):
 
 - **`showSongManager(): void`** — opens the wide modal titled "Songbook", renders
   a loading placeholder, and runs `refresh()`. Each row shows the emoji, the
@@ -81,7 +81,7 @@ Frontend — manager and editor (`frontend/src/ui/managers.ts`):
   call toasts "Could not delete right now" in the pink variant and leaves the
   dialog open.
 
-Frontend — shared invariants (`frontend/src/songs/types.ts`):
+Frontend — shared invariants (`frontend/apps/game/src/songs/types.ts`):
 
 - **`validateSong(song: Song): string[]`** — documented as kept identical to the
   backend `SongValidator`. It requires a non-empty title of at most 80

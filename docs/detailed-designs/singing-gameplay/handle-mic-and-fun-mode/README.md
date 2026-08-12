@@ -28,12 +28,12 @@ on-device, reading the microphone through the Audio Engine's `PitchTracker`.
 ## Description
 
 Microphone handling and cleanup live in `startFlow`, `micDialog`, the `noMic`
-path, and the teardown closure of `frontend/src/screens/sing.ts`.
+path, and the teardown closure of `frontend/apps/game/src/screens/sing.ts`.
 
 - **`startFlow()`** — `await tracker.start()`, sets the stage label to "SING TO
   MOVE YOUR STAR", and calls `begin()`. A thrown permission error is caught and
   routed to `micDialog()`.
-- **`PitchTracker.start()`** (`frontend/src/audio/pitch.ts`) — requests the
+- **`PitchTracker.start()`** (`frontend/packages/audio-engine/src/pitch.ts`) — requests the
   microphone; it throws `NotAllowedError` when the microphone is denied.
 - **`micDialog()`** — a non-dismissible `showModal` (`dismissible: false`) with
   three actions: "Yes, let's sing!" retries `startFlow`; "Sing just for fun" sets

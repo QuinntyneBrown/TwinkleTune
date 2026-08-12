@@ -7,10 +7,10 @@ phone read as the same product.
 
 | Source of truth | Reused for |
 |---|---|
-| `frontend/src/styles/twinkle.css` | the whole palette and the 28px/999px radius language |
-| `mascotSVG()` in `frontend/src/ui/parts.ts` | Twinkle's star path, face, blush and happy mouth |
-| `frontend/public/icon.svg` | the app-icon star on the cloud sticker |
-| `.logo` / `.logo .tw` in `frontend/src/styles/screens.css` | the blue/ink wordmark split |
+| `frontend/apps/game/src/styles/twinkle.css` | the whole palette and the 28px/999px radius language |
+| `mascotSVG()` in `frontend/apps/game/src/ui/parts.ts` | Twinkle's star path, face, blush and happy mouth |
+| `frontend/apps/game/public/icon.svg` | the app-icon star on the cloud sticker |
+| `.logo` / `.logo .tw` in `frontend/apps/game/src/styles/screens.css` | the blue/ink wordmark split |
 
 ## The three designs
 
@@ -142,4 +142,4 @@ sending the SVG to a printer that is not rasterising the PNG.
 `src/fonts/` carries Baloo 2 and Nunito as variable TTFs with their SIL Open
 Font Licence texts, so rendering never touches the network and the licence
 travels with the files. These are the app's own faces, from
-`--font-display` / `--font-body` in `frontend/src/styles/twinkle.css`.
+`--font-display` / `--font-body` in `frontend/apps/game/src/styles/twinkle.css`.

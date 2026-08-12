@@ -29,7 +29,7 @@ The terms below are used throughout.
 
 ## Description
 
-The feature is a frontend-only slice inside `frontend/src/screens/tuner.ts`,
+The feature is a frontend-only slice inside `frontend/apps/game/src/screens/tuner.ts`,
 driving `PitchTracker` from `pitch.ts` and `midiToName` from `range.ts`. No
 server participates.
 

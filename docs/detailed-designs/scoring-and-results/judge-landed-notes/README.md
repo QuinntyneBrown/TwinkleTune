@@ -38,10 +38,10 @@ The terms below are used throughout.
 
 ## Description
 
-The rules live in `frontend/src/state/scoring.ts`; the accumulation that feeds
+The rules live in `frontend/apps/game/src/state/scoring.ts`; the accumulation that feeds
 them lives in the sing screen. No server participates.
 
-Frontend — scoring rules (`frontend/src/state/scoring.ts`):
+Frontend — scoring rules (`frontend/apps/game/src/state/scoring.ts`):
 
 - **`foldCents(sungMidi, targetMidi)`** — function returning the signed cents
   difference between two MIDI values after octave folding. It takes
@@ -59,7 +59,7 @@ Frontend — scoring rules (`frontend/src/state/scoring.ts`):
   `hitFrames`, `totalFrames`, and `firstHitFrac`. One instance exists per note in
   the played window.
 
-Frontend — accumulation and consumption (`frontend/src/screens/sing.ts`):
+Frontend — accumulation and consumption (`frontend/apps/game/src/screens/sing.ts`):
 
 - **`renderSing` animation loop** — builds one `NoteResult` per note in
   `windowNotes`, then, for the note active at the latency-adjusted `scoreBeat`,

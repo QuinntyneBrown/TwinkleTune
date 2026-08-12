@@ -32,8 +32,8 @@ happens after the gate passes — the hub layout, the song editor, singer deleti
 
 ## Description
 
-The feature is a frontend-only slice. `frontend/src/ui/modal.ts` holds the gate;
-three screens under `frontend/src/screens/` place it in front of their guarded
+The feature is a frontend-only slice. `frontend/apps/game/src/ui/modal.ts` holds the gate;
+three screens under `frontend/apps/game/src/screens/` place it in front of their guarded
 actions. No server participates, and no state is persisted.
 
 - **`parentGate(onPass: () => void): void`** — function in `modal.ts` that draws
@@ -60,11 +60,11 @@ actions. No server participates, and no state is persisted.
   invokes `onMount(modal, close)` so the caller can attach listeners. `close()`
   removes the overlay from the document.
 - **`ModalHandle`** — returned record with `el` (the card element) and `close`.
-- **welcome entry point** — `frontend/src/screens/welcome.ts` binds
+- **welcome entry point** — `frontend/apps/game/src/screens/welcome.ts` binds
   `[data-grownups]` to `parentGate(showSettings)`.
-- **progress entry point** — `frontend/src/screens/me.ts` binds the gear control
+- **progress entry point** — `frontend/apps/game/src/screens/me.ts` binds the gear control
   `[data-settings]` to `parentGate(showSettings)`.
-- **deletion entry point** — `frontend/src/screens/profiles.ts` binds
+- **deletion entry point** — `frontend/apps/game/src/screens/profiles.ts` binds
   `[data-delete]` in the singer editor to `parentGate(...)`; the callback opens
   the "Remove <name>?" confirmation, and only its `[data-yes]` button calls
   `api.singers.remove`.

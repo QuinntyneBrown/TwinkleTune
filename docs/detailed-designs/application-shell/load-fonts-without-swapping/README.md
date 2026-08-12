@@ -44,7 +44,7 @@ files to that worker's pre-cache list and gives them their own branch in its
 
 ## The problem
 
-The old markup was two lines in `frontend/index.html`:
+The old markup was two lines in `frontend/apps/game/index.html`:
 
 ```html
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -122,12 +122,12 @@ different-looking page.
 
 ## Description
 
-The feature is realized by `frontend/index.html`, `frontend/public/fonts/`,
-`frontend/src/styles/twinkle.css` and `frontend/public/sw.js` for the app, and
+The feature is realized by `frontend/apps/game/index.html`, `frontend/apps/game/public/fonts/`,
+`frontend/apps/game/src/styles/twinkle.css` and `frontend/apps/game/public/sw.js` for the app, and
 by the equivalent files in `marketing/` for the landing page. No backend logic
 participates.
 
-- **Font files** — `frontend/public/fonts/` holds four woff2 files:
+- **Font files** — `frontend/apps/game/public/fonts/` holds four woff2 files:
   `baloo2-v23-latin.woff2`, `baloo2-v23-latin-ext.woff2`,
   `nunito-v32-latin.woff2` and `nunito-v32-latin-ext.woff2`, about 135 KB in
   total. Each is a *variable* font carrying its family's whole weight axis
@@ -137,7 +137,7 @@ participates.
   a year. `marketing/assets/fonts/` holds the same four files for the landing
   page.
 - **Inline `@font-face` block** — a `<style>` element in the `<head>` of both
-  `frontend/index.html` and `marketing/index.html`. It declares the four real
+  `frontend/apps/game/index.html` and `marketing/index.html`. It declares the four real
   faces with `font-display: optional`, relative `url()`s, and the same
   `unicode-range` values Google publishes, so the `latin-ext` file is fetched
   only when a page actually contains an extended-latin character. The rules are
@@ -158,12 +158,12 @@ participates.
   for Nunito. A fallback rendering therefore keeps the same apparent size and
   the same line boxes, so nothing on the page shifts.
 - **Font stacks** — `--font-display` and `--font-body` in
-  `frontend/src/styles/twinkle.css`, and `--display` and `--body` in
+  `frontend/apps/game/src/styles/twinkle.css`, and `--display` and `--body` in
   `marketing/assets/twinkletune.css`, now read
   `"Baloo 2", "Baloo 2 Fallback", system-ui, -apple-system, "Segoe UI", sans-serif`
   and the Nunito equivalent. `cursive` is deliberately gone: it was the reason
   the iPhone fell back to Snell Roundhand.
-- **`PRECACHE`** — a new module constant in `frontend/public/sw.js` listing the
+- **`PRECACHE`** — a new module constant in `frontend/apps/game/public/sw.js` listing the
   four font paths. The `install` handler passes it to `cache.addAll` inside
   `event.waitUntil` before calling `self.skipWaiting()`; a rejection is
   swallowed, so a cold cache degrades to the ordinary fetch path rather than

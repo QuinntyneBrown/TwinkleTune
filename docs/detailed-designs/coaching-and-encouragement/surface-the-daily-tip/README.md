@@ -27,9 +27,9 @@ The terms below are used throughout.
 
 ## Description
 
-The feature spans `frontend/src/screens/tips-data.ts` (selection) and
-`frontend/src/screens/home.ts` (presentation), styled by
-`frontend/src/styles/screens.css`. No server participates and nothing is stored.
+The feature spans `frontend/apps/game/src/screens/tips-data.ts` (selection) and
+`frontend/apps/game/src/screens/home.ts` (presentation), styled by
+`frontend/apps/game/src/styles/screens.css`. No server participates and nothing is stored.
 
 - **`tipOfTheDay(d: Date = new Date()): Tip`** — function in `tips-data.ts` that
   builds `const all = [HERO_TIP, ...TIPS]`, computes `dayOfYear`, and returns

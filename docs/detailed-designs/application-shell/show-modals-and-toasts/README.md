@@ -38,8 +38,8 @@ that consumes `showModal`.
 
 ## Description
 
-The feature is realized by `frontend/src/ui/modal.ts` with the presentation rules
-in `frontend/src/styles/twinkle.css`. Nothing crosses the network.
+The feature is realized by `frontend/apps/game/src/ui/modal.ts` with the presentation rules
+in `frontend/apps/game/src/styles/twinkle.css`. Nothing crosses the network.
 
 - **`showModal(opts)`** — the exported factory. It creates a `div.overlay`, sets its
   inner HTML to a `div.modal` carrying `role="dialog"` and `aria-label`, appends the

@@ -31,7 +31,7 @@ hands off to the synchronised start once both singers are present.
 
 ## Description
 
-Frontend — TwinkleTune web app (`frontend/src/screens/duet.ts`):
+Frontend — TwinkleTune web app (`frontend/apps/game/src/screens/duet.ts`):
 
 - **`renderDuet(root, params)`** — the whole feature. It reads
   `store.get().profile`, reads `params.get('song')` into `preferredSong`, paints
@@ -66,11 +66,11 @@ Frontend — TwinkleTune web app (`frontend/src/screens/duet.ts`):
   `joinRoom()` throws while connecting, the three join messages, and
   `Need both singers in the room!` when `c.startSong(songId)` rejects. Each is
   raised through `toast(message, 'pink')` and leaves the lobby standing.
-- **`toast(message, tone, duration?)`** — `frontend/src/ui/modal.ts` helper that
+- **`toast(message, tone, duration?)`** — `frontend/apps/game/src/ui/modal.ts` helper that
   shows a transient banner; the `gold` tone carries arrivals and the `pink` tone
   carries departures and failures.
 
-Frontend — song repository (`frontend/src/songs/repo.ts`):
+Frontend — song repository (`frontend/apps/game/src/songs/repo.ts`):
 
 - **`loadSongs()`** — resolves `{ songs, online }`, reporting `online: false`
   when the server songbook request fails and the cached or bundled catalogue is

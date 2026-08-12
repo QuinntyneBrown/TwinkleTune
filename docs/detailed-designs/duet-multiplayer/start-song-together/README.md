@@ -31,7 +31,7 @@ singing screen, which runs the gameplay loop and the opponent overlay.
 
 ## Description
 
-Frontend — TwinkleTune web app (`frontend/src/screens/duet.ts`):
+Frontend — TwinkleTune web app (`frontend/apps/game/src/screens/duet.ts`):
 
 - **start action** — the lobby's `Start the duet! 🎤🎤` button reads the selected
   `songId` and calls `c.startSong(songId)`; a rejection raises the toast
@@ -41,7 +41,7 @@ Frontend — TwinkleTune web app (`frontend/src/screens/duet.ts`):
   screen teardown does not end the session, and navigates to
   `#/sing?song={songId}&duet=1`.
 
-Frontend — duet API adapter (`frontend/src/api/duet.ts`):
+Frontend — duet API adapter (`frontend/apps/game/src/api/duet.ts`):
 
 - **`DuetClient.startSong(songId)`** — invokes the hub method `StartSong` and
   returns the invocation promise, so a refusal is observable to the caller.
@@ -49,7 +49,7 @@ Frontend — duet API adapter (`frontend/src/api/duet.ts`):
   event with the signature `(songId: string, startAtUtc: string) => void`.
 
 Frontend — singing screen and player
-(`frontend/src/screens/sing.ts`, `frontend/src/audio/player.ts`):
+(`frontend/apps/game/src/screens/sing.ts`, `frontend/packages/audio-engine/src/player.ts`):
 
 - **`renderSing(root, params)`** — reads `duet` from `duetSession.get()` when
   `params.get('duet') === '1'`, and returns to `#/duet` when the session is

@@ -86,7 +86,7 @@ Backend — Infrastructure (`.../Repositories/Repositories.cs`,
   `Singer.PhotoFileName` at 64, and configures the `Singer` → `Avatar` foreign
   key.
 
-Frontend — profiles screen (`frontend/src/screens/profiles.ts`):
+Frontend — profiles screen (`frontend/apps/game/src/screens/profiles.ts`):
 
 - **`singerDialog(existing, avatars, onSaved)`** — the create-and-edit modal
   shared by `+ New singer` and the `✏️` button. It rejects an empty name locally

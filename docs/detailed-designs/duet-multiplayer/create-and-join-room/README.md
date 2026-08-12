@@ -32,7 +32,7 @@ hub group this feature establishes.
 
 ## Description
 
-Frontend — TwinkleTune web app (`frontend/src/screens/duet.ts`):
+Frontend — TwinkleTune web app (`frontend/apps/game/src/screens/duet.ts`):
 
 - **`showChoice()`** — renders the two entry actions, `Make a room ⭐` and
   `Join with a code 🔑`, and wires them to `createRoom()` and `showJoin()`.
@@ -49,7 +49,7 @@ Frontend — TwinkleTune web app (`frontend/src/screens/duet.ts`):
 - **`me`** — the `DuetPlayerInfo` built from the active profile's `singerId`,
   `name`, and `avatar`.
 
-Frontend — duet API adapter (`frontend/src/api/duet.ts`):
+Frontend — duet API adapter (`frontend/apps/game/src/api/duet.ts`):
 
 - **`DuetClient.createRoom(info)`** — invokes the hub method `CreateRoom` and
   resolves to a `RoomState`.

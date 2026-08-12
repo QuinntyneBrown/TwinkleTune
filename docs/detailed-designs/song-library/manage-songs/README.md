@@ -56,7 +56,7 @@ Backend — ordering and persistence:
   `OrderBy(s => s.Difficulty).ThenBy(s => s.Title)`.
 - **`SeedData`** — sets `IsSeed = true` on the seven built-in songs.
 
-Frontend — Grown-Ups Corner (`frontend/src/ui/managers.ts`):
+Frontend — Grown-Ups Corner (`frontend/apps/game/src/ui/managers.ts`):
 
 - **`showSongManager`** — lists songs, tagging each seed row `built-in`, with
   edit and delete controls.
@@ -66,7 +66,7 @@ Frontend — Grown-Ups Corner (`frontend/src/ui/managers.ts`):
 - The delete confirmation shows seed-specific copy: a built-in song will be gone
   from the family songbook, versus a family song whose high scores go with it.
 
-Frontend — REST client (`frontend/src/api/client.ts`):
+Frontend — REST client (`frontend/apps/game/src/api/client.ts`):
 
 - **`ApiError`** — carries the `errors` array parsed from a `400` body.
 - **`api.songs`** — `list`, `create`, `update`, `remove`.

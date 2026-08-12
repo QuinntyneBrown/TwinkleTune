@@ -29,12 +29,12 @@ feature covers the grown-up's editing surface over them.
 
 ## Description
 
-The slice spans `frontend/src/ui/managers.ts`, the REST client in
-`frontend/src/api/client.ts`, and the server side in
+The slice spans `frontend/apps/game/src/ui/managers.ts`, the REST client in
+`frontend/apps/game/src/api/client.ts`, and the server side in
 `backend/src/TwinkleTune.Api/Controllers/AvatarsController.cs` with
 `backend/src/TwinkleTune.Application/Services/AvatarService.cs`.
 
-Frontend — manager and editor (`frontend/src/ui/managers.ts`):
+Frontend — manager and editor (`frontend/apps/game/src/ui/managers.ts`):
 
 - **`showAvatarManager(): void`** — opens the wide modal titled "Avatars",
   renders a loading placeholder, wires `[data-close]` and `[data-new]`, and runs
@@ -60,7 +60,7 @@ Frontend — manager and editor (`frontend/src/ui/managers.ts`):
 - **`toast(message, variant, ms)`** — the transient message strip from
   `ui/modal.ts`; the default lifetime is 2200 ms.
 
-Frontend — REST client (`frontend/src/api/client.ts`):
+Frontend — REST client (`frontend/apps/game/src/api/client.ts`):
 
 - **`ApiAvatar`** — record with `id`, `emoji`, and `name`.
 - **`api.avatars`** — `list()` over `GET /api/avatars`, `create(emoji, name)`

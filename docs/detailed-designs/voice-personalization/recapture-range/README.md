@@ -29,17 +29,17 @@ server. Surfacing the widened range as a "your voice grew" moment on the Me scre
 
 The feature wires three screens to one route in the TwinkleTune web app.
 
-- **`showSettings`** — Grown-Ups Corner in `frontend/src/ui/settings.ts`. Its voice-range row holds a
+- **`showSettings`** — Grown-Ups Corner in `frontend/apps/game/src/ui/settings.ts`. Its voice-range row holds a
   "Re-do" link to `#/voice` and shows the current range label (`midiToName` low to high, or "not set
   yet").
-- **`renderHome`** — home screen in `frontend/src/screens/home.ts`. Its voice card links to `#/voice`
+- **`renderHome`** — home screen in `frontend/apps/game/src/screens/home.ts`. Its voice card links to `#/voice`
   with the copy "Find my voice".
-- **`renderMe`** — Me screen in `frontend/src/screens/me.ts`. Its growth block links to `#/voice`
+- **`renderMe`** — Me screen in `frontend/apps/game/src/screens/me.ts`. Its growth block links to `#/voice`
   with "Find your voice!" when appropriate.
-- **`routes['voice']`** — route table in `frontend/src/main.ts` mapping `voice` to `renderVoiceSetup`.
-- **`renderVoiceSetup`** — capture screen in `frontend/src/screens/voice-setup.ts`. Its `finish`
+- **`routes['voice']`** — route table in `frontend/apps/game/src/main.ts` mapping `voice` to `renderVoiceSetup`.
+- **`renderVoiceSetup`** — capture screen in `frontend/apps/game/src/screens/voice-setup.ts`. Its `finish`
   calls `store.update` to set `profile.range`, overwriting any prior value.
-- **`store.update`** — mutation in `frontend/src/state/store.ts` that persists the overwritten
+- **`store.update`** — mutation in `frontend/apps/game/src/state/store.ts` that persists the overwritten
   `profile.range` to browser storage.
 
 ## Requirements

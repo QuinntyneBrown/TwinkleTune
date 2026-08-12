@@ -30,7 +30,7 @@ data.
 ## Description
 
 The karaoke display is realized by `updateKaraoke(beat)` in
-`frontend/src/screens/sing.ts`, called each frame from `loop()`.
+`frontend/apps/game/src/screens/sing.ts`, called each frame from `loop()`.
 
 - **`updateKaraoke(beat)`** — resolves the active phrase index and repaints the
   three lyric lines and the coach cue for the current beat.
@@ -51,7 +51,7 @@ The karaoke display is realized by `updateKaraoke(beat)` in
   notes. Each syllable is wrapped in a span classed `word-now` while `beat >=
   n.start && beat < n.start + n.dur`, `word-done` after `beat >= n.start + n.dur`,
   and unstyled while upcoming.
-- **`SongPhrase` / `SongNote`** (`frontend/src/songs/types.ts`) — the source data:
+- **`SongPhrase` / `SongNote`** (`frontend/apps/game/src/songs/types.ts`) — the source data:
   a phrase carries a `lyric` line and its `notes`, each with a `syll`.
 
 ## Requirements

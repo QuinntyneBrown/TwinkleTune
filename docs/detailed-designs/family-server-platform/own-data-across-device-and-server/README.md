@@ -47,7 +47,7 @@ Server-owned records (`backend/src/TwinkleTune.Domain/Entities`):
 - **Photo files** — one image per singer under the photos root, referenced by
   `Singer.PhotoFileName`.
 
-Device-owned state (`frontend/src/state/store.ts`):
+Device-owned state (`frontend/apps/game/src/state/store.ts`):
 
 - **`AppState`** — `profile`, `sparkles`, `singDays`, `plays`, `bests`,
   `badges`, `lastResult`, `lastSongId`, and `lastNewBadges`. None of these
@@ -65,7 +65,7 @@ Device-owned state (`frontend/src/state/store.ts`):
   blob to the first server profile that claims it, so no sparkles or badges are
   lost when a device first links to a server.
 
-Where the two meet (`frontend/src/state/profile.ts`):
+Where the two meet (`frontend/apps/game/src/state/profile.ts`):
 
 - **`applySingerToProfile(s)`** — merges the server's view of a singer into the
   device profile, taking `name`, `avatarEmoji`, `rangeLow`/`rangeHigh`, and the

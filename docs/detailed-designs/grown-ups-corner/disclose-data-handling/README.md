@@ -32,7 +32,7 @@ stated by the family server platform subsystem.
 
 ## Description
 
-The copy lives in `frontend/src/ui/settings.ts`; the behaviour it describes lives
+The copy lives in `frontend/apps/game/src/ui/settings.ts`; the behaviour it describes lives
 across the state layer, the REST client, and the duet relay.
 
 - **disclosure paragraph** — the `<p>` directly beneath the "Grown-Ups Corner"
@@ -41,11 +41,11 @@ across the state layer, the REST client, and the duet relay.
   scores live on **your home server only**"; "and during duets, just live scores
   are shared."
 - **first clause — on-device rewards** — backed by `AppState` in
-  `frontend/src/state/store.ts`, whose `sparkles`, `singDays`, `plays`, `bests`,
+  `frontend/apps/game/src/state/store.ts`, whose `sparkles`, `singDays`, `plays`, `bests`,
   and `badges` fields are serialized only into the browser's `localStorage` blob
   by the store's `save()`. No client call sends them.
 - **second clause — home-server content** — backed by `api` in
-  `frontend/src/api/client.ts`, whose requests target `API_URL` alone. The
+  `frontend/apps/game/src/api/client.ts`, whose requests target `API_URL` alone. The
   endpoint groups are `/api/songs`, `/api/avatars`, `/api/singers`, and
   `/api/highscores`; each is served by the family's own ASP.NET Core
   application over the local network.

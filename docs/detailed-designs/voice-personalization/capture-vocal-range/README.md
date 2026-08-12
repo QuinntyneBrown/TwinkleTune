@@ -47,7 +47,7 @@ standard-key fallback live in `fall-back-without-range`; local persistence and s
 The feature is a frontend vertical slice inside the TwinkleTune web app, from the capture screen to
 the browser microphone.
 
-- **`renderVoiceSetup`** — screen module in `frontend/src/screens/voice-setup.ts`. It builds the
+- **`renderVoiceSetup`** — screen module in `frontend/apps/game/src/screens/voice-setup.ts`. It builds the
   capture DOM, holds `phase` and `lowMidi`, and runs the animation-frame `loop`.
 - **`Phase`** — union type `'intro' | 'low' | 'high'` naming the three steps.
 - **`setSteps`** — advances the three-dot progress indicator to step 1, 2, or 3.
@@ -56,10 +56,10 @@ the browser microphone.
 - **`rungFor`** — maps a MIDI note to a rung index, `clamp(floor((midi − 48) / 3), 0, 11)`.
 - **`paintLadder`** — marks the current rung, lights the rungs below it, and places the singer's
   avatar marker on the current rung; shows no current rung when no pitch is detected.
-- **`PitchTracker`** — pitch primitive in `frontend/src/audio/pitch.ts`. Its `start` opens the
+- **`PitchTracker`** — pitch primitive in `frontend/packages/audio-engine/src/pitch.ts`. Its `start` opens the
   microphone, `read` returns the current frame with a `midi` value or `null`, and `stop` releases
   the microphone.
-- **`StablePitchCapture`** — stability filter in `frontend/src/audio/range.ts`. `feed(midi | null)`
+- **`StablePitchCapture`** — stability filter in `frontend/packages/audio-engine/src/range.ts`. `feed(midi | null)`
   accumulates a 40-frame window (`windowFrames = 40`), tolerates silent frames, and returns the
   median once the 10th-to-90th-percentile spread is within `spreadSemitones = 1.0`; `progress`
   reports 0..1 toward a lock; `reset` clears the buffer.
@@ -70,7 +70,7 @@ the browser microphone.
 - **`captured`** — on lock, stores the low note and advances, or applies the separation guard and
   finishes the high note.
 - **`markCaptured`** — marks a rung captured and labels it with `midiToName`.
-- **`playNote`** — note synthesiser in `frontend/src/audio/player.ts`; plays the captured note back.
+- **`playNote`** — note synthesiser in `frontend/packages/audio-engine/src/player.ts`; plays the captured note back.
 - **`midiToName`** — formatter in `range.ts` turning a MIDI number into a note name for the child.
 - **`finish`** — stops the tracker, persists the range, and shows the completion modal (persistence
   detailed in `persist-and-sync-range`).

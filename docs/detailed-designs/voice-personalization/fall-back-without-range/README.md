@@ -30,16 +30,16 @@ by Grown-Ups Corner and is out of scope here.
 
 The feature spans the capture screen and the song list in the TwinkleTune web app.
 
-- **`beginListening`** — capture starter in `frontend/src/screens/voice-setup.ts`. It awaits
+- **`beginListening`** — capture starter in `frontend/apps/game/src/screens/voice-setup.ts`. It awaits
   `tracker.start()` inside a `try/catch`; on rejection it calls `micDeniedDialog` and returns without
   entering a capture phase.
 - **`micDeniedDialog`** — modal in `voice-setup.ts`. Its "Try again 🎤" button re-runs
   `beginListening`; its "Do this later" button sets the hash to `#/home`. No range is written.
-- **`PitchTracker`** — pitch primitive in `frontend/src/audio/pitch.ts`; its `start` rejects when
+- **`PitchTracker`** — pitch primitive in `frontend/packages/audio-engine/src/pitch.ts`; its `start` rejects when
   `getUserMedia` is denied.
-- **`computeShift`** — function in `frontend/src/audio/range.ts` that returns 0 when its range
+- **`computeShift`** — function in `frontend/packages/audio-engine/src/range.ts` that returns 0 when its range
   argument is `null`.
-- **`renderSongs`** — song list in `frontend/src/screens/songs.ts`. With no range it labels cards
+- **`renderSongs`** — song list in `frontend/apps/game/src/screens/songs.ts`. With no range it labels cards
   "Standard key" and plays each song at shift 0; play is never gated on a range.
 - **`Profile.range`** — the `VoiceRange | null` field read before each shift; `null` selects the
   fallback.

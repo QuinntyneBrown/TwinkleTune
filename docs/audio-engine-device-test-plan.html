@@ -500,9 +500,9 @@ cd ../e2e
 npx playwright test tests/tuner.spec.ts</code></pre>
         <p>The E2E tuner test injects a deterministic 440 Hz A4 signal. It proves the code path, but not a physical device microphone—this scorecard supplies that missing evidence.</p>
         <ul class="source-links">
-          <li><a href="../frontend/src/audio/pitch.ts">PitchTracker source</a></li>
-          <li><a href="../frontend/src/screens/tuner.ts">Diagnostic tuner source</a></li>
-          <li><a href="../frontend/src/state/scoring.ts">Gameplay scoring source</a></li>
+          <li><a href="../frontend/packages/audio-engine/src/pitch.ts">PitchTracker source</a></li>
+          <li><a href="../frontend/apps/game/src/screens/tuner.ts">Diagnostic tuner source</a></li>
+          <li><a href="../frontend/apps/game/src/state/scoring.ts">Gameplay scoring source</a></li>
           <li><a href="../e2e/tests/tuner.spec.ts">Deterministic tuner test</a></li>
           <li><a href="specs/audio-engine/L2.md">Audio-engine requirements</a></li>
           <li><a href="detailed-designs/audio-engine/diagnostic-tuner/README.md">Tuner detailed design</a></li>

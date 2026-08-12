@@ -3,7 +3,7 @@
 LAYOUT_WITH_LEGEND()
 title Components — Degrade gracefully offline
 
-Container_Boundary(client, "API client (frontend/src/api/client.ts)") {
+Container_Boundary(client, "API client (frontend/apps/game/src/api/client.ts)") {
   Component(url, "API_URL", "Module constant", "VITE_API_URL, else http://localhost:5240 in DEV, else same origin")
   Component(req, "req<T>(path, init)", "Fetch wrapper", "Throws ApiError carrying message and errors")
   Component(probe, "serverOnline()", "Reachability probe", "GET /health, 1500 ms timeout, cached 10 s")

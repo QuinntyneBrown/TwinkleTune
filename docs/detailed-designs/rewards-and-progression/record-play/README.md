@@ -33,7 +33,7 @@ earned badge ids to its caller and leaves navigation to the sing screen.
 
 ## Description
 
-Frontend — reward state (`frontend/src/state/store.ts`):
+Frontend — reward state (`frontend/apps/game/src/state/store.ts`):
 
 - **`recordPlay(store, song, summary, today)`** — the orchestration. It declares
   `let newBadges: string[] = []`, runs one `store.update((s) => { ... })`, and
@@ -55,18 +55,18 @@ Frontend — reward state (`frontend/src/state/store.ts`):
   already includes this play. That ordering is what lets `First Song` be awarded
   on the first run.
 
-Frontend — sing screen (`frontend/src/screens/sing.ts`):
+Frontend — sing screen (`frontend/apps/game/src/screens/sing.ts`):
 
 - **end-of-song block** — after `finished = true`, it stops the pitch tracker,
   computes `const summary = summarize(song, results, noMic)`, and calls
   `recordPlay(store, song, summary, todayISO())` before any navigation.
 
-Frontend — results screen (`frontend/src/screens/results.ts`):
+Frontend — results screen (`frontend/apps/game/src/screens/results.ts`):
 
 - **`renderResults`** — reads `state.lastResult` for the stars, marks, and
   coaching line, and `state.lastNewBadges` for the new-badge chips.
 
-Frontend — song list (`frontend/src/screens/songs.ts`):
+Frontend — song list (`frontend/apps/game/src/screens/songs.ts`):
 
 - **`renderSongs`** — reads `state.lastSongId` to resolve the most recently sung
   song.

@@ -31,7 +31,7 @@ maintains.
 
 ## Description
 
-Frontend — duet API adapter (`frontend/src/api/duet.ts`):
+Frontend — duet API adapter (`frontend/apps/game/src/api/duet.ts`):
 
 - **`DuetClient.connect()`** — static factory building a `HubConnection` against
   `` `${API_URL}/hubs/duet` `` with `.withAutomaticReconnect()` and
@@ -48,7 +48,7 @@ Frontend — duet API adapter (`frontend/src/api/duet.ts`):
   `end()`; `end()` calls `session.client.leave()` and then clears the session to
   `null`.
 
-Frontend — screens (`frontend/src/screens/duet.ts`, `sing.ts`, `results.ts`):
+Frontend — screens (`frontend/apps/game/src/screens/duet.ts`, `sing.ts`, `results.ts`):
 
 - **`ensureClient()`** — returns the existing `client` or connects once, so the
   duet screen holds at most one connection.

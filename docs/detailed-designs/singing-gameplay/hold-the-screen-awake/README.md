@@ -34,8 +34,8 @@ The terms below are used throughout.
 
 ## Description
 
-The feature is realized by `frontend/src/ui/wake-lock.ts` and four call sites in
-`frontend/src/screens/sing.ts`. No server participates.
+The feature is realized by `frontend/apps/game/src/ui/wake-lock.ts` and four call sites in
+`frontend/apps/game/src/screens/sing.ts`. No server participates.
 
 - **`SingingWakeLock`** — the class owning one screen's wake-lock lifecycle. Its
   constructor registers `visibilitychange` on `document`.

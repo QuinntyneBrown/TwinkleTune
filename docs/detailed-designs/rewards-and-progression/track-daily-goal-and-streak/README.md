@@ -29,7 +29,7 @@ requires the family server.
 
 ## Description
 
-Frontend — reward state (`frontend/src/state/store.ts`):
+Frontend — reward state (`frontend/apps/game/src/state/store.ts`):
 
 - **`AppState.singDays`** — `string[]` of ISO dates on which at least one song
   was sung. `recordPlay` appends today only when `!s.singDays.includes(today)`,
@@ -47,7 +47,7 @@ Frontend — reward state (`frontend/src/state/store.ts`):
   the number of steps taken.
 - **`songsSungOn(state, day)`** — returns `state.plays[day] ?? 0`.
 
-Frontend — home dashboard (`frontend/src/screens/home.ts`):
+Frontend — home dashboard (`frontend/apps/game/src/screens/home.ts`):
 
 - **`DAILY_GOAL`** — module constant set to `3`.
 - **`renderHome`** — computes `sungToday = songsSungOn(s, today)`,

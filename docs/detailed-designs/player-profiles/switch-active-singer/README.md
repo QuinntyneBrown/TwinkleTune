@@ -28,7 +28,7 @@ whenever it can.
 
 ## Description
 
-Frontend — profiles screen (`frontend/src/screens/profiles.ts`):
+Frontend — profiles screen (`frontend/apps/game/src/screens/profiles.ts`):
 
 - **`renderProfiles(root)`** — renders the header, the Twinkle coach bubble, and a
   `[data-list]` placeholder, then calls `refresh()`.
@@ -47,7 +47,7 @@ Frontend — profiles screen (`frontend/src/screens/profiles.ts`):
 - **`singerAvatarHTML(s)`** — renders the singer's photo when `s.hasPhoto`, and
   her `avatarEmoji ?? '🎤'` otherwise.
 
-Frontend — profile activation (`frontend/src/state/profile.ts`):
+Frontend — profile activation (`frontend/apps/game/src/state/profile.ts`):
 
 - **`activateSinger(s: ApiSinger)`** — the four steps of activation, in order:
   `adoptLegacyState(s.id)`, `setActiveSingerId(s.id)`,

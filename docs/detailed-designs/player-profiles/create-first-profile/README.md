@@ -29,7 +29,7 @@ onboarding still completes and the profile stays on the device.
 
 ## Description
 
-Frontend — welcome screen (`frontend/src/screens/welcome.ts`):
+Frontend — welcome screen (`frontend/apps/game/src/screens/welcome.ts`):
 
 - **`renderWelcome(root)`** — renders the first-run screen and wires its
   handlers. It pre-fills the name input from any existing profile and pre-selects
@@ -49,8 +49,8 @@ Frontend — welcome screen (`frontend/src/screens/welcome.ts`):
 - **grown-ups link** — `[data-grownups]` calls `parentGate(showSettings)`, and a
   quiet link points at `#/profiles`.
 
-Frontend — profile state (`frontend/src/state/store.ts`,
-`frontend/src/state/profile.ts`):
+Frontend — profile state (`frontend/apps/game/src/state/store.ts`,
+`frontend/apps/game/src/state/profile.ts`):
 
 - **`Profile`** — interface with `name`, `avatar`, `range: VoiceRange | null`,
   `latencyMs`, and the optional `singerId`, `avatarId`, and `photoUrl`.
@@ -60,7 +60,7 @@ Frontend — profile state (`frontend/src/state/store.ts`,
   singer id, switches the store namespace, and merges the server view into the
   profile.
 
-Frontend — REST client (`frontend/src/api/client.ts`):
+Frontend — REST client (`frontend/apps/game/src/api/client.ts`):
 
 - **`serverOnline()`** — probes `${API_URL}/health` with
   `AbortSignal.timeout(1500)`, returns `false` on any throw, and caches the answer

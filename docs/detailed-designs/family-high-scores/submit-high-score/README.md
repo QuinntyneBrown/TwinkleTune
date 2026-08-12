@@ -35,25 +35,25 @@ validating its values belongs to `validate-submission`.
 
 ## Description
 
-Frontend — results screen (`frontend/src/screens/results.ts`):
+Frontend — results screen (`frontend/apps/game/src/screens/results.ts`):
 
 - **`renderResults`** — screen function that reads `store.get()` for
   `lastResult` (a `SongSummary`) and `profile`, then runs the submission block
   before painting the results markup.
 - **submission guard** — the condition `!r.noMic && state.profile?.singerId &&
   isServerSongId(r.songId)`. All three parts hold before any request is issued.
-- **`isServerSongId`** — `frontend/src/songs/repo.ts` helper testing an id
+- **`isServerSongId`** — `frontend/apps/game/src/songs/repo.ts` helper testing an id
   against the GUID regular expression
   `/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i`.
-- **`SongSummary`** — `frontend/src/state/scoring.ts` result type supplying
+- **`SongSummary`** — `frontend/apps/game/src/state/scoring.ts` result type supplying
   `songId`, `stars`, `accuracy`, `sparkles`, `maxStreak`, and `noMic`.
-- **`toast('🏆 New family record!', 'gold', 2600)`** — `frontend/src/ui/modal.ts`
+- **`toast('🏆 New family record!', 'gold', 2600)`** — `frontend/apps/game/src/ui/modal.ts`
   call fired when the response carries `improved = true`; the gold variant shows
   for 2600 ms.
 - **`.catch(() => {})`** — the empty rejection handler that keeps an unreachable
   server silent on the results screen.
 
-Frontend — REST client (`frontend/src/api/client.ts`):
+Frontend — REST client (`frontend/apps/game/src/api/client.ts`):
 
 - **`api.highscores.submit`** — issues `POST /api/highscores` with a JSON body of
   `{ songId, singerId, stars, accuracy, sparkles, maxStreak }` and resolves a
