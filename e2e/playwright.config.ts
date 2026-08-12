@@ -23,7 +23,7 @@ export default defineConfig({
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: {
     command: 'npm run dev -- --port=5174 --strictPort',
-    cwd: path.resolve(__dirname, '..', 'frontend'),
+    cwd: path.resolve(__dirname, '..', 'frontend', 'apps', 'game'),
     url: 'http://localhost:5174',
     reuseExistingServer: !process.env.CI,
     timeout: 60_000,

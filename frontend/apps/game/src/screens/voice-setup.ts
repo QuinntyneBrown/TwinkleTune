@@ -1,6 +1,4 @@
-import { PitchTracker } from '../audio/pitch'
-import { midiToName, StablePitchCapture } from '../audio/range'
-import { playNote } from '../audio/player'
+import { PitchTracker, midiToName, StablePitchCapture, playNote } from '@twinkletune/audio-engine'
 import { pushProfileToServer } from '../state/profile'
 import { store } from '../state/store'
 import { mascotSVG, skyDecor } from '../ui/parts'

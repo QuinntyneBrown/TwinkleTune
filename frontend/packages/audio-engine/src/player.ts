@@ -1,5 +1,5 @@
-import type { Song } from '../songs/types'
-import { allNotes, songBeats } from '../songs/types'
+import type { Song } from './song'
+import { allNotes, songBeats } from './song'
 import { midiToHz } from './range'
 
 let sharedCtx: AudioContext | null = null
@@ -156,7 +156,7 @@ export class SongPlayer {
 }
 
 /** One-off preview of a single pitch (used by the voice-setup ladder + tuned-for-you demo). */
-export function playNote(midi: number, durSec = 0.5): void {
+export function playNote(midi: number, durSec = 0.5, wave: OscillatorType = 'triangle'): void {
   const ctx = audioCtx()
   const gain = ctx.createGain()
   const at = ctx.currentTime + 0.02
@@ -165,7 +165,7 @@ export function playNote(midi: number, durSec = 0.5): void {
   gain.gain.exponentialRampToValueAtTime(0.0001, at + durSec)
   gain.connect(ctx.destination)
   const osc = ctx.createOscillator()
-  osc.type = 'triangle'
+  osc.type = wave
   osc.frequency.value = midiToHz(midi)
   osc.connect(gain)
   osc.start(at)

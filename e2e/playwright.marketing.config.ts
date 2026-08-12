@@ -30,7 +30,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npm run dev -- --host 127.0.0.1 --port 4175 --strictPort ../marketing',
+    command: 'npm run dev:marketing',
     cwd: path.resolve(__dirname, '..', 'frontend'),
     url: marketingUrl,
     reuseExistingServer: !process.env.CI,

@@ -1,7 +1,7 @@
 import { currentSongs } from '../songs/repo'
 import { BADGES } from '../state/badges'
 import { level, levelTitle, sparklesToNextLevel, store, todayISO } from '../state/store'
-import { midiToName } from '../audio/range'
+import { midiToName } from '@twinkletune/audio-engine'
 import { skyDecor, bottomNav } from '../ui/parts'
 import { parentGate } from '../ui/modal'
 import { showSettings } from '../ui/settings'

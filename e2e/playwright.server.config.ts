@@ -45,7 +45,7 @@ export default defineConfig({
     },
     {
       command: 'npm run dev -- --port=5175 --strictPort',
-      cwd: path.resolve(__dirname, '..', 'frontend'),
+      cwd: path.resolve(__dirname, '..', 'frontend', 'apps', 'game'),
       url: 'http://localhost:5175',
       reuseExistingServer: false,
       timeout: 60_000,

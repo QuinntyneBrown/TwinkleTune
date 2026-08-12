@@ -1,5 +1,5 @@
 import { api, ApiError, type ApiAvatar, type ApiSong } from '../api/client'
-import { SongPlayer } from '../audio/player'
+import { SongPlayer } from '@twinkletune/audio-engine'
 import type { Song } from '../songs/types'
 import { validateSong } from '../songs/types'
 import { showModal, toast } from './modal'

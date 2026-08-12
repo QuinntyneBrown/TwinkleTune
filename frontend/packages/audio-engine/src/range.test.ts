@@ -1,9 +1,25 @@
 import { describe, expect, it } from 'vitest'
 import { computeShift, describeShift, midiToName, StablePitchCapture } from './range'
-import { getSong } from '../songs/catalog'
-import type { Song } from '../songs/types'
+import type { Song } from './song'
 
-const twinkle = getSong('twinkle') as Song // spans C4 (60) to A4 (69)
+// Fixture with the same span as "Twinkle Twinkle": C4 (60) to A4 (69), center 64.5.
+const twinkle: Song = {
+  id: 'fixture',
+  title: 'Fixture',
+  emoji: '⭐',
+  art: 1,
+  bpm: 100,
+  difficulty: 1,
+  phrases: [
+    {
+      lyric: 'la la',
+      notes: [
+        { midi: 60, start: 0, dur: 1, syll: 'la' },
+        { midi: 69, start: 1, dur: 1, syll: 'la' },
+      ],
+    },
+  ],
+}
 
 describe('midiToName', () => {
   it('names notes with octaves', () => {

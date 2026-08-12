@@ -1,18 +1,14 @@
 import type { Song } from '../songs/types'
+import type { VoiceRange } from '@twinkletune/audio-engine'
 import type { SongSummary } from './scoring'
 import { evaluateBadges } from './badges'
+
+export type { VoiceRange }
 
 export interface StorageLike {
   getItem(key: string): string | null
   setItem(key: string, value: string): void
   removeItem(key: string): void
-}
-
-export interface VoiceRange {
-  /** lowest comfortable MIDI note */
-  low: number
-  /** highest comfortable MIDI note */
-  high: number
 }
 
 export interface Profile {

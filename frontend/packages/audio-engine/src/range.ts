@@ -1,6 +1,12 @@
-import type { Song } from '../songs/types'
-import { songRange } from '../songs/types'
-import type { VoiceRange } from '../state/store'
+import type { Song } from './song'
+import { songRange } from './song'
+
+export interface VoiceRange {
+  /** lowest comfortable MIDI note */
+  low: number
+  /** highest comfortable MIDI note */
+  high: number
+}
 
 export const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 

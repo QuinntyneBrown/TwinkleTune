@@ -36,6 +36,11 @@ export class PitchTracker {
     return this.analyser !== null
   }
 
+  /** Settings of the live mic track (sample rate, processing flags) for diagnostics. */
+  get trackSettings(): MediaTrackSettings | null {
+    return this.media?.getAudioTracks()[0]?.getSettings() ?? null
+  }
+
   /** Throws DOMException (NotAllowedError) when the mic is denied. */
   async start(): Promise<void> {
     if (this.running) return

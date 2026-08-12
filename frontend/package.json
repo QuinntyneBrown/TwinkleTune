@@ -3,19 +3,22 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "workspaces": [
+    "packages/audio-engine",
+    "apps/game",
+    "apps/audio-lab"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "tsc --noEmit && vite build",
-    "preview": "vite preview",
-    "test": "vitest run",
-    "test:watch": "vitest"
-  },
-  "dependencies": {
-    "@microsoft/signalr": "^10.0.0",
-    "pitchy": "^4.1.0"
+    "dev": "npm run dev -w apps/game",
+    "dev:lab": "npm run dev -w apps/audio-lab",
+    "dev:marketing": "vite --host 127.0.0.1 --port 4175 --strictPort ../marketing",
+    "build": "npm run build -w apps/game",
+    "build:lab": "npm run build -w apps/audio-lab",
+    "preview": "npm run preview -w apps/game",
+    "test": "npm test -ws --if-present",
+    "test:watch": "npm run test:watch -w apps/game"
   },
   "devDependencies": {
-    "@webgpu/types": "^0.1.71",
     "typescript": "^5.6.0",
     "vite": "^6.0.0",
     "vitest": "^3.0.0"

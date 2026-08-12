@@ -1,5 +1,4 @@
-import { PitchTracker } from '../audio/pitch'
-import { midiToName } from '../audio/range'
+import { PitchTracker, midiToName } from '@twinkletune/audio-engine'
 import { skyDecor } from '../ui/parts'
 
 /** Hidden dev screen (#/tuner) for verifying pitch detection accuracy. */

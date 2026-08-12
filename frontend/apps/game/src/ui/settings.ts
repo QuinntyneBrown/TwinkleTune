@@ -1,5 +1,5 @@
 import { store } from '../state/store'
-import { midiToName } from '../audio/range'
+import { midiToName } from '@twinkletune/audio-engine'
 import { showModal } from './modal'
 import { showAvatarManager, showSongManager } from './managers'
 

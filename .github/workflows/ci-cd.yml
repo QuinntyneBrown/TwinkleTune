@@ -84,7 +84,7 @@ jobs:
             --exclude='.vite/' \
             --exclude='node_modules/' \
             marketing/ .artifacts/site/
-          cp -a frontend/dist/. .artifacts/site/app/
+          cp -a frontend/apps/game/dist/. .artifacts/site/app/
 
           test -f .artifacts/site/index.html
           test -f .artifacts/site/staticwebapp.config.json
