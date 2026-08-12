@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TwinkleTune — radically simple note-capture test</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --sky: #eaf7ff;
+      --paper: #fffdf9;
+      --ink: #16324a;
+      --muted: #557087;
+      --blue: #5ea8da;
+      --blue-dark: #2878ae;
+      --pink: #f4dbe3;
+      --gold: #ffd66b;
+      --mint: #ccefdc;
+      --red: #c84e63;
+      --line: #c9ddeb;
+      --shadow: 0 14px 35px rgba(35, 91, 128, .12);
+      font-family: Nunito, ui-rounded, "Segoe UI", system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 8% 5%, rgba(255, 214, 107, .4), transparent 17rem),
+        radial-gradient(circle at 95% 18%, rgba(244, 219, 227, .8), transparent 22rem),
+        var(--sky);
+      color: var(--ink);
+      font-size: 17px;
+      line-height: 1.55;
+    }
+
+    main { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 42px 0 80px; }
+    h1, h2, h3 { line-height: 1.1; margin-top: 0; }
+    h1 { max-width: 820px; margin-bottom: 14px; font-size: clamp(2.3rem, 6vw, 4.8rem); letter-spacing: -.045em; }
+    h2 { margin-bottom: 18px; font-size: clamp(1.55rem, 3vw, 2.25rem); }
+    h3 { margin-bottom: 8px; font-size: 1.08rem; }
+    p { margin: 0 0 14px; }
+    a { color: var(--blue-dark); }
+    code { padding: .12em .32em; border-radius: .35em; background: #e9f2f8; font-size: .9em; }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 16px;
+      padding: 7px 12px;
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      background: var(--gold);
+      font-weight: 900;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .lede { max-width: 780px; margin-bottom: 28px; color: var(--muted); font-size: 1.2rem; }
+    .hero-rule {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 18px;
+      align-items: center;
+      max-width: 900px;
+      padding: 20px 24px;
+      border: 3px solid var(--ink);
+      border-radius: 22px;
+      background: var(--paper);
+      box-shadow: 8px 8px 0 var(--blue);
+    }
+    .hero-rule .mark { font-size: 2.4rem; }
+    .hero-rule strong { font-size: 1.18rem; }
+
+    .jump {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 34px 0;
+    }
+    .jump a, .print-button {
+      padding: 10px 15px;
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      background: white;
+      color: var(--ink);
+      font: inherit;
+      font-weight: 800;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 3px 3px 0 var(--pink);
+    }
+    .jump a:hover, .print-button:hover { transform: translateY(-1px); box-shadow: 4px 5px 0 var(--pink); }
+
+    section {
+      margin-top: 28px;
+      padding: clamp(20px, 4vw, 34px);
+      border: 1px solid rgba(22, 50, 74, .16);
+      border-radius: 26px;
+      background: rgba(255, 253, 249, .96);
+      box-shadow: var(--shadow);
+    }
+    .section-label { color: var(--blue-dark); font-weight: 900; letter-spacing: .04em; text-transform: uppercase; }
+    .step-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .step {
+      position: relative;
+      min-height: 190px;
+      padding: 20px;
+      border: 2px solid var(--line);
+      border-radius: 18px;
+      background: white;
+    }
+    .step-number {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      margin-bottom: 15px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--ink);
+      color: white;
+      font-weight: 900;
+    }
+
+    .callout {
+      margin: 18px 0 0;
+      padding: 16px 18px;
+      border-left: 7px solid var(--gold);
+      border-radius: 10px;
+      background: #fff8dc;
+    }
+    .callout.warn { border-color: var(--red); background: #fff0f2; }
+    .callout.good { border-color: #3f9b69; background: #ecfbf2; }
+    .callout p:last-child { margin-bottom: 0; }
+
+    .compact-list { margin: 10px 0 0; padding-left: 1.2em; }
+    .compact-list li { margin: 7px 0; }
+
+    .metadata {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px 24px;
+      margin-top: 20px;
+    }
+    .blank { display: inline-block; min-width: 180px; height: 1.25em; border-bottom: 2px solid var(--muted); vertical-align: bottom; }
+
+    .table-wrap { width: 100%; overflow-x: auto; border-radius: 14px; }
+    table { width: 100%; border-collapse: separate; border-spacing: 0; background: white; font-size: .94rem; }
+    th, td { padding: 12px 13px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { background: #dff1fc; font-weight: 900; }
+    tr > :first-child { border-left: 1px solid var(--line); }
+    thead tr:first-child > * { border-top: 1px solid var(--line); }
+    thead tr:first-child > :first-child { border-top-left-radius: 12px; }
+    thead tr:first-child > :last-child { border-top-right-radius: 12px; }
+    tbody tr:last-child > :first-child { border-bottom-left-radius: 12px; }
+    tbody tr:last-child > :last-child { border-bottom-right-radius: 12px; }
+    .tone { white-space: nowrap; font-weight: 900; }
+    .write-cell { min-width: 90px; height: 52px; background: #fffefb; }
+    .small { color: var(--muted); font-size: .9rem; }
+    .nowrap { white-space: nowrap; }
+
+    .pass-rule {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 18px 0;
+    }
+    .pass-rule div { padding: 15px; border-radius: 14px; background: var(--mint); font-weight: 800; }
+    .pass-rule span { display: block; margin-bottom: 4px; font-size: 1.4rem; }
+
+    .codes { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 20px; }
+    .code { padding: 5px 10px; border: 1px solid var(--line); border-radius: 8px; background: white; }
+    .code b { display: inline-grid; min-width: 25px; place-items: center; }
+
+    .signal-table td:nth-child(1) { font-weight: 900; }
+    .signal-table td:nth-child(3) { color: var(--blue-dark); font-weight: 800; }
+
+    .decision {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 18px;
+    }
+    .decision > div { padding: 20px; border-radius: 16px; }
+    .decision .green { background: var(--mint); }
+    .decision .red { background: #ffe2e7; }
+    .decision strong { display: block; margin-bottom: 6px; font-size: 1.18rem; }
+
+    details { margin-top: 14px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: white; }
+    summary { cursor: pointer; font-weight: 900; }
+    .source-links { columns: 2; padding-left: 1.2em; }
+
+    footer { max-width: 800px; margin: 30px auto 0; color: var(--muted); text-align: center; }
+
+    @media (max-width: 780px) {
+      main { width: min(100% - 20px, 680px); padding-top: 22px; }
+      .step-grid, .pass-rule, .decision, .metadata { grid-template-columns: 1fr; }
+      .hero-rule { grid-template-columns: 1fr; }
+      .step { min-height: auto; }
+      .source-links { columns: 1; }
+    }
+
+    @media print {
+      @page { margin: 12mm; size: landscape; }
+      body { background: white; font-size: 10pt; }
+      main { width: 100%; padding: 0; }
+      .jump, .print-button { display: none !important; }
+      section { break-inside: avoid; margin-top: 12px; padding: 14px; box-shadow: none; }
+      h1 { font-size: 28pt; }
+      h2 { font-size: 17pt; }
+      .step { min-height: auto; padding: 12px; }
+      .hero-rule { box-shadow: none; }
+      th, td { padding: 7px; }
+      details { break-inside: avoid; }
+      details > * { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">⭐ Pitch-engine field check</div>
+      <h1>Does TwinkleTune hear the right note?</h1>
+      <p class="lede">One page. Three device types. Seven known tones. About ten minutes. The result tells us whether pitch capture is trustworthy and where to look when it is not.</p>
+      <div class="hero-rule">
+        <div class="mark" aria-hidden="true">🎯</div>
+        <div><strong>The only reliable ground truth is a known reference tone.</strong><br>Do not use a person singing for the accuracy gate: without an independent measurement, we do not know which note the person actually produced.</div>
+      </div>
+    </header>
+
+    <nav class="jump" aria-label="On this page">
+      <a href="#setup">1 · Set up</a>
+      <a href="#run">2 · Run</a>
+      <a href="#score">3 · Score</a>
+      <a href="#signals">Read the signals</a>
+      <button class="print-button" type="button" onclick="window.print()">Print scorecard</button>
+    </nav>
+
+    <section id="answer">
+      <div class="section-label">The answer in one sentence</div>
+      <h2>Known tone in → matching stable reading out.</h2>
+      <div class="pass-rule">
+        <div><span>①</span>Exact note <em>and octave</em></div>
+        <div><span>②</span>Within ±25 cents</div>
+        <div><span>③</span>Clarity ≥ 80%</div>
+        <div><span>④</span>Stable for 2 seconds</div>
+      </div>
+      <p>A tone passes only when all four are true in <strong>3 of 3 attempts</strong>. The ±25-cent field-test limit leaves useful safety margin inside TwinkleTune gameplay's ±50-cent match tolerance.</p>
+      <div class="callout warn">
+        <p><strong>Why the octave matters:</strong> gameplay deliberately treats C3, C4, and C5 as the same pitch class, but “Find My Voice” stores an absolute MIDI range. A wrong-octave reading can therefore score as correct while still producing a bad voice range.</p>
+      </div>
+    </section>
+
+    <section id="setup">
+      <div class="section-label">Step 1</div>
+      <h2>Set up once</h2>
+      <div class="step-grid">
+        <article class="step">
+          <div class="step-number">1</div>
+          <h3>Use a separate tone source</h3>
+          <p>Use a trusted tone generator, electronic keyboard, or calibrated tuner on a <strong>second device</strong>. A clean sine tone is best for the baseline.</p>
+        </article>
+        <article class="step">
+          <div class="step-number">2</div>
+          <h3>Keep the setup fixed</h3>
+          <p>Quiet room. Source's built-in speaker, test device's built-in microphone. No Bluetooth. Keep them 30 cm apart at 60–70% source volume.</p>
+        </article>
+        <article class="step">
+          <div class="step-number">3</div>
+          <h3>Open the diagnostic tuner</h3>
+          <p>Open <code>https://&lt;app-host&gt;/#/tuner</code> and tap <strong>Start listening</strong>. Grant microphone access. Remote phones and tablets need HTTPS; <code>localhost</code> may use HTTP.</p>
+        </article>
+      </div>
+
+      <div class="callout">
+        <p><strong>Do not play TwinkleTune's reference audio through the same device being tested.</strong> Use the second device so the path under test is speaker → air → test-device microphone → browser → PitchTracker.</p>
+      </div>
+
+      <div class="metadata" aria-label="Test metadata worksheet">
+        <div>Build / commit: <span class="blank"></span></div>
+        <div>App URL: <span class="blank"></span></div>
+        <div>Reference source: <span class="blank"></span></div>
+        <div>Room / background: <span class="blank"></span></div>
+        <div>Tester: <span class="blank"></span></div>
+        <div>Date: <span class="blank"></span></div>
+      </div>
+    </section>
+
+    <section id="run">
+      <div class="section-label">Step 2</div>
+      <h2>Run the same tiny script on phone, tablet, and laptop</h2>
+      <ol class="compact-list">
+        <li><strong>Silence first:</strong> wait 5 seconds. The note must remain <strong>—</strong>. Any note during silence is a failure.</li>
+        <li>Play each reference tone for 3 seconds, then leave 2 seconds of silence.</li>
+        <li>Watch the steady part, not the first attack. Check the exact note, Hz range, clarity, and stability.</li>
+        <li>Repeat the seven-tone sweep three times. Record the <strong>worst</strong> result, not the best.</li>
+        <li>If a tone shows <strong>—</strong>, raise the source volume once. Record the first failure anyway; sensitivity is a useful signal.</li>
+      </ol>
+
+      <h3 style="margin-top:24px">Reference tones and strict pass bands</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Target</th>
+              <th scope="col">MIDI</th>
+              <th scope="col">Exact frequency</th>
+              <th scope="col">Pass band (±25 cents)</th>
+              <th scope="col">Why it is here</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="tone">C3</td><td>48</td><td>130.81 Hz</td><td class="nowrap">128.9–132.7 Hz</td><td>Bottom of the song/voice ladder</td></tr>
+            <tr><td class="tone">G3</td><td>55</td><td>196.00 Hz</td><td class="nowrap">193.2–198.9 Hz</td><td>Low-mid, different pitch class</td></tr>
+            <tr><td class="tone">C4</td><td>60</td><td>261.63 Hz</td><td class="nowrap">257.9–265.4 Hz</td><td>Middle C and automated-test baseline</td></tr>
+            <tr><td class="tone">E4</td><td>64</td><td>329.63 Hz</td><td class="nowrap">324.9–334.4 Hz</td><td>Common song note</td></tr>
+            <tr><td class="tone">A4</td><td>69</td><td>440.00 Hz</td><td class="nowrap">433.7–446.4 Hz</td><td>Universal tuning reference</td></tr>
+            <tr><td class="tone">C5</td><td>72</td><td>523.25 Hz</td><td class="nowrap">515.7–530.9 Hz</td><td>High voice region</td></tr>
+            <tr><td class="tone">C6</td><td>84</td><td>1046.50 Hz</td><td class="nowrap">1031.5–1061.7 Hz</td><td>Top of the song/voice ladder</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small" style="margin-top:12px">TwinkleTune's detector accepts 70–1500 Hz. These seven points cover the app's authored note range, C3–C6, without turning the check into a laboratory study.</p>
+    </section>
+
+    <section id="score">
+      <div class="section-label">Step 3</div>
+      <h2>Score one character per tone</h2>
+      <div class="codes" aria-label="Result codes">
+        <span class="code"><b>P</b> pass</span>
+        <span class="code"><b>O</b> wrong octave</span>
+        <span class="code"><b>N</b> wrong/flat/sharp note</span>
+        <span class="code"><b>—</b> no reading</span>
+        <span class="code"><b>~</b> unstable/bouncing</span>
+      </div>
+
+      <div class="table-wrap">
+        <table aria-label="Cross-device result scorecard">
+          <thead>
+            <tr>
+              <th scope="col">Device / OS / browser</th>
+              <th scope="col">Silence</th>
+              <th scope="col">C3</th>
+              <th scope="col">G3</th>
+              <th scope="col">C4</th>
+              <th scope="col">E4</th>
+              <th scope="col">A4</th>
+              <th scope="col">C5</th>
+              <th scope="col">C6</th>
+              <th scope="col">Overall</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th class="write-cell" scope="row">Phone:<br><span class="small">____________</span></th>
+              <td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td>
+            </tr>
+            <tr>
+              <th class="write-cell" scope="row">Tablet:<br><span class="small">____________</span></th>
+              <td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td>
+            </tr>
+            <tr>
+              <th class="write-cell" scope="row">Laptop:<br><span class="small">____________</span></th>
+              <td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td><td class="write-cell"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="margin-top:24px">Failure detail — only fill this in when a cell is not P</h3>
+      <div class="table-wrap">
+        <table aria-label="Failure detail worksheet">
+          <thead>
+            <tr>
+              <th scope="col">Device + target</th>
+              <th scope="col">Actual note</th>
+              <th scope="col">Worst Hz / clarity / RMS</th>
+              <th scope="col">Reproduced</th>
+              <th scope="col">Short observation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="write-cell"></td><td></td><td></td><td>___ / 3</td><td></td></tr>
+            <tr><td class="write-cell"></td><td></td><td></td><td>___ / 3</td><td></td></tr>
+            <tr><td class="write-cell"></td><td></td><td></td><td>___ / 3</td><td></td></tr>
+            <tr><td class="write-cell"></td><td></td><td></td><td>___ / 3</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="decision">
+        <div class="green">
+          <strong>PASS the capture engine</strong>
+          All 24 measurement cells pass: silence plus seven tones on each device. Mark all three Overall cells PASS. That is 63 correct tone observations and three clean silence checks.
+        </div>
+        <div class="red">
+          <strong>INVESTIGATE</strong>
+          Any non-P cell. Keep the result—do not average a device failure away. Use the pattern table below to choose the next experiment.
+        </div>
+      </div>
+    </section>
+
+    <section id="signals">
+      <div class="section-label">Find areas for improvement</div>
+      <h2>The failure pattern is the signal</h2>
+      <div class="table-wrap">
+        <table class="signal-table">
+          <thead>
+            <tr>
+              <th scope="col">What you see</th>
+              <th scope="col">What it probably means</th>
+              <th scope="col">Look here next</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Same tone fails on 2–3 devices</td>
+              <td>Cross-device engine behavior, not one microphone</td>
+              <td>Pitch algorithm, 2048-sample window, frequency gates</td>
+            </tr>
+            <tr>
+              <td>Only one device/browser fails</td>
+              <td>Hardware response, browser audio path, or capture constraint difference</td>
+              <td>Device/browser compatibility and actual media-track settings</td>
+            </tr>
+            <tr>
+              <td>Wrong octave (O), right letter</td>
+              <td>Harmonic chosen as the fundamental; gameplay may hide it</td>
+              <td>Pitchy's octave selection and voice-range safeguards</td>
+            </tr>
+            <tr>
+              <td>Adjacent note or outside ±25 cents (N)</td>
+              <td>Frequency bias or weak margin before the ±50-cent gameplay edge</td>
+              <td>Frequency estimate, device processing, calibration</td>
+            </tr>
+            <tr>
+              <td>Dash (—), especially on low notes</td>
+              <td>RMS too low, clarity below 80%, or detector sensitivity</td>
+              <td>RMS/clarity telemetry and microphone placement</td>
+            </tr>
+            <tr>
+              <td>Bounces (~) while the source is steady</td>
+              <td>Median-of-five smoothing is insufficient or input is being processed</td>
+              <td>Smoothing, media-track settings, raw-versus-median trace</td>
+            </tr>
+            <tr>
+              <td>A note appears during silence</td>
+              <td>Noise floor crosses the 0.010 RMS gate</td>
+              <td>Adaptive noise floor / RMS gate</td>
+            </tr>
+            <tr>
+              <td>Reference tones pass; real singing fails</td>
+              <td>Base detector is accurate; vocal stability or capture UX is the issue</td>
+              <td><code>StablePitchCapture</code>, room noise, child guidance</td>
+            </tr>
+            <tr>
+              <td>Tuner passes; notes miss during a song</td>
+              <td>Pitch is right, but timing/scoring may be wrong</td>
+              <td>Latency setting, playback clock, frame accumulation</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout good">
+        <p><strong>Best next improvement if failures are hard to explain:</strong> add a “record diagnostics” button to the tuner that downloads timestamp, raw Hz, smoothed MIDI, clarity, RMS, sample rate, and media-track settings. The current screen is excellent for a yes/no check but does not retain dropouts or distinguish raw readings from the five-frame median.</p>
+      </div>
+    </section>
+
+    <section id="reality-check">
+      <div class="section-label">Optional, after the baseline passes</div>
+      <h2>One two-minute reality check per device</h2>
+      <ol class="compact-list">
+        <li>Sing one comfortable note while watching both TwinkleTune and an independent tuner. They should agree on note and octave.</li>
+        <li>Complete “Find My Voice.” Repeat it once. Low and high notes should remain within one semitone between runs, and the high must be at least four semitones above the low.</li>
+        <li>Sing a short song. If the tuner was right but notes land late or not at all, investigate latency/scoring rather than pitch detection.</li>
+      </ol>
+      <p class="small">This reality check finds product problems. It is not a substitute for the known-tone accuracy gate because a human voice is variable.</p>
+    </section>
+
+    <section id="evidence">
+      <div class="section-label">What this plan is based on</div>
+      <h2>Current shipped behavior</h2>
+      <ul class="compact-list">
+        <li>The browser requests the microphone with echo cancellation, noise suppression, and auto gain disabled.</li>
+        <li>The detector uses 2048-sample windows, rejects RMS below 0.010, clarity below 0.80, and frequencies outside 70–1500 Hz, then reports the median of five accepted MIDI readings.</li>
+        <li>The hidden tuner shows nearest note, ±50-cent needle, Hz, clarity, and RMS.</li>
+        <li>Gameplay accepts a pitch within ±50 cents for at least half the observed frames and folds octave differences.</li>
+      </ul>
+      <details>
+        <summary>Repository evidence and automated preflight</summary>
+        <p style="margin-top:12px">Before field testing a build, run:</p>
+        <pre><code>cd frontend
+npm test
+npm run build
+
+cd ../e2e
+npx playwright test tests/tuner.spec.ts</code></pre>
+        <p>The E2E tuner test injects a deterministic 440 Hz A4 signal. It proves the code path, but not a physical device microphone—this scorecard supplies that missing evidence.</p>
+        <ul class="source-links">
+          <li><a href="../frontend/src/audio/pitch.ts">PitchTracker source</a></li>
+          <li><a href="../frontend/src/screens/tuner.ts">Diagnostic tuner source</a></li>
+          <li><a href="../frontend/src/state/scoring.ts">Gameplay scoring source</a></li>
+          <li><a href="../e2e/tests/tuner.spec.ts">Deterministic tuner test</a></li>
+          <li><a href="specs/audio-engine/L2.md">Audio-engine requirements</a></li>
+          <li><a href="detailed-designs/audio-engine/diagnostic-tuner/README.md">Tuner detailed design</a></li>
+        </ul>
+      </details>
+    </section>
+
+    <footer>
+      TwinkleTune note-capture test · Keep the setup fixed, record the worst result, and let the failure pattern choose the next experiment.
+    </footer>
+  </main>
+</body>
+</html>
