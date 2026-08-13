@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#5EA8DA" />
+<title>TwinkleTune — Enhanced Sing! experience (audio-reactive mock)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  /* ==========================================================
+     TwinkleTune — Enhanced in-app "Sing!" MOCK
+     A real-time, audio-reactive singing screen. The star avatar
+     grows and glows with live pitch, sparkle particles burst when
+     the singer lands on-note, and a scrolling pitch ribbon shows
+     the melody line vs. the child's live trace.
+
+     Audio: Web Audio API + AnalyserNode, live pitch via
+     autocorrelation. Works with the real microphone OR a built-in
+     "demo voice" so the scene is alive with no mic and no build.
+     ========================================================== */
+  :root{
+    --pink:#F4DBE3; --blue:#5EA8DA; --sky:#83C5F1; --pale:#B9DDF5; --aqua:#AFE3F4;
+    --ink:#2B5876; --ink-soft:#5E87A6; --blue-edge:#3F88BC; --pink-ink:#A05F83;
+    --gold:#FFD66B; --gold-edge:#E8B445; --gold-ink:#7A5A14;
+    --font-display:"Baloo 2","Comic Sans MS",cursive;
+    --font-body:"Nunito","Segoe UI",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{
+    font-family:var(--font-body);color:var(--ink);min-height:100vh;
+    background:radial-gradient(120% 80% at 50% 0%,#AFE3F4,#B9DDF5 45%,#DCEBF7 72%,#F4DBE3);
+    display:grid;place-items:center;padding:24px;gap:18px;
+  }
+
+  .lab-note{
+    max-width:430px;text-align:center;font-size:13px;color:var(--ink-soft);font-weight:700;line-height:1.5;
+  }
+  .lab-note a{color:var(--blue)}
+
+  /* ---- phone frame ---- */
+  .phone{
+    width:430px;max-width:94vw;aspect-ratio:430/900;
+    background:#0d2a44;border-radius:52px;padding:13px;
+    box-shadow:0 40px 90px rgba(43,88,118,.4),inset 0 0 0 2px rgba(255,255,255,.12);
+    position:relative;
+  }
+  .screen{
+    width:100%;height:100%;border-radius:40px;overflow:hidden;position:relative;
+    background:linear-gradient(180deg,#0e3a5f,#124a75 40%,#1c5c86 100%);
+    display:flex;flex-direction:column;
+  }
+  .notch{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:120px;height:26px;background:#0d2a44;border-radius:99px;z-index:20}
+
+  /* live GPU/canvas scene fills the screen behind the HUD */
+  #scene{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+
+  .hud{position:relative;z-index:5;display:flex;flex-direction:column;height:100%;padding:52px 20px 20px;pointer-events:none}
+  .hud .top{display:flex;align-items:center;justify-content:space-between}
+  .song-pill{
+    background:rgba(255,255,255,.16);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.3);
+    color:#fff;border-radius:99px;padding:8px 15px;font-weight:800;font-size:14px;display:flex;gap:8px;align-items:center;
+  }
+  .tuned{background:var(--gold);color:var(--gold-ink);border-radius:99px;padding:7px 13px;font-weight:900;font-size:11.5px;letter-spacing:.03em}
+
+  .counters{display:flex;gap:10px;margin-top:14px}
+  .counter{
+    flex:1;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.24);
+    border-radius:18px;padding:11px 14px;color:#fff;
+  }
+  .counter b{font-family:var(--font-display);font-size:24px;display:block;line-height:1}
+  .counter small{font-size:11px;font-weight:800;opacity:.85;letter-spacing:.06em}
+  .counter.gold b{color:var(--gold)}
+
+  .spacer{flex:1}
+
+  /* scrolling syllable pills lane */
+  .lyric{
+    align-self:center;text-align:center;color:#fff;font-family:var(--font-display);
+    font-size:15px;font-weight:800;opacity:.9;margin-bottom:8px;letter-spacing:.02em;
+    text-shadow:0 2px 12px rgba(0,0,0,.35);
+  }
+  .lyric b{color:var(--gold);font-size:26px;display:block;margin-top:2px;transition:transform .12s}
+
+  .feedback{
+    align-self:center;font-family:var(--font-display);font-weight:800;color:#fff;font-size:20px;
+    background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(8px);
+    padding:8px 18px;border-radius:99px;margin-bottom:14px;min-height:40px;display:flex;align-items:center;gap:8px;
+    transition:opacity .2s,transform .2s;opacity:0;transform:translateY(6px)
+  }
+  .feedback.show{opacity:1;transform:none}
+
+  .controls{display:flex;gap:12px;pointer-events:auto}
+  .btn{
+    flex:1;font-family:var(--font-display);font-weight:800;font-size:18px;border:none;cursor:pointer;
+    padding:16px;border-radius:22px;color:#fff;background:linear-gradient(180deg,#6fb4e2,var(--blue));
+    box-shadow:0 6px 0 var(--blue-edge);transition:transform .1s,box-shadow .1s,filter .2s;
+  }
+  .btn:hover{filter:brightness(1.06)}
+  .btn:active{transform:translateY(6px);box-shadow:0 1px 0 var(--blue-edge)}
+  .btn.pink{background:linear-gradient(180deg,#f7e2ea,var(--pink));color:var(--pink-ink);box-shadow:0 6px 0 #ddaec6}
+  .btn.pink:active{box-shadow:0 1px 0 #ddaec6}
+  .btn.ghost{background:rgba(255,255,255,.16);box-shadow:0 6px 0 rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3)}
+
+  .pitch-readout{
+    position:absolute;top:96px;right:20px;z-index:6;text-align:right;color:#fff;pointer-events:none;
+    font-variant-numeric:tabular-nums;text-shadow:0 2px 10px rgba(0,0,0,.4)
+  }
+  .pitch-readout .note{font-family:var(--font-display);font-size:30px;line-height:1}
+  .pitch-readout .hz{font-size:12px;font-weight:800;opacity:.8}
+
+  @media(max-height:920px){.phone{aspect-ratio:auto;height:min(900px,90vh)}}
+</style>
+</head>
+<body>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="screen">
+      <canvas id="scene"></canvas>
+
+      <div class="pitch-readout"><div class="note" id="noteName">–</div><div class="hz" id="hz" >listening…</div></div>
+
+      <div class="hud">
+        <div class="top">
+          <div class="song-pill">🌟 Twinkle Twinkle</div>
+          <div class="tuned">IN YOUR KEY ✓</div>
+        </div>
+        <div class="counters">
+          <div class="counter gold"><b id="cSpark">0</b><small>SPARKLES</small></div>
+          <div class="counter"><b id="cStreak">0</b><small>NOTE STREAK</small></div>
+          <div class="counter"><b id="cStars">★★★</b><small>BRAVERY</small></div>
+        </div>
+
+        <div class="spacer"></div>
+
+        <div class="feedback" id="feedback">✨ Beautiful!</div>
+        <div class="lyric">now singing<b id="syllable">Twin‑kle</b></div>
+
+        <div class="controls">
+          <button class="btn pink" id="btnMic">🎤 Use my mic</button>
+          <button class="btn" id="btnDemo">▶ Demo voice</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="lab-note">
+    Interactive mock of the enhanced <b>Sing!</b> screen. The star avatar, aura, and sparkle bursts
+    react to <b>live pitch</b> (Web Audio + autocorrelation). Tap <b>Demo voice</b> to watch a simulated
+    singer, or <b>Use my mic</b> to drive it with your own voice. In production the particle field
+    moves to <b>WebGPU</b> — see the approaches doc.
+  </p>
+
+<script>
+/* =====================================================================
+   The scene: a reactive star avatar + aura + sparkle particle bursts +
+   a scrolling pitch ribbon, all driven by a single "pitch + energy"
+   signal. That signal comes from EITHER the real microphone (Web Audio
+   AnalyserNode + time-domain autocorrelation) OR a self-playing demo
+   oscillator that "sings" the melody. Rendered with Canvas2D so the
+   mock runs everywhere; the doc describes the WebGPU production path.
+   ===================================================================== */
+(() => {
+  const canvas = document.getElementById('scene');
+  const ctx = canvas.getContext('2d');
+  const el = {
+    note:document.getElementById('noteName'), hz:document.getElementById('hz'),
+    spark:document.getElementById('cSpark'), streak:document.getElementById('cStreak'),
+    stars:document.getElementById('cStars'), feedback:document.getElementById('feedback'),
+    syllable:document.getElementById('syllable'),
+    btnMic:document.getElementById('btnMic'), btnDemo:document.getElementById('btnDemo'),
+  };
+
+  /* ---- Twinkle Twinkle melody: [scale-degree semitone from C, syllable] ---- */
+  const MELODY = [
+    [0,'Twin'],[0,'kle'],[7,'twin'],[7,'kle'],[9,'lit'],[9,'tle'],[7,'star'],
+    [5,'how'],[5,'I'],[4,'won'],[4,'der'],[2,'what'],[2,'you'],[0,'are'],
+  ];
+  const BASE = 261.63; // C4, "already tuned to the singer's key"
+  const midiToHz = st => BASE * Math.pow(2, st/12);
+  const NOTE_NAMES = ['C','C♯','D','D♯','E','F','F♯','G','G♯','A','A♯','B'];
+  function hzToNoteName(hz){
+    if(!hz) return '–';
+    const n = Math.round(12*Math.log2(hz/440)) + 69;
+    return NOTE_NAMES[((n%12)+12)%12] + (Math.floor(n/12)-1);
+  }
+
+  /* ---- device pixel sizing ---- */
+  let W=0,H=0,dpr=1;
+  function resize(){
+    dpr = Math.min(devicePixelRatio||1, 2);
+    const r = canvas.getBoundingClientRect();
+    W=r.width; H=r.height;
+    canvas.width=W*dpr; canvas.height=H*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  new ResizeObserver(resize).observe(canvas); resize();
+
+  /* ---- live state ---- */
+  const state = {
+    targetHz:BASE, liveHz:0, energy:0, smoothLevel:0,
+    onNote:0, sparkles:0, streak:0, running:false, mode:null,
+    idx:0, noteStart:0,
+  };
+  const ribbon = []; // trailing {t, target, live, on}
+  const particles = [];
+
+  function burst(x,y,n,gold){
+    for(let i=0;i<n;i++){
+      const a = Math.random()*Math.PI*2, sp = 0.6+Math.random()*2.6;
+      particles.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-0.6,life:1,
+        r:1.5+Math.random()*3, gold:gold||Math.random()<0.3});
+    }
+  }
+  let feedbackTimer=0;
+  function say(msg){
+    el.feedback.textContent = msg; el.feedback.classList.add('show');
+    feedbackTimer = performance.now()+1100;
+  }
+  const CHEERS = ['✨ Beautiful!','🌟 Brave voice!','💙 Lovely!','⭐ On the note!','🎵 Sparkly!'];
+
+  /* ---- render loop ---- */
+  let last = performance.now();
+  function frame(now){
+    const dt = Math.min(0.05,(now-last)/1000); last=now;
+
+    // advance the demo "singer" through the melody
+    if(state.running && state.mode==='demo'){
+      if(now - state.noteStart > 620){
+        state.idx = (state.idx+1) % MELODY.length; state.noteStart = now;
+        el.syllable.textContent = MELODY[state.idx][1];
+      }
+      const [st] = MELODY[state.idx];
+      state.targetHz = midiToHz(st);
+      // simulate a child voice that swoops toward the target with wobble
+      const wobble = Math.sin(now/90)*4 + (Math.random()-0.5)*6;
+      const approach = 1 - Math.exp(-(now-state.noteStart)/140);
+      state.liveHz = state.liveHz*(1-approach*0.4) + (state.targetHz+wobble)*(approach*0.4);
+      state.energy = 0.55 + 0.35*approach + Math.sin(now/70)*0.06;
+    }
+
+    // pitch comparison, octave-forgiving (fold to within an octave)
+    let cents = 1200;
+    if(state.liveHz>40 && state.targetHz>0){
+      let ratio = state.liveHz/state.targetHz;
+      while(ratio>1.5) ratio/=2; while(ratio<0.66) ratio*=2;
+      cents = Math.abs(1200*Math.log2(ratio));
+    }
+    const near = cents<70; // "on the note"
+    state.onNote = state.onNote*(1-dt*6) + (near?1:0)*dt*6;
+    state.smoothLevel = state.smoothLevel*(1-dt*5) + state.energy*dt*5;
+
+    // scoring: award sparkles + streak while on note
+    if(state.running && near && state.liveHz>40){
+      state.sparkles += 60*dt*(0.6+state.smoothLevel);
+      state.streak += dt;
+      if(Math.random()<dt*8) burst(W/2, H*0.42, 2, false);
+      if(Math.random()<dt*1.2){ say(CHEERS[(Math.random()*CHEERS.length)|0]); }
+    } else if(state.running && state.liveHz>40 && cents>200){
+      state.streak = Math.max(0, state.streak-dt*0.6);
+    }
+
+    el.spark.textContent = Math.floor(state.sparkles);
+    el.streak.textContent = Math.floor(state.streak*10);
+    el.note.textContent = hzToNoteName(state.liveHz>40?state.liveHz:0);
+    el.hz.textContent = state.liveHz>40 ? Math.round(state.liveHz)+' Hz' : (state.running?'listening…':'tap to start');
+    if(now>feedbackTimer) el.feedback.classList.remove('show');
+
+    // ---------------- draw ----------------
+    ctx.clearRect(0,0,W,H);
+
+    // ambient nebula that breathes with energy
+    const cx=W/2, cy=H*0.42;
+    const aura = 60 + state.smoothLevel*90 + state.onNote*40;
+    const ag = ctx.createRadialGradient(cx,cy,0,cx,cy,aura*2.4);
+    const on = state.onNote;
+    ag.addColorStop(0,`rgba(${131+on*80},${197+on*30},241,${0.5+on*0.35})`);
+    ag.addColorStop(0.5,`rgba(131,197,241,${0.18+on*0.15})`);
+    ag.addColorStop(1,'rgba(131,197,241,0)');
+    ctx.fillStyle=ag; ctx.beginPath(); ctx.arc(cx,cy,aura*2.4,0,7); ctx.fill();
+
+    // pitch ribbon along the bottom third
+    drawRibbon(now);
+
+    // sparkle particles
+    ctx.globalCompositeOperation='lighter';
+    for(let i=particles.length-1;i>=0;i--){
+      const p=particles[i];
+      p.x+=p.vx; p.y+=p.vy; p.vy+=0.04; p.life-=dt*1.3;
+      if(p.life<=0){particles.splice(i,1);continue;}
+      const c = p.gold?'255,214,107':'255,255,255';
+      const r=p.r*(0.6+p.life);
+      const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,r*3);
+      g.addColorStop(0,`rgba(${c},${p.life})`); g.addColorStop(1,`rgba(${c},0)`);
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(p.x,p.y,r*3,0,7); ctx.fill();
+    }
+    ctx.globalCompositeOperation='source-over';
+
+    // the star avatar — scales with energy, spins gently, glows when on-note
+    drawStar(cx, cy, 48 + state.smoothLevel*30 + state.onNote*10, now/1000*0.5, on);
+
+    requestAnimationFrame(frame);
+  }
+
+  function drawRibbon(now){
+    ribbon.push({target:state.targetHz, live:state.liveHz, on:state.onNote});
+    if(ribbon.length>140) ribbon.shift();
+    const y0=H*0.74, band=H*0.16;
+    const lo=200, hi=560; // Hz range mapped to band
+    const map = hz => y0 + band - ( (Math.max(lo,Math.min(hi,hz))-lo)/(hi-lo) )*band;
+    // target melody line
+    ctx.lineWidth=6; ctx.lineCap='round'; ctx.strokeStyle='rgba(255,255,255,.35)';
+    ctx.beginPath();
+    ribbon.forEach((r,i)=>{ const x=(i/(ribbon.length-1))*W; const y=map(r.target||300);
+      i?ctx.lineTo(x,y):ctx.moveTo(x,y); }); ctx.stroke();
+    // live trace, coloured by on-note
+    ctx.lineWidth=4;
+    ctx.beginPath();
+    ribbon.forEach((r,i)=>{ if(!r.live||r.live<40) return; const x=(i/(ribbon.length-1))*W; const y=map(r.live);
+      i?ctx.lineTo(x,y):ctx.moveTo(x,y); });
+    ctx.strokeStyle=`rgba(${255-state.onNote*130},${200+state.onNote*20},${120+state.onNote*100},.95)`;
+    ctx.stroke();
+    // playhead dot
+    if(state.liveHz>40){
+      const x=W-2, y=map(state.liveHz);
+      const g=ctx.createRadialGradient(x,y,0,x,y,16);
+      g.addColorStop(0,'rgba(255,255,255,.95)'); g.addColorStop(1,'rgba(255,255,255,0)');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,16,0,7); ctx.fill();
+    }
+  }
+
+  function drawStar(cx,cy,R,rot,glow){
+    ctx.save(); ctx.translate(cx,cy); ctx.rotate(rot);
+    // glow halo
+    if(glow>0.02){
+      const hg=ctx.createRadialGradient(0,0,0,0,0,R*2.2);
+      hg.addColorStop(0,`rgba(255,232,150,${0.55*glow})`); hg.addColorStop(1,'rgba(255,232,150,0)');
+      ctx.fillStyle=hg; ctx.beginPath(); ctx.arc(0,0,R*2.2,0,7); ctx.fill();
+    }
+    // 5-point star
+    ctx.beginPath();
+    for(let i=0;i<10;i++){
+      const ang=(Math.PI/5)*i - Math.PI/2;
+      const rr = i%2 ? R*0.46 : R;
+      const x=Math.cos(ang)*rr, y=Math.sin(ang)*rr;
+      i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+    }
+    ctx.closePath();
+    const sg=ctx.createLinearGradient(0,-R,0,R);
+    sg.addColorStop(0,'#FFF0C2'); sg.addColorStop(1, glow>0.4?'#FFD66B':'#F6C74E');
+    ctx.fillStyle=sg; ctx.shadowColor='rgba(255,214,107,.8)'; ctx.shadowBlur=20*glow; ctx.fill();
+    ctx.shadowBlur=0;
+    // little face
+    ctx.rotate(-rot);
+    ctx.fillStyle='#7A5A14';
+    const eye=R*0.14;
+    ctx.beginPath(); ctx.arc(-R*0.22,-R*0.05,eye,0,7); ctx.arc(R*0.22,-R*0.05,eye,0,7); ctx.fill();
+    ctx.strokeStyle='#7A5A14'; ctx.lineWidth=R*0.07; ctx.lineCap='round';
+    ctx.beginPath(); ctx.arc(0,R*0.02,R*0.3,0.15*Math.PI,0.85*Math.PI); ctx.stroke();
+    ctx.restore();
+  }
+  requestAnimationFrame(frame);
+
+  /* ================= audio input ================= */
+  let audioCtx, analyser, buf, rafPitch, demoOsc, demoGain;
+
+  function ensureCtx(){ audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)(); return audioCtx; }
+
+  // time-domain autocorrelation pitch detector
+  function detectPitch(){
+    analyser.getFloatTimeDomainData(buf);
+    let rms=0; for(let i=0;i<buf.length;i++) rms+=buf[i]*buf[i];
+    rms=Math.sqrt(rms/buf.length);
+    state.energy = Math.min(1, rms*8);
+    if(rms<0.008){ state.liveHz = state.liveHz*0.9; return; }
+    let best=-1,bestOff=-1; const SIZE=buf.length;
+    const MINP=Math.floor(audioCtx.sampleRate/700), MAXP=Math.floor(audioCtx.sampleRate/80);
+    for(let off=MINP;off<=MAXP;off++){
+      let corr=0; for(let i=0;i<SIZE-off;i++) corr+=buf[i]*buf[i+off];
+      corr/= (SIZE-off);
+      if(corr>best){best=corr;bestOff=off;}
+    }
+    if(bestOff>0){ const hz=audioCtx.sampleRate/bestOff;
+      if(hz>60&&hz<800) state.liveHz = state.liveHz? state.liveHz*0.6+hz*0.4 : hz; }
+  }
+  function pitchLoop(){ detectPitch(); rafPitch=requestAnimationFrame(pitchLoop); }
+
+  async function startMic(){
+    stopDemo();
+    try{
+      ensureCtx(); await audioCtx.resume();
+      const stream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});
+      const src = audioCtx.createMediaStreamSource(stream);
+      analyser = audioCtx.createAnalyser(); analyser.fftSize=2048;
+      buf = new Float32Array(analyser.fftSize);
+      src.connect(analyser);
+      state.mode='mic'; state.running=true;
+      // advance syllables by a gentle timer so the lyric lane still moves
+      startSyllableTimer();
+      pitchLoop();
+      el.btnMic.textContent='🎤 Listening…';
+      say('🎤 Sing along!');
+    }catch(err){
+      say('🙈 No mic — try Demo');
+      el.hz.textContent='mic blocked';
+    }
+  }
+
+  let syllTimer;
+  function startSyllableTimer(){
+    clearInterval(syllTimer);
+    syllTimer=setInterval(()=>{
+      if(!state.running) return;
+      state.idx=(state.idx+1)%MELODY.length;
+      const [st,syl]=MELODY[state.idx];
+      state.targetHz=midiToHz(st);
+      el.syllable.textContent=syl;
+    },700);
+  }
+
+  function startDemo(){
+    stopMic();
+    ensureCtx(); audioCtx.resume();
+    state.mode='demo'; state.running=true; state.idx=0; state.noteStart=performance.now();
+    el.syllable.textContent=MELODY[0][1];
+    // audible, gentle sine that follows the melody so you can hear it too
+    demoOsc=audioCtx.createOscillator(); demoGain=audioCtx.createGain();
+    demoOsc.type='sine'; demoGain.gain.value=0.04;
+    demoOsc.connect(demoGain).connect(audioCtx.destination); demoOsc.start();
+    demoTune();
+    el.btnDemo.textContent='⏸ Pause demo';
+    say('▶ Demo voice');
+  }
+  function demoTune(){
+    if(state.mode!=='demo'||!state.running){return;}
+    if(demoOsc) demoOsc.frequency.setTargetAtTime(state.liveHz||state.targetHz, audioCtx.currentTime, 0.05);
+    requestAnimationFrame(demoTune);
+  }
+  function stopDemo(){
+    if(demoOsc){try{demoOsc.stop();}catch{} demoOsc.disconnect(); demoOsc=null;}
+    if(state.mode==='demo'){state.running=false;state.mode=null;}
+    el.btnDemo.textContent='▶ Demo voice';
+  }
+  function stopMic(){
+    if(rafPitch)cancelAnimationFrame(rafPitch);
+    clearInterval(syllTimer);
+    if(state.mode==='mic'){state.running=false;state.mode=null;state.liveHz=0;}
+    el.btnMic.textContent='🎤 Use my mic';
+  }
+
+  el.btnMic.addEventListener('click', startMic);
+  el.btnDemo.addEventListener('click', ()=>{ state.mode==='demo'&&state.running ? stopDemo() : startDemo(); });
+})();
+</script>
+</body>
+</html>
