@@ -179,3 +179,4 @@ The product is decomposed into thirteen subsystems. Each has its own `L1.md` and
 |---------|------|--------|---------|
 | 1.0 | 2026-07-18 | Requirements reverse‑engineered from the v1 implementation | Initial baseline covering all thirteen subsystems. |
 | 1.1 | 2026-11-09 | Voice‑comprehension improvements | Landed notes judged on sung frames with a timing tolerance (SR-L2-2, SR-L2-18, SG-L2-9, SG-L2-10, SG-L2-25). |
+| 1.2 | 2026-11-09 | Voice‑comprehension improvements | Automatic pipeline latency compensation (AE-L2-18, SG-L2-19, GC-L2-4). |

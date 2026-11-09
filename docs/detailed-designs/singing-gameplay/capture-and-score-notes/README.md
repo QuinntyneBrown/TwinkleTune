@@ -17,7 +17,12 @@ sung, frames on-pitch, and where in the note the first on-pitch frame fell
 latency-compensated score beat
 
 *score beat* — latency-compensated beat position used only for scoring, computed
-as the raw beat minus the mic-latency offset expressed in beats
+as the raw beat minus the pipeline latency estimate and the mic timing offset,
+expressed in beats
+
+*pipeline latency estimate* — the audio engine's figure for how long after the
+playback clock reaches a beat the singing for that beat is detected: reported
+output delay, reported input delay, and half the analysis window
 
 *sung frame* — frame in which the audio engine detected a pitch
 
@@ -41,8 +46,9 @@ criterion
 count, streak, sparkles, and note index
 
 Accurate, forgiving scoring depends on faithful per-note capture during play.
-Budget tablets add audible input lag, so scoring reads a latency-compensated beat
-while the visuals scroll on the raw beat, keeping cheers in time. Young singers
+Budget tablets add audible input lag and wireless speakers add output lag, so
+scoring reads a latency-compensated beat while the visuals scroll on the raw
+beat, keeping cheers in time. Young singers
 follow a melody rather than lead it, so the tail of one sung note routinely
 spills into the next note's span; the timing tolerance credits that tail to the
 note it belongs to instead of marking it as a wrong pitch on the next. The
@@ -60,9 +66,13 @@ the notes it settles into cheers, streaks, and duet ticks.
   the song shift. It owns **`results`**, one `NoteResult` per note holding
   `hitFrames`, `voicedFrames`, `totalFrames`, and `firstHitFrac` (from
   `frontend/src/state/scoring.ts`), and a cursor of settled notes.
-- **`latencyBeats` / `scoreBeat`** — `latencyBeats = (profile.latencyMs / 1000) /
-  player.secondsPerBeat()`; `scoreBeat = beat - latencyBeats`. Visuals use `beat`;
-  scoring uses `scoreBeat`.
+- **`latencyBeats` / `scoreBeat`** — `latencyMs = profile.latencyMs +
+  tracker.pipelineLatencyMs()`; `latencyBeats = (latencyMs / 1000) /
+  player.secondsPerBeat()`; `scoreBeat = beat - latencyBeats`. The estimate comes
+  from the audio engine each frame and needs no calibration; the profile offset
+  is a grown-up's correction on top. Visuals use `beat`; scoring uses
+  `scoreBeat`. In no-mic mode nothing is scored and only the profile offset is
+  applied.
 - **`toleranceBeats`** — `TIMING_TOLERANCE_MS / 1000 / player.secondsPerBeat()`,
   recomputed each frame so slow practice gets the same 180 ms of real time. It is
   0 in no-mic mode, where nothing is captured.
@@ -115,7 +125,7 @@ cited level-1 (L1) requirement(s).
 |-------|--------------|-------------|
 | `SG-L2-9` | `SG-L1-4` | For the currently active note (outside no-mic mode), each frame shall increment the observed-frame count. A sung frame shall be attributed per `SG-L2-25`; one within ±50 cents of its note (octave-folded, shift applied) shall increment that note's sung-frame and on-pitch-frame counts and, on the first such frame, record the fractional position within the note. A sung, off-pitch frame shall increment only the active note's sung-frame count; a frame with no pitch shall change nothing else. |
 | `SG-L2-10` | `SG-L1-4, SG-L1-5` | Notes shall be finalised in song order: as a note's end passes if it is already landed, otherwise once the timing tolerance after its end has also passed. A landed note shall increment the landed count and streak, mark the pill, show a random cheer, and update the live sparkle count to `landedCount·10`; a missed note shall reset the streak to 0. No missed note shall produce a negative message. |
-| `SG-L2-19` | `SG-L1-8` | Scoring shall use a latency-compensated beat position derived from the profile's mic latency offset, while visuals use the raw beat, so that a device with input lag still scores the note the child is actually singing. |
+| `SG-L2-19` | `SG-L1-8` | Scoring shall use a latency-compensated beat position — the raw beat minus the sum of the engine's pipeline latency estimate (`AE-L2-18`) and the profile's mic timing offset — while visuals use the raw beat, so that a device with output or input lag still scores the note the child is actually singing. |
 | `SG-L2-22` | `SG-L1-4` | In duet mode, the system shall emit a score tick once per finalised note (not per frame), carrying the landed count, streak, sparkles, and note index; tick delivery failures shall be swallowed so play is never interrupted. (Relay semantics: DM.) |
 | `SG-L2-25` | `SG-L1-4, SG-L1-8` | Each sung frame shall be attributed to at most one note: the active note when on-pitch for it; otherwise the nearest note whose span ended, or begins, within 180 ms of the score beat and for which it is on-pitch (credited if not yet finalised, and never counted against the active note); otherwise the active note as a sung, off-pitch frame. The tolerance is real time. |
 

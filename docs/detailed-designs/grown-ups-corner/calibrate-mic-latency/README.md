@@ -64,8 +64,12 @@ The feature is a frontend-only slice. The control lives in
   body carries `name`, `avatarId`, `rangeLow`, and `rangeHigh` only; latency is
   absent, which is what keeps the offset device-local.
 - **latency compensation** — in `sing.ts`, the frame loop computes
-  `const latencyBeats = (profile.latencyMs / 1000) / player.secondsPerBeat()` and
-  `const scoreBeat = beat - latencyBeats`, then scores against `scoreBeat`.
+  `const latencyMs = profile.latencyMs + tracker.pipelineLatencyMs()`,
+  `const latencyBeats = (latencyMs / 1000) / player.secondsPerBeat()` and
+  `const scoreBeat = beat - latencyBeats`, then scores against `scoreBeat`. The
+  audio engine's estimate covers what the browser reports about the device, so
+  the slider's default of `0` is right for most hardware and the slider remains
+  as a manual correction for devices that report their latency badly.
 
 Constants (the shipped baseline): range −300 to +300 ms, step 10 ms, default
 `0` ms, read-out suffix `" ms"`.
@@ -77,7 +81,7 @@ refines a level-1 (L1) requirement, cited by identifier.
 
 | L2 ID | Refines (L1) | Requirement |
 |-------|--------------|-------------|
-| `GC-L2-4` | `GC-L1-3` | The hub shall provide a −300…+300 ms slider (10 ms steps) that updates the profile's mic latency live, with a numeric read-out; the value shall stay device-local (not synced as a person property) and shall feed scoring compensation. |
+| `GC-L2-4` | `GC-L1-3` | The hub shall provide a −300…+300 ms slider (10 ms steps) that updates the profile's mic latency live, with a numeric read-out; the value shall stay device-local (not synced as a person property) and shall feed scoring compensation, where it is added to the automatic pipeline latency estimate (`SG-L2-19`) as a manual correction. |
 
 ## Diagrams
 
