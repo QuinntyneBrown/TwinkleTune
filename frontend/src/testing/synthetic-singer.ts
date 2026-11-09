@@ -185,7 +185,7 @@ export function simulatePerformance(
     const frame = analyzer.analyze(window, SAMPLE_RATE)
     if (frame) pitchFrames++
     const scoreBeat = t / spb - compensationMs / 1000 / spb
-    judge.observe(scoreBeat, frame ? frame.midi : null, toleranceBeats)
+    judge.observe(scoreBeat, frame ? frame.midi : null, toleranceBeats, 1000 / fps)
     judge.finalize(scoreBeat, toleranceBeats)
   }
   judge.finalize(Infinity, toleranceBeats)

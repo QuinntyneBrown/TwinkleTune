@@ -6,6 +6,16 @@ import { foldCents, HIT_TOLERANCE_CENTS, noteLanded, type NoteResult } from './s
  */
 export const TIMING_TOLERANCE_MS = 180
 
+/**
+ * The most time one frame can stand for: about the audio a single analysis
+ * window covers. A stalled frame is not credited with singing nobody analysed,
+ * and no single frame can land a note by itself.
+ */
+export const MAX_FRAME_MS = 40
+
+/** Frame time assumed when the caller does not say: a 60 fps display. */
+const NOMINAL_FRAME_MS = 1000 / 60
+
 /** The slice of a song note the judge needs. `midi` is the base (untransposed) pitch. */
 export interface JudgeNote {
   midi: number
@@ -42,9 +52,9 @@ export class NoteJudge {
       phraseIdx: n.phraseIdx,
       noteIdx: n.noteIdx,
       midi: n.midi,
-      hitFrames: 0,
-      voicedFrames: 0,
-      totalFrames: 0,
+      hitMs: 0,
+      voicedMs: 0,
+      totalMs: 0,
       firstHitFrac: null,
     }))
   }
@@ -63,30 +73,38 @@ export class NoteJudge {
 
   /**
    * Tally one frame. `sungMidi` is the detected pitch, or null when no voice
-   * was heard; `toleranceBeats` is the timing tolerance at the current tempo.
+   * was heard; `toleranceBeats` is the timing tolerance at the current tempo;
+   * `frameMs` is the real time since the previous frame, which is what the
+   * frame is credited with (up to MAX_FRAME_MS).
    *
    * A sung frame goes to the active note when it is on-pitch for it; failing
    * that, to the nearest note that ended or begins within the tolerance and
    * that it does match; failing that, it counts against the active note.
    */
-  observe(scoreBeat: number, sungMidi: number | null, toleranceBeats = 0): Observation {
+  observe(
+    scoreBeat: number,
+    sungMidi: number | null,
+    toleranceBeats = 0,
+    frameMs = NOMINAL_FRAME_MS,
+  ): Observation {
+    const ms = frameMs > 0 ? Math.min(frameMs, MAX_FRAME_MS) : 0 // NaN and negatives count for nothing
     const activeIdx = this.activeIndex(scoreBeat)
-    if (activeIdx !== -1) this.results[activeIdx].totalFrames++
+    if (activeIdx !== -1) this.results[activeIdx].totalMs += ms
     if (sungMidi === null) return { activeIdx, onNote: false }
 
     if (activeIdx !== -1 && this.onPitch(activeIdx, sungMidi)) {
-      this.credit(activeIdx, scoreBeat)
+      this.credit(activeIdx, scoreBeat, ms)
       return { activeIdx, onNote: true }
     }
 
     const neighbour = this.matchingNeighbour(scoreBeat, sungMidi, toleranceBeats, activeIdx)
     if (neighbour !== -1) {
       // a settled neighbour gains nothing, but its tail is still not a wrong note here
-      if (neighbour >= this.cursor) this.credit(neighbour, scoreBeat)
+      if (neighbour >= this.cursor) this.credit(neighbour, scoreBeat, ms)
       return { activeIdx, onNote: true }
     }
 
-    if (activeIdx !== -1) this.results[activeIdx].voicedFrames++
+    if (activeIdx !== -1) this.results[activeIdx].voicedMs += ms
     return { activeIdx, onNote: false }
   }
 
@@ -112,9 +130,9 @@ export class NoteJudge {
   reset(): void {
     this.cursor = 0
     for (const r of this.results) {
-      r.hitFrames = 0
-      r.voicedFrames = 0
-      r.totalFrames = 0
+      r.hitMs = 0
+      r.voicedMs = 0
+      r.totalMs = 0
       r.firstHitFrac = null
     }
   }
@@ -123,11 +141,11 @@ export class NoteJudge {
     return Math.abs(foldCents(sungMidi, this.notes[idx].midi + this.shift)) <= HIT_TOLERANCE_CENTS
   }
 
-  private credit(idx: number, scoreBeat: number): void {
+  private credit(idx: number, scoreBeat: number, ms: number): void {
     const n = this.notes[idx]
     const r = this.results[idx]
-    r.voicedFrames++
-    r.hitFrames++
+    r.voicedMs += ms
+    r.hitMs += ms
     if (r.firstHitFrac === null) {
       r.firstHitFrac = Math.max(0, Math.min(1, (scoreBeat - n.start) / n.dur))
     }

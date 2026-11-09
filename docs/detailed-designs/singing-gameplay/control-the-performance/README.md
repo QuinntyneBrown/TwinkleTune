@@ -48,7 +48,7 @@ Performance control lives in `begin`, `finish`, and `pauseDialog` in
 - **resume** — "Keep singing" calls `begin(pausedBeat, 2)`, a 2-beat count-in from
   the paused position.
 - **restart** — "Start over" clears each pill's `hit`/`now`, resets every
-  `NoteResult` (`hitFrames`, `totalFrames`, `firstHitFrac`), sets `finalizedUpTo`
+  `NoteResult` through `NoteJudge.reset()` (which also rewinds its cursor), sets
   and `landedCount` to 0, `setStreak(0)`, resets the sparkle pill to `✨ 0`, and
   calls `begin(fromBeat, 4)`.
 - **back to score** — in practice mode, "Back to my score" sets `finished` and

@@ -18,34 +18,39 @@ export interface NoteResult {
   phraseIdx: number
   noteIdx: number
   midi: number
-  /** sung frames attributed to this note whose pitch was within tolerance */
-  hitFrames: number
-  /** frames attributed to this note in which a pitch was heard at all (on-pitch or not) */
-  voicedFrames: number
-  /** frames observed while this note was active, sung or silent */
-  totalFrames: number
+  /** milliseconds of singing attributed to this note whose pitch was within tolerance */
+  hitMs: number
+  /** milliseconds attributed to this note in which a pitch was heard at all (on-pitch or not) */
+  voicedMs: number
+  /** milliseconds observed while this note was active, sung or silent */
+  totalMs: number
   /** position (0..1) within the note where the first hit happened, null if never hit */
   firstHitFrac: number | null
 }
 
 export const HIT_TOLERANCE_CENTS = 50
-/** minimum-sample guard: fewer on-pitch frames than this can never land a note */
-export const MIN_HIT_FRAMES = 3
-/** at least this share of the sung frames must be on-pitch */
+/**
+ * minimum-sample guard: less on-pitch singing than this can never land a note.
+ * 45 ms is three frames at 60 fps and two at 30 fps.
+ */
+export const MIN_HIT_MS = 45
+/** at least this share of the sung time must be on-pitch */
 export const MIN_PRECISION = 0.5
-/** on-pitch frames must cover at least this share of the frames the note was active */
+/** on-pitch time must cover at least this share of the time the note was active */
 export const MIN_COVERAGE = 0.25
 
 /**
  * A note is "landed" when the child was on-pitch for at least half of the
- * frames she was heard singing it, for a meaningful share of the note.
- * Silent frames — a breath, a consonant, a late start — never count against it.
+ * time she was heard singing it, for a meaningful share of the note.
+ * Silence — a breath, a consonant, a late start — never counts against it.
+ * The evidence is measured in time, so the verdict does not depend on how
+ * many frames a second the device manages.
  */
 export function noteLanded(r: NoteResult): boolean {
   return (
-    r.hitFrames >= MIN_HIT_FRAMES &&
-    r.hitFrames >= MIN_PRECISION * r.voicedFrames &&
-    r.hitFrames >= MIN_COVERAGE * r.totalFrames
+    r.hitMs >= MIN_HIT_MS &&
+    r.hitMs >= MIN_PRECISION * r.voicedMs &&
+    r.hitMs >= MIN_COVERAGE * r.totalMs
   )
 }
 
