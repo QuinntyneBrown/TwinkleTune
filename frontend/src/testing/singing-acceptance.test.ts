@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { songs } from '../songs/catalog'
 import {
+  BLUETOOTH_ROOM,
   NOISY_ROOM,
   REFERENCE_ROOM,
   REFERENCE_SINGER,
@@ -13,6 +14,7 @@ import {
 
 const rate = (o: CatalogueOutcome) => o.landed / o.total
 const shortRate = (o: CatalogueOutcome) => o.shortLanded / o.shortTotal
+const earlyRate = (o: CatalogueOutcome) => o.hitEarly / o.hit
 const SLOW = { timeout: 120_000 }
 
 describe('SR-L2-18 — judging holds up to natural singing', () => {
@@ -36,5 +38,16 @@ describe('SR-L2-18 — judging holds up to natural singing', () => {
   it('lands nothing when nobody sings in a noisy room', SLOW, () => {
     const outcome = simulateCatalogue(songs, { ...REFERENCE_SINGER, level: 0, breath: 0 }, NOISY_ROOM)
     expect(outcome.landed).toBe(0)
+  })
+})
+
+// Acceptance test for SG-L2-19: the music comes from a wireless speaker, so the
+// child hears (and sings) a quarter of a second behind the playback clock.
+describe('SG-L2-19 — latency compensation', () => {
+  it('scores a child singing along to a 250 ms-delayed speaker as in time', SLOW, () => {
+    const outcome = simulateCatalogue(songs, REFERENCE_SINGER, BLUETOOTH_ROOM)
+    expect(rate(outcome)).toBeGreaterThanOrEqual(0.95)
+    expect(shortRate(outcome)).toBeGreaterThanOrEqual(0.85)
+    expect(earlyRate(outcome)).toBeGreaterThanOrEqual(0.85)
   })
 })

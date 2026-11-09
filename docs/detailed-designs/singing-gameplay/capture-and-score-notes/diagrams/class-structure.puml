@@ -65,6 +65,11 @@ class "note-judge" as JudgeMod <<module>> {
   +TIMING_TOLERANCE_MS = 180
 }
 
+class PitchTracker <<audio engine>> {
+  +read(): PitchFrame | null
+  +pipelineLatencyMs(): number
+}
+
 class DuetClient {
   +sendTick(tick: DuetTick): void
 }
@@ -83,6 +88,7 @@ NoteJudge ..> Observation : returns
 NoteJudge ..> Scoring : foldCents / noteLanded
 Sing ..> JudgeMod : TIMING_TOLERANCE_MS
 Sing ..> Scoring : noteLanded
+Sing ..> PitchTracker : read / pipelineLatencyMs per frame
 Sing ..> DuetClient : sendTick per note
 DuetClient ..> DuetTick : sends
 @enduml

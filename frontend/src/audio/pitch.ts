@@ -1,4 +1,5 @@
 import { PitchDetector } from 'pitchy'
+import { pipelineLatencyMs } from './latency'
 import { audioCtx } from './player'
 import { hzToMidi } from './range'
 
@@ -62,6 +63,8 @@ export class PitchTracker {
   private analyser: AnalyserNode | null = null
   private buf = new Float32Array(FFT_SIZE)
   private analyzer = new PitchAnalyzer(FFT_SIZE)
+  /** seconds, as the browser reports it for the microphone track (not every browser does) */
+  private inputLatency: number | undefined
 
   get running(): boolean {
     return this.analyser !== null
@@ -78,6 +81,8 @@ export class PitchTracker {
         autoGainControl: false,
       },
     })
+    const settings = this.media.getAudioTracks()[0]?.getSettings() as { latency?: number } | undefined
+    this.inputLatency = settings?.latency
     this.source = ctx.createMediaStreamSource(this.media)
     this.analyser = ctx.createAnalyser()
     this.analyser.fftSize = FFT_SIZE
@@ -91,6 +96,22 @@ export class PitchTracker {
     return this.latest
   }
 
+  /**
+   * How far the pitch this tracker reports trails the playback clock, in ms:
+   * what the browser says about the speaker and microphone paths, plus half
+   * the analysis window. Cheap enough to read every frame.
+   */
+  pipelineLatencyMs(): number {
+    const ctx = audioCtx()
+    return pipelineLatencyMs({
+      baseLatency: ctx.baseLatency,
+      outputLatency: ctx.outputLatency,
+      inputLatency: this.inputLatency,
+      sampleRate: ctx.sampleRate,
+      windowSize: FFT_SIZE,
+    })
+  }
+
   stop(): void {
     this.media?.getTracks().forEach((t) => t.stop())
     this.source?.disconnect()
@@ -98,6 +119,7 @@ export class PitchTracker {
     this.media = null
     this.source = null
     this.analyser = null
+    this.inputLatency = undefined
     this.analyzer.reset()
     this.latest = null
   }

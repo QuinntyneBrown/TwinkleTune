@@ -37,6 +37,27 @@ class "player.ts" as PlayerMod <<module>> {
   +audioCtx(): AudioContext
 }
 
+class "latency.ts" as LatencyMod <<module>> {
+  +MAX_DEVICE_LATENCY_MS: number = 500
+  +pipelineLatencyMs(report: LatencyReport): number
+}
+
+interface LatencyReport {
+  +baseLatency?: number
+  +outputLatency?: number
+  +inputLatency?: number
+  +sampleRate: number
+  +windowSize: number
+}
+
+class PitchTracker <<pitch.ts>> {
+  -inputLatency: number?
+  +pipelineLatencyMs(): number
+}
+
 SongPlayer ..> PlayOptions : reads onDone
 SongPlayer ..> PlayerMod : reads currentTime
+LatencyMod ..> LatencyReport : sums and bounds
+PitchTracker ..> LatencyMod : pipelineLatencyMs(report)
+PitchTracker ..> PlayerMod : reads baseLatency, outputLatency, sampleRate
 @enduml

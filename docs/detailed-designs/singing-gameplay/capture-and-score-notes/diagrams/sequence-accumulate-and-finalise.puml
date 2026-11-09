@@ -29,7 +29,9 @@ box "Backend - Family Server (Duet relay)" #D1FADF
 end box
 
 child -> rloop : requestAnimationFrame tick
-rloop -> rloop : scoreBeat = beat - latencyBeats per SG-L2-19
+rloop -> tracker : pipelineLatencyMs() per AE-L2-18
+tracker --> rloop : output + input + analysis delay
+rloop -> rloop : scoreBeat = beat - (estimate + profile offset) in beats per SG-L2-19
 rloop -> rloop : toleranceBeats = 180 ms / secondsPerBeat per SG-L2-25
 rloop -> tracker : read()
 tracker --> rloop : PitchFrame or null

@@ -11,10 +11,11 @@ audio engine — on-device layer that synthesises a song's melody and detects th
 singer's pitch
 
 This feature covers the timing surface of the playback engine: a musical
-position clock read once per animation frame, a one-shot completion signal, and a
-clean teardown that halts sound and cancels the pending signal. The gameplay
-render loop consumes the clock; this feature only reports position and tears the
-playback down. It runs offline on the device.
+position clock read once per animation frame, an estimate of how far the singing
+the engine hears trails that clock, a one-shot completion signal, and a clean
+teardown that halts sound and cancels the pending signal. The gameplay render
+loop consumes the clock and the estimate; this feature only reports them and
+tears the playback down. It runs offline on the device.
 
 The terms below are used throughout.
 
@@ -24,6 +25,14 @@ The terms below are used throughout.
   `spb`
 - count-in — sequence of metronome clicks before the melody, spanning
   `countInBeats` beats of negative clock position
+- output delay — time between the clock reaching a beat and the child hearing
+  it, reported by the browser as `baseLatency + outputLatency`
+- input delay — time between a sound reaching the microphone and its samples
+  reaching the app, reported by the browser in the track's settings
+- analysis delay — half the pitch detector's window, since a detected pitch
+  describes the middle of the samples it was measured over
+- pipeline latency — sum of the output, input, and analysis delays: how long
+  after the clock reaches a beat the singing for that beat is detected
 - completion signal — single `onDone` callback invoked once after the scheduled
   segment plus a short tail elapses
 - teardown — stop of every scheduled node and cancellation of the pending
@@ -31,8 +40,9 @@ The terms below are used throughout.
 
 ## Description
 
-The feature is a frontend-only slice inside `frontend/src/audio/player.ts`. No
-server participates. The relevant members of `SongPlayer` are:
+The feature is a frontend-only slice inside `frontend/src/audio/player.ts`, with
+the latency estimate in `frontend/src/audio/latency.ts`. No server participates.
+The relevant members of `SongPlayer` are:
 
 - **`currentBeat()`** — method returning the position in beats relative to the
   segment start. When not playing it returns `startBeat - countIn`; while playing
@@ -54,6 +64,34 @@ State that backs the clock: `t0` (context time of the count-in start plus a
 0.08 s lead), `spb`, `startBeat` (the `fromBeat`), and `countIn` (the
 `countInBeats`).
 
+The clock says where the *scheduled* music is. The child sings with what she
+*hears*, and the app sees her voice later still, so the latency estimate relates
+the two:
+
+- **`pipelineLatencyMs(report)`** (`latency.ts`) — pure function returning
+  `device + analysis` in milliseconds. `device` is `baseLatency + outputLatency +
+  inputLatency` from the `LatencyReport`, each converted from seconds and counted
+  as 0 when missing, non-finite, or negative, then capped at
+  `MAX_DEVICE_LATENCY_MS`. `analysis` is `windowSize / 2 / sampleRate`.
+- **`LatencyReport`** — the inputs: optional `baseLatency`, `outputLatency`, and
+  `inputLatency` in seconds as the browser reports them, plus `sampleRate` and
+  `windowSize`.
+- **`PitchTracker.pipelineLatencyMs()`** (`pitch.ts`) — fills a `LatencyReport`
+  from the shared `AudioContext` (`baseLatency`, `outputLatency`, `sampleRate`),
+  the microphone track's `getSettings().latency` captured in `start()`, and
+  `FFT_SIZE`, and returns the estimate. The sing loop reads it every frame, so a
+  speaker connected mid-song is picked up as soon as the browser reports it.
+
+The estimate is deliberately bounded. Browsers differ in what they report: one
+that reports nothing yields the analysis delay alone, which is exact, and the
+500 ms cap keeps a wrong report inside what the timing tolerance and the
+grown-ups' offset can absorb. The median smoothing of the detector adds a
+further lag of up to two frames at note changes; it is not included, because it
+affects only the first frames of a note and sits well inside the timing
+tolerance.
+
+Constants (the shipped baseline): `MAX_DEVICE_LATENCY_MS = 500`.
+
 ## Requirements
 
 The feature realizes the following level-2 (L2) requirements. Each L2 requirement
@@ -64,6 +102,7 @@ refines a level-1 (L1) requirement, cited by identifier.
 | `AE-L2-6` | `AE-L1-3` | The engine shall report the current position in beats relative to the segment start, returning a negative value during the count-in and increasing through the segment; it shall also report the current seconds-per-beat. |
 | `AE-L2-7` | `AE-L1-3` | When an `onDone` callback is supplied, the engine shall invoke it once, after the scheduled segment (plus a short tail) has elapsed, and shall mark playback as no longer playing. |
 | `AE-L2-8` | `AE-L1-6` | Stopping playback shall halt and disconnect all scheduled audio nodes, clear any pending completion timer, and set the not-playing state, leaving no audible tail or leaked node. |
+| `AE-L2-18` | `AE-L1-3, AE-L1-4` | The engine shall estimate how long after the playback clock reaches a beat the singing for that beat is seen by the pitch detector, as the browser-reported output delay plus the browser-reported input delay plus half the analysis window; unreported, non-finite, or negative figures shall count as 0 and the device part shall be capped at 500 ms. |
 
 ## Diagrams
 

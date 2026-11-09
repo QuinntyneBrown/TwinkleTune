@@ -288,8 +288,10 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
 
     updateKaraoke(beat)
 
-    // scoring uses latency-adjusted time: the audio we hear now was sung a moment ago
-    const latencyBeats = (profile.latencyMs / 1000) / player.secondsPerBeat()
+    // scoring uses latency-adjusted time: the pitch we detect now was sung a moment ago,
+    // to music heard a moment after the clock; the grown-ups' offset is a nudge on top
+    const latencyMs = profile.latencyMs + (noMic ? 0 : tracker.pipelineLatencyMs())
+    const latencyBeats = (latencyMs / 1000) / player.secondsPerBeat()
     const scoreBeat = beat - latencyBeats
     const frame = noMic ? null : tracker.read()
 
