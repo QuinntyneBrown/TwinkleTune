@@ -52,7 +52,8 @@ class StablePitchCapture <<audio/range.ts>> {
 
 class PitchTracker <<audio/pitch.ts>> {
   +start(): Promise<void>
-  +read(): PitchFrame | null
+  +latest: PitchFrame | null
+  +readHops(): PitchObservation[]
   +stop(): void
 }
 
