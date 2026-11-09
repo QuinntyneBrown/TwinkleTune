@@ -131,7 +131,10 @@ jobs:
 
   e2e:
     name: Browser and full-stack E2E
-    runs-on: ubuntu-latest
+    # Pinned: the Playwright version in e2e/package-lock.json has no browser
+    # dependencies for Ubuntu 26.04, which ubuntu-latest now resolves to.
+    # Move back to ubuntu-latest together with a Playwright upgrade.
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
       - name: Check out repository
