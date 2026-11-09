@@ -111,10 +111,14 @@ all bundled songs (210 notes):
 |-----------|---------------------|--------------|
 | Reference room | 99.5% landed | 99.5% |
 | Breath noise louder than the voice's fundamental | 0% | 100% |
-| Broadband hiss as loud as the voice | 0% | 100% |
-| 60 Hz hum louder than the voice | 0% | 100% |
-| Very quiet voice | 91% | 99% |
+| Broadband hiss as loud as the voice | 0% | 99.5% |
+| 60 Hz hum louder than the voice | 0% | 99.5% |
+| Very quiet voice | 91% | 98.6% |
 | Nobody singing, same hiss or hum | no pitch frames | no pitch frames |
+
+The filter starts each window from rest, so its settling shows in whole-window
+figures: a 6 kHz tone is down 40 dB over the whole window and 50 dB over its
+second half; 60 Hz hum is down 14 dB either way.
 
 ## Requirements
 

@@ -15,12 +15,15 @@ function rms(buf: Float32Array): number {
   return Math.sqrt(sum / buf.length)
 }
 
-/** Level change in dB that band-limiting makes to a steady tone. */
-function gainDb(hz: number, sampleRate: number): number {
+/**
+ * Level change in dB that band-limiting makes to a steady tone, measured from
+ * sample `from` on (0 = the whole window, including the filter settling from rest).
+ */
+function gainDb(hz: number, sampleRate: number, from = 0): number {
   const input = tone(hz, sampleRate)
   const output = new Float32Array(WINDOW)
   new BandLimiter(90, 1500).process(input, sampleRate, output)
-  return 20 * Math.log10(rms(output) / rms(input))
+  return 20 * Math.log10(rms(output.subarray(from)) / rms(input.subarray(from)))
 }
 
 describe('BandLimiter 90–1500 Hz (AE-L2-19)', () => {
@@ -35,8 +38,9 @@ describe('BandLimiter 90–1500 Hz (AE-L2-19)', () => {
         expect(gainDb(60, sampleRate)).toBeLessThanOrEqual(-12)
       })
 
-      it('takes at least 40 dB off a 6 kHz tone', () => {
-        expect(gainDb(6000, sampleRate)).toBeLessThanOrEqual(-40)
+      it('takes at least 35 dB off a 6 kHz tone, and 45 dB once settled', () => {
+        expect(gainDb(6000, sampleRate)).toBeLessThanOrEqual(-35)
+        expect(gainDb(6000, sampleRate, WINDOW / 2)).toBeLessThanOrEqual(-45)
       })
     })
   }
@@ -65,7 +69,7 @@ describe('BandLimiter 90–1500 Hz (AE-L2-19)', () => {
     const out = new Float32Array(WINDOW)
     limiter.process(tone(6000, 48000), 48000, out)
     limiter.process(tone(6000, 44100), 44100, out)
-    expect(20 * Math.log10(rms(out) / rms(tone(6000, 44100)))).toBeLessThanOrEqual(-40)
+    expect(20 * Math.log10(rms(out) / rms(tone(6000, 44100)))).toBeLessThanOrEqual(-35)
   })
 
   it('silence in, silence out', () => {
