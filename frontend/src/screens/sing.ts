@@ -5,7 +5,8 @@ import { songBeats, songRange } from '../songs/types'
 import { SongPlayer } from '../audio/player'
 import { PitchTracker } from '../audio/pitch'
 import { computeShift, describeShift } from '../audio/range'
-import { foldCents, HIT_TOLERANCE_CENTS, noteLanded, summarize, type NoteResult } from '../state/scoring'
+import { noteLanded, summarize } from '../state/scoring'
+import { NoteJudge } from '../state/note-judge'
 import { recordPlay, store, todayISO } from '../state/store'
 import { mascotSVG } from '../ui/parts'
 import { showModal, toast } from '../ui/modal'
@@ -80,15 +81,8 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
   let pausedModal: { close: () => void } | null = null
 
   // per-note live accumulation
-  const results: NoteResult[] = windowNotes.map((n) => ({
-    phraseIdx: n.phraseIdx,
-    noteIdx: n.noteIdx,
-    midi: n.midi,
-    hitFrames: 0,
-    totalFrames: 0,
-    firstHitFrac: null,
-  }))
-  let finalizedUpTo = 0
+  const judge = new NoteJudge(windowNotes, shift)
+  const results = judge.results
   let streak = 0
   let landedCount = 0
   let lastPhrase = -1
@@ -247,10 +241,9 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
   }
 
   function finalizeNotesUpTo(beat: number): void {
-    while (finalizedUpTo < windowNotes.length) {
-      const n = windowNotes[finalizedUpTo]
-      if (beat < n.start + n.dur) break
-      const r = results[finalizedUpTo]
+    for (const idx of judge.finalize(beat)) {
+      const n = windowNotes[idx]
+      const r = results[idx]
       if (!noMic) {
         if (noteLanded(r)) {
           landedCount++
@@ -263,12 +256,11 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
         }
       }
       n.el?.classList.remove('now')
-      finalizedUpTo++
       duet?.client.sendTick({
         landed: landedCount,
         streak,
         sparkles: landedCount * 10,
-        noteIdx: finalizedUpTo,
+        noteIdx: idx + 1,
       })
     }
   }
@@ -314,23 +306,9 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
     singer.style.top = `${singerY - 30}px`
 
     // accumulate hit data on the active note
-    const activeIdx = windowNotes.findIndex(
-      (n, i) => i >= finalizedUpTo && scoreBeat >= n.start && scoreBeat < n.start + n.dur,
-    )
-    let onNote = false
-    if (activeIdx !== -1) {
-      const n = windowNotes[activeIdx]
-      n.el?.classList.add('now')
-      if (!noMic) {
-        const r = results[activeIdx]
-        r.totalFrames++
-        if (frame && Math.abs(foldCents(frame.midi, n.midi + shift)) <= HIT_TOLERANCE_CENTS) {
-          r.hitFrames++
-          onNote = true
-          if (r.firstHitFrac === null) r.firstHitFrac = (scoreBeat - n.start) / n.dur
-        }
-      }
-    }
+    const activeIdx = judge.activeIndex(scoreBeat)
+    if (activeIdx !== -1) windowNotes[activeIdx].el?.classList.add('now')
+    const onNote = noMic ? false : judge.observe(scoreBeat, frame ? frame.midi : null).onNote
     singer.classList.toggle('on-note', onNote)
     if (onNote && !wasOnNote) visual.burst(0.55 + Math.min(0.45, streak / 20))
     wasOnNote = onNote
@@ -364,7 +342,7 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
 
   function finish(): void {
     if (finished) return
-    finalizeNotesUpTo(untilBeat + 1)
+    finalizeNotesUpTo(Infinity)
 
     if (practicePhrase !== null) {
       toast('One more time — you sound great! 🐢', 'pink', 1800)
@@ -495,12 +473,7 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
         modal.querySelector('[data-restart]')?.addEventListener('click', () => {
           close()
           windowNotes.forEach((n) => n.el?.classList.remove('hit', 'now'))
-          results.forEach((r) => {
-            r.hitFrames = 0
-            r.totalFrames = 0
-            r.firstHitFrac = null
-          })
-          finalizedUpTo = 0
+          judge.reset()
           landedCount = 0
           setStreak(0)
           sparklesEl.textContent = '✨ 0'
