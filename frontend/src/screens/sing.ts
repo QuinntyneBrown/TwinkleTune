@@ -6,7 +6,7 @@ import { SongPlayer } from '../audio/player'
 import { PitchTracker } from '../audio/pitch'
 import { computeShift, describeShift } from '../audio/range'
 import { noteLanded, summarize } from '../state/scoring'
-import { NoteJudge } from '../state/note-judge'
+import { NoteJudge, TIMING_TOLERANCE_MS } from '../state/note-judge'
 import { recordPlay, store, todayISO } from '../state/store'
 import { mascotSVG } from '../ui/parts'
 import { showModal, toast } from '../ui/modal'
@@ -83,6 +83,7 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
   // per-note live accumulation
   const judge = new NoteJudge(windowNotes, shift)
   const results = judge.results
+  let nowIdx = -1
   let streak = 0
   let landedCount = 0
   let lastPhrase = -1
@@ -240,8 +241,8 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
     if (streak > 0 && streak % 5 === 0) toast(`🔥 ${streak} in a row!`, 'gold', 1600)
   }
 
-  function finalizeNotesUpTo(beat: number): void {
-    for (const idx of judge.finalize(beat)) {
+  function finalizeNotesUpTo(beat: number, toleranceBeats = 0): void {
+    for (const idx of judge.finalize(beat, toleranceBeats)) {
       const n = windowNotes[idx]
       const r = results[idx]
       if (!noMic) {
@@ -305,15 +306,24 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
     }
     singer.style.top = `${singerY - 30}px`
 
-    // accumulate hit data on the active note
+    // highlight the pill being sung
     const activeIdx = judge.activeIndex(scoreBeat)
-    if (activeIdx !== -1) windowNotes[activeIdx].el?.classList.add('now')
-    const onNote = noMic ? false : judge.observe(scoreBeat, frame ? frame.midi : null).onNote
+    if (activeIdx !== nowIdx) {
+      windowNotes[nowIdx]?.el?.classList.remove('now')
+      windowNotes[activeIdx]?.el?.classList.add('now')
+      nowIdx = activeIdx
+    }
+
+    // judge this frame; the timing tolerance is real time, so it is fewer beats when playing slow
+    const toleranceBeats = noMic ? 0 : TIMING_TOLERANCE_MS / 1000 / player.secondsPerBeat()
+    const onNote = noMic
+      ? false
+      : judge.observe(scoreBeat, frame ? frame.midi : null, toleranceBeats).onNote
     singer.classList.toggle('on-note', onNote)
     if (onNote && !wasOnNote) visual.burst(0.55 + Math.min(0.45, streak / 20))
     wasOnNote = onNote
 
-    finalizeNotesUpTo(scoreBeat)
+    finalizeNotesUpTo(scoreBeat, toleranceBeats)
     visual.update({
       energy: frame ? normalizeMicEnergy(frame.rms) : 0,
       onNote,
@@ -474,6 +484,7 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
           close()
           windowNotes.forEach((n) => n.el?.classList.remove('hit', 'now'))
           judge.reset()
+          nowIdx = -1
           landedCount = 0
           setStreak(0)
           sparklesEl.textContent = '✨ 0'

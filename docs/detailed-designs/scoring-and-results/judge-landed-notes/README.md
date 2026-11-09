@@ -112,11 +112,16 @@ Constants (the shipped baseline): `HIT_TOLERANCE_CENTS = 50`,
 
 The baseline rule divided on-pitch frames by every observed frame, so silence
 counted as a wrong note. Driving the reference singer through the shipped
-pipeline showed the cost: singing in tune but 180 ms behind the beat landed 45%
-of notes, and notes of half a beat or less landed about a third of the time even
-on the beat. Judging on sung frames, with the timing tolerance of singing
-gameplay, lands 95% in both cases while a singer a semitone sharp still lands
-under 5% and a silent, noisy room lands nothing.
+pipeline over all seven bundled songs (210 notes, 34 of them half a beat or
+less) showed the cost, and what the revised rule with the timing tolerance of
+singing gameplay recovers:
+
+| Reference singer | Baseline rule | Revised rule |
+|------------------|---------------|--------------|
+| In tune, on the beat | 91% landed (short notes 50%) | 99% (short notes 94%) |
+| In tune, 180 ms behind the beat | 46% (short notes 29%) | 94% (short notes 65%) |
+| A semitone sharp | 1% | 2% |
+| Silent, noisy room | 0% | 0% |
 
 ## Requirements
 

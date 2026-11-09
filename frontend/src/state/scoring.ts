@@ -18,19 +18,35 @@ export interface NoteResult {
   phraseIdx: number
   noteIdx: number
   midi: number
-  /** frames where the sung pitch was within tolerance */
+  /** sung frames attributed to this note whose pitch was within tolerance */
   hitFrames: number
-  /** frames observed while this note was active */
+  /** frames attributed to this note in which a pitch was heard at all (on-pitch or not) */
+  voicedFrames: number
+  /** frames observed while this note was active, sung or silent */
   totalFrames: number
   /** position (0..1) within the note where the first hit happened, null if never hit */
   firstHitFrac: number | null
 }
 
 export const HIT_TOLERANCE_CENTS = 50
+/** minimum-sample guard: fewer on-pitch frames than this can never land a note */
+export const MIN_HIT_FRAMES = 3
+/** at least this share of the sung frames must be on-pitch */
+export const MIN_PRECISION = 0.5
+/** on-pitch frames must cover at least this share of the frames the note was active */
+export const MIN_COVERAGE = 0.25
 
-/** A note is "landed" when it was matched for at least half the frames we heard. */
-export function noteLanded(r: NoteResult, minFrames = 3): boolean {
-  return r.totalFrames >= minFrames && r.hitFrames / r.totalFrames >= 0.5
+/**
+ * A note is "landed" when the child was on-pitch for at least half of the
+ * frames she was heard singing it, for a meaningful share of the note.
+ * Silent frames — a breath, a consonant, a late start — never count against it.
+ */
+export function noteLanded(r: NoteResult): boolean {
+  return (
+    r.hitFrames >= MIN_HIT_FRAMES &&
+    r.hitFrames >= MIN_PRECISION * r.voicedFrames &&
+    r.hitFrames >= MIN_COVERAGE * r.totalFrames
+  )
 }
 
 export interface SongSummary {
