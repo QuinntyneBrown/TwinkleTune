@@ -4,8 +4,8 @@ LAYOUT_WITH_LEGEND()
 title Components — Detect pitch (pitch.ts, band-limit.ts)
 
 Container_Boundary(engine, "Audio engine — pitch (pitch.ts, band-limit.ts)") {
-  Component(tracker, "PitchTracker", "TypeScript class", "start / read / stop; owns the microphone and analyser")
-  Component(analyzer, "PitchAnalyzer", "TypeScript class", "One window to a pitch frame: band-limit, level gate, estimate, clarity gate, median")
+  Component(tracker, "PitchTracker", "TypeScript class", "start / read / readHops / stop; owns the microphone and an 8192-sample analyser")
+  Component(analyzer, "PitchAnalyzer", "TypeScript class", "Keeps a 1/60 s grid; each due window to a pitch frame: band-limit, level gate, estimate, clarity gate, median")
   Component(band, "BandLimiter", "TypeScript class", "4th-order Butterworth high-pass 90 Hz and low-pass 1500 Hz")
   Component(detector, "PitchDetector", "pitchy library", "McLeod pitch method over 2048-sample windows")
   Component(range, "hzToMidi()", "range.ts helper", "Frequency to floating-point MIDI")
@@ -13,7 +13,7 @@ Container_Boundary(engine, "Audio engine — pitch (pitch.ts, band-limit.ts)") {
 System_Ext(browser, "Browser Web Audio & microphone", "getUserMedia and AnalyserNode")
 
 Rel(tracker, browser, "getUserMedia (EC/NS/AGC off); getFloatTimeDomainData", "Web Audio")
-Rel(tracker, analyzer, "analyze(buf, sampleRate)")
+Rel(tracker, analyzer, "analyzeHops(history, sampleRate, nowMs)")
 Rel(analyzer, band, "process(buf, sampleRate, filtered)")
 Rel(analyzer, detector, "findPitch(filtered, sampleRate)")
 Rel(analyzer, range, "hzToMidi(hz)")

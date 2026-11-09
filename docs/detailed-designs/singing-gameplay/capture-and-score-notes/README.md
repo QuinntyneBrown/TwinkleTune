@@ -82,11 +82,19 @@ the notes it settles into cheers, streaks, and duet ticks.
 - **`NoteJudge.activeIndex(scoreBeat)`** — the first unsettled note with
   `scoreBeat >= n.start && scoreBeat < n.start + n.dur`. It selects the active
   note, whose pill the loop marks `now`.
-- **`frameMs`** — real time since the previous animation frame, taken from the
-  `requestAnimationFrame` timestamp. The loop passes it to the judge, which caps
-  it at `MAX_FRAME_MS`, so a 30 frames-a-second tablet gives each frame twice
-  the weight of a 60 frames-a-second one and a stall or the first frame after a
-  pause is not credited with time nobody analysed.
+- **`tracker.readHops()`** — once per animation frame the loop takes every
+  observation the audio engine has for it: one per 1/60 s hop of audio since the
+  previous frame, oldest first, each a pitch frame or none with the age of its
+  window. A slow or stuttering frame therefore brings several observations and a
+  120 Hz display brings one on every other frame.
+- **`NoteJudge.observeHops(scoreBeat, hops, { toleranceBeats, secondsPerBeat,
+  hopMs })`** — judges the observations in order, each through `observe` at its
+  own score beat, `scoreBeat - hop.ageMs / 1000 / secondsPerBeat`, and each
+  standing for `hopMs` of time. It returns the `Observation` of the newest hop,
+  or `null` when there were none, in which case the loop keeps the star's
+  on-note state as it was.
+- **`frameMs`** — time one observation stands for. `observe` caps it at
+  `MAX_FRAME_MS`; `observeHops` passes the hop, 16.7 ms.
 - **`NoteJudge.observe(scoreBeat, sungMidi, toleranceBeats, frameMs)`** — tallies
   one frame of `t = min(frameMs, MAX_FRAME_MS)` milliseconds. It adds `t` to the
   active note's `totalMs`, then, when a pitch was detected, attributes the frame
@@ -101,7 +109,8 @@ the notes it settles into cheers, streaks, and duet ticks.
      `voicedMs` only.
 
   It returns `{ activeIdx, onNote }`; `onNote` is true whenever the frame matched
-  a note, and drives the star's on-note glow and the scene burst.
+  a note. The newest observation's `onNote` drives the star's on-note glow and
+  the scene burst.
 - **on-pitch test** — `abs(foldCents(sungMidi, n.midi + shift)) <=
   HIT_TOLERANCE_CENTS`. **`foldCents(sung, target)`** is the octave-folded cents
   difference in `(-600, 600]`, so any octave counts; **`HIT_TOLERANCE_CENTS`** is
@@ -136,6 +145,7 @@ cited level-1 (L1) requirement(s).
 | `SG-L2-10` | `SG-L1-4, SG-L1-5` | Notes shall be finalised in song order: as a note's end passes if it is already landed, otherwise once the timing tolerance after its end has also passed. A landed note shall increment the landed count and streak, mark the pill, show a random cheer, and update the live sparkle count to `landedCount·10`; a missed note shall reset the streak to 0. No missed note shall produce a negative message. |
 | `SG-L2-19` | `SG-L1-8` | Scoring shall use a latency-compensated beat position — the raw beat minus the sum of the engine's pipeline latency estimate (`AE-L2-18`) and the profile's mic timing offset — while visuals use the raw beat, so that a device with output or input lag still scores the note the child is actually singing. |
 | `SG-L2-22` | `SG-L1-4` | In duet mode, the system shall emit a score tick once per finalised note (not per frame), carrying the landed count, streak, sparkles, and note index; tick delivery failures shall be swallowed so play is never interrupted. (Relay semantics: DM.) |
+| `SG-L2-26` | `SG-L1-4, SG-L1-8` | Each animation frame the system shall take every observation the audio engine returns (`AE-L2-21`) and judge them oldest first, each at its own score beat — the frame's score beat minus the observation's age — and each standing for one hop of time; a frame with no observation shall judge nothing and leave the on-note state as it was. |
 | `SG-L2-25` | `SG-L1-4, SG-L1-8` | Each sung frame shall be attributed to at most one note: the active note when on-pitch for it; otherwise the nearest note whose span ended, or begins, within 180 ms of the score beat and for which it is on-pitch (credited if not yet finalised, and never counted against the active note); otherwise the active note as a sung, off-pitch frame. The tolerance is real time. |
 
 ## Diagrams

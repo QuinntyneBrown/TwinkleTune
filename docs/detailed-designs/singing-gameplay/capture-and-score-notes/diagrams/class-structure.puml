@@ -28,6 +28,7 @@ class NoteJudge {
   +finalizedCount: number
   +activeIndex(scoreBeat: number): number
   +observe(scoreBeat: number, sungMidi: number | null, toleranceBeats: number, frameMs: number): Observation
+  +observeHops(scoreBeat: number, hops: HopObservation[], timing: HopTiming): Observation | null
   +finalize(scoreBeat: number, toleranceBeats: number): number[]
   +reset(): void
 }
@@ -67,7 +68,7 @@ class "note-judge" as JudgeMod <<module>> {
 }
 
 class PitchTracker <<audio engine>> {
-  +read(): PitchFrame | null
+  +readHops(): PitchObservation[]
   +pipelineLatencyMs(): number
 }
 
@@ -89,7 +90,7 @@ NoteJudge ..> Observation : returns
 NoteJudge ..> Scoring : foldCents / noteLanded
 Sing ..> JudgeMod : TIMING_TOLERANCE_MS
 Sing ..> Scoring : noteLanded
-Sing ..> PitchTracker : read / pipelineLatencyMs per frame
+Sing ..> PitchTracker : readHops / pipelineLatencyMs per frame
 Sing ..> DuetClient : sendTick per note
 DuetClient ..> DuetTick : sends
 @enduml

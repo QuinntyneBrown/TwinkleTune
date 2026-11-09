@@ -12,16 +12,22 @@ or too uncertain to be a sung note, and smooths brief octave jumps.
 audio engine — on-device layer that synthesises a song's melody and detects the
 singer's pitch
 
-This feature covers pitch input: acquiring the microphone, analysing one window
-of samples per frame, band-limiting, gating and smoothing the result, and
-releasing the microphone on stop. It reports raw pitch only; deciding whether the
+This feature covers pitch input: acquiring the microphone, analysing a window of
+samples on a fixed step of audio time, band-limiting, gating and smoothing the
+result, and releasing the microphone on stop. It reports raw pitch only; deciding whether the
 pitch is correct belongs to scoring, and finding a comfortable vocal range
 belongs to voice personalization. It runs offline on the device.
 
 The terms below are used throughout.
 
-- pitch frame — per-poll result carrying `hz`, a floating-point `midi`, a
-  `clarity`, and an `rms`, or absent when the frame is rejected
+- pitch frame — result of analysing one window, carrying `hz`, a floating-point
+  `midi`, a `clarity`, and an `rms`, or absent when the window is rejected
+- hop — fixed step of audio time, 1/60 s, between one analysed window and the
+  next
+- observation — pitch frame (or none) for one hop, with the age of the end of
+  its window at the moment of the poll
+- history — most recent 8192 samples held by the analyser, enough for a window
+  ending up to 128 ms ago at 48 kHz
 - McLeod pitch method — autocorrelation-based algorithm, supplied by the `pitchy`
   library, that estimates a fundamental frequency and a clarity from a window of
   samples
@@ -49,13 +55,23 @@ The feature is a frontend-only slice inside `frontend/src/audio/pitch.ts` and
 from the Web Audio plumbing so it can be driven by synthesised audio in tests.
 
 - **`PitchTracker`** — class that owns the microphone and analysis graph.
-  `start()` acquires the stream and builds the analyser; `read()` copies one
-  window out of the analyser and hands it to its `PitchAnalyzer`; `stop()`
-  releases everything. The `running` getter is true while an analyser exists.
+  `start()` acquires the stream and builds the analyser; `read()` and
+  `readHops()` copy the history out of the analyser and hand it to its
+  `PitchAnalyzer`; `stop()` releases everything. The `running` getter is true
+  while an analyser exists.
 - **`start()`** — async method that calls `getUserMedia` with `echoCancellation`,
   `noiseSuppression`, and `autoGainControl` all `false`, builds a
-  `MediaStreamAudioSourceNode` and an `AnalyserNode` with `fftSize = 2048`, and
-  connects them. A denied permission surfaces as a `NotAllowedError` thrown to
+  `MediaStreamAudioSourceNode` and an `AnalyserNode` with
+  `fftSize = HISTORY_SIZE`, and connects them.
+- **`read()`** — analyses the newest window only and returns its frame. The
+  tuner and Find My Voice, which want the pitch right now, use it.
+- **`readHops()`** — returns every observation that has come due since the
+  previous call, by passing the history and the audio clock
+  (`AudioContext.currentTime`) to `PitchAnalyzer.analyzeHops`; `latest` becomes
+  the newest observation's frame. The sing loop uses it, so judging sees the
+  voice sixty times a second however the display is pacing. A caller uses one
+  of `read()` and `readHops()`, not both, since each advances the smoothing
+  history. A denied permission surfaces as a `NotAllowedError` thrown to
   the caller.
 - **`stop()`** — method that stops the media tracks, disconnects the source and
   analyser, nulls the graph, and clears the analyzer's history and `latest`.
@@ -69,6 +85,15 @@ from the Web Audio plumbing so it can be driven by synthesised audio in tests.
   4. push `hzToMidi(hz)` into `history`, keep the last `MEDIAN_WINDOW` values,
      and report the median as `midi`, with `rms` computed from the unfiltered
      `buf` so level displays keep their meaning.
+- **`PitchAnalyzer.analyzeHops(history, sampleRate, nowMs)`** — keeps a grid of
+  hop times on the audio clock. It counts the hops that have come due since the
+  last one it analysed, caps the count at what the history holds beyond one
+  window, and for each, oldest first, analyses the `windowSize` samples ending
+  that hop's age before the end of `history` and emits
+  `{ frame, ageMs }`. The grid then advances by exactly the hops emitted, so the
+  remainder of a hop carries to the next call and the analysed windows stay
+  evenly spaced in audio time whatever the spacing of the calls. After a stall
+  longer than the history the grid restarts at the oldest window that fits.
 - **`BandLimiter(lowHz, highHz)`** — class in `band-limit.ts` holding a 4th-order
   Butterworth high-pass at `lowHz` and a 4th-order Butterworth low-pass at
   `highHz`, each as two cascaded biquads with section Qs 0.5412 and 1.3066.
@@ -83,7 +108,8 @@ from the Web Audio plumbing so it can be driven by synthesised audio in tests.
   for the 2048-sample window; `findPitch` returns `[hz, clarity]`.
 - **`hzToMidi(hz)`** — `range.ts` helper computing `69 + 12·log2(hz/440)`.
 
-Constants (the shipped baseline): `FFT_SIZE = 2048`, `BAND_LOW_HZ = 90`,
+Constants (the shipped baseline): `FFT_SIZE = 2048`, `HISTORY_SIZE = 8192`,
+`HOP_MS = 1000 / 60`, `BAND_LOW_HZ = 90`,
 `BAND_HIGH_HZ = 1500`, `MIN_BAND_RMS = 0.006`, `MIN_CLARITY = 0.8`,
 `MIN_HZ = 70`, `MAX_HZ = 1500`, `MEDIAN_WINDOW = 5`.
 
@@ -120,6 +146,24 @@ The filter starts each window from rest, so its settling shows in whole-window
 figures: a 6 kHz tone is down 40 dB over the whole window and 50 dB over its
 second half; 60 Hz hum is down 14 dB either way.
 
+### Why a fixed step
+
+Polling once per animation frame ties how often the voice is sampled to how fast
+the device can draw. A tablet drawing 20 frames a second looked at the voice
+three times less often than one drawing 60, and a stutter left a hole in what
+was heard, so short notes went uncredited for reasons that had nothing to do
+with the singing. The audio itself is never lost — the analyser holds the last
+8192 samples — so each poll can catch up on the hops it missed. Driving the
+reference singer through the pipeline over all bundled songs:
+
+| Sing loop | One window per frame | Fixed 1/60 s step |
+|-----------|----------------------|-------------------|
+| 60 frames a second | 99.5% landed (short notes 97%) | 99.5% (short notes 97%) |
+| 30 frames a second | 99.5% (short notes 97%) | 99.5% (short notes 97%) |
+| 20 frames a second | 95.2% (short notes 71%) | 99.5% (short notes 97%) |
+| 15 frames a second | 93.3% (short notes 59%) | 99.5% (short notes 97%) |
+| 60 a second, one frame in five late | 97.1% (short notes 82%) | 99.5% (short notes 97%) |
+
 ## Requirements
 
 The feature realizes the following level-2 (L2) requirements. Each L2 requirement
@@ -134,6 +178,7 @@ refines a level-1 (L1) requirement, cited by identifier.
 | `AE-L2-14` | `AE-L1-6` | The engine shall request the microphone with echo cancellation, noise suppression, and auto-gain **disabled** (to preserve pitch fidelity), and shall propagate a permission-denied error to the caller rather than swallowing it. |
 | `AE-L2-16` | `AE-L1-6` | Stopping the tracker shall stop the media tracks, disconnect the audio nodes, and clear the smoothing history and last frame, so no microphone remains active and no stale pitch survives into a later session. |
 | `AE-L2-19` | `AE-L1-5` | Before the level gate and the pitch estimate, each analysis window shall be band-limited to 90–1500 Hz by a 4th-order Butterworth high-pass at 90 Hz followed by a 4th-order Butterworth low-pass at 1500 Hz, computed for the context's sample rate. |
+| `AE-L2-21` | `AE-L1-4` | The engine shall analyse the microphone signal on a fixed grid of audio time, one 2048-sample window every 1/60 s, however it is polled; each poll shall return, oldest first, one observation (a pitch frame or none, with the age of its window) for every hop that has come due since the previous poll, drawing on 8192 samples of history. |
 | `AE-L2-20` | `AE-L1-4, AE-L1-5` | Taken end to end, the engine shall keep hearing an in-tune child through a breathy voice, broadband hiss, mains hum, or a quiet voice — at least 90% of notes landed in each case — and shall report no pitch at all when the same interference is present and nobody sings. |
 
 ## Diagrams
@@ -172,8 +217,9 @@ analyzer owns a `BandLimiter` and depends on the `pitchy` `PitchDetector` for
 ### Behaviour — acquire the microphone and read a frame
 
 `start()` requests the microphone with echo cancellation, noise suppression, and
-auto-gain off (`AE-L2-14`); the `alt` models the denied-permission path. `read()`
-then band-limits the window (`AE-L2-19`) and applies the level gate
+auto-gain off (`AE-L2-14`); the `alt` models the denied-permission path.
+`readHops()` then takes the history and, for each hop that has come due
+(`AE-L2-21`), band-limits the window (`AE-L2-19`) and applies the level gate
 (`AE-L2-11`), the McLeod estimate (`AE-L2-10`), the clarity and bounds gate
 (`AE-L2-12`), and the median filter (`AE-L2-13`), with the too-quiet and
 too-uncertain rejections shown as `alt` branches and the teardown (`AE-L2-16`) as

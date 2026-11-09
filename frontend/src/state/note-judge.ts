@@ -34,6 +34,21 @@ export interface Observation {
   onNote: boolean
 }
 
+/** One hop of audio as the pitch engine reports it: what was sung, and how long ago. */
+export interface HopObservation {
+  frame: { midi: number } | null
+  /** how long before this animation frame the hop's window ended */
+  ageMs: number
+}
+
+export interface HopTiming {
+  /** the timing tolerance at the current tempo */
+  toleranceBeats: number
+  secondsPerBeat: number
+  /** the time each hop stands for */
+  hopMs: number
+}
+
 /**
  * Live per-note capture: feed it one observation per animation frame and it
  * tallies each note's `NoteResult`, then settles notes in order as they pass.
@@ -106,6 +121,21 @@ export class NoteJudge {
 
     if (activeIdx !== -1) this.results[activeIdx].voicedMs += ms
     return { activeIdx, onNote: false }
+  }
+
+  /**
+   * Tally every hop the pitch engine heard since the previous animation frame,
+   * oldest first, each at its own score beat: `scoreBeat` (this frame's) minus
+   * the hop's age. Returns the newest hop's observation, or null when the
+   * engine had nothing new.
+   */
+  observeHops(scoreBeat: number, hops: readonly HopObservation[], timing: HopTiming): Observation | null {
+    let newest: Observation | null = null
+    for (const hop of hops) {
+      const hopBeat = scoreBeat - hop.ageMs / 1000 / timing.secondsPerBeat
+      newest = this.observe(hopBeat, hop.frame ? hop.frame.midi : null, timing.toleranceBeats, timing.hopMs)
+    }
+    return newest
   }
 
   /**

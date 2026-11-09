@@ -245,3 +245,45 @@ describe('NoteJudge — finalisation (SG-L2-10)', () => {
     expect(see(judge, 0.1, 60).activeIdx).toBe(0)
   })
 })
+
+describe('NoteJudge.observeHops — judging every hop the engine heard (SG-L2-26)', () => {
+  const HOP_MS = 1000 / 60
+  const timing = { toleranceBeats: TOL, secondsPerBeat: SPB, hopMs: HOP_MS }
+  const hop = (midi: number | null, ageMs: number) => ({ frame: midi === null ? null : { midi }, ageMs })
+  // C until beat 1.96, then E: the boundary falls between two frames 50 ms apart
+  const boundary = [note(60, 1, 0.96, 0), note(64, 1.96, 1, 1)]
+
+  it('judges each observation at its own score beat, oldest first', () => {
+    const judge = new NoteJudge(boundary)
+    // at 100 BPM, 33.3 ms is 0.056 beats: the hops fall at beats 1.944, 1.972 and 2.000
+    judge.observeHops(2.0, [hop(60, 2 * HOP_MS), hop(64, HOP_MS), hop(64, 0)], timing)
+    expect(judge.results[0].totalMs).toBeCloseTo(HOP_MS, 5)
+    expect(judge.results[0].hitMs).toBeCloseTo(HOP_MS, 5)
+    expect(judge.results[1].totalMs).toBeCloseTo(2 * HOP_MS, 5)
+    expect(judge.results[1].hitMs).toBeCloseTo(2 * HOP_MS, 5)
+    expect(judge.results[1].firstHitFrac).toBeCloseTo((2.0 - HOP_MS / 1000 / SPB - 1.96) / 1, 5)
+  })
+
+  it('credits singing before a note ended as the note’s own time, not as late singing', () => {
+    const judge = new NoteJudge(boundary)
+    judge.observeHops(2.0, [hop(60, 2 * HOP_MS)], timing)
+    // own time counts toward the observed time; late credit would not
+    expect(judge.results[0].totalMs).toBeCloseTo(HOP_MS, 5)
+    expect(judge.results[1].totalMs).toBe(0)
+  })
+
+  it('reports the newest observation', () => {
+    const judge = new NoteJudge(boundary)
+    expect(judge.observeHops(2.0, [hop(60, 2 * HOP_MS), hop(null, HOP_MS), hop(64, 0)], timing)).toEqual({
+      activeIdx: 1,
+      onNote: true,
+    })
+    expect(judge.observeHops(2.1, [hop(62, 0)], timing)).toEqual({ activeIdx: 1, onNote: false })
+  })
+
+  it('judges nothing when there is no observation', () => {
+    const judge = new NoteJudge(boundary)
+    expect(judge.observeHops(2.0, [], timing)).toBeNull()
+    expect(judge.results[1]).toMatchObject({ totalMs: 0, voicedMs: 0, hitMs: 0 })
+  })
+})
