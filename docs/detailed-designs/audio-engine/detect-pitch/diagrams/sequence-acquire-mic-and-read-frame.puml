@@ -17,6 +17,8 @@ skinparam package {
 actor "Caller (voice capture / tuner)" as caller
 box "Frontend — TwinkleTune web app" #E0F2FE
   participant "PitchTracker" as tracker
+  participant "PitchAnalyzer" as analyzer
+  participant "BandLimiter" as band
   participant "PitchDetector (pitchy)" as detector
 end box
 box "Device — Browser Web Audio & microphone" #FFF4E5
@@ -38,19 +40,23 @@ end
 caller -> tracker : read()
 tracker -> analyser : getFloatTimeDomainData(buf, 2048 samples)
 analyser --> tracker : time-domain samples
-tracker -> tracker : rms = sqrt(mean(buf^2))
-alt rms < 0.01
-  tracker -> tracker : latest = null (AE-L2-11)
+tracker -> analyzer : analyze(buf, sampleRate)
+analyzer -> band : process(buf, sampleRate, filtered) (AE-L2-19)
+band --> analyzer : window limited to 90-1500 Hz
+analyzer -> analyzer : level = sqrt(mean(filtered^2))
+alt level < 0.006
+  analyzer --> tracker : null (AE-L2-11)
   tracker --> caller : null (too quiet)
-else rms >= 0.01
-  tracker -> detector : findPitch(buf, sampleRate) (AE-L2-10)
-  detector --> tracker : [hz, clarity]
+else level >= 0.006
+  analyzer -> detector : findPitch(filtered, sampleRate) (AE-L2-10)
+  detector --> analyzer : [hz, clarity]
   alt clarity < 0.8 or hz outside 70-1500 Hz
-    tracker -> tracker : latest = null (AE-L2-12)
+    analyzer --> tracker : null (AE-L2-12)
     tracker --> caller : null (too uncertain / out of band)
   else accepted frame
-    tracker -> tracker : history.push(hzToMidi(hz)); keep last 5 (AE-L2-13)
-    tracker -> tracker : midi = median(history) (AE-L2-13)
+    analyzer -> analyzer : history.push(hzToMidi(hz)); keep last 5 (AE-L2-13)
+    analyzer -> analyzer : midi = median(history); rms = sqrt(mean(buf^2))
+    analyzer --> tracker : { hz, midi, clarity, rms }
     tracker --> caller : { hz, midi, clarity, rms } (AE-L2-10)
   end
 end
@@ -59,7 +65,7 @@ opt session ends
   caller -> tracker : stop()
   tracker -> mic : media tracks stop()
   tracker -> analyser : disconnect source and analyser
-  tracker -> tracker : clear history and latest (AE-L2-16)
+  tracker -> analyzer : reset() — clear history (AE-L2-16)
   tracker --> caller : later read() returns null (AE-L2-16)
 end
 @enduml

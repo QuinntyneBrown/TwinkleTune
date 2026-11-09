@@ -1,16 +1,20 @@
 @startuml
 !include <C4/C4_Component>
 LAYOUT_WITH_LEGEND()
-title Components — Detect pitch (pitch.ts)
+title Components — Detect pitch (pitch.ts, band-limit.ts)
 
-Container_Boundary(engine, "Audio engine — pitch (pitch.ts)") {
-  Component(tracker, "PitchTracker", "TypeScript class", "start / read / stop detection pipeline")
+Container_Boundary(engine, "Audio engine — pitch (pitch.ts, band-limit.ts)") {
+  Component(tracker, "PitchTracker", "TypeScript class", "start / read / stop; owns the microphone and analyser")
+  Component(analyzer, "PitchAnalyzer", "TypeScript class", "One window to a pitch frame: band-limit, level gate, estimate, clarity gate, median")
+  Component(band, "BandLimiter", "TypeScript class", "4th-order Butterworth high-pass 90 Hz and low-pass 1500 Hz")
   Component(detector, "PitchDetector", "pitchy library", "McLeod pitch method over 2048-sample windows")
   Component(range, "hzToMidi()", "range.ts helper", "Frequency to floating-point MIDI")
 }
 System_Ext(browser, "Browser Web Audio & microphone", "getUserMedia and AnalyserNode")
 
 Rel(tracker, browser, "getUserMedia (EC/NS/AGC off); getFloatTimeDomainData", "Web Audio")
-Rel(tracker, detector, "findPitch(buf, sampleRate)")
-Rel(tracker, range, "hzToMidi(hz)")
+Rel(tracker, analyzer, "analyze(buf, sampleRate)")
+Rel(analyzer, band, "process(buf, sampleRate, filtered)")
+Rel(analyzer, detector, "findPitch(filtered, sampleRate)")
+Rel(analyzer, range, "hzToMidi(hz)")
 @enduml

@@ -1,3 +1,7 @@
+// Acceptance Test
+// Traces to: SG-L2-9, SG-L2-10, SG-L2-25
+// Description: Sung frames are attributed to the right note within the timing tolerance, and notes settle in order
+
 import { describe, expect, it } from 'vitest'
 import { NoteJudge, TIMING_TOLERANCE_MS, type JudgeNote } from './note-judge'
 import { noteLanded } from './scoring'

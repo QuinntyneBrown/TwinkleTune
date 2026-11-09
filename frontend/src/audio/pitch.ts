@@ -1,4 +1,5 @@
 import { PitchDetector } from 'pitchy'
+import { BandLimiter } from './band-limit'
 import { pipelineLatencyMs } from './latency'
 import { audioCtx } from './player'
 import { hzToMidi } from './range'
@@ -13,41 +14,56 @@ export interface PitchFrame {
 }
 
 export const FFT_SIZE = 2048
-const MIN_RMS = 0.01
+/** the band sung fundamentals and their first harmonics live in */
+export const BAND_LOW_HZ = 90
+export const BAND_HIGH_HZ = 1500
+/** loudness gate, measured inside the band */
+const MIN_BAND_RMS = 0.006
 const MIN_CLARITY = 0.8
 const MIN_HZ = 70
 const MAX_HZ = 1500
 const MEDIAN_WINDOW = 5
 
+function rmsOf(buf: Float32Array): number {
+  let sum = 0
+  for (let i = 0; i < buf.length; i++) sum += buf[i] * buf[i]
+  return Math.sqrt(sum / buf.length)
+}
+
 /**
  * One window of samples → pitch. Pure signal processing (no Web Audio), so it
  * can be driven by synthesised audio in tests.
- * Median filter over recent frames guards against octave-error blips;
- * the RMS gate keeps background noise from registering as singing.
+ *
+ * The window is first limited to the singing band, so hum, rumble, breath and
+ * hiss neither open the loudness gate nor drown the voice's periodicity. The
+ * gate then keeps quiet background noise from registering as singing, and a
+ * median filter over recent frames guards against octave-error blips.
  */
 export class PitchAnalyzer {
   private detector: PitchDetector<Float32Array>
+  private band = new BandLimiter(BAND_LOW_HZ, BAND_HIGH_HZ)
+  private filtered: Float32Array
   private history: number[] = []
 
   constructor(readonly windowSize = FFT_SIZE) {
     this.detector = PitchDetector.forFloat32Array(windowSize)
+    this.filtered = new Float32Array(windowSize)
   }
 
   /** `buf` must hold exactly `windowSize` time-domain samples. */
   analyze(buf: Float32Array, sampleRate: number): PitchFrame | null {
-    let sum = 0
-    for (let i = 0; i < buf.length; i++) sum += buf[i] * buf[i]
-    const rms = Math.sqrt(sum / buf.length)
-    if (rms < MIN_RMS) return null
+    this.band.process(buf, sampleRate, this.filtered)
+    if (rmsOf(this.filtered) < MIN_BAND_RMS) return null
 
-    const [hz, clarity] = this.detector.findPitch(buf, sampleRate)
+    const [hz, clarity] = this.detector.findPitch(this.filtered, sampleRate)
     if (clarity < MIN_CLARITY || hz < MIN_HZ || hz > MAX_HZ) return null
 
     this.history.push(hzToMidi(hz))
     if (this.history.length > MEDIAN_WINDOW) this.history.shift()
     const midi = [...this.history].sort((a, b) => a - b)[Math.floor(this.history.length / 2)]
 
-    return { hz, midi, clarity, rms }
+    // the reported level is the unfiltered one, so meters and visuals keep their meaning
+    return { hz, midi, clarity, rms: rmsOf(buf) }
   }
 
   reset(): void {
