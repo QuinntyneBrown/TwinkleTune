@@ -12,6 +12,7 @@ import {
   simulateCatalogue,
   type CatalogueOutcome,
   type Room,
+  type SimulationOptions,
 } from './synthetic-singer'
 
 // Acceptance tests for SR-L2-18: synthesised singing goes through the shipped
@@ -46,24 +47,28 @@ describe('SR-L2-18 — judging holds up to natural singing', () => {
   })
 })
 
-// Acceptance tests for SR-L2-19: a slower device samples the voice less often.
+// Acceptance tests for SR-L2-19: a slow or stuttering device must not hear less of the voice.
 describe('SR-L2-19 — judging does not depend on the frame rate', () => {
   const SHARP = { ...REFERENCE_SINGER, offsetCents: 100 }
+  const STUTTER: SimulationOptions = { fps: 60, stutter: 0.2 } // one frame in five arrives late
 
-  it('lands at least 95% of notes, and 90% of short notes, at 30 frames per second', SLOW, () => {
-    const outcome = simulateCatalogue(songs, REFERENCE_SINGER, REFERENCE_ROOM, { fps: 30 })
+  for (const fps of [30, 20, 15]) {
+    it(`lands at least 95% of notes, and 90% of short notes, at ${fps} frames per second`, SLOW, () => {
+      const outcome = simulateCatalogue(songs, REFERENCE_SINGER, REFERENCE_ROOM, { fps })
+      expect(rate(outcome)).toBeGreaterThanOrEqual(0.95)
+      expect(shortRate(outcome)).toBeGreaterThanOrEqual(0.9)
+    })
+  }
+
+  it('lands at least 95% of notes, and 90% of short notes, when one frame in five arrives late', SLOW, () => {
+    const outcome = simulateCatalogue(songs, REFERENCE_SINGER, REFERENCE_ROOM, STUTTER)
     expect(rate(outcome)).toBeGreaterThanOrEqual(0.95)
     expect(shortRate(outcome)).toBeGreaterThanOrEqual(0.9)
   })
 
-  it('lands at least 90% of notes at 20 frames per second', SLOW, () => {
-    const outcome = simulateCatalogue(songs, REFERENCE_SINGER, REFERENCE_ROOM, { fps: 20 })
-    expect(rate(outcome)).toBeGreaterThanOrEqual(0.9)
-  })
-
   it('still lands no more than 5% of notes for a singer a semitone sharp', SLOW, () => {
-    for (const fps of [30, 20]) {
-      const outcome = simulateCatalogue(songs, SHARP, REFERENCE_ROOM, { fps })
+    for (const pacing of [{ fps: 30 }, { fps: 20 }, { fps: 15 }, STUTTER]) {
+      const outcome = simulateCatalogue(songs, SHARP, REFERENCE_ROOM, pacing)
       expect(rate(outcome)).toBeLessThanOrEqual(0.05)
     }
   })

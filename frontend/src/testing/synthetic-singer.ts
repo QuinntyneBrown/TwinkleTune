@@ -7,7 +7,7 @@
  * well TwinkleTune understands a voice can be verified without a microphone.
  */
 import { pipelineLatencyMs, type LatencyReport } from '../audio/latency'
-import { FFT_SIZE, PitchAnalyzer } from '../audio/pitch'
+import { FFT_SIZE, HISTORY_SIZE, HOP_MS, PitchAnalyzer } from '../audio/pitch'
 import { midiToHz } from '../audio/range'
 import { NoteJudge, TIMING_TOLERANCE_MS } from '../state/note-judge'
 import { noteLanded, type NoteResult } from '../state/scoring'
@@ -130,13 +130,15 @@ export interface PerformanceOutcome {
   landed: boolean[]
   /** note durations in beats, in song order */
   durations: number[]
-  /** frames in which the analyzer reported a pitch */
+  /** hops in which the analyzer reported a pitch */
   pitchFrames: number
 }
 
 export interface SimulationOptions {
   /** animation frames per second of the simulated sing loop */
   fps?: number
+  /** share of frames (0..1) that arrive one to three frame intervals late */
+  stutter?: number
   /** the profile's mic timing offset, as the sing loop applies it */
   latencyMs?: number
   /**
@@ -152,14 +154,14 @@ export function simulatePerformance(
   song: Song,
   singer: Singer,
   room: Room,
-  { fps = 60, latencyMs = 0, seed = 1, reported }: SimulationOptions = {},
+  { fps = 60, stutter = 0, latencyMs = 0, seed = 1, reported }: SimulationOptions = {},
 ): PerformanceOutcome {
   const samples = synthesizeSinging(song, singer, room, seed)
   const spb = 60 / song.bpm
   const notes = song.phrases.flatMap((p, phraseIdx) => p.notes.map((n, noteIdx) => ({ ...n, phraseIdx, noteIdx })))
   const analyzer = new PitchAnalyzer(FFT_SIZE)
   const judge = new NoteJudge(notes, 0)
-  const window = new Float32Array(FFT_SIZE)
+  const history = new Float32Array(HISTORY_SIZE)
   const toleranceBeats = TIMING_TOLERANCE_MS / 1000 / spb
   const totalSec = samples.length / SAMPLE_RATE
   let pitchFrames = 0
@@ -175,18 +177,23 @@ export function simulatePerformance(
       windowSize: FFT_SIZE,
     })
 
-  for (let t = 0; t < totalSec; t += 1 / fps) {
-    // the analyser always holds the most recent FFT_SIZE samples it has received
+  const pacing = prng(seed + 7919)
+  for (let t = 0; t < totalSec; ) {
+    // the analyser always holds the most recent HISTORY_SIZE samples it has received
     const end = Math.floor((t - room.inputLagMs / 1000) * SAMPLE_RATE)
-    for (let i = 0; i < FFT_SIZE; i++) {
-      const at = end - FFT_SIZE + i
-      window[i] = at >= 0 && at < samples.length ? samples[at] : 0
+    for (let i = 0; i < HISTORY_SIZE; i++) {
+      const at = end - HISTORY_SIZE + i
+      history[i] = at >= 0 && at < samples.length ? samples[at] : 0
     }
-    const frame = analyzer.analyze(window, SAMPLE_RATE)
-    if (frame) pitchFrames++
+    // one animation frame of the sing loop: every hop heard since the last one, then settle
+    const hops = analyzer.analyzeHops(history, SAMPLE_RATE, t * 1000)
+    for (const hop of hops) if (hop.frame) pitchFrames++
     const scoreBeat = t / spb - compensationMs / 1000 / spb
-    judge.observe(scoreBeat, frame ? frame.midi : null, toleranceBeats, 1000 / fps)
+    judge.observeHops(scoreBeat, hops, { toleranceBeats, secondsPerBeat: spb, hopMs: HOP_MS })
     judge.finalize(scoreBeat, toleranceBeats)
+    // the next frame comes on time, or one to three frame intervals late
+    const late = stutter > 0 && pacing() < stutter ? 1 + Math.floor(pacing() * 3) : 0
+    t += (1 + late) / fps
   }
   judge.finalize(Infinity, toleranceBeats)
 
@@ -208,7 +215,7 @@ export interface CatalogueOutcome {
   /** notes lasting half a beat or less */
   shortLanded: number
   shortTotal: number
-  /** frames in which a pitch was reported, over all songs */
+  /** hops in which a pitch was reported, over all songs */
   pitchFrames: number
 }
 
