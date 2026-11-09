@@ -43,6 +43,8 @@ export interface Room {
   inputLagMs: number
   /** delay between the playback clock and the music being heard (default 0) */
   outputLagMs?: number
+  /** amplitude of a steady 60 Hz mains hum (default 0) */
+  hum?: number
 }
 
 /** An in-tune young singer with the ordinary imperfections of a real voice. */
@@ -116,6 +118,9 @@ export function synthesizeSinging(song: Song, singer: Singer, room: Room, seed =
   if (room.noise > 0) {
     for (let i = 0; i < out.length; i++) out[i] += room.noise * (rand() * 2 - 1)
   }
+  if (room.hum) {
+    for (let i = 0; i < out.length; i++) out[i] += room.hum * Math.sin((2 * Math.PI * 60 * i) / SAMPLE_RATE)
+  }
   return out
 }
 
@@ -125,6 +130,8 @@ export interface PerformanceOutcome {
   landed: boolean[]
   /** note durations in beats, in song order */
   durations: number[]
+  /** frames in which the analyzer reported a pitch */
+  pitchFrames: number
 }
 
 export interface SimulationOptions {
@@ -155,6 +162,7 @@ export function simulatePerformance(
   const window = new Float32Array(FFT_SIZE)
   const toleranceBeats = TIMING_TOLERANCE_MS / 1000 / spb
   const totalSec = samples.length / SAMPLE_RATE
+  let pitchFrames = 0
   // the sing loop's compensation: the engine's estimate plus the profile offset
   const compensationMs =
     latencyMs +
@@ -175,6 +183,7 @@ export function simulatePerformance(
       window[i] = at >= 0 && at < samples.length ? samples[at] : 0
     }
     const frame = analyzer.analyze(window, SAMPLE_RATE)
+    if (frame) pitchFrames++
     const scoreBeat = t / spb - compensationMs / 1000 / spb
     judge.observe(scoreBeat, frame ? frame.midi : null, toleranceBeats)
     judge.finalize(scoreBeat, toleranceBeats)
@@ -185,6 +194,7 @@ export function simulatePerformance(
     results: judge.results,
     landed: judge.results.map((r) => noteLanded(r)),
     durations: notes.map((n) => n.dur),
+    pitchFrames,
   }
 }
 
@@ -198,6 +208,8 @@ export interface CatalogueOutcome {
   /** notes lasting half a beat or less */
   shortLanded: number
   shortTotal: number
+  /** frames in which a pitch was reported, over all songs */
+  pitchFrames: number
 }
 
 /** Sing every song in `songs` and add up the outcomes. */
@@ -207,9 +219,10 @@ export function simulateCatalogue(
   room: Room,
   options: SimulationOptions = {},
 ): CatalogueOutcome {
-  const sum: CatalogueOutcome = { landed: 0, total: 0, hit: 0, hitEarly: 0, shortLanded: 0, shortTotal: 0 }
+  const sum: CatalogueOutcome = { landed: 0, total: 0, hit: 0, hitEarly: 0, shortLanded: 0, shortTotal: 0, pitchFrames: 0 }
   songs.forEach((song, i) => {
     const outcome = simulatePerformance(song, singer, room, { ...options, seed: (options.seed ?? 1) + i })
+    sum.pitchFrames += outcome.pitchFrames
     outcome.landed.forEach((ok, n) => {
       const short = outcome.durations[n] <= 0.5
       sum.total++
