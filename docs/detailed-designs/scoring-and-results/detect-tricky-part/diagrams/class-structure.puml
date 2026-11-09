@@ -28,8 +28,9 @@ interface Song {
 interface NoteResult {
   +phraseIdx: number
   +noteIdx: number
-  +hitFrames: number
-  +totalFrames: number
+  +hitMs: number
+  +voicedMs: number
+  +totalMs: number
 }
 
 interface SongSummary {

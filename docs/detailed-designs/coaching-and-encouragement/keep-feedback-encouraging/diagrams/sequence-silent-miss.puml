@@ -27,7 +27,7 @@ box "Device — Browser DOM" #FFF4E5
 end box
 
 child -> finalize : A note's time passes
-finalize -> scoring : noteLanded(result, minFrames = 3)
+finalize -> scoring : noteLanded(result)
 
 alt note not landed
   scoring --> finalize : false

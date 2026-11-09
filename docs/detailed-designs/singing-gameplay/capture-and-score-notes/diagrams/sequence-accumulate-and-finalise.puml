@@ -35,19 +35,21 @@ rloop -> rloop : scoreBeat = beat - (estimate + profile offset) in beats per SG-
 rloop -> rloop : toleranceBeats = 180 ms / secondsPerBeat per SG-L2-25
 rloop -> tracker : read()
 tracker --> rloop : PitchFrame or null
-rloop -> judge : observe(scoreBeat, sungMidi, toleranceBeats)
+rloop -> rloop : frameMs = time since the previous frame
+rloop -> judge : observe(scoreBeat, sungMidi, toleranceBeats, frameMs)
+judge -> judge : t = min(frameMs, 40 ms) per SG-L2-9
 opt active note present
-  judge -> results : active.totalFrames++ per SG-L2-9
+  judge -> results : active.totalMs += t per SG-L2-9
 end
 opt pitch detected
   judge -> scoring : foldCents(sungMidi, note.midi + shift)
   scoring --> judge : cents
   alt on-pitch for the active note
-    judge -> results : active.voicedFrames++, hitFrames++; firstHitFrac on first hit
+    judge -> results : active.voicedMs += t, hitMs += t; firstHitFrac on first hit
   else on-pitch for a neighbour within the tolerance per SG-L2-25
-    judge -> results : neighbour.voicedFrames++, hitFrames++ (if not yet finalised)
+    judge -> results : neighbour.voicedMs += t, hitMs += t (if not yet finalised)
   else matches no nearby note
-    judge -> results : active.voicedFrames++ (sung, off-pitch)
+    judge -> results : active.voicedMs += t (sung, off-pitch)
   end
 end
 judge --> rloop : { activeIdx, onNote }

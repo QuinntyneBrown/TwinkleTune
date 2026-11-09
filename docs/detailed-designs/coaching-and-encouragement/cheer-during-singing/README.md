@@ -16,8 +16,8 @@ sparkle tally, and the "tuned just for you" reveal are the neighbouring
 
 The terms below are used throughout.
 
-- landed note — note the singer matched within tolerance for at least 3 heard
-  frames, as decided by `noteLanded`
+- landed note — note the singer matched within tolerance for enough of the time
+  she was heard, as decided by `noteLanded`
 - cheer — one-to-three-word praise drawn at random from a fixed rotation and
   shown above the singing star
 - cheer pop — transient element that fades in, rises, and removes itself 1100 ms
@@ -65,7 +65,7 @@ in `frontend/src/styles/screens.css` and the landed-note decision in
   streak, adds the `hit` class to the note pill, and calls `cheerPop()`. On an
   unlanded note it calls `setStreak(0)` and nothing else — no element is created
   and no text is written.
-- **`noteLanded(r, minFrames = 3)`** (`frontend/src/state/scoring.ts`) — predicate
+- **`noteLanded(r)`** (`frontend/src/state/scoring.ts`) — predicate
   deciding whether a note counts as landed.
 - **`noMic`** — flag set when the child plays without a microphone. While `noMic`
   is true the whole landed/unlanded branch is skipped, so a no-microphone session

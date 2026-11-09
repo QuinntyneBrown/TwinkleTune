@@ -32,20 +32,21 @@ tracker -> mic : getFloatTimeDomainData
 mic --> tracker : time-domain samples
 tracker --> loop : PitchFrame { midi } or null
 
-loop -> judge : observe(scoreBeat, sungMidi, toleranceBeats)
-judge -> result : totalFrames++
+loop -> judge : observe(scoreBeat, sungMidi, toleranceBeats, frameMs)
+judge -> judge : t = min(frameMs, 40 ms)
+judge -> result : totalMs += t
 alt pitch detected
   judge -> rules : foldCents(sungMidi, n.midi + shift) (SR-L2-1)
   rules --> judge : signed cents in (-600, +600]
   alt |cents| <= HIT_TOLERANCE_CENTS (50)
-    judge -> result : voicedFrames++, hitFrames++
+    judge -> result : voicedMs += t, hitMs += t
     opt firstHitFrac is null
       judge -> result : firstHitFrac = (scoreBeat - n.start) / n.dur
     end
     judge --> loop : onNote = true
     loop --> singer : Star moves to the note and glows
   else outside the tolerance band
-    judge -> result : voicedFrames++ (sung, off-pitch)
+    judge -> result : voicedMs += t (sung, off-pitch)
     judge --> loop : onNote = false
   end
 else no pitch this frame
@@ -56,11 +57,11 @@ end
 loop -> judge : finalize(scoreBeat, toleranceBeats) once the note is settled
 judge --> loop : settled note index
 loop -> rules : noteLanded(result) (SR-L2-2)
-alt hitFrames < 3
+alt hitMs < 45
   rules --> loop : false — minimum-sample guard (SR-L2-2)
-else hitFrames / voicedFrames < 0.5
+else hitMs < 0.5 * voicedMs
   rules --> loop : false — precision: mostly off-pitch while singing (SR-L2-2)
-else hitFrames < 0.25 * totalFrames
+else hitMs < 0.25 * totalMs
   rules --> loop : false — coverage: a passing blip (SR-L2-2)
 else all three rules pass
   rules --> loop : true — note landed (SR-L2-2)

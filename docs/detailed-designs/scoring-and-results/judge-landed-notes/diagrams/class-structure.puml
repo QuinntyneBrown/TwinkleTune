@@ -17,15 +17,15 @@ interface NoteResult {
   +phraseIdx: number
   +noteIdx: number
   +midi: number
-  +hitFrames: number
-  +voicedFrames: number
-  +totalFrames: number
+  +hitMs: number
+  +voicedMs: number
+  +totalMs: number
   +firstHitFrac: number?
 }
 
 class "scoring.ts" as ScoringMod <<module>> {
   +HIT_TOLERANCE_CENTS: number = 50
-  +MIN_HIT_FRAMES: number = 3
+  +MIN_HIT_MS: number = 45
   +MIN_PRECISION: number = 0.5
   +MIN_COVERAGE: number = 0.25
   +foldCents(sungMidi: number, targetMidi: number): number
@@ -37,7 +37,7 @@ class NoteJudge {
   +results: NoteResult[]
   +finalizedCount: number
   +activeIndex(scoreBeat: number): number
-  +observe(scoreBeat: number, sungMidi: number?, toleranceBeats: number): Observation
+  +observe(scoreBeat: number, sungMidi: number?, toleranceBeats: number, frameMs: number): Observation
   +finalize(scoreBeat: number, toleranceBeats: number): number[]
   +reset(): void
 }

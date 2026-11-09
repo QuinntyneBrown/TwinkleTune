@@ -181,3 +181,4 @@ The product is decomposed into thirteen subsystems. Each has its own `L1.md` and
 | 1.1 | 2026-11-09 | Voice‑comprehension improvements | Landed notes judged on sung frames with a timing tolerance (SR-L2-2, SR-L2-18, SG-L2-9, SG-L2-10, SG-L2-25). |
 | 1.2 | 2026-11-09 | Voice‑comprehension improvements | Automatic pipeline latency compensation (AE-L2-18, SG-L2-19, GC-L2-4). |
 | 1.3 | 2026-11-09 | Voice‑comprehension improvements | Band‑limited pitch detection and in‑band level gate (AE-L2-10, AE-L2-11, AE-L2-19, AE-L2-20). |
+| 1.4 | 2026-11-09 | Voice‑comprehension improvements | Note evidence measured in time, independent of frame rate (SR-L2-2, SR-L2-19, SG-L2-9). |
