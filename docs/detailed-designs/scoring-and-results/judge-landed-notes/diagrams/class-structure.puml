@@ -18,23 +18,36 @@ interface NoteResult {
   +noteIdx: number
   +midi: number
   +hitFrames: number
+  +voicedFrames: number
   +totalFrames: number
   +firstHitFrac: number?
 }
 
 class "scoring.ts" as ScoringMod <<module>> {
   +HIT_TOLERANCE_CENTS: number = 50
+  +MIN_HIT_FRAMES: number = 3
+  +MIN_PRECISION: number = 0.5
+  +MIN_COVERAGE: number = 0.25
   +foldCents(sungMidi: number, targetMidi: number): number
-  +noteLanded(r: NoteResult, minFrames: number = 3): boolean
+  +noteLanded(r: NoteResult): boolean
   +summarize(song: Song, results: NoteResult[], noMic: boolean): SongSummary
+}
+
+class NoteJudge {
+  +results: NoteResult[]
+  +finalizedCount: number
+  +activeIndex(scoreBeat: number): number
+  +observe(scoreBeat: number, sungMidi: number?, toleranceBeats: number): Observation
+  +finalize(scoreBeat: number, toleranceBeats: number): number[]
+  +reset(): void
 }
 
 class "sing.ts" as SingMod <<module>> {
   +renderSing(root: HTMLElement, params: URLSearchParams): () => void
-  -finalizeNotesUpTo(beat: number): void
+  -finalizeNotesUpTo(beat: number, toleranceBeats: number): void
 }
 
-interface TimedNote {
+interface JudgeNote {
   +midi: number
   +start: number
   +dur: number
@@ -50,8 +63,10 @@ class PitchFrame <<audio engine>> {
 }
 
 ScoringMod ..> NoteResult : folds and judges
-SingMod --> "*" NoteResult : accumulates one per note
-SingMod --> "*" TimedNote : plays
+NoteJudge --> "*" NoteResult : accumulates one per note
+NoteJudge --> "*" JudgeNote : judges against
+NoteJudge ..> ScoringMod : foldCents / noteLanded
+SingMod --> "1" NoteJudge : feeds one frame per tick
 SingMod ..> PitchFrame : reads sung midi
-SingMod ..> ScoringMod : foldCents / noteLanded
+SingMod ..> ScoringMod : noteLanded / summarize
 @enduml

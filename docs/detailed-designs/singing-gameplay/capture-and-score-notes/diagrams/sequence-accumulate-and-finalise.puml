@@ -18,6 +18,7 @@ actor "Child" as child
 box "Frontend - TwinkleTune web app" #E0F2FE
   participant "renderSing loop()" as rloop
   participant "PitchTracker" as tracker
+  participant "NoteJudge" as judge
   participant "scoring helpers" as scoring
   participant "NoteResult tallies" as results
   participant "finalizeNotesUpTo" as finalize
@@ -29,18 +30,29 @@ end box
 
 child -> rloop : requestAnimationFrame tick
 rloop -> rloop : scoreBeat = beat - latencyBeats per SG-L2-19
+rloop -> rloop : toleranceBeats = 180 ms / secondsPerBeat per SG-L2-25
 rloop -> tracker : read()
 tracker --> rloop : PitchFrame or null
-rloop -> rloop : activeIdx = note at scoreBeat (i >= finalizedUpTo)
+rloop -> judge : observe(scoreBeat, sungMidi, toleranceBeats)
 opt active note present
-  rloop -> results : totalFrames++ per SG-L2-9
-  rloop -> scoring : foldCents(frame.midi, note.midi + shift)
-  scoring --> rloop : cents
-  opt abs(cents) <= 50
-    rloop -> results : hitFrames++; firstHitFrac on first hit per SG-L2-9
+  judge -> results : active.totalFrames++ per SG-L2-9
+end
+opt pitch detected
+  judge -> scoring : foldCents(sungMidi, note.midi + shift)
+  scoring --> judge : cents
+  alt on-pitch for the active note
+    judge -> results : active.voicedFrames++, hitFrames++; firstHitFrac on first hit
+  else on-pitch for a neighbour within the tolerance per SG-L2-25
+    judge -> results : neighbour.voicedFrames++, hitFrames++ (if not yet finalised)
+  else matches no nearby note
+    judge -> results : active.voicedFrames++ (sung, off-pitch)
   end
 end
-rloop -> finalize : finalizeNotesUpTo(scoreBeat)
+judge --> rloop : { activeIdx, onNote }
+rloop -> finalize : finalizeNotesUpTo(scoreBeat, toleranceBeats)
+finalize -> judge : finalize(scoreBeat, toleranceBeats)
+judge -> scoring : noteLanded(r) — a landed note settles at its end
+judge --> finalize : indices settled (others wait out the tolerance) per SG-L2-10
 finalize -> scoring : noteLanded(r)
 alt landed per SG-L2-10
   scoring --> finalize : true
