@@ -19,12 +19,28 @@ class PitchTracker {
   -source: MediaStreamAudioSourceNode?
   -analyser: AnalyserNode?
   -buf: Float32Array
-  -detector: PitchDetector
-  -history: number[]
+  -analyzer: PitchAnalyzer
   +running: boolean
   +start(): Promise<void>
   +read(): PitchFrame?
+  +pipelineLatencyMs(): number
   +stop(): void
+}
+
+class PitchAnalyzer {
+  +windowSize: number
+  -band: BandLimiter
+  -filtered: Float32Array
+  -detector: PitchDetector
+  -history: number[]
+  +analyze(buf: Float32Array, sampleRate: number): PitchFrame?
+  +reset(): void
+}
+
+class BandLimiter <<band-limit.ts>> {
+  +lowHz: number
+  +highHz: number
+  +process(input: Float32Array, sampleRate: number, output: Float32Array): void
 }
 
 interface PitchFrame {
@@ -44,6 +60,9 @@ class "range.ts" as RangeMod <<module>> {
 }
 
 PitchTracker --> "0..1" PitchFrame : latest
-PitchTracker ..> Detector : findPitch
-PitchTracker ..> RangeMod : hzToMidi
+PitchTracker *-- "1" PitchAnalyzer : delegates each window
+PitchAnalyzer *-- "1" BandLimiter : band-limits 90-1500 Hz
+PitchAnalyzer ..> PitchFrame : produces
+PitchAnalyzer ..> Detector : findPitch
+PitchAnalyzer ..> RangeMod : hzToMidi
 @enduml
