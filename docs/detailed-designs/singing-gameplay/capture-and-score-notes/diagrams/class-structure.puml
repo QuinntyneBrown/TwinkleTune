@@ -14,13 +14,35 @@ skinparam class {
 title Class structure - Capture and score notes
 
 class "renderSing (Sing! screen)" as Sing <<module>> {
-  -results: NoteResult[]
-  -finalizedUpTo: number
+  -judge: NoteJudge
   -landedCount: number
   -streak: number
   -scoreBeat(beat): number
+  -toleranceBeats(): number
   -loop(): void
-  -finalizeNotesUpTo(beat: number): void
+  -finalizeNotesUpTo(beat: number, toleranceBeats: number): void
+}
+
+class NoteJudge {
+  +results: NoteResult[]
+  +finalizedCount: number
+  +activeIndex(scoreBeat: number): number
+  +observe(scoreBeat: number, sungMidi: number | null, toleranceBeats: number): Observation
+  +finalize(scoreBeat: number, toleranceBeats: number): number[]
+  +reset(): void
+}
+
+interface Observation {
+  +activeIdx: number
+  +onNote: boolean
+}
+
+interface JudgeNote {
+  +midi: number
+  +start: number
+  +dur: number
+  +phraseIdx: number
+  +noteIdx: number
 }
 
 interface NoteResult {
@@ -28,6 +50,7 @@ interface NoteResult {
   +noteIdx: number
   +midi: number
   +hitFrames: number
+  +voicedFrames: number
   +totalFrames: number
   +firstHitFrac: number | null
 }
@@ -35,7 +58,11 @@ interface NoteResult {
 class "scoring" as Scoring <<module>> {
   +HIT_TOLERANCE_CENTS = 50
   +foldCents(sung, target): number
-  +noteLanded(r: NoteResult, minFrames=3): boolean
+  +noteLanded(r: NoteResult): boolean
+}
+
+class "note-judge" as JudgeMod <<module>> {
+  +TIMING_TOLERANCE_MS = 180
 }
 
 class DuetClient {
@@ -49,8 +76,13 @@ interface DuetTick {
   +noteIdx: number
 }
 
-Sing "1" *-- "*" NoteResult : owns tallies
-Sing ..> Scoring : foldCents / noteLanded
+Sing "1" *-- "1" NoteJudge : drives one frame per tick
+NoteJudge "1" *-- "*" NoteResult : owns tallies
+NoteJudge --> "*" JudgeNote : judges against
+NoteJudge ..> Observation : returns
+NoteJudge ..> Scoring : foldCents / noteLanded
+Sing ..> JudgeMod : TIMING_TOLERANCE_MS
+Sing ..> Scoring : noteLanded
 Sing ..> DuetClient : sendTick per note
 DuetClient ..> DuetTick : sends
 @enduml

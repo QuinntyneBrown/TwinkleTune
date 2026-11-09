@@ -11,7 +11,7 @@ export interface PitchFrame {
   rms: number
 }
 
-const FFT_SIZE = 2048
+export const FFT_SIZE = 2048
 const MIN_RMS = 0.01
 const MIN_CLARITY = 0.8
 const MIN_HZ = 70
@@ -19,18 +19,49 @@ const MAX_HZ = 1500
 const MEDIAN_WINDOW = 5
 
 /**
- * Microphone → pitch. Poll `read()` once per animation frame.
+ * One window of samples → pitch. Pure signal processing (no Web Audio), so it
+ * can be driven by synthesised audio in tests.
  * Median filter over recent frames guards against octave-error blips;
  * the RMS gate keeps background noise from registering as singing.
  */
+export class PitchAnalyzer {
+  private detector: PitchDetector<Float32Array>
+  private history: number[] = []
+
+  constructor(readonly windowSize = FFT_SIZE) {
+    this.detector = PitchDetector.forFloat32Array(windowSize)
+  }
+
+  /** `buf` must hold exactly `windowSize` time-domain samples. */
+  analyze(buf: Float32Array, sampleRate: number): PitchFrame | null {
+    let sum = 0
+    for (let i = 0; i < buf.length; i++) sum += buf[i] * buf[i]
+    const rms = Math.sqrt(sum / buf.length)
+    if (rms < MIN_RMS) return null
+
+    const [hz, clarity] = this.detector.findPitch(buf, sampleRate)
+    if (clarity < MIN_CLARITY || hz < MIN_HZ || hz > MAX_HZ) return null
+
+    this.history.push(hzToMidi(hz))
+    if (this.history.length > MEDIAN_WINDOW) this.history.shift()
+    const midi = [...this.history].sort((a, b) => a - b)[Math.floor(this.history.length / 2)]
+
+    return { hz, midi, clarity, rms }
+  }
+
+  reset(): void {
+    this.history = []
+  }
+}
+
+/** Microphone → pitch. Poll `read()` once per animation frame. */
 export class PitchTracker {
   latest: PitchFrame | null = null
   private media: MediaStream | null = null
   private source: MediaStreamAudioSourceNode | null = null
   private analyser: AnalyserNode | null = null
   private buf = new Float32Array(FFT_SIZE)
-  private detector = PitchDetector.forFloat32Array(FFT_SIZE)
-  private history: number[] = []
+  private analyzer = new PitchAnalyzer(FFT_SIZE)
 
   get running(): boolean {
     return this.analyser !== null
@@ -56,26 +87,7 @@ export class PitchTracker {
   read(): PitchFrame | null {
     if (!this.analyser) return null
     this.analyser.getFloatTimeDomainData(this.buf)
-
-    let sum = 0
-    for (let i = 0; i < this.buf.length; i++) sum += this.buf[i] * this.buf[i]
-    const rms = Math.sqrt(sum / this.buf.length)
-    if (rms < MIN_RMS) {
-      this.latest = null
-      return null
-    }
-
-    const [hz, clarity] = this.detector.findPitch(this.buf, audioCtx().sampleRate)
-    if (clarity < MIN_CLARITY || hz < MIN_HZ || hz > MAX_HZ) {
-      this.latest = null
-      return null
-    }
-
-    this.history.push(hzToMidi(hz))
-    if (this.history.length > MEDIAN_WINDOW) this.history.shift()
-    const midi = [...this.history].sort((a, b) => a - b)[Math.floor(this.history.length / 2)]
-
-    this.latest = { hz, midi, clarity, rms }
+    this.latest = this.analyzer.analyze(this.buf, audioCtx().sampleRate)
     return this.latest
   }
 
@@ -86,7 +98,7 @@ export class PitchTracker {
     this.media = null
     this.source = null
     this.analyser = null
-    this.history = []
+    this.analyzer.reset()
     this.latest = null
   }
 }

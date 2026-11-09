@@ -18,6 +18,7 @@ actor "Singer" as singer
 box "Frontend — TwinkleTune web app" #E0F2FE
   participant "renderSing loop (sing.ts)" as loop
   participant "PitchTracker (pitch.ts)" as tracker
+  participant "NoteJudge (note-judge.ts)" as judge
   participant "NoteResult" as result
   participant "scoring.ts rules" as rules
 end box
@@ -31,30 +32,37 @@ tracker -> mic : getFloatTimeDomainData
 mic --> tracker : time-domain samples
 tracker --> loop : PitchFrame { midi } or null
 
-loop -> result : totalFrames++
-alt frame present
-  loop -> rules : foldCents(frame.midi, n.midi + shift) (SR-L2-1)
-  rules --> loop : signed cents in (-600, +600]
+loop -> judge : observe(scoreBeat, sungMidi, toleranceBeats)
+judge -> result : totalFrames++
+alt pitch detected
+  judge -> rules : foldCents(sungMidi, n.midi + shift) (SR-L2-1)
+  rules --> judge : signed cents in (-600, +600]
   alt |cents| <= HIT_TOLERANCE_CENTS (50)
-    loop -> result : hitFrames++
+    judge -> result : voicedFrames++, hitFrames++
     opt firstHitFrac is null
-      loop -> result : firstHitFrac = (scoreBeat - n.start) / n.dur
+      judge -> result : firstHitFrac = (scoreBeat - n.start) / n.dur
     end
-    loop --> singer : Star moves to the note and cheers
+    judge --> loop : onNote = true
+    loop --> singer : Star moves to the note and glows
   else outside the tolerance band
-    loop --> singer : No hit credited for this frame (SR-L2-1)
+    judge -> result : voicedFrames++ (sung, off-pitch)
+    judge --> loop : onNote = false
   end
 else no pitch this frame
-  loop --> singer : Star drifts to centre, note stays uncredited
+  judge --> loop : onNote = false
+  loop --> singer : Star drifts to centre; silence is not held against the note (SR-L2-2)
 end
 
-loop -> loop : finalizeNotesUpTo(scoreBeat) when the note ends
+loop -> judge : finalize(scoreBeat, toleranceBeats) once the note is settled
+judge --> loop : settled note index
 loop -> rules : noteLanded(result) (SR-L2-2)
-alt totalFrames < 3
+alt hitFrames < 3
   rules --> loop : false — minimum-sample guard (SR-L2-2)
-else hitFrames / totalFrames < 0.5
-  rules --> loop : false — under half the frames (SR-L2-2)
-else at least 3 frames and at least half on-pitch
+else hitFrames / voicedFrames < 0.5
+  rules --> loop : false — precision: mostly off-pitch while singing (SR-L2-2)
+else hitFrames < 0.25 * totalFrames
+  rules --> loop : false — coverage: a passing blip (SR-L2-2)
+else all three rules pass
   rules --> loop : true — note landed (SR-L2-2)
   loop --> singer : Streak advances and sparkles rise
 end

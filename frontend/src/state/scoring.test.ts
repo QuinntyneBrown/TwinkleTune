@@ -13,10 +13,12 @@ function resultsFor(song: Song, fill: (r: NoteResult) => void): NoteResult[] {
         noteIdx: ni,
         midi: n.midi,
         hitFrames: 0,
+        voicedFrames: 0,
         totalFrames: 0,
         firstHitFrac: null,
       }
       fill(r)
+      r.voicedFrames = r.totalFrames // these fixtures sing through every observed frame
       return r
     }),
   )
@@ -39,14 +41,27 @@ describe('foldCents (octave-forgiving pitch compare)', () => {
   })
 })
 
-describe('noteLanded', () => {
+describe('noteLanded (SR-L2-2)', () => {
   const base = { phraseIdx: 0, noteIdx: 0, midi: 60, firstHitFrac: 0 }
-  it('lands when at least half the frames matched', () => {
-    expect(noteLanded({ ...base, hitFrames: 5, totalFrames: 10 })).toBe(true)
-    expect(noteLanded({ ...base, hitFrames: 4, totalFrames: 10 })).toBe(false)
+  it('does not hold silent frames against the note', () => {
+    // a late start, a consonant and an early release: heard for 20 of 36 frames
+    expect(noteLanded({ ...base, hitFrames: 18, voicedFrames: 20, totalFrames: 36 })).toBe(true)
   })
-  it('needs a minimum number of observed frames', () => {
-    expect(noteLanded({ ...base, hitFrames: 2, totalFrames: 2 })).toBe(false)
+  it('lands when at least half the sung frames matched', () => {
+    expect(noteLanded({ ...base, hitFrames: 5, voicedFrames: 10, totalFrames: 10 })).toBe(true)
+    expect(noteLanded({ ...base, hitFrames: 4, voicedFrames: 10, totalFrames: 10 })).toBe(false)
+  })
+  it('needs the on-pitch singing to cover a quarter of the note', () => {
+    expect(noteLanded({ ...base, hitFrames: 6, voicedFrames: 6, totalFrames: 40 })).toBe(false)
+    expect(noteLanded({ ...base, hitFrames: 10, voicedFrames: 10, totalFrames: 40 })).toBe(true)
+  })
+  it('needs a minimum number of on-pitch frames', () => {
+    expect(noteLanded({ ...base, hitFrames: 2, voicedFrames: 2, totalFrames: 2 })).toBe(false)
+    expect(noteLanded({ ...base, hitFrames: 3, voicedFrames: 3, totalFrames: 3 })).toBe(true)
+  })
+  it('never lands a note nobody sang', () => {
+    expect(noteLanded({ ...base, hitFrames: 0, voicedFrames: 0, totalFrames: 30 })).toBe(false)
+    expect(noteLanded({ ...base, hitFrames: 0, voicedFrames: 0, totalFrames: 0 })).toBe(false)
   })
 })
 

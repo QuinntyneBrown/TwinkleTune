@@ -150,7 +150,7 @@ The product is decomposed into thirteen subsystems. Each has its own `L1.md` and
 | Term | Definition |
 |------|------------|
 | **Sparkle** | The universal reward point. Ten sparkles are awarded per landed note. Sparkles drive levels and the daily goal. |
-| **Landed note** | A note the singer matched (within tolerance, octave‑folded) for at least half of the frames it was heard. |
+| **Landed note** | A note the singer matched (within tolerance, octave‑folded) for at least half of the frames in which her voice was heard, and for a meaningful share of the note. |
 | **Octave folding / pitch class** | Comparing sung and target pitch modulo an octave, so a child singing the right note in a different octave still counts as correct. |
 | **Shift / transpose** | The number of semitones a song is moved so its notes sit inside the singer's voice range. |
 | **Range (voice range)** | A singer's lowest and highest comfortable notes, captured by "Find My Voice" and stored per singer. |
@@ -178,3 +178,4 @@ The product is decomposed into thirteen subsystems. Each has its own `L1.md` and
 | Version | Date | Author | Summary |
 |---------|------|--------|---------|
 | 1.0 | 2026-07-18 | Requirements reverse‑engineered from the v1 implementation | Initial baseline covering all thirteen subsystems. |
+| 1.1 | 2026-11-09 | Voice‑comprehension improvements | Landed notes judged on sung frames with a timing tolerance (SR-L2-2, SR-L2-18, SG-L2-9, SG-L2-10, SG-L2-25). |
