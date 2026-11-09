@@ -89,6 +89,7 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
   let lastPhrase = -1
   let singerY = 150
   let wasOnNote = false
+  let lastFrameAt: number | null = null
 
   const keyChip = range
     ? `<span class="key-chip" title="${describeShift(shift)}">🎯 Your key ✓</span>`
@@ -266,8 +267,11 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
     }
   }
 
-  function loop(): void {
+  function loop(now = performance.now()): void {
     raf = requestAnimationFrame(loop)
+    // what this frame stands for: the real time since the previous one
+    const frameMs = lastFrameAt === null ? 0 : now - lastFrameAt
+    lastFrameAt = now
     const beat = player.currentBeat()
     track.style.transform = `translateX(${markerX() - beat * PX_PER_BEAT}px)`
 
@@ -320,7 +324,7 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
     const toleranceBeats = noMic ? 0 : TIMING_TOLERANCE_MS / 1000 / player.secondsPerBeat()
     const onNote = noMic
       ? false
-      : judge.observe(scoreBeat, frame ? frame.midi : null, toleranceBeats).onNote
+      : judge.observe(scoreBeat, frame ? frame.midi : null, toleranceBeats, frameMs).onNote
     singer.classList.toggle('on-note', onNote)
     if (onNote && !wasOnNote) visual.burst(0.55 + Math.min(0.45, streak / 20))
     wasOnNote = onNote
