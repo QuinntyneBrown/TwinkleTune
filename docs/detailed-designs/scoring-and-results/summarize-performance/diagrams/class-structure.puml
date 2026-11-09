@@ -17,8 +17,9 @@ interface NoteResult {
   +phraseIdx: number
   +noteIdx: number
   +midi: number
-  +hitFrames: number
-  +totalFrames: number
+  +hitMs: number
+  +voicedMs: number
+  +totalMs: number
   +firstHitFrac: number?
 }
 
@@ -41,7 +42,7 @@ interface SongSummary {
 
 class "scoring.ts" as ScoringMod <<module>> {
   +summarize(song: Song, results: NoteResult[], noMic: boolean): SongSummary
-  +noteLanded(r: NoteResult, minFrames: number): boolean
+  +noteLanded(r: NoteResult): boolean
   -starsFromRatio(r: number, hi: number, mid: number): number
 }
 

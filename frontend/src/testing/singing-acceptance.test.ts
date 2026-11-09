@@ -1,5 +1,5 @@
 // Acceptance Test
-// Traces to: SR-L2-18, SG-L2-19, AE-L2-20
+// Traces to: SR-L2-18, SR-L2-19, SG-L2-19, AE-L2-20
 // Description: A synthesised singer goes through the real pitch detection and note judging for every bundled song
 
 import { describe, expect, it } from 'vitest'
@@ -43,6 +43,29 @@ describe('SR-L2-18 — judging holds up to natural singing', () => {
   it('lands nothing when nobody sings in a noisy room', SLOW, () => {
     const outcome = simulateCatalogue(songs, { ...REFERENCE_SINGER, level: 0, breath: 0 }, NOISY_ROOM)
     expect(outcome.landed).toBe(0)
+  })
+})
+
+// Acceptance tests for SR-L2-19: a slower device samples the voice less often.
+describe('SR-L2-19 — judging does not depend on the frame rate', () => {
+  const SHARP = { ...REFERENCE_SINGER, offsetCents: 100 }
+
+  it('lands at least 95% of notes, and 90% of short notes, at 30 frames per second', SLOW, () => {
+    const outcome = simulateCatalogue(songs, REFERENCE_SINGER, REFERENCE_ROOM, { fps: 30 })
+    expect(rate(outcome)).toBeGreaterThanOrEqual(0.95)
+    expect(shortRate(outcome)).toBeGreaterThanOrEqual(0.9)
+  })
+
+  it('lands at least 90% of notes at 20 frames per second', SLOW, () => {
+    const outcome = simulateCatalogue(songs, REFERENCE_SINGER, REFERENCE_ROOM, { fps: 20 })
+    expect(rate(outcome)).toBeGreaterThanOrEqual(0.9)
+  })
+
+  it('still lands no more than 5% of notes for a singer a semitone sharp', SLOW, () => {
+    for (const fps of [30, 20]) {
+      const outcome = simulateCatalogue(songs, SHARP, REFERENCE_ROOM, { fps })
+      expect(rate(outcome)).toBeLessThanOrEqual(0.05)
+    }
   })
 })
 

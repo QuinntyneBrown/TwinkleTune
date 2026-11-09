@@ -8,21 +8,21 @@ Container_Boundary(sing, "Sing screen (sing.ts)") {
   Component(finalize, "finalizeNotesUpTo()", "TypeScript closure", "Applies the landed verdict as each note is settled")
 }
 Container_Boundary(judgeMod, "Note capture (note-judge.ts)") {
-  Component(judge, "NoteJudge", "TypeScript class", "Attributes each frame to a note; accumulates totalFrames, voicedFrames, hitFrames and firstHitFrac")
+  Component(judge, "NoteJudge", "TypeScript class", "Attributes each frame to a note; accumulates totalMs, voicedMs, hitMs and firstHitFrac")
 }
 Container_Boundary(scoring, "Scoring rules (scoring.ts)") {
   Component(fold, "foldCents()", "TypeScript function", "Signed cents difference folded into (-600, +600]")
-  Component(landed, "noteLanded()", "TypeScript function", "At least 3 on-pitch frames, at least 50% of sung frames, at least 25% of observed frames")
+  Component(landed, "noteLanded()", "TypeScript function", "At least 45 ms on-pitch, at least 50% of sung time, at least 25% of observed time")
   Component(result, "NoteResult", "TypeScript interface", "Per-note frame accumulation")
   Component(summarize, "summarize()", "TypeScript function", "Maps noteLanded across the finished note list")
 }
 
-Rel(loop, judge, "observe(scoreBeat, sungMidi, toleranceBeats)")
+Rel(loop, judge, "observe(scoreBeat, sungMidi, toleranceBeats, frameMs)")
 Rel(judge, fold, "foldCents(sungMidi, n.midi + shift) vs HIT_TOLERANCE_CENTS")
-Rel(judge, result, "Increments totalFrames, voicedFrames, hitFrames, firstHitFrac")
+Rel(judge, result, "Adds frame time to totalMs, voicedMs, hitMs; sets firstHitFrac")
 Rel(finalize, judge, "finalize(scoreBeat, toleranceBeats)")
 Rel(judge, landed, "Settles a landed note at its end")
 Rel(finalize, landed, "noteLanded(r) for the live streak and sparkle count")
-Rel(landed, result, "Reads hitFrames, voicedFrames and totalFrames")
+Rel(landed, result, "Reads hitMs, voicedMs and totalMs")
 Rel(summarize, landed, "noteLanded(r) for every note")
 @enduml

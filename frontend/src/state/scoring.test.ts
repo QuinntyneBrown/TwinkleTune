@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { foldCents, noteLanded, summarize, type NoteResult } from './scoring'
+import { foldCents, MIN_HIT_MS, noteLanded, summarize, type NoteResult } from './scoring'
 import { getSong } from '../songs/catalog'
 import type { Song } from '../songs/types'
 
@@ -12,13 +12,13 @@ function resultsFor(song: Song, fill: (r: NoteResult) => void): NoteResult[] {
         phraseIdx: pi,
         noteIdx: ni,
         midi: n.midi,
-        hitFrames: 0,
-        voicedFrames: 0,
-        totalFrames: 0,
+        hitMs: 0,
+        voicedMs: 0,
+        totalMs: 0,
         firstHitFrac: null,
       }
       fill(r)
-      r.voicedFrames = r.totalFrames // these fixtures sing through every observed frame
+      r.voicedMs = r.totalMs // these fixtures sing through the whole note
       return r
     }),
   )
@@ -43,33 +43,41 @@ describe('foldCents (octave-forgiving pitch compare)', () => {
 
 describe('noteLanded (SR-L2-2)', () => {
   const base = { phraseIdx: 0, noteIdx: 0, midi: 60, firstHitFrac: 0 }
-  it('does not hold silent frames against the note', () => {
-    // a late start, a consonant and an early release: heard for 20 of 36 frames
-    expect(noteLanded({ ...base, hitFrames: 18, voicedFrames: 20, totalFrames: 36 })).toBe(true)
+  it('does not hold silent time against the note', () => {
+    // a late start, a consonant and an early release: heard for 330 of 600 ms
+    expect(noteLanded({ ...base, hitMs: 300, voicedMs: 330, totalMs: 600 })).toBe(true)
   })
-  it('lands when at least half the sung frames matched', () => {
-    expect(noteLanded({ ...base, hitFrames: 5, voicedFrames: 10, totalFrames: 10 })).toBe(true)
-    expect(noteLanded({ ...base, hitFrames: 4, voicedFrames: 10, totalFrames: 10 })).toBe(false)
+  it('lands when at least half the sung time matched', () => {
+    expect(noteLanded({ ...base, hitMs: 100, voicedMs: 200, totalMs: 200 })).toBe(true)
+    expect(noteLanded({ ...base, hitMs: 80, voicedMs: 200, totalMs: 200 })).toBe(false)
   })
   it('needs the on-pitch singing to cover a quarter of the note', () => {
-    expect(noteLanded({ ...base, hitFrames: 6, voicedFrames: 6, totalFrames: 40 })).toBe(false)
-    expect(noteLanded({ ...base, hitFrames: 10, voicedFrames: 10, totalFrames: 40 })).toBe(true)
+    expect(noteLanded({ ...base, hitMs: 100, voicedMs: 100, totalMs: 600 })).toBe(false)
+    expect(noteLanded({ ...base, hitMs: 150, voicedMs: 150, totalMs: 600 })).toBe(true)
   })
-  it('needs a minimum number of on-pitch frames', () => {
-    expect(noteLanded({ ...base, hitFrames: 2, voicedFrames: 2, totalFrames: 2 })).toBe(false)
-    expect(noteLanded({ ...base, hitFrames: 3, voicedFrames: 3, totalFrames: 3 })).toBe(true)
+  it('needs at least 45 ms of on-pitch singing', () => {
+    expect(MIN_HIT_MS).toBe(45)
+    expect(noteLanded({ ...base, hitMs: 33, voicedMs: 33, totalMs: 33 })).toBe(false)
+    expect(noteLanded({ ...base, hitMs: 50, voicedMs: 50, totalMs: 50 })).toBe(true)
+  })
+  it('gives the same verdict at 60 and at 30 frames a second', () => {
+    // the same 67 ms of on-pitch singing in a 150 ms note: four 60 fps frames or two 30 fps frames
+    const at60 = { ...base, hitMs: 4 * (1000 / 60), voicedMs: 4 * (1000 / 60), totalMs: 9 * (1000 / 60) }
+    const at30 = { ...base, hitMs: 2 * (1000 / 30), voicedMs: 2 * (1000 / 30), totalMs: 4.5 * (1000 / 30) }
+    expect(noteLanded(at60)).toBe(true)
+    expect(noteLanded(at30)).toBe(true)
   })
   it('never lands a note nobody sang', () => {
-    expect(noteLanded({ ...base, hitFrames: 0, voicedFrames: 0, totalFrames: 30 })).toBe(false)
-    expect(noteLanded({ ...base, hitFrames: 0, voicedFrames: 0, totalFrames: 0 })).toBe(false)
+    expect(noteLanded({ ...base, hitMs: 0, voicedMs: 0, totalMs: 500 })).toBe(false)
+    expect(noteLanded({ ...base, hitMs: 0, voicedMs: 0, totalMs: 0 })).toBe(false)
   })
 })
 
 describe('summarize', () => {
   it('gives three stars and no tricky part for a perfect run', () => {
     const results = resultsFor(twinkle, (r) => {
-      r.hitFrames = 10
-      r.totalFrames = 10
+      r.hitMs = 300
+      r.totalMs = 300
       r.firstHitFrac = 0.1
     })
     const s = summarize(twinkle, results)
@@ -86,8 +94,8 @@ describe('summarize', () => {
   it('points at the phrase that went worst as the tricky part', () => {
     const results = resultsFor(twinkle, (r) => {
       const miss = r.phraseIdx === 2 // "Up above the world so high"
-      r.hitFrames = miss ? 0 : 10
-      r.totalFrames = 10
+      r.hitMs = miss ? 0 : 300
+      r.totalMs = 300
       r.firstHitFrac = miss ? null : 0.1
     })
     const s = summarize(twinkle, results)
@@ -99,8 +107,8 @@ describe('summarize', () => {
   it('drops braveness when the high notes are missed', () => {
     const results = resultsFor(twinkle, (r) => {
       const high = r.midi >= 67
-      r.hitFrames = high ? 0 : 10
-      r.totalFrames = 10
+      r.hitMs = high ? 0 : 300
+      r.totalMs = 300
       r.firstHitFrac = high ? null : 0.1
     })
     const s = summarize(twinkle, results)
@@ -112,8 +120,8 @@ describe('summarize', () => {
     const results = resultsFor(twinkle, (r) => {
       // miss every 5th note
       const miss = i++ % 5 === 4
-      r.hitFrames = miss ? 0 : 10
-      r.totalFrames = 10
+      r.hitMs = miss ? 0 : 300
+      r.totalMs = 300
     })
     const s = summarize(twinkle, results)
     expect(s.maxStreak).toBe(4)

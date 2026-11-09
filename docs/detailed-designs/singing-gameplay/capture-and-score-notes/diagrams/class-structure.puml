@@ -27,7 +27,7 @@ class NoteJudge {
   +results: NoteResult[]
   +finalizedCount: number
   +activeIndex(scoreBeat: number): number
-  +observe(scoreBeat: number, sungMidi: number | null, toleranceBeats: number): Observation
+  +observe(scoreBeat: number, sungMidi: number | null, toleranceBeats: number, frameMs: number): Observation
   +finalize(scoreBeat: number, toleranceBeats: number): number[]
   +reset(): void
 }
@@ -49,9 +49,9 @@ interface NoteResult {
   +phraseIdx: number
   +noteIdx: number
   +midi: number
-  +hitFrames: number
-  +voicedFrames: number
-  +totalFrames: number
+  +hitMs: number
+  +voicedMs: number
+  +totalMs: number
   +firstHitFrac: number | null
 }
 
@@ -63,6 +63,7 @@ class "scoring" as Scoring <<module>> {
 
 class "note-judge" as JudgeMod <<module>> {
   +TIMING_TOLERANCE_MS = 180
+  +MAX_FRAME_MS = 40
 }
 
 class PitchTracker <<audio engine>> {

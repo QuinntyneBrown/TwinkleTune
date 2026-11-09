@@ -12,7 +12,7 @@ Container_Boundary(sing, "Sing! screen (screens/sing.ts)") {
   Component(coach, "coachEl [data-coach]", "DOM element", "In-song coach bubble")
 }
 Container_Boundary(scoring, "Scoring module (state/scoring.ts)") {
-  Component(landed, "noteLanded(r, minFrames = 3)", "TypeScript predicate", "Landed-note decision")
+  Component(landed, "noteLanded(r)", "TypeScript predicate", "Landed-note decision")
 }
 System_Ext(browser, "Browser DOM and timers", "Stage element and setTimeout")
 

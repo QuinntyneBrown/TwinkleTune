@@ -35,7 +35,7 @@ class CheerPop <<html fragment>> {
 }
 
 class "state/scoring.ts" as Scoring <<module>> {
-  +noteLanded(r: NoteResult, minFrames: number): boolean
+  +noteLanded(r: NoteResult): boolean
 }
 
 interface TimedNote {

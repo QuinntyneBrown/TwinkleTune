@@ -10,8 +10,11 @@ little behind or ahead of the beat, settling each note's outcome as it passes,
 compensating for microphone latency, and, in duet mode, reporting one score tick
 per note.
 
-*per-note capture* — running tally, held per note, of frames observed, frames
-sung, frames on-pitch, and where in the note the first on-pitch frame fell
+*per-note capture* — running tally, held per note, of time observed, time sung,
+time on-pitch, and where in the note the first on-pitch frame fell
+
+*frame time* — time a frame stands for: the time elapsed since the previous
+frame, capped at 40 ms, about the audio one analysis window covers
 
 *active note* — in-window note whose beat span currently contains the
 latency-compensated score beat
@@ -38,8 +41,8 @@ begin, within the timing tolerance of the score beat
 *finalisation* — settling of a note's outcome, landed or missed, once its end
 beat has passed and, for a note not yet landed, the timing tolerance after it
 
-*landed note* — note with at least 3 on-pitch frames that make up at least half
-of its sung frames and a quarter of its observed frames, per the Scoring
+*landed note* — note with at least 45 ms of on-pitch time that makes up at
+least half of its sung time and a quarter of its observed time, per the Scoring
 criterion
 
 *duet score tick* — one-per-note message to the duet relay carrying the landed
@@ -64,7 +67,7 @@ the notes it settles into cheers, streaks, and duet ticks.
 
 - **`NoteJudge(notes, shift)`** — built from the `windowNotes` of the session and
   the song shift. It owns **`results`**, one `NoteResult` per note holding
-  `hitFrames`, `voicedFrames`, `totalFrames`, and `firstHitFrac` (from
+  `hitMs`, `voicedMs`, `totalMs`, and `firstHitFrac` (from
   `frontend/src/state/scoring.ts`), and a cursor of settled notes.
 - **`latencyBeats` / `scoreBeat`** — `latencyMs = profile.latencyMs +
   tracker.pipelineLatencyMs()`; `latencyBeats = (latencyMs / 1000) /
@@ -79,17 +82,23 @@ the notes it settles into cheers, streaks, and duet ticks.
 - **`NoteJudge.activeIndex(scoreBeat)`** — the first unsettled note with
   `scoreBeat >= n.start && scoreBeat < n.start + n.dur`. It selects the active
   note, whose pill the loop marks `now`.
-- **`NoteJudge.observe(scoreBeat, sungMidi, toleranceBeats)`** — tallies one
-  frame. It increments the active note's `totalFrames`, then, when a pitch was
-  detected, attributes the frame in this order:
-  1. the active note, when the frame is on-pitch for it — `voicedFrames++`,
-     `hitFrames++`, and `firstHitFrac` on the first hit;
+- **`frameMs`** — real time since the previous animation frame, taken from the
+  `requestAnimationFrame` timestamp. The loop passes it to the judge, which caps
+  it at `MAX_FRAME_MS`, so a 30 frames-a-second tablet gives each frame twice
+  the weight of a 60 frames-a-second one and a stall or the first frame after a
+  pause is not credited with time nobody analysed.
+- **`NoteJudge.observe(scoreBeat, sungMidi, toleranceBeats, frameMs)`** — tallies
+  one frame of `t = min(frameMs, MAX_FRAME_MS)` milliseconds. It adds `t` to the
+  active note's `totalMs`, then, when a pitch was detected, attributes the frame
+  in this order:
+  1. the active note, when the frame is on-pitch for it — `t` is added to
+     `voicedMs` and `hitMs`, and `firstHitFrac` is set on the first hit;
   2. otherwise the nearest neighbouring note for which the frame is on-pitch —
      credited the same way if that note is not yet settled, with `firstHitFrac`
      clamped to 0 (sung early) or 1 (sung late); either way the frame is not
      counted against the active note;
-  3. otherwise the active note, as a sung but off-pitch frame — `voicedFrames++`
-     only.
+  3. otherwise the active note, as a sung but off-pitch frame — `t` is added to
+     `voicedMs` only.
 
   It returns `{ activeIdx, onNote }`; `onNote` is true whenever the frame matched
   a note, and drives the star's on-note glow and the scene burst.
@@ -114,7 +123,7 @@ the notes it settles into cheers, streaks, and duet ticks.
   continues.
 
 Constants (the shipped baseline): `TIMING_TOLERANCE_MS = 180`,
-`HIT_TOLERANCE_CENTS = 50`.
+`MAX_FRAME_MS = 40`, `HIT_TOLERANCE_CENTS = 50`.
 
 ## Requirements
 
@@ -123,7 +132,7 @@ cited level-1 (L1) requirement(s).
 
 | L2 ID | Refines (L1) | Requirement |
 |-------|--------------|-------------|
-| `SG-L2-9` | `SG-L1-4` | For the currently active note (outside no-mic mode), each frame shall increment the observed-frame count. A sung frame shall be attributed per `SG-L2-25`; one within ±50 cents of its note (octave-folded, shift applied) shall increment that note's sung-frame and on-pitch-frame counts and, on the first such frame, record the fractional position within the note. A sung, off-pitch frame shall increment only the active note's sung-frame count; a frame with no pitch shall change nothing else. |
+| `SG-L2-9` | `SG-L1-4` | Each frame shall stand for the time since the previous frame, capped at 40 ms. For the currently active note (outside no-mic mode), each frame shall add its time to the observed time. A sung frame shall be attributed per `SG-L2-25`; one within ±50 cents of its note (octave-folded, shift applied) shall add its time to that note's sung and on-pitch time and, on the first such frame, record the fractional position within the note. A sung, off-pitch frame shall add only to the active note's sung time; a frame with no pitch shall change nothing else. |
 | `SG-L2-10` | `SG-L1-4, SG-L1-5` | Notes shall be finalised in song order: as a note's end passes if it is already landed, otherwise once the timing tolerance after its end has also passed. A landed note shall increment the landed count and streak, mark the pill, show a random cheer, and update the live sparkle count to `landedCount·10`; a missed note shall reset the streak to 0. No missed note shall produce a negative message. |
 | `SG-L2-19` | `SG-L1-8` | Scoring shall use a latency-compensated beat position — the raw beat minus the sum of the engine's pipeline latency estimate (`AE-L2-18`) and the profile's mic timing offset — while visuals use the raw beat, so that a device with output or input lag still scores the note the child is actually singing. |
 | `SG-L2-22` | `SG-L1-4` | In duet mode, the system shall emit a score tick once per finalised note (not per frame), carrying the landed count, streak, sparkles, and note index; tick delivery failures shall be swallowed so play is never interrupted. (Relay semantics: DM.) |

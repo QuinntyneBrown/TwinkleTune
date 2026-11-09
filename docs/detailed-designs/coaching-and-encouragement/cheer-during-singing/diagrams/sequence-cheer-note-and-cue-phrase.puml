@@ -31,7 +31,7 @@ child -> loop : Sings while the song plays
 loop -> finalize : finalizeNotesUpTo(beat)
 
 alt microphone session (noMic = false)
-  finalize -> scoring : noteLanded(result, minFrames = 3)
+  finalize -> scoring : noteLanded(result)
   alt note landed
     scoring --> finalize : true
     finalize -> pop : cheerPop() (CE-L2-3)
