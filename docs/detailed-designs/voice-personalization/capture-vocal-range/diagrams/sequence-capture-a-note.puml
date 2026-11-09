@@ -33,20 +33,21 @@ screen -> screen : phase = 'low', setSteps(2) (VP-L2-1)
 note over screen : Coach bubble uses playful imagery, no notation (VP-L2-7)
 
 loop every animation frame until a note locks
-  tracker -> tracker : read()
-  tracker --> screen : frame {midi} or null
-  screen -> screen : paintLadder — rung clamp(floor((m-48)/3),0,11) (VP-L2-2)
+  screen -> tracker : readHops()
+  tracker --> screen : observations since the last frame, one per 1/60 s of audio
+  screen -> screen : paintLadder from the newest — rung clamp(floor((m-48)/3),0,11) (VP-L2-2)
+  note over screen, capture : for each observation, oldest first
   alt pitch present
     screen -> capture : feed(midi)
-    capture -> capture : push onto 40-frame window (VP-L2-3)
+    capture -> capture : push onto 40-observation window (VP-L2-3)
     alt window full and p90 - p10 <= 1.0 semitone
       capture --> screen : median pitch (lock) (VP-L2-3)
     else not yet stable
       capture --> screen : null (report progress %)
     end
-  else silent frame
+  else silent observation
     screen -> capture : feed(null)
-    opt silence exceeds 8 consecutive frames
+    opt silence exceeds 8 consecutive observations
       capture -> capture : reset() the buffer (VP-L2-4)
     end
   end

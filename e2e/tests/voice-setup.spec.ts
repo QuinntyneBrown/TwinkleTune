@@ -1,6 +1,7 @@
 import { test, expect } from '../fixtures/test'
 import { FakeMic } from '../fixtures/fake-mic'
 import { readState, seedApp } from '../fixtures/seed'
+import { slowDisplay } from '../fixtures/slow-display'
 
 test.describe('Find My Voice', () => {
   test('captures a low and a high note, then tunes every song', async ({
@@ -36,6 +37,23 @@ test.describe('Find My Voice', () => {
     await voiceSetupPage.toMySongsButton.click()
     await expect(page).toHaveURL(/#\/songs$/)
     await expect(songsPage.inKeyBadges).toHaveCount(7)
+  })
+
+  // Traces to: VP-L2-3, AE-L2-21
+  test('a slow display does not make her hold the note any longer', async ({
+    page,
+    fakeMic,
+    voiceSetupPage,
+  }) => {
+    await slowDisplay(page, 15) // about four frames a second
+    await seedApp(page, { range: null })
+    await fakeMic.use(FakeMic.A3)
+    await voiceSetupPage.goto()
+
+    await voiceSetupPage.readyButton.click()
+
+    // the window is 0.67 s of singing; forty animation frames at this pace would take ten seconds
+    await expect(voiceSetupPage.toast(/cozy low note: A3/)).toBeVisible({ timeout: 4_000 })
   })
 
   test('a blocked microphone gets a friendly dialog, not an error', async ({

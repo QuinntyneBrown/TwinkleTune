@@ -4,17 +4,17 @@ LAYOUT_WITH_LEGEND()
 title Components — Find My Voice capture
 
 Container_Boundary(webapp, "TwinkleTune web app") {
-  Component(screen, "renderVoiceSetup", "voice-setup.ts screen module", "Drives phases intro/low/high, paints the ladder, runs the per-frame capture loop")
-  Component(tracker, "PitchTracker", "audio/pitch module", "Starts Web Audio and yields a per-frame detected pitch")
-  Component(capture, "StablePitchCapture", "audio/range module", "Locks a sustained pitch over a 40-frame window and returns its median")
+  Component(screen, "renderVoiceSetup", "voice-setup.ts screen module", "Drives phases intro/low/high, paints the ladder, feeds every pitch observation to the capture")
+  Component(tracker, "PitchTracker", "audio/pitch module", "Starts Web Audio and yields one pitch observation per 1/60 s of audio")
+  Component(capture, "StablePitchCapture", "audio/range module", "Locks a sustained pitch over a 40-observation window (0.67 s) and returns its median")
   Component(player, "playNote", "audio/player module", "Plays a captured note back for audible confirmation")
   Component(names, "midiToName", "audio/range module", "Formats a MIDI note as a child-visible note name")
 }
 System_Ext(mic, "Browser microphone", "getUserMedia / Web Audio")
 
-Rel(screen, tracker, "Starts and reads pitch frames from")
+Rel(screen, tracker, "Starts and reads pitch observations from")
 Rel(tracker, mic, "Captures audio through", "Web Audio")
-Rel(screen, capture, "Feeds frames to; receives the median on lock")
+Rel(screen, capture, "Feeds observations to; receives the median on lock")
 Rel(screen, player, "Plays the captured note through")
 Rel(screen, names, "Labels rungs and toasts through")
 @enduml

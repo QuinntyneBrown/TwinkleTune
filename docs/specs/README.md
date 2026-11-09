@@ -183,3 +183,4 @@ The product is decomposed into thirteen subsystems. Each has its own `L1.md` and
 | 1.3 | 2026-11-09 | Voice‑comprehension improvements | Band‑limited pitch detection and in‑band level gate (AE-L2-10, AE-L2-11, AE-L2-19, AE-L2-20). |
 | 1.4 | 2026-11-09 | Voice‑comprehension improvements | Note evidence measured in time, independent of frame rate (SR-L2-2, SR-L2-19, SG-L2-9). |
 | 1.5 | 2026-11-09 | Voice‑comprehension improvements | Fixed‑step pitch analysis independent of frame pacing (AE-L2-21, SG-L2-26, SR-L2-19). |
+| 1.6 | 2026-11-09 | Voice‑comprehension improvements | Find My Voice capture window on the fixed step (VP-L2-3, VP-L2-4). |

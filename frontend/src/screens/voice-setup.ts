@@ -206,19 +206,21 @@ export function renderVoiceSetup(root: HTMLElement): () => void {
 
   function loop(): void {
     raf = requestAnimationFrame(loop)
-    const frame = tracker.read()
+    // one observation per 1/60 s of singing, however slowly this screen redraws,
+    // so the hold is the same length on every device
+    const hops = tracker.readHops()
+    const frame = tracker.latest
     paintLadder(frame?.midi ?? null)
     eq.classList.toggle('live', frame !== null)
-    if (frame) {
-      const locked = capture.feed(frame.midi)
-      if (locked !== null) captured(Math.round(locked))
-      else {
-        const pct = Math.round(capture.progress() * 100)
-        if (pct > 10) listenMsg.textContent = `Keep holding it… ${pct}% ✨`
+    for (const hop of hops) {
+      const locked = capture.feed(hop.frame ? hop.frame.midi : null)
+      if (locked !== null) {
+        captured(Math.round(locked))
+        return // the rest of this batch belongs to the note just captured
       }
-    } else {
-      capture.feed(null)
     }
+    const pct = Math.round(capture.progress() * 100)
+    if (frame && pct > 10) listenMsg.textContent = `Keep holding it… ${pct}% ✨`
   }
 
   actionBtn.addEventListener('click', () => void beginListening())
