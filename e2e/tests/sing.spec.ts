@@ -1,6 +1,7 @@
 import { test, expect } from '../fixtures/test'
 import { FakeMic } from '../fixtures/fake-mic'
 import { readState, seedApp } from '../fixtures/seed'
+import { slowDisplay } from '../fixtures/slow-display'
 
 test.describe('Sing a song', () => {
   test('falls back to Canvas2D and manages the singing wake lock', async ({
@@ -113,6 +114,24 @@ test.describe('Sing a song', () => {
     await resultsPage.practiceButton.click()
     await expect(singPage.title).toContainText('Practice:')
     await expect(singPage.turtleChip).toBeVisible()
+  })
+
+  // Traces to: SR-L2-19, AE-L2-21, SG-L2-26
+  test('a display drawing four frames a second still credits every note that was sung', async ({
+    page,
+    fakeMic,
+    singPage,
+    resultsPage,
+  }) => {
+    await slowDisplay(page, 15) // one animation frame in fifteen
+    await seedApp(page)
+    await fakeMic.use(FakeMic.C4) // a steady C: exactly the seven Cs of Hot Cross Buns are sung
+    await singPage.open('hotcrossbuns')
+
+    await singPage.startButton.click()
+    await singPage.waitForResults()
+
+    await expect(resultsPage.scoreCard).toContainText('You landed 7 of 17 notes')
   })
 
   test('a shifted song explains its new key, and pause works', async ({

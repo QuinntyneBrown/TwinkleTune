@@ -3,7 +3,7 @@ import { duetSession } from '../api/duet'
 import type { SongNote } from '../songs/types'
 import { songBeats, songRange } from '../songs/types'
 import { SongPlayer } from '../audio/player'
-import { PitchTracker } from '../audio/pitch'
+import { HOP_MS, PitchTracker } from '../audio/pitch'
 import { computeShift, describeShift } from '../audio/range'
 import { noteLanded, summarize } from '../state/scoring'
 import { NoteJudge, TIMING_TOLERANCE_MS } from '../state/note-judge'
@@ -88,8 +88,8 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
   let landedCount = 0
   let lastPhrase = -1
   let singerY = 150
+  let onNote = false
   let wasOnNote = false
-  let lastFrameAt: number | null = null
 
   const keyChip = range
     ? `<span class="key-chip" title="${describeShift(shift)}">🎯 Your key ✓</span>`
@@ -267,11 +267,8 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
     }
   }
 
-  function loop(now = performance.now()): void {
+  function loop(): void {
     raf = requestAnimationFrame(loop)
-    // what this frame stands for: the real time since the previous one
-    const frameMs = lastFrameAt === null ? 0 : now - lastFrameAt
-    lastFrameAt = now
     const beat = player.currentBeat()
     track.style.transform = `translateX(${markerX() - beat * PX_PER_BEAT}px)`
 
@@ -297,7 +294,9 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
     const latencyMs = profile.latencyMs + (noMic ? 0 : tracker.pipelineLatencyMs())
     const latencyBeats = (latencyMs / 1000) / player.secondsPerBeat()
     const scoreBeat = beat - latencyBeats
-    const frame = noMic ? null : tracker.read()
+    // every hop of audio heard since the last frame, however long ago that was
+    const hops = noMic ? [] : tracker.readHops()
+    const frame = noMic ? null : tracker.latest
 
     // move the star with her voice
     if (frame) {
@@ -322,9 +321,12 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
 
     // judge this frame; the timing tolerance is real time, so it is fewer beats when playing slow
     const toleranceBeats = noMic ? 0 : TIMING_TOLERANCE_MS / 1000 / player.secondsPerBeat()
-    const onNote = noMic
-      ? false
-      : judge.observe(scoreBeat, frame ? frame.midi : null, toleranceBeats, frameMs).onNote
+    const seen = judge.observeHops(scoreBeat, hops, {
+      toleranceBeats,
+      secondsPerBeat: player.secondsPerBeat(),
+      hopMs: HOP_MS,
+    })
+    if (seen) onNote = seen.onNote // a frame with nothing new keeps the star as it was
     singer.classList.toggle('on-note', onNote)
     if (onNote && !wasOnNote) visual.burst(0.55 + Math.min(0.45, streak / 20))
     wasOnNote = onNote

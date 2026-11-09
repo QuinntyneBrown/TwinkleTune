@@ -116,13 +116,18 @@ export class PitchAnalyzer {
   }
 }
 
-/** Microphone → pitch. Poll `read()` once per animation frame. */
+/**
+ * Microphone → pitch. Poll once per animation frame: `readHops()` for every
+ * hop heard since the last poll (the sing loop), or `read()` for just the
+ * pitch right now (the tuner, Find My Voice). Use one or the other on a given
+ * tracker — each advances the smoothing history.
+ */
 export class PitchTracker {
   latest: PitchFrame | null = null
   private media: MediaStream | null = null
   private source: MediaStreamAudioSourceNode | null = null
   private analyser: AnalyserNode | null = null
-  private buf = new Float32Array(FFT_SIZE)
+  private buf = new Float32Array(HISTORY_SIZE)
   private analyzer = new PitchAnalyzer(FFT_SIZE)
   /** seconds, as the browser reports it for the microphone track (not every browser does) */
   private inputLatency: number | undefined
@@ -146,15 +151,30 @@ export class PitchTracker {
     this.inputLatency = settings?.latency
     this.source = ctx.createMediaStreamSource(this.media)
     this.analyser = ctx.createAnalyser()
-    this.analyser.fftSize = FFT_SIZE
+    this.analyser.fftSize = HISTORY_SIZE // the time-domain history it keeps for us
     this.source.connect(this.analyser)
   }
 
   read(): PitchFrame | null {
     if (!this.analyser) return null
     this.analyser.getFloatTimeDomainData(this.buf)
-    this.latest = this.analyzer.analyze(this.buf, audioCtx().sampleRate)
+    const newest = this.buf.subarray(HISTORY_SIZE - FFT_SIZE)
+    this.latest = this.analyzer.analyze(newest, audioCtx().sampleRate)
     return this.latest
+  }
+
+  /**
+   * Every hop of audio that has come due since the previous call, oldest
+   * first, so a slow or stuttering display hears as much of the voice as a
+   * fast one. `latest` becomes the newest hop's frame.
+   */
+  readHops(): PitchObservation[] {
+    if (!this.analyser) return []
+    this.analyser.getFloatTimeDomainData(this.buf)
+    const ctx = audioCtx()
+    const hops = this.analyzer.analyzeHops(this.buf, ctx.sampleRate, ctx.currentTime * 1000)
+    if (hops.length > 0) this.latest = hops[hops.length - 1].frame
+    return hops
   }
 
   /**
