@@ -33,11 +33,11 @@ rloop -> tracker : pipelineLatencyMs() per AE-L2-18
 tracker --> rloop : output + input + analysis delay
 rloop -> rloop : scoreBeat = beat - (estimate + profile offset) in beats per SG-L2-19
 rloop -> rloop : toleranceBeats = 180 ms / secondsPerBeat per SG-L2-25
-rloop -> tracker : read()
-tracker --> rloop : PitchFrame or null
-rloop -> rloop : frameMs = time since the previous frame
-rloop -> judge : observe(scoreBeat, sungMidi, toleranceBeats, frameMs)
-judge -> judge : t = min(frameMs, 40 ms) per SG-L2-9
+rloop -> tracker : readHops() per AE-L2-21
+tracker --> rloop : observations { frame, ageMs }, one per 1/60 s hop, oldest first
+rloop -> judge : observeHops(scoreBeat, hops, { toleranceBeats, secondsPerBeat, hopMs }) per SG-L2-26
+note over judge : for each observation:\nobserve(scoreBeat - age in beats, sungMidi, toleranceBeats, hopMs)
+judge -> judge : t = min(hopMs, 40 ms) per SG-L2-9
 opt active note present
   judge -> results : active.totalMs += t per SG-L2-9
 end
@@ -52,7 +52,7 @@ opt pitch detected
     judge -> results : active.voicedMs += t (sung, off-pitch)
   end
 end
-judge --> rloop : { activeIdx, onNote }
+judge --> rloop : { activeIdx, onNote } of the newest observation, or null if none
 rloop -> finalize : finalizeNotesUpTo(scoreBeat, toleranceBeats)
 finalize -> judge : finalize(scoreBeat, toleranceBeats)
 judge -> scoring : noteLanded(r) — a landed note settles at its end

@@ -14,7 +14,7 @@ skinparam package {
   FontColor #101828
   BackgroundColor #F9FAFB
 }
-actor "Caller (voice capture / tuner)" as caller
+actor "Caller (sing loop)" as caller
 box "Frontend — TwinkleTune web app" #E0F2FE
   participant "PitchTracker" as tracker
   participant "PitchAnalyzer" as analyzer
@@ -30,36 +30,37 @@ caller -> tracker : start()
 tracker -> mic : getUserMedia({ echoCancellation:false, noiseSuppression:false, autoGainControl:false }) (AE-L2-14)
 alt permission granted
   mic --> tracker : MediaStream
-  tracker -> analyser : createMediaStreamSource + createAnalyser (fftSize 2048)
+  tracker -> analyser : createMediaStreamSource + createAnalyser (fftSize 8192)
   tracker --> caller : running = true
 else permission denied
   mic --> tracker : NotAllowedError
   tracker --> caller : throws NotAllowedError (AE-L2-14)
 end
 
-caller -> tracker : read()
-tracker -> analyser : getFloatTimeDomainData(buf, 2048 samples)
+caller -> tracker : readHops()
+tracker -> analyser : getFloatTimeDomainData(history, 8192 samples)
 analyser --> tracker : time-domain samples
-tracker -> analyzer : analyze(buf, sampleRate)
+tracker -> analyzer : analyzeHops(history, sampleRate, currentTime) (AE-L2-21)
+analyzer -> analyzer : hops due since the last one analysed (at most what the history holds)
+note over analyzer : for each due hop, oldest first:\nbuf = the 2048 samples ending that hop's age ago
 analyzer -> band : process(buf, sampleRate, filtered) (AE-L2-19)
 band --> analyzer : window limited to 90-1500 Hz
 analyzer -> analyzer : level = sqrt(mean(filtered^2))
 alt level < 0.006
-  analyzer --> tracker : null (AE-L2-11)
-  tracker --> caller : null (too quiet)
+  analyzer -> analyzer : observation { frame: null, ageMs } (AE-L2-11, too quiet)
 else level >= 0.006
   analyzer -> detector : findPitch(filtered, sampleRate) (AE-L2-10)
   detector --> analyzer : [hz, clarity]
   alt clarity < 0.8 or hz outside 70-1500 Hz
-    analyzer --> tracker : null (AE-L2-12)
-    tracker --> caller : null (too uncertain / out of band)
+    analyzer -> analyzer : observation { frame: null, ageMs } (AE-L2-12, too uncertain / out of band)
   else accepted frame
     analyzer -> analyzer : history.push(hzToMidi(hz)); keep last 5 (AE-L2-13)
     analyzer -> analyzer : midi = median(history); rms = sqrt(mean(buf^2))
-    analyzer --> tracker : { hz, midi, clarity, rms }
-    tracker --> caller : { hz, midi, clarity, rms } (AE-L2-10)
+    analyzer -> analyzer : observation { frame: { hz, midi, clarity, rms }, ageMs } (AE-L2-10)
   end
 end
+analyzer --> tracker : observations, oldest first
+tracker --> caller : observations; latest = the newest frame (AE-L2-21)
 
 opt session ends
   caller -> tracker : stop()

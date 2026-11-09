@@ -23,6 +23,7 @@ class PitchTracker {
   +running: boolean
   +start(): Promise<void>
   +read(): PitchFrame?
+  +readHops(): PitchObservation[]
   +pipelineLatencyMs(): number
   +stop(): void
 }
@@ -33,8 +34,15 @@ class PitchAnalyzer {
   -filtered: Float32Array
   -detector: PitchDetector
   -history: number[]
+  -gridMs: number?
   +analyze(buf: Float32Array, sampleRate: number): PitchFrame?
+  +analyzeHops(history: Float32Array, sampleRate: number, nowMs: number): PitchObservation[]
   +reset(): void
+}
+
+interface PitchObservation {
+  +frame: PitchFrame?
+  +ageMs: number
 }
 
 class BandLimiter <<band-limit.ts>> {
@@ -63,6 +71,8 @@ PitchTracker --> "0..1" PitchFrame : latest
 PitchTracker *-- "1" PitchAnalyzer : delegates each window
 PitchAnalyzer *-- "1" BandLimiter : band-limits 90-1500 Hz
 PitchAnalyzer ..> PitchFrame : produces
+PitchAnalyzer ..> PitchObservation : one per hop
+PitchObservation --> "0..1" PitchFrame
 PitchAnalyzer ..> Detector : findPitch
 PitchAnalyzer ..> RangeMod : hzToMidi
 @enduml
