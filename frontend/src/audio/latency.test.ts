@@ -1,3 +1,7 @@
+// Acceptance Test
+// Traces to: AE-L2-18
+// Description: The pipeline latency estimate sums and bounds what the browser reports
+
 import { describe, expect, it } from 'vitest'
 import { MAX_DEVICE_LATENCY_MS, pipelineLatencyMs } from './latency'
 

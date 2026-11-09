@@ -1,3 +1,7 @@
+// Acceptance Test
+// Traces to: AE-L2-19
+// Description: The band limiter passes sung pitches and removes mains hum and high-frequency hiss
+
 import { describe, expect, it } from 'vitest'
 import { BandLimiter } from './band-limit'
 

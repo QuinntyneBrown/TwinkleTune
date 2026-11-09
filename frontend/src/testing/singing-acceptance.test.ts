@@ -1,3 +1,7 @@
+// Acceptance Test
+// Traces to: SR-L2-18, SG-L2-19, AE-L2-20
+// Description: A synthesised singer goes through the real pitch detection and note judging for every bundled song
+
 import { describe, expect, it } from 'vitest'
 import { songs } from '../songs/catalog'
 import {
