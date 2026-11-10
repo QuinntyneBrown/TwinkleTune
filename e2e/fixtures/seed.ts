@@ -1,6 +1,8 @@
 import type { Page } from '@playwright/test'
 
 export const STORAGE_KEY = 'twinkletune:v1'
+/** The device-level key holding the microphone choice (shared by every singer). */
+export const MICROPHONE_KEY = 'twinkletune:microphone'
 
 /** Local-date ISO string, matching the app's own todayISO(). */
 export function todayISO(d: Date = new Date()): string {
@@ -49,6 +51,8 @@ export interface SeedOptions {
   lastResult?: SummarySeed | null
   lastSongId?: string | null
   lastNewBadges?: string[]
+  /** The device's microphone choice; omit for "none made" (the system default). */
+  microphone?: { deviceId: string; label: string }
 }
 
 /**
@@ -103,9 +107,20 @@ export async function seedApp(page: Page, opts: SeedOptions = {}): Promise<void>
     (arg: { key: string; json: string }) => window.localStorage.setItem(arg.key, arg.json),
     { key: STORAGE_KEY, json: JSON.stringify(buildState(opts)) },
   )
+  if (opts.microphone) {
+    await page.addInitScript(
+      (arg: { key: string; json: string }) => window.localStorage.setItem(arg.key, arg.json),
+      { key: MICROPHONE_KEY, json: JSON.stringify(opts.microphone) },
+    )
+  }
 }
 
 /** Read the app state back out of localStorage for assertions. */
 export function readState(page: Page): Promise<any> {
   return page.evaluate((key) => JSON.parse(window.localStorage.getItem(key) ?? 'null'), STORAGE_KEY)
+}
+
+/** Read the device's microphone choice back out of localStorage; null when none is saved. */
+export function readMicrophone(page: Page): Promise<{ deviceId: string; label: string } | null> {
+  return page.evaluate((key) => JSON.parse(window.localStorage.getItem(key) ?? 'null'), MICROPHONE_KEY)
 }
