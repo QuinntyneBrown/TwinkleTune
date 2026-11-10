@@ -89,4 +89,50 @@ test.describe('Find My Voice', () => {
     const state = await readState(page)
     expect(state.profile.range).toBeNull()
   })
+
+  // Traces to: AE-L2-22, GC-L2-12
+  test('Find My Voice listens on the microphone the grown-up chose', async ({ page, fakeMic, voiceSetupPage }) => {
+    await seedApp(page, { range: null, microphone: FakeMic.HEADSET })
+    await fakeMic.use(FakeMic.A3)
+    await fakeMic.plugIn([FakeMic.BUILT_IN, FakeMic.HEADSET])
+    await voiceSetupPage.goto()
+
+    await voiceSetupPage.readyButton.click()
+    await expect(voiceSetupPage.toast(/cozy low note: A3/)).toBeVisible({ timeout: 15_000 })
+
+    expect(await fakeMic.requests()).toEqual([FakeMic.HEADSET.deviceId])
+  })
+
+  // Traces to: AE-L2-22, VP-L2-15
+  test('a chosen microphone that is not plugged in does not stop Find My Voice', async ({
+    page,
+    fakeMic,
+    voiceSetupPage,
+  }) => {
+    await seedApp(page, { range: null, microphone: FakeMic.HEADSET })
+    await fakeMic.use(FakeMic.A3)
+    await fakeMic.plugIn([FakeMic.BUILT_IN])
+    await voiceSetupPage.goto()
+
+    await voiceSetupPage.readyButton.click()
+    await expect(voiceSetupPage.toast(/cozy low note: A3/)).toBeVisible({ timeout: 15_000 })
+    await expect(voiceSetupPage.micDeniedDialog).toHaveCount(0)
+
+    expect(await fakeMic.requests()).toEqual([null])
+  })
+
+  // Traces to: AE-L2-14, VP-L2-15
+  test('a blocked microphone still gets the friendly dialog when one was chosen', async ({
+    page,
+    fakeMic,
+    voiceSetupPage,
+  }) => {
+    await seedApp(page, { range: null, microphone: FakeMic.HEADSET })
+    await fakeMic.plugIn([FakeMic.BUILT_IN, FakeMic.HEADSET])
+    await fakeMic.deny()
+    await voiceSetupPage.goto()
+
+    await voiceSetupPage.readyButton.click()
+    await expect(voiceSetupPage.micDeniedDialog).toContainText("Twinkle can't hear you")
+  })
 })
