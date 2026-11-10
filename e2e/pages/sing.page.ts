@@ -2,12 +2,19 @@ import type { Locator, Page } from '@playwright/test'
 import { BasePage } from './base.page'
 
 export class SingPage extends BasePage {
+  /** Twinkle's headphone tip, shown before the first song of a visit (SG-L2-28). */
+  static readonly HEADPHONE_TIP = 'Psst… headphones or a headset help me hear just you! 🎧'
+  /** The coach bubble's usual line before the start. */
+  static readonly READY_LINE = 'Take a big balloon breath… 🎈'
+
   readonly title: Locator
   readonly keyChip: Locator
   readonly turtleChip: Locator
   readonly stageLabel: Locator
   readonly singer: Locator
   readonly startButton: Locator
+  readonly duetReadyButton: Locator
+  readonly coach: Locator
   readonly pauseButton: Locator
   readonly countdown: Locator
   readonly progressFill: Locator
@@ -34,6 +41,8 @@ export class SingPage extends BasePage {
     this.stageLabel = page.locator('[data-stage-label]')
     this.singer = page.locator('[data-singer]')
     this.startButton = page.getByRole('button', { name: 'Tap to start' })
+    this.duetReadyButton = page.getByRole('button', { name: "I'm ready!" })
+    this.coach = page.locator('[data-coach]')
     this.pauseButton = page.getByRole('button', { name: 'Pause' })
     this.countdown = page.locator('[data-countdown]')
     this.progressFill = page.locator('[data-progress]')

@@ -2,6 +2,7 @@ import { test, expect } from '../fixtures/test'
 import { FakeMic } from '../fixtures/fake-mic'
 import { readState, seedApp } from '../fixtures/seed'
 import { slowDisplay } from '../fixtures/slow-display'
+import { SingPage } from '../pages/sing.page'
 
 test.describe('Sing a song', () => {
   test('falls back to Canvas2D and manages the singing wake lock', async ({
@@ -314,6 +315,80 @@ test.describe('Sing a song', () => {
 
     // a refusal is not papered over by asking again for another microphone
     expect(await fakeMic.requests()).toEqual([FakeMic.HEADSET.deviceId])
+  })
+
+  // Traces to: SG-L2-28, CE-L2-2
+  test('before the first song of a visit, Twinkle tips that headphones help, and one tap still starts the song', async ({
+    page,
+    fakeMic,
+    singPage,
+  }) => {
+    await seedApp(page)
+    await fakeMic.use(FakeMic.C4)
+    await singPage.open('hotcrossbuns')
+
+    await expect(singPage.coach).toHaveText(SingPage.HEADPHONE_TIP)
+    await expect(singPage.startButton).toBeVisible()
+    await expect(page.getByRole('dialog')).toHaveCount(0) // a tip, not a gate
+
+    await singPage.startButton.click()
+
+    // the same single tap as ever: straight into the count-in, the tip still up while it counts
+    await expect(singPage.stageLabel).toHaveText(/MOVE YOUR STAR/)
+    await expect(singPage.coach).toHaveText(SingPage.HEADPHONE_TIP)
+    // and it gives way to the first phrase cue once the singing starts
+    await expect(singPage.coach).not.toHaveText(SingPage.HEADPHONE_TIP, { timeout: 15_000 })
+  })
+
+  // Traces to: SG-L2-28
+  test('the headphone tip shows once a visit: later songs and practice get the usual line', async ({
+    page,
+    fakeMic,
+    singPage,
+  }) => {
+    await seedApp(page)
+    await fakeMic.use(FakeMic.C4)
+    await singPage.open('hotcrossbuns')
+    await expect(singPage.coach).toHaveText(SingPage.HEADPHONE_TIP)
+
+    await singPage.open('twinkle') // another song, same visit
+    await expect(singPage.title).toHaveText('Twinkle Twinkle Little Star')
+    await expect(singPage.coach).toHaveText(SingPage.READY_LINE)
+
+    await singPage.open('hotcrossbuns', '&practice=0&slow=1') // a practice loop, same visit
+    await expect(singPage.title).toContainText('Practice:')
+    await expect(singPage.coach).toHaveText(SingPage.READY_LINE)
+
+    await page.reload() // a new visit
+    await expect(singPage.coach).toHaveText(SingPage.HEADPHONE_TIP)
+  })
+
+  // Traces to: SG-L2-28, SG-L2-1
+  test('a bounced song request does not use up the headphone tip', async ({ page, singPage, songsPage }) => {
+    await seedApp(page)
+    await singPage.open('doesnotexist')
+    await expect(songsPage.heading).toBeVisible()
+
+    await singPage.open('hotcrossbuns')
+    await expect(singPage.coach).toHaveText(SingPage.HEADPHONE_TIP)
+  })
+
+  // Traces to: SG-L2-28, SG-L2-14
+  test('when the song goes on just for fun, the headphone tip gives way to the usual line', async ({
+    page,
+    fakeMic,
+    singPage,
+  }) => {
+    await seedApp(page)
+    await fakeMic.deny()
+    await singPage.open('hotcrossbuns')
+    await expect(singPage.coach).toHaveText(SingPage.HEADPHONE_TIP)
+
+    await singPage.startButton.click()
+    await singPage.singForFunButton.click()
+
+    await expect(singPage.stageLabel).toHaveText(/HAVE FUN/)
+    await expect(singPage.coach).toHaveText(SingPage.READY_LINE)
   })
 
   test('an unknown song id bounces back to the song list', async ({ page, songsPage }) => {

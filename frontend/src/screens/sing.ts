@@ -27,7 +27,17 @@ const PHRASE_CHEERS = [
   'Sing it out, superstar! ⭐',
 ]
 
+/** Twinkle's usual line while the start button waits. */
+const READY_LINE = 'Take a big balloon breath… 🎈'
+/**
+ * Headphones keep the melody out of the microphone, so she is all it hears.
+ * A tip in Twinkle's bubble, never a step: the start button works the same.
+ */
+const HEADPHONE_TIP = 'Psst… headphones or a headset help me hear just you! 🎧'
+
 const tunedDialogShown = new Set<string>()
+/** the tip opens the first Sing screen of a visit; after that the usual line returns */
+let headphoneTipShown = false
 
 interface TimedNote extends SongNote {
   phraseIdx: number
@@ -49,6 +59,9 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
     location.hash = '#/duet'
     return () => {}
   }
+
+  const readyLine = headphoneTipShown ? READY_LINE : HEADPHONE_TIP
+  headphoneTipShown = true
 
   const state = store.get()
   const profile = state.profile!
@@ -138,7 +151,7 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
 
     <div class="live-row rise d3">
       ${mascotSVG('mascot mascot-sm', true).replace('class="mascot mascot-sm"', 'class="mascot mascot-sm" style="width:58px"')}
-      <div class="bubble bubble-left" data-coach>Take a big balloon breath… 🎈</div>
+      <div class="bubble bubble-left" data-coach>${readyLine}</div>
       <div class="sparkles-pill" data-sparkles title="Sparkles earned">✨ 0</div>
     </div>
   </main>`
@@ -424,6 +437,7 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
           close()
           noMic = true
           stageLabel.textContent = 'SING ALONG AND HAVE FUN 🎶'
+          coachEl.textContent = READY_LINE // nothing is listening, so the headphone tip has no place
           begin()
         })
         modal.querySelector('[data-back]')?.addEventListener('click', () => {
