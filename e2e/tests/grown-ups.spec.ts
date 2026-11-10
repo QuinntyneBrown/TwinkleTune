@@ -268,4 +268,139 @@ test.describe('Grown-Ups Corner', () => {
     await expect(page).toHaveURL(/#\/welcome$/)
     expect(await readMicrophone(page)).toBeNull()
   })
+
+  // Traces to: GC-L2-12
+  test('a tablet with one microphone lists it beside the system default', async ({ page, fakeMic, mePage }) => {
+    await seedApp(page)
+    await fakeMic.plugIn([FakeMic.BUILT_IN])
+    await mePage.goto()
+    await mePage.openSettings()
+
+    await expect(mePage.settings.microphoneOptions).toHaveText(['System default', 'Built-in microphone'])
+    await mePage.settings.chooseMicrophone('Built-in microphone')
+    expect(await readMicrophone(page)).toEqual(FakeMic.BUILT_IN)
+  })
+
+  // Traces to: GC-L2-12, AE-L2-22
+  test('when the browser has not shared microphone names, "Show microphones" asks once, listens to nothing, and lists them', async ({
+    page,
+    fakeMic,
+    mePage,
+  }) => {
+    await seedApp(page)
+    await fakeMic.plugIn([FakeMic.BUILT_IN, FakeMic.HEADSET], { namesHidden: true })
+    await mePage.goto()
+    await mePage.openSettings()
+
+    await expect(mePage.settings.showMicrophonesButton).toBeVisible()
+    await expect(mePage.settings.microphoneSelect).toBeHidden()
+    await expect(mePage.settings.microphoneHint).toHaveText(
+      'Allow the microphone once to see the ones on this device',
+    )
+    expect(await fakeMic.requests()).toEqual([]) // opening the hub asks for nothing
+
+    await mePage.settings.showMicrophonesButton.click()
+
+    await expect(mePage.settings.microphoneOptions).toHaveText([
+      'System default',
+      'Built-in microphone',
+      "Ada's headset",
+    ])
+    await expect(mePage.settings.showMicrophonesButton).toBeHidden()
+    await expect(mePage.settings.microphoneHint).toHaveText(
+      'A headset works best: it stops the tablet hearing its own melody',
+    )
+    expect(await fakeMic.requests()).toEqual([null])
+    expect(await fakeMic.openStreams()).toBe(0) // the stream opened for the names was stopped at once
+  })
+
+  // Traces to: GC-L2-12
+  test('declining the microphone in the picker is explained in words, and nothing saved changes', async ({
+    page,
+    fakeMic,
+    mePage,
+  }) => {
+    await seedApp(page, { microphone: FakeMic.HEADSET })
+    await fakeMic.plugIn([FakeMic.BUILT_IN, FakeMic.HEADSET], { namesHidden: true })
+    await fakeMic.deny()
+    await mePage.goto()
+    await mePage.openSettings()
+
+    await mePage.settings.showMicrophonesButton.click()
+
+    await expect(mePage.settings.microphoneHint).toHaveText(
+      "The microphone was not allowed, so the names stay hidden. You can allow it in the browser's settings.",
+    )
+    await expect(mePage.settings.showMicrophonesButton).toBeVisible()
+    expect(await readMicrophone(page)).toEqual(FakeMic.HEADSET)
+  })
+
+  // Traces to: GC-L2-12
+  test('a remembered microphone that is not plugged in stays selected, marked in words, and is kept', async ({
+    page,
+    fakeMic,
+    mePage,
+  }) => {
+    await seedApp(page, { microphone: FakeMic.HEADSET })
+    await fakeMic.plugIn([FakeMic.BUILT_IN])
+    await mePage.goto()
+    await mePage.openSettings()
+
+    await expect(mePage.settings.microphoneOptions).toHaveText([
+      'System default',
+      'Built-in microphone',
+      "Ada's headset (not plugged in)",
+    ])
+    await expect(mePage.settings.selectedMicrophone).toHaveText("Ada's headset (not plugged in)")
+    await expect(mePage.settings.microphoneHint).toHaveText(
+      "Ada's headset is not plugged in, so the system default is listening for now",
+    )
+    expect(await readMicrophone(page)).toEqual(FakeMic.HEADSET)
+
+    // and when it comes back while the hub is open, the picker catches up by itself
+    await fakeMic.plugInNow(FakeMic.HEADSET)
+    await expect(mePage.settings.selectedMicrophone).toHaveText("Ada's headset")
+    await expect(mePage.settings.microphoneHint).toHaveText(
+      'A headset works best: it stops the tablet hearing its own melody',
+    )
+  })
+
+  // Traces to: GC-L2-12
+  test('a microphone plugged in while the hub is open appears in the picker', async ({
+    page,
+    fakeMic,
+    mePage,
+  }) => {
+    await seedApp(page)
+    await fakeMic.plugIn([FakeMic.BUILT_IN])
+    await mePage.goto()
+    await mePage.openSettings()
+    await expect(mePage.settings.microphoneOptions).toHaveText(['System default', 'Built-in microphone'])
+
+    await fakeMic.plugInNow(FakeMic.HEADSET)
+
+    await expect(mePage.settings.microphoneOptions).toHaveText([
+      'System default',
+      'Built-in microphone',
+      "Ada's headset",
+    ])
+    await expect(mePage.settings.selectedMicrophone).toHaveText('System default')
+  })
+
+  // Traces to: GC-L2-12, AE-L2-22
+  test('a browser that cannot list microphones shows the system default alone, and says why', async ({
+    page,
+    fakeMic,
+    mePage,
+  }) => {
+    await seedApp(page)
+    await fakeMic.cannotList()
+    await mePage.goto()
+    await mePage.openSettings()
+
+    await expect(mePage.settings.microphoneOptions).toHaveText(['System default'])
+    await expect(mePage.settings.microphoneSelect).toBeDisabled()
+    await expect(mePage.settings.microphoneHint).toHaveText('This browser picks the microphone itself')
+    await expect(mePage.settings.showMicrophonesButton).toBeHidden()
+  })
 })

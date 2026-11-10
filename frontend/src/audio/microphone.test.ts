@@ -135,3 +135,40 @@ describe('describePicker: the list (GC-L2-12)', () => {
     ])
   })
 })
+
+describe('describePicker: the other states a browser produces (GC-L2-12)', () => {
+  it('keeps a remembered microphone that is not plugged in, selected and marked in words', () => {
+    const view = describePicker(headset, listing({ microphones: [builtIn] }))
+    expect(view).toEqual({
+      mode: 'list',
+      options: [
+        { value: '', label: 'System default' },
+        { value: 'id-built-in', label: 'Built-in microphone' },
+        { value: 'id-headset', label: "Ada's headset (not plugged in)" },
+      ],
+      selected: 'id-headset',
+      missing: true,
+    })
+  })
+
+  it('offers no list while the browser withholds the names', () => {
+    const view = describePicker(null, listing({ namesHidden: true, microphones: [] }))
+    expect(view.mode).toBe('names-hidden')
+    expect(view.missing).toBe(false)
+  })
+
+  it('does not call a remembered microphone missing while the names are withheld', () => {
+    const view = describePicker(headset, listing({ namesHidden: true, microphones: [] }))
+    expect(view.mode).toBe('names-hidden')
+    expect(view.missing).toBe(false)
+  })
+
+  it('shows the system default alone when the browser cannot list microphones', () => {
+    expect(describePicker(headset, listing({ supported: false, microphones: [] }))).toEqual({
+      mode: 'unsupported',
+      options: [{ value: '', label: 'System default' }],
+      selected: '',
+      missing: false,
+    })
+  })
+})
