@@ -33,6 +33,22 @@ test.describe('Grown-Ups Corner', () => {
     expect(state.profile.latencyMs).toBe(100)
   })
 
+  // Traces to: AS-L2-6
+  test('on a screen shorter than the dialog, it scrolls so Close can be reached', async ({
+    page,
+    mePage,
+  }) => {
+    await page.setViewportSize({ width: 360, height: 640 })
+    await seedApp(page)
+    await mePage.goto()
+    await mePage.openSettings()
+
+    await mePage.settings.closeButton.scrollIntoViewIfNeeded()
+    await expect(mePage.settings.closeButton).toBeInViewport({ ratio: 1 })
+    await mePage.settings.closeButton.click()
+    await expect(mePage.settings.dialog).toHaveCount(0)
+  })
+
   test('voice setup can be redone from settings', async ({ page, mePage, voiceSetupPage }) => {
     await seedApp(page)
     await mePage.goto()
