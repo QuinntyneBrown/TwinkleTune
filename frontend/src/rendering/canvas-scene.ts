@@ -7,6 +7,9 @@ import {
   type RendererKind,
 } from './types'
 
+/** Matches the `.stage` lane colour in screens.css and the sing mock. */
+const LANE_COLOR = '#EAF4FC'
+
 interface Spark {
   x: number
   y: number
@@ -118,7 +121,8 @@ export class CanvasScene implements ReactiveScene {
     const energy = this.state.energy * 0.7 + (this.state.onNote ? 0.3 : 0)
     const gradient = ctx.createLinearGradient(0, 0, 0, height)
     gradient.addColorStop(0, this.options.kind === 'results' ? '#B9DDF5' : '#FFFFFF')
-    gradient.addColorStop(0.55, '#E8F7FF')
+    // The sing stage keeps the mock's plain white-to-pale backdrop so its lanes stay visible.
+    if (this.options.kind === 'results') gradient.addColorStop(0.55, '#E8F7FF')
     gradient.addColorStop(1, this.options.kind === 'results' ? '#F4DBE3' : '#F3FAFF')
     ctx.fillStyle = gradient
     ctx.fillRect(0, 0, width, height)
@@ -169,17 +173,12 @@ export class CanvasScene implements ReactiveScene {
     }
   }
 
+  /** The mock's six pitch lanes: a 3/50-row band at the bottom of each sixth (SG-L2-27). */
   private drawPitchGrid(ctx: CanvasRenderingContext2D, width: number, height: number): void {
-    ctx.save()
-    ctx.strokeStyle = 'rgba(185,221,245,.32)'
-    ctx.lineWidth = Math.max(1, height / 300)
-    for (let y = height / 6; y < height; y += height / 6) {
-      ctx.beginPath()
-      ctx.moveTo(0, y)
-      ctx.lineTo(width, y)
-      ctx.stroke()
-    }
-    ctx.restore()
+    const row = height / 6
+    const band = (row * 3) / 50
+    ctx.fillStyle = LANE_COLOR
+    for (let k = 1; k <= 6; k++) ctx.fillRect(0, k * row - band, width, band)
   }
 
   private drawSpark(ctx: CanvasRenderingContext2D, size: number): void {

@@ -66,8 +66,12 @@ struct BackdropOut {
   let aura = exp(-dot(delta, delta) * (12.0 - u.energy * 4.0));
   color += mix(vec3f(0.35, 0.72, 0.95), vec3f(1.0, 0.74, 0.22), u.onNote) * aura * (0.08 + u.energy * 0.22);
   if (u.kind < 0.5) {
-    let line = 1.0 - smoothstep(0.0, 0.008, abs(fract(uv.y * 6.0) - 0.5));
-    color = mix(color, vec3f(0.725, 0.867, 0.961), line * 0.12);
+    // The mock's six pitch lanes: a 3/50-row band at the bottom of each sixth (SG-L2-27).
+    let rowPx = u.resolution.y / 6.0;
+    let fromRowBottom = (1.0 - fract(uv.y * 6.0)) * rowPx;
+    let bandPx = rowPx * 3.0 / 50.0;
+    let lane = 1.0 - smoothstep(bandPx - 0.5, bandPx + 0.5, fromRowBottom);
+    color = mix(color, vec3f(0.918, 0.957, 0.988), lane);
   }
   return vec4f(color, 1.0);
 }

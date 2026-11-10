@@ -184,3 +184,4 @@ The product is decomposed into thirteen subsystems. Each has its own `L1.md` and
 | 1.4 | 2026-11-09 | Voice‑comprehension improvements | Note evidence measured in time, independent of frame rate (SR-L2-2, SR-L2-19, SG-L2-9). |
 | 1.5 | 2026-11-09 | Voice‑comprehension improvements | Fixed‑step pitch analysis independent of frame pacing (AE-L2-21, SG-L2-26, SR-L2-19). |
 | 1.6 | 2026-11-09 | Voice‑comprehension improvements | Find My Voice capture window on the fixed step (VP-L2-3, VP-L2-4). |
+| 1.7 | 2026-11-10 | Sing screen mock parity | Pitch lanes drawn by every scene renderer (SG-L2-27). |

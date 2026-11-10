@@ -90,6 +90,17 @@ The feature spans `frontend/src/screens/sing.ts` and four modules under
   landed note calls `visual.burst(0.55 + Math.min(0.45, streak / 20))`, and finishing
   calls `visual.burst(1)`.
 
+- **Pitch lanes** — both renderers paint an opaque backdrop over the stage, so
+  they, not the stage's CSS background, draw the mock's lanes. The sing scene
+  (`kind: 'sing'`) divides its height into six equal rows and fills the last
+  `3/50` of each row in the lane colour `#EAF4FC` across the full width, which
+  on the 300 px stage is the mock's 3 px band at 47–50 px, 97–100 px, and so on.
+  `CanvasScene.drawPitchGrid` fills those bands after the aura, before the
+  sparks; the WebGPU backdrop fragment mixes the same colour into the same
+  bands with a one-pixel soft edge. The Canvas2D sing backdrop runs from white
+  to `#F3FAFF` like the mock's stage, with no mid-height stop, so no part of it
+  matches the lane colour (`SG-L2-27`).
+
 ## Requirements
 
 The feature realizes the following level-2 (L2) requirements. Each L2 requirement
@@ -98,6 +109,7 @@ refines a level-1 (L1) requirement, cited by identifier.
 | L2 ID | Refines (L1) | Requirement |
 |-------|--------------|-------------|
 | `SG-L2-23` | `SG-L1-1, SG-L1-2, SG-L1-5` | The pitch stage shall retain its semantic DOM gameplay while a decorative scene reacts to normalized voice energy, singer position, on-note state, streak, and progress. The scene shall prefer WebGPU, fall back silently to Canvas2D, and render a still presentation when reduced motion is requested. It shall pause while the document is hidden and release all resources on exit. |
+| `SG-L2-27` | `SG-L1-1` | The pitch stage shall show six evenly spaced horizontal lanes across its full width, as in the sing mock: each a 3 px band in the lane colour ending at the bottom of each sixth of the stage height. Every scene renderer, still or animated, shall draw them. |
 
 ## Diagrams
 
