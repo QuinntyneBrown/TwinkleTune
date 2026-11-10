@@ -123,7 +123,8 @@ Picker (`ui/settings.ts`):
   and a `<button class="btn btn-sm btn-white" data-microphone-names>Show
   microphones</button>`. Only one of the select and the button is visible at a
   time.
-- **`renderMicrophones(listing)`** — fills the row from `describePicker`. In
+- **`renderMicrophones(declined = false)`** — lists the microphones and fills
+  the row from `describePicker`. In
   `list` mode it shows the select with the options and the selected value; in
   `names-hidden` mode it hides the select and shows the button; in `unsupported`
   mode it shows the select disabled.
@@ -134,8 +135,9 @@ Picker (`ui/settings.ts`):
   plugged in, so the system default is listening for now" (missing), and "This
   browser picks the microphone itself" (unsupported).
 - **select `change` handler** — `''` calls `deviceSettings.setMicrophone(null)`;
-  any other value saves `{ deviceId, label }` of the chosen option. It then
-  renders again, which removes a "not plugged in" entry that is no longer
+  any other value saves `{ deviceId, label }` of the chosen option, except the
+  "not plugged in" entry, which is the saved choice already and is left as it
+  is. It then renders again, which removes a "not plugged in" entry that is no longer
   selected. There is no save button.
 - **"Show microphones" handler** — awaits `revealMicrophoneNames()`, then lists
   and renders again; a refusal renders the declined hint and keeps the button.
@@ -253,5 +255,8 @@ Decisions taken, with their known consequences.
 9. **No test step and no level meter in the picker.** A grown-up finds out
    whether the right microphone is listening by singing a song or opening the
    tuner. Deferred.
-10. **The privacy disclosure is unchanged.** It lists what leaves the device;
+10. **The hub is taller than a short screen.** With seven rows the card exceeds
+    a 720 px viewport. The dialog overlay scrolls (`AS-L2-6`), so "Close" stays
+    reachable; nothing is added here for it.
+11. **The privacy disclosure is unchanged.** It lists what leaves the device;
     the microphone choice does not, so `GC-L2-10`'s copy still tells the truth.
