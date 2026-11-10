@@ -22,7 +22,7 @@ visual source of truth: a new or changed screen is mocked here before it is impl
 The set follows the `writing-html-mocks` skill (`.claude/skills/writing-html-mocks/`): one token
 file, one component kit, a manifest, a generated gallery and a generated coverage matrix.
 
-**29 screens, 92 mocks:** 11 pages (47 states), 17 dialogs (39 states), 1 toast (6 states).
+**29 screens, 96 mocks:** 11 pages (47 states), 17 dialogs (43 states), 1 toast (6 states).
 
 ## Opening the mocks
 
@@ -181,7 +181,7 @@ Legend: ✅ mock exists · ➖ not applicable (reason in manifest) · ❌ missin
 | Find My Voice (`voice-setup`) | [✅](pages/voice-setup/default.html) | ➖ | ➖ | ➖ |  | [✅](pages/voice-setup/listening-low.html) | [✅](pages/voice-setup/holding.html) | [✅](pages/voice-setup/listening-high.html) |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | `VP-L2-1`, `VP-L2-2`, `VP-L2-3`, `VP-L2-5`, `VP-L2-6`, `VP-L2-7`, `VP-L2-15` |
 | Home (`home`) | [✅](pages/home/default.html) | ➖ | [✅](pages/home/empty.html) | ➖ |  |  |  |  | [✅](pages/home/goal-complete.html) |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | `RP-L2-2`, `RP-L2-3`, `RP-L2-4`, `RP-L2-10`, `CE-L2-2`, `CE-L2-6`, `AS-L2-5`, `VP-L2-13` |
 | Pick a Song (`songs`) | [✅](pages/songs/default.html) | ➖ | [✅](pages/songs/empty.html) | ➖ |  |  |  |  |  | [✅](pages/songs/offline.html) | [✅](pages/songs/no-range.html) | [✅](pages/songs/filtered.html) | [✅](pages/songs/no-results.html) |  |  |  |  |  |  |  |  |  |  |  |  |  |  | `SL-L2-4`, `SL-L2-5`, `SL-L2-14`, `VP-L2-12`, `HS-L2-13`, `DM-L2-13` |
-| Sing! (`sing`) | [✅](pages/sing/default.html) | ➖ | ➖ | ➖ |  |  |  |  |  |  |  |  |  | [✅](pages/sing/ready.html) | [✅](pages/sing/countdown.html) | [✅](pages/sing/no-mic.html) | [✅](pages/sing/standard-key.html) | [✅](pages/sing/practice.html) | [✅](pages/sing/duet.html) |  |  |  |  |  |  |  |  | `SG-L2-2`, `SG-L2-3`, `SG-L2-4`, `SG-L2-5`, `SG-L2-6`, `SG-L2-7`, `SG-L2-8`, `SG-L2-11`, `SG-L2-12`, `SG-L2-14`, `SG-L2-17`, `DM-L2-14`, `CE-L2-3` |
+| Sing! (`sing`) | [✅](pages/sing/default.html) | ➖ | ➖ | ➖ |  |  |  |  |  |  |  |  |  | [✅](pages/sing/ready.html) | [✅](pages/sing/countdown.html) | [✅](pages/sing/no-mic.html) | [✅](pages/sing/standard-key.html) | [✅](pages/sing/practice.html) | [✅](pages/sing/duet.html) |  |  |  |  |  |  |  |  | `SG-L2-2`, `SG-L2-3`, `SG-L2-4`, `SG-L2-5`, `SG-L2-6`, `SG-L2-7`, `SG-L2-8`, `SG-L2-11`, `SG-L2-12`, `SG-L2-14`, `SG-L2-17`, `SG-L2-28`, `DM-L2-14`, `CE-L2-3` |
 | Results (`results`) | [✅](pages/results/default.html) | ➖ | ➖ | ➖ |  |  |  |  |  |  | [✅](pages/results/no-range.html) |  |  |  |  | [✅](pages/results/no-mic.html) |  |  | [✅](pages/results/duet.html) | [✅](pages/results/three-stars.html) | [✅](pages/results/one-star.html) | [✅](pages/results/duet-waiting.html) |  |  |  |  |  | `SR-L2-9`, `SR-L2-10`, `SR-L2-11`, `SR-L2-12`, `SR-L2-13`, `SR-L2-14`, `SR-L2-16`, `SR-L2-17`, `DM-L2-15`, `CE-L2-8`, `CE-L2-9` |
 | Twinkle's Tips (`tips`) | [✅](pages/tips/default.html) | ➖ | ➖ | ➖ |  |  |  |  |  |  |  | [✅](pages/tips/filtered.html) |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | `CE-L2-4`, `CE-L2-5`, `CE-L2-7`, `AS-L2-5` |
 | My Star Journey (`me`) | [✅](pages/me/default.html) | ➖ | [✅](pages/me/empty.html) | ➖ |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | `RP-L2-1`, `RP-L2-2`, `RP-L2-4`, `RP-L2-5`, `RP-L2-6`, `RP-L2-9`, `VP-L2-14`, `GC-L2-2` |
@@ -191,25 +191,25 @@ Legend: ✅ mock exists · ➖ not applicable (reason in manifest) · ❌ missin
 
 ### Dialogs
 
-| Screen | default | busy | invalid | practice | duet | loading | empty | failed | edit | family | Requirements |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| Microphone needed (Sing) (`mic-ask`) | [✅](dialogs/mic-ask/default.html) | ➖ | ➖ |  |  |  |  |  |  |  | `SG-L2-20`, `SG-L2-14`, `AE-L2-14` |
-| Microphone needed (Find My Voice) (`mic-denied`) | [✅](dialogs/mic-denied/default.html) | ➖ | ➖ |  |  |  |  |  |  |  | `VP-L2-15`, `AE-L2-14` |
-| Voice found (`voice-found`) | [✅](dialogs/voice-found/default.html) | ➖ | ➖ |  |  |  |  |  |  |  | `VP-L2-10`, `VP-L2-11`, `VP-L2-12` |
-| Song tuned for you (`tuned-for-you`) | [✅](dialogs/tuned-for-you/default.html) | ➖ | ➖ |  |  |  |  |  |  |  | `SG-L2-13`, `VP-L2-12` |
-| Paused (`pause`) | [✅](dialogs/pause/default.html) | ➖ | ➖ | [✅](dialogs/pause/practice.html) | [✅](dialogs/pause/duet.html) |  |  |  |  |  | `SG-L2-18`, `SG-L2-17` |
-| Tip walk-through (`tip`) | [✅](dialogs/tip/default.html) | ➖ | ➖ |  |  |  |  |  |  |  | `CE-L2-5` |
-| Parent gate (`parent-gate`) | [✅](dialogs/parent-gate/default.html) | ➖ | [✅](dialogs/parent-gate/invalid.html) |  |  |  |  |  |  |  | `GC-L2-1`, `GC-L2-2` |
-| Grown-Ups Corner (`grown-ups-corner`) | [✅](dialogs/grown-ups-corner/default.html) | ➖ | ➖ |  |  |  |  |  |  |  | `GC-L2-3`, `GC-L2-4`, `GC-L2-5`, `GC-L2-10`, `GC-L2-11` |
-| Confirm reset (`confirm-reset`) | [✅](dialogs/confirm-reset/default.html) | ➖ | ➖ |  |  |  |  |  |  |  | `GC-L2-9` |
-| Family high scores (`song-board`) | [✅](dialogs/song-board/default.html) | ➖ | ➖ |  |  | [✅](dialogs/song-board/loading.html) | [✅](dialogs/song-board/empty.html) | [✅](dialogs/song-board/failed.html) |  |  | `HS-L2-7`, `HS-L2-12`, `HS-L2-13`, `HS-L2-15` |
-| New or edit singer (`singer-editor`) | [✅](dialogs/singer-editor/default.html) | ➖ | [✅](dialogs/singer-editor/invalid.html) |  |  |  |  | [✅](dialogs/singer-editor/failed.html) | [✅](dialogs/singer-editor/edit.html) |  | `PP-L2-8`, `PP-L2-9`, `PP-L2-13`, `PP-L2-15` |
-| Confirm remove singer (`confirm-remove-singer`) | [✅](dialogs/confirm-remove-singer/default.html) | ➖ | ➖ |  |  |  |  | [✅](dialogs/confirm-remove-singer/failed.html) |  |  | `PP-L2-15` |
-| Songbook manager (`song-manager`) | [✅](dialogs/song-manager/default.html) | ➖ | ➖ |  |  | [✅](dialogs/song-manager/loading.html) |  | [✅](dialogs/song-manager/failed.html) |  |  | `GC-L2-6`, `SL-L2-11` |
-| Song editor (`song-editor`) | [✅](dialogs/song-editor/default.html) | ➖ | [✅](dialogs/song-editor/invalid.html) |  |  |  |  | [✅](dialogs/song-editor/failed.html) | [✅](dialogs/song-editor/edit.html) |  | `GC-L2-6`, `SL-L2-7`, `SL-L2-10` |
-| Confirm delete song (`confirm-delete-song`) | [✅](dialogs/confirm-delete-song/default.html) | ➖ | ➖ |  |  |  |  | [✅](dialogs/confirm-delete-song/failed.html) |  | [✅](dialogs/confirm-delete-song/family.html) | `GC-L2-7` |
-| Avatar manager (`avatar-manager`) | [✅](dialogs/avatar-manager/default.html) | ➖ | ➖ |  |  | [✅](dialogs/avatar-manager/loading.html) |  | [✅](dialogs/avatar-manager/failed.html) |  |  | `GC-L2-8`, `PP-L2-11`, `PP-L2-12` |
-| Avatar editor (`avatar-editor`) | [✅](dialogs/avatar-editor/default.html) | ➖ | [✅](dialogs/avatar-editor/invalid.html) |  |  |  |  | [✅](dialogs/avatar-editor/failed.html) | [✅](dialogs/avatar-editor/edit.html) |  | `GC-L2-8`, `PP-L2-11` |
+| Screen | default | busy | invalid | practice | duet | names-hidden | declined | not-plugged-in | unsupported | loading | empty | failed | edit | family | Requirements |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Microphone needed (Sing) (`mic-ask`) | [✅](dialogs/mic-ask/default.html) | ➖ | ➖ |  |  |  |  |  |  |  |  |  |  |  | `SG-L2-20`, `SG-L2-14`, `AE-L2-14` |
+| Microphone needed (Find My Voice) (`mic-denied`) | [✅](dialogs/mic-denied/default.html) | ➖ | ➖ |  |  |  |  |  |  |  |  |  |  |  | `VP-L2-15`, `AE-L2-14` |
+| Voice found (`voice-found`) | [✅](dialogs/voice-found/default.html) | ➖ | ➖ |  |  |  |  |  |  |  |  |  |  |  | `VP-L2-10`, `VP-L2-11`, `VP-L2-12` |
+| Song tuned for you (`tuned-for-you`) | [✅](dialogs/tuned-for-you/default.html) | ➖ | ➖ |  |  |  |  |  |  |  |  |  |  |  | `SG-L2-13`, `VP-L2-12` |
+| Paused (`pause`) | [✅](dialogs/pause/default.html) | ➖ | ➖ | [✅](dialogs/pause/practice.html) | [✅](dialogs/pause/duet.html) |  |  |  |  |  |  |  |  |  | `SG-L2-18`, `SG-L2-17` |
+| Tip walk-through (`tip`) | [✅](dialogs/tip/default.html) | ➖ | ➖ |  |  |  |  |  |  |  |  |  |  |  | `CE-L2-5` |
+| Parent gate (`parent-gate`) | [✅](dialogs/parent-gate/default.html) | ➖ | [✅](dialogs/parent-gate/invalid.html) |  |  |  |  |  |  |  |  |  |  |  | `GC-L2-1`, `GC-L2-2` |
+| Grown-Ups Corner (`grown-ups-corner`) | [✅](dialogs/grown-ups-corner/default.html) | ➖ | ➖ |  |  | [✅](dialogs/grown-ups-corner/names-hidden.html) | [✅](dialogs/grown-ups-corner/declined.html) | [✅](dialogs/grown-ups-corner/not-plugged-in.html) | [✅](dialogs/grown-ups-corner/unsupported.html) |  |  |  |  |  | `GC-L2-3`, `GC-L2-4`, `GC-L2-5`, `GC-L2-10`, `GC-L2-11`, `GC-L2-12`, `AE-L2-22` |
+| Confirm reset (`confirm-reset`) | [✅](dialogs/confirm-reset/default.html) | ➖ | ➖ |  |  |  |  |  |  |  |  |  |  |  | `GC-L2-9` |
+| Family high scores (`song-board`) | [✅](dialogs/song-board/default.html) | ➖ | ➖ |  |  |  |  |  |  | [✅](dialogs/song-board/loading.html) | [✅](dialogs/song-board/empty.html) | [✅](dialogs/song-board/failed.html) |  |  | `HS-L2-7`, `HS-L2-12`, `HS-L2-13`, `HS-L2-15` |
+| New or edit singer (`singer-editor`) | [✅](dialogs/singer-editor/default.html) | ➖ | [✅](dialogs/singer-editor/invalid.html) |  |  |  |  |  |  |  |  | [✅](dialogs/singer-editor/failed.html) | [✅](dialogs/singer-editor/edit.html) |  | `PP-L2-8`, `PP-L2-9`, `PP-L2-13`, `PP-L2-15` |
+| Confirm remove singer (`confirm-remove-singer`) | [✅](dialogs/confirm-remove-singer/default.html) | ➖ | ➖ |  |  |  |  |  |  |  |  | [✅](dialogs/confirm-remove-singer/failed.html) |  |  | `PP-L2-15` |
+| Songbook manager (`song-manager`) | [✅](dialogs/song-manager/default.html) | ➖ | ➖ |  |  |  |  |  |  | [✅](dialogs/song-manager/loading.html) |  | [✅](dialogs/song-manager/failed.html) |  |  | `GC-L2-6`, `SL-L2-11` |
+| Song editor (`song-editor`) | [✅](dialogs/song-editor/default.html) | ➖ | [✅](dialogs/song-editor/invalid.html) |  |  |  |  |  |  |  |  | [✅](dialogs/song-editor/failed.html) | [✅](dialogs/song-editor/edit.html) |  | `GC-L2-6`, `SL-L2-7`, `SL-L2-10` |
+| Confirm delete song (`confirm-delete-song`) | [✅](dialogs/confirm-delete-song/default.html) | ➖ | ➖ |  |  |  |  |  |  |  |  | [✅](dialogs/confirm-delete-song/failed.html) |  | [✅](dialogs/confirm-delete-song/family.html) | `GC-L2-7` |
+| Avatar manager (`avatar-manager`) | [✅](dialogs/avatar-manager/default.html) | ➖ | ➖ |  |  |  |  |  |  | [✅](dialogs/avatar-manager/loading.html) |  | [✅](dialogs/avatar-manager/failed.html) |  |  | `GC-L2-8`, `PP-L2-11`, `PP-L2-12` |
+| Avatar editor (`avatar-editor`) | [✅](dialogs/avatar-editor/default.html) | ➖ | [✅](dialogs/avatar-editor/invalid.html) |  |  |  |  |  |  |  |  | [✅](dialogs/avatar-editor/failed.html) | [✅](dialogs/avatar-editor/edit.html) |  | `GC-L2-8`, `PP-L2-11` |
 
 ### Notifications
 

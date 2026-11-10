@@ -99,7 +99,7 @@
     <header class="ds-header">
       <p class="ds-kicker">Component · Inputs</p>
       <h1>Select</h1>
-      <p class="ds-lead">The browser's own drop-down in the system's sunken well. Children meet one big select, the duet song in the Duet lobby; grown-ups pick difficulty and art style in the song editor.</p>
+      <p class="ds-lead">The browser's own drop-down in the system's sunken well. Children meet one big select, the duet song in the Duet lobby; grown-ups pick difficulty and art style in the song editor, and the microphone in the Grown-Ups Corner.</p>
       <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill">Native <code>&lt;select&gt;</code></span><span class="ds-pill">Status: stable</span><span class="ds-pill">Class <code>.select</code></span></div>
       <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
     </header>
@@ -176,6 +176,13 @@
       </div>
     </div>
     <div class="ds-example__caption"><span>When there is no sensible default, a disabled first option asks for a choice. Use it only on grown-up forms with <code>required</code>.</span></div>
+  </div>
+  <h3>In a setting row</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-w-form">
+      <div class="setting-row" style="width: 100%;"><span>Microphone<br><small>A headset works best: it stops the tablet hearing its own melody</small></span><select class="select select-sm" aria-label="Microphone"><option>System default</option><option>Built-in microphone</option><option selected>Ada's headset</option><option>USB microphone</option></select></div>
+    </div>
+    <div class="ds-example__caption"><span>A <code>.select-sm</code> inside a <code>.setting-row</code> takes just over half the row and saves the moment it changes, like the slider beside it. The Grown-Ups Corner's microphone picker is the one use. Name it with <code>aria-label</code> when the visible label is the row's text.</span></div>
   </div>
   <h3>Mock markup (still valid)</h3>
   <div class="ds-example">
