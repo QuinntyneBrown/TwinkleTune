@@ -42,10 +42,12 @@ two manager entry points from `ui/managers.ts`.
   when `profile.range` is present, and the literal `not set yet` otherwise.
 - **`midiToName(midi)`** — helper from `frontend/src/audio/range.ts` that renders
   a MIDI note number as a note name.
-- **hub composition** — six `.setting-row` blocks plus the danger-zone button,
+- **hub composition** — seven `.setting-row` blocks plus the danger-zone button,
   in fixed order: mic timing offset (`[data-latency]` with
-  `[data-latency-label]`), pitch matching (the `[data-strictness]` radio group;
-  see `choose-pitch-strictness`), voice range with the "Re-do" link
+  `[data-latency-label]`), microphone (`[data-microphone]`,
+  `[data-microphone-names]` and `[data-microphone-hint]`; see
+  [choose microphone](../choose-microphone/README.md)), pitch matching (the
+  `[data-strictness]` radio group; see `choose-pitch-strictness`), voice range with the "Re-do" link
   (`[data-close-link]`), family content with `[data-songs-mgr]` and
   `[data-avatars-mgr]`, singers with the "Manage" link (`[data-close-link2]`),
   and the reset button (`[data-reset]`). A `[data-close]` link closes the hub.
@@ -73,7 +75,7 @@ refines a level-1 (L1) requirement, cited by identifier.
 
 | L2 ID | Refines (L1) | Requirement |
 |-------|--------------|-------------|
-| `GC-L2-3` | `GC-L1-2` | The settings hub shall present, in one place: the microphone timing offset, the pitch strictness choice, a voice re-setup shortcut, the song and avatar managers, a profiles-management shortcut, and a danger-zone reset, alongside the privacy disclosure. |
+| `GC-L2-3` | `GC-L1-2`, `GC-L1-9` | The settings hub shall present, in one place: the microphone timing offset, the microphone picker (`GC-L2-12`), the pitch strictness choice, a voice re-setup shortcut, the song and avatar managers, a profiles-management shortcut, and a danger-zone reset, alongside the privacy disclosure. |
 | `GC-L2-5` | `GC-L1-2` | The hub shall offer a shortcut to re-run "Find My Voice", showing the current range. |
 
 ## Diagrams

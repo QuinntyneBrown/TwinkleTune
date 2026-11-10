@@ -28,7 +28,7 @@ end box
 
 child -> flow : tap start
 flow -> tracker : start()
-tracker -> mic : getUserMedia(audio)
+tracker -> mic : getUserMedia(audio) — the chosen microphone, or the system default if it is unavailable (AE-L2-22)
 alt permission granted
   mic --> tracker : media stream
   tracker --> flow : ok

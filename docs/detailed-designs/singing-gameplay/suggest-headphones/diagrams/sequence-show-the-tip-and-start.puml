@@ -1,0 +1,55 @@
+@startuml
+title UML sequence behaviour — Show the tip and start the song
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Young singer" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Sing screen (renderSing)" as sing
+  participant "headphoneTipShown" as flag
+  participant "[data-coach] bubble" as bubble
+  participant "PitchTracker" as tracker
+  participant "SongPlayer" as player
+end box
+
+actor -> sing : Open a song, a practice loop or a duet
+sing -> flag : read
+alt first Sing screen of this visit
+  sing -> bubble : "Psst… headphones or a headset help me hear just you! 🎧" (SG-L2-28)
+  sing -> flag : set true
+else already shown this visit
+  sing -> bubble : "Take a big balloon breath… 🎈"
+end
+sing --> actor : Stage with one action: the start button
+
+actor -> sing : Tap start (the same single tap as before)
+opt shifted song, first time this visit, not a duet
+  sing --> actor : "Tuned just for YOU!" dialog (SG-L2-13), unchanged
+end
+sing -> tracker : start()
+alt microphone allowed
+  tracker --> sing : running
+  sing -> player : begin(): count-in, then the song
+  note over bubble : the tip stays through the count-in
+  sing -> bubble : first phrase cue replaces the tip (SG-L2-8)
+else microphone declined
+  tracker --> sing : NotAllowedError
+  sing --> actor : "Can Twinkle hear you sing?" (SG-L2-20), unchanged
+  opt "Sing just for fun"
+    actor -> sing : Tap
+    sing -> bubble : "Take a big balloon breath… 🎈" — nothing is listening (SG-L2-28)
+    sing -> player : begin() in no-mic mode
+  end
+end
+@enduml

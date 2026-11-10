@@ -1,0 +1,20 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Suggest headphones
+
+Container_Boundary(sing, "Sing screen (sing.ts)") {
+  Component(flag, "headphoneTipShown", "module-level boolean", "false at app load; set on the first render")
+  Component(render, "renderSing()", "TypeScript", "Opens the bubble with HEADPHONE_TIP or READY_LINE")
+  Component(bubble, "[data-coach] bubble", "HTML element", "Twinkle's one line")
+  Component(start, "[data-start] button", "HTML button", "The one action; runs the unchanged start flow")
+  Component(karaoke, "updateKaraoke()", "TypeScript", "Writes the phrase cue when the first phrase begins")
+  Component(fun, "micDialog() Sing just for fun", "TypeScript", "Enters no-mic mode")
+}
+
+Rel(render, flag, "reads, then sets true")
+Rel(render, bubble, "HEADPHONE_TIP the first time, READY_LINE after")
+Rel(karaoke, bubble, "replaces the tip with a phrase cue")
+Rel(fun, bubble, "replaces the tip with READY_LINE")
+Rel(start, karaoke, "song begins; the tip is not consulted")
+@enduml

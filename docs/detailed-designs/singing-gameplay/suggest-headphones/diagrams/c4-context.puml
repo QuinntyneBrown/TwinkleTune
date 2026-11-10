@@ -1,0 +1,15 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Suggest headphones
+
+Person(singer, "Young singer", "Reads Twinkle's tip before she sings")
+System(twinkle, "TwinkleTune web app", "On-device singing app; shows the headphone tip in the coach bubble (TypeScript)")
+System_Ext(mic, "Browser microphone and Web Audio", "Hears the singer and, without headphones, the tablet's own melody")
+System_Ext(server, "Family server", "Relays duet events; knows nothing about the tip")
+
+Rel(singer, twinkle, "Opens a song; taps start as before")
+Rel(twinkle, singer, "Psst… headphones or a headset help me hear just you!")
+Rel(twinkle, mic, "Starts listening after the tap, exactly as before")
+Rel(twinkle, server, "Duet start and score events only", "SignalR")
+@enduml

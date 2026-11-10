@@ -1,0 +1,38 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Suggest headphones
+
+class "sing.ts" as SingMod <<screen module>> {
+  {static} HEADPHONE_TIP: string
+  {static} READY_LINE: string
+  {static} -headphoneTipShown: boolean
+  {static} -tunedDialogShown: Set<string>
+  +renderSing(root, params): () => void
+  -maybeTunedDialogThenStart(): void
+  -startFlow(): Promise<void>
+  -micDialog(): void
+  -updateKaraoke(beat: number): void
+}
+
+class "coach bubble" as Bubble <<DOM, [data-coach]>> {
+  textContent: string
+}
+
+class PitchTracker {
+  +start(): Promise<void>
+}
+
+SingMod --> Bubble : opening line, phrase cue, ready line
+SingMod ..> PitchTracker : startFlow, unchanged
+@enduml

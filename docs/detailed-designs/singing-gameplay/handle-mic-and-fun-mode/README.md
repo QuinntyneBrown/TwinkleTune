@@ -34,11 +34,16 @@ path, and the teardown closure of `frontend/src/screens/sing.ts`.
   MOVE YOUR STAR", and calls `begin()`. A thrown permission error is caught and
   routed to `micDialog()`.
 - **`PitchTracker.start()`** (`frontend/src/audio/pitch.ts`) — requests the
-  microphone; it throws `NotAllowedError` when the microphone is denied.
+  microphone: the device's microphone choice when there is one, the system
+  default otherwise. A chosen microphone that is not plugged in is not a
+  failure; the tracker starts on the system default and `startFlow` never
+  learns of it (`AE-L2-22`). It throws `NotAllowedError` when the microphone is
+  denied, and only that reaches `micDialog()`.
 - **`micDialog()`** — a non-dismissible `showModal` (`dismissible: false`) with
   three actions: "Yes, let's sing!" retries `startFlow`; "Sing just for fun" sets
-  `noMic = true`, sets the stage label to "SING ALONG AND HAVE FUN", and calls
-  `begin()`; "Back to songs" navigates to `#/songs`.
+  `noMic = true`, sets the stage label to "SING ALONG AND HAVE FUN", puts the
+  coach bubble back on its ready line (the headphone tip has no place when
+  nothing is listening, `SG-L2-28`), and calls `begin()`; "Back to songs" navigates to `#/songs`.
 - **`noMic`** — the fun-mode flag. When set, `loop()` reads no pitch (`frame =
   noMic ? null : tracker.read()`), accumulates no scoring frames, the star drifts
   to centre, and the sparkle pill stays `✨ 0`.

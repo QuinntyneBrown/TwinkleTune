@@ -1,0 +1,16 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Suggest headphones
+
+Person(singer, "Young singer", "About to sing")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(sing, "Sing screen", "TypeScript (screens/sing.ts)", "Coach bubble, start button, start flow; remembers the tip for the visit")
+  Container(engine, "Audio engine", "TypeScript (audio/)", "Player and pitch tracker, started by the start flow")
+  Container(duet, "Duet session", "TypeScript (api/duet.ts)", "Synchronised start between two tablets")
+}
+
+Rel(singer, sing, "Reads the bubble; taps start")
+Rel(sing, engine, "startFlow(): tracker.start(), then begin() — unchanged")
+Rel(sing, duet, "Ready and start events — the tip takes no part")
+@enduml

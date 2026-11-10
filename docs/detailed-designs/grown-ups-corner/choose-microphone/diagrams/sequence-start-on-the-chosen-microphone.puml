@@ -1,0 +1,58 @@
+@startuml
+title UML sequence behaviour — Start listening on the chosen microphone
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Caller (Sing, Find My Voice, tuner)" as caller
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "PitchTracker" as tracker
+  participant "deviceSettings" as device
+  participant "microphone-access.ts" as access
+  participant "microphone.ts (pure)" as pure
+end box
+box "Device — Browser" #FFF4E5
+  participant "mediaDevices" as media
+end box
+
+caller -> tracker : start()
+tracker -> device : getMicrophone()
+device --> tracker : choice or null
+
+alt no choice
+  tracker -> media : getUserMedia(EC/NS/AGC off) — exactly as before (AE-L2-14)
+else a choice is saved
+  tracker -> access : listMicrophones()
+  access --> tracker : listing
+  tracker -> pure : resolveMicrophone(choice, listing)
+  pure --> tracker : deviceId, or null when it matches nothing listed
+  alt deviceId
+    tracker -> media : getUserMedia(EC/NS/AGC off, deviceId: { exact }) (AE-L2-22)
+    alt refused, but not a permission denial (unplugged, stale identifier)
+      media --> tracker : OverconstrainedError / NotFoundError
+      tracker -> media : getUserMedia(EC/NS/AGC off) — the system default (AE-L2-22)
+    end
+  else null
+    tracker -> media : getUserMedia(EC/NS/AGC off) — the system default (AE-L2-22)
+  end
+end
+
+alt stream opened
+  media --> tracker : MediaStream
+  tracker -> tracker : inputLatency = track.getSettings().latency (feeds SG-L2-19)
+  tracker --> caller : running = true
+else permission denied
+  media --> tracker : NotAllowedError
+  tracker --> caller : throws NotAllowedError; the caller shows its usual dialog (AE-L2-14)
+end
+@enduml

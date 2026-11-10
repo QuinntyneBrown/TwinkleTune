@@ -40,12 +40,15 @@ call takes part.
   confirmation, so a single modal stays on screen.
 - **reset confirmation modal** — `showModal` with `ariaLabel: 'Confirm reset'`,
   the heading "Really start over?", and the body "This erases the profile,
-  sparkles, badges and voice range on this device." It offers `[data-yes]`
+  sparkles, badges, voice range and microphone choice on this device." It offers `[data-yes]`
   ("Yes, erase everything") and `[data-no]` ("Keep my stuff").
 - **decline path** — `[data-no]` calls `close2()` only. No store call is made and
   no navigation occurs.
-- **erase path** — `[data-yes]` calls `store.reset()`, then `close2()`, then sets
-  `location.hash = '#/welcome'`.
+- **erase path** — `[data-yes]` calls `store.reset()` and
+  `deviceSettings.setMicrophone(null)`, then `close2()`, then sets
+  `location.hash = '#/welcome'`. The second call removes the device-level key
+  `twinkletune:microphone`, so the app listens on the system default again
+  (`GC-L2-12`).
 - **`Store.reset(): void`** — implementation in `createStore`. It assigns
   `state = emptyState()` and calls `storage.removeItem(key)`, so both the
   in-memory state and the persisted blob are cleared in one step.
@@ -71,7 +74,7 @@ refines a level-1 (L1) requirement, cited by identifier.
 
 | L2 ID | Refines (L1) | Requirement |
 |-------|--------------|-------------|
-| `GC-L2-9` | `GC-L1-6` | The hub shall offer a "start over" reset that, only after an explicit confirmation, erases the active profile and progress on the device and returns to onboarding; declining shall keep everything. |
+| `GC-L2-9` | `GC-L1-6` | The hub shall offer a "start over" reset that, only after an explicit confirmation, erases the active profile and progress on the device, forgets the device's microphone choice, and returns to onboarding; declining shall keep everything. |
 
 ## Diagrams
 
