@@ -28,7 +28,10 @@ The terms below are used throughout.
   octave each was sung in
 - folded cents difference — signed distance in cents between sung and target
   pitch after octave folding, held in (−600, +600]
-- hit tolerance — ±50 cent band inside which one sung frame counts as on-pitch
+- hit tolerance — band, in cents either side of a note, inside which one sung
+  frame counts as on-pitch: 80, 65, or 50 by the singer's pitch strictness level
+- pitch strictness — level a grown-up chooses per singer (Gentle, Just right,
+  Precise); a singer with none is judged as Precise
 - observed frame — animation frame that fell inside a note's span, whether or
   not a voice was heard in it
 - sung frame — frame attributed to a note in which a pitch was detected
@@ -68,7 +71,12 @@ Frontend — scoring rules (`frontend/src/state/scoring.ts`):
   form normalizes the negative zero JavaScript's `%` can produce. A fifth up
   (MIDI 67 against 60) therefore reads as −500 cents, a fourth down.
 - **`HIT_TOLERANCE_CENTS`** — exported constant `50`, the half-width of the
-  on-pitch band applied to the folded difference.
+  on-pitch band on Precise, which is also the band for a singer with no level.
+- **`pitchStrictness(value)`** — returns `value` when it is `'gentle'`,
+  `'just-right'`, or `'precise'`, and `'precise'` otherwise.
+- **`hitToleranceCents(value)`** — the half-width of the on-pitch band for a
+  singer's stored level: `80`, `65`, or `50`. The bound is inclusive. The level
+  itself is chosen in the Grown-Ups Corner (see `choose-pitch-strictness`).
 - **`noteLanded(r)`** — predicate returning true when all three hold:
   `r.hitMs >= MIN_HIT_MS` (minimum-sample guard),
   `r.hitMs >= MIN_PRECISION * r.voicedMs` (precision), and
@@ -88,7 +96,7 @@ Frontend — accumulation and consumption:
   to a neighbouring note within the timing tolerance, adding the frame's time to
   `totalMs`, `voicedMs`, and `hitMs` accordingly. A frame is
   on-pitch when `Math.abs(foldCents(sungMidi, n.midi + shift)) <=
-  HIT_TOLERANCE_CENTS`; the target is the transposed note, so judgement happens
+  toleranceCents`, the hit tolerance the judge was built with; the target is the transposed note, so judgement happens
   in the singer's own key. The attribution order is specified by the capture and
   score notes feature.
 - **`finalizeNotesUpTo(beat)` (`frontend/src/screens/sing.ts`)** — calls
@@ -109,8 +117,8 @@ Test support — the reference singer (`frontend/src/testing/`):
 - **`singing-acceptance.test.ts`** — asserts the `SR-L2-18` outcomes over every
   bundled song.
 
-Constants (the shipped baseline): `HIT_TOLERANCE_CENTS = 50`,
-`MIN_HIT_MS = 45`, `MIN_PRECISION = 0.5`, `MIN_COVERAGE = 0.25`, fold interval
+Constants (the shipped baseline): hit tolerance `80` / `65` / `50` cents for
+Gentle / Just right / Precise (`HIT_TOLERANCE_CENTS = 50`), `MIN_HIT_MS = 45`, `MIN_PRECISION = 0.5`, `MIN_COVERAGE = 0.25`, fold interval
 `(−600, +600]`.
 
 ### Why the rule changed
@@ -152,9 +160,10 @@ refines a level-1 (L1) requirement, cited by identifier.
 | L2 ID | Refines (L1) | Requirement |
 |-------|--------------|-------------|
 | `SR-L2-1` | `SR-L1-1` | The system shall compare sung and target pitch by pitch class, returning the signed cents difference folded into (−600, +600], so an exact pitch class in any octave reads as 0 cents. |
-| `SR-L2-2` | `SR-L1-2` | A note shall be counted as landed only if it has at least 45 ms of on-pitch time, at least half of its sung time is on-pitch — within ±50 cents, octave-folded — and its on-pitch time is at least a quarter of the time it was observed. Time with no detected pitch shall not count against the note. |
+| `SR-L2-2` | `SR-L1-2` | A note shall be counted as landed only if it has at least 45 ms of on-pitch time, at least half of its sung time is on-pitch — within the singer's hit tolerance (`SR-L2-20`), octave-folded — and its on-pitch time is at least a quarter of the time it was observed. Time with no detected pitch shall not count against the note. |
 | `SR-L2-18` | `SR-L1-1, SR-L1-2` | Taken end to end, the system shall credit a child who sings in tune but imperfectly in time — at least 90% of notes for the reference singer on the beat or 180 ms behind it, including at least 60% of notes of half a beat or less — and shall not credit singing a semitone sharp (at most 5%) or a silent, noisy room (none). |
 
+| `SR-L2-20` | `SR-L1-1, SR-L1-2` | The hit tolerance shall follow the singer's pitch strictness level: ±80 cents on Gentle, ±65 on Just right, ±50 on Precise, with an inclusive bound. A singer with no level, or with a value that is not one of the three, shall be judged as Precise. The same tolerance shall drive the live on-note feedback and the landed decision. |
 | `SR-L2-19` | `SR-L1-2` | The landed decision shall give the same credit at 60 and at 30 frames a second — at least 95% of notes and 90% of short notes for the reference singer at 30 — and degrade gently below that, with at least 90% of notes at 20 frames a second and no more than 5% for a singer a semitone sharp. |
 
 ## Diagrams
@@ -185,16 +194,16 @@ note landed (`SR-L2-1`, `SR-L2-2`).
 
 ### Class structure
 
-`NoteResult` is the record the two rules operate on; `HIT_TOLERANCE_CENTS` is the
-band `foldCents` output is tested against, and the three `MIN_*` constants are
-the landed thresholds (`SR-L2-1`, `SR-L2-2`).
+`NoteResult` is the record the two rules operate on; `hitToleranceCents` gives
+the band `foldCents` output is tested against, and the three `MIN_*` constants
+are the landed thresholds (`SR-L2-1`, `SR-L2-2`, `SR-L2-20`).
 
 ![Class diagram for judging landed notes](diagrams/class-structure.png)
 
 ### Behaviour — judge one note across its frames
 
 Each frame folds the sung pitch against the transposed target and counts its
-time as a hit inside ±50 cents (`SR-L2-1`); a frame with no pitch adds only
+time as a hit inside the singer's hit tolerance (`SR-L2-1`, `SR-L2-20`); a frame with no pitch adds only
 observed time.
 When the note is settled, the minimum-sample guard, the precision rule, and the
 coverage rule decide whether it landed (`SR-L2-2`). The `alt` branches model the

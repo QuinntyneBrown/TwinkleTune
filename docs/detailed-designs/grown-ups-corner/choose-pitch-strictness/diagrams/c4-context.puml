@@ -1,0 +1,16 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Choose pitch strictness
+
+Person(grownup, "Grown-up", "Chooses how closely this singer's pitch must match a note")
+Person(singer, "Young singer", "Sings; sees notes land, never the level")
+System(twinkle, "TwinkleTune web app", "On-device singing app; holds each singer's pitch strictness level (TypeScript)")
+System_Ext(storage, "Browser localStorage", "One profile blob per singer on this device")
+System_Ext(server, "Family server", "Holds the singer record, which carries no strictness field")
+
+Rel(grownup, twinkle, "Picks Gentle, Just right or Precise in the Grown-Ups Corner of")
+Rel(singer, twinkle, "Sings and is judged at her level by")
+Rel(twinkle, storage, "Writes the level at once on each choice")
+Rel(twinkle, server, "Syncs name, avatar and range only — never the level", "JSON/HTTPS")
+@enduml

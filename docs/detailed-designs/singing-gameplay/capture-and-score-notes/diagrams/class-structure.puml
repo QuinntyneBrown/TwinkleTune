@@ -58,6 +58,7 @@ interface NoteResult {
 
 class "scoring" as Scoring <<module>> {
   +HIT_TOLERANCE_CENTS = 50
+  +hitToleranceCents(strictness): number
   +foldCents(sung, target): number
   +noteLanded(r: NoteResult): boolean
 }

@@ -1,0 +1,27 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Choose pitch strictness
+
+Person(grownup, "Grown-up", "Chooses the level")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(hub, "Grown-Ups Corner hub", "TypeScript (ui/settings.ts)", "Pitch matching row: a radio group of three levels")
+  Container(state, "App store", "TypeScript (state/store.ts)", "AppState with the active singer's Profile")
+  Container(scoring, "Scoring rules", "TypeScript (state/scoring.ts)", "Level type, Precise default, level-to-cents mapping")
+  Container(sing, "Sing screen", "TypeScript (screens/sing.ts)", "Builds the note judge for a song")
+  Container(judge, "Note judge", "TypeScript (state/note-judge.ts)", "Tests each sung pitch against the hit tolerance")
+  Container(sync, "Profile sync", "TypeScript (state/profile.ts)", "Merges the server singer into the local profile")
+  ContainerDb(local, "Device profile store", "localStorage", "twinkletune:v1[:singerId] blob per singer")
+}
+System_Ext(api, "Family server API", "/api/singers endpoints")
+
+Rel(grownup, hub, "Picks one of Gentle, Just right, Precise")
+Rel(hub, state, "store.update(profile.strictness = level)")
+Rel(hub, scoring, "pitchStrictness(stored) to choose the checked radio")
+Rel(state, local, "Serializes AppState on every update")
+Rel(sing, state, "Reads profile.strictness when the screen mounts")
+Rel(sing, scoring, "hitToleranceCents(profile.strictness)")
+Rel(sing, judge, "new NoteJudge(notes, shift, toleranceCents)")
+Rel(sync, state, "Rebuilds the profile, preserving prev.strictness")
+Rel(sync, api, "PUT /api/singers/{id} without a strictness field", "JSON/HTTPS")
+@enduml

@@ -1,0 +1,48 @@
+@startuml
+title UML sequence behaviour — Judge the next song at the chosen level
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Young singer" as singer
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Sing screen (sing.ts)" as sing
+  participant "store" as store
+  participant "scoring.ts" as scoring
+  participant "NoteJudge" as judge
+  participant "Profile sync (profile.ts)" as sync
+end box
+box "Backend — Family server" #D1FADF
+  participant "Singers API" as api
+end box
+
+singer -> sing : Opens a song
+sing -> store : store.get().profile
+store --> sing : profile, strictness = gentle
+sing -> scoring : hitToleranceCents(profile.strictness) (SR-L2-20)
+scoring --> sing : 80
+sing -> judge : new NoteJudge(windowNotes, shift, 80)
+
+loop every observation while she sings
+  sing -> judge : observeHops(scoreBeat, hops, timing)
+  judge -> judge : on-pitch when |foldCents(sungMidi, note.midi + shift)| <= 80 (SR-L2-20)
+  judge --> sing : onNote drives the star's glow; tallies drive the landed decision
+end
+note over sing, judge : The judge keeps this tolerance for the whole song;\na level changed in the hub applies from the next one
+
+opt the singer is linked and the server answers
+  sync -> api : PUT /api/singers/{id} with name, avatarId, range — no level (GC-L2-11)
+  api --> sync : singer record
+  sync -> store : applySingerToProfile keeps prev.strictness (GC-L2-11)
+end
+@enduml

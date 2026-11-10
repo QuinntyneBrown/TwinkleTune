@@ -29,8 +29,11 @@ output delay, reported input delay, and half the analysis window
 
 *sung frame* — frame in which the audio engine detected a pitch
 
-*on-pitch frame* — sung frame whose pitch is within 50 cents of a note after
-octave folding and the song shift are applied
+*on-pitch frame* — sung frame whose pitch is within the singer's hit tolerance of
+a note after octave folding and the song shift are applied
+
+*hit tolerance* — 80, 65, or 50 cents, by the pitch strictness level a grown-up
+chose for the singer; 50 when she has none
 
 *timing tolerance* — 180 ms of real time either side of a note's span inside
 which a sung frame that matches the note is still credited to it
@@ -65,8 +68,11 @@ with no DOM or audio dependency. The `loop()` and `finalizeNotesUpTo()` function
 of `frontend/src/screens/sing.ts` feed it one frame per animation tick and turn
 the notes it settles into cheers, streaks, and duet ticks.
 
-- **`NoteJudge(notes, shift)`** — built from the `windowNotes` of the session and
-  the song shift. It owns **`results`**, one `NoteResult` per note holding
+- **`NoteJudge(notes, shift, toleranceCents)`** — built from the `windowNotes` of
+  the session, the song shift, and the active singer's hit tolerance,
+  `hitToleranceCents(profile.strictness)`. The tolerance defaults to
+  `HIT_TOLERANCE_CENTS` and is fixed for the life of the judge, so a level changed
+  in the Grown-Ups Corner applies from the next song. It owns **`results`**, one `NoteResult` per note holding
   `hitMs`, `voicedMs`, `totalMs`, and `firstHitFrac` (from
   `frontend/src/state/scoring.ts`), and a cursor of settled notes.
 - **`latencyBeats` / `scoreBeat`** — `latencyMs = profile.latencyMs +
@@ -112,9 +118,11 @@ the notes it settles into cheers, streaks, and duet ticks.
   a note. The newest observation's `onNote` drives the star's on-note glow and
   the scene burst.
 - **on-pitch test** — `abs(foldCents(sungMidi, n.midi + shift)) <=
-  HIT_TOLERANCE_CENTS`. **`foldCents(sung, target)`** is the octave-folded cents
-  difference in `(-600, 600]`, so any octave counts; **`HIT_TOLERANCE_CENTS`** is
-  `50`.
+  toleranceCents`. **`foldCents(sung, target)`** is the octave-folded cents
+  difference in `(-600, 600]`, so any octave counts. The same test, with the same
+  tolerance, serves the active note and a neighbouring note. Where two notes'
+  bands overlap — a semitone apart, they overlap on Gentle and Just right — the
+  attribution order above decides, and the active note takes the frame.
 - **`NoteJudge.finalize(scoreBeat, toleranceBeats)`** — settles notes in song
   order and returns their indices. The earliest unsettled note is settled once
   its end has passed and either it is already landed or the timing tolerance
@@ -132,7 +140,8 @@ the notes it settles into cheers, streaks, and duet ticks.
   continues.
 
 Constants (the shipped baseline): `TIMING_TOLERANCE_MS = 180`,
-`MAX_FRAME_MS = 40`, `HIT_TOLERANCE_CENTS = 50`.
+`MAX_FRAME_MS = 40`; hit tolerance `80` / `65` / `50` cents by level
+(`HIT_TOLERANCE_CENTS = 50`).
 
 ## Requirements
 
@@ -141,12 +150,12 @@ cited level-1 (L1) requirement(s).
 
 | L2 ID | Refines (L1) | Requirement |
 |-------|--------------|-------------|
-| `SG-L2-9` | `SG-L1-4` | Each frame shall stand for the time since the previous frame, capped at 40 ms. For the currently active note (outside no-mic mode), each frame shall add its time to the observed time. A sung frame shall be attributed per `SG-L2-25`; one within ±50 cents of its note (octave-folded, shift applied) shall add its time to that note's sung and on-pitch time and, on the first such frame, record the fractional position within the note. A sung, off-pitch frame shall add only to the active note's sung time; a frame with no pitch shall change nothing else. |
+| `SG-L2-9` | `SG-L1-4` | Each frame shall stand for the time since the previous frame, capped at 40 ms. For the currently active note (outside no-mic mode), each frame shall add its time to the observed time. A sung frame shall be attributed per `SG-L2-25`; one within the singer's hit tolerance (`SR-L2-20`) of its note (octave-folded, shift applied) shall add its time to that note's sung and on-pitch time and, on the first such frame, record the fractional position within the note. A sung, off-pitch frame shall add only to the active note's sung time; a frame with no pitch shall change nothing else. |
 | `SG-L2-10` | `SG-L1-4, SG-L1-5` | Notes shall be finalised in song order: as a note's end passes if it is already landed, otherwise once the timing tolerance after its end has also passed. A landed note shall increment the landed count and streak, mark the pill, show a random cheer, and update the live sparkle count to `landedCount·10`; a missed note shall reset the streak to 0. No missed note shall produce a negative message. |
 | `SG-L2-19` | `SG-L1-8` | Scoring shall use a latency-compensated beat position — the raw beat minus the sum of the engine's pipeline latency estimate (`AE-L2-18`) and the profile's mic timing offset — while visuals use the raw beat, so that a device with output or input lag still scores the note the child is actually singing. |
 | `SG-L2-22` | `SG-L1-4` | In duet mode, the system shall emit a score tick once per finalised note (not per frame), carrying the landed count, streak, sparkles, and note index; tick delivery failures shall be swallowed so play is never interrupted. (Relay semantics: DM.) |
 | `SG-L2-26` | `SG-L1-4, SG-L1-8` | Each animation frame the system shall take every observation the audio engine returns (`AE-L2-21`) and judge them oldest first, each at its own score beat — the frame's score beat minus the observation's age — and each standing for one hop of time; a frame with no observation shall judge nothing and leave the on-note state as it was. |
-| `SG-L2-25` | `SG-L1-4, SG-L1-8` | Each sung frame shall be attributed to at most one note: the active note when on-pitch for it; otherwise the nearest note whose span ended, or begins, within 180 ms of the score beat and for which it is on-pitch (credited if not yet finalised, and never counted against the active note); otherwise the active note as a sung, off-pitch frame. The tolerance is real time. |
+| `SG-L2-25` | `SG-L1-4, SG-L1-8` | Each sung frame shall be attributed to at most one note, where on-pitch means within the singer's hit tolerance (`SR-L2-20`) for the active note and a neighbour alike: the active note when on-pitch for it; otherwise the nearest note whose span ended, or begins, within 180 ms of the score beat and for which it is on-pitch (credited if not yet finalised, and never counted against the active note); otherwise the active note as a sung, off-pitch frame. The tolerance is real time. Where two notes' bands overlap, the active note takes the frame. |
 
 ## Diagrams
 

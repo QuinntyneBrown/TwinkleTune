@@ -25,7 +25,7 @@ The terms below are used throughout.
   manager, so two dialogs never stack
 
 The hub owns its composition and the two links that leave it. The latency
-slider, the song and avatar managers, the reset confirmation, and the privacy
+slider, the pitch strictness choice, the song and avatar managers, the reset confirmation, and the privacy
 copy each have their own feature; this one covers the container that holds them.
 
 ## Description
@@ -42,14 +42,15 @@ two manager entry points from `ui/managers.ts`.
   when `profile.range` is present, and the literal `not set yet` otherwise.
 - **`midiToName(midi)`** — helper from `frontend/src/audio/range.ts` that renders
   a MIDI note number as a note name.
-- **hub composition** — five `.setting-row` blocks plus the danger-zone button,
+- **hub composition** — six `.setting-row` blocks plus the danger-zone button,
   in fixed order: mic timing offset (`[data-latency]` with
-  `[data-latency-label]`), voice range with the "Re-do" link
+  `[data-latency-label]`), pitch matching (the `[data-strictness]` radio group;
+  see `choose-pitch-strictness`), voice range with the "Re-do" link
   (`[data-close-link]`), family content with `[data-songs-mgr]` and
   `[data-avatars-mgr]`, singers with the "Manage" link (`[data-close-link2]`),
   and the reset button (`[data-reset]`). A `[data-close]` link closes the hub.
 - **`onMount(modal, close)`** — the wiring callback. It binds `input` on the
-  latency slider, `click` on `[data-close]`, and `click` on both hand-off links
+  latency slider, `change` on the pitch strictness radios, `click` on `[data-close]`, and `click` on both hand-off links
   so the hub closes as navigation starts.
 - **manager hand-off** — `[data-songs-mgr]` calls `close()` then
   `showSongManager()`; `[data-avatars-mgr]` calls `close()` then
@@ -60,7 +61,8 @@ two manager entry points from `ui/managers.ts`.
 - **profiles shortcut** — the "Manage" control is an `<a>` with
   `href="#/profiles"`, wired to the same close-on-click behaviour.
 - **`store`** — the app store from `frontend/src/state/store.ts`. `showSettings`
-  reads `store.get().profile` for the slider value and the range label.
+  reads `store.get().profile` for the slider value, the chosen pitch strictness
+  level, and the range label.
 - **`showModal` / `ModalHandle`** — modal host from `ui/modal.ts`; the hub is
   dismissible, so a backdrop click also closes it.
 
@@ -71,7 +73,7 @@ refines a level-1 (L1) requirement, cited by identifier.
 
 | L2 ID | Refines (L1) | Requirement |
 |-------|--------------|-------------|
-| `GC-L2-3` | `GC-L1-2` | The settings hub shall present, in one place: the microphone timing offset, a voice re-setup shortcut, the song and avatar managers, a profiles-management shortcut, and a danger-zone reset, alongside the privacy disclosure. |
+| `GC-L2-3` | `GC-L1-2` | The settings hub shall present, in one place: the microphone timing offset, the pitch strictness choice, a voice re-setup shortcut, the song and avatar managers, a profiles-management shortcut, and a danger-zone reset, alongside the privacy disclosure. |
 | `GC-L2-5` | `GC-L1-2` | The hub shall offer a shortcut to re-run "Find My Voice", showing the current range. |
 
 ## Diagrams
@@ -111,7 +113,7 @@ dependencies (`GC-L2-3`, `GC-L2-5`).
 ### Behaviour — open the hub and read its controls
 
 `showSettings` reads the profile once, derives the range label, and renders all
-six controls in one card (`GC-L2-3`), with the voice range row showing the stored
+seven controls in one card (`GC-L2-3`), with the voice range row showing the stored
 range beside its "Re-do" link (`GC-L2-5`).
 
 ![Sequence diagram for opening the hub and reading its controls](diagrams/sequence-open-the-hub.png)

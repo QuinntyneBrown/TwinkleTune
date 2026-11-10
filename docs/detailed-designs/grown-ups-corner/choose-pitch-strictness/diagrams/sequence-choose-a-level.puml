@@ -1,0 +1,56 @@
+@startuml
+title UML sequence behaviour — Choose a level and persist it
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Grown-Ups Corner hub" as hub
+  participant "scoring.ts" as scoring
+  participant "[data-strictness] radio group" as group
+  participant "store" as store
+end box
+box "Device — Browser storage" #FFF4E5
+  database "localStorage singer blob" as local
+end box
+
+hub -> store : store.get().profile
+store --> hub : profile, with or without strictness
+hub -> scoring : pitchStrictness(profile.strictness)
+alt stored level is one of the three
+  scoring --> hub : the stored level
+else missing or unknown
+  scoring --> hub : precise (GC-L2-11)
+end
+hub -> group : Render Gentle, Just right, Precise with that level checked (GC-L2-11)
+
+actor -> group : Choose "Gentle"
+group -> hub : change event, value = gentle
+hub -> store : store.update(st => st.profile.strictness = gentle) (GC-L2-11)
+store -> local : setItem(key, JSON.stringify(state))
+local --> store : Written
+store --> hub : Level saved at once; no save step
+
+opt the app is reloaded
+  hub -> store : store.get().profile
+  store --> hub : strictness = gentle
+  hub -> group : Render with "Gentle" checked (GC-L2-11)
+end
+
+opt "Start everything over" is confirmed
+  hub -> store : store.reset()
+  store -> local : removeItem(key)
+  note over hub, store : The next profile has no level and reads as Precise (GC-L2-11)
+end
+@enduml
