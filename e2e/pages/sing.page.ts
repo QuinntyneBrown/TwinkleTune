@@ -57,6 +57,36 @@ export class SingPage extends BasePage {
     await this.goto(`?song=${songId}${extra}`)
   }
 
+  /**
+   * For each of the stage's six lanes, the share of pixels painted in the lane
+   * colour, sampled across the scene at the lane band and halfway between lanes.
+   */
+  async sceneLaneCoverage(): Promise<{ onLane: number[]; between: number[] }> {
+    return this.reactiveScene.evaluate((element) => {
+      const canvas = element as HTMLCanvasElement
+      const ctx = canvas.getContext('2d')
+      if (!ctx) throw new Error('scene is not a 2D canvas')
+      const lane = [0xea, 0xf4, 0xfc]
+      const row = canvas.height / 6
+      const share = (y: number): number => {
+        const data = ctx.getImageData(0, Math.floor(y), canvas.width, 1).data
+        let hits = 0
+        let total = 0
+        for (let x = 0; x < canvas.width; x += Math.max(1, Math.floor(canvas.width / 40))) {
+          const i = x * 4
+          total++
+          if (lane.every((c, k) => Math.abs(data[i + k] - c) <= 3)) hits++
+        }
+        return hits / total
+      }
+      const rows = [1, 2, 3, 4, 5, 6]
+      return {
+        onLane: rows.map((k) => share(k * row - (row * 1.5) / 50)),
+        between: rows.map((k) => share(k * row - row / 2)),
+      }
+    })
+  }
+
   /** A finished song redirects to #/results on its own; wait for that. */
   async waitForResults(timeout = 45_000): Promise<void> {
     await this.page.waitForURL(/#\/results$/, { timeout })
