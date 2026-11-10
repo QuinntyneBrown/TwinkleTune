@@ -186,4 +186,4 @@ The product is decomposed into thirteen subsystems. Each has its own `L1.md` and
 | 1.5 | 2026-11-09 | Voice‑comprehension improvements | Fixed‑step pitch analysis independent of frame pacing (AE-L2-21, SG-L2-26, SR-L2-19). |
 | 1.6 | 2026-11-09 | Voice‑comprehension improvements | Find My Voice capture window on the fixed step (VP-L2-3, VP-L2-4). |
 | 1.7 | 2026-11-10 | Sing screen mock parity | Pitch lanes drawn by every scene renderer (SG-L2-27). |
-| 1.8 | 2026-11-10 | Adjustable pitch strictness | A grown‑up chooses Gentle, Just right, or Precise per singer; the hit tolerance follows it (GC-L1-8, GC-L2-3, GC-L2-11, SR-L2-2, SR-L2-20, SG-L2-9, SG-L2-25, PP-L2-1, FS-L2-16). |
+| 1.8 | 2026-11-10 | Adjustable pitch strictness | A grown‑up chooses Gentle, Just right, or Precise per singer; the hit tolerance follows it (GC-L1-8, GC-L2-3, GC-L2-11, SR-L2-2, SR-L2-20, SG-L2-9, SG-L2-25, PP-L2-1, FS-L2-16). A dialog taller than the screen scrolls (AS-L2-6). |

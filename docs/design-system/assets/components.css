@@ -217,6 +217,7 @@ a{color:inherit}
   position:fixed;inset:0;z-index:var(--z-overlay);
   background:var(--color-bg-backdrop);backdrop-filter:blur(var(--space-1));
   display:grid;place-items:center;padding:var(--space-5);
+  overflow-y:auto;overscroll-behavior:contain; /* a card taller than the screen scrolls; its actions are never cut off */
   animation:fadein var(--duration-base) ease both;
 }
 @keyframes fadein{from{opacity:0}to{opacity:1}}
