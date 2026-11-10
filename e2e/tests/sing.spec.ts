@@ -212,6 +212,110 @@ test.describe('Sing a song', () => {
     await expect(songsPage.heading).toBeVisible()
   })
 
+  // Traces to: AE-L2-14
+  test('with no microphone chosen, the song listens on the system default', async ({
+    page,
+    fakeMic,
+    singPage,
+  }) => {
+    await seedApp(page)
+    await fakeMic.use(FakeMic.C4)
+    await fakeMic.plugIn([FakeMic.BUILT_IN, FakeMic.HEADSET])
+    await singPage.open('hotcrossbuns')
+
+    await singPage.startButton.click()
+    await expect(singPage.stageLabel).toHaveText(/MOVE YOUR STAR/)
+
+    expect(await fakeMic.requests()).toEqual([null])
+  })
+
+  // Traces to: AE-L2-22, AE-L2-14, GC-L2-12
+  test('the song listens on the microphone the grown-up chose', async ({ page, fakeMic, singPage }) => {
+    await seedApp(page, { microphone: FakeMic.HEADSET })
+    await fakeMic.use(FakeMic.C4)
+    await fakeMic.plugIn([FakeMic.BUILT_IN, FakeMic.HEADSET])
+    await singPage.open('hotcrossbuns')
+
+    await singPage.startButton.click()
+    await expect(singPage.stageLabel).toHaveText(/MOVE YOUR STAR/)
+    await expect(singPage.singer).not.toHaveClass(/quiet/)
+
+    expect(await fakeMic.requests()).toEqual([FakeMic.HEADSET.deviceId])
+  })
+
+  // Traces to: AE-L2-22
+  test('a chosen microphone whose identifier changed is found again by its name', async ({
+    page,
+    fakeMic,
+    singPage,
+  }) => {
+    await seedApp(page, { microphone: { deviceId: 'mic-headset-last-visit', label: FakeMic.HEADSET.label } })
+    await fakeMic.use(FakeMic.C4)
+    await fakeMic.plugIn([FakeMic.BUILT_IN, FakeMic.HEADSET])
+    await singPage.open('hotcrossbuns')
+
+    await singPage.startButton.click()
+    await expect(singPage.stageLabel).toHaveText(/MOVE YOUR STAR/)
+
+    expect(await fakeMic.requests()).toEqual([FakeMic.HEADSET.deviceId])
+  })
+
+  // Traces to: AE-L2-22, GC-L2-12
+  test('a chosen microphone that is not plugged in is no trouble: the song starts on the system default', async ({
+    page,
+    fakeMic,
+    singPage,
+  }) => {
+    await seedApp(page, { microphone: FakeMic.HEADSET })
+    await fakeMic.use(FakeMic.C4)
+    await fakeMic.plugIn([FakeMic.BUILT_IN]) // the headset was left in another room
+    await singPage.open('hotcrossbuns')
+
+    await singPage.startButton.click()
+    await expect(singPage.stageLabel).toHaveText(/MOVE YOUR STAR/)
+    await expect(singPage.micDialog).toHaveCount(0)
+    await expect(singPage.singer).not.toHaveClass(/quiet/)
+
+    expect(await fakeMic.requests()).toEqual([null])
+  })
+
+  // Traces to: AE-L2-22
+  test('when the browser withholds microphone names, a stale choice still falls back to the system default', async ({
+    page,
+    fakeMic,
+    singPage,
+  }) => {
+    await seedApp(page, { microphone: { deviceId: 'mic-gone', label: 'Old headset' } })
+    await fakeMic.use(FakeMic.C4)
+    await fakeMic.plugIn([FakeMic.BUILT_IN], { namesHidden: true })
+    await singPage.open('hotcrossbuns')
+
+    await singPage.startButton.click()
+    await expect(singPage.stageLabel).toHaveText(/MOVE YOUR STAR/)
+    await expect(singPage.micDialog).toHaveCount(0)
+
+    // it could not know, so it tried the saved microphone first, then the default
+    expect(await fakeMic.requests()).toEqual(['mic-gone', null])
+  })
+
+  // Traces to: AE-L2-14, SG-L2-20
+  test('a denied microphone still leads to the microphone dialog when one was chosen', async ({
+    page,
+    fakeMic,
+    singPage,
+  }) => {
+    await seedApp(page, { microphone: FakeMic.HEADSET })
+    await fakeMic.plugIn([FakeMic.BUILT_IN, FakeMic.HEADSET])
+    await fakeMic.deny()
+    await singPage.open('hotcrossbuns')
+
+    await singPage.startButton.click()
+    await expect(singPage.micDialog).toContainText('Can Twinkle hear you sing?')
+
+    // a refusal is not papered over by asking again for another microphone
+    expect(await fakeMic.requests()).toEqual([FakeMic.HEADSET.deviceId])
+  })
+
   test('an unknown song id bounces back to the song list', async ({ page, songsPage }) => {
     await seedApp(page)
     await page.goto('/#/sing?song=doesnotexist')
