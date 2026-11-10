@@ -4,7 +4,7 @@
 **Product:** TwinkleTune — a voice‑personalized singing app for young performers
 **Specification baseline:** v1.0
 **Status:** Approved for release baseline
-**Last updated:** 2026-07-18
+**Last updated:** 2026-11-10
 
 ---
 
@@ -130,16 +130,16 @@ The product is decomposed into thirteen subsystems. Each has its own `L1.md` and
 | Code | Subsystem | Responsibility |
 |------|-----------|----------------|
 | **VP** | [voice-personalization](./voice-personalization/) | "Find My Voice" range capture and per‑song transposition into the singer's key. |
-| **AE** | [audio-engine](./audio-engine/) | On‑device melody synthesis (transpose, tempo, count‑in, practice segments) and real‑time microphone pitch detection. |
+| **AE** | [audio-engine](./audio-engine/) | On‑device melody synthesis (transpose, tempo, count‑in, practice segments) real‑time microphone pitch detection, and listening on a chosen microphone. |
 | **SL** | [song-library](./song-library/) | The song data model, the bundled public‑domain catalogue, the server songbook with offline cache/fallback, and song validation. |
-| **SG** | [singing-gameplay](./singing-gameplay/) | The live "Sing!" experience: synchronised note pills, karaoke highlight, pitch‑driven avatar, and per‑note live scoring capture. |
+| **SG** | [singing-gameplay](./singing-gameplay/) | The live "Sing!" experience: synchronised note pills, karaoke highlight, pitch‑driven avatar, per‑note live scoring capture, and the headphone tip before singing. |
 | **SR** | [scoring-and-results](./scoring-and-results/) | Octave‑forgiving scoring, star/timing/braveness assessment, tricky‑part detection, the results screen, and practise‑the‑tricky‑part. |
 | **RP** | [rewards-and-progression](./rewards-and-progression/) | Sparkles, levels and titles, badges, daily streak and goal ring, per‑song bests, and the progress ("Me") view. |
 | **PP** | [player-profiles](./player-profiles/) | Switchable singer profiles, avatars, profile photos, per‑profile storage namespacing, and first‑run onboarding. |
 | **HS** | [family-high-scores](./family-high-scores/) | Server‑owned per‑song family high scores, upsert‑if‑better semantics, and per‑song / per‑singer boards. |
 | **DM** | [duet-multiplayer](./duet-multiplayer/) | Two‑device real‑time duets: room codes, the SignalR relay, synchronised start, opponent overlay, and combined results. |
 | **CE** | [coaching-and-encouragement](./coaching-and-encouragement/) | The Twinkle mascot, tips and warm‑ups, celebration, and the encouragement‑only tone system. |
-| **GC** | [grown-ups-corner](./grown-ups-corner/) | The parent gate, mic‑latency calibration, the pitch strictness choice, voice re‑setup, the song and avatar managers, reset, and privacy disclosure. |
+| **GC** | [grown-ups-corner](./grown-ups-corner/) | The parent gate, mic‑latency calibration, the microphone picker, the pitch strictness choice, voice re‑setup, the song and avatar managers, reset, and privacy disclosure. |
 | **AS** | [application-shell](./application-shell/) | Client routing, screen shell and bottom navigation, the installable PWA, and offline caching. |
 | **FS** | [family-server-platform](./family-server-platform/) | Backend architecture (Clean Architecture, EF Core + SQLite), REST/CORS/health surface, security posture, and graceful client degradation. |
 
@@ -162,6 +162,9 @@ The product is decomposed into thirteen subsystems. Each has its own `L1.md` and
 | **Seed song** | One of the seven bundled public‑domain melodies, present both in the offline bundle and in the server's seed data. |
 | **Parent gate** | A client‑side challenge (a simple arithmetic question) that guards the Grown‑Ups Corner and destructive actions. |
 | **No‑mic mode** | A "just for fun" play mode with no microphone; it never earns scored badges or high scores. |
+| **Microphone choice** | The microphone a grown‑up picked for a device in the Grown‑Ups Corner. One per device, shared by every singer on it, kept on the device and never synced. |
+| **System default** | The microphone the browser hands over when none is named. The app listens on it when there is no microphone choice, or when the chosen microphone is not plugged in. |
+| **Headphone tip** | Twinkle's one‑line suggestion, before singing, that headphones or a headset help her hear just the singer. A tip, never a gate. |
 
 ---
 
@@ -187,3 +190,4 @@ The product is decomposed into thirteen subsystems. Each has its own `L1.md` and
 | 1.6 | 2026-11-09 | Voice‑comprehension improvements | Find My Voice capture window on the fixed step (VP-L2-3, VP-L2-4). |
 | 1.7 | 2026-11-10 | Sing screen mock parity | Pitch lanes drawn by every scene renderer (SG-L2-27). |
 | 1.8 | 2026-11-10 | Adjustable pitch strictness | A grown‑up chooses Gentle, Just right, or Precise per singer; the hit tolerance follows it (GC-L1-8, GC-L2-3, GC-L2-11, SR-L2-2, SR-L2-20, SG-L2-9, SG-L2-25, PP-L2-1, FS-L2-16). A dialog taller than the screen scrolls (AS-L2-6). |
+| 1.9 | 2026-11-10 | Microphone choice and headphone guidance | A grown‑up can pick the microphone the device listens on, with the system default as fallback (AE-L1-8, AE-L2-14, AE-L2-22, GC-L1-9, GC-L2-3, GC-L2-9, GC-L2-12, FS-L2-16); a headphone tip before singing (SG-L1-10, SG-L2-28). |
