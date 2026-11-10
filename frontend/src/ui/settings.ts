@@ -1,7 +1,15 @@
+import { pitchStrictness, type PitchStrictness } from '../state/scoring'
 import { store } from '../state/store'
 import { midiToName } from '../audio/range'
 import { showModal } from './modal'
 import { showAvatarManager, showSongManager } from './managers'
+
+/** The three pitch strictness levels, gentlest first, as a grown-up reads them. */
+const STRICTNESS_CHOICES: readonly { value: PitchStrictness; label: string }[] = [
+  { value: 'gentle', label: 'Gentle' },
+  { value: 'just-right', label: 'Just&nbsp;right' },
+  { value: 'precise', label: 'Precise' },
+]
 
 /** The Grown-Ups Corner — reached only through the parent gate. */
 export function showSettings(): void {
@@ -10,6 +18,7 @@ export function showSettings(): void {
   const rangeLabel = profile?.range
     ? `${midiToName(profile.range.low)} – ${midiToName(profile.range.high)}`
     : 'not set yet'
+  const strictness = pitchStrictness(profile?.strictness)
 
   showModal({
     ariaLabel: 'Grown-ups corner',
@@ -23,6 +32,15 @@ export function showSettings(): void {
         <span>Mic timing offset<br><small style="color:var(--ink-soft)">If cheers feel late, nudge this</small></span>
         <input type="range" min="-300" max="300" step="10" value="${profile?.latencyMs ?? 0}" data-latency>
         <b data-latency-label>${profile?.latencyMs ?? 0} ms</b>
+      </div>
+      <div class="setting-row">
+        <span id="strictness-label">Pitch matching<br><small style="color:var(--ink-soft)">How close a note must be to count</small></span>
+        <div class="radio-group" role="radiogroup" aria-labelledby="strictness-label" data-strictness>
+          ${STRICTNESS_CHOICES.map(
+            (c) =>
+              `<label class="radio"><input type="radio" name="strictness" value="${c.value}"${c.value === strictness ? ' checked' : ''}><span class="radio-dot" aria-hidden="true"></span><span>${c.label}</span></label>`,
+          ).join('')}
+        </div>
       </div>
       <div class="setting-row">
         <span>Voice range<br><small style="color:var(--ink-soft)">${rangeLabel}</small></span>
@@ -51,6 +69,13 @@ export function showSettings(): void {
         label.textContent = `${slider.value} ms`
         store.update((st) => {
           if (st.profile) st.profile.latencyMs = Number(slider.value)
+        })
+      })
+      // the choice is saved by the event that makes it: there is no save step
+      modal.querySelector('[data-strictness]')?.addEventListener('change', (e) => {
+        const chosen = pitchStrictness((e.target as HTMLInputElement).value)
+        store.update((st) => {
+          if (st.profile) st.profile.strictness = chosen
         })
       })
       modal.querySelector('[data-close]')?.addEventListener('click', close)
