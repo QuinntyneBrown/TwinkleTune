@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data tables and lists — TwinkleTune design system</title>
+<meta name="description" content="Song lists, grown-up manager rows, family high-score boards and the mastered-songs list in TwinkleTune, plus the table for wide grown-up views.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Pattern</p>
+      <h1>Data tables and lists</h1>
+      <p class="ds-lead">Lists in TwinkleTune are rows of big friendly cards, not data grids. Songs, family content, high scores and mastered songs each have a row shape that leads with an emoji, says one thing clearly, and puts the action where a thumb expects it.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill">Status: stable</span><span class="ds-pill">Classes <code>.song</code> <code>.mgr-row</code> <code>.board-row</code> <code>.mastered</code> <code>.table</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#when">When to use which</a></li><li><a href="#structure">Structure</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>Four row shapes cover every list in the mocks. Each starts with an emoji or art tile so a child who cannot read yet still recognises the row.</p>
+  <ul>
+    <li><b>Song rows</b> (<a href="../components/song-row.html"><code>.song</code></a>): art, title, meta (duration, difficulty, <em>✓ In your key</em>, 🏆 and Duet mini buttons) and a round blue ▶. Preceded by the pink <em>Sing it again!</em> card and followed by the dashed gift note.</li>
+    <li><b>Manager rows</b> (<code>.mgr-row</code>): emoji, name (with <small>built-in</small> where it applies), ✏️ edit and 🗑️ delete icon buttons. Grown-ups only.</li>
+    <li><b>Board rows</b> (<code>.board-row</code>): medal, singer avatar, name, stars, percentage. One row per family singer, her best on that song.</li>
+    <li><b>Mastered rows</b> (<code>.mastered</code>): emoji, song title, gold stars. Read-only, on Me.</li>
+  </ul>
+  <p>The <a href="../components/table.html">table</a>, <a href="../components/list.html">list</a> and <a href="../components/pagination.html">pagination</a> components are not in the mocks yet; they are added for wide grown-up views of family data (all high scores across songs, every singer) and follow the same tokens.</p>
+</section>
+
+<section class="ds-section" id="when"><h2><a href="#when">When to use which</a></h2>
+  <table class="ds-table"><thead><tr><th scope="col">Content</th><th scope="col">Use</th><th scope="col">Not</th></tr></thead><tbody>
+    <tr><td>Things to sing</td><td>Song rows, filtered by difficulty <a href="../components/chip.html">chips</a></td><td>A table, a grid of tiny tiles</td></tr>
+    <tr><td>Family content a grown-up edits</td><td>Manager rows in a <code>.modal-wide</code>, with <em>+ New</em> below</td><td>Swipe-to-delete, long-press menus</td></tr>
+    <tr><td>Who sang a song best</td><td>Board rows in the song's board dialog</td><td>A global leaderboard (there is none, by design)</td></tr>
+    <tr><td>What a singer has achieved</td><td>Mastered rows and <a href="../components/reward-badge.html">badges</a> on Me</td><td>A list of failures or songs not yet sung</td></tr>
+    <tr><td>Many records with several values each, grown-ups only, wide screen</td><td><code>.table</code> in a <code>.table-wrap</code></td><td>Board rows stretched to 1000px</td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="structure"><h2><a href="#structure">Structure</a></h2>
+  <h3>The songs list</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack ds-sky">
+      <div class="ds-w-screen">
+        <section class="again-card" aria-label="Sing it again">
+          <span class="art-emoji" aria-hidden="true">🌉</span>
+          <div class="again-body"><strong>Sing it again!</strong><small>London Bridge · you know this one ✨</small></div>
+          <button class="btn btn-pink" type="button" aria-label="Sing London Bridge again">▶</button>
+        </section>
+        <article class="song">
+          <div class="art art-1" aria-hidden="true">⭐</div>
+          <div class="song-body">
+            <strong>Twinkle Twinkle Little Star</strong>
+            <div class="song-meta">
+              <span>⏱ 0:29</span><span>⭐ Easy</span><span class="tuned" title="Moved 3 notes higher for you 💙">✓ In your key</span>
+              <span class="song-actions"><button class="mini-btn" type="button" aria-label="High scores for Twinkle Twinkle Little Star">🏆</button><button class="mini-btn" type="button" aria-label="Duet Twinkle Twinkle Little Star">🎤🎤 Duet</button></span>
+            </div>
+          </div>
+          <button class="play" type="button" aria-label="Sing Twinkle Twinkle Little Star">▶</button>
+        </article>
+        <article class="song">
+          <div class="art art-4" aria-hidden="true">🔔</div>
+          <div class="song-body">
+            <strong>Frère Jacques</strong>
+            <div class="song-meta"><span>⏱ 0:20</span><span>⭐ Easy</span><span class="tuned" title="Moved 3 notes higher for you 💙">✓ In your key</span></div>
+          </div>
+          <button class="play" type="button" aria-label="Sing Frère Jacques">▶</button>
+        </article>
+        <div class="new-songs"><span class="ico" aria-hidden="true">🎁</span>Grown-ups can add new songs in the Grown-Ups Corner!</div>
+      </div>
+    </div>
+    <div class="ds-example__caption"><span>Order: <em>Sing it again!</em> (only after she has sung), bundled songs then family songs, the gift note last. Offline, the 🏆 and Duet buttons are not offered.</span></div>
+  </div>
+
+  <h3>The family high-score board</h3>
+  <div class="ds-example">
+    <div class="ds-stage">
+      <div class="overlay">
+        <div class="modal modal-wide" role="dialog" aria-labelledby="tl-board-title">
+          <h3 id="tl-board-title">🏆 Twinkle Twinkle Little Star</h3>
+          <ol class="list" aria-label="Family best scores">
+            <li class="board-row"><span class="pos" role="img" aria-label="First">🥇</span><span class="em" aria-hidden="true">🦄</span><span class="nm">Ada</span><span role="img" aria-label="3 of 3 stars">★★★</span><span class="board-pct">95%</span></li>
+            <li class="board-row"><span class="pos" role="img" aria-label="Second">🥈</span><span class="em" aria-hidden="true">🦊</span><span class="nm">Mum</span><span role="img" aria-label="2 of 3 stars">★★☆</span><span class="board-pct">81%</span></li>
+            <li class="board-row"><span class="pos" role="img" aria-label="Third">🥉</span><span class="em" aria-hidden="true">🐱</span><span class="nm">Bea</span><span role="img" aria-label="2 of 3 stars">★★☆</span><span class="board-pct">67%</span></li>
+          </ol>
+          <button class="link-quiet" type="button">Close</button>
+        </div>
+      </div>
+    </div>
+    <div class="ds-example__caption"><span>Family only, one row per singer, her best. Everyone on the board has a medal-shaped place; there is no "last".</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;ol class="list" aria-label="Family best scores"&gt;
+  &lt;li class="board-row"&gt;
+    &lt;span class="pos" role="img" aria-label="First"&gt;🥇&lt;/span&gt;&lt;span class="em" aria-hidden="true"&gt;🦄&lt;/span&gt;
+    &lt;span class="nm"&gt;Ada&lt;/span&gt;&lt;span role="img" aria-label="3 of 3 stars"&gt;★★★&lt;/span&gt;&lt;span class="board-pct"&gt;95%&lt;/span&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;</code></pre></details>
+  </div>
+
+  <h3>Manager rows and mastered rows</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack">
+      <ul class="list ds-w-form" aria-label="Songbook">
+        <li class="mgr-row"><span class="em" aria-hidden="true">🥐</span><span>Hot Cross Buns <small>built-in</small></span><button class="icon-btn" type="button" aria-label="Edit Hot Cross Buns">✏️</button><button class="icon-btn" type="button" aria-label="Delete Hot Cross Buns">🗑️</button></li>
+        <li class="mgr-row"><span class="em" aria-hidden="true">🔔</span><span>Frère Jacques</span><button class="icon-btn" type="button" aria-label="Edit Frère Jacques">✏️</button><button class="icon-btn" type="button" aria-label="Delete Frère Jacques">🗑️</button></li>
+      </ul>
+      <ul class="list ds-w-form" aria-label="Songs I shine at">
+        <li class="mastered"><span class="em" aria-hidden="true">⭐</span><span>Twinkle Twinkle Little Star</span><b role="img" aria-label="3 of 3 stars">★★★</b></li>
+        <li class="mastered"><span class="em" aria-hidden="true">🌉</span><span>London Bridge</span><b role="img" aria-label="2 of 3 stars">★★☆</b></li>
+      </ul>
+    </div>
+    <div class="ds-example__caption"><span>Manager actions are named with the item (<em>Edit Hot Cross Buns</em>). Mastered stars are gold; an unearned star is pale, never crossed.</span></div>
+  </div>
+
+  <h3>Table for wide grown-up views</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack">
+      <div class="table-wrap">
+        <table class="table">
+          <caption>Family high scores</caption>
+          <thead><tr><th scope="col">Song</th><th scope="col">Singer</th><th scope="col" class="num-cell">Stars</th><th scope="col" class="num-cell">Best</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">⭐ Twinkle Twinkle Little Star</th><td>🦄 Ada</td><td class="num-cell">3</td><td class="num-cell">95%</td></tr>
+            <tr><th scope="row">🐑 Mary Had a Little Lamb</th><td>🦄 Ada</td><td class="num-cell">3</td><td class="num-cell">92%</td></tr>
+            <tr><th scope="row">🌉 London Bridge</th><td>🦊 Mum</td><td class="num-cell">2</td><td class="num-cell">81%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ds-example__caption"><span>Not in the mocks yet; added for the family-server managers on wide screens. Numbers right-aligned in tabular figures.</span></div>
+  </div>
+</section>
+
+<section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+  <table class="ds-table"><thead><tr><th scope="col">List</th><th scope="col">Loading</th><th scope="col">Empty</th><th scope="col">Failed / offline</th></tr></thead><tbody>
+    <tr><td>Songs</td><td>Never (bundled songs render at once; family songs join when they arrive)</td><td>Gift note only</td><td>Offline banner; bundled songs; no 🏆 / Duet</td></tr>
+    <tr><td>Managers</td><td><em>Loading…</em></td><td>—</td><td><em>The family server is not reachable 📡</em></td></tr>
+    <tr><td>Song board</td><td><em>Loading…</em></td><td><em>No scores yet — be the first! ⭐</em></td><td><em>Scores need the family server 📡</em></td></tr>
+    <tr><td>Mastered</td><td>Never</td><td><em>Sing your first song and it'll shine here!</em></td><td>Never</td></tr>
+  </tbody></table>
+  <div class="ds-matrix"><table>
+    <thead><tr><th scope="col">Row</th><th scope="col">Default</th><th scope="col">Hover</th><th scope="col">Focus (action)</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Song ▶</th><td><button class="play" type="button" aria-label="Sing Hot Cross Buns">▶</button></td><td><button class="play" type="button" aria-label="Sing Mary Had a Little Lamb" data-state="hover">▶</button></td><td><button class="play" type="button" aria-label="Sing Old MacDonald" data-state="focus">▶</button></td></tr>
+      <tr><th scope="row">Mini button</th><td><button class="mini-btn" type="button" aria-label="High scores for Hot Cross Buns">🏆</button></td><td><button class="mini-btn" type="button" aria-label="High scores for Mary Had a Little Lamb" data-state="hover">🏆</button></td><td><button class="mini-btn" type="button" aria-label="High scores for Old MacDonald" data-state="focus">🏆</button></td></tr>
+      <tr><th scope="row">Manager ✏️</th><td><button class="icon-btn" type="button" aria-label="Edit Unicorn">✏️</button></td><td><button class="icon-btn" type="button" aria-label="Edit Kitten" data-state="hover">✏️</button></td><td><button class="icon-btn" type="button" aria-label="Edit Frog" data-state="focus">✏️</button></td></tr>
+    </tbody>
+  </table></div>
+  <h3>Both themes</h3>
+  <div class="ds-themes">
+    <div data-theme="light"><div class="ds-col"><div class="mastered ds-w-full"><span class="em" aria-hidden="true">🥐</span><span>Hot Cross Buns</span><b role="img" aria-label="2 of 3 stars">★★☆</b></div><div class="board-row ds-w-full"><span class="pos" role="img" aria-label="First">🥇</span><span class="em" aria-hidden="true">🦄</span><span class="nm">Ada</span><span role="img" aria-label="3 of 3 stars">★★★</span><span class="board-pct">95%</span></div></div></div>
+    <div data-theme="dark"><div class="ds-col"><div class="mastered ds-w-full"><span class="em" aria-hidden="true">🥐</span><span>Hot Cross Buns</span><b role="img" aria-label="2 of 3 stars">★★☆</b></div><div class="board-row ds-w-full"><span class="pos" role="img" aria-label="First">🥇</span><span class="em" aria-hidden="true">🦄</span><span class="nm">Ada</span><span role="img" aria-label="3 of 3 stars">★★★</span><span class="board-pct">95%</span></div></div></div>
+  </div>
+</section>
+
+<section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+  <ul>
+    <li>Rows fill the 470px column; the art tile and ▶ keep their size and the title area flexes. Long titles wrap to two lines, never truncate.</li>
+    <li>Song meta wraps onto a second line at narrow widths, with the 🏆 and Duet buttons staying together.</li>
+    <li>Manager and board rows live in a 440px dialog; names flex, buttons and numbers keep their width.</li>
+    <li>Tables scroll horizontally inside <code>.table-wrap</code> below their natural width; the first column is the row header so each row still reads on its own. Below 640px prefer the row shapes above to a table.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <ul>
+    <li><b>Semantics</b>: lists are <code>&lt;ul&gt;</code> or, for rankings, <code>&lt;ol&gt;</code>; song rows are <code>&lt;article&gt;</code> with the title as text. The mocks use bare <code>&lt;div&gt;</code> rows; the system keeps the class names and adds list semantics.</li>
+    <li><b>Action names include the item</b>: <em>Sing Twinkle Twinkle Little Star</em>, <em>High scores for …</em>, <em>Duet …</em>, <em>Edit Unicorn</em>, <em>Delete Unicorn</em>. A screen-reader user tabbing through hears which row each button belongs to.</li>
+    <li><b>Stars and medals have words</b>: <code>role="img"</code> + <code>aria-label="2 of 3 stars"</code>; medals read <em>First</em>, <em>Second</em>, <em>Third</em>. The <em>✓ In your key</em> pill explains itself in text; its <code>title</code> (<em>Moved 3 notes higher for you 💙</em>) is a bonus, not the only source.</li>
+    <li><b>Tables</b> have a <code>&lt;caption&gt;</code>, <code>scope</code> on headers and right-aligned numeric columns; sortable headers use a button inside <code>th[aria-sort]</code>.</li>
+    <li><b>Touch</b>: ▶ is 52px; manager icon buttons 44px with 8px between them; mini buttons at least 24px tall with 8px spacing (D23).</li>
+  </ul>
+  <h3>Contrast</h3>
+  <div class="ds-example__canvas ds-example__canvas--stack ds-w-form">
+    <div class="ds-pair"><span>Song meta</span><span class="ds-pair__ratio" data-contrast="--color-fg-muted|--color-bg-surface" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>In your key pill</span><span class="ds-pair__ratio" data-contrast="--color-success-fg|--color-success-bg" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Manager row name</span><span class="ds-pair__ratio" data-contrast="--color-fg-default|--color-bg-surface-sunken" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Mini button label</span><span class="ds-pair__ratio" data-contrast="--color-fg-accent|--color-bg-subtle" data-min="4.5"></span></div>
+  </div>
+</section>
+
+<section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+  <ul>
+    <li>Song titles are the song's real public-domain title; meta uses symbols plus a word: <em>⏱ 0:29</em>, <em>⭐ Easy</em>, <em>⭐⭐ Medium</em>, <em>⭐⭐⭐ Brave</em>.</li>
+    <li>Board percentages are the landed share of her best run. Stars are always shown as filled plus pale (★★☆), never as a number out of three.</li>
+    <li>Managers mark origin with a quiet <small>built-in</small> tag; family songs carry no tag.</li>
+    <li>The list's closing note is an invitation (<em>New songs land every Friday!</em>, <em>Grown-ups can add new songs in the Grown-Ups Corner!</em>), not a count.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas"><button class="icon-btn" type="button" aria-label="Delete Frère Jacques">🗑️</button></div><figcaption>Name row actions with the item: <code>aria-label="Delete Frère Jacques"</code>.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><button class="icon-btn" type="button" aria-label="Delete">🗑️</button><button class="icon-btn" type="button" aria-label="Delete">🗑️</button><button class="icon-btn" type="button" aria-label="Delete">🗑️</button></div><figcaption>Eight identical "Delete" buttons; a screen-reader user cannot tell them apart.</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas ds-example__canvas--stack"><div class="board-row"><span class="pos" role="img" aria-label="Third">🥉</span><span class="em" aria-hidden="true">🐱</span><span class="nm">Bea</span><span role="img" aria-label="2 of 3 stars">★★☆</span><span class="board-pct">67%</span></div></div><figcaption>Give every singer on the family board a medal and her best score.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas ds-example__canvas--stack"><div class="board-row"><span class="pos">#3</span><span class="nm">Bea — last place</span><span class="board-pct">67%</span></div></div><figcaption>Rank anyone "last", or show a global leaderboard of strangers.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+  <ul>
+    <li><a href="../../mocks/pages/songs/default.html">pages/songs/default</a>, <a href="../../mocks/pages/songs/filtered.html">filtered</a>, <a href="../../mocks/pages/songs/offline.html">offline</a>, <a href="../../mocks/pages/songs/no-range.html">no-range</a></li>
+    <li><a href="../../mocks/dialogs/song-manager/default.html">dialogs/song-manager/default</a>, <a href="../../mocks/dialogs/avatar-manager/default.html">dialogs/avatar-manager/default</a></li>
+    <li><a href="../../mocks/dialogs/song-board/default.html">dialogs/song-board/default</a>, <a href="../../mocks/dialogs/song-board/empty.html">empty</a>, <a href="../../mocks/dialogs/song-board/loading.html">loading</a>, <a href="../../mocks/dialogs/song-board/failed.html">failed</a></li>
+    <li><a href="../../mocks/pages/me/default.html">pages/me/default</a> (mastered), <a href="../../mocks/pages/me/empty.html">pages/me/empty</a></li>
+  </ul>
+  <p>Drift fixed: song meta and secondary text raised to <code>--color-fg-muted</code> (D02); <em>In your key</em> ink to <code>--palette-mint-700</code> (D06); mini buttons kept at 24px or more with 8px spacing (D23); difficulty chips documented as filter chips with <code>aria-pressed</code> rather than tabs without a panel (D18). Table, list and pagination are not in the mocks yet; added for wide grown-up views. See the <a href="../index.html#drift">drift log</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

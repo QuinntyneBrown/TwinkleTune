@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkbox — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune checkbox: single, with description, grouped and select-all, every state including indeterminate, both themes.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Component · Inputs</p>
+      <h1>Checkbox</h1>
+      <p class="ds-lead">A chunky 24px box with a thick edge and a bold tick, for grown-up choices that are saved with a button. Not in the mocks yet; added for the Grown-Ups Corner and the family-server managers.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill">Native <code>&lt;input type="checkbox"&gt;</code></span><span class="ds-pill">Status: new</span><span class="ds-pill">Class <code>.check</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>Use a checkbox for an on/off or pick-several choice inside a form that is saved with a button: which songs to share in a duet, which singers' high scores to clear. If the choice takes effect the moment it is tapped, use a <a href="switch.html">switch</a>. If only one answer is allowed, use a <a href="radio-group.html">radio group</a>.</p>
+  <p><b>Not in the mocks yet.</b> Added for the Grown-Ups Corner and the family-server managers (song manager, avatar manager), where a grown-up may act on several rows at once. Children never see a checkbox: on child screens a pick-several choice is a set of <a href="chip.html">chips</a> with <code>aria-pressed</code>.</p>
+  <ul>
+    <li><b>Single</b>: one statement, checked or not.</li>
+    <li><b>With description</b>: a second line in <code>&lt;small&gt;</code> says what the choice means.</li>
+    <li><b>Group</b>: several related boxes in a <code>fieldset.form-group</code> with a <code>&lt;legend&gt;</code>.</li>
+    <li><b>Select all</b>: a parent box that is <em>indeterminate</em> when only some children are checked.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="anatomy"><h2><a href="#anatomy">Anatomy</a></h2>
+  <div class="ds-anatomy">
+    <figure class="ds-anatomy__figure">
+      <label class="check"><input type="checkbox" checked><span class="check-box" aria-hidden="true"></span><span>Count in before each song<small>One bar of clicks before the first note.</small></span></label>
+      <span class="ds-callout" style="left: 2%; top: 10%;" aria-hidden="true">1</span>
+      <span class="ds-callout" style="left: 7%; top: 60%;" aria-hidden="true">2</span>
+      <span class="ds-callout" style="left: 40%; top: 10%;" aria-hidden="true">3</span>
+      <span class="ds-callout" style="left: 60%; top: 80%;" aria-hidden="true">4</span>
+    </figure>
+    <ol class="ds-anatomy__list">
+      <li><div><b>Native input</b><small>Real <code>&lt;input type="checkbox"&gt;</code>, transparent and 24px, laid exactly over the box so it takes focus, clicks and the accessible state.</small></div></li>
+      <li><div><b>Box</b><small><code>.check-box</code>: 24px (<code>--space-6</code>), 3px <code>--color-border-strong</code> edge, <code>--radius-sm</code> corners, on <code>--color-bg-surface</code>. Checked fills with <code>--color-accent</code> and draws a tick in <code>--color-fg-on-accent</code>.</small></div></li>
+      <li><div><b>Label</b><small>Body text (<code>--text-body</code>). The whole <code>&lt;label class="check"&gt;</code> is the hit area, at least 44px tall.</small></div></li>
+      <li><div><b>Description (optional)</b><small><code>&lt;small&gt;</code> inside the label, <code>--text-body-sm</code> in <code>--color-fg-muted</code>. Part of the name, so keep it short.</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="ds-section" id="variants"><h2><a href="#variants">Variants</a></h2>
+  <h3>Single and with description</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack">
+      <label class="check"><input type="checkbox" checked><span class="check-box" aria-hidden="true"></span><span>Offer the tricky part after a song</span></label>
+      <label class="check"><input type="checkbox"><span class="check-box" aria-hidden="true"></span><span>Show family high scores on Results<small>Scores stay on your home server.</small></span></label>
+    </div>
+    <div class="ds-example__caption"><span>Grown-Ups Corner style settings, saved together with a <em>Save</em> button.</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;label class="check"&gt;
+  &lt;input type="checkbox" name="offerTricky" checked&gt;
+  &lt;span class="check-box" aria-hidden="true"&gt;&lt;/span&gt;
+  &lt;span&gt;Offer the tricky part after a song&lt;/span&gt;
+&lt;/label&gt;</code></pre></details>
+  </div>
+  <h3>Group with select all</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas">
+      <fieldset class="form-group">
+        <legend>Songs in the duet list</legend>
+        <label class="check"><input type="checkbox" data-indeterminate aria-controls="cb-g-1 cb-g-2 cb-g-3"><span class="check-box" aria-hidden="true"></span><span>All family songs</span></label>
+        <label class="check"><input type="checkbox" id="cb-g-1" checked><span class="check-box" aria-hidden="true"></span><span>🔔 Frère Jacques</span></label>
+        <label class="check"><input type="checkbox" id="cb-g-2" checked><span class="check-box" aria-hidden="true"></span><span>🎵 Skip to My Lou</span></label>
+        <label class="check"><input type="checkbox" id="cb-g-3"><span class="check-box" aria-hidden="true"></span><span>🌙 Grandma's Lullaby</span></label>
+      </fieldset>
+    </div>
+    <div class="ds-example__caption"><span>The legend names the group; the parent box is indeterminate because two of three are checked.</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;fieldset class="form-group"&gt;
+  &lt;legend&gt;Songs in the duet list&lt;/legend&gt;
+  &lt;label class="check"&gt;&lt;input type="checkbox" aria-controls="s1 s2 s3"&gt;&lt;span class="check-box" aria-hidden="true"&gt;&lt;/span&gt;&lt;span&gt;All family songs&lt;/span&gt;&lt;/label&gt;
+  &lt;label class="check"&gt;&lt;input type="checkbox" id="s1" checked&gt;…&lt;/label&gt;
+&lt;/fieldset&gt;
+&lt;script&gt;allBox.indeterminate = someChecked &amp;&amp; !allChecked;&lt;/script&gt;</code></pre></details>
+  </div>
+</section>
+
+<section class="ds-section" id="sizes" data-na="One size: a 24px box in a row at least 44px tall."><h2><a href="#sizes">Sizes</a></h2><p class="ds-na">One size: a 24px box in a row at least 44px tall.</p></section>
+
+<section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+  <p>Hover and focus forced with <code>data-state</code> on the label. Indeterminate is a script-only property (<code>input.indeterminate = true</code>); this page sets it on load.</p>
+  <div class="ds-matrix"><table>
+    <thead><tr><th scope="col">Value</th><th scope="col">Default</th><th scope="col">Hover</th><th scope="col">Focus</th><th scope="col">Invalid</th><th scope="col">Disabled</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Unchecked</th>
+        <td><label class="check"><input type="checkbox"><span class="check-box" aria-hidden="true"></span><span>Share</span></label></td>
+        <td><label class="check" data-state="hover"><input type="checkbox"><span class="check-box" aria-hidden="true"></span><span>Share</span></label></td>
+        <td><label class="check" data-state="focus"><input type="checkbox"><span class="check-box" aria-hidden="true"></span><span>Share</span></label></td>
+        <td><label class="check"><input type="checkbox" aria-invalid="true"><span class="check-box" aria-hidden="true"></span><span>Share</span></label></td>
+        <td><label class="check"><input type="checkbox" disabled><span class="check-box" aria-hidden="true"></span><span>Share</span></label></td></tr>
+      <tr><th scope="row">Checked</th>
+        <td><label class="check"><input type="checkbox" checked><span class="check-box" aria-hidden="true"></span><span>Share</span></label></td>
+        <td><label class="check" data-state="hover"><input type="checkbox" checked><span class="check-box" aria-hidden="true"></span><span>Share</span></label></td>
+        <td><label class="check" data-state="focus"><input type="checkbox" checked><span class="check-box" aria-hidden="true"></span><span>Share</span></label></td>
+        <td><span class="ds-na">Not used</span></td>
+        <td><label class="check"><input type="checkbox" checked disabled><span class="check-box" aria-hidden="true"></span><span>Share</span></label></td></tr>
+      <tr><th scope="row">Indeterminate</th>
+        <td><label class="check"><input type="checkbox" data-indeterminate><span class="check-box" aria-hidden="true"></span><span>All</span></label></td>
+        <td><label class="check" data-state="hover"><input type="checkbox" data-indeterminate><span class="check-box" aria-hidden="true"></span><span>All</span></label></td>
+        <td><label class="check" data-state="focus"><input type="checkbox" data-indeterminate><span class="check-box" aria-hidden="true"></span><span>All</span></label></td>
+        <td><span class="ds-na">Not used</span></td>
+        <td><label class="check"><input type="checkbox" data-indeterminate disabled><span class="check-box" aria-hidden="true"></span><span>All</span></label></td></tr>
+    </tbody>
+  </table></div>
+  <script>document.querySelectorAll('input[data-indeterminate]').forEach(function (i) { i.indeterminate = true; });</script>
+  <h3>Both themes</h3>
+  <div class="ds-themes">
+    <div data-theme="light"><div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0;"><label class="check"><input type="checkbox" checked><span class="check-box" aria-hidden="true"></span><span>Count in</span></label><label class="check"><input type="checkbox"><span class="check-box" aria-hidden="true"></span><span>Offer the tricky part</span></label></div></div>
+    <div data-theme="dark"><div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0;"><label class="check"><input type="checkbox" checked><span class="check-box" aria-hidden="true"></span><span>Count in</span></label><label class="check"><input type="checkbox"><span class="check-box" aria-hidden="true"></span><span>Offer the tricky part</span></label></div></div>
+  </div>
+  <ul>
+    <li><b>Hover</b> tints the box <code>--color-accent-subtle</code> and turns its edge blue.</li>
+    <li><b>Checked</b> is a filled blue box and a white tick: shape and fill, never colour alone.</li>
+    <li><b>Indeterminate</b> is a filled box with a dash. Clicking it checks every child.</li>
+    <li><b>Invalid</b> is only for a box that must be ticked to continue, such as confirming a family-wide reset. Pair it with a <code>.field-error</code> that says why.</li>
+    <li><b>Disabled</b> greys the box and the label. Prefer hiding a choice that cannot apply.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+  <ul>
+    <li>Boxes stack one per row at every width; never place two checkboxes side by side in the 340px dialog.</li>
+    <li>Long labels wrap under themselves, not under the box (<code>align-items: flex-start</code> keeps the box beside the first line).</li>
+    <li>In a manager row, the checkbox sits at the start of the row and the row text is its label.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="theming"><h2><a href="#theming">Theming</a></h2>
+  <p>Semantic tokens only. The box is <code>--color-bg-surface</code> with a <code>--color-border-strong</code> edge; checked uses the button's <code>--color-accent</code> and <code>--color-fg-on-accent</code>, so in the night studio it lightens to brand blue with a navy tick, exactly like the blue toy button.</p>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <h3>Role and pattern</h3>
+  <p>Native checkbox, so the role, checked and mixed states come for free (<a href="https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/">APG Checkbox</a>, including the mixed-state example for select all). The visual box is <code>aria-hidden</code>; the input is the control.</p>
+  <h3>Keyboard</h3>
+  <table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody>
+    <tr><td><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>Moves to the next / previous checkbox. Each box is its own tab stop.</td></tr>
+    <tr><td><kbd>Space</kbd></td><td>Toggles checked. On an indeterminate box, checks it and all its children.</td></tr>
+  </tbody></table>
+  <h3>Focus</h3>
+  <p>The shared ring (3px <code>--color-focus-ring</code>, 3px offset) is drawn around the visual box when the hidden input has <code>:focus-visible</code>.</p>
+  <h3>Labelling</h3>
+  <p>The input sits inside its <code>&lt;label&gt;</code>, so the label text, description included, is the name. A group gets a <code>&lt;fieldset&gt;</code> and <code>&lt;legend&gt;</code>; the select-all box lists its children in <code>aria-controls</code>.</p>
+  <h3>Contrast</h3>
+  <div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);">
+    <div class="ds-pair"><span>Box edge on a card</span><span class="ds-pair__ratio" data-contrast="--color-border-strong|--color-bg-surface" data-min="3"></span></div>
+    <div class="ds-pair"><span>Checked fill on a card</span><span class="ds-pair__ratio" data-contrast="--color-accent|--color-bg-surface" data-min="3"></span></div>
+    <div class="ds-pair"><span>Tick on the checked fill</span><span class="ds-pair__ratio" data-contrast="--color-fg-on-accent|--color-accent" data-min="3"></span></div>
+    <div class="ds-pair"><span>Label on a card</span><span class="ds-pair__ratio" data-contrast="--color-fg-default|--color-bg-surface" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Description on a card</span><span class="ds-pair__ratio" data-contrast="--color-fg-muted|--color-bg-surface" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Focus ring in a dialog</span><span class="ds-pair__ratio" data-contrast="--color-focus-ring|--color-bg-surface-raised" data-min="3"></span></div>
+  </div>
+  <h3>Motion</h3>
+  <p>Fill and edge colour fade over <code>--duration-base</code>; reduced motion makes it instant. The tick does not animate.</p>
+  <h3>Touch</h3>
+  <p>The box is 24px (the WCAG minimum), but the whole label row is the target and is at least 44px tall. Keep 8px between rows.</p>
+</section>
+
+<section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+  <ul>
+    <li>Write the label as the thing that will be true when ticked: <em>Offer the tricky part after a song</em>, not <em>Don't hide the tricky part</em>. No negatives.</li>
+    <li>Use the domain words: singer, song, sparkle, tricky part, duet.</li>
+    <li>Sentence case, no full stop, unless the description is a full sentence.</li>
+    <li>Legends are a short noun phrase: <em>Songs in the duet list</em>.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas ds-example__canvas--stack"><label class="check"><input type="checkbox" checked><span class="check-box" aria-hidden="true"></span><span>Offer the tricky part after a song</span></label><button class="btn btn-sm" type="button">Save</button></div><figcaption>A checkbox in a form, saved with a button.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas ds-example__canvas--stack"><label class="check"><input type="checkbox" checked><span class="check-box" aria-hidden="true"></span><span>Mic timing helper (saves now)</span></label></div><figcaption>A box that applies instantly, like the mic offset. That is a switch.</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas"><div class="chip-row" role="group" aria-label="Songs to sing"><button class="chip" type="button" aria-pressed="true">⭐ Twinkle</button><button class="chip" type="button" aria-pressed="false">🐑 Mary</button><button class="chip" type="button" aria-pressed="true">🔔 Frère Jacques</button></div></div><figcaption>On a child screen, pick-several is big chips with <code>aria-pressed</code>.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas ds-example__canvas--stack"><label class="check"><input type="checkbox"><span class="check-box" aria-hidden="true"></span><span>Don't skip songs I got wrong</span></label></div><figcaption>A negative label, and "wrong", which the product never says.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+  <div class="ds-table-wrap"><table class="ds-table">
+<thead><tr><th scope="col">Use</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+<tbody>
+<tr><td>Box</td><td><code>--color-bg-surface</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-bg-surface" data-swatch></i><span data-token="--color-bg-surface"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-bg-surface" data-swatch></i><span data-token="--color-bg-surface"></span></span></td></tr>
+<tr><td>Box edge</td><td><code>--color-border-strong</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-border-strong" data-swatch></i><span data-token="--color-border-strong"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-border-strong" data-swatch></i><span data-token="--color-border-strong"></span></span></td></tr>
+<tr><td>Checked fill and edge, hover edge</td><td><code>--color-accent</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-accent" data-swatch></i><span data-token="--color-accent"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-accent" data-swatch></i><span data-token="--color-accent"></span></span></td></tr>
+<tr><td>Hover fill</td><td><code>--color-accent-subtle</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-accent-subtle" data-swatch></i><span data-token="--color-accent-subtle"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-accent-subtle" data-swatch></i><span data-token="--color-accent-subtle"></span></span></td></tr>
+<tr><td>Tick and dash</td><td><code>--color-fg-on-accent</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-on-accent" data-swatch></i><span data-token="--color-fg-on-accent"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-on-accent" data-swatch></i><span data-token="--color-fg-on-accent"></span></span></td></tr>
+<tr><td>Edge (invalid)</td><td><code>--color-danger-solid</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-danger-solid" data-swatch></i><span data-token="--color-danger-solid"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-danger-solid" data-swatch></i><span data-token="--color-danger-solid"></span></span></td></tr>
+<tr><td>Edge and label (disabled)</td><td><code>--color-fg-disabled</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-disabled" data-swatch></i><span data-token="--color-fg-disabled"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-disabled" data-swatch></i><span data-token="--color-fg-disabled"></span></span></td></tr>
+<tr><td>Box (disabled)</td><td><code>--color-bg-subtle</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-bg-subtle" data-swatch></i><span data-token="--color-bg-subtle"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-bg-subtle" data-swatch></i><span data-token="--color-bg-subtle"></span></span></td></tr>
+<tr><td>Focus ring</td><td><code>--color-focus-ring</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-focus-ring" data-swatch></i><span data-token="--color-focus-ring"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-focus-ring" data-swatch></i><span data-token="--color-focus-ring"></span></span></td></tr>
+<tr><td>Box size</td><td><code>--space-6</code></td><td><span data-theme="light" data-token="--space-6"></span></td><td><span data-theme="dark" data-token="--space-6"></span></td></tr>
+<tr><td>Box corners</td><td><code>--radius-sm</code></td><td><span data-theme="light" data-token="--radius-sm"></span></td><td><span data-theme="dark" data-token="--radius-sm"></span></td></tr>
+<tr><td>Edge and tick width</td><td><code>--border-width-thick</code></td><td><span data-theme="light" data-token="--border-width-thick"></span></td><td><span data-theme="dark" data-token="--border-width-thick"></span></td></tr>
+<tr><td>Row height</td><td><code>--target-comfortable</code></td><td><span data-theme="light" data-token="--target-comfortable"></span></td><td><span data-theme="dark" data-token="--target-comfortable"></span></td></tr>
+<tr><td>Label</td><td><code>--text-body</code></td><td><span data-theme="light" data-token="--text-body"></span></td><td><span data-theme="dark" data-token="--text-body"></span></td></tr>
+<tr><td>Description</td><td><code>--text-body-sm</code></td><td><span data-theme="light" data-token="--text-body-sm"></span></td><td><span data-theme="dark" data-token="--text-body-sm"></span></td></tr>
+<tr><td>Fill transition</td><td><code>--duration-base</code></td><td><span data-theme="light" data-token="--duration-base"></span></td><td><span data-theme="dark" data-token="--duration-base"></span></td></tr>
+</tbody></table></div>
+</section>
+
+<section class="ds-section" id="code"><h2><a href="#code">Code</a></h2>
+  <pre><code>&lt;label class="check"&gt;
+  &lt;input type="checkbox" name="countIn" checked&gt;
+  &lt;span class="check-box" aria-hidden="true"&gt;&lt;/span&gt;
+  &lt;span&gt;Count in before each song&lt;small&gt;One bar of clicks before the first note.&lt;/small&gt;&lt;/span&gt;
+&lt;/label&gt;</code></pre>
+  <table class="ds-table"><thead><tr><th scope="col">Class / attribute</th><th scope="col">Effect</th></tr></thead><tbody>
+    <tr><td><code>label.check</code></td><td>Row: hit area, layout, hides the native box.</td></tr>
+    <tr><td><code>.check-box</code></td><td>The drawn box; must directly follow the input.</td></tr>
+    <tr><td><code>small</code> inside the label</td><td>Description line.</td></tr>
+    <tr><td><code>fieldset.form-group</code> + <code>legend</code></td><td>Group.</td></tr>
+    <tr><td><code>checked</code> / <code>.indeterminate</code> (property)</td><td>Tick / dash.</td></tr>
+    <tr><td><code>aria-invalid="true"</code> on the input</td><td>Danger edge.</td></tr>
+    <tr><td><code>disabled</code></td><td>Greyed box and label.</td></tr>
+    <tr><td><code>data-state="hover|focus"</code> on the label</td><td>Documentation only.</td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+  <p>Not in the mocks yet; added for the Grown-Ups Corner and the family-server managers. Its look is derived from mocks that do exist:</p>
+  <ul>
+    <li><a href="../../mocks/dialogs/grown-ups-corner/default.html">dialogs/grown-ups-corner/default</a> (setting rows it would sit in)</li>
+    <li><a href="../../mocks/dialogs/song-manager/default.html">dialogs/song-manager/default</a> (manager rows a select-all would act on)</li>
+    <li><a href="../../mocks/pages/songs/filtered.html">pages/songs/filtered</a> (the child-screen alternative: chips)</li>
+  </ul>
+  <p>Drift rules it follows from the start: control edges in <code>--color-border-strong</code> (D07), focus ring <code>--color-focus-ring</code> (D21), checked fill in the accessible accent rather than brand blue (D01). See the <a href="../index.html#drift">drift log</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pitch stage — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune pitch stage: note bars, the singer&#x27;s star, cheers, streak chip, countdown, stage label and the duet buddy chip, every state, both themes.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Component · Singing</p>
+      <h1>Pitch stage</h1>
+      <p class="ds-lead">The playfield on the Sing screen. Note bars scroll from right to left, the singer's star rises and falls with her voice, and every landed note turns gold. Nothing on the stage ever marks a note as missed.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill"><code>&lt;section aria-label&gt;</code></span><span class="ds-pill">Status: stable</span><span class="ds-pill">Class <code>.stage</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>The pitch stage is the heart of the Sing screen and appears nowhere else. It turns pitch detection into a game a five-year-old understands: <em>sing to move your star, catch the bars</em>. Each bar is one note of the song, already shifted to the singer's voice range; its height on the stage is its pitch and its width is its length. The bar under the star's line is the note to sing now. A <b>landed note</b> (matched, octave-folded, on enough of the frames in which she was heard) turns gold and earns ten <b>sparkles</b>.</p>
+  <p>The stage is drawn with Canvas or WebGPU in the app (<code>src/rendering/</code>); the HTML parts documented here are the overlay layer and the contract the mocks and e2e tests share. Pair it with <a href="lyrics.html">lyrics</a> below and the <a href="coach-bubble.html">coach</a> live row under that.</p>
+  <ul>
+    <li><b>Solo</b> is the default.</li>
+    <li><b>Duet</b> adds the buddy chip (<code>.opponent-chip</code>) in the top-left corner.</li>
+    <li><b>No-mic mode</b> keeps the bars scrolling but leaves the star resting and quiet, shows no streak, and changes the stage label to <em>SING ALONG AND HAVE FUN 🎶</em>.</li>
+    <li><b>Practice</b> plays only the tricky part, more slowly; the stage looks the same.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="anatomy"><h2><a href="#anatomy">Anatomy</a></h2>
+  <div class="ds-anatomy">
+    <figure class="ds-anatomy__figure">
+      <section class="stage ds-w-screen" aria-label="Pitch game — match the notes" style="margin: 0;">
+        <span class="streak-chip show">🔥 7 in a row!</span>
+        <div class="note-track">
+          <span class="note hit" style="left:calc(21% + -8.156rem);top:8.521rem;width:5.125rem">der</span>
+          <span class="note now" style="left:calc(21% + -2.531rem);top:11.354rem;width:5.125rem">what</span>
+          <span class="note" style="left:calc(21% + 3.094rem);top:11.354rem;width:5.125rem">you</span>
+          <span class="note" style="left:calc(21% + 8.719rem);top:14.188rem;width:10.75rem">are</span>
+        </div>
+        <div class="singer on-note" role="img" aria-label="You" style="top:10.542rem">🦄</div>
+        <span class="feedback-pop" data-state="held" style="top:9.542rem">Perfect! ✨</span>
+        <span class="stage-label">SING TO MOVE YOUR STAR ↑↓</span>
+      </section>
+      <span class="ds-callout" style="left: 10%; top: 12%;" aria-hidden="true">1</span>
+      <span class="ds-callout" style="left: 46%; top: 66%;" aria-hidden="true">2</span>
+      <span class="ds-callout" style="left: 24%; top: 50%;" aria-hidden="true">3</span>
+      <span class="ds-callout" style="left: 40%; top: 36%;" aria-hidden="true">4</span>
+      <span class="ds-callout" style="left: 84%; top: 12%;" aria-hidden="true">5</span>
+      <span class="ds-callout" style="left: 10%; top: 86%;" aria-hidden="true">6</span>
+    </figure>
+    <ol class="ds-anatomy__list">
+      <li><div><b>Stage</b><small><code>.stage</code>: 300px tall (<code>--size-stage</code>), <code>--radius-xl</code>, <code>--shadow-2</code>, surface-to-sunken gradient with faint staff lines every 48px in <code>--color-decor-line</code>. <code>touch-action: none</code>.</small></div></li>
+      <li><div><b>Note bar</b><small><code>.note</code>: a 32px pill (<code>--size-rung</code>) holding the syllable. Idle <code>--color-decor-pale</code>; <code>.now</code> adds a blue ring; <code>.hit</code> turns gold with a glow. Inside <code>.note-track</code>, which scrolls left.</small></div></li>
+      <li><div><b>Singer's star</b><small><code>.singer</code>: a 64px disc (<code>--size-art</code>) with her avatar, fixed at 21% from the left; only its <code>top</code> moves. Blue ring at rest, gold ring <code>.on-note</code>, 75% opacity <code>.quiet</code>.</small></div></li>
+      <li><div><b>Cheer</b><small><code>.feedback-pop</code>: Baloo 2 at <code>--font-size-2xl</code> in <code>--color-fg-accent</code>, pops in just above the star and floats away in one second.</small></div></li>
+      <li><div><b>Streak chip</b><small><code>.streak-chip</code>: gold pill with a small lip, top right. Hidden (opacity 0) until <code>.show</code>.</small></div></li>
+      <li><div><b>Stage label</b><small><code>.stage-label</code>: 12px black caps, letter-spaced, <code>--color-fg-subtle</code>, bottom left. Tells her what the stage wants.</small></div></li>
+    </ol>
+  </div>
+  <p>Two more overlays complete the set: <code>.countdown</code> covers the whole stage before singing starts, and <code>.opponent-chip</code> sits top left in a duet. A decorative <code>canvas.reactive-scene</code> (<code>aria-hidden</code>) fills the stage behind everything.</p>
+</section>
+
+<section class="ds-section" id="variants"><h2><a href="#variants">Variants</a></h2>
+  <h3>Solo</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-sky">
+      <section class="stage ds-w-screen" aria-label="Pitch game — match the notes" style="margin: 0;">
+        <span class="streak-chip show">🔥 7 in a row!</span>
+        <div class="note-track">
+          <span class="note hit" style="left:calc(21% + -19.406rem);top:7.104rem;width:5.125rem">I</span>
+          <span class="note hit" style="left:calc(21% + -13.781rem);top:8.521rem;width:5.125rem">won</span>
+          <span class="note hit" style="left:calc(21% + -8.156rem);top:8.521rem;width:5.125rem">der</span>
+          <span class="note now" style="left:calc(21% + -2.531rem);top:11.354rem;width:5.125rem">what</span>
+          <span class="note" style="left:calc(21% + 3.094rem);top:11.354rem;width:5.125rem">you</span>
+          <span class="note" style="left:calc(21% + 8.719rem);top:14.188rem;width:10.75rem">are</span>
+          <span class="note" style="left:calc(21% + 19.969rem);top:4.271rem;width:5.125rem">Up</span>
+        </div>
+        <div class="singer on-note" role="img" aria-label="You" style="top:10.542rem">🦄</div>
+        <span class="feedback-pop" data-state="held" style="top:9.542rem">Perfect! ✨</span>
+        <span class="stage-label">SING TO MOVE YOUR STAR ↑↓</span>
+      </section>
+    </div>
+    <div class="ds-example__caption"><span>Ada singing Twinkle Twinkle Little Star in her key: three landed notes, "what" is now, a seven-note streak.</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;section class="stage" aria-label="Pitch game — match the notes"&gt;
+  &lt;canvas class="reactive-scene" aria-hidden="true"&gt;&lt;/canvas&gt;
+  &lt;span class="streak-chip show"&gt;🔥 7 in a row!&lt;/span&gt;
+  &lt;span class="opponent-chip" hidden&gt;&lt;/span&gt;
+  &lt;div class="note-track"&gt;
+    &lt;span class="note hit" style="left:…;top:…;width:…"&gt;der&lt;/span&gt;
+    &lt;span class="note now" style="…"&gt;what&lt;/span&gt;
+    &lt;span class="note" style="…"&gt;you&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="singer on-note" role="img" aria-label="You" style="top:10.542rem"&gt;🦄&lt;/div&gt;
+  &lt;span class="feedback-pop" style="top:9.542rem"&gt;Perfect! ✨&lt;/span&gt;
+  &lt;span class="stage-label"&gt;SING TO MOVE YOUR STAR ↑↓&lt;/span&gt;
+  &lt;div class="countdown" hidden&gt;&lt;/div&gt;
+&lt;/section&gt;</code></pre></details>
+  </div>
+  <h3>Duet and No-mic mode</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack ds-sky">
+      <section class="stage ds-w-screen" aria-label="Pitch game — duet with Bea" style="margin: 0;">
+        <span class="streak-chip show">🔥 7 in a row!</span>
+        <span class="opponent-chip">🐱 Bea ✨80 🔥4</span>
+        <div class="note-track">
+          <span class="note hit" style="left:calc(21% + -8.156rem);top:8.521rem;width:5.125rem">der</span>
+          <span class="note now" style="left:calc(21% + -2.531rem);top:11.354rem;width:5.125rem">what</span>
+          <span class="note" style="left:calc(21% + 3.094rem);top:11.354rem;width:5.125rem">you</span>
+          <span class="note" style="left:calc(21% + 8.719rem);top:14.188rem;width:10.75rem">are</span>
+        </div>
+        <div class="singer on-note" role="img" aria-label="You" style="top:10.542rem">🦄</div>
+        <span class="stage-label">SING TO MOVE YOUR STAR ↑↓</span>
+      </section>
+      <section class="stage ds-w-screen" aria-label="Sing-along stage, no microphone" style="margin: 0;">
+        <span class="streak-chip">🔥 0 in a row!</span>
+        <div class="note-track">
+          <span class="note" style="left:calc(21% + -8.156rem);top:8.521rem;width:5.125rem">der</span>
+          <span class="note now" style="left:calc(21% + -2.531rem);top:11.354rem;width:5.125rem">what</span>
+          <span class="note" style="left:calc(21% + 3.094rem);top:11.354rem;width:5.125rem">you</span>
+          <span class="note" style="left:calc(21% + 8.719rem);top:14.188rem;width:10.75rem">are</span>
+        </div>
+        <div class="singer quiet" role="img" aria-label="You" style="top:7.5rem">🦄</div>
+        <span class="stage-label">SING ALONG AND HAVE FUN 🎶</span>
+      </section>
+    </div>
+    <div class="ds-example__caption"><span>Duet: Bea's live sparkles and streak in the buddy chip. No-mic mode: bars still scroll, the star rests, nothing turns gold, nothing is scored.</span></div>
+  </div>
+</section>
+
+<section class="ds-section" id="sizes" data-na="The stage has one size: full column width, 300px tall. Only its contents move."><h2><a href="#sizes">Sizes</a></h2><p class="ds-na">The stage has one size: full column width, 300px tall. Only its contents move.</p></section>
+
+<section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+  <h3>Stage states</h3>
+  <p>The stage moves through four states in order. Pause opens the <a href="dialog.html">Pause dialog</a> over it.</p>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack ds-sky">
+      <section class="stage ds-w-screen" aria-label="Pitch game — ready" style="margin: 0;">
+        <div class="singer quiet" role="img" aria-label="You">🦄</div>
+        <div class="countdown"><button class="btn btn-xl" type="button">Tap to start ▶</button></div>
+      </section>
+      <section class="stage ds-w-screen" aria-label="Pitch game — counting in" style="margin: 0;">
+        <div class="singer quiet" role="img" aria-label="You" style="top:7.5rem">🦄</div>
+        <span class="stage-label">SING TO MOVE YOUR STAR ↑↓</span>
+        <div class="countdown" aria-live="assertive"><span>3</span></div>
+      </section>
+    </div>
+    <div class="ds-example__caption"><span><b>Ready</b>: the countdown layer holds the one big button (<code>.countdown .btn</code> re-enables pointer events). <b>Counting in</b>: 3, 2, 1, then <span class="display">Go!</span> at <code>--font-size-6xl</code> (<code>.countdown-go</code>). Then <b>singing</b> (above) and <b>finished</b>, which routes to Results.</span></div>
+  </div>
+  <h3>Part states</h3>
+  <p>Parts are shown out of the stage here (positioned statically) so each state can be compared side by side.</p>
+  <div class="ds-matrix"><table>
+    <thead><tr><th scope="col">Part</th><th scope="col">Default</th><th scope="col">Now / active</th><th scope="col">Landed / on note</th><th scope="col">Quiet / hidden</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Note bar</th>
+        <td><span class="note" style="position: relative; display: inline-flex; width: var(--size-avatar-lg);">you</span></td>
+        <td><span class="note now" style="position: relative; display: inline-flex; width: var(--size-avatar-lg);">what</span></td>
+        <td><span class="note hit" style="position: relative; display: inline-flex; width: var(--size-avatar-lg);">der</span></td>
+        <td>A bar that passes without landing simply scrolls off, still pale. There is no missed state.</td></tr>
+      <tr><th scope="row">Singer's star</th>
+        <td><div class="singer" role="img" aria-label="You, listening" style="position: relative; left: auto; margin-left: 0;">🦄</div></td>
+        <td>—</td>
+        <td><div class="singer on-note" role="img" aria-label="You, on the note" style="position: relative; left: auto; margin-left: 0;">🦄</div></td>
+        <td><div class="singer quiet" role="img" aria-label="You, resting" style="position: relative; left: auto; margin-left: 0;">🦄</div></td></tr>
+      <tr><th scope="row">Streak chip</th>
+        <td>—</td>
+        <td><span class="streak-chip show" style="position: relative; top: auto; right: auto;">🔥 7 in a row!</span></td>
+        <td>—</td>
+        <td><span class="streak-chip" style="position: relative; top: auto; right: auto;">🔥 0 in a row!</span> <small>(invisible: opacity 0)</small></td></tr>
+      <tr><th scope="row">Cheer</th>
+        <td>—</td>
+        <td><span class="feedback-pop" data-state="held" style="position: relative; left: auto;">Perfect! ✨</span></td>
+        <td><span class="feedback-pop" data-state="held" style="position: relative; left: auto;">Yes! 💙</span></td>
+        <td>Gone after one second.</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Both themes</h3>
+  <div class="ds-themes">
+    <div data-theme="light"><section class="stage" aria-label="Stage, light theme" style="margin: 0;"><div class="note-track"><span class="note hit" style="left:calc(21% + -8.156rem);top:8.521rem;width:5.125rem">der</span><span class="note now" style="left:calc(21% + -2.531rem);top:11.354rem;width:5.125rem">what</span><span class="note" style="left:calc(21% + 3.094rem);top:11.354rem;width:5.125rem">you</span></div><div class="singer on-note" role="img" aria-label="You" style="top:10.542rem">🦄</div><span class="streak-chip show">🔥 7 in a row!</span><span class="stage-label">SING TO MOVE YOUR STAR ↑↓</span></section></div>
+    <div data-theme="dark"><section class="stage" aria-label="Stage, dark theme" style="margin: 0;"><div class="note-track"><span class="note hit" style="left:calc(21% + -8.156rem);top:8.521rem;width:5.125rem">der</span><span class="note now" style="left:calc(21% + -2.531rem);top:11.354rem;width:5.125rem">what</span><span class="note" style="left:calc(21% + 3.094rem);top:11.354rem;width:5.125rem">you</span></div><div class="singer on-note" role="img" aria-label="You" style="top:10.542rem">🦄</div><span class="streak-chip show">🔥 7 in a row!</span><span class="stage-label">SING TO MOVE YOUR STAR ↑↓</span></section></div>
+  </div>
+  <ul>
+    <li><b>Quiet</b> (<code>.singer.quiet</code>) means she is not being heard: before the start, between phrases, and always in No-mic mode. The star dims to 75%; it never shakes or turns another colour. Silence is not a wrong note.</li>
+    <li><b>On note</b> swaps the blue ring for gold while her pitch matches the current bar, so she sees "yes" before the bar even lands.</li>
+    <li><b>Streak</b> shows after three landed notes in a row and fades out (not with a "lost" message) when the run ends. Every fifth note in a run also pops a gold toast.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+  <ul>
+    <li>The stage spans the screen column (up to 470px) at a fixed 300px height. Pitch maps to height, so the vertical scale is identical on every device and the same song looks the same on a phone and a tablet.</li>
+    <li>The star is pinned at 21% of the width; bars are positioned from that line in rem, so a wider stage shows more upcoming notes rather than stretching them.</li>
+    <li>Overlay chips are absolutely placed in the corners with 16px insets; in a duet the buddy chip (left) and streak chip (right) both fit at 320px because their copy is capped (an emoji, a name up to 8 letters, two numbers).</li>
+    <li>In landscape on a phone the screen still scrolls vertically; the stage never goes full-screen, so the lyrics stay one short scroll away.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="theming"><h2><a href="#theming">Theming</a></h2>
+  <p>The stage background is <code>--color-bg-surface</code> → <code>--color-bg-surface-sunken</code> with <code>--color-decor-line</code> staff lines; idle bars are <code>--color-decor-pale</code>, landed bars the reward gradient, and the now-ring <code>--color-accent-graphic</code>. In the night studio the surfaces darken and rise above the canvas, the staff lines become <code>--palette-night-650</code>, and the gold of a landed note stays exactly the same, so success always looks like success. The Canvas/WebGPU renderer reads the same custom properties at start-up (<code>getComputedStyle</code>), never hex values.</p>
+  <pre><code>/* The renderer resolves tokens once per theme change */
+const css = getComputedStyle(stageEl);
+const hit = css.getPropertyValue('--color-reward-bg');</code></pre>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <h3>Role and pattern</h3>
+  <p>A labelled region: <code>&lt;section class="stage" aria-label="Pitch game — match the notes"&gt;</code>. The singer's star is <code>role="img" aria-label="You"</code>; bars are text spans whose syllables duplicate the lyrics, so the stage adds no information a screen reader user would miss. No APG widget pattern applies: the stage takes no input except the voice. The real-time feed for assistive tech is the <a href="lyrics.html">lyrics</a> card and the <a href="https://www.w3.org/TR/wai-aria-1.2/#status">status</a> of the countdown, not every bar.</p>
+  <h3>Keyboard</h3>
+  <table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody>
+    <tr><td><kbd>Tab</kbd></td><td>Ready state: moves to <em>Tap to start ▶</em>. While singing, the stage has nothing focusable; focus stays on the ⏸ Pause button.</td></tr>
+    <tr><td><kbd>Enter</kbd>, <kbd>Space</kbd></td><td>On <em>Tap to start</em>: begins the countdown. On ⏸: opens the Pause dialog.</td></tr>
+    <tr><td><kbd>Esc</kbd></td><td>Recommended: opens the Pause dialog, the same as ⏸, so a keyboard user can always stop the music.</td></tr>
+  </tbody></table>
+  <h3>Focus</h3>
+  <p>When the countdown starts, focus moves from the removed start button to the ⏸ Pause button (never to <code>&lt;body&gt;</code>). After Pause → <em>Keep singing</em>, focus returns to ⏸.</p>
+  <h3>Labelling</h3>
+  <p>The countdown layer is <code>aria-live="assertive"</code> for "3, 2, 1, Go!" only; it is emptied (<code>hidden</code>) once singing starts. Cheers and the streak chip are not live: they would interrupt the singing every second. The buddy chip carries its words in text (<em>🐱 Bea ✨80 🔥4</em>); give it <code>aria-label="Bea: 80 sparkles, 4 in a row"</code> when shown.</p>
+  <h3>Contrast</h3>
+  <div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);">
+    <div class="ds-pair"><span>Syllable on an idle bar (surface stand-in)</span><span class="ds-pair__ratio" data-contrast="--color-fg-default|--color-bg-surface" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Syllable on a landed bar</span><span class="ds-pair__ratio" data-contrast="--color-reward-fg|--color-reward-bg" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Streak chip text</span><span class="ds-pair__ratio" data-contrast="--color-reward-fg|--color-reward-bg" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Cheer and countdown over the stage</span><span class="ds-pair__ratio" data-contrast="--color-fg-accent|--color-bg-surface" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Stage label</span><span class="ds-pair__ratio" data-contrast="--color-fg-subtle|--color-bg-surface" data-min="4.5"></span></div>
+  </div>
+  <p>Landed is never colour alone: a landed bar also gains a glow, the cheer names it in words, and the sparkle pill counts up.</p>
+  <h3>Motion</h3>
+  <p>The track scrolls continuously and the star follows pitch; both are the game itself and keep running under <code>prefers-reduced-motion</code>, but the decorative parts stop: cheers appear and disappear without the pop and float, the streak chip fades instantly, the reactive scene holds still and drifting notes in the sky stop. The only flashing is none: no element changes brightness more than three times a second.</p>
+  <h3>Touch</h3>
+  <p>The stage sets <code>touch-action: none</code> so a stray swipe while singing never scrolls the page. The only touch target on it is <em>Tap to start</em>, an extra-large 68px button.</p>
+</section>
+
+<section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+  <ul>
+    <li>Cheers are two words at most plus one emoji, all positive and varied: <em>Perfect! ✨</em>, <em>Great! 🌟</em>, <em>Yes! 💙</em>, <em>Sparkly! ✨</em>, <em>Wow! 🎉</em> (the five in <code>CHEERS</code>, <code>src/screens/sing.ts</code>). There is no cheer for a note that did not land.</li>
+    <li>Streak copy: <em>🔥 N in a row!</em>. Never <em>Streak lost</em> or <em>Combo broken</em>.</li>
+    <li>Stage label in caps, under 30 characters, telling her what to do: <em>SING TO MOVE YOUR STAR ↑↓</em>, or in No-mic mode <em>SING ALONG AND HAVE FUN 🎶</em>.</li>
+    <li>Bar text is the syllable from the song data (<code>syll</code>), never a note name: children read words, not C4.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas"><span class="note hit" style="position: relative; display: inline-flex; width: var(--size-avatar-lg);">der</span><span class="note" style="position: relative; display: inline-flex; width: var(--size-avatar-lg);">you</span></div><figcaption>A note she did not land stays the same calm pale bar and scrolls away.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><span class="note hit" style="position: relative; display: inline-flex; width: var(--size-avatar-lg);">der</span><span class="note" style="position: relative; display: inline-flex; width: var(--size-avatar-lg); background: var(--color-danger-solid); color: var(--color-fg-on-danger);">you ✗</span></div><figcaption>Turning an unlanded note red with a cross. The product has no "missed" visual, ever.</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas"><div class="singer quiet" role="img" aria-label="You, resting" style="position: relative; left: auto; margin-left: 0;">🦄</div></div><figcaption>When she is silent the star just rests at 75% opacity. Silence is not a wrong note.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas ds-example__canvas--stack"><span class="feedback-pop" data-state="held" style="position: relative; left: auto;">Sing louder!</span></div><figcaption>A cheer slot used for a correction. Cheers only celebrate; Twinkle's bubble handles any gentle nudge between phrases.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+  <div class="ds-table-wrap"><table class="ds-table">
+<thead><tr><th scope="col">Use</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+<tbody>
+<tr><td>Stage height</td><td><code>--size-stage</code></td><td><span data-theme="light" data-token="--size-stage"></span></td><td><span data-theme="dark" data-token="--size-stage"></span></td></tr>
+<tr><td>Stage corners</td><td><code>--radius-xl</code></td><td><span data-theme="light" data-token="--radius-xl"></span></td><td><span data-theme="dark" data-token="--radius-xl"></span></td></tr>
+<tr><td>Stage shadow</td><td><code>--shadow-2</code></td><td><span data-theme="light" data-token="--shadow-2"></span></td><td><span data-theme="dark" data-token="--shadow-2"></span></td></tr>
+<tr><td>Stage top</td><td><code>--color-bg-surface</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-bg-surface" data-swatch></i><span data-token="--color-bg-surface"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-bg-surface" data-swatch></i><span data-token="--color-bg-surface"></span></span></td></tr>
+<tr><td>Stage bottom</td><td><code>--color-bg-surface-sunken</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-bg-surface-sunken" data-swatch></i><span data-token="--color-bg-surface-sunken"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-bg-surface-sunken" data-swatch></i><span data-token="--color-bg-surface-sunken"></span></span></td></tr>
+<tr><td>Staff lines</td><td><code>--color-decor-line</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-decor-line" data-swatch></i><span data-token="--color-decor-line"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-decor-line" data-swatch></i><span data-token="--color-decor-line"></span></span></td></tr>
+<tr><td>Bar height</td><td><code>--size-rung</code></td><td><span data-theme="light" data-token="--size-rung"></span></td><td><span data-theme="dark" data-token="--size-rung"></span></td></tr>
+<tr><td>Idle bar</td><td><code>--color-decor-pale</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-decor-pale" data-swatch></i><span data-token="--color-decor-pale"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-decor-pale" data-swatch></i><span data-token="--color-decor-pale"></span></span></td></tr>
+<tr><td>Now ring</td><td><code>--color-accent-graphic</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-accent-graphic" data-swatch></i><span data-token="--color-accent-graphic"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-accent-graphic" data-swatch></i><span data-token="--color-accent-graphic"></span></span></td></tr>
+<tr><td>Landed bar and streak chip</td><td><code>--color-reward-bg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-reward-bg" data-swatch></i><span data-token="--color-reward-bg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-reward-bg" data-swatch></i><span data-token="--color-reward-bg"></span></span></td></tr>
+<tr><td>Landed syllable and streak text</td><td><code>--color-reward-fg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-reward-fg" data-swatch></i><span data-token="--color-reward-fg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-reward-fg" data-swatch></i><span data-token="--color-reward-fg"></span></span></td></tr>
+<tr><td>Landed glow</td><td><code>--shadow-glow-reward</code></td><td><span data-theme="light" data-token="--shadow-glow-reward"></span></td><td><span data-theme="dark" data-token="--shadow-glow-reward"></span></td></tr>
+<tr><td>Star size</td><td><code>--size-art</code></td><td><span data-theme="light" data-token="--size-art"></span></td><td><span data-theme="dark" data-token="--size-art"></span></td></tr>
+<tr><td>Star ring</td><td><code>--shadow-ring-accent</code></td><td><span data-theme="light" data-token="--shadow-ring-accent"></span></td><td><span data-theme="dark" data-token="--shadow-ring-accent"></span></td></tr>
+<tr><td>Star ring on note</td><td><code>--shadow-ring-reward</code></td><td><span data-theme="light" data-token="--shadow-ring-reward"></span></td><td><span data-theme="dark" data-token="--shadow-ring-reward"></span></td></tr>
+<tr><td>Cheer and countdown</td><td><code>--color-fg-accent</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-accent" data-swatch></i><span data-token="--color-fg-accent"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-accent" data-swatch></i><span data-token="--color-fg-accent"></span></span></td></tr>
+<tr><td>Stage label</td><td><code>--color-fg-subtle</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-subtle" data-swatch></i><span data-token="--color-fg-subtle"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-subtle" data-swatch></i><span data-token="--color-fg-subtle"></span></span></td></tr>
+<tr><td>Streak chip lip</td><td><code>--lip-small</code></td><td><span data-theme="light" data-token="--lip-small"></span></td><td><span data-theme="dark" data-token="--lip-small"></span></td></tr>
+<tr><td>Cheer lifetime</td><td><code>--duration-progress</code></td><td><span data-theme="light" data-token="--duration-progress"></span></td><td><span data-theme="dark" data-token="--duration-progress"></span></td></tr>
+</tbody></table></div>
+</section>
+
+<section class="ds-section" id="code"><h2><a href="#code">Code</a></h2>
+  <pre><code>&lt;section class="stage" aria-label="Pitch game — match the notes" data-stage&gt;
+  &lt;canvas class="reactive-scene" data-reactive-scene aria-hidden="true"&gt;&lt;/canvas&gt;
+  &lt;span class="streak-chip" data-streak&gt;🔥 0 in a row!&lt;/span&gt;
+  &lt;span class="opponent-chip" data-opponent hidden&gt;&lt;/span&gt;
+  &lt;div class="note-track" data-track&gt;&lt;/div&gt;
+  &lt;div class="singer quiet" data-singer role="img" aria-label="You"&gt;🦄&lt;/div&gt;
+  &lt;span class="stage-label" data-stage-label&gt;SING TO MOVE YOUR STAR ↑↓&lt;/span&gt;
+  &lt;div class="countdown" data-countdown aria-live="assertive"&gt;
+    &lt;button class="btn btn-xl" data-start&gt;Tap to start ▶&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+  <table class="ds-table"><thead><tr><th scope="col">Class / attribute</th><th scope="col">Effect</th></tr></thead><tbody>
+    <tr><td><code>.stage</code></td><td>The playfield frame and staff lines.</td></tr>
+    <tr><td><code>.note-track</code> / <code>.note</code></td><td>Scrolling layer / one bar. Position with inline <code>left</code>, <code>top</code>, <code>width</code> from the renderer.</td></tr>
+    <tr><td><code>.note.now</code> <code>.note.hit</code></td><td>Current bar / landed bar.</td></tr>
+    <tr><td><code>.singer</code> <code>.quiet</code> <code>.on-note</code></td><td>The star; resting; matching the current bar.</td></tr>
+    <tr><td><code>.feedback-pop</code></td><td>A cheer; animates once. <code>data-state="held"</code> freezes it for static mocks.</td></tr>
+    <tr><td><code>.streak-chip</code> <code>.show</code></td><td>Streak pill; visible only with <code>.show</code>.</td></tr>
+    <tr><td><code>.opponent-chip</code></td><td>Duet buddy's live score; <code>hidden</code> when solo.</td></tr>
+    <tr><td><code>.countdown</code> <code>.countdown-go</code></td><td>Start/count-in layer; the smaller "Go!".</td></tr>
+    <tr><td><code>.stage-label</code></td><td>Instruction caption, bottom left.</td></tr>
+    <tr><td><code>data-stage</code>, <code>data-track</code>, <code>data-singer</code>, <code>data-streak</code>, <code>data-opponent</code>, <code>data-countdown</code></td><td>Hooks the app and the e2e page objects use. Keep them.</td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+  <p>Extracted from these mocks:</p>
+  <ul>
+    <li><a href="../../mocks/pages/sing/default.html">pages/sing/default</a> (singing, landed notes, streak, cheer)</li>
+    <li><a href="../../mocks/pages/sing/ready.html">pages/sing/ready</a> (Tap to start)</li>
+    <li><a href="../../mocks/pages/sing/countdown.html">pages/sing/countdown</a> (3, 2, 1)</li>
+    <li><a href="../../mocks/pages/sing/duet.html">pages/sing/duet</a> (buddy chip)</li>
+    <li><a href="../../mocks/pages/sing/no-mic.html">pages/sing/no-mic</a> (quiet star, sing-along label)</li>
+    <li><a href="../../mocks/pages/sing/practice.html">pages/sing/practice</a> and <a href="../../mocks/pages/sing/standard-key.html">standard-key</a></li>
+  </ul>
+  <p>Drift fixed during extraction: the stage label was 11px in a faint ink (1.71:1), now 12px <code>--color-fg-subtle</code> (D03, D10); 34px note bars snapped to 32px (D11); the cheer and countdown blue text was 2.6:1, now <code>--color-fg-accent</code> (D04); seven drop shadows and glows on bars, star and chips folded into <code>--shadow-2</code>, <code>--shadow-glow-reward</code> and the two rings (D13); cheer and transition timings mapped to <code>--duration-progress</code> and <code>--duration-fast</code>/<code>base</code> (D14). See the <a href="../index.html#drift">drift log</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

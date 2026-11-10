@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stepper — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune stepper: the Find My Voice step dots, done, now and to come, with the text alternative that makes them accessible, in both themes.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Component · Navigation</p>
+      <h1>Stepper</h1>
+      <p class="ds-lead">Three little dots at the top of Find My Voice. Blue for the steps she has done, a bigger glowing gold dot for the step she is on, and plain dots for what is still to come.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill"><code>role="img"</code> with a step label</span><span class="ds-pill">Status: stable</span><span class="ds-pill">Class <code>.steps</code> <code>.step-dot</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>The stepper shows how far along a short, fixed sequence she is. TwinkleTune has one: <b>Find My Voice</b>, which takes three steps (get ready, sing your lowest note, sing your highest note) before the <em>Your voice is found! 🎉</em> dialog. The dots tell her the end is near; Twinkle's coach bubble tells her what to do now.</p>
+  <ul>
+    <li>Use it only for a linear sequence of two to five steps on one screen, where each step replaces the last.</li>
+    <li>The dots are not buttons. She cannot jump ahead or back by tapping them; the screen's actions move her on, and the <a href="top-bar.html">top bar</a>'s back button or <em>Later</em> leaves.</li>
+    <li>For progress through a song, use a <a href="progress-bar.html">progress bar</a>; for a sparkle goal, a <a href="progress-ring.html">progress ring</a>.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="anatomy"><h2><a href="#anatomy">Anatomy</a></h2>
+  <div class="ds-anatomy">
+    <figure class="ds-anatomy__figure">
+      <div class="steps" role="img" aria-label="Find My Voice, step 2 of 3: your lowest note">
+        <span class="step-dot done"></span>
+        <span class="step-dot now"></span>
+        <span class="step-dot"></span>
+      </div>
+      <span class="ds-callout" style="left: 36%; top: 26%;" aria-hidden="true">1</span>
+      <span class="ds-callout" style="left: 50%; top: 26%;" aria-hidden="true">2</span>
+      <span class="ds-callout" style="left: 64%; top: 26%;" aria-hidden="true">3</span>
+      <span class="ds-callout" style="left: 50%; top: 76%;" aria-hidden="true">4</span>
+    </figure>
+    <ol class="ds-anatomy__list">
+      <li><div><b>Done dot</b><small><code>.step-dot.done</code>: filled <code>--color-accent</code>.</small></div></li>
+      <li><div><b>Now dot</b><small><code>.step-dot.now</code>: <code>--color-reward-bg</code> gold, scaled to 130%, with the reward ring <code>--shadow-ring-reward</code>.</small></div></li>
+      <li><div><b>To-come dot</b><small><code>.step-dot</code>: <code>--color-bg-surface</code> with <code>--shadow-1</code>, 14px (<code>--size-dot</code>).</small></div></li>
+      <li><div><b>Row and label</b><small><code>.steps</code>: centred, 8px gaps, 20px below. <code>role="img"</code> with an <code>aria-label</code> that says the step in words.</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="ds-section" id="variants" data-na="One variant: a row of three dots on Find My Voice. Longer sequences add dots; they never add numbers, labels or connecting lines."><h2><a href="#variants">Variants</a></h2><p class="ds-na">One variant: a row of three dots on Find My Voice. Longer sequences add dots; they never add numbers, labels or connecting lines.</p></section>
+
+<section class="ds-section" id="sizes" data-na="The stepper has one size: 14px dots, with the current one growing to about 18px."><h2><a href="#sizes">Sizes</a></h2><p class="ds-na">The stepper has one size: 14px dots, with the current one growing to about 18px.</p></section>
+
+<section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+  <p>Each dot has three states, set by class; the row has one state per step of the sequence. Dots are not interactive, so there is no hover, focus or disabled.</p>
+  <div class="ds-matrix"><table>
+    <thead><tr><th scope="col">Step</th><th scope="col">Dots</th><th scope="col">Label</th><th scope="col">Mock</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">1 · Get ready</th><td><div class="steps" role="img" aria-label="Step 1 of 3: get ready"><span class="step-dot now"></span><span class="step-dot"></span><span class="step-dot"></span></div></td><td><em>Step 1 of 3: get ready</em></td><td><a href="../../mocks/pages/voice-setup/default.html">default</a></td></tr>
+      <tr><th scope="row">2 · Lowest note</th><td><div class="steps" role="img" aria-label="Step 2 of 3: your lowest note"><span class="step-dot done"></span><span class="step-dot now"></span><span class="step-dot"></span></div></td><td><em>Step 2 of 3: your lowest note</em></td><td><a href="../../mocks/pages/voice-setup/listening-low.html">listening-low</a>, <a href="../../mocks/pages/voice-setup/holding.html">holding</a></td></tr>
+      <tr><th scope="row">3 · Highest note</th><td><div class="steps" role="img" aria-label="Step 3 of 3: your highest note"><span class="step-dot done"></span><span class="step-dot done"></span><span class="step-dot now"></span></div></td><td><em>Step 3 of 3: your highest note</em></td><td><a href="../../mocks/pages/voice-setup/listening-high.html">listening-high</a></td></tr>
+    </tbody>
+  </table></div>
+  <h3>One dot in each state</h3>
+  <div class="ds-matrix"><table>
+    <thead><tr><th scope="col">Dot</th><th scope="col">To come</th><th scope="col">Now</th><th scope="col">Done</th></tr></thead>
+    <tbody><tr><th scope="row"><code>.step-dot</code></th><td><span class="step-dot" aria-hidden="true"></span></td><td><span class="step-dot now" aria-hidden="true"></span></td><td><span class="step-dot done" aria-hidden="true"></span></td></tr></tbody>
+  </table></div>
+  <h3>Both themes</h3>
+  <div class="ds-themes">
+    <div data-theme="light"><div class="steps" role="img" aria-label="Step 2 of 3, light theme"><span class="step-dot done"></span><span class="step-dot now"></span><span class="step-dot"></span></div></div>
+    <div data-theme="dark"><div class="steps" role="img" aria-label="Step 2 of 3, dark theme"><span class="step-dot done"></span><span class="step-dot now"></span><span class="step-dot"></span></div></div>
+  </div>
+  <ul>
+    <li><b>Now</b> is told by size and the glowing ring as well as gold, so it is distinguishable without colour.</li>
+    <li>There is no "failed" or "skipped" dot. If she does not land a note, the step simply stays current and Twinkle encourages her to try again.</li>
+    <li>When the last step completes, the row is not updated to all-blue; the <em>Voice found</em> dialog opens over it.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+  <ul>
+    <li>Centred under the top bar at every width; the row is about 60px wide and never wraps.</li>
+    <li>Dots scale with the root font size, so at 200% zoom they are 28px.</li>
+    <li>Leave 20px (<code>--space-5</code>) below the row so the grown now dot never touches Twinkle's coach bubble.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="theming"><h2><a href="#theming">Theming</a></h2>
+  <p>Reads <code>--color-bg-surface</code> and <code>--shadow-1</code> (to come), <code>--color-accent</code> (done), <code>--color-reward-bg</code> and <code>--shadow-ring-reward</code> (now). No component tokens. Gold stays gold in the night studio; the to-come dots become night surfaces, still lifted by the shadow, and done turns the lighter brand blue.</p>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <h3>Role and pattern</h3>
+  <p>There is no APG widget for a non-interactive step indicator. The row is a single image of the progress, <code>role="img"</code>, whose <code>aria-label</code> says the step in words (<em>Step 2 of 3: your lowest note</em>); its dots are presentational. Update the label whenever the step changes. If steps ever become navigable, switch to an <code>&lt;ol&gt;</code> of links with <code>aria-current="step"</code>.</p>
+  <h3>Keyboard</h3>
+  <table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody>
+    <tr><td><kbd>Tab</kbd></td><td>Skips the stepper; it is not interactive. Focus moves from the top bar to the screen's main action.</td></tr>
+    <tr><td>Screen reader browse keys</td><td>Read the stepper as one image with its step label.</td></tr>
+  </tbody></table>
+  <h3>Focus</h3>
+  <p>The stepper never takes focus. When a step changes, focus stays on the action she used; announce the new instruction through Twinkle's <a href="coach-bubble.html">coach bubble</a> (a polite live region; the mocks' bubble is not one yet) rather than the stepper label.</p>
+  <h3>Labelling</h3>
+  <p>The mocks put <code>aria-label="Progress"</code> on a plain <code>&lt;div&gt;</code>. A generic element's <code>aria-label</code> is not announced, and "Progress" would not say which step anyway. The contract gives the row <code>role="img"</code> and a label with the step number, total and name.</p>
+  <h3>Contrast</h3>
+  <p>The dots are supplementary: the step is always also in words (the label and Twinkle's bubble), so the pale to-come dot on the sky is exempt as decoration. The done and now dots still meet 3:1 so they read as marks.</p>
+  <div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);">
+    <div class="ds-pair"><span>Done dot against the sky</span><span class="ds-pair__ratio" data-contrast="--color-accent|--color-bg-canvas" data-min="3"></span></div>
+    <div class="ds-pair"><span>Done dot against a card</span><span class="ds-pair__ratio" data-contrast="--color-accent|--color-bg-surface" data-min="3"></span></div>
+  </div>
+  <h3>Motion</h3>
+  <p>The dots change state without animation; the row only joins the screen's staggered entrance (<code>.rise</code>), which reduced motion removes. The now dot's size is static, not a pulse.</p>
+  <h3>Touch</h3>
+  <p>Not a target. Because the dots look small and tappable, nothing must happen when they are tapped; never give them pointer cursors or hover effects.</p>
+</section>
+
+<section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+  <ul>
+    <li>No visible words on the stepper itself. The step's instruction is Twinkle's: <em>Sing your lowest comfy note — a big cozy “laaa” — and hold it!</em>.</li>
+    <li>The hidden label follows one pattern: <em>Step N of M: name</em>, with the name in a child's words (<em>your lowest note</em>, not <em>low range capture</em>).</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas"><div class="steps" role="img" aria-label="Step 2 of 3: your lowest note"><span class="step-dot done"></span><span class="step-dot now"></span><span class="step-dot"></span></div></div><figcaption><code>role="img"</code> with "Step 2 of 3: your lowest note": the dots and the words say the same thing.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><div class="steps"><span class="step-dot done"></span><span class="step-dot now"></span><span class="step-dot"></span></div></div><figcaption>The mocks' plain <code>&lt;div aria-label="Progress"&gt;</code>: silent to a screen reader, and "Progress" names no step.</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas"><div class="steps" role="img" aria-label="Step 3 of 3: your highest note"><span class="step-dot done"></span><span class="step-dot done"></span><span class="step-dot now"></span></div></div><figcaption>Only done, now and to come. A step she has not managed yet simply stays now.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas ds-col"><div class="steps" role="img" aria-label="Step 2 of 3"><span class="step-dot done"></span><span class="step-dot now"></span><span class="step-dot"></span></div><span class="field-error">Step 1 failed — try again</span></div><figcaption>Marking a step as failed. There is no failure in Find My Voice, only "let's try that note again".</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+  <div class="ds-table-wrap"><table class="ds-table">
+<thead><tr><th scope="col">Use</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+<tbody>
+<tr><td>Dot size</td><td><code>--size-dot</code></td><td><span data-theme="light" data-token="--size-dot"></span></td><td><span data-theme="dark" data-token="--size-dot"></span></td></tr>
+<tr><td>To-come dot</td><td><code>--color-bg-surface</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-bg-surface" data-swatch></i><span data-token="--color-bg-surface"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-bg-surface" data-swatch></i><span data-token="--color-bg-surface"></span></span></td></tr>
+<tr><td>To-come dot shadow</td><td><code>--shadow-1</code></td><td><span data-theme="light" data-token="--shadow-1"></span></td><td><span data-theme="dark" data-token="--shadow-1"></span></td></tr>
+<tr><td>Done dot</td><td><code>--color-accent</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-accent" data-swatch></i><span data-token="--color-accent"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-accent" data-swatch></i><span data-token="--color-accent"></span></span></td></tr>
+<tr><td>Now dot</td><td><code>--color-reward-bg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-reward-bg" data-swatch></i><span data-token="--color-reward-bg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-reward-bg" data-swatch></i><span data-token="--color-reward-bg"></span></span></td></tr>
+<tr><td>Now dot ring</td><td><code>--shadow-ring-reward</code></td><td><span data-theme="light" data-token="--shadow-ring-reward"></span></td><td><span data-theme="dark" data-token="--shadow-ring-reward"></span></td></tr>
+<tr><td>Gap</td><td><code>--space-2</code></td><td><span data-theme="light" data-token="--space-2"></span></td><td><span data-theme="dark" data-token="--space-2"></span></td></tr>
+<tr><td>Space below</td><td><code>--space-5</code></td><td><span data-theme="light" data-token="--space-5"></span></td><td><span data-theme="dark" data-token="--space-5"></span></td></tr>
+</tbody></table></div>
+</section>
+
+<section class="ds-section" id="code"><h2><a href="#code">Code</a></h2>
+  <pre><code>&lt;div class="steps rise d1" role="img" aria-label="Step 2 of 3: your lowest note" data-steps&gt;
+  &lt;span class="step-dot done"&gt;&lt;/span&gt;
+  &lt;span class="step-dot now"&gt;&lt;/span&gt;
+  &lt;span class="step-dot"&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+function setStep(row, i, names) {
+  [...row.children].forEach((d, n) =&gt; { d.classList.toggle('done', n &lt; i); d.classList.toggle('now', n === i); });
+  row.setAttribute('aria-label', `Step ${i + 1} of ${names.length}: ${names[i]}`);
+}</code></pre>
+  <table class="ds-table"><thead><tr><th scope="col">Class / attribute</th><th scope="col">Effect</th></tr></thead><tbody>
+    <tr><td><code>.steps</code></td><td>Centred row, 8px gaps, 20px below.</td></tr>
+    <tr><td><code>.step-dot</code></td><td>To-come dot.</td></tr>
+    <tr><td><code>.step-dot.done</code></td><td>Done: blue.</td></tr>
+    <tr><td><code>.step-dot.now</code></td><td>Current: gold, 130%, glowing ring.</td></tr>
+    <tr><td><code>role="img"</code> + <code>aria-label</code></td><td>Required text alternative; update it with every step.</td></tr>
+    <tr><td><code>data-steps</code></td><td>Hook the app and E2E page objects read. Keep it.</td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+  <p>Extracted from these mocks:</p>
+  <ul>
+    <li><a href="../../mocks/pages/voice-setup/default.html">pages/voice-setup/default</a> (step 1 now)</li>
+    <li><a href="../../mocks/pages/voice-setup/listening-low.html">pages/voice-setup/listening-low</a> (step 2 now)</li>
+    <li><a href="../../mocks/pages/voice-setup/holding.html">pages/voice-setup/holding</a> (step 2, holding the note)</li>
+    <li><a href="../../mocks/pages/voice-setup/listening-high.html">pages/voice-setup/listening-high</a> (step 3 now)</li>
+    <li><a href="../../mocks/dialogs/voice-found/default.html">dialogs/voice-found/default</a> (what follows the last step)</li>
+  </ul>
+  <p>Drift fixed during extraction: the 10px gap and 22px bottom margin snapped to 8px and 20px (D11); the now dot's bespoke glow became <code>--shadow-ring-reward</code> (D13); the dot colours moved to role tokens (D09). New in the system and not in the drift log: the mocks' <code>aria-label="Progress"</code> on a generic <code>&lt;div&gt;</code> is replaced by <code>role="img"</code> with a step label. See the <a href="../index.html#drift">drift log</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

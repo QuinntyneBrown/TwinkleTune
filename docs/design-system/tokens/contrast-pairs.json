@@ -354,6 +354,12 @@
       "bg": "--color-reward-bg",
       "min": 4.5,
       "note": "Twinkle's face on her gold body (both themes)"
+    },
+    {
+      "fg": "--color-gentle-fg",
+      "bg": "--color-bg-surface-sunken",
+      "min": 3,
+      "note": "gentle invalid edge on child name fields (1.4.11)"
     }
   ]
 }

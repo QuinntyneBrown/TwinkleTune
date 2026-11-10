@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pagination — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune pagination: numbered and previous/next, with gaps, current and disabled states in both themes, as a labelled navigation landmark.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Component · Navigation</p>
+      <h1>Pagination</h1>
+      <p class="ds-lead">Pagination splits a long family list into pages of round, toy-like page buttons: the family high-score history, a big songbook, the photo library. The current page is blue with a small lip.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill"><code>&lt;nav aria-label="Pagination"&gt;</code></span><span class="ds-pill">Status: new</span><span class="ds-pill">Class <code>.pagination</code> · <code>.pagination-link</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>Not in the mocks yet; added for the family-server managers. Today every list fits on one screen: eight songs, three singers, eight avatars. Pagination is for when a family list outgrows that, such as a songbook of 60 songs or a year of family high scores.</p>
+  <ul>
+    <li>Use it on grown-up lists longer than about 25 rows, where a reader wants to jump to a known place.</li>
+    <li>Child lists never paginate: Songs, Tips and badges stay one scrolling list, because "page 2" is meaningless to a 5-year-old and hiding songs behind it breaks "one big obvious action".</li>
+    <li>For a short list that might grow a little, prefer a single <em>Show more</em> <a href="button.html">button</a> at the end.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="anatomy"><h2><a href="#anatomy">Anatomy</a></h2>
+  <div class="ds-anatomy">
+    <figure class="ds-anatomy__figure">
+      <nav class="pagination" aria-label="Pagination, songbook">
+        <ul>
+          <li><a class="pagination-link" href="#anatomy" aria-label="Previous page">←</a></li>
+          <li><a class="pagination-link" href="#anatomy" aria-label="Page 1">1</a></li>
+          <li><a class="pagination-link" href="#anatomy" aria-current="page" aria-label="Page 2">2</a></li>
+          <li><span class="pagination-gap" aria-hidden="true">…</span></li>
+          <li><a class="pagination-link" href="#anatomy" aria-label="Page 6">6</a></li>
+          <li><a class="pagination-link" href="#anatomy" aria-label="Next page">→</a></li>
+        </ul>
+      </nav>
+      <span class="ds-callout" style="left: 18%; top: 26%;" aria-hidden="true">1</span>
+      <span class="ds-callout" style="left: 34%; top: 26%;" aria-hidden="true">2</span>
+      <span class="ds-callout" style="left: 46%; top: 26%;" aria-hidden="true">3</span>
+      <span class="ds-callout" style="left: 58%; top: 26%;" aria-hidden="true">4</span>
+    </figure>
+    <ol class="ds-anatomy__list">
+      <li><div><b>Previous / next</b><small>An arrow in a page button, labelled <em>Previous page</em> / <em>Next page</em>.</small></div></li>
+      <li><div><b>Page button</b><small><code>.pagination-link</code>: 44px round-ended pill (<code>--target-comfortable</code>), white, <code>--shadow-1</code>, label type.</small></div></li>
+      <li><div><b>Current page</b><small>Accent body, <code>--color-fg-on-accent</code>, 3px lip; <code>aria-current="page"</code>.</small></div></li>
+      <li><div><b>Gap</b><small><code>.pagination-gap</code>: "…" in <code>--color-fg-subtle</code>, hidden from assistive technology.</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="ds-section" id="variants"><h2><a href="#variants">Variants</a></h2>
+  <h3>Numbered</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-sky">
+      <nav class="pagination" aria-label="Pagination, family high scores">
+        <ul>
+          <li><a class="pagination-link" href="#variants" aria-label="Previous page">←</a></li>
+          <li><a class="pagination-link" href="#variants" aria-label="Page 1">1</a></li>
+          <li><span class="pagination-gap" aria-hidden="true">…</span></li>
+          <li><a class="pagination-link" href="#variants" aria-label="Page 4">4</a></li>
+          <li><a class="pagination-link" href="#variants" aria-current="page" aria-label="Page 5">5</a></li>
+          <li><a class="pagination-link" href="#variants" aria-label="Page 6">6</a></li>
+          <li><span class="pagination-gap" aria-hidden="true">…</span></li>
+          <li><a class="pagination-link" href="#variants" aria-label="Page 12">12</a></li>
+          <li><a class="pagination-link" href="#variants" aria-label="Next page">→</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="ds-example__caption"><span>First, last, and one either side of the current page; gaps fill the rest.</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;nav class="pagination" aria-label="Pagination, family high scores"&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a class="pagination-link" href="?page=4" aria-label="Previous page"&gt;←&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a class="pagination-link" href="?page=1" aria-label="Page 1"&gt;1&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;span class="pagination-gap" aria-hidden="true"&gt;…&lt;/span&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a class="pagination-link" href="?page=5" aria-current="page" aria-label="Page 5"&gt;5&lt;/a&gt;&lt;/li&gt;
+    …
+  &lt;/ul&gt;
+&lt;/nav&gt;</code></pre></details>
+  </div>
+  <h3>Previous and next only</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas">
+      <nav class="pagination" aria-label="Pagination, photo library">
+        <ul>
+          <li><a class="pagination-link" href="#variants">← Newer</a></li>
+          <li><span class="field-hint">Page 2 of 4</span></li>
+          <li><a class="pagination-link" href="#variants">Older →</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="ds-example__caption"><span>For time-ordered lists, words instead of numbers, with the position in plain text.</span></div>
+  </div>
+</section>
+
+<section class="ds-section" id="sizes" data-na="One size: 44px page buttons."><h2><a href="#sizes">Sizes</a></h2><p class="ds-na">One size: 44px page buttons.</p></section>
+
+<section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+  <p>Hover and focus are forced with <code>data-state</code>; current and disabled use <code>aria-current</code> and <code>aria-disabled</code>.</p>
+  <div class="ds-matrix"><table>
+    <thead><tr><th scope="col">Part</th><th scope="col">Default</th><th scope="col">Hover</th><th scope="col">Focus</th><th scope="col">Current</th><th scope="col">Disabled</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Page</th><td><a class="pagination-link" href="#states" aria-label="Page 3">3</a></td><td><a class="pagination-link" href="#states" data-state="hover" aria-label="Page 3">3</a></td><td><a class="pagination-link" href="#states" data-state="focus" aria-label="Page 3">3</a></td><td><a class="pagination-link" href="#states" aria-current="page" aria-label="Page 3">3</a></td><td><span class="ds-na" style="padding: var(--space-1) var(--space-2);">Pages are never disabled</span></td></tr>
+      <tr><th scope="row">Next</th><td><a class="pagination-link" href="#states" aria-label="Next page">→</a></td><td><a class="pagination-link" href="#states" data-state="hover" aria-label="Next page">→</a></td><td><a class="pagination-link" href="#states" data-state="focus" aria-label="Next page">→</a></td><td><span class="ds-na" style="padding: var(--space-1) var(--space-2);">Not applicable</span></td><td><a class="pagination-link" role="link" aria-disabled="true" aria-label="Next page">→</a></td></tr>
+    </tbody>
+  </table></div>
+  <h3>Both themes</h3>
+  <div class="ds-themes">
+    <div data-theme="light"><nav class="pagination" aria-label="Pagination, light theme"><ul><li><a class="pagination-link" role="link" aria-disabled="true" aria-label="Previous page">←</a></li><li><a class="pagination-link" href="#states" aria-current="page" aria-label="Page 1">1</a></li><li><a class="pagination-link" href="#states" data-state="hover" aria-label="Page 2">2</a></li><li><a class="pagination-link" href="#states" aria-label="Next page">→</a></li></ul></nav></div>
+    <div data-theme="dark"><nav class="pagination" aria-label="Pagination, dark theme"><ul><li><a class="pagination-link" role="link" aria-disabled="true" aria-label="Previous page">←</a></li><li><a class="pagination-link" href="#states" aria-current="page" aria-label="Page 1">1</a></li><li><a class="pagination-link" href="#states" data-state="hover" aria-label="Page 2">2</a></li><li><a class="pagination-link" href="#states" aria-label="Next page">→</a></li></ul></nav></div>
+  </div>
+  <ul>
+    <li><b>Current</b> is blue with a lip and <code>aria-current="page"</code>, and the page number is also given in text near the list (<em>Page 5 of 12</em>), so it never rests on colour.</li>
+    <li><b>Disabled</b> applies only to previous on the first page and next on the last: the link loses its <code>href</code>, gets <code>aria-disabled="true"</code>, flattens and greys out. It stays in place so the row does not shift.</li>
+    <li><b>Loading</b> belongs to the list: keep the pagination, set <code>aria-busy="true"</code> on the list and show <a href="skeleton.html">skeleton rows</a>.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+  <ul>
+    <li>From the <code>sm</code> breakpoint up, show first, last, current and one neighbour each side (at most 9 items).</li>
+    <li>Below <code>sm</code>, drop the neighbours: previous, current, a gap, last, next (at most 5 items, about 260px).</li>
+    <li>The list wraps (<code>flex-wrap</code>) rather than scrolling if it still does not fit; buttons never shrink below 44px.</li>
+    <li>Centre the pagination under its list on phones; align it to the list's end on wide screens.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="theming"><h2><a href="#theming">Theming</a></h2>
+  <p>Page buttons read <code>--color-bg-surface</code>, <code>--color-fg-default</code>, <code>--shadow-1</code> and <code>--color-bg-subtle</code> (hover); the current page reads the accent trio; disabled reads <code>--color-fg-disabled</code> on <code>--color-bg-subtle</code>. In the night studio the white buttons become raised navy and the current page lightens to brand blue with a navy number, matching the toy button.</p>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <h3>Role and pattern</h3>
+  <p>No dedicated APG pattern; it is a <a href="https://www.w3.org/WAI/ARIA/apg/patterns/landmarks/examples/navigation.html">navigation landmark</a> (<code>&lt;nav&gt;</code>) labelled with what it pages (<em>Pagination, family high scores</em>), containing a list of links. The current page link has <code>aria-current="page"</code>. When pages load in place without a URL change, use buttons instead of links and move focus to the list's heading after loading.</p>
+  <h3>Keyboard</h3>
+  <table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody>
+    <tr><td><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>Moves through the page links. Disabled previous/next (no <code>href</code>) are skipped; gaps are not focusable.</td></tr>
+    <tr><td><kbd>Enter</kbd></td><td>Goes to that page.</td></tr>
+  </tbody></table>
+  <h3>Focus</h3>
+  <p>The shared 3px <code>--color-focus-ring</code> at a 3px offset. After a page change, focus goes to the top of the new results (the list heading), not back to the pagination.</p>
+  <h3>Labelling</h3>
+  <p>Number links are labelled <em>Page 5</em>; arrows <em>Previous page</em> / <em>Next page</em>. Gaps are <code>aria-hidden</code>. Announce the new position through the page's status region: <em>"Page 5 of 12, family high scores"</em>.</p>
+  <h3>Contrast</h3>
+  <div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);">
+    <div class="ds-pair"><span>Page number on white</span><span class="ds-pair__ratio" data-contrast="--color-fg-default|--color-bg-surface" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Page number on hover tint</span><span class="ds-pair__ratio" data-contrast="--color-fg-default|--color-bg-subtle" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Current page number</span><span class="ds-pair__ratio" data-contrast="--color-fg-on-accent|--color-accent" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Current page edge on the sky</span><span class="ds-pair__ratio" data-contrast="--color-accent|--color-bg-canvas" data-min="3"></span></div>
+    <div class="ds-pair"><span>Gap ellipsis</span><span class="ds-pair__ratio" data-contrast="--color-fg-subtle|--color-bg-surface" data-min="4.5"></span></div>
+  </div>
+  <h3>Motion</h3>
+  <p>None on the control. If the list scrolls to its top after a page change, the scroll is instant under reduced motion.</p>
+  <h3>Touch</h3>
+  <p>44px buttons with 8px between them (<code>--target-comfortable</code>). Grown-up lists only.</p>
+</section>
+
+<section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+  <ul>
+    <li>Numbers for lists without a natural order; <em>Newer</em> / <em>Older</em> for time-ordered lists such as photo uploads.</li>
+    <li>Always give the position in words near the list: <em>Page 2 of 4</em> or <em>Songs 26–50 of 60</em>.</li>
+    <li>Never a page-size picker on family lists; choose a sensible size (25) and keep it.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas"><nav class="pagination" aria-label="Pagination, do"><ul><li><a class="pagination-link" href="#do-dont" aria-label="Previous page">←</a></li><li><a class="pagination-link" href="#do-dont" aria-current="page" aria-label="Page 2">2</a></li><li><span class="pagination-gap" aria-hidden="true">…</span></li><li><a class="pagination-link" href="#do-dont" aria-label="Page 6">6</a></li><li><a class="pagination-link" href="#do-dont" aria-label="Next page">→</a></li></ul></nav></div><figcaption>A short, labelled set that fits a phone, with the current page marked by <code>aria-current</code>.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><nav class="pagination" aria-label="Pagination, dont"><ul><li><a class="pagination-link" href="#do-dont">1</a></li><li><a class="pagination-link" href="#do-dont">2</a></li><li><a class="pagination-link" href="#do-dont">3</a></li><li><a class="pagination-link" href="#do-dont">4</a></li><li><a class="pagination-link" href="#do-dont">5</a></li><li><a class="pagination-link" href="#do-dont">6</a></li><li><a class="pagination-link" href="#do-dont">7</a></li><li><a class="pagination-link" href="#do-dont">8</a></li></ul></nav></div><figcaption>Every page number with no current page and no arrows. It wraps on a phone and nobody knows where they are.</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas ds-sky ds-example__canvas--stack"><div class="new-songs"><span class="ico" aria-hidden="true">🎁</span>Grown-ups can add new songs in the Grown-Ups Corner!</div></div><figcaption>Child lists scroll to a friendly end, like the Songs mock's "new songs" card.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas ds-sky"><nav class="pagination" aria-label="Pagination, child screen"><ul><li><a class="pagination-link" href="#do-dont" aria-current="page" aria-label="Page 1">1</a></li><li><a class="pagination-link" href="#do-dont" aria-label="Page 2">2</a></li></ul></nav></div><figcaption>Paginate songs on a child screen. Songs on page 2 might as well not exist.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+  <div class="ds-table-wrap"><table class="ds-table">
+<thead><tr><th scope="col">Use</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+<tbody>
+<tr><td>Page button</td><td><code>--color-bg-surface</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-bg-surface" data-swatch></i><span data-token="--color-bg-surface"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-bg-surface" data-swatch></i><span data-token="--color-bg-surface"></span></span></td></tr>
+<tr><td>Page number</td><td><code>--color-fg-default</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-default" data-swatch></i><span data-token="--color-fg-default"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-default" data-swatch></i><span data-token="--color-fg-default"></span></span></td></tr>
+<tr><td>Lift</td><td><code>--shadow-1</code></td><td><span data-theme="light" data-token="--shadow-1"></span></td><td><span data-theme="dark" data-token="--shadow-1"></span></td></tr>
+<tr><td>Hover, disabled body</td><td><code>--color-bg-subtle</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-bg-subtle" data-swatch></i><span data-token="--color-bg-subtle"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-bg-subtle" data-swatch></i><span data-token="--color-bg-subtle"></span></span></td></tr>
+<tr><td>Current body</td><td><code>--color-accent</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-accent" data-swatch></i><span data-token="--color-accent"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-accent" data-swatch></i><span data-token="--color-accent"></span></span></td></tr>
+<tr><td>Current number</td><td><code>--color-fg-on-accent</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-on-accent" data-swatch></i><span data-token="--color-fg-on-accent"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-on-accent" data-swatch></i><span data-token="--color-fg-on-accent"></span></span></td></tr>
+<tr><td>Current lip</td><td><code>--color-accent-edge</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-accent-edge" data-swatch></i><span data-token="--color-accent-edge"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-accent-edge" data-swatch></i><span data-token="--color-accent-edge"></span></span></td></tr>
+<tr><td>Lip depth</td><td><code>--lip-small</code></td><td><span data-theme="light" data-token="--lip-small"></span></td><td><span data-theme="dark" data-token="--lip-small"></span></td></tr>
+<tr><td>Disabled arrow</td><td><code>--color-fg-disabled</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-disabled" data-swatch></i><span data-token="--color-fg-disabled"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-disabled" data-swatch></i><span data-token="--color-fg-disabled"></span></span></td></tr>
+<tr><td>Gap</td><td><code>--color-fg-subtle</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-subtle" data-swatch></i><span data-token="--color-fg-subtle"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-subtle" data-swatch></i><span data-token="--color-fg-subtle"></span></span></td></tr>
+<tr><td>Button size</td><td><code>--target-comfortable</code></td><td><span data-theme="light" data-token="--target-comfortable"></span></td><td><span data-theme="dark" data-token="--target-comfortable"></span></td></tr>
+<tr><td>Corners</td><td><code>--radius-full</code></td><td><span data-theme="light" data-token="--radius-full"></span></td><td><span data-theme="dark" data-token="--radius-full"></span></td></tr>
+<tr><td>Type</td><td><code>--text-label</code></td><td><span data-theme="light" data-token="--text-label"></span></td><td><span data-theme="dark" data-token="--text-label"></span></td></tr>
+<tr><td>Focus ring</td><td><code>--color-focus-ring</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-focus-ring" data-swatch></i><span data-token="--color-focus-ring"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-focus-ring" data-swatch></i><span data-token="--color-focus-ring"></span></span></td></tr>
+</tbody></table></div>
+</section>
+
+<section class="ds-section" id="code"><h2><a href="#code">Code</a></h2>
+  <pre><code>&lt;nav class="pagination" aria-label="Pagination, songbook"&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a class="pagination-link" role="link" aria-disabled="true" aria-label="Previous page"&gt;←&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a class="pagination-link" href="?page=1" aria-current="page" aria-label="Page 1"&gt;1&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a class="pagination-link" href="?page=2" aria-label="Page 2"&gt;2&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a class="pagination-link" href="?page=2" aria-label="Next page"&gt;→&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;</code></pre>
+  <table class="ds-table"><thead><tr><th scope="col">Class / attribute</th><th scope="col">Effect</th></tr></thead><tbody>
+    <tr><td><code>.pagination</code></td><td>On the <code>&lt;nav&gt;</code>; lays out the inner <code>&lt;ul&gt;</code>.</td></tr>
+    <tr><td><code>.pagination-link</code></td><td>A page, previous or next button (link or button).</td></tr>
+    <tr><td><code>.pagination-gap</code></td><td>The "…" between ranges.</td></tr>
+    <tr><td><code>aria-current="page"</code></td><td>Current page look.</td></tr>
+    <tr><td><code>aria-disabled="true"</code></td><td>Disabled previous/next; remove <code>href</code> too.</td></tr>
+    <tr><td><code>data-state="hover|focus"</code></td><td>Documentation only.</td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+  <p>Not in the mocks yet; added for the family-server managers. Context from:</p>
+  <ul>
+    <li><a href="../../mocks/dialogs/song-manager/default.html">dialogs/song-manager/default</a> (the songbook list that would paginate as it grows)</li>
+    <li><a href="../../mocks/dialogs/song-board/default.html">dialogs/song-board/default</a> (family high scores)</li>
+    <li><a href="../../mocks/pages/songs/default.html">pages/songs/default</a> (the child list that ends with a friendly card instead)</li>
+  </ul>
+  <p>Related drift: D01 (label on blue), D21 (focus ring). See the <a href="../index.html#drift">drift log</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Content — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune content rules: encouragement-only voice, Twinkle&#x27;s voice, the grown-ups&#x27; voice, casing, button verbs, numbers, the fail-soft error formula, the empty-state formula and a microcopy library from the mocks.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Foundation</p>
+      <h1>Content</h1>
+      <p class="ds-lead">TwinkleTune speaks in one voice: Twinkle's. She is warm, brief and always on the singer's side. The only kind of feedback that exists is encouragement, so every word a child sees has to pass one test: would it make a five-year-old want to sing again?</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill">Encouragement only</span><span class="ds-pill">Sentence case</span><span class="ds-pill">Real strings from the mocks</span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#voice">Encouragement only</a></li><li><a href="#twinkle">Twinkle's voice</a></li><li><a href="#grown-ups">The grown-ups' voice</a></li><li><a href="#casing">Casing and punctuation</a></li><li><a href="#buttons">Button verbs</a></li><li><a href="#numbers">Numbers</a></li><li><a href="#errors">Errors: fail soft</a></li><li><a href="#empty">Empty states</a></li><li><a href="#library">Microcopy library</a></li><li><a href="#usage">Usage</a></li><li><a href="#tokens">Tokens</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>Two audiences, two registers, one product:</p>
+  <ul>
+    <li><b>Children</b> (5 to 10) hear Twinkle. Short sentences, concrete words, one emoji, lots of praise, never a problem without a next step. Many cannot read fluently yet, so the words sit beside emoji and big buttons that already say most of it.</li>
+    <li><b>Grown-ups</b> read the Grown-Ups Corner, the parent gate and the family-server managers. Plain, specific and calm: what happened, what still works, what to do.</li>
+  </ul>
+  <p>Use the domain words everywhere: <b>singer</b>, <b>song</b>, <b>voice range</b>, <b>landed note</b>, <b>sparkle</b>, <b>streak</b>, <b>tricky part</b>, <b>duet room</b>, <b>parent gate</b>, <b>Grown-Ups Corner</b>, <b>no-mic mode</b>. Children see friendlier forms of some (a voice range is "your voice", a shift is "3 notes higher"), never a synonym invented on the spot.</p>
+</section>
+
+<section class="ds-section" id="voice"><h2><a href="#voice">Encouragement only</a></h2>
+  <p>This is the product's first principle, and it is a content rule before it is a visual one.</p>
+  <ul class="ds-checklist">
+    <li><span><b>Praise what happened.</b> Lead with the good: <em>You landed 18 of 24 notes! 🎯</em>, not how many slipped by.</span></li>
+    <li><span><b>Every headline is praise.</b> Results open with <em>Super Singing</em>, <em>Beautiful Singing</em> or <em>Brave Singing</em>. There is no failing result.</span></li>
+    <li><span><b>Offer, never assign.</b> The tricky part is a question: <em>want to practice just that bit?</em></span></li>
+    <li><span><b>Silence is not a mistake.</b> Nothing is ever said about being quiet, slow or off-key.</span></li>
+    <li><span><b>A nudge says what to try next.</b> <em>That sounds close to your low note — reach a little higher! 🐦</em></span></li>
+    <li><span><b>Problems belong to the app, not the child.</b> <em>Twinkle can't hear you 💙</em>, not "You didn't allow the microphone".</span></li>
+  </ul>
+  <h3>Words a child never sees</h3>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <thead><tr><th scope="col">Never</th><th scope="col">Say instead</th></tr></thead>
+    <tbody>
+      <tr><td>wrong, incorrect, bad, missed</td><td>Say nothing about it. Praise the landed notes.</td></tr>
+      <tr><td>failed, error, oops, uh-oh</td><td>What still works: <em>You can keep singing with the profile on this device!</em></td></tr>
+      <tr><td>try harder, do better, not good enough</td><td><em>One more sing and it'll shine even brighter!</em></td></tr>
+      <tr><td>score (as a judgement), low score, 0 points</td><td>Sparkles earned, notes landed, stars earned</td></tr>
+      <tr><td>game over, time's up, too slow</td><td>Nothing is timed.</td></tr>
+      <tr><td>locked, forbidden, not allowed</td><td><em>For grown-ups only</em>; a badge is "still to earn"</td></tr>
+      <tr><td>too high, too low (about her voice)</td><td><em>Tuned just for YOU!</em>: the song moves, not the singer</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="ds-section" id="twinkle"><h2><a href="#twinkle">Twinkle's voice</a></h2>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-sky">
+      <div class="coach ds-w-form">
+        <svg class="mascot mascot-sm" viewBox="0 0 120 120" aria-hidden="true"><path class="twinkle-body" d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z" stroke-width="7" stroke-linejoin="round"/><circle class="twinkle-eye" cx="48" cy="56" r="4.5"/><circle class="twinkle-eye" cx="72" cy="56" r="4.5"/><circle class="twinkle-cheek" cx="41" cy="66" r="5.5"/><circle class="twinkle-cheek" cx="79" cy="66" r="5.5"/><path class="twinkle-smile" d="M50 66 Q60 76 70 66" fill="none" stroke-width="4" stroke-linecap="round"/></svg>
+        <div class="bubble bubble-left">Your notes sparkled! The “My fair lady!” part was tricky — want to practice just that bit?</div>
+      </div>
+    </div>
+    <div class="ds-example__caption"><span>Praise, then one specific, optional next step (Results).</span></div>
+  </div>
+  <ul>
+    <li><b>First person, talking to you.</b> <em>I'll listen to your voice so I can tune every song just for you.</em> Elsewhere the app refers to her by name: <em>Can Twinkle hear you sing?</em></li>
+    <li><b>Short.</b> One or two sentences per bubble, about 20 words at most. A bubble that needs scrolling is two bubbles, or one too many.</li>
+    <li><b>Concrete, playful images.</b> <em>Take a big balloon breath… 🎈</em>, <em>squeak up high like a baby bird</em>, <em>fits your voice like a comfy sweater</em>.</li>
+    <li><b>YOUR in capitals</b> is her one emphasis, for the idea that the song fits the singer: <em>Every song in YOUR key 💙</em>.</li>
+    <li><b>💙 is her signature</b> for reassurance; ✨ for sparkle and celebration; 🎉 for big wins. One emoji, at the end.</li>
+    <li><b>She uses the singer's name</b> where it is natural: <em>Hi, Ada! 👋</em>, <em>Beautiful Singing, Ada! 🎉</em>.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="grown-ups"><h2><a href="#grown-ups">The grown-ups' voice</a></h2>
+  <ul>
+    <li>Plain and specific: <em>This erases the profile, sparkles, badges and voice range on this device.</em></li>
+    <li>Say where data lives: <em>Badges &amp; streaks stay on this device. Profiles, songs and family high scores live on your home server only.</em></li>
+    <li>Destructive buttons name the loss (<em>Yes, erase everything</em>, <em>Yes, delete</em>); the safe choice keeps things (<em>Keep my stuff</em>, <em>Keep it</em>, <em>Keep them</em>).</li>
+    <li>Still warm. A 💙 at the end of a grown-up note is fine; jargon is not. Say "family server", not "API" or "backend".</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="casing"><h2><a href="#casing">Casing and punctuation</a></h2>
+  <ul>
+    <li><b>Sentence case</b> for buttons, bubbles, labels, toasts and dialog titles: <em>Pick another song 🎵</em>, <em>Taking a breather?</em>, <em>Every singer needs a name! 💙</em>.</li>
+    <li><b>Title Case for named places and features</b>, which are proper names in TwinkleTune: <em>Find My Voice</em>, <em>Pick a Song</em>, <em>Sing a Song</em>, <em>Duet Time</em>, <em>Twinkle's Tips</em>, <em>My Star Journey</em>, <em>Grown-Ups Corner</em>, badge names (<em>Show Stopper</em>, <em>Perfect Ten</em>) and level titles (<em>Level 3 Fledgling</em>).</li>
+    <li><b>Song titles</b> as the catalogue spells them: <em>Twinkle Twinkle Little Star</em>, <em>Row, Row, Row Your Boat</em>, <em>Frère Jacques</em>.</li>
+    <li><b>Upper case only through CSS</b> for small labels (<em>ROOM CODE</em>, the stage label <em>SING TO MOVE YOUR STAR ↑↓</em>); write the source in sentence case so screen readers do not spell it out. The mocks still type some of these in capitals; new markup does not.</li>
+    <li><b>Exclamation marks</b> for celebration and invitations, one at a time. Questions for offers. An em dash, with spaces, joins a cheer to its reason.</li>
+    <li><b>Curly quotes</b> around lyrics and song names in sentences: <em>The “My fair lady!” part</em>, <em>Delete “Frère Jacques”?</em>. The ellipsis is one character (…).</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="buttons"><h2><a href="#buttons">Button verbs</a></h2>
+  <p>A button says what happens, in words a child would say. Lead with a verb or an exclamation, add one emoji at the end.</p>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <thead><tr><th scope="col">Action</th><th scope="col">Label</th><th scope="col">Never</th></tr></thead>
+    <tbody>
+      <tr><td>Start singing</td><td><em>Let's Sing! 🎤</em>, <em>Yes, let's sing! 🎤</em>, <em>Tap to start ▶</em></td><td>Start, Begin, OK</td></tr>
+      <tr><td>Continue</td><td><em>Keep singing ▶</em>, <em>Cool, let's go! ✨</em>, <em>To my songs 🎵</em></td><td>Continue, Next, Dismiss</td></tr>
+      <tr><td>Repeat</td><td><em>Sing again 🔁</em>, <em>Start over 🔁</em></td><td>Retry, Try again (after singing)</td></tr>
+      <tr><td>Choose something else</td><td><em>New song 🎵</em>, <em>Pick another song 🎵</em></td><td>Back, Cancel</td></tr>
+      <tr><td>Practise</td><td><em>Practice the tricky part 🎯</em>, <em>Try it with me ▶</em></td><td>Fix mistakes, Redo</td></tr>
+      <tr><td>Identify yourself</td><td><em>That's me!</em>, <em>Sing as me! 🎤</em>, <em>Pick my profile ⭐</em></td><td>Log in, Select user</td></tr>
+      <tr><td>Grown-up create and save</td><td><em>Add singer ⭐</em>, <em>Create ✨</em>, <em>Save changes</em></td><td>Submit</td></tr>
+      <tr><td>Grown-up destroy</td><td><em>Yes, delete</em>, <em>Yes, remove</em>, <em>Yes, erase everything</em></td><td>OK, Confirm</td></tr>
+      <tr><td>Quiet way out</td><td><em>Maybe later</em>, <em>Back to singing</em>, <em>Keep my stuff</em></td><td>Cancel (on child screens)</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="ds-section" id="numbers"><h2><a href="#numbers">Numbers</a></h2>
+  <ul>
+    <li><b>Digits always</b>, even for small numbers: <em>3 notes higher</em>, <em>Sing 3 songs</em>, <em>1/3</em>.</li>
+    <li><b>Sparkles</b>: the number then the word or ✨. <em>760 sparkles collected</em>, <em>+5 sparkles ✨</em>, <em>140 ✨ to Level 4!</em>, <em>Together you earned 680 ✨!</em>. Ten per landed note, so they only ever go up.</li>
+    <li><b>Landed notes</b>: "X of Y", never a percentage or a miss count. <em>You landed 12 of 27 notes! 🎯</em></li>
+    <li><b>Stars</b>: drawn as one to three stars, said in words for screen readers (<em>1 star earned</em>). Empty stars are "still to earn". Text ratings use ★ and ☆: <em>★★☆</em>.</li>
+    <li><b>Streaks</b>: <em>🔥 7 in a row!</em> for notes, <em>3-Day Streak</em> for days. A streak of zero is not shown.</li>
+    <li><b>Voice range and shift</b>: note names for grown-ups and the Me screen (<em>B3 to E5 — that's 18 notes</em>); "notes higher/lower" for children, never "semitones".</li>
+    <li><b>Durations</b>: <em>⏱ 0:29</em> for song length, <em>1-minute game</em> for Find My Voice. Find My Voice progress is a percentage: <em>Keep holding it… 62% ✨</em>.</li>
+    <li><b>Grown-up values</b> keep units: <em>40 ms</em>, <em>Tempo (BPM)</em>, <em>at most 2 MB</em>.</li>
+    <li><b>Room codes</b>: four capital letters, spaced for reading aloud: <em>K W T M</em>.</li>
+    <li><b>Days</b>: weekday initials in the streak (<em>M T W T F S S</em>), with the full day name as the accessible label.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="errors"><h2><a href="#errors">Errors: fail soft</a></h2>
+  <p><b>Children never see an error.</b> Solo play never depends on the network, so a failed server call falls back to the bundled songs and cached data, and the screen says, calmly, what still works. Grown-ups get a plain explanation and a next step.</p>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <thead><tr><th scope="col">Audience</th><th scope="col">Formula</th><th scope="col">Example</th></tr></thead>
+    <tbody>
+      <tr><td>Child</td><td>What still works + one action to keep singing. No cause, no blame, no "error".</td><td><em>The family server isn't reachable right now. You can keep singing with the profile on this device!</em> · <em>Keep singing solo ▶</em></td></tr>
+      <tr><td>Child, a feature needs the server</td><td>What it needs, in friendly words + the solo alternative.</td><td><em>Duets need the family server, and it isn't reachable right now.</em> · <em>Sing solo instead ▶</em></td></tr>
+      <tr><td>Child, the microphone</td><td>Twinkle's problem + who can help + a way on.</td><td><em>Twinkle can't hear you 💙 Ask a grown-up to allow the microphone, then try again!</em> · <em>Sing just for fun 🎶</em></td></tr>
+      <tr><td>Child, a missing field</td><td>Twinkle says what is needed, warmly.</td><td><em>Every singer needs a name! 💙</em></td></tr>
+      <tr><td>Grown-up</td><td>What happened + what is safe + what to do.</td><td><em>Couldn't save “Frère Jacques”: the family server isn't reachable. Your changes are still here; check the server is running and try again.</em> (the rewrite of D19)</td></tr>
+      <tr><td>Grown-up, validation</td><td>Name the field + the rule, one line each.</td><td><em>A song needs a title.</em> · <em>Tempo must be between 40 and 220 BPM.</em> · <em>Note 3: duration must be positive.</em></td></tr>
+    </tbody>
+  </table></div>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas"><span class="toast toast-pink">Can't reach the family server 📡</span></div><figcaption>Soft pink, plain words, and the screen underneath keeps working.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><span class="toast toast-pink">Failed to fetch</span></div><figcaption>The browser's raw message says nothing useful to anyone (D19). Rewrite it with the grown-up formula.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="empty"><h2><a href="#empty">Empty states</a></h2>
+  <p>An empty state is a beginning, never a lack. Formula: <b>what will be here + the one thing that fills it</b>, in Twinkle's voice, with an emoji.</p>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <thead><tr><th scope="col">Where</th><th scope="col">Copy</th></tr></thead>
+    <tbody>
+      <tr><td>Songs I shine at (new singer)</td><td><em>🎤 Sing your first song and it'll shine here!</em></td></tr>
+      <tr><td>Home, no voice range yet</td><td><em>Shall we find your voice first? Then every song fits YOU! 💙</em></td></tr>
+      <tr><td>Me, no voice range yet</td><td><em>Find your voice! A 1-minute game so Twinkle can tune every song just for you.</em></td></tr>
+      <tr><td>Family high scores</td><td><em>No scores yet — be the first! ⭐</em></td></tr>
+      <tr><td>Family songbook emptied</td><td><em>🎁 Grown-ups can add new songs in the Grown-Ups Corner!</em></td></tr>
+      <tr><td>Badges still to earn</td><td>The badge name with 🔒 and its hint (<em>Land the highest notes of a song</em>); never "locked" or "missing".</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="ds-section" id="library"><h2><a href="#library">Microcopy library</a></h2>
+  <p>Real strings from the mocks. Reuse them before writing new ones.</p>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <thead><tr><th scope="col">Moment</th><th scope="col">Strings</th></tr></thead>
+    <tbody>
+      <tr><td>Hello</td><td><em>Hi! I'm Twinkle, your singing buddy. What should I call you?</em> · <em>Hi, Ada! 👋</em> · <em>Your songs are tuned and ready. Let's make today sparkle! ✨</em></td></tr>
+      <tr><td>Find My Voice</td><td><em>Let's play a 1-minute game! I'll listen to your voice so I can tune every song just for you. Ready?</em> · <em>Sing your lowest comfy note — a big cozy “laaa” — and hold it!</em> · <em>Beautiful! Now squeak up high like a baby bird — your highest comfy “laaa”!</em> · <em>Keep holding it… 62% ✨</em> · <em>Your voice is found! 🎉</em></td></tr>
+      <tr><td>Tuning</td><td><em>Tuned just for YOU!</em> · <em>Twinkle moved this song 3 notes higher so every part fits your voice like a comfy sweater.</em> · <em>✓ In your key</em></td></tr>
+      <tr><td>While singing</td><td><em>Big breath — here comes the next part!</em> · <em>Perfect! ✨</em> · <em>Yes! 💙</em> · <em>🔥 7 in a row!</em> · <em>You're doing wonderfully! 💙</em> · <em>SING ALONG AND HAVE FUN 🎶</em> (no-mic mode)</td></tr>
+      <tr><td>Pause</td><td><em>Taking a breather?</em> · <em>Your song is waiting right where you left it.</em></td></tr>
+      <tr><td>Results</td><td><em>Beautiful Singing, Ada! 🎉</em> · <em>You landed 18 of 24 notes! 🎯</em> · <em>Sung in YOUR key — high five for those notes!</em> · <em>That was wonderful. One more sing and it'll shine even brighter!</em> · <em>You sang the whole song! 🎉</em> (no-mic mode)</td></tr>
+      <tr><td>Rewards</td><td><em>+5 sparkles ✨</em> · <em>🔟 New badge: Perfect Ten!</em> · <em>🏆 New family record!</em> · <em>Today's sparkle goal</em> · <em>Sing 3 songs — just 2 more to go!</em></td></tr>
+      <tr><td>Duets</td><td><em>Sing the same song at the same time — on two devices — and cheer each other on! 💙</em> · <em>Tell your duet buddy this code!</em> · <em>Waiting for Bea… 🎶</em> · <em>What a duet! Singing together is the best magic. 💙</em></td></tr>
+      <tr><td>Nudges (pink)</td><td><em>That sounds close to your low note — reach a little higher! 🐦</em> · <em>Every singer needs a name! 💙</em></td></tr>
+      <tr><td>Neutral confirmations (white)</td><td><em>Removed 💙</em> · <em>Song deleted 💙</em> · <em>Avatar removed 💙</em></td></tr>
+      <tr><td>Offline and loading</td><td><em>Offline songbook — duets and family scores come back when the server does.</em> · <em>Looking for the family… ☁️</em> · <em>Loading…</em></td></tr>
+      <tr><td>Parent gate and grown-ups</td><td><em>For grown-ups only</em> · <em>To continue, answer: What is 6 + 3?</em> · <em>Really start over?</em> · <em>Back to singing</em></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="ds-section" id="usage"><h2><a href="#usage">Usage</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas"><div class="bubble">That was wonderful. One more sing and it'll shine even brighter!</div></div><figcaption>Praise first; the next step is an invitation.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><div class="bubble">You missed 6 notes. Try harder next time!</div></div><figcaption>Counts what slipped by and tells her to try harder. Two broken rules in one line.</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas"><button class="btn" type="button">Keep singing ▶</button></div><figcaption>A verb a child would say, with one emoji.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><button class="btn" type="button">Resume Playback</button></div><figcaption>Adult jargon in Title Case.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+  <p>Content owns no tokens. Text styles are on <a href="typography.html#tokens">Typography</a>; the gold, pink and white message looks on <a href="color.html#tokens">Color</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

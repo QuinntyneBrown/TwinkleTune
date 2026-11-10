@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lyrics — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune lyrics card: previous, current and next lyric lines with sung, current and upcoming words, every state, both themes.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Component · Singing</p>
+      <h1>Lyrics</h1>
+      <p class="ds-lead">Three lines of the song under the pitch stage: the line just sung, the line to sing now, and the line coming next. The word to sing right now sits in a pink pill so a young reader can follow along.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill"><code>&lt;section aria-label="Lyrics"&gt;</code></span><span class="ds-pill">Status: stable</span><span class="ds-pill">Class <code>.lyrics</code> / <code>.lyr-*</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>The lyrics card lives under the <a href="pitch-stage.html">pitch stage</a> on the Sing screen and is the only place the words of a song appear. It is karaoke for early readers: the current line is big, the word to sing is wrapped in a pink pill, words already sung turn blue, and the lines around it are smaller and softer for context. Every word is a syllable from the song data (<code>syll</code>), so the pill moves in time with the note bars above.</p>
+  <ul>
+    <li><b>Previous line</b> (<code>.lyr-prev</code>): the line just finished, small and subtle. Empty on the first line.</li>
+    <li><b>Current line</b> (<code>.lyr-now</code>): big Baloo 2, one <code>&lt;span&gt;</code> per syllable.</li>
+    <li><b>Next line</b> (<code>.lyr-next</code>): what comes after, small and subtle. Empty on the last line and in practice.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="anatomy"><h2><a href="#anatomy">Anatomy</a></h2>
+  <div class="ds-anatomy">
+    <figure class="ds-anatomy__figure">
+      <section class="card lyrics ds-w-screen" aria-label="Lyrics" style="margin: 0;">
+        <p class="lyr-line lyr-prev">Twinkle, twinkle, little star</p>
+        <p class="lyr-line lyr-now"><span class="word-done">How</span> <span class="word-done">I</span> <span class="word-done">won</span> <span class="word-done">der</span> <span class="word-now" aria-current="true">what</span> <span>you</span> <span>are</span></p>
+        <p class="lyr-line lyr-next">Up above the world so high</p>
+      </section>
+      <span class="ds-callout" style="left: 14%; top: 22%;" aria-hidden="true">1</span>
+      <span class="ds-callout" style="left: 18%; top: 50%;" aria-hidden="true">2</span>
+      <span class="ds-callout" style="left: 56%; top: 38%;" aria-hidden="true">3</span>
+      <span class="ds-callout" style="left: 76%; top: 50%;" aria-hidden="true">4</span>
+      <span class="ds-callout" style="left: 14%; top: 78%;" aria-hidden="true">5</span>
+    </figure>
+    <ol class="ds-anatomy__list">
+      <li><div><b>Previous line</b><small><code>.lyr-prev</code>: Baloo 2 bold, <code>--font-size-md</code>, <code>--color-fg-subtle</code>. Keeps a minimum height so the card never jumps.</small></div></li>
+      <li><div><b>Sung words</b><small><code>.word-done</code>: <code>--color-fg-accent</code> blue. Always to the left of the current word.</small></div></li>
+      <li><div><b>Current word</b><small><code>.word-now</code>: <code>--color-gentle-bg</code> pill with <code>--color-gentle-fg</code> text, <code>--radius-md</code>. Shape and colour together mark it.</small></div></li>
+      <li><div><b>Upcoming words</b><small>Plain <code>&lt;span&gt;</code>: <code>--color-fg-default</code> at <code>--font-size-2xl</code>.</small></div></li>
+      <li><div><b>Next line</b><small><code>.lyr-next</code>: same style as the previous line.</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="ds-section" id="variants"><h2><a href="#variants">Variants</a></h2>
+  <p>One card; the content changes with where she is in the song and which mode she is in.</p>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack ds-sky">
+      <section class="card lyrics" aria-label="Lyrics, mid-song" style="margin: 0;">
+        <p class="lyr-line lyr-prev">Twinkle, twinkle, little star</p>
+        <p class="lyr-line lyr-now"><span class="word-done">How</span> <span class="word-done">I</span> <span class="word-done">won</span> <span class="word-done">der</span> <span class="word-now" aria-current="true">what</span> <span>you</span> <span>are</span></p>
+        <p class="lyr-line lyr-next">Up above the world so high</p>
+      </section>
+      <section class="card lyrics" aria-label="Lyrics, practice" style="margin: 0;">
+        <p class="lyr-line lyr-prev">London Bridge is falling down</p>
+        <p class="lyr-line lyr-now"><span class="word-done">My</span> <span class="word-now" aria-current="true">fair</span> <span>la</span> <span>dy</span></p>
+        <p class="lyr-line lyr-next"></p>
+      </section>
+    </div>
+    <div class="ds-example__caption"><span>Mid-song (Twinkle Twinkle Little Star) and practice of the tricky part (London Bridge): practice has no next line.</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;section class="card lyrics" aria-label="Lyrics"&gt;
+  &lt;p class="lyr-line lyr-prev" data-prev&gt;Twinkle, twinkle, little star&lt;/p&gt;
+  &lt;p class="lyr-line lyr-now" data-now&gt;&lt;span class="word-done"&gt;How&lt;/span&gt; … &lt;span class="word-now" aria-current="true"&gt;what&lt;/span&gt; &lt;span&gt;you&lt;/span&gt; &lt;span&gt;are&lt;/span&gt;&lt;/p&gt;
+  &lt;p class="lyr-line lyr-next" data-next&gt;Up above the world so high&lt;/p&gt;
+&lt;/section&gt;</code></pre></details>
+  </div>
+</section>
+
+<section class="ds-section" id="sizes" data-na="The lyrics card has one size; the current line is always larger than the context lines."><h2><a href="#sizes">Sizes</a></h2><p class="ds-na">The lyrics card has one size; the current line is always larger than the context lines.</p></section>
+
+<section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+  <h3>Word states</h3>
+  <div class="ds-matrix"><table>
+    <thead><tr><th scope="col">Word</th><th scope="col">Upcoming</th><th scope="col">Now</th><th scope="col">Sung</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Syllable</th><td><p class="lyr-line lyr-now" style="margin: 0;"><span>you</span></p></td><td><p class="lyr-line lyr-now" style="margin: 0;"><span class="word-now" aria-current="true">what</span></p></td><td><p class="lyr-line lyr-now" style="margin: 0;"><span class="word-done">der</span></p></td></tr>
+      <tr><th scope="row">Class</th><td><code>span</code></td><td><code>.word-now</code></td><td><code>.word-done</code></td></tr>
+    </tbody>
+  </table></div>
+  <p>"Sung" means the beat has passed, not that the note landed: a word turns blue whether or not she sang it, so the lyrics never single out a note.</p>
+  <h3>Card states</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack ds-sky">
+      <section class="card lyrics" aria-label="Lyrics, ready" style="margin: 0;">
+        <p class="lyr-line lyr-prev"></p>
+        <p class="lyr-line lyr-now">Ready?</p>
+        <p class="lyr-line lyr-next"></p>
+      </section>
+      <section class="card lyrics" aria-label="Lyrics, counting in" style="margin: 0;">
+        <p class="lyr-line lyr-prev"></p>
+        <p class="lyr-line lyr-now"><span>Twin</span> <span>kle</span> <span>twin</span> <span>kle</span> <span>lit</span> <span>tle</span> <span>star</span></p>
+        <p class="lyr-line lyr-next">How I wonder what you are</p>
+      </section>
+    </div>
+    <div class="ds-example__caption"><span><b>Ready</b>: just <em>Ready?</em>. <b>Counting in</b>: the first line waits, nothing highlighted yet, next line shown. Then <b>singing</b> (above) and <b>last line</b>, with an empty next line.</span></div>
+  </div>
+  <h3>Both themes</h3>
+  <div class="ds-themes">
+    <div data-theme="light"><section class="card lyrics" aria-label="Lyrics, light theme" style="margin: 0;"><p class="lyr-line lyr-prev">Twinkle, twinkle, little star</p><p class="lyr-line lyr-now"><span class="word-done">How</span> <span class="word-done">I</span> <span class="word-now" aria-current="true">won</span> <span>der</span></p><p class="lyr-line lyr-next">Up above the world so high</p></section></div>
+    <div data-theme="dark"><section class="card lyrics" aria-label="Lyrics, dark theme" style="margin: 0;"><p class="lyr-line lyr-prev">Twinkle, twinkle, little star</p><p class="lyr-line lyr-now"><span class="word-done">How</span> <span class="word-done">I</span> <span class="word-now" aria-current="true">won</span> <span>der</span></p><p class="lyr-line lyr-next">Up above the world so high</p></section></div>
+  </div>
+</section>
+
+<section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+  <ul>
+    <li>The card fills the screen column; lines are centred and wrap at word (syllable) boundaries. A current line wraps to two lines at 320px for the longest seed songs; that is allowed, three is not.</li>
+    <li>The card has a minimum height of two song-art units (<code>calc(var(--size-art) * 2)</code>) and each context line a minimum of one track height, so moving from line to line never shifts the screen.</li>
+    <li>The pill uses <code>display: inline-block</code> with 2 × 8px padding, so it never splits across lines.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="theming"><h2><a href="#theming">Theming</a></h2>
+  <p>Text colours are semantic: <code>--color-fg-default</code>, <code>--color-fg-subtle</code> for context lines, <code>--color-fg-accent</code> for sung words and the gentle pair for the current word. In the night studio the accent lightens and the gentle pill deepens to <code>--palette-pink-dark-*</code> so every pair keeps 4.5:1. The card itself is a <a href="card.html">card</a> and follows the surface tokens.</p>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <h3>Role and pattern</h3>
+  <p>A labelled region (<code>&lt;section aria-label="Lyrics"&gt;</code>) of three paragraphs. No APG widget pattern applies. The current word gets <code>aria-current="true"</code> (<a href="https://www.w3.org/TR/wai-aria-1.2/#aria-current">ARIA aria-current</a>) so a screen reader user exploring the line hears which word is now. The card is not a live region: announcing every syllable would drown out the music.</p>
+  <h3>Keyboard</h3>
+  <table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody>
+    <tr><td><kbd>Tab</kbd></td><td>Skips the card; nothing in it takes focus.</td></tr>
+    <tr><td>Screen reader reading keys</td><td>Read previous, current and next lines in order; the current word is announced as "current".</td></tr>
+  </tbody></table>
+  <h3>Focus</h3>
+  <p>None. Lyrics are read-only.</p>
+  <h3>Labelling</h3>
+  <p>Syllables are split with spaces (<em>won der</em>) because each is a note. The previous and next lines are whole words, so a listener hears the real line once. Empty context lines stay in the DOM as empty paragraphs to hold the layout; they announce nothing.</p>
+  <h3>Contrast</h3>
+  <div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);">
+    <div class="ds-pair"><span>Upcoming words</span><span class="ds-pair__ratio" data-contrast="--color-fg-default|--color-bg-surface" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Sung words</span><span class="ds-pair__ratio" data-contrast="--color-fg-accent|--color-bg-surface" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Current word in its pill</span><span class="ds-pair__ratio" data-contrast="--color-gentle-fg|--color-gentle-bg" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Previous and next lines</span><span class="ds-pair__ratio" data-contrast="--color-fg-subtle|--color-bg-surface" data-min="4.5"></span></div>
+  </div>
+  <p>The current word is marked by a filled pill shape, not by colour alone; sung words are distinguished by position (left of the pill) as well as colour.</p>
+  <h3>Motion</h3>
+  <p>The pill jumps from word to word with no transition: a sliding highlight would lag the beat. Lines swap instantly. Nothing here changes under reduced motion because nothing animates.</p>
+  <h3>Touch</h3>
+  <p>Not a touch target.</p>
+</section>
+
+<section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+  <ul>
+    <li>Words come from the song data only. The current line is the phrase's syllables joined by spaces; context lines are the phrase text as written (<em>Twinkle, twinkle, little star</em>).</li>
+    <li>Before the song starts the current line says <em>Ready?</em> and nothing else.</li>
+    <li>Public-domain lyrics only (seed songs and family songs added through the Grown-Ups Corner).</li>
+    <li>Never show a lyric line with a word struck through, greyed out as "missed", or marked with a cross.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas"><p class="lyr-line lyr-now" style="margin: 0;"><span class="word-done">My</span> <span class="word-now" aria-current="true">fair</span> <span>la</span> <span>dy</span></p></div><figcaption>The current word gets the pill shape as well as colour, so it is found at a glance.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><p class="lyr-line lyr-now" style="margin: 0;"><span class="word-done">My</span> <span style="color: var(--color-gentle-fg);">fair</span> <span>la</span> <span>dy</span></p></div><figcaption>Marking the current word by text colour alone. It is hard to spot and fails "never by colour alone".</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas"><p class="lyr-line lyr-now" style="margin: 0;"><span class="word-done">How</span> <span class="word-done">I</span> <span class="word-now" aria-current="true">won</span> <span>der</span></p></div><figcaption>Every passed word turns blue, whether it landed or not.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><p class="lyr-line lyr-now" style="margin: 0;"><span class="word-done">How</span> <s style="color: var(--color-fg-subtle);">I</s> <span class="word-now" aria-current="true">won</span> <span>der</span></p></div><figcaption>Striking out or greying a word she did not land. Lyrics never grade the singer.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+  <div class="ds-table-wrap"><table class="ds-table">
+<thead><tr><th scope="col">Use</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+<tbody>
+<tr><td>Lyric font</td><td><code>--font-family-display</code></td><td><span data-theme="light" data-token="--font-family-display"></span></td><td><span data-theme="dark" data-token="--font-family-display"></span></td></tr>
+<tr><td>Lyric weight</td><td><code>--font-weight-bold</code></td><td><span data-theme="light" data-token="--font-weight-bold"></span></td><td><span data-theme="dark" data-token="--font-weight-bold"></span></td></tr>
+<tr><td>Current line</td><td><code>--font-size-2xl</code></td><td><span data-theme="light" data-token="--font-size-2xl"></span></td><td><span data-theme="dark" data-token="--font-size-2xl"></span></td></tr>
+<tr><td>Context lines</td><td><code>--font-size-md</code></td><td><span data-theme="light" data-token="--font-size-md"></span></td><td><span data-theme="dark" data-token="--font-size-md"></span></td></tr>
+<tr><td>Upcoming words</td><td><code>--color-fg-default</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-default" data-swatch></i><span data-token="--color-fg-default"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-default" data-swatch></i><span data-token="--color-fg-default"></span></span></td></tr>
+<tr><td>Sung words</td><td><code>--color-fg-accent</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-accent" data-swatch></i><span data-token="--color-fg-accent"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-accent" data-swatch></i><span data-token="--color-fg-accent"></span></span></td></tr>
+<tr><td>Current word pill</td><td><code>--color-gentle-bg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-gentle-bg" data-swatch></i><span data-token="--color-gentle-bg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-gentle-bg" data-swatch></i><span data-token="--color-gentle-bg"></span></span></td></tr>
+<tr><td>Current word text</td><td><code>--color-gentle-fg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-gentle-fg" data-swatch></i><span data-token="--color-gentle-fg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-gentle-fg" data-swatch></i><span data-token="--color-gentle-fg"></span></span></td></tr>
+<tr><td>Pill corners</td><td><code>--radius-md</code></td><td><span data-theme="light" data-token="--radius-md"></span></td><td><span data-theme="dark" data-token="--radius-md"></span></td></tr>
+<tr><td>Previous and next lines</td><td><code>--color-fg-subtle</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-subtle" data-swatch></i><span data-token="--color-fg-subtle"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-subtle" data-swatch></i><span data-token="--color-fg-subtle"></span></span></td></tr>
+<tr><td>Card minimum height unit</td><td><code>--size-art</code></td><td><span data-theme="light" data-token="--size-art"></span></td><td><span data-theme="dark" data-token="--size-art"></span></td></tr>
+<tr><td>Context line minimum height</td><td><code>--size-track-lg</code></td><td><span data-theme="light" data-token="--size-track-lg"></span></td><td><span data-theme="dark" data-token="--size-track-lg"></span></td></tr>
+</tbody></table></div>
+</section>
+
+<section class="ds-section" id="code"><h2><a href="#code">Code</a></h2>
+  <pre><code>&lt;section class="card lyrics" aria-label="Lyrics"&gt;
+  &lt;p class="lyr-line lyr-prev" data-prev&gt;Twinkle, twinkle, little star&lt;/p&gt;
+  &lt;p class="lyr-line lyr-now" data-now&gt;
+    &lt;span class="word-done"&gt;How&lt;/span&gt; &lt;span class="word-done"&gt;I&lt;/span&gt;
+    &lt;span class="word-now" aria-current="true"&gt;won&lt;/span&gt; &lt;span&gt;der&lt;/span&gt;
+  &lt;/p&gt;
+  &lt;p class="lyr-line lyr-next" data-next&gt;Up above the world so high&lt;/p&gt;
+&lt;/section&gt;</code></pre>
+  <table class="ds-table"><thead><tr><th scope="col">Class / attribute</th><th scope="col">Effect</th></tr></thead><tbody>
+    <tr><td><code>.lyrics</code></td><td>Centred card body with a fixed minimum height. Pair with <code>.card</code>.</td></tr>
+    <tr><td><code>.lyr-line</code></td><td>Baloo 2 bold line, line height 1.3.</td></tr>
+    <tr><td><code>.lyr-prev</code> <code>.lyr-next</code></td><td>Small subtle context lines.</td></tr>
+    <tr><td><code>.lyr-now</code></td><td>The big current line.</td></tr>
+    <tr><td><code>.word-done</code> <code>.word-now</code></td><td>Sung syllable / current syllable pill (only inside <code>.lyr-now</code>).</td></tr>
+    <tr><td><code>aria-current="true"</code></td><td>On the current syllable.</td></tr>
+    <tr><td><code>data-prev</code> <code>data-now</code> <code>data-next</code></td><td>Hooks for the app and e2e page objects.</td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+  <p>Extracted from these mocks:</p>
+  <ul>
+    <li><a href="../../mocks/pages/sing/default.html">pages/sing/default</a> (mid-line)</li>
+    <li><a href="../../mocks/pages/sing/ready.html">pages/sing/ready</a> (<em>Ready?</em>)</li>
+    <li><a href="../../mocks/pages/sing/countdown.html">pages/sing/countdown</a> (first line waiting)</li>
+    <li><a href="../../mocks/pages/sing/practice.html">pages/sing/practice</a> (no next line)</li>
+  </ul>
+  <p>Drift fixed during extraction: context lines used a ghost ink well under 3:1, now <code>--color-fg-subtle</code> (D03); sung words were brand blue at 2.6:1, now <code>--color-fg-accent</code> (D04); the current-word pill text moved to <code>--color-gentle-fg</code> (4.58:1) (D05); the pill radius became <code>--radius-md</code> (D12). The current word gains <code>aria-current="true"</code> as part of the contract. See the <a href="../index.html#drift">drift log</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

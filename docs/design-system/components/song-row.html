@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Song row — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune song rows: art, title, meta, the In your key pill, high-score and duet mini buttons and the play button, every state, in both themes.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Component · Data display</p>
+      <h1>Song row</h1>
+      <p class="ds-lead">One song in the songbook: its picture, its name, how long and how brave it is, whether Twinkle has moved it into her key, and a big blue play button that starts it.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill"><code>&lt;article&gt;</code></span><span class="ds-pill">Status: stable</span><span class="ds-pill">Class <code>.song</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>The song row is how a child picks a song on <em>Pick a Song</em>. It is a white rounded row with a tinted art square, the song title, a meta line and a round blue <code>.play</code> button. The play button is the row's one big action; everything else is information or a small extra.</p>
+  <ul>
+    <li><b>Tuned</b> (default): the meta line ends with the mint <em>✓ In your key</em> pill (<code>.tuned</code>), whose <code>title</code> says how far Twinkle shifted it (<em>Moved 3 notes higher for you 💙</em>).</li>
+    <li><b>No voice range yet</b>: the pill becomes a pink link, <em>Find my voice →</em> (<code>.tuned.tuned-cta</code>), that starts Find My Voice. The song is still playable in its standard key.</li>
+    <li><b>With family extras</b>: when the family server is reachable, <code>.song-actions</code> adds a 🏆 mini button (family high scores) and a <em>🎤🎤 Duet</em> mini button. Offline, they are simply absent.</li>
+    <li><b>Sing it again</b> (<code>.again-card</code>): the pink row at the top of the list for the last song sung, with a pink emoji-only play button.</li>
+  </ul>
+  <p>Use a <a href="list.html">mastered row</a> to show a song she has already sung well, and a <a href="table.html">table</a> or the song-board rows for scores.</p>
+</section>
+
+<section class="ds-section" id="anatomy"><h2><a href="#anatomy">Anatomy</a></h2>
+  <div class="ds-anatomy">
+    <figure class="ds-anatomy__figure ds-sky">
+      <article class="song ds-w-screen" aria-labelledby="sr-anat-title">
+        <div class="art art-1" aria-hidden="true">⭐</div>
+        <div class="song-body">
+          <strong id="sr-anat-title">Twinkle Twinkle Little Star</strong>
+          <div class="song-meta"><span>⏱ 0:29</span><span>⭐ Easy</span><span class="tuned" title="Moved 3 notes higher for you 💙">✓ In your key</span>
+            <span class="song-actions"><button class="mini-btn" type="button" aria-label="High scores for Twinkle Twinkle Little Star">🏆</button><button class="mini-btn" type="button" aria-label="Duet Twinkle Twinkle Little Star">🎤🎤 Duet</button></span></div>
+        </div>
+        <button class="play" type="button" aria-label="Sing Twinkle Twinkle Little Star">▶</button>
+      </article>
+      <span class="ds-callout" style="left: 9%; top: 24%;" aria-hidden="true">1</span>
+      <span class="ds-callout" style="left: 30%; top: 24%;" aria-hidden="true">2</span>
+      <span class="ds-callout" style="left: 30%; top: 54%;" aria-hidden="true">3</span>
+      <span class="ds-callout" style="left: 58%; top: 54%;" aria-hidden="true">4</span>
+      <span class="ds-callout" style="left: 50%; top: 82%;" aria-hidden="true">5</span>
+      <span class="ds-callout" style="left: 90%; top: 30%;" aria-hidden="true">6</span>
+    </figure>
+    <ol class="ds-anatomy__list">
+      <li><div><b>Art</b><small>64px square (<code>--size-art</code>), <code>--radius-lg</code>, one of four pastel gradients (<code>.art-1</code> aqua, <code>.art-2</code> pink, <code>.art-3</code> sky, <code>.art-4</code> gold) with the song's emoji. Decorative.</small></div></li>
+      <li><div><b>Title</b><small>Baloo 2, <code>--font-size-lg</code>, wraps; the row's name (<code>aria-labelledby</code>).</small></div></li>
+      <li><div><b>Meta</b><small>Duration and difficulty in Nunito extra-bold <code>--font-size-xs</code>, <code>--color-fg-muted</code>; wraps.</small></div></li>
+      <li><div><b>Key pill</b><small><em>✓ In your key</em> in <code>--color-success-fg</code> on <code>--color-success-bg</code>, or the pink <em>Find my voice →</em> link. See <a href="pill.html">pill</a>.</small></div></li>
+      <li><div><b>Mini buttons (family server only)</b><small>🏆 and Duet <code>.mini-btn</code>s, at least 24px tall with 8px between them.</small></div></li>
+      <li><div><b>Play</b><small>52px blue circle (<code>--size-control</code>) with the toy lip; presses down like a button.</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="ds-section" id="variants"><h2><a href="#variants">Variants</a></h2>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack ds-sky">
+      <div class="ds-w-screen">
+        <section class="again-card" aria-label="Sing it again">
+          <span class="art-emoji" aria-hidden="true">🌉</span>
+          <div class="again-body"><strong>Sing it again!</strong><small>London Bridge · you know this one ✨</small></div>
+          <button class="btn btn-pink" type="button" aria-label="Sing London Bridge again">▶</button>
+        </section>
+        <article class="song" aria-labelledby="sr-v-1">
+          <div class="art art-2" aria-hidden="true">🐑</div>
+          <div class="song-body"><strong id="sr-v-1">Mary Had a Little Lamb</strong>
+            <div class="song-meta"><span>⏱ 0:18</span><span>⭐ Easy</span><span class="tuned" title="Moved 4 notes higher for you 💙">✓ In your key</span></div></div>
+          <button class="play" type="button" aria-label="Sing Mary Had a Little Lamb">▶</button>
+        </article>
+        <article class="song" aria-labelledby="sr-v-2">
+          <div class="art art-3" aria-hidden="true">🛶</div>
+          <div class="song-body"><strong id="sr-v-2">Row, Row, Row Your Boat</strong>
+            <div class="song-meta"><span>⏱ 0:11</span><span>⭐⭐⭐ Brave</span><a class="tuned tuned-cta" href="#variants">Find my voice →</a></div></div>
+          <button class="play" type="button" aria-label="Sing Row, Row, Row Your Boat">▶</button>
+        </article>
+        <article class="song" aria-labelledby="sr-v-3">
+          <div class="art art-4" aria-hidden="true">🔔</div>
+          <div class="song-body"><strong id="sr-v-3">Frère Jacques</strong>
+            <div class="song-meta"><span>⏱ 0:20</span><span>⭐ Easy</span><span class="tuned" title="Moved 3 notes higher for you 💙">✓ In your key</span>
+              <span class="song-actions"><button class="mini-btn" type="button" aria-label="High scores for Frère Jacques">🏆</button><button class="mini-btn" type="button" aria-label="Duet Frère Jacques">🎤🎤 Duet</button></span></div></div>
+          <button class="play" type="button" aria-label="Sing Frère Jacques">▶</button>
+        </article>
+      </div>
+    </div>
+    <div class="ds-example__caption"><span>Sing it again, tuned offline, no voice range yet, and the family song with server extras.</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;article class="song" aria-labelledby="song-mary"&gt;
+  &lt;div class="art art-2" aria-hidden="true"&gt;🐑&lt;/div&gt;
+  &lt;div class="song-body"&gt;
+    &lt;strong id="song-mary"&gt;Mary Had a Little Lamb&lt;/strong&gt;
+    &lt;div class="song-meta"&gt;
+      &lt;span&gt;⏱ 0:18&lt;/span&gt;&lt;span&gt;⭐ Easy&lt;/span&gt;
+      &lt;span class="tuned" title="Moved 4 notes higher for you 💙"&gt;✓ In your key&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;button class="play" type="button" aria-label="Sing Mary Had a Little Lamb"&gt;▶&lt;/button&gt;
+&lt;/article&gt;</code></pre></details>
+  </div>
+  <p>Art tints rotate through the catalogue (Twinkle aqua, Mary pink, Hot Cross Buns gold, London Bridge aqua, Old MacDonald pink, Row Your Boat sky, Jesus Loves Me sky, Frère Jacques gold). The tint is decoration: the emoji and the title identify the song.</p>
+</section>
+
+<section class="ds-section" id="sizes" data-na="Song rows have one size: 64px art, 52px play button, full column width."><h2><a href="#sizes">Sizes</a></h2><p class="ds-na">Song rows have one size: 64px art, 52px play button, full column width.</p></section>
+
+<section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+  <p>The row lifts 2px on hover; the play button and mini buttons carry their own states.</p>
+  <div class="ds-matrix"><table>
+    <thead><tr><th scope="col">Part</th><th scope="col">Default</th><th scope="col">Hover</th><th scope="col">Focus</th><th scope="col">Pressed</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Play</th>
+        <td><button class="play" type="button" aria-label="Sing Twinkle (default)">▶</button></td>
+        <td><button class="play" type="button" data-state="hover" aria-label="Sing Twinkle (hover)">▶</button></td>
+        <td><button class="play" type="button" data-state="focus" aria-label="Sing Twinkle (focus)">▶</button></td>
+        <td><button class="play" type="button" data-state="active" aria-label="Sing Twinkle (pressed)">▶</button></td></tr>
+      <tr><th scope="row">Mini button</th>
+        <td><button class="mini-btn" type="button">🎤🎤 Duet</button></td>
+        <td><button class="mini-btn" type="button" data-state="hover">🎤🎤 Duet</button></td>
+        <td><button class="mini-btn" type="button" data-state="focus">🎤🎤 Duet</button></td>
+        <td><button class="mini-btn" type="button" data-state="active">🎤🎤 Duet</button></td></tr>
+      <tr><th scope="row">Row</th>
+        <td><article class="song" aria-label="Hot Cross Buns (default)"><div class="art art-4" aria-hidden="true">🥐</div></article></td>
+        <td><article class="song" data-state="hover" aria-label="Hot Cross Buns (hover)"><div class="art art-4" aria-hidden="true">🥐</div></article></td>
+        <td><p class="quiet-note">Not focusable</p></td>
+        <td><p class="quiet-note">Not used</p></td></tr>
+    </tbody>
+  </table></div>
+  <h3>Screen states that change the row</h3>
+  <table class="ds-table"><thead><tr><th scope="col">Screen state</th><th scope="col">What the row shows</th></tr></thead><tbody>
+    <tr><td>Voice range known</td><td><em>✓ In your key</em> with the shift in its title.</td></tr>
+    <tr><td>No voice range (<a href="../../mocks/pages/songs/no-range.html">no-range</a>)</td><td>Pink <em>Find my voice →</em> link; play still works in the standard key.</td></tr>
+    <tr><td>Family server unreachable (<a href="../../mocks/pages/songs/offline.html">offline</a>)</td><td>No mini buttons; the seven seed songs only. Nothing says "error".</td></tr>
+    <tr><td>Filtered (<a href="../../mocks/pages/songs/filtered.html">filtered</a>)</td><td>Only rows of the chosen difficulty; rows themselves unchanged.</td></tr>
+  </tbody></table>
+  <h3>Both themes</h3>
+  <div class="ds-themes">
+    <div data-theme="light"><article class="song" aria-labelledby="sr-t-l"><div class="art art-1" aria-hidden="true">🌉</div><div class="song-body"><strong id="sr-t-l">London Bridge</strong><div class="song-meta"><span>⏱ 0:17</span><span>⭐⭐ Medium</span><span class="tuned">✓ In your key</span></div></div><button class="play" type="button" aria-label="Sing London Bridge">▶</button></article></div>
+    <div data-theme="dark"><article class="song" aria-labelledby="sr-t-d"><div class="art art-1" aria-hidden="true">🌉</div><div class="song-body"><strong id="sr-t-d">London Bridge</strong><div class="song-meta"><span>⏱ 0:17</span><span>⭐⭐ Medium</span><span class="tuned">✓ In your key</span></div></div><button class="play" type="button" aria-label="Sing London Bridge">▶</button></article></div>
+  </div>
+</section>
+
+<section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+  <ul>
+    <li>The row spans the 470px column. Art and play keep their size; the body column (<code>flex: 1; min-width: 0</code>) takes the rest.</li>
+    <li>The meta line wraps: at 360px the key pill and mini buttons drop to a second meta line. Titles wrap to two lines (<em>Twinkle Twinkle Little Star</em>) and never truncate.</li>
+    <li>The play button stays vertically centred on the row, on the right, at every width, so the thumb always finds it in the same place.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="theming"><h2><a href="#theming">Theming</a></h2>
+  <p>The row reads <code>--color-bg-surface</code>, <code>--radius-lg</code> and <code>--shadow-1</code>. The play button reads <code>--color-accent</code>, <code>--color-accent-hover</code>, <code>--color-fg-on-accent</code> and <code>--color-accent-edge</code> exactly like the blue <a href="button.html">button</a>. The key pill reads <code>--color-success-bg</code> / <code>--color-success-fg</code> (mint, D06); the no-range link reads the gentle pair. Art gradients read the decor, gentle and reward tokens and keep their pastel in the night studio.</p>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <h3>Role and pattern</h3>
+  <p>Each row is an <code>&lt;article&gt;</code> labelled by its title, holding real <code>&lt;button&gt;</code>s (<a href="https://www.w3.org/WAI/ARIA/apg/patterns/button/">APG Button</a>). The row itself is not clickable: only play starts the song, so a child scrolling with a finger never starts one by accident.</p>
+  <h3>Keyboard</h3>
+  <table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody>
+    <tr><td><kbd>Tab</kbd></td><td>Per row: key link (no-range only), 🏆, Duet, then play. Then the next row.</td></tr>
+    <tr><td><kbd>Enter</kbd>, <kbd>Space</kbd></td><td>Activates the focused button; play opens Sing in the ready state.</td></tr>
+  </tbody></table>
+  <h3>Focus</h3>
+  <p>Play shows the shared ring as a circle (<code>border-radius: 50%</code>) at 3px offset; mini buttons show it as a pill. Returning from Sing or Results puts focus back on the play button of the song just sung.</p>
+  <h3>Labelling</h3>
+  <p>Every button names the song: <code>aria-label="Sing Twinkle Twinkle Little Star"</code>, <code>"High scores for Twinkle Twinkle Little Star"</code>, <code>"Duet Twinkle Twinkle Little Star"</code>. The shift in the key pill's <code>title</code> is a bonus for mouse users; the visible <em>In your key</em> carries the meaning. Art emoji are <code>aria-hidden</code>.</p>
+  <h3>Contrast</h3>
+  <div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);">
+    <div class="ds-pair"><span>Play glyph on blue</span><span class="ds-pair__ratio" data-contrast="--color-fg-on-accent|--color-accent" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Play edge on a white row</span><span class="ds-pair__ratio" data-contrast="--color-accent|--color-bg-surface" data-min="3"></span></div>
+    <div class="ds-pair"><span>Meta line</span><span class="ds-pair__ratio" data-contrast="--color-fg-muted|--color-bg-surface" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>In your key</span><span class="ds-pair__ratio" data-contrast="--color-success-fg|--color-success-bg" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Find my voice link</span><span class="ds-pair__ratio" data-contrast="--color-gentle-fg|--color-gentle-bg" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Mini button text</span><span class="ds-pair__ratio" data-contrast="--color-fg-accent|--color-bg-subtle" data-min="4.5"></span></div>
+  </div>
+  <h3>Motion</h3>
+  <p>Row hover lift and play press over <code>--duration-fast</code>; rows rise in with a stagger. Reduced motion makes both instant.</p>
+  <h3>Touch</h3>
+  <p>Play is 52px (<code>--target-child</code>). Mini buttons are at least 24px tall with 8px spacing (D23); they are extras, never the only way to sing.</p>
+</section>
+
+<section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+  <ul>
+    <li>Titles are the song's public-domain name exactly as the catalogue has it.</li>
+    <li>Difficulty is stars plus a happy word: <em>⭐ Easy</em>, <em>⭐⭐ Medium</em>, <em>⭐⭐⭐ Brave</em>. Never "Hard".</li>
+    <li>Duration as <em>⏱ 0:29</em>, minutes and seconds.</li>
+    <li>The key pill says what Twinkle did for her (<em>✓ In your key</em>), not what was wrong with the song.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas ds-sky"><article class="song ds-w-full" aria-labelledby="sr-do-1"><div class="art art-3" aria-hidden="true">✝️</div><div class="song-body"><strong id="sr-do-1">Jesus Loves Me</strong><div class="song-meta"><span>⏱ 0:38</span><span>⭐⭐ Medium</span></div></div><button class="play" type="button" aria-label="Sing Jesus Loves Me">▶</button></article></div><figcaption>Offline: the row simply has no mini buttons.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas ds-sky"><article class="song ds-w-full" aria-labelledby="sr-dont-1"><div class="art art-3" aria-hidden="true">✝️</div><div class="song-body"><strong id="sr-dont-1">Jesus Loves Me</strong><div class="song-meta"><button class="mini-btn" type="button" disabled>🏆 unavailable</button></div></div><button class="play" type="button" aria-label="Sing Jesus Loves Me">▶</button></article></div><figcaption>Disabled "unavailable" extras tell a child something is broken.</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas"><button class="play" type="button" aria-label="Sing Old MacDonald">▶</button></div><figcaption>Play is named with the song.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><button class="play" type="button" aria-label="Play">▶</button></div><figcaption>Eight buttons called "Play" in a row. A screen reader user cannot tell them apart.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+  <div class="ds-table-wrap"><table class="ds-table">
+<thead><tr><th scope="col">Use</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+<tbody>
+<tr><td>Row</td><td><code>--color-bg-surface</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-bg-surface" data-swatch></i><span data-token="--color-bg-surface"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-bg-surface" data-swatch></i><span data-token="--color-bg-surface"></span></span></td></tr>
+<tr><td>Row and art corners</td><td><code>--radius-lg</code></td><td><span data-theme="light" data-token="--radius-lg"></span></td><td><span data-theme="dark" data-token="--radius-lg"></span></td></tr>
+<tr><td>Row shadow</td><td><code>--shadow-1</code></td><td><span data-theme="light" data-token="--shadow-1"></span></td><td><span data-theme="dark" data-token="--shadow-1"></span></td></tr>
+<tr><td>Art</td><td><code>--size-art</code></td><td><span data-theme="light" data-token="--size-art"></span></td><td><span data-theme="dark" data-token="--size-art"></span></td></tr>
+<tr><td>Play</td><td><code>--size-control</code></td><td><span data-theme="light" data-token="--size-control"></span></td><td><span data-theme="dark" data-token="--size-control"></span></td></tr>
+<tr><td>Play body</td><td><code>--color-accent</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-accent" data-swatch></i><span data-token="--color-accent"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-accent" data-swatch></i><span data-token="--color-accent"></span></span></td></tr>
+<tr><td>Play hover</td><td><code>--color-accent-hover</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-accent-hover" data-swatch></i><span data-token="--color-accent-hover"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-accent-hover" data-swatch></i><span data-token="--color-accent-hover"></span></span></td></tr>
+<tr><td>Play glyph</td><td><code>--color-fg-on-accent</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-on-accent" data-swatch></i><span data-token="--color-fg-on-accent"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-on-accent" data-swatch></i><span data-token="--color-fg-on-accent"></span></span></td></tr>
+<tr><td>Play lip</td><td><code>--color-accent-edge</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-accent-edge" data-swatch></i><span data-token="--color-accent-edge"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-accent-edge" data-swatch></i><span data-token="--color-accent-edge"></span></span></td></tr>
+<tr><td>Lip at rest</td><td><code>--lip-rest</code></td><td><span data-theme="light" data-token="--lip-rest"></span></td><td><span data-theme="dark" data-token="--lip-rest"></span></td></tr>
+<tr><td>Meta</td><td><code>--color-fg-muted</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-muted" data-swatch></i><span data-token="--color-fg-muted"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-muted" data-swatch></i><span data-token="--color-fg-muted"></span></span></td></tr>
+<tr><td>Key pill</td><td><code>--color-success-bg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-success-bg" data-swatch></i><span data-token="--color-success-bg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-success-bg" data-swatch></i><span data-token="--color-success-bg"></span></span></td></tr>
+<tr><td>Key pill text</td><td><code>--color-success-fg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-success-fg" data-swatch></i><span data-token="--color-success-fg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-success-fg" data-swatch></i><span data-token="--color-success-fg"></span></span></td></tr>
+<tr><td>Find my voice link</td><td><code>--color-gentle-bg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-gentle-bg" data-swatch></i><span data-token="--color-gentle-bg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-gentle-bg" data-swatch></i><span data-token="--color-gentle-bg"></span></span></td></tr>
+<tr><td>Mini button</td><td><code>--color-bg-subtle</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-bg-subtle" data-swatch></i><span data-token="--color-bg-subtle"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-bg-subtle" data-swatch></i><span data-token="--color-bg-subtle"></span></span></td></tr>
+<tr><td>Mini button text</td><td><code>--color-fg-accent</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-accent" data-swatch></i><span data-token="--color-fg-accent"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-accent" data-swatch></i><span data-token="--color-fg-accent"></span></span></td></tr>
+</tbody></table></div>
+</section>
+
+<section class="ds-section" id="code"><h2><a href="#code">Code</a></h2>
+  <table class="ds-table"><thead><tr><th scope="col">Class</th><th scope="col">Effect</th></tr></thead><tbody>
+    <tr><td><code>.song</code></td><td>The row.</td></tr>
+    <tr><td><code>.art</code> + <code>.art-1…4</code></td><td>Art square and its tint.</td></tr>
+    <tr><td><code>.song-body</code> <code>.song-meta</code></td><td>Title column; wrapping meta line.</td></tr>
+    <tr><td><code>.tuned</code> / <code>.tuned.tuned-cta</code></td><td>In your key pill; pink Find my voice link.</td></tr>
+    <tr><td><code>.song-actions</code> <code>.mini-btn</code></td><td>Family-server extras.</td></tr>
+    <tr><td><code>.play</code></td><td>Round blue play button with lip.</td></tr>
+    <tr><td><code>.again-card</code> <code>.again-body</code> <code>.art-emoji</code></td><td>Pink Sing it again row.</td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+  <ul>
+    <li><a href="../../mocks/pages/songs/default.html">pages/songs/default</a> (all eight rows with extras, Sing it again)</li>
+    <li><a href="../../mocks/pages/songs/no-range.html">pages/songs/no-range</a> (Find my voice link)</li>
+    <li><a href="../../mocks/pages/songs/offline.html">pages/songs/offline</a> (no extras)</li>
+    <li><a href="../../mocks/pages/songs/filtered.html">pages/songs/filtered</a>, <a href="../../mocks/pages/songs/no-results.html">no-results</a>, <a href="../../mocks/pages/songs/empty.html">empty</a></li>
+  </ul>
+  <p>Drift fixed during extraction: white play glyph on brand blue was 2.60:1 (D01); <em>In your key</em> mint ink 4.39:1 moved to <code>--palette-mint-700</code> (D06); blue mini-button text 2.6:1 moved to <code>--color-fg-accent</code> (D04); mini buttons below the child target kept at 24px with 8px spacing (D23); hover <code>brightness()</code> replaced by <code>--color-accent-hover</code> (D20). See the <a href="../index.html#drift">drift log</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

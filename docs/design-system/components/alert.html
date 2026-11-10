@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alert — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune alert: the why note, the validation box, and info, success, warning, gentle and grown-ups&#x27; danger message boxes, with actions, dismiss and banner, in both themes.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Component · Feedback</p>
+      <h1>Alert</h1>
+      <p class="ds-lead">Rounded message boxes that sit in the flow of a screen or dialog and stay until they are no longer true. Twinkle's reassurance notes, the grown-ups' validation box and the family-server messages are all alerts.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill"><code>role="status"</code> / <code>role="alert"</code> when it appears</span><span class="ds-pill">Status: stable</span><span class="ds-pill">Class <code>.alert</code> <code>.why</code> <code>.errors</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>Use an alert for a message that belongs to a place and must stay while it is true: why Twinkle needs her voice range, that the songbook is offline, what a grown-up must fix before a song can be saved. Unlike a <a href="toast.html">toast</a> it does not go away on a timer; unlike a <a href="dialog.html">dialog</a> it does not stop anything.</p>
+  <p>The mocks have two alert boxes, kept with their class names: the <b>why note</b> (<code>.why</code>) on Find My Voice, the offline songbook and the microphone dialog, and the <b>validation box</b> (<code>.errors</code>) in the song editor. The general <code>.alert</code> with tones, titles, actions and dismiss is <b>not in the mocks yet</b>; it is added for the Grown-Ups Corner and the family-server managers, and replaces raw failure text there.</p>
+  <ul>
+    <li>A message about one field goes under that field as an <a href="inline-message.html">inline message</a>. The alert summarises.</li>
+    <li>A child never sees the danger tone. Something that did not work on a child screen is a gentle (pink) alert or a why note that says what still works.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="anatomy"><h2><a href="#anatomy">Anatomy</a></h2>
+  <div class="ds-anatomy">
+    <figure class="ds-anatomy__figure">
+      <div class="alert alert-warning ds-w-form">
+        <span class="ico" aria-hidden="true">📡</span>
+        <div><strong>Family server is asleep</strong>Profiles and family scores come back when it wakes up. Solo singing still works.<br><button class="btn btn-sm btn-white" type="button">Try again</button></div>
+        <button class="alert-dismiss" type="button" aria-label="Dismiss">✕</button>
+      </div>
+      <span class="ds-callout" style="left: 8%; top: 30%;" aria-hidden="true">1</span>
+      <span class="ds-callout" style="left: 40%; top: 22%;" aria-hidden="true">2</span>
+      <span class="ds-callout" style="left: 52%; top: 50%;" aria-hidden="true">3</span>
+      <span class="ds-callout" style="left: 32%; top: 78%;" aria-hidden="true">4</span>
+      <span class="ds-callout" style="left: 92%; top: 22%;" aria-hidden="true">5</span>
+    </figure>
+    <ol class="ds-anatomy__list">
+      <li><div><b>Icon</b><small><code>.ico</code>: one emoji at <code>--font-size-2xl</code>, <code>aria-hidden="true"</code>. The tone is always also in the words.</small></div></li>
+      <li><div><b>Title (optional)</b><small><code>strong</code>, Baloo 2 at <code>--font-size-md</code>, on its own line.</small></div></li>
+      <li><div><b>Message</b><small><code>--text-body-sm</code> in the tone's ink (<code>--alert-fg</code>) on the tone's tint (<code>--alert-bg</code>), 12 × 16px padding, <code>--radius-lg</code>.</small></div></li>
+      <li><div><b>Action (optional)</b><small>One small <a href="button.html">button</a>, 8px below the message.</small></div></li>
+      <li><div><b>Dismiss (optional)</b><small><code>.alert-dismiss</code>: a 44px round button pushed to the end. Only for alerts that are safe to hide.</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="ds-section" id="variants"><h2><a href="#variants">Variants</a></h2>
+  <h3>Why note (child screens)</h3>
+  <p>A glassy box over the sky where Twinkle explains herself. Muted ink, one emoji, no title, no action.</p>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-sky ds-example__canvas--stack">
+      <div class="why"><span class="ico" aria-hidden="true">💙</span><span>Twinkle remembers your range, then <strong>tunes every song to fit YOUR voice</strong> — never too high, never too low.</span></div>
+      <div class="why why--flush"><span class="ico" aria-hidden="true">📡</span><span>Offline songbook — duets and family scores come back when the server does.</span></div>
+    </div>
+    <div class="ds-example__caption"><span>Find My Voice and the offline songbook. <code>.why--flush</code> drops the top margin when the note leads a list.</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;div class="why"&gt;
+  &lt;span class="ico" aria-hidden="true"&gt;💙&lt;/span&gt;
+  &lt;span&gt;Twinkle remembers your range, then &lt;strong&gt;tunes every song to fit YOUR voice&lt;/strong&gt; — never too high, never too low.&lt;/span&gt;
+&lt;/div&gt;</code></pre></details>
+  </div>
+  <h3>Validation box (grown-up editors)</h3>
+  <p>One list of everything a grown-up must change before the song can be saved, the same rules the server enforces, checked on the device first.</p>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack ds-w-form">
+      <div class="errors" role="alert" id="al-var-errors">
+        <div>• A song needs a title.</div>
+        <div>• Tempo must be between 40 and 220 BPM.</div>
+        <div>• Note 3: midi 96 is outside 48–84 (C3–C6).</div>
+        <div>• The melody spans 36 semitones — keep it within 16.</div>
+      </div>
+    </div>
+    <div class="ds-example__caption"><span>Song editor, invalid. Each line names the field or note and the allowed range.</span></div>
+  </div>
+  <h3>Tones (new)</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack ds-w-form">
+      <div class="alert"><span class="ico" aria-hidden="true">💡</span><div><strong>Mic timing</strong>If Twinkle's cheers feel late, nudge the offset until they land on the beat.</div></div>
+      <div class="alert alert-success"><span class="ico" aria-hidden="true">✓</span><div><strong>Song saved</strong>Frère Jacques is in the family songbook.</div></div>
+      <div class="alert alert-warning"><span class="ico" aria-hidden="true">📡</span><div><strong>Family server is asleep</strong>Solo singing still works.</div></div>
+      <div class="alert alert-gentle"><span class="ico" aria-hidden="true">🎤</span><div>Twinkle can't hear the microphone yet. You can still sing just for fun!</div></div>
+      <div class="alert alert-danger"><span class="ico" aria-hidden="true">📡</span><div><strong>Couldn't reach the family server</strong>Your song is still here. Check the server is on, then tap Create again.</div></div>
+    </div>
+    <div class="ds-example__caption"><span>Info (default), success, warning, gentle (child screens) and danger (grown-ups only).</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;div class="alert alert-danger" role="alert"&gt;
+  &lt;span class="ico" aria-hidden="true"&gt;📡&lt;/span&gt;
+  &lt;div&gt;&lt;strong&gt;Couldn't reach the family server&lt;/strong&gt;Your song is still here. Check the server is on, then tap Create again.&lt;/div&gt;
+&lt;/div&gt;</code></pre></details>
+  </div>
+  <h3>Banner</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0;">
+      <div class="alert alert-warning banner"><span class="ico" aria-hidden="true">📡</span><div>Offline — solo singing works; family songs come back when the server does.</div></div>
+    </div>
+    <div class="ds-example__caption"><span><code>.banner</code>: square corners, full width, centred, for a whole grown-up page. Child screens use a why note instead.</span></div>
+  </div>
+</section>
+
+<section class="ds-section" id="sizes" data-na="Alerts have one size. They fill the width of their column or dialog and grow with their text."><h2><a href="#sizes">Sizes</a></h2><p class="ds-na">Alerts have one size. They fill the width of their column or dialog and grow with their text.</p></section>
+
+<section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+  <p>The box is static; the dismiss button and action button carry the interactive states (hover tint <code>--color-bg-glass-faint</code>, the shared focus ring). The matrix shows each tone in each configuration.</p>
+  <div class="ds-matrix"><table>
+    <thead><tr><th scope="col">Tone</th><th scope="col">Message only</th><th scope="col">With title</th><th scope="col">With action</th><th scope="col">Dismissible</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Info</th><td><div class="alert"><span class="ico" aria-hidden="true">💡</span><div>Nudge the offset.</div></div></td><td><div class="alert"><span class="ico" aria-hidden="true">💡</span><div><strong>Mic timing</strong>Nudge the offset.</div></div></td><td><div class="alert"><span class="ico" aria-hidden="true">💡</span><div>Nudge the offset.<br><button class="btn btn-sm btn-white" type="button">Open</button></div></div></td><td><div class="alert"><span class="ico" aria-hidden="true">💡</span><div>Nudge the offset.</div><button class="alert-dismiss" type="button" aria-label="Dismiss tip">✕</button></div></td></tr>
+      <tr><th scope="row">Success</th><td><div class="alert alert-success"><span class="ico" aria-hidden="true">✓</span><div>Song saved.</div></div></td><td><div class="alert alert-success"><span class="ico" aria-hidden="true">✓</span><div><strong>Saved</strong>Song saved.</div></div></td><td><div class="alert alert-success"><span class="ico" aria-hidden="true">✓</span><div>Song saved.<br><button class="btn btn-sm btn-white" type="button">Preview ▶</button></div></div></td><td><div class="alert alert-success"><span class="ico" aria-hidden="true">✓</span><div>Song saved.</div><button class="alert-dismiss" type="button" aria-label="Dismiss saved message">✕</button></div></td></tr>
+      <tr><th scope="row">Warning</th><td><div class="alert alert-warning"><span class="ico" aria-hidden="true">📡</span><div>Server asleep.</div></div></td><td><div class="alert alert-warning"><span class="ico" aria-hidden="true">📡</span><div><strong>Offline</strong>Server asleep.</div></div></td><td><div class="alert alert-warning"><span class="ico" aria-hidden="true">📡</span><div>Server asleep.<br><button class="btn btn-sm btn-white" type="button">Try again</button></div></div></td><td><div class="alert alert-warning"><span class="ico" aria-hidden="true">📡</span><div>Server asleep.</div><button class="alert-dismiss" type="button" aria-label="Dismiss offline message">✕</button></div></td></tr>
+      <tr><th scope="row">Gentle</th><td><div class="alert alert-gentle"><span class="ico" aria-hidden="true">🎤</span><div>Sing just for fun!</div></div></td><td><div class="alert alert-gentle"><span class="ico" aria-hidden="true">🎤</span><div><strong>No mic yet</strong>Sing just for fun!</div></div></td><td><div class="alert alert-gentle"><span class="ico" aria-hidden="true">🎤</span><div>Sing just for fun!<br><button class="btn btn-sm btn-white" type="button">Sing 🎶</button></div></div></td><td><div class="alert alert-gentle"><span class="ico" aria-hidden="true">🎤</span><div>Sing just for fun!</div><button class="alert-dismiss" type="button" aria-label="Dismiss microphone note">✕</button></div></td></tr>
+      <tr><th scope="row">Danger</th><td><div class="alert alert-danger"><span class="ico" aria-hidden="true">📡</span><div>Not saved yet.</div></div></td><td><div class="alert alert-danger"><span class="ico" aria-hidden="true">📡</span><div><strong>Couldn't save</strong>Not saved yet.</div></div></td><td><div class="alert alert-danger"><span class="ico" aria-hidden="true">📡</span><div>Not saved yet.<br><button class="btn btn-sm btn-white" type="button">Try again</button></div></div></td><td><span class="ds-na">Danger alerts are never dismissible: they go when the problem does.</span></td></tr>
+    </tbody>
+  </table></div>
+  <h3>Both themes</h3>
+  <div class="ds-themes">
+    <div data-theme="light"><div class="ds-col"><div class="why"><span class="ico" aria-hidden="true">💙</span><span>Twinkle tunes every song to fit YOUR voice.</span></div><div class="alert alert-warning"><span class="ico" aria-hidden="true">📡</span><div>Server asleep.</div></div><div class="errors"><div>• A song needs a title.</div></div></div></div>
+    <div data-theme="dark"><div class="ds-col"><div class="why"><span class="ico" aria-hidden="true">💙</span><span>Twinkle tunes every song to fit YOUR voice.</span></div><div class="alert alert-warning"><span class="ico" aria-hidden="true">📡</span><div>Server asleep.</div></div><div class="errors"><div>• A song needs a title.</div></div></div></div>
+  </div>
+</section>
+
+<section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+  <ul>
+    <li>Alerts fill their column (470px on child screens, the dialog's width in editors) and never sit side by side.</li>
+    <li>The icon stays top-aligned with the first line as the message wraps; the dismiss button stays at the end of the first line.</li>
+    <li>The banner spans the viewport with <code>--layout-margin</code> side padding and centres its content.</li>
+    <li>At 320px the validation box's long lines wrap; each line keeps its bullet.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="theming"><h2><a href="#theming">Theming</a></h2>
+  <p><code>.alert</code> reads two component tokens that each tone sets: <code>--alert-bg</code> and <code>--alert-fg</code>, aliasing <code>--color-{info,success,warning,danger}-bg/fg</code> or <code>--color-gentle-bg/fg</code>. <code>.why</code> reads <code>--color-bg-glass</code> and <code>--color-fg-muted</code>; <code>.errors</code> reads <code>--color-danger-bg</code> and <code>--color-danger-fg</code>.</p>
+  <pre><code>/* A one-off tone without a new class */
+.alert.reward-note { --alert-bg: var(--color-reward-bg); --alert-fg: var(--color-reward-fg); }</code></pre>
+  <p>In the night studio the tints become deep, low-chroma panels and the inks lighten; every tone keeps 4.5:1. The why note's glass stays translucent, so the night sky shows through it.</p>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <h3>Role and pattern</h3>
+  <p>An alert present when the screen loads needs no role; it is just content. One that <em>appears</em> later gets <code>role="status"</code> (polite) when it is informative, or <code>role="alert"</code> (<a href="https://www.w3.org/WAI/ARIA/apg/patterns/alert/">APG Alert</a>) only when it is new and blocks the task: the validation box on submit, a failed save. Never put <code>role="alert"</code> on a why note.</p>
+  <h3>Keyboard</h3>
+  <table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody>
+    <tr><td><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>Reaches the action and dismiss buttons in DOM order. The box itself is not focusable.</td></tr>
+    <tr><td><kbd>Enter</kbd>, <kbd>Space</kbd></td><td>Activates the focused action or dismiss.</td></tr>
+  </tbody></table>
+  <h3>Focus</h3>
+  <p>When a grown-up submits an invalid form, focus moves to the validation box (give it <code>tabindex="-1"</code>) so its list is read first; each line should link to its field. After dismiss, focus moves to the next logical control, never to the top of the page.</p>
+  <h3>Labelling</h3>
+  <p>The emoji is decorative; the words carry the tone (<em>Couldn't reach</em>, <em>Saved</em>). The dismiss button names what it hides: <code>aria-label="Dismiss offline message"</code>, not a bare "✕".</p>
+  <h3>Contrast</h3>
+  <div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);">
+    <div class="ds-pair"><span>Info</span><span class="ds-pair__ratio" data-contrast="--color-info-fg|--color-info-bg" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Success</span><span class="ds-pair__ratio" data-contrast="--color-success-fg|--color-success-bg" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Warning</span><span class="ds-pair__ratio" data-contrast="--color-warning-fg|--color-warning-bg" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Gentle</span><span class="ds-pair__ratio" data-contrast="--color-gentle-fg|--color-gentle-bg" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Danger and validation box</span><span class="ds-pair__ratio" data-contrast="--color-danger-fg|--color-danger-bg" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Why note (glass over the sky)</span><span class="ds-pair__ratio" data-contrast="--color-fg-muted|--color-bg-canvas" data-min="4.5"></span></div>
+  </div>
+  <h3>Motion</h3>
+  <p>Alerts do not animate. On child screens a why note may join the staggered entrance (<code>.rise</code>), which reduced motion turns off.</p>
+  <h3>Touch</h3>
+  <p>The dismiss button is 44px (<code>--target-comfortable</code>); actions are small buttons (44px). Alerts with actions are grown-up only, so the 52px child target does not apply.</p>
+</section>
+
+<section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+  <ul>
+    <li>Why notes say what Twinkle does for her, warmly: <em>tunes every song to fit YOUR voice</em>.</li>
+    <li>Offline and failure messages lead with what still works: <em>Solo singing still works.</em> Then what comes back and when.</li>
+    <li>Grown-up failures follow one formula: what happened, that nothing is lost, what to do. <em>Couldn't reach the family server. Your song is still here. Check the server is on, then tap Create again.</em></li>
+    <li>Validation lines name the field or note and the allowed range: <em>Tempo must be between 40 and 220 BPM.</em> Never <em>Invalid input</em>.</li>
+    <li>Never show a raw technical message (<em>Failed to fetch</em>, HTTP codes) anywhere.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas ds-example__canvas--stack"><div class="alert alert-danger"><span class="ico" aria-hidden="true">📡</span><div><strong>Couldn't reach the family server</strong>Your song is still here. Check the server is on, then tap Create again.</div></div></div><figcaption>Say what happened, that nothing is lost, and the next step.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas ds-example__canvas--stack"><div class="errors"><div>• Failed to fetch</div></div></div><figcaption>The song editor mock's failed state: a raw browser string in the validation box.</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas ds-sky"><div class="why why--flush"><span class="ico" aria-hidden="true">📡</span><span>Offline songbook — duets and family scores come back when the server does.</span></div></div><figcaption>On a child screen, offline is a calm why note that keeps the songbook usable.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas ds-sky"><div class="alert alert-danger"><span class="ico" aria-hidden="true">⚠️</span><div><strong>Connection error</strong>The server is not responding.</div></div></div><figcaption>A danger box on a child screen: red, "error", and nothing about what she can still do.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+  <div class="ds-table-wrap"><table class="ds-table">
+<thead><tr><th scope="col">Use</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+<tbody>
+<tr><td>Info tint (<code>--alert-bg</code>)</td><td><code>--color-info-bg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-info-bg" data-swatch></i><span data-token="--color-info-bg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-info-bg" data-swatch></i><span data-token="--color-info-bg"></span></span></td></tr>
+<tr><td>Info ink (<code>--alert-fg</code>)</td><td><code>--color-info-fg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-info-fg" data-swatch></i><span data-token="--color-info-fg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-info-fg" data-swatch></i><span data-token="--color-info-fg"></span></span></td></tr>
+<tr><td>Success tint</td><td><code>--color-success-bg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-success-bg" data-swatch></i><span data-token="--color-success-bg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-success-bg" data-swatch></i><span data-token="--color-success-bg"></span></span></td></tr>
+<tr><td>Success ink</td><td><code>--color-success-fg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-success-fg" data-swatch></i><span data-token="--color-success-fg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-success-fg" data-swatch></i><span data-token="--color-success-fg"></span></span></td></tr>
+<tr><td>Warning tint</td><td><code>--color-warning-bg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-warning-bg" data-swatch></i><span data-token="--color-warning-bg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-warning-bg" data-swatch></i><span data-token="--color-warning-bg"></span></span></td></tr>
+<tr><td>Warning ink</td><td><code>--color-warning-fg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-warning-fg" data-swatch></i><span data-token="--color-warning-fg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-warning-fg" data-swatch></i><span data-token="--color-warning-fg"></span></span></td></tr>
+<tr><td>Gentle tint</td><td><code>--color-gentle-bg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-gentle-bg" data-swatch></i><span data-token="--color-gentle-bg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-gentle-bg" data-swatch></i><span data-token="--color-gentle-bg"></span></span></td></tr>
+<tr><td>Gentle ink</td><td><code>--color-gentle-fg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-gentle-fg" data-swatch></i><span data-token="--color-gentle-fg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-gentle-fg" data-swatch></i><span data-token="--color-gentle-fg"></span></span></td></tr>
+<tr><td>Danger and validation tint</td><td><code>--color-danger-bg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-danger-bg" data-swatch></i><span data-token="--color-danger-bg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-danger-bg" data-swatch></i><span data-token="--color-danger-bg"></span></span></td></tr>
+<tr><td>Danger and validation ink</td><td><code>--color-danger-fg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-danger-fg" data-swatch></i><span data-token="--color-danger-fg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-danger-fg" data-swatch></i><span data-token="--color-danger-fg"></span></span></td></tr>
+<tr><td>Why note glass</td><td><code>--color-bg-glass</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-bg-glass" data-swatch></i><span data-token="--color-bg-glass"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-bg-glass" data-swatch></i><span data-token="--color-bg-glass"></span></span></td></tr>
+<tr><td>Why note ink</td><td><code>--color-fg-muted</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-muted" data-swatch></i><span data-token="--color-fg-muted"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-muted" data-swatch></i><span data-token="--color-fg-muted"></span></span></td></tr>
+<tr><td>Corners (alert, why)</td><td><code>--radius-lg</code></td><td><span data-theme="light" data-token="--radius-lg"></span></td><td><span data-theme="dark" data-token="--radius-lg"></span></td></tr>
+<tr><td>Corners (validation box)</td><td><code>--radius-md</code></td><td><span data-theme="light" data-token="--radius-md"></span></td><td><span data-theme="dark" data-token="--radius-md"></span></td></tr>
+<tr><td>Message font</td><td><code>--text-body-sm</code></td><td><span data-theme="light" data-token="--text-body-sm"></span></td><td><span data-theme="dark" data-token="--text-body-sm"></span></td></tr>
+<tr><td>Dismiss size</td><td><code>--target-comfortable</code></td><td><span data-theme="light" data-token="--target-comfortable"></span></td><td><span data-theme="dark" data-token="--target-comfortable"></span></td></tr>
+</tbody></table></div>
+</section>
+
+<section class="ds-section" id="code"><h2><a href="#code">Code</a></h2>
+  <pre><code>&lt;!-- appears after a failed save: assertive --&gt;
+&lt;div class="alert alert-danger" role="alert"&gt;
+  &lt;span class="ico" aria-hidden="true"&gt;📡&lt;/span&gt;
+  &lt;div&gt;&lt;strong&gt;Couldn't reach the family server&lt;/strong&gt;Your song is still here. Check the server is on, then tap Create again.&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- validation summary, focused on submit --&gt;
+&lt;div class="errors" data-errors role="alert" tabindex="-1"&gt;
+  &lt;div&gt;• &lt;a href="#song-title"&gt;A song needs a title.&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+  <table class="ds-table"><thead><tr><th scope="col">Class / attribute</th><th scope="col">Effect</th></tr></thead><tbody>
+    <tr><td><code>.why</code>, <code>.why--flush</code></td><td>Child-screen reassurance note on glass; flush drops the top margin.</td></tr>
+    <tr><td><code>.errors</code></td><td>Grown-up validation list; one <code>&lt;div&gt;</code> per line.</td></tr>
+    <tr><td><code>.alert</code></td><td>Info tone box.</td></tr>
+    <tr><td><code>.alert-success</code> <code>.alert-warning</code> <code>.alert-gentle</code> <code>.alert-danger</code></td><td>Tone.</td></tr>
+    <tr><td><code>.alert-dismiss</code></td><td>44px dismiss button at the end.</td></tr>
+    <tr><td><code>.banner</code></td><td>Full-width page banner, square corners.</td></tr>
+    <tr><td><code>role="status"</code> / <code>role="alert"</code></td><td>Only when the box appears after load; see Accessibility.</td></tr>
+    <tr><td><code>data-errors</code></td><td>Hook the app and E2E page objects read on the validation box.</td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+  <p>The why note and the validation box come from these mocks; the toned <code>.alert</code> is not in the mocks yet and is added for the Grown-Ups Corner and the family-server managers.</p>
+  <ul>
+    <li><a href="../../mocks/pages/voice-setup/default.html">pages/voice-setup/default</a> (why note)</li>
+    <li><a href="../../mocks/pages/songs/offline.html">pages/songs/offline</a> (flush why note, offline)</li>
+    <li><a href="../../mocks/dialogs/mic-denied/default.html">dialogs/mic-denied/default</a> (why note in a dialog)</li>
+    <li><a href="../../mocks/dialogs/song-editor/invalid.html">dialogs/song-editor/invalid</a> (validation box)</li>
+    <li><a href="../../mocks/dialogs/song-editor/failed.html">dialogs/song-editor/failed</a> (raw "Failed to fetch")</li>
+  </ul>
+  <p>Drift fixed during extraction: the raw "Failed to fetch" becomes grown-up copy (D19); the why note's soft ink moved to <code>--color-fg-muted</code> (D02); its 14px padding and 18px top margin snapped to 16px (D11); its 20px corners and the validation box's 14px became <code>--radius-lg</code> and <code>--radius-md</code> (D12); the validation box's 13px text rose to the 14px step and its hard-coded pinks became the danger role tokens (D10, D09). See the <a href="../index.html#drift">drift log</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

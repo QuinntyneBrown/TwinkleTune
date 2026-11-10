@@ -48,8 +48,8 @@ docs/mocks/
   index.html                       gallery of every screen with state links (generated)
   manifest.json                    screens, states, routes and requirement IDs
   assets/
-    tokens.css                     design tokens: the only place colours, sizes and durations live
-    ui.css                         the component kit, a token-only port of the app's stylesheets
+    tokens.css                     imports ../../design-system/tokens/tokens.css (the source of truth)
+    ui.css                         imports ../../design-system/assets/components.css (the component kit)
     mock.css                       the mock bar and the notes (not product UI)
     mock.js                        theme, chrome and motion switches, click-through
     fonts/                         Baloo 2 and Nunito, the same files the app ships
@@ -81,11 +81,13 @@ from the app's source (`frontend/src/songs/catalog.ts`, `state/`, `screens/`, `u
 same class names, the same accessible names, the same `data-*` hooks. The Playwright page objects
 in `e2e/pages/` rely on that parity, so keep it when you change either side.
 
-**`assets/ui.css` is the app's CSS with every literal named.** It is a port of
-`frontend/src/styles/twinkle.css` and `screens.css`: same selectors, same geometry, but colours,
-sizes, radii, shadows, durations and layers all read `assets/tokens.css`. The product's own custom
-properties (`--pink`, `--blue`, `--ink`, `--shadow` and the rest) keep their names and values. The
-styles the app sets inline from TypeScript became small classes in the last section of `ui.css`.
+**The styles come from the design system.** The component kit began as a port of
+`frontend/src/styles/twinkle.css` and `screens.css` (same selectors, same geometry) and was
+extracted into [`docs/design-system`](../design-system/README.md) on 2026-11-09. `assets/tokens.css`
+and `assets/ui.css` now only import `design-system/tokens/tokens.css` and
+`design-system/assets/components.css`; change values there. Class names are unchanged. Extraction
+corrected contrast, spacing, type and radius drift (see the design system's drift log), so the
+mocks now show those corrected values while the app's stylesheets still carry the originals.
 
 **Two themes, light by default.** Light is the product as it ships: a daytime "sky studio". Dark
 is the same studio at night, defined in `tokens.css` because the skill asks every mock to work in

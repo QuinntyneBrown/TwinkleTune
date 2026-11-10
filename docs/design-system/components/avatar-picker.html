@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Avatar picker — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune avatar picker: pick-one emoji avatars with a big selected ring, the four-up Welcome row and the eight-up wrapping dialog row, every state, both themes.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Component · Inputs</p>
+      <h1>Avatar picker</h1>
+      <p class="ds-lead">A row of big round emoji avatars where one is picked. The picked avatar grows, gets a blue ring and a pink glow, so a five-year-old can see at a glance which one is hers.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill">Native <code>&lt;button aria-pressed&gt;</code> in <code>role="group"</code></span><span class="ds-pill">Status: stable</span><span class="ds-pill">Class <code>.avatar-pick</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>Use the avatar picker when a Singer chooses the face that stands for her: on Welcome the first time she opens the app, and in the singer editor when a grown-up adds or edits a Singer on the family server. Exactly one avatar is picked at any moment; there is always a sensible default (🦄 for a new Singer), so the row never asks her to fix an empty choice.</p>
+  <ul>
+    <li>Use it only for choosing <em>her own</em> avatar. To <em>show</em> a Singer's face, use an <a href="avatar.html">avatar</a>; to filter a list, use <a href="chip.html">chips</a>.</li>
+    <li>Do not use it for more than about twelve choices. The family avatar manager (custom avatars on the server) is a <a href="list.html">list</a>, not a picker.</li>
+    <li>A photo is an alternative, not another avatar: the singer editor puts a <a href="file-upload.html">file upload</a> under the row, introduced by its own <code>.pick-label</code> (<em>"…or use a photo 📸"</em>).</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="anatomy"><h2><a href="#anatomy">Anatomy</a></h2>
+  <div class="ds-anatomy">
+    <figure class="ds-anatomy__figure">
+      <div class="ds-col">
+        <p class="pick-label" id="ap-anat-label">Pick your singer! 🌟</p>
+        <div class="avatars" role="group" aria-labelledby="ap-anat-label">
+          <button class="avatar-pick" type="button" aria-pressed="true" aria-label="Unicorn">🦄</button>
+          <button class="avatar-pick" type="button" aria-pressed="false" aria-label="Kitten">🐱</button>
+          <button class="avatar-pick" type="button" aria-pressed="false" aria-label="Frog">🐸</button>
+        </div>
+      </div>
+      <span class="ds-callout" style="left: 22%; top: 18%;" aria-hidden="true">1</span>
+      <span class="ds-callout" style="left: 16%; top: 54%;" aria-hidden="true">2</span>
+      <span class="ds-callout" style="left: 48%; top: 82%;" aria-hidden="true">3</span>
+      <span class="ds-callout" style="left: 74%; top: 54%;" aria-hidden="true">4</span>
+    </figure>
+    <ol class="ds-anatomy__list">
+      <li><div><b>Group label</b><small><code>.pick-label</code>: Baloo 2 bold, <code>--font-size-lg</code>. It names the group (<code>aria-labelledby</code>), so it is real text, not a decoration.</small></div></li>
+      <li><div><b>Picked avatar</b><small>Scaled to 112%, border <code>--color-accent</code>, the accent ring <code>--shadow-ring-accent</code> and a pink-to-pale gradient. Selected by <code>aria-pressed="true"</code>.</small></div></li>
+      <li><div><b>Row</b><small><code>.avatars</code>: a centred flex row with a 16px gap (<code>--space-4</code>). <code>.avatars--wrap</code> lets eight avatars wrap in a dialog.</small></div></li>
+      <li><div><b>Avatar button</b><small><code>.avatar-pick</code>: a 72px disc (<code>--size-avatar-pick</code>), 4px surface border, pale-to-aqua gradient, emoji at <code>--font-size-4xl</code>, <code>--shadow-1</code>.</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="ds-section" id="variants"><h2><a href="#variants">Variants</a></h2>
+  <p>The button is the same everywhere; the row around it changes with the room it has.</p>
+  <h3>Four-up row (Welcome)</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-sky ds-example__canvas--stack">
+      <p class="pick-label" id="ap-var-welcome">Pick your singer! 🌟</p>
+      <div class="avatars" role="group" aria-labelledby="ap-var-welcome">
+        <button class="avatar-pick" type="button" aria-pressed="true" aria-label="Unicorn">🦄</button>
+        <button class="avatar-pick" type="button" aria-pressed="false" aria-label="Kitten">🐱</button>
+        <button class="avatar-pick" type="button" aria-pressed="false" aria-label="Frog">🐸</button>
+        <button class="avatar-pick" type="button" aria-pressed="false" aria-label="Fox">🦊</button>
+      </div>
+    </div>
+    <div class="ds-example__caption"><span>Four avatars fit one line of the 470px column with room for the 112% grow.</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;p class="pick-label" id="pick-label"&gt;Pick your singer! 🌟&lt;/p&gt;
+&lt;div class="avatars" role="group" aria-labelledby="pick-label"&gt;
+  &lt;button class="avatar-pick" type="button" aria-pressed="true" aria-label="Unicorn"&gt;🦄&lt;/button&gt;
+  &lt;button class="avatar-pick" type="button" aria-pressed="false" aria-label="Kitten"&gt;🐱&lt;/button&gt;
+  &lt;button class="avatar-pick" type="button" aria-pressed="false" aria-label="Frog"&gt;🐸&lt;/button&gt;
+  &lt;button class="avatar-pick" type="button" aria-pressed="false" aria-label="Fox"&gt;🦊&lt;/button&gt;
+&lt;/div&gt;</code></pre></details>
+  </div>
+  <h3>Eight-up wrapping row (singer editor)</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack ds-w-form">
+      <p class="pick-label pick-label--dialog" id="ap-var-editor">Pick an avatar</p>
+      <div class="avatars avatars--wrap" role="group" aria-labelledby="ap-var-editor">
+        <button class="avatar-pick" type="button" aria-pressed="false" aria-label="Unicorn">🦄</button>
+        <button class="avatar-pick" type="button" aria-pressed="true" aria-label="Kitten">🐱</button>
+        <button class="avatar-pick" type="button" aria-pressed="false" aria-label="Frog">🐸</button>
+        <button class="avatar-pick" type="button" aria-pressed="false" aria-label="Fox">🦊</button>
+        <button class="avatar-pick" type="button" aria-pressed="false" aria-label="Bunny">🐰</button>
+        <button class="avatar-pick" type="button" aria-pressed="false" aria-label="Panda">🐼</button>
+        <button class="avatar-pick" type="button" aria-pressed="false" aria-label="Dino">🦖</button>
+        <button class="avatar-pick" type="button" aria-pressed="false" aria-label="Octopus">🐙</button>
+      </div>
+      <p class="pick-label pick-label--photo">…or use a photo 📸</p>
+      <input class="photo-input" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Photo for Bea">
+    </div>
+    <div class="ds-example__caption"><span>Editing Bea: Kitten is picked. <code>.avatars--wrap</code> wraps to two rows of four inside the 340px dialog; the photo input follows.</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;p class="pick-label pick-label--dialog" id="avatar-label"&gt;Pick an avatar&lt;/p&gt;
+&lt;div class="avatars avatars--wrap" role="group" aria-labelledby="avatar-label"&gt;
+  &lt;button class="avatar-pick" type="button" aria-pressed="false" aria-label="Unicorn"&gt;🦄&lt;/button&gt;
+  &lt;button class="avatar-pick" type="button" aria-pressed="true" aria-label="Kitten"&gt;🐱&lt;/button&gt;
+  …six more…
+&lt;/div&gt;
+&lt;p class="pick-label pick-label--photo"&gt;…or use a photo 📸&lt;/p&gt;
+&lt;input class="photo-input" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Photo"&gt;</code></pre></details>
+  </div>
+</section>
+
+<section class="ds-section" id="sizes" data-na="The avatar picker has one size: 72px discs, so every choice clears the 52px child target with room to spare."><h2><a href="#sizes">Sizes</a></h2><p class="ds-na">The avatar picker has one size: 72px discs, so every choice clears the 52px child target with room to spare.</p></section>
+
+<section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+  <p>Pointer and focus states are forced here with <code>data-state</code>; real screens get them from <code>:hover</code>, <code>:focus-visible</code> and <code>:active</code>. Picked uses the real attribute, <code>aria-pressed="true"</code>.</p>
+  <div class="ds-matrix"><table>
+    <thead><tr><th scope="col">Avatar</th><th scope="col">Default</th><th scope="col">Hover</th><th scope="col">Focus</th><th scope="col">Pressed</th><th scope="col">Picked</th><th scope="col">Picked + focus</th><th scope="col">Disabled</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Emoji</th>
+        <td><button class="avatar-pick" type="button" aria-pressed="false" aria-label="Fox">🦊</button></td>
+        <td><button class="avatar-pick" type="button" aria-pressed="false" aria-label="Fox" data-state="hover">🦊</button></td>
+        <td><button class="avatar-pick" type="button" aria-pressed="false" aria-label="Fox" data-state="focus">🦊</button></td>
+        <td><button class="avatar-pick" type="button" aria-pressed="false" aria-label="Fox" data-state="active">🦊</button></td>
+        <td><button class="avatar-pick" type="button" aria-pressed="true" aria-label="Fox">🦊</button></td>
+        <td><button class="avatar-pick" type="button" aria-pressed="true" aria-label="Fox" data-state="focus">🦊</button></td>
+        <td><button class="avatar-pick" type="button" aria-pressed="false" aria-label="Fox" disabled>🦊</button></td>
+      </tr>
+    </tbody>
+  </table></div>
+  <h3>Both themes</h3>
+  <div class="ds-themes">
+    <div data-theme="light"><div class="avatars" role="group" aria-label="Avatar, light theme"><button class="avatar-pick" type="button" aria-pressed="true" aria-label="Unicorn">🦄</button><button class="avatar-pick" type="button" aria-pressed="false" aria-label="Kitten">🐱</button><button class="avatar-pick" type="button" aria-pressed="false" aria-label="Frog">🐸</button></div></div>
+    <div data-theme="dark"><div class="avatars" role="group" aria-label="Avatar, dark theme"><button class="avatar-pick" type="button" aria-pressed="true" aria-label="Unicorn">🦄</button><button class="avatar-pick" type="button" aria-pressed="false" aria-label="Kitten">🐱</button><button class="avatar-pick" type="button" aria-pressed="false" aria-label="Frog">🐸</button></div></div>
+  </div>
+  <ul>
+    <li><b>Hover</b> grows the disc to 108%; <b>pressed</b> shrinks it to 96%. Together they make the avatar feel like a squeezable toy.</li>
+    <li><b>Picked</b> is told three ways at once: size (112%), a blue border plus accent ring, and the warmer pink gradient. It never relies on colour alone.</li>
+    <li><b>Disabled</b> exists only for a grown-up case: an avatar the family server has just removed while the editor was open. Child screens never show a disabled avatar; remove it from the row instead.</li>
+    <li>Picking is instant and local. Nothing is saved until the screen's main button (<em>Let's Sing!</em>, <em>Add singer ⭐</em>, <em>Save</em>) is pressed, so there is no busy state.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+  <ul>
+    <li>The column is 470px at every viewport, so the Welcome row of four never rearranges.</li>
+    <li>In a dialog (<code>--layout-dialog-max</code>, 340px) always add <code>.avatars--wrap</code>. Eight avatars then fall into rows centred under each other; the gap stays 16px in both directions.</li>
+    <li>Discs never shrink below 72px to squeeze onto one line. If a row would overflow at 320px without wrapping, it must wrap.</li>
+    <li>Leave at least 8px of free space around the row: the picked avatar grows 6px past its box on every side and must not touch the label or the photo input.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="theming"><h2><a href="#theming">Theming</a></h2>
+  <p>The picker reads semantic tokens only: <code>--color-bg-surface</code> for the border, <code>--color-decor-pale</code> and <code>--color-decor-aqua</code> for the idle gradient, <code>--color-gentle-bg</code> for the picked gradient, <code>--color-accent</code> and <code>--shadow-ring-accent</code> for the picked edge. It has no component tokens.</p>
+  <p>In the night studio the decor tints deepen and the surface border darkens with them, so the discs still read as soft pastel buttons against the night canvas; the accent ring lightens to the brand blue so it keeps at least 3:1 against both the disc and the canvas.</p>
+  <pre><code>/* Re-skin the picked look without touching .avatar-pick */
+.holiday .avatar-pick[aria-pressed="true"] { border-color: var(--color-reward-edge); box-shadow: var(--shadow-ring-reward), var(--shadow-1); }</code></pre>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <h3>Role and pattern</h3>
+  <p>A <code>role="group"</code> of toggle buttons, labelled by the visible <code>.pick-label</code>; each avatar is a native <code>&lt;button type="button"&gt;</code> with <code>aria-pressed</code> (<a href="https://www.w3.org/WAI/ARIA/apg/patterns/button/">APG Button, toggle</a>). Pressing one sets it to <code>true</code> and every other to <code>false</code>. A <a href="https://www.w3.org/WAI/ARIA/apg/patterns/radio/">radio group</a> is the stricter alternative; the toggle group is kept because it matches the app and the E2E locators, and because each disc is one Tab stop a child can reach without learning arrow keys.</p>
+  <h3>Keyboard</h3>
+  <table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody>
+    <tr><td><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>Moves through the avatars one by one in DOM order, then on to the next control.</td></tr>
+    <tr><td><kbd>Enter</kbd>, <kbd>Space</kbd></td><td>Picks the focused avatar and un-picks the previous one. Focus stays where it is.</td></tr>
+  </tbody></table>
+  <h3>Focus</h3>
+  <p>The shared 3px <code>--color-focus-ring</code> at a 3px offset, drawn as a circle (<code>border-radius: 50%</code>). The offset keeps the focus ring clear of the picked accent ring, so a focused, picked avatar shows both.</p>
+  <h3>Labelling</h3>
+  <p>Every avatar needs an <code>aria-label</code> with the animal's name (<em>Unicorn</em>, <em>Kitten</em>, <em>Frog</em>, <em>Fox</em>, <em>Bunny</em>, <em>Panda</em>, <em>Dino</em>, <em>Octopus</em>). An emoji alone is read differently by every screen reader, and <code>title</code> is not announced reliably. A screen reader then says "Kitten, toggle button, pressed, Pick an avatar, group".</p>
+  <h3>Contrast</h3>
+  <div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);">
+    <div class="ds-pair"><span>Picked ring against a card</span><span class="ds-pair__ratio" data-contrast="--color-accent|--color-bg-surface" data-min="3"></span></div>
+    <div class="ds-pair"><span>Picked ring against the sky</span><span class="ds-pair__ratio" data-contrast="--color-accent|--color-bg-canvas" data-min="3"></span></div>
+    <div class="ds-pair"><span>Focus ring inside a dialog</span><span class="ds-pair__ratio" data-contrast="--color-focus-ring|--color-bg-surface-raised" data-min="3"></span></div>
+    <div class="ds-pair"><span>Group label on the sky</span><span class="ds-pair__ratio" data-contrast="--color-fg-default|--color-bg-canvas" data-min="4.5"></span></div>
+  </div>
+  <h3>Motion</h3>
+  <p>The grow and shrink transition over <code>--duration-fast</code> (120ms). Under <code>prefers-reduced-motion</code> the duration is zeroed, so the picked avatar jumps straight to its larger size and ring with no tween. The size change itself stays, because it carries the selection.</p>
+  <h3>Touch</h3>
+  <p>72px discs with 16px gaps comfortably exceed the 52px child target (<code>--target-child</code>). The whole disc is the hit area; the emoji is never a smaller target inside it.</p>
+</section>
+
+<section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+  <ul>
+    <li>The group label is a cheerful invitation: <em>Pick your singer! 🌟</em> on Welcome, <em>Pick an avatar</em> in the grown-up editor. Never <em>Select avatar</em>.</li>
+    <li>Use the eight cast avatars in this order: 🦄 Unicorn, 🐱 Kitten, 🐸 Frog, 🦊 Fox, 🐰 Bunny, 🐼 Panda, 🦖 Dino, 🐙 Octopus. Welcome shows the first four.</li>
+    <li>Avatar names are one friendly word, capitalised, the way a child would say them: <em>Dino</em>, not <em>Dinosaur emoji</em>.</li>
+    <li>No avatar is ever scary, sad or "locked". Every choice is a good one.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas"><div class="avatars" role="group" aria-label="Avatar, do example 1"><button class="avatar-pick" type="button" aria-pressed="true" aria-label="Unicorn">🦄</button><button class="avatar-pick" type="button" aria-pressed="false" aria-label="Kitten">🐱</button></div></div><figcaption>Name each avatar with <code>aria-label</code> and mark the pick with <code>aria-pressed</code>, inside a labelled <code>role="group"</code>.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><div class="avatars"><button class="avatar-pick picked" type="button" aria-label="Unicorn (named only by title in the mock)">🦄</button><button class="avatar-pick" type="button" aria-label="Kitten (named only by title in the mock)">🐱</button></div></div><figcaption>The singer-editor mock names avatars only by <code>title</code> and selects only with the <code>.picked</code> class: a screen reader hears "button" and never learns which is picked.</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas ds-w-form"><div class="avatars avatars--wrap" role="group" aria-label="Avatar, do example 2"><button class="avatar-pick" type="button" aria-pressed="true" aria-label="Unicorn">🦄</button><button class="avatar-pick" type="button" aria-pressed="false" aria-label="Kitten">🐱</button><button class="avatar-pick" type="button" aria-pressed="false" aria-label="Frog">🐸</button><button class="avatar-pick" type="button" aria-pressed="false" aria-label="Fox">🦊</button><button class="avatar-pick" type="button" aria-pressed="false" aria-label="Bunny">🐰</button></div></div><figcaption>In a dialog, let the row wrap with <code>.avatars--wrap</code>; every disc keeps its full 72px.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><div class="avatars" role="group" aria-label="Avatar, don't example 2"><button class="avatar-pick" type="button" aria-pressed="false" aria-label="Unicorn">🦄</button><button class="avatar-pick" type="button" aria-pressed="false" aria-label="Kitten">🐱</button><button class="avatar-pick" type="button" aria-pressed="false" aria-label="Frog">🐸</button></div></div><figcaption>Starting with nothing picked and then telling her she forgot. Always pre-pick a default so the main button just works.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+  <div class="ds-table-wrap"><table class="ds-table">
+<thead><tr><th scope="col">Use</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+<tbody>
+<tr><td>Disc size</td><td><code>--size-avatar-pick</code></td><td><span data-theme="light" data-token="--size-avatar-pick"></span></td><td><span data-theme="dark" data-token="--size-avatar-pick"></span></td></tr>
+<tr><td>Emoji size</td><td><code>--font-size-4xl</code></td><td><span data-theme="light" data-token="--font-size-4xl"></span></td><td><span data-theme="dark" data-token="--font-size-4xl"></span></td></tr>
+<tr><td>Disc border</td><td><code>--color-bg-surface</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-bg-surface" data-swatch></i><span data-token="--color-bg-surface"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-bg-surface" data-swatch></i><span data-token="--color-bg-surface"></span></span></td></tr>
+<tr><td>Idle gradient start</td><td><code>--color-decor-pale</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-decor-pale" data-swatch></i><span data-token="--color-decor-pale"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-decor-pale" data-swatch></i><span data-token="--color-decor-pale"></span></span></td></tr>
+<tr><td>Idle gradient end</td><td><code>--color-decor-aqua</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-decor-aqua" data-swatch></i><span data-token="--color-decor-aqua"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-decor-aqua" data-swatch></i><span data-token="--color-decor-aqua"></span></span></td></tr>
+<tr><td>Picked gradient start</td><td><code>--color-gentle-bg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-gentle-bg" data-swatch></i><span data-token="--color-gentle-bg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-gentle-bg" data-swatch></i><span data-token="--color-gentle-bg"></span></span></td></tr>
+<tr><td>Picked border</td><td><code>--color-accent</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-accent" data-swatch></i><span data-token="--color-accent"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-accent" data-swatch></i><span data-token="--color-accent"></span></span></td></tr>
+<tr><td>Picked ring</td><td><code>--shadow-ring-accent</code></td><td><span data-theme="light" data-token="--shadow-ring-accent"></span></td><td><span data-theme="dark" data-token="--shadow-ring-accent"></span></td></tr>
+<tr><td>Disc shadow</td><td><code>--shadow-1</code></td><td><span data-theme="light" data-token="--shadow-1"></span></td><td><span data-theme="dark" data-token="--shadow-1"></span></td></tr>
+<tr><td>Gap between discs</td><td><code>--space-4</code></td><td><span data-theme="light" data-token="--space-4"></span></td><td><span data-theme="dark" data-token="--space-4"></span></td></tr>
+<tr><td>Focus ring</td><td><code>--color-focus-ring</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-focus-ring" data-swatch></i><span data-token="--color-focus-ring"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-focus-ring" data-swatch></i><span data-token="--color-focus-ring"></span></span></td></tr>
+<tr><td>Grow and shrink</td><td><code>--duration-fast</code></td><td><span data-theme="light" data-token="--duration-fast"></span></td><td><span data-theme="dark" data-token="--duration-fast"></span></td></tr>
+</tbody></table></div>
+</section>
+
+<section class="ds-section" id="code"><h2><a href="#code">Code</a></h2>
+  <pre><code>&lt;p class="pick-label" id="pick-label"&gt;Pick your singer! 🌟&lt;/p&gt;
+&lt;div class="avatars" role="group" aria-labelledby="pick-label"&gt;
+  &lt;button class="avatar-pick" type="button" data-avatar="🦄" aria-pressed="true" aria-label="Unicorn"&gt;🦄&lt;/button&gt;
+  &lt;button class="avatar-pick" type="button" data-avatar="🐱" aria-pressed="false" aria-label="Kitten"&gt;🐱&lt;/button&gt;
+&lt;/div&gt;
+
+// One picked at a time
+row.addEventListener('click', (e) =&gt; {
+  const pick = e.target.closest('.avatar-pick');
+  if (!pick || pick.disabled) return;
+  row.querySelectorAll('.avatar-pick').forEach((b) =&gt; b.setAttribute('aria-pressed', String(b === pick)));
+});</code></pre>
+  <table class="ds-table"><thead><tr><th scope="col">Class / attribute</th><th scope="col">Effect</th></tr></thead><tbody>
+    <tr><td><code>.avatars</code></td><td>Centred row, 16px gap.</td></tr>
+    <tr><td><code>.avatars--wrap</code></td><td>Lets the row wrap; use inside dialogs.</td></tr>
+    <tr><td><code>.avatar-pick</code></td><td>The 72px disc button.</td></tr>
+    <tr><td><code>aria-pressed="true"</code></td><td>Picked look. <code>.picked</code> gives the same look and is kept for the app's markup; always pair it with <code>aria-pressed</code>.</td></tr>
+    <tr><td><code>.pick-label</code>, <code>.pick-label--dialog</code>, <code>.pick-label--photo</code></td><td>The group label and its tighter dialog spacing.</td></tr>
+    <tr><td><code>disabled</code></td><td>55% opacity, not-allowed cursor; grown-up screens only.</td></tr>
+    <tr><td><code>data-avatar</code>, <code>data-avatar-id</code></td><td>Hooks the app and the E2E page objects read. Keep them.</td></tr>
+    <tr><td><code>data-state="hover|focus|active"</code></td><td>Documentation only: forces a state on a static page.</td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+  <p>Extracted from these mocks:</p>
+  <ul>
+    <li><a href="../../mocks/pages/welcome/default.html">pages/welcome/default</a> (four-up row, already uses <code>aria-pressed</code>)</li>
+    <li><a href="../../mocks/dialogs/singer-editor/default.html">dialogs/singer-editor/default</a> (eight-up wrapping row with the photo input)</li>
+    <li><a href="../../mocks/dialogs/singer-editor/edit.html">dialogs/singer-editor/edit</a> (Kitten picked for Bea)</li>
+    <li><a href="../../mocks/dialogs/singer-editor/invalid.html">dialogs/singer-editor/invalid</a></li>
+  </ul>
+  <p>Drift fixed during extraction: the editor's avatar buttons were named only by <code>title</code> and selected only by <code>.picked</code>; the contract adds <code>aria-label</code>, <code>aria-pressed</code> and a labelled <code>role="group"</code> (D17). The focus ring moved from brand blue (2.6:1) to <code>--color-focus-ring</code> (D21). See the <a href="../index.html#drift">drift log</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

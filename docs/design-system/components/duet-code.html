@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Duet code — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune duet code: the room code display tiles and the code input, every state including invalid and full rooms, both themes.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Component · Singing</p>
+      <h1>Duet code</h1>
+      <p class="ds-lead">The four-letter duet room code, shown as four big letter tiles on the device that made the room and typed into one big field on the device that joins it.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill"><code>&lt;input&gt;</code> + letter tiles</span><span class="ds-pill">Status: stable</span><span class="ds-pill">Class <code>.duet-code</code> / <code>.code-input</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>A <b>duet room</b> is an in-memory room on the family server for exactly two singers, named by a four-letter code. One child taps <em>Make a room ⭐</em> and sees the code in big tiles; she reads it out, and her duet buddy types it on a second device after <em>Join with a code 🔑</em>. Codes use 23 capital letters with no I, L or O, so they are easy to read aloud and cannot be confused with 1 or 0.</p>
+  <ul>
+    <li><b>Display</b> (<code>.duet-code</code>): four tiles, one letter each, under the <em>ROOM CODE</em> eyebrow in the lobby card.</li>
+    <li><b>Input</b> (<code>.name-input.code-input</code>): the big name field, restyled for four spaced capitals with an <em>ABCD</em> placeholder.</li>
+  </ul>
+  <p>Duets need the family server. When it is not reachable the Duet screen shows an <a href="empty-state.html">empty state</a> that offers solo singing instead, and neither part of this component appears.</p>
+</section>
+
+<section class="ds-section" id="anatomy"><h2><a href="#anatomy">Anatomy</a></h2>
+  <div class="ds-anatomy">
+    <figure class="ds-anatomy__figure">
+      <div class="ds-col" style="align-items: stretch; width: 100%;">
+        <div class="card card--center">
+          <p class="duet-eyebrow">ROOM CODE</p>
+          <div class="duet-code" role="img" aria-label="Room code K, W, T, M"><span>K</span><span>W</span><span>T</span><span>M</span></div>
+          <p class="duet-hint">Tell your duet buddy this code!</p>
+        </div>
+        <div class="card card--center">
+          <label class="display duet-heading" for="dc-anatomy-code" style="display: block;">Type the room code 🔑</label>
+          <input id="dc-anatomy-code" class="name-input code-input" maxlength="4" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="ABCD" value="KWTM">
+        </div>
+      </div>
+      <span class="ds-callout" style="left: 36%; top: 6%;" aria-hidden="true">1</span>
+      <span class="ds-callout" style="left: 30%; top: 22%;" aria-hidden="true">2</span>
+      <span class="ds-callout" style="left: 30%; top: 40%;" aria-hidden="true">3</span>
+      <span class="ds-callout" style="left: 18%; top: 62%;" aria-hidden="true">4</span>
+      <span class="ds-callout" style="left: 18%; top: 82%;" aria-hidden="true">5</span>
+    </figure>
+    <ol class="ds-anatomy__list">
+      <li><div><b>Eyebrow</b><small><code>.duet-eyebrow</code>: <em>ROOM CODE</em>, 12px black caps, letter-spaced, <code>--color-fg-muted</code>.</small></div></li>
+      <li><div><b>Letter tile</b><small><code>.duet-code span</code>: 56 × 64px (<code>--size-avatar</code> × <code>--size-art</code>), <code>--radius-md</code>, pale-to-aqua gradient, Baloo 2 extrabold at <code>--font-size-4xl</code>. 8px between tiles.</small></div></li>
+      <li><div><b>Hint</b><small><code>.duet-hint</code>: <em>Tell your duet buddy this code!</em>, then <em>Everyone is here! 🎉</em> when the buddy joins.</small></div></li>
+      <li><div><b>Prompt</b><small>The visible label: <em>Type the room code 🔑</em>, Baloo 2 at <code>--font-size-2xl</code> (<code>.duet-heading</code>).</small></div></li>
+      <li><div><b>Code field</b><small><code>.name-input.code-input</code>: 68px field, <code>--color-border-strong</code> 3px edge, centred uppercase Baloo 2 at <code>--font-size-3xl</code> with 0.4em letter spacing.</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="ds-section" id="variants"><h2><a href="#variants">Variants</a></h2>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-sky" style="align-items: flex-start;">
+      <div class="card card--center" style="flex: 1; min-width: 16rem;">
+        <p class="duet-eyebrow">ROOM CODE</p>
+        <div class="duet-code" role="img" aria-label="Room code K, W, T, M"><span>K</span><span>W</span><span>T</span><span>M</span></div>
+        <p class="duet-hint">Tell your duet buddy this code!</p>
+      </div>
+      <div class="card card--center" style="flex: 1; min-width: 16rem;">
+        <label class="display duet-heading" for="dc-variant-code" style="display: block;">Type the room code 🔑</label>
+        <input id="dc-variant-code" class="name-input code-input" maxlength="4" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="ABCD">
+        <div class="ctas ctas--tight"><button class="btn btn-xl" type="button">Join the duet! 🎤</button><button class="link-quiet" type="button">Back</button></div>
+      </div>
+    </div>
+    <div class="ds-example__caption"><span>Display on Ada's device (lobby, waiting for Bea) · input on Bea's device (join).</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;p class="duet-eyebrow"&gt;ROOM CODE&lt;/p&gt;
+&lt;div class="duet-code" role="img" aria-label="Room code K, W, T, M"&gt;&lt;span&gt;K&lt;/span&gt;&lt;span&gt;W&lt;/span&gt;&lt;span&gt;T&lt;/span&gt;&lt;span&gt;M&lt;/span&gt;&lt;/div&gt;
+
+&lt;label class="display duet-heading" for="room-code"&gt;Type the room code 🔑&lt;/label&gt;
+&lt;input id="room-code" class="name-input code-input" maxlength="4" autocapitalize="characters"
+       autocomplete="off" spellcheck="false" placeholder="ABCD"&gt;</code></pre></details>
+  </div>
+</section>
+
+<section class="ds-section" id="sizes" data-na="Room codes are always four letters at one size; the tiles and the field are sized to be read across a room."><h2><a href="#sizes">Sizes</a></h2><p class="ds-na">Room codes are always four letters at one size; the tiles and the field are sized to be read across a room.</p></section>
+
+<section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+  <p>The display has no interactive states. The input follows the shared field states; hover and focus are forced with <code>data-state</code>.</p>
+  <div class="ds-matrix"><table>
+    <thead><tr><th scope="col">Input</th><th scope="col">Empty</th><th scope="col">Hover</th><th scope="col">Focus, typing</th><th scope="col">Full</th><th scope="col">Invalid</th><th scope="col">Disabled</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Code field</th>
+        <td><input class="name-input code-input" aria-label="Room code (empty)" placeholder="ABCD" maxlength="4"></td>
+        <td><input class="name-input code-input" aria-label="Room code (hover)" placeholder="ABCD" maxlength="4" data-state="hover"></td>
+        <td><input class="name-input code-input" aria-label="Room code (focus)" value="KW" maxlength="4" data-state="focus"></td>
+        <td><input class="name-input code-input" aria-label="Room code (full)" value="KWTM" maxlength="4"></td>
+        <td><input class="name-input code-input" aria-label="Room code (not found)" value="KWTN" maxlength="4" aria-invalid="true"></td>
+        <td><input class="name-input code-input" aria-label="Room code (joining)" value="KWTM" maxlength="4" disabled></td></tr>
+    </tbody>
+  </table></div>
+  <h3>Gentle errors</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack ds-w-form">
+      <div class="form-field">
+        <label class="display duet-heading" for="dc-err-code">Type the room code 🔑</label>
+        <input id="dc-err-code" class="name-input code-input" maxlength="4" autocapitalize="characters" autocomplete="off" value="KWTN" aria-invalid="true" aria-describedby="dc-err-msg">
+        <p class="field-error" id="dc-err-msg">That room code wasn't found — check the letters!</p>
+      </div>
+      <button class="btn btn-xl" type="button">Join the duet! 🎤</button>
+    </div>
+    <div class="ds-example__caption"><span>The server's own words, said kindly. Other messages: <em>Codes have 4 letters!</em> (fewer than four), <em>That room is already full!</em> (two singers already), <em>Couldn't join right now 💙</em> (server error).</span></div>
+  </div>
+  <h3>Both themes</h3>
+  <div class="ds-themes">
+    <div data-theme="light"><div class="card card--center"><p class="duet-eyebrow">ROOM CODE</p><div class="duet-code" role="img" aria-label="Room code K, W, T, M"><span>K</span><span>W</span><span>T</span><span>M</span></div></div><input class="name-input code-input" aria-label="Room code, light theme" value="KWTM" maxlength="4" style="margin-top: var(--space-4);"></div>
+    <div data-theme="dark"><div class="card card--center"><p class="duet-eyebrow">ROOM CODE</p><div class="duet-code" role="img" aria-label="Room code K, W, T, M"><span>K</span><span>W</span><span>T</span><span>M</span></div></div><input class="name-input code-input" aria-label="Room code, dark theme" value="KWTM" maxlength="4" style="margin-top: var(--space-4);"></div>
+  </div>
+  <ul>
+    <li><b>Joining</b>: the button goes busy (<code>aria-busy="true"</code>) and the field is disabled for the round trip; on success the lobby replaces the card.</li>
+    <li><b>Invalid</b> sets <code>aria-invalid="true"</code> (border <code>--color-danger-solid</code>) and shows the message under the field with the 💙 marker, and the app also pops it as a pink toast. Focus returns to the field with its text selected so she can retype.</li>
+    <li><b>Lobby ready</b>: the display stays; the hint changes to <em>Everyone is here! 🎉</em>.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+  <ul>
+    <li>Four tiles and three gaps need 248px, which fits inside the lobby card at 320px; tiles never shrink or wrap.</li>
+    <li>The field fills the card and centres its text; at 320px four letters at 0.4em spacing still fit with room for the caret.</li>
+    <li>On phones the on-screen keyboard opens in capitals (<code>autocapitalize="characters"</code>), and the card sits high enough on the screen that <em>Join the duet!</em> stays visible above the keyboard.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="theming"><h2><a href="#theming">Theming</a></h2>
+  <p>Tiles use the decor gradient <code>--color-decor-pale</code> → <code>--color-decor-aqua</code> with <code>--color-fg-default</code> letters. The field is the shared <a href="text-field.html">text field</a>: <code>--color-bg-surface-sunken</code> well, <code>--color-border-strong</code> edge, <code>--color-focus-ring</code> on focus. In the night studio both gradients deepen to night tones and letters lighten, keeping AA.</p>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <h3>Role and pattern</h3>
+  <p>The display is one image of text: <code>role="img"</code> with <code>aria-label="Room code K, W, T, M"</code>, letters separated by commas so screen readers spell them instead of trying to say "kwitm". (The mock puts <code>aria-label</code> on a plain <code>&lt;div&gt;</code>, where ARIA 1.2 does not allow it to be read; the role fixes that.) The input is a native text field (<a href="https://www.w3.org/WAI/tutorials/forms/labels/">WAI forms tutorial: labels</a>; no APG widget pattern applies), labelled by the visible prompt with <code>&lt;label for&gt;</code>.</p>
+  <h3>Keyboard</h3>
+  <table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody>
+    <tr><td><kbd>Tab</kbd></td><td>Back (←), the code field, <em>Join the duet!</em>, then <em>Back</em>.</td></tr>
+    <tr><td>Letters</td><td>Type the code; lowercase is shown and sent as uppercase. A fifth letter is ignored (<code>maxlength="4"</code>).</td></tr>
+    <tr><td><kbd>Enter</kbd></td><td>In the field: joins, the same as the button.</td></tr>
+    <tr><td><kbd>Backspace</kbd></td><td>Deletes the last letter.</td></tr>
+  </tbody></table>
+  <h3>Focus</h3>
+  <p>Opening Join moves focus into the code field so she can type at once. The field's focus is a <code>--color-focus-ring</code> border plus a 2px ring. After an error, focus stays in the field and the text is selected.</p>
+  <h3>Labelling</h3>
+  <p>Visible label <em>Type the room code 🔑</em>; the error is tied with <code>aria-describedby</code> and the field gets <code>aria-invalid="true"</code>. The placeholder <em>ABCD</em> is an example, never the label. Use <code>autocomplete="off"</code> and <code>spellcheck="false"</code> so the browser does not "correct" the code.</p>
+  <h3>Contrast</h3>
+  <div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);">
+    <div class="ds-pair"><span>Typed letters in the well</span><span class="ds-pair__ratio" data-contrast="--color-fg-default|--color-bg-surface-sunken" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Placeholder ABCD</span><span class="ds-pair__ratio" data-contrast="--color-fg-subtle|--color-bg-surface-sunken" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Field edge</span><span class="ds-pair__ratio" data-contrast="--color-border-strong|--color-bg-surface" data-min="3"></span></div>
+    <div class="ds-pair"><span>Eyebrow and hint</span><span class="ds-pair__ratio" data-contrast="--color-fg-muted|--color-bg-surface" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Error message</span><span class="ds-pair__ratio" data-contrast="--color-danger-fg|--color-bg-surface" data-min="4.5"></span></div>
+  </div>
+  <h3>Motion</h3>
+  <p>The lobby card rises in (<code>.rise</code>). An invalid code may shake the field twice (<code>.shake</code>, <code>--duration-slow</code>); reduced motion removes the shake and keeps the message.</p>
+  <h3>Touch</h3>
+  <p>The field is 68px tall and full width, far above the 52px child target. Tiles are not tappable.</p>
+</section>
+
+<section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+  <ul>
+    <li>Four capitals from <em>ABCDEFGHJKMNPQRSTUVWXYZ</em>. Show them exactly as generated; never add dashes or spaces to the value.</li>
+    <li>Prompts are short and playful: <em>Type the room code 🔑</em>, <em>Tell your duet buddy this code!</em>, <em>Everyone is here! 🎉</em>.</li>
+    <li>Errors say what to do, kindly: <em>That room code wasn't found — check the letters!</em>, <em>That room is already full!</em>. Never <em>Invalid code</em> or <em>Error 404</em>.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas"><div class="duet-code" role="img" aria-label="Room code K, W, T, M"><span>K</span><span>W</span><span>T</span><span>M</span></div></div><figcaption>The display is one image with the letters spelled out in its label.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><div class="duet-code"><span>K</span><span>W</span><span>T</span><span>M</span></div></div><figcaption>Four bare spans with an <code>aria-label</code> on a plain div (or none): screen readers may skip it or say "kwitm".</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas ds-example__canvas--stack"><label class="display duet-heading" for="dc-do-code">Type the room code 🔑</label><input id="dc-do-code" class="name-input code-input" maxlength="4" placeholder="ABCD" autocomplete="off"></div><figcaption>A visible label tied to the field; the placeholder is just an example.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas ds-example__canvas--stack"><input class="name-input code-input" aria-label="Code" value="KWTN" aria-invalid="true"><p class="field-error">Invalid code.</p></div><figcaption>A cold, technical error. Say what happened and what to do, in Twinkle's voice.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+  <div class="ds-table-wrap"><table class="ds-table">
+<thead><tr><th scope="col">Use</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+<tbody>
+<tr><td>Tile width</td><td><code>--size-avatar</code></td><td><span data-theme="light" data-token="--size-avatar"></span></td><td><span data-theme="dark" data-token="--size-avatar"></span></td></tr>
+<tr><td>Tile height</td><td><code>--size-art</code></td><td><span data-theme="light" data-token="--size-art"></span></td><td><span data-theme="dark" data-token="--size-art"></span></td></tr>
+<tr><td>Tile corners</td><td><code>--radius-md</code></td><td><span data-theme="light" data-token="--radius-md"></span></td><td><span data-theme="dark" data-token="--radius-md"></span></td></tr>
+<tr><td>Tile gradient start</td><td><code>--color-decor-pale</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-decor-pale" data-swatch></i><span data-token="--color-decor-pale"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-decor-pale" data-swatch></i><span data-token="--color-decor-pale"></span></span></td></tr>
+<tr><td>Tile gradient end</td><td><code>--color-decor-aqua</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-decor-aqua" data-swatch></i><span data-token="--color-decor-aqua"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-decor-aqua" data-swatch></i><span data-token="--color-decor-aqua"></span></span></td></tr>
+<tr><td>Tile letter</td><td><code>--font-size-4xl</code></td><td><span data-theme="light" data-token="--font-size-4xl"></span></td><td><span data-theme="dark" data-token="--font-size-4xl"></span></td></tr>
+<tr><td>Letters</td><td><code>--font-family-display</code></td><td><span data-theme="light" data-token="--font-family-display"></span></td><td><span data-theme="dark" data-token="--font-family-display"></span></td></tr>
+<tr><td>Typed code</td><td><code>--font-size-3xl</code></td><td><span data-theme="light" data-token="--font-size-3xl"></span></td><td><span data-theme="dark" data-token="--font-size-3xl"></span></td></tr>
+<tr><td>Field well</td><td><code>--color-bg-surface-sunken</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-bg-surface-sunken" data-swatch></i><span data-token="--color-bg-surface-sunken"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-bg-surface-sunken" data-swatch></i><span data-token="--color-bg-surface-sunken"></span></span></td></tr>
+<tr><td>Field edge</td><td><code>--color-border-strong</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-border-strong" data-swatch></i><span data-token="--color-border-strong"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-border-strong" data-swatch></i><span data-token="--color-border-strong"></span></span></td></tr>
+<tr><td>Field focus</td><td><code>--color-focus-ring</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-focus-ring" data-swatch></i><span data-token="--color-focus-ring"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-focus-ring" data-swatch></i><span data-token="--color-focus-ring"></span></span></td></tr>
+<tr><td>Invalid edge</td><td><code>--color-danger-solid</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-danger-solid" data-swatch></i><span data-token="--color-danger-solid"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-danger-solid" data-swatch></i><span data-token="--color-danger-solid"></span></span></td></tr>
+<tr><td>Placeholder</td><td><code>--color-fg-subtle</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-subtle" data-swatch></i><span data-token="--color-fg-subtle"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-subtle" data-swatch></i><span data-token="--color-fg-subtle"></span></span></td></tr>
+<tr><td>Field height</td><td><code>--control-height-lg</code></td><td><span data-theme="light" data-token="--control-height-lg"></span></td><td><span data-theme="dark" data-token="--control-height-lg"></span></td></tr>
+</tbody></table></div>
+</section>
+
+<section class="ds-section" id="code"><h2><a href="#code">Code</a></h2>
+  <pre><code>&lt;!-- Lobby (room maker) --&gt;
+&lt;div class="card card--center"&gt;
+  &lt;p class="duet-eyebrow"&gt;ROOM CODE&lt;/p&gt;
+  &lt;div class="duet-code" role="img" aria-label="Room code K, W, T, M"&gt;&lt;span&gt;K&lt;/span&gt;&lt;span&gt;W&lt;/span&gt;&lt;span&gt;T&lt;/span&gt;&lt;span&gt;M&lt;/span&gt;&lt;/div&gt;
+  &lt;p class="duet-hint"&gt;Tell your duet buddy this code!&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- Join (buddy) --&gt;
+&lt;label class="display duet-heading" for="room-code"&gt;Type the room code 🔑&lt;/label&gt;
+&lt;input id="room-code" class="name-input code-input" maxlength="4" autocapitalize="characters"
+       autocomplete="off" spellcheck="false" placeholder="ABCD" aria-describedby="room-code-msg"&gt;
+&lt;p class="field-error" id="room-code-msg" hidden&gt;&lt;/p&gt;</code></pre>
+  <table class="ds-table"><thead><tr><th scope="col">Class / attribute</th><th scope="col">Effect</th></tr></thead><tbody>
+    <tr><td><code>.duet-code</code></td><td>Centred row of letter tiles (each a <code>&lt;span&gt;</code>).</td></tr>
+    <tr><td><code>.duet-eyebrow</code> <code>.duet-hint</code> <code>.duet-heading</code></td><td>Eyebrow, hint and prompt text.</td></tr>
+    <tr><td><code>.name-input.code-input</code></td><td>Big field restyled for a spaced, uppercase code.</td></tr>
+    <tr><td><code>maxlength="4"</code> <code>autocapitalize="characters"</code></td><td>Required on the input.</td></tr>
+    <tr><td><code>aria-invalid="true"</code> + <code>aria-describedby</code></td><td>Invalid state and its message.</td></tr>
+    <tr><td><code>role="img"</code> + spelled <code>aria-label</code></td><td>Required on the display.</td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+  <p>Extracted from these mocks:</p>
+  <ul>
+    <li><a href="../../mocks/pages/duet/lobby-waiting.html">pages/duet/lobby-waiting</a> (display, waiting for the buddy)</li>
+    <li><a href="../../mocks/pages/duet/lobby-ready.html">pages/duet/lobby-ready</a> (display, both singers in)</li>
+    <li><a href="../../mocks/pages/duet/join.html">pages/duet/join</a> (input)</li>
+    <li><a href="../../mocks/pages/duet/error.html">pages/duet/error</a> (server unreachable: neither part shown)</li>
+  </ul>
+  <p>Drift fixed during extraction: the field edge was the decorative pale blue at 1.37:1, now <code>--color-border-strong</code> (D07); the placeholder moved from a faint ink to <code>--color-fg-subtle</code> (D03); 54px tiles snapped to 56px (D11); the field's 20px corners became <code>--radius-lg</code> (D12). The display gains <code>role="img"</code> and the input a visible <code>&lt;label for&gt;</code> as part of the contract. See the <a href="../index.html#drift">drift log</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

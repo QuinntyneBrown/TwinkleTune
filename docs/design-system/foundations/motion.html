@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Motion — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune motion: ten duration tokens, four easings, entrances, ambient loops, the listening pulse and reduced motion, with replayable demos.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Foundation</p>
+      <h1>Motion</h1>
+      <p class="ds-lead">Motion in TwinkleTune feels like a toy: buttons click down, dialogs pop in with a little bounce, Twinkle floats and the clouds drift by. Motion celebrates and guides. It never warns, and it switches off completely when the device asks for less motion.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill">10 durations · 4 easings</span><span class="ds-pill">Status: stable</span><span class="ds-pill">Respects <code>prefers-reduced-motion</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#durations">Durations</a></li><li><a href="#easings">Easings</a></li><li><a href="#entrances">Entrances</a></li><li><a href="#ambient">Ambient loops</a></li><li><a href="#pulse">Pulse and activity</a></li><li><a href="#usage">Usage</a></li><li><a href="#accessibility">Accessibility: reduced motion</a></li><li><a href="#tokens">Tokens</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <style>
+    /* Replay hooks for the demos on this page (ds.js toggles data-run false → true). */
+    .ds-motion-demo[data-run="false"] .dot { transition: none; translate: 0 0; }
+    .ds-motion-demo[data-run="true"] .dot { translate: 6rem 0; }
+    .ds-motion-demo[data-run="false"] .rise,
+    .ds-motion-demo[data-run="false"] .pop,
+    .ds-motion-demo[data-run="false"] .fill-animated { animation: none; }
+  </style>
+  <p>The mocks used 41 different durations (D14). The system keeps five for interaction (<code>instant</code>, <code>fast</code>, <code>base</code>, <code>slow</code>, <code>deliberate</code>) and five named for what they time (<code>stagger</code>, <code>progress</code>, <code>pulse</code>, <code>ambient</code>, <code>drift</code>). Four easings cover every curve. Every animation in <code>components.css</code> reads these tokens, so one media query can stop all of it.</p>
+  <ul>
+    <li><b>Press</b> is the fastest thing on screen (120ms). The toy button sinks onto its lip and the tap feels instant.</li>
+    <li><b>Arrival</b> is springy. Dialogs, toasts, result stars and badges pop in on <code>--ease-spring</code>, overshooting a little like a bouncing ball.</li>
+    <li><b>Ambient</b> loops are slow and decorative: Twinkle floats, stars twinkle, clouds cross the sky in 95 seconds. They sit in <code>aria-hidden</code> layers and stop under reduced motion.</li>
+    <li><b>Listening</b> is the one loop that means something. The microphone pulses while Find My Voice listens, and the words beside it say so too.</li>
+  </ul>
+  <p>Press <b>Play</b> on any demo to replay it. With reduced motion switched on in your operating system every demo jumps straight to its end state. That is the system working as designed.</p>
+</section>
+
+<section class="ds-section" id="durations"><h2><a href="#durations">Durations</a></h2>
+  <p>Pick a duration by distance and importance: small, frequent changes are fast; things that arrive from nowhere take longer. Nothing a child is waiting on takes longer than <code>--duration-deliberate</code> (700ms).</p>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack">
+      <div class="ds-motion-demo" style="--demo-duration: var(--duration-fast); --demo-ease: var(--ease-standard)"><button class="btn btn-sm btn-white" type="button" data-motion-run>Play fast · 120ms</button><span class="dot" aria-hidden="true"></span></div>
+      <div class="ds-motion-demo" style="--demo-duration: var(--duration-base); --demo-ease: var(--ease-standard)"><button class="btn btn-sm btn-white" type="button" data-motion-run>Play base · 200ms</button><span class="dot" aria-hidden="true"></span></div>
+      <div class="ds-motion-demo" style="--demo-duration: var(--duration-slow); --demo-ease: var(--ease-standard)"><button class="btn btn-sm btn-white" type="button" data-motion-run>Play slow · 400ms</button><span class="dot" aria-hidden="true"></span></div>
+      <div class="ds-motion-demo" style="--demo-duration: var(--duration-deliberate); --demo-ease: var(--ease-standard)"><button class="btn btn-sm btn-white" type="button" data-motion-run>Play deliberate · 700ms</button><span class="dot" aria-hidden="true"></span></div>
+    </div>
+    <div class="ds-example__caption"><span>The same move on <code>--ease-standard</code> at each interaction duration.</span></div>
+  </div>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <thead><tr><th scope="col">Token</th><th scope="col">Value</th><th scope="col">Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>--duration-instant</code></td><td>0ms</td><td>State changes that must not animate; the value everything collapses to under reduced motion.</td></tr>
+      <tr><td><code>--duration-fast</code></td><td>120ms</td><td>Button press and lip, icon-button squash, tile lift, bottom-nav item.</td></tr>
+      <tr><td><code>--duration-base</code></td><td>200ms</td><td>Hover backgrounds, colour changes, the overlay fading in, route changes, ladder rungs lighting.</td></tr>
+      <tr><td><code>--duration-slow</code></td><td>400ms</td><td>Dialog and toast pop-in, toast fade-out, the parent gate's key wiggle.</td></tr>
+      <tr><td><code>--duration-deliberate</code></td><td>700ms</td><td>Screen entrances (<code>.rise</code>, <code>.pop</code>): cards, stars and badges arriving.</td></tr>
+      <tr><td><code>--duration-stagger</code></td><td>80ms</td><td>The step between staggered children (<code>.d1</code> to <code>.d8</code>); the pitch needle's glide.</td></tr>
+      <tr><td><code>--duration-progress</code></td><td>1200ms</td><td>Bars growing on arrival (<code>.fill-animated</code>), the equaliser, cheers floating up, the spinner's turn.</td></tr>
+      <tr><td><code>--duration-pulse</code></td><td>1600ms</td><td>The listening pulse ring on the microphone and the current rung; skeleton shimmer.</td></tr>
+      <tr><td><code>--duration-ambient</code></td><td>3400ms</td><td>Twinkle floating, stars twinkling, floating notes, the hero tile's microphone wiggle.</td></tr>
+      <tr><td><code>--duration-drift</code></td><td>95s</td><td>Clouds crossing the sky.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="ds-section" id="easings"><h2><a href="#easings">Easings</a></h2>
+  <p>Four curves. Standard for anything that changes in place, enter for things settling in, exit for things leaving, spring for the playful pop that makes the app feel like a toy.</p>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack">
+      <div class="ds-motion-demo" style="--demo-duration: var(--duration-slow); --demo-ease: var(--ease-standard)"><button class="btn btn-sm btn-white" type="button" data-motion-run>Play standard</button><span class="dot" aria-hidden="true"></span></div>
+      <div class="ds-motion-demo" style="--demo-duration: var(--duration-slow); --demo-ease: var(--ease-enter)"><button class="btn btn-sm btn-white" type="button" data-motion-run>Play enter</button><span class="dot" aria-hidden="true"></span></div>
+      <div class="ds-motion-demo" style="--demo-duration: var(--duration-slow); --demo-ease: var(--ease-exit)"><button class="btn btn-sm btn-white" type="button" data-motion-run>Play exit</button><span class="dot" aria-hidden="true"></span></div>
+      <div class="ds-motion-demo" style="--demo-duration: var(--duration-slow); --demo-ease: var(--ease-spring)"><button class="btn btn-sm btn-white" type="button" data-motion-run>Play spring</button><span class="dot" aria-hidden="true"></span></div>
+    </div>
+    <div class="ds-example__caption"><span>Each curve over <code>--duration-slow</code>. Watch spring overshoot and settle back.</span></div>
+  </div>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <thead><tr><th scope="col">Token</th><th scope="col">Curve</th><th scope="col">Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>--ease-standard</code></td><td>Quick start, long gentle stop</td><td>Hover, press, colour, progress bars, the route-in transition.</td></tr>
+      <tr><td><code>--ease-enter</code></td><td>Standard with a hint of overshoot</td><td><code>.rise</code>: cards and rows sliding up into place.</td></tr>
+      <tr><td><code>--ease-exit</code></td><td>Slow start, accelerates away</td><td>Things leaving: a toast fading up and away, a dialog closing.</td></tr>
+      <tr><td><code>--ease-spring</code></td><td>Overshoots about 10%, then settles</td><td><code>.pop</code>, dialogs, toasts, result stars, badges. The signature bounce.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="ds-section" id="entrances"><h2><a href="#entrances">Entrances</a></h2>
+  <p>Screens never appear all at once. Their parts arrive in reading order: the coach first, then the goal card, then the big action. Two classes and a stagger do all of it.</p>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <thead><tr><th scope="col">Class</th><th scope="col">Motion</th><th scope="col">Use</th></tr></thead>
+    <tbody>
+      <tr><td><code>.rise</code></td><td>Fades in while sliding up 24px, <code>--duration-deliberate</code>, <code>--ease-enter</code></td><td>Cards, rows, coach bubbles, button rows: anything with weight.</td></tr>
+      <tr><td><code>.pop</code></td><td>Scales from 40% to 108% to 100%, <code>--duration-deliberate</code>, <code>--ease-spring</code></td><td>Small rewards: result stars, badges, the returning Twinkle, badge toasts.</td></tr>
+      <tr><td><code>.d1</code> … <code>.d8</code></td><td>Delays the entrance by 1–8 × <code>--duration-stagger</code> (80–640ms)</td><td>Order the parts of a screen. Never more than eight steps.</td></tr>
+      <tr><td><code>.modal</code>, <code>.toast</code></td><td><code>popin</code> over <code>--duration-slow</code> on <code>--ease-spring</code></td><td>Built in: dialogs and toasts always pop.</td></tr>
+      <tr><td><code>.overlay</code></td><td>Fades in over <code>--duration-base</code></td><td>The blurred sky behind a dialog.</td></tr>
+      <tr><td>View transition</td><td>Old screen fades up 8px, new one rises 8px, <code>--duration-base</code></td><td>Route changes between screens.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-sky">
+      <div class="ds-motion-demo ds-w-screen">
+        <button class="btn btn-sm btn-white" type="button" data-motion-run>Play the Home entrance</button>
+        <div class="ds-col ds-w-full">
+          <div class="coach-home rise d1 ds-w-full">
+            <svg class="mascot mascot-sm" viewBox="0 0 120 120" aria-hidden="true"><path class="twinkle-body" d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z" stroke-width="7" stroke-linejoin="round"/><circle class="twinkle-eye" cx="48" cy="56" r="4.5"/><circle class="twinkle-eye" cx="72" cy="56" r="4.5"/><circle class="twinkle-cheek" cx="41" cy="66" r="5.5"/><circle class="twinkle-cheek" cx="79" cy="66" r="5.5"/><path class="twinkle-smile" d="M50 66 Q60 76 70 66" fill="none" stroke-width="4" stroke-linecap="round"/></svg>
+            <div class="bubble bubble-left">Your songs are tuned and ready. Let's make today sparkle! ✨</div>
+          </div>
+          <div class="card goal rise d2 ds-w-full">
+            <div class="goal-ring" style="--goal:120deg" role="img" aria-label="1 of 3 songs done"><b>1/3</b></div>
+            <div class="goal-info"><strong>Today's sparkle goal</strong><span>Sing 3 songs — just 2 more to go!</span></div>
+          </div>
+          <div class="stars-row ds-w-full" aria-label="2 stars earned">
+            <span class="pop d4"><svg viewBox="0 0 120 120" aria-hidden="true"><path class="star-shape" d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z" stroke-width="7" stroke-linejoin="round"/></svg></span>
+            <span class="pop d6"><svg viewBox="0 0 120 120" aria-hidden="true"><path class="star-shape" d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z" stroke-width="7" stroke-linejoin="round"/></svg></span>
+            <span class="pop d8 empty"><svg viewBox="0 0 120 120" aria-hidden="true"><path class="star-shape star-shape--empty" d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z" stroke-width="7" stroke-linejoin="round"/></svg></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-example__caption"><span>Coach (<code>.rise.d1</code>), goal card (<code>.rise.d2</code>), then result stars popping one after another (<code>.pop.d4/.d6/.d8</code>).</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;div class="coach-home rise d1"&gt;…&lt;/div&gt;
+&lt;section class="card goal rise d2" aria-label="Today's goal"&gt;…&lt;/section&gt;
+&lt;div class="stars-row" aria-label="2 stars earned"&gt;
+  &lt;span class="pop d4"&gt;…&lt;/span&gt;&lt;span class="pop d6"&gt;…&lt;/span&gt;&lt;span class="pop d8 empty"&gt;…&lt;/span&gt;
+&lt;/div&gt;</code></pre></details>
+  </div>
+  <h3>Progress on arrival</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas">
+      <div class="ds-motion-demo ds-w-form">
+        <button class="btn btn-sm btn-white" type="button" data-motion-run>Play the score bar</button>
+        <div class="ds-col ds-w-full">
+          <strong>You landed 18 of 24 notes! 🎯</strong>
+          <div class="track ds-w-full"><div class="fill fill-gold fill-animated" style="width:75%"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-example__caption"><span><code>.fill-animated</code> grows the bar from zero over <code>--duration-progress</code>. The count is always in the words too.</span></div>
+  </div>
+</section>
+
+<section class="ds-section" id="ambient"><h2><a href="#ambient">Ambient loops</a></h2>
+  <p>The sky is alive but never busy. Ambient loops are slow (3.4s and 95s), low in contrast, behind the content and hidden from assistive technology. They are the first thing reduced motion removes.</p>
+  <div class="ds-example">
+    <div class="ds-stage ds-stage--short">
+      <div class="sky sky--day" aria-hidden="true">
+        <div class="cloud"></div><div class="cloud"></div><div class="cloud"></div>
+        <span class="tstar">✦</span><span class="tstar">✦</span><span class="tstar">✦</span><span class="tstar">✦</span>
+        <span class="fnote">🎵</span><span class="fnote">🎶</span>
+      </div>
+      <div class="screen">
+        <div class="coach">
+          <svg class="mascot" viewBox="0 0 120 120" aria-hidden="true"><path class="twinkle-body" d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z" stroke-width="7" stroke-linejoin="round"/><circle class="twinkle-eye" cx="48" cy="56" r="4.5"/><circle class="twinkle-eye" cx="72" cy="56" r="4.5"/><circle class="twinkle-cheek" cx="41" cy="66" r="5.5"/><circle class="twinkle-cheek" cx="79" cy="66" r="5.5"/><path class="twinkle-smile" d="M50 66 Q60 76 70 66" fill="none" stroke-width="4" stroke-linecap="round"/></svg>
+          <div class="bubble bubble-left">Hi! I'm Twinkle, your singing buddy. What should I call you?</div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-example__caption"><span>Twinkle floats (<code>.mascot</code>, <code>floaty</code>, <code>--duration-ambient</code>); stars twinkle (<code>.tstar</code>); notes bob (<code>.fnote</code>); clouds drift (<code>.cloud</code>, <code>--duration-drift</code>).</span></div>
+  </div>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <thead><tr><th scope="col">Loop</th><th scope="col">Class / keyframes</th><th scope="col">Timing</th></tr></thead>
+    <tbody>
+      <tr><td>Twinkle floating up and down 12px</td><td><code>.mascot</code> · <code>floaty</code></td><td><code>--duration-ambient</code>, ease-in-out, infinite</td></tr>
+      <tr><td>Stars twinkling (fade and scale)</td><td><code>.tstar</code>, <code>.hero-tile .spark</code> · <code>twinkle</code></td><td><code>--duration-ambient</code>, offset by other duration tokens</td></tr>
+      <tr><td>Music notes bobbing</td><td><code>.fnote</code>, <code>.sky--sing span</code> · <code>floaty</code></td><td><code>--duration-ambient</code></td></tr>
+      <tr><td>Clouds crossing</td><td><code>.sky--day .cloud</code> · <code>drift</code></td><td><code>--duration-drift</code>, linear, negative delays so the sky starts full</td></tr>
+      <tr><td>Hero microphone wiggle (±3°)</td><td><code>.hero-tile .big-mic</code> · <code>wiggle</code></td><td><code>--duration-ambient</code></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="ds-section" id="pulse"><h2><a href="#pulse">Pulse and activity</a></h2>
+  <p>A few loops carry meaning: <em>Twinkle is listening</em>, or <em>something is loading</em>. Each one is paired with words, so a child who cannot see the motion (or whose device has turned it off) still knows what is happening.</p>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-sky">
+      <div class="card card-soft listen ds-w-form">
+        <div class="mic live" role="img" aria-label="Microphone">🎤</div>
+        <div class="listen-info">
+          <strong>Keep holding it… 62% ✨</strong>
+          <div class="eq live" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+      </div>
+      <span class="loading-line"><span class="spinner" aria-hidden="true"></span>Loading…</span>
+    </div>
+    <div class="ds-example__caption"><span>The listening pulse (<code>.mic.live</code>, <code>pulse-ring</code>, <code>--duration-pulse</code>) and equaliser (<code>.eq.live</code>, <code>--duration-progress</code>); a spinner always sits beside words.</span></div>
+  </div>
+  <ul>
+    <li><b>Listening pulse</b> rings outward from the microphone and from the current rung of the voice ladder (<code>.rung.now</code>). The message beside it (<em>Keep holding it… 62% ✨</em>) carries the same news.</li>
+    <li><b>Cheers</b> on the pitch stage (<em>Perfect! ✨</em>, <em>Yes! 💙</em>) float up and fade over <code>--duration-progress</code>. A note that slips by simply stays blue: no shake, no flash, no sound.</li>
+    <li><b>The parent gate wiggle</b> (<code>.shake</code>, two 400ms swings) is the only "that wasn't it" motion in the product, and it is gentle: the tapped key wobbles, nothing turns red, nothing locks.</li>
+    <li><b>Skeleton shimmer</b> and the <b>spinner</b> appear only in grown-up surfaces that wait for the family server.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="usage"><h2><a href="#usage">Usage</a></h2>
+  <h3>Choreography rules</h3>
+  <ul>
+    <li><b>Reading order.</b> Stagger top to bottom, the way the screen is read. The big action arrives last of the main content, so the eye lands on it.</li>
+    <li><b>One star at a time.</b> Rewards pop one after another (<code>.d2</code>, <code>.d4</code>, <code>.d6</code>), never all together: each star is its own little celebration.</li>
+    <li><b>Never block.</b> Entrances do not delay input. A child who taps before the stagger finishes gets her action at once.</li>
+    <li><b>Motion follows meaning.</b> Gold pops for good news; pink nudges arrive the same way but never shake. Nothing moves to say "wrong".</li>
+    <li><b>No flashing.</b> Nothing flashes more than three times a second; the fastest loop (the spinner) is a smooth rotation.</li>
+    <li><b>Use the tokens.</b> Never write a literal duration or a <code>cubic-bezier()</code> in a component; a literal will not switch off under reduced motion.</li>
+  </ul>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas"><pre><code>.badge { animation: popin var(--duration-deliberate) var(--ease-spring) both; }</code></pre></div><figcaption>Read duration and easing tokens, so reduced motion and future tuning apply everywhere.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><pre><code>.badge { animation: popin .65s cubic-bezier(.3,1.6,.6,1); }</code></pre></div><figcaption>A literal duration keeps bouncing for a child whose device asked for less motion.</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas"><span class="loading-line"><span class="spinner" aria-hidden="true"></span>Loading…</span></div><figcaption>Activity motion always has words beside it.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><span class="spinner" aria-hidden="true"></span></div><figcaption>A bare spinner says nothing to a screen reader and nothing when motion is off.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility: reduced motion</a></h2>
+  <p>TwinkleTune honours <code>prefers-reduced-motion: reduce</code> (WCAG 2.3.3 Animation from Interactions, and 2.2.2 Pause, Stop, Hide for the ambient loops) in two layers:</p>
+  <ol>
+    <li><b>Tokens.</b> <code>tokens.css</code> sets every non-zero duration to <code>0.01ms</code>, so transitions finish in one frame and <code>animationend</code> still fires for any script that waits on it.</li>
+    <li><b>Components.</b> <code>components.css</code> forces <code>animation-duration</code> and <code>transition-duration</code> to <code>--duration-instant</code> and <code>animation-iteration-count</code> to 1 on every element, so infinite loops (floating, drifting, pulsing, spinning) play once instantly and stop.</li>
+  </ol>
+  <pre><code>@media (prefers-reduced-motion: reduce) {
+  :root { --duration-fast: 0.01ms; --duration-base: 0.01ms; /* … every duration … */ }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: var(--duration-instant) !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: var(--duration-instant) !important;
+  }
+}</code></pre>
+  <ul>
+    <li><b>Nothing is lost.</b> Every animated state has a static end state that says the same thing: stars are drawn, bars are filled, the microphone shows its ring and the message beside it updates.</li>
+    <li><b>Entrances</b> use <code>both</code> fill mode, so with zero duration the content simply appears in place.</li>
+    <li><b>The pitch stage</b> note lane is drawn by script against the song clock, so it keeps moving: it is the song's timeline, not decoration. Its cheers appear without floating.</li>
+    <li><b>Test it</b>: emulate reduced motion in the browser's rendering tools and walk Home, Sing and Results; nothing should move except the note lane.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+  <p>Every duration and easing token. Values update with the theme toggle; under reduced motion the durations read <code>0.01ms</code>.</p>
+  <div class="ds-table-wrap"><table class="ds-table">
+<thead><tr><th scope="col">Use</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+<tbody>
+<tr><td></td><td><code>--duration-instant</code></td><td><span data-theme="light" data-token="--duration-instant"></span></td><td><span data-theme="dark" data-token="--duration-instant"></span></td></tr>
+<tr><td>press, lip</td><td><code>--duration-fast</code></td><td><span data-theme="light" data-token="--duration-fast"></span></td><td><span data-theme="dark" data-token="--duration-fast"></span></td></tr>
+<tr><td>hover, colour, small reveals</td><td><code>--duration-base</code></td><td><span data-theme="light" data-token="--duration-base"></span></td><td><span data-theme="dark" data-token="--duration-base"></span></td></tr>
+<tr><td>dialog and toast pop-in</td><td><code>--duration-slow</code></td><td><span data-theme="light" data-token="--duration-slow"></span></td><td><span data-theme="dark" data-token="--duration-slow"></span></td></tr>
+<tr><td>staggered screen entrance</td><td><code>--duration-deliberate</code></td><td><span data-theme="light" data-token="--duration-deliberate"></span></td><td><span data-theme="dark" data-token="--duration-deliberate"></span></td></tr>
+<tr><td>step between staggered children</td><td><code>--duration-stagger</code></td><td><span data-theme="light" data-token="--duration-stagger"></span></td><td><span data-theme="dark" data-token="--duration-stagger"></span></td></tr>
+<tr><td>bars growing on arrival</td><td><code>--duration-progress</code></td><td><span data-theme="light" data-token="--duration-progress"></span></td><td><span data-theme="dark" data-token="--duration-progress"></span></td></tr>
+<tr><td>listening pulse ring</td><td><code>--duration-pulse</code></td><td><span data-theme="light" data-token="--duration-pulse"></span></td><td><span data-theme="dark" data-token="--duration-pulse"></span></td></tr>
+<tr><td>Twinkle floating, stars twinkling</td><td><code>--duration-ambient</code></td><td><span data-theme="light" data-token="--duration-ambient"></span></td><td><span data-theme="dark" data-token="--duration-ambient"></span></td></tr>
+<tr><td>clouds crossing the sky</td><td><code>--duration-drift</code></td><td><span data-theme="light" data-token="--duration-drift"></span></td><td><span data-theme="dark" data-token="--duration-drift"></span></td></tr>
+<tr><td></td><td><code>--ease-standard</code></td><td><span data-theme="light" data-token="--ease-standard"></span></td><td><span data-theme="dark" data-token="--ease-standard"></span></td></tr>
+<tr><td></td><td><code>--ease-enter</code></td><td><span data-theme="light" data-token="--ease-enter"></span></td><td><span data-theme="dark" data-token="--ease-enter"></span></td></tr>
+<tr><td></td><td><code>--ease-exit</code></td><td><span data-theme="light" data-token="--ease-exit"></span></td><td><span data-theme="dark" data-token="--ease-exit"></span></td></tr>
+<tr><td>---------- Semantic: z-order ----------------------------------------</td><td><code>--ease-spring</code></td><td><span data-theme="light" data-token="--ease-spring"></span></td><td><span data-theme="dark" data-token="--ease-spring"></span></td></tr>
+</tbody></table></div>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

@@ -54,7 +54,7 @@ pre code { background: none; padding: 0; }
 .ds-section > p, .ds-section > ul, .ds-section > ol { max-width: var(--layout-measure); margin-bottom: var(--space-4); }
 .ds-section > ul, .ds-section > ol { padding-left: var(--space-6); }
 .ds-section li + li { margin-top: var(--space-1); }
-.ds-section h3 { font: var(--text-h4); margin: var(--space-6) 0 var(--space-3); }
+.ds-section > h3, .ds-section > div > h3 { font: var(--text-h4); margin: var(--space-6) 0 var(--space-3); }
 .ds-section[data-na] > *:not(h2):not(.ds-na) { display: none; }
 .ds-na { padding: var(--space-3) var(--space-4); background: var(--color-bg-subtle); border-radius: var(--radius-md); color: var(--color-fg-muted); font: var(--text-body-sm); }
 .ds-na::before { content: "Not applicable: "; font-weight: var(--font-weight-semibold); }
@@ -135,7 +135,7 @@ pre code { background: none; padding: 0; }
 .ds-motion-demo { display: flex; gap: var(--space-4); flex-wrap: wrap; }
 .ds-motion-demo button { min-height: var(--target-comfortable); }
 .ds-motion-demo .dot { width: 2rem; height: 2rem; border-radius: 50%; background: var(--color-accent); transition: translate var(--demo-duration, var(--duration-base)) var(--demo-ease, var(--ease-standard)); }
-.ds-motion-demo [data-run="true"] .dot { translate: 6rem 0; }
+.ds-motion-demo[data-run="true"] .dot, .ds-motion-demo [data-run="true"] .dot { translate: 6rem 0; }
 
 /* Do / Don't */
 .ds-dodont { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); margin-block: var(--space-4); }
@@ -195,3 +195,13 @@ body { font-weight: var(--font-weight-semibold); }
 .ds-icon-sheet { display: grid; gap: var(--space-3); grid-template-columns: repeat(auto-fill, minmax(min(100%, 7.5rem), 1fr)); }
 .ds-icon-sheet figure { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); padding: var(--space-3); background: var(--color-bg-surface); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); font: var(--text-caption); color: var(--color-fg-muted); text-align: center; }
 .ds-icon-sheet .glyph { font-size: var(--font-size-3xl); line-height: 1; }
+/* Ramp step labels: a small surface pill instead of blend-mode text, readable on every step. */
+.ds-ramp span::after { mix-blend-mode: normal; color: var(--color-fg-default); left: 50%; right: auto; translate: -50% 0; width: max-content; padding: 0 var(--space-1); border-radius: var(--radius-full); background: var(--color-bg-surface); font-size: var(--font-size-xs); }
+.ds-stage .bottomnav { width: min(var(--layout-dialog-wide-max), calc(100% - var(--space-8))); }
+/* Wide doc tables scroll inside themselves on phones instead of clipping. */
+@media (max-width: 48rem) { .ds-table { display: block; overflow-x: auto; } }
+.ds-main { min-width: 0; }
+.ds-pill { white-space: normal; max-width: 100%; overflow-wrap: anywhere; }
+.ds-example__canvas > * { max-width: 100%; }
+.file-drop, .week { min-width: 0; max-width: 100%; }
+.ds-example__canvas .week { gap: var(--space-1); }

@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inline message — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune inline message: field hints, gentle field errors with a blue heart, success lines and character counters, tied to their fields with aria-describedby.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Component · Feedback</p>
+      <h1>Inline message</h1>
+      <p class="ds-lead">One short line under a field that helps before, kindly says what to change, or confirms it worked. It sits right where the grown-up's eyes already are, and stays until the field is fixed.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill"><code>aria-describedby</code></span><span class="ds-pill">Status: stable</span><span class="ds-pill">Class <code>.field-hint</code> <code>.field-error</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>Use an inline message for anything about <em>one</em> field: what to type (<em>Middle C is midi 60</em>), what to change (<em>Tempo must be between 40 and 220 BPM</em>), or that it is fine (<em>Photo ready: 1.2 MB of 2 MB.</em>). It is the field-level partner of the <a href="alert.html">validation box</a>, which lists every problem at once.</p>
+  <p><b>Not in the mocks yet.</b> The app validates the singer and avatar editors with a toast and the song editor with one list, and marks no field. Inline messages are added for the Grown-Ups Corner and the family-server editors so each problem is shown and announced at its field; the validation box stays as the summary.</p>
+  <ul>
+    <li>Don't use it for news about the whole screen: that is an <a href="alert.html">alert</a> or a <a href="toast.html">toast</a>.</li>
+    <li>Don't put it on child screens. A child's only field, her name on Welcome, never errors: an empty name is fine and Twinkle calls her "Superstar".</li>
+    <li>The message lives inside a <a href="form-field.html">form field</a>, which owns the spacing between label, control and message.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="anatomy"><h2><a href="#anatomy">Anatomy</a></h2>
+  <div class="ds-anatomy">
+    <figure class="ds-anatomy__figure">
+      <div class="form-field ds-w-form">
+        <label class="field-label" for="im-anat-bpm">Tempo (BPM)</label>
+        <input class="field" id="im-anat-bpm" type="number" min="40" max="220" value="300" aria-invalid="true" aria-describedby="im-anat-err">
+        <p class="field-error" id="im-anat-err">Tempo must be between 40 and 220 BPM.</p>
+      </div>
+      <span class="ds-callout" style="left: 18%; top: 78%;" aria-hidden="true">1</span>
+      <span class="ds-callout" style="left: 60%; top: 78%;" aria-hidden="true">2</span>
+      <span class="ds-callout" style="left: 90%; top: 50%;" aria-hidden="true">3</span>
+    </figure>
+    <ol class="ds-anatomy__list">
+      <li><div><b>Marker</b><small>Generated by CSS: 💙 for an error, ✓ for success. Hints have none. Not read aloud as content.</small></div></li>
+      <li><div><b>Message</b><small><code>--text-body-sm</code>; <code>--color-fg-muted</code> for hints, <code>--color-danger-fg</code> for errors, <code>--color-success-fg</code> for success. One sentence.</small></div></li>
+      <li><div><b>Field link</b><small>The control carries <code>aria-describedby</code> pointing at the message's <code>id</code>, and <code>aria-invalid="true"</code> while it is in error (border turns <code>--color-danger-solid</code>).</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="ds-section" id="variants"><h2><a href="#variants">Variants</a></h2>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack ds-w-form">
+      <div class="form-field">
+        <label class="field-label" for="im-var-phr">Phrases &amp; notes</label>
+        <input class="field" id="im-var-phr" value='[{ "lyric": "La la la", … }]' aria-describedby="im-var-phr-hint">
+        <p class="field-hint" id="im-var-phr-hint">JSON. Middle C is midi 60; times are in beats.</p>
+      </div>
+      <div class="form-field">
+        <label class="field-label" for="im-var-title">Title</label>
+        <input class="field" id="im-var-title" value="" aria-invalid="true" aria-describedby="im-var-title-err">
+        <p class="field-error" id="im-var-title-err">A song needs a title.</p>
+      </div>
+      <div class="form-field">
+        <label class="field-label" for="im-var-photo">Photo</label>
+        <input class="photo-input" id="im-var-photo" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="im-var-photo-ok">
+        <p class="field-success" id="im-var-photo-ok">Photo ready: 1.2 MB of 2 MB.</p>
+      </div>
+      <div class="form-field">
+        <label class="field-label" for="im-var-name">Name</label>
+        <input class="field" id="im-var-name" maxlength="20" value="Grandpa Joe" aria-describedby="im-var-name-count">
+        <p class="field-counter" id="im-var-name-count">11 / 20</p>
+      </div>
+    </div>
+    <div class="ds-example__caption"><span>Hint, error, success and counter.</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;p class="field-hint" id="phrases-hint"&gt;JSON. Middle C is midi 60; times are in beats.&lt;/p&gt;
+&lt;p class="field-error" id="title-err"&gt;A song needs a title.&lt;/p&gt;
+&lt;p class="field-success" id="photo-ok"&gt;Photo ready: 1.2 MB of 2 MB.&lt;/p&gt;
+&lt;p class="field-counter" id="name-count"&gt;11 / 20&lt;/p&gt;</code></pre></details>
+  </div>
+  <ul>
+    <li><b>Hint</b> is there before anything is typed, and stays. It never repeats the label.</li>
+    <li><b>Error</b> replaces nothing: if a field has a hint, the error goes beneath it, and both are in <code>aria-describedby</code> (error first).</li>
+    <li><b>Success</b> only where it reassures after a check that took a moment, such as checking a photo's type and size before upload. Most fields need none.</li>
+    <li><b>Counter</b> sits at the end edge for fields with a hard limit (singer name 20, song title 80).</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="sizes" data-na="Inline messages have one size, the small body style. They follow the field, not the other way round."><h2><a href="#sizes">Sizes</a></h2><p class="ds-na">Inline messages have one size, the small body style. They follow the field, not the other way round.</p></section>
+
+<section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+  <p>The message has no interactive states. The matrix shows the field states it pairs with; focus is forced with <code>data-state</code>.</p>
+  <div class="ds-matrix"><table>
+    <thead><tr><th scope="col">Message</th><th scope="col">Field default</th><th scope="col">Field focused</th><th scope="col">Field invalid</th><th scope="col">Field disabled</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Hint</th>
+        <td><div class="form-field"><input class="field" aria-label="Emoji, default" aria-describedby="im-st-h1" value="🎵"><p class="field-hint" id="im-st-h1">One emoji for the song's art.</p></div></td>
+        <td><div class="form-field"><input class="field" aria-label="Emoji, focused" aria-describedby="im-st-h2" value="🎵" data-state="focus"><p class="field-hint" id="im-st-h2">One emoji for the song's art.</p></div></td>
+        <td><div class="form-field"><input class="field" aria-label="Emoji, invalid" aria-describedby="im-st-h3e im-st-h3" value="" aria-invalid="true"><p class="field-hint" id="im-st-h3">One emoji for the song's art.</p><p class="field-error" id="im-st-h3e">Pick an emoji for the song.</p></div></td>
+        <td><div class="form-field"><input class="field" aria-label="Emoji, disabled" aria-describedby="im-st-h4" value="🎵" disabled><p class="field-hint" id="im-st-h4">Seed songs keep their emoji.</p></div></td>
+      </tr>
+      <tr><th scope="row">Error</th>
+        <td><span class="ds-na">An error only exists on an invalid field.</span></td>
+        <td><div class="form-field"><input class="field" aria-label="Tempo, focused and invalid" value="300" aria-invalid="true" aria-describedby="im-st-e2" data-state="focus"><p class="field-error" id="im-st-e2">Tempo must be between 40 and 220 BPM.</p></div></td>
+        <td><div class="form-field"><input class="field" aria-label="Tempo, invalid" value="300" aria-invalid="true" aria-describedby="im-st-e3"><p class="field-error" id="im-st-e3">Tempo must be between 40 and 220 BPM.</p></div></td>
+        <td><span class="ds-na">Disabled fields are never invalid.</span></td>
+      </tr>
+      <tr><th scope="row">Success</th>
+        <td><div class="form-field"><input class="field" aria-label="Photo file name, checked" value="mum.jpg" aria-describedby="im-st-s1"><p class="field-success" id="im-st-s1">Photo ready: 1.2 MB of 2 MB.</p></div></td>
+        <td><div class="form-field"><input class="field" aria-label="Photo file name, checked and focused" value="mum.jpg" aria-describedby="im-st-s2" data-state="focus"><p class="field-success" id="im-st-s2">Photo ready: 1.2 MB of 2 MB.</p></div></td>
+        <td><span class="ds-na">Success and error never show together.</span></td>
+        <td><span class="ds-na">Not used.</span></td>
+      </tr>
+    </tbody>
+  </table></div>
+  <h3>Both themes</h3>
+  <div class="ds-themes">
+    <div data-theme="light"><div class="ds-col"><p class="field-hint">Middle C is midi 60.</p><p class="field-error">A song needs a title.</p><p class="field-success">Photo ready: 1.2 MB of 2 MB.</p></div></div>
+    <div data-theme="dark"><div class="ds-col"><p class="field-hint">Middle C is midi 60.</p><p class="field-error">A song needs a title.</p><p class="field-success">Photo ready: 1.2 MB of 2 MB.</p></div></div>
+  </div>
+  <h3>When messages appear</h3>
+  <ul>
+    <li>Errors appear on submit, then update live as the grown-up types, and disappear the moment the value is fine. Never on the first keystroke, never on blur of an untouched field.</li>
+    <li>On submit with errors, focus moves to the <a href="alert.html">validation box</a>; each of its lines links to the field, where the inline message repeats the same words.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+  <ul>
+    <li>Messages wrap under their field at any width; the error marker stays aligned with the first line.</li>
+    <li>In a <code>.field-pair</code> each half keeps its own message; at narrow widths the pair's messages may be different heights, and that is fine.</li>
+    <li>The counter stays at the end edge and never wraps onto its own line before the message.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="theming"><h2><a href="#theming">Theming</a></h2>
+  <p>Hints read <code>--color-fg-muted</code>, errors <code>--color-danger-fg</code>, success <code>--color-success-fg</code>, the counter <code>--color-fg-muted</code> at <code>--text-caption</code>. The invalid field border is <code>--color-danger-solid</code>. No component tokens.</p>
+  <p>In the night studio the danger ink becomes a soft rose and success a light mint, both at 4.5:1 or better on the night surfaces. The 💙 marker is an emoji and looks the same in both themes.</p>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <h3>Role and pattern</h3>
+  <p>Plain text tied to its control with <code>aria-describedby</code>; the control carries <code>aria-invalid="true"</code> while in error. There is no APG widget pattern for this; it follows the APG <a href="https://www.w3.org/WAI/ARIA/apg/practices/names-and-descriptions/">Providing accessible names and descriptions</a> practice and WCAG 3.3.1 and 3.3.3. Do not give each message <code>role="alert"</code>: the summary announces on submit, and a field's description is read when it is focused.</p>
+  <h3>Keyboard</h3>
+  <table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody>
+    <tr><td><kbd>Tab</kbd></td><td>Skips the message (it is text); landing on the field reads its label, value, "invalid" and the message.</td></tr>
+    <tr><td><kbd>Enter</kbd> on a summary link</td><td>Moves focus to the field the line describes.</td></tr>
+  </tbody></table>
+  <h3>Focus</h3>
+  <p>Messages never take focus. The field's own focus ring (border <code>--color-focus-ring</code>) wins over the invalid border while focused, and the message stays visible under it.</p>
+  <h3>Labelling</h3>
+  <p>The message is a description, not the label: the field keeps its visible <code>&lt;label for&gt;</code>. The 💙 and ✓ markers are CSS content so they are not part of the text; errors are recognisable by their words and position, never by colour or the heart alone.</p>
+  <h3>Contrast</h3>
+  <div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);">
+    <div class="ds-pair"><span>Hint on a card</span><span class="ds-pair__ratio" data-contrast="--color-fg-muted|--color-bg-surface" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Error on a card</span><span class="ds-pair__ratio" data-contrast="--color-danger-fg|--color-bg-surface" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Error in a dialog</span><span class="ds-pair__ratio" data-contrast="--color-danger-fg|--color-bg-surface-raised" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Invalid field border</span><span class="ds-pair__ratio" data-contrast="--color-danger-solid|--color-bg-surface" data-min="3"></span></div>
+    <div class="ds-pair"><span>Field border</span><span class="ds-pair__ratio" data-contrast="--color-border-strong|--color-bg-surface" data-min="3"></span></div>
+  </div>
+  <h3>Motion</h3>
+  <p>Messages appear and disappear without animation, so nothing moves under the grown-up's cursor while typing.</p>
+  <h3>Touch</h3>
+  <p>Not interactive. Keep 8px between the message and the next label so the next field's hit area does not crowd it.</p>
+</section>
+
+<section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+  <ul>
+    <li>Say what to do, with the allowed values: <em>Tempo must be between 40 and 220 BPM.</em>, <em>Note 3: midi 96 is outside 48–84 (C3–C6).</em></li>
+    <li>Use the same words as the matching line in the validation box, so the grown-up recognises it.</li>
+    <li>Never <em>Invalid</em>, <em>Required field</em> or <em>Error:</em>. Never blame: <em>A song needs a title</em>, not <em>You forgot the title</em>.</li>
+    <li>Hints are one short sentence, no full stop needed for fragments: <em>One emoji for the song's art</em>.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas ds-example__canvas--stack"><div class="form-field"><label class="field-label" for="im-do-1">Title</label><input class="field" id="im-do-1" aria-invalid="true" aria-describedby="im-do-1e"><p class="field-error" id="im-do-1e">A song needs a title.</p></div></div><figcaption>Mark the field invalid and say what it needs, right under it.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas ds-example__canvas--stack"><div class="form-field"><label class="field-label" for="im-dont-1">Title</label><input class="field" id="im-dont-1"></div><div class="errors"><div>• A song needs a title.</div></div></div><figcaption>The song editor mock: one list at the bottom, the field unmarked and not linked to its message.</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas ds-example__canvas--stack"><div class="form-field"><label class="field-label" for="im-do-2">Tempo (BPM)</label><input class="field" id="im-do-2" value="300" aria-invalid="true" aria-describedby="im-do-2e"><p class="field-error" id="im-do-2e">Tempo must be between 40 and 220 BPM.</p></div></div><figcaption>Give the range, so the fix is obvious.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas ds-example__canvas--stack"><div class="form-field"><label class="field-label" for="im-dont-2">Tempo (BPM)</label><input class="field" id="im-dont-2" value="300" aria-invalid="true" aria-describedby="im-dont-2e"><p class="field-error" id="im-dont-2e">Invalid value.</p></div></div><figcaption>"Invalid value" says something is off but not what to type.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+  <div class="ds-table-wrap"><table class="ds-table">
+<thead><tr><th scope="col">Use</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+<tbody>
+<tr><td>Hint and counter ink</td><td><code>--color-fg-muted</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-muted" data-swatch></i><span data-token="--color-fg-muted"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-muted" data-swatch></i><span data-token="--color-fg-muted"></span></span></td></tr>
+<tr><td>Error ink</td><td><code>--color-danger-fg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-danger-fg" data-swatch></i><span data-token="--color-danger-fg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-danger-fg" data-swatch></i><span data-token="--color-danger-fg"></span></span></td></tr>
+<tr><td>Success ink</td><td><code>--color-success-fg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-success-fg" data-swatch></i><span data-token="--color-success-fg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-success-fg" data-swatch></i><span data-token="--color-success-fg"></span></span></td></tr>
+<tr><td>Invalid field border</td><td><code>--color-danger-solid</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-danger-solid" data-swatch></i><span data-token="--color-danger-solid"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-danger-solid" data-swatch></i><span data-token="--color-danger-solid"></span></span></td></tr>
+<tr><td>Field border</td><td><code>--color-border-strong</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-border-strong" data-swatch></i><span data-token="--color-border-strong"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-border-strong" data-swatch></i><span data-token="--color-border-strong"></span></span></td></tr>
+<tr><td>Focused field border</td><td><code>--color-focus-ring</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-focus-ring" data-swatch></i><span data-token="--color-focus-ring"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-focus-ring" data-swatch></i><span data-token="--color-focus-ring"></span></span></td></tr>
+<tr><td>Message font</td><td><code>--text-body-sm</code></td><td><span data-theme="light" data-token="--text-body-sm"></span></td><td><span data-theme="dark" data-token="--text-body-sm"></span></td></tr>
+<tr><td>Counter font</td><td><code>--text-caption</code></td><td><span data-theme="light" data-token="--text-caption"></span></td><td><span data-theme="dark" data-token="--text-caption"></span></td></tr>
+<tr><td>Gap from field</td><td><code>--space-2</code></td><td><span data-theme="light" data-token="--space-2"></span></td><td><span data-theme="dark" data-token="--space-2"></span></td></tr>
+</tbody></table></div>
+</section>
+
+<section class="ds-section" id="code"><h2><a href="#code">Code</a></h2>
+  <pre><code>&lt;div class="form-field"&gt;
+  &lt;label class="field-label" for="song-bpm"&gt;Tempo (BPM)&lt;/label&gt;
+  &lt;input class="field" id="song-bpm" type="number" min="40" max="220"
+         aria-invalid="true" aria-describedby="song-bpm-err"&gt;
+  &lt;p class="field-error" id="song-bpm-err"&gt;Tempo must be between 40 and 220 BPM.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+  <table class="ds-table"><thead><tr><th scope="col">Class / attribute</th><th scope="col">Effect</th></tr></thead><tbody>
+    <tr><td><code>.field-hint</code></td><td>Muted help line.</td></tr>
+    <tr><td><code>.field-error</code></td><td>Danger-ink line with a 💙 marker.</td></tr>
+    <tr><td><code>.field-success</code></td><td>Success-ink line with a ✓ marker.</td></tr>
+    <tr><td><code>.field-counter</code></td><td>Caption at the end edge.</td></tr>
+    <tr><td><code>.form-field</code></td><td>Parent: stacks label, control and messages 8px apart.</td></tr>
+    <tr><td><code>aria-describedby</code> on the control</td><td>Required; lists error then hint ids.</td></tr>
+    <tr><td><code>aria-invalid="true"</code> on the control</td><td>Required while in error; draws the danger border.</td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+  <p>Not in the mocks yet; added for the Grown-Ups Corner and the family-server editors. It replaces what these mocks do today:</p>
+  <ul>
+    <li><a href="../../mocks/dialogs/song-editor/invalid.html">dialogs/song-editor/invalid</a> (one list, fields unmarked; the wording of each line is reused here)</li>
+    <li><a href="../../mocks/dialogs/singer-editor/invalid.html">dialogs/singer-editor/invalid</a> (validation as a toast)</li>
+    <li><a href="../../mocks/dialogs/avatar-editor/invalid.html">dialogs/avatar-editor/invalid</a> (validation as a toast)</li>
+  </ul>
+  <p>Related drift: field edges moved from <code>--pale</code> (1.37:1) to <code>--color-border-strong</code> (3.7:1) (D07); the mocks' unmarked fields are listed in the mocks' README as an open question and resolved here with <code>aria-invalid</code> and <code>aria-describedby</code>. See the <a href="../index.html#drift">drift log</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

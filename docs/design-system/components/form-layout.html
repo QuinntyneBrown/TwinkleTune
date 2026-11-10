@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Form layout — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune form layout: single column, field pairs, responsive two-column rows, fieldsets, action rows and the validation box, with invalid, busy and failed states.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Component · Inputs</p>
+      <h1>Form layout</h1>
+      <p class="ds-lead">How fields sit together in the family-server dialogs: one column, short fields paired, Preview and Save sharing the action row, and one gentle box that lists what still needs fixing.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill"><code>&lt;form&gt;</code> inside <code>.modal</code></span><span class="ds-pill">Status: stable</span><span class="ds-pill">Classes <code>.field-pair</code> <code>.field-actions</code> <code>.errors</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>Every form in TwinkleTune lives in a grown-up dialog behind the parent gate: the singer editor, the avatar editor and the song editor. They share one layout: a single column of <a href="form-field.html">form fields</a>, short related fields paired on one row, an action row, and a quiet <em>Cancel</em> link under it. When something needs fixing, one box above the actions lists it.</p>
+  <ul>
+    <li><b>Single column</b>: the default; the avatar and singer editors.</li>
+    <li><b>Field pair</b> (<code>.field-pair</code>, from the mocks): two short fields side by side at every width: Emoji + Tempo, Difficulty + Art style.</li>
+    <li><b>Responsive row</b> (<code>.form-row.form-row--2</code>, new): two fields that stack below 640px. For wider grown-up pages.</li>
+    <li><b>Group</b> (<code>fieldset.form-group</code>, new): related checkboxes, radios or fields under one <code>&lt;legend&gt;</code>.</li>
+    <li><b>Action row</b> (<code>.field-actions</code>, from the mocks): buttons share the row equally. <code>.form-actions</code> (new) is the same but wraps.</li>
+    <li><b>Validation box</b> (<code>.errors</code>, from the mocks): the problems as a list. <code>.form-summary</code> (new) adds a heading and links to each field.</li>
+  </ul>
+  <p>The full guidance on validation timing and submit behaviour is in the <a href="../patterns/forms.html">Forms pattern</a>.</p>
+</section>
+
+<section class="ds-section" id="anatomy"><h2><a href="#anatomy">Anatomy</a></h2>
+  <div class="ds-anatomy">
+    <figure class="ds-anatomy__figure">
+      <div class="modal modal-wide" style="position: static;">
+        <h3>New song 🎵</h3>
+        <label class="field-label" for="fl-anat-title">Title</label>
+        <input class="field" id="fl-anat-title" maxlength="80" value="Skip to My Lou">
+        <div class="field-pair">
+          <div><label class="field-label" for="fl-anat-emoji">Emoji</label><input class="field" id="fl-anat-emoji" maxlength="4" value="🎵"></div>
+          <div><label class="field-label" for="fl-anat-bpm">Tempo (BPM)</label><input class="field" id="fl-anat-bpm" type="number" min="40" max="220" value="100"></div>
+        </div>
+        <div class="errors"><div>• Note 3: duration must be positive.</div></div>
+        <div class="field-actions"><button class="btn btn-white btn-sm" type="button">Preview ▶</button><button class="btn btn-sm" type="submit">Create ✨</button></div>
+        <button class="link-quiet" type="button">Cancel</button>
+      </div>
+      <span class="ds-callout" style="left: 50%; top: 6%;" aria-hidden="true">1</span>
+      <span class="ds-callout" style="left: 4%; top: 22%;" aria-hidden="true">2</span>
+      <span class="ds-callout" style="left: 4%; top: 44%;" aria-hidden="true">3</span>
+      <span class="ds-callout" style="left: 4%; top: 64%;" aria-hidden="true">4</span>
+      <span class="ds-callout" style="left: 4%; top: 80%;" aria-hidden="true">5</span>
+      <span class="ds-callout" style="left: 50%; top: 94%;" aria-hidden="true">6</span>
+    </figure>
+    <ol class="ds-anatomy__list">
+      <li><div><b>Title</b><small>The dialog's <code>&lt;h3&gt;</code>, which labels the dialog: <em>New song 🎵</em>, <em>Edit “Frère Jacques”</em>.</small></div></li>
+      <li><div><b>Field</b><small>Label above control, 12px between one field and the next.</small></div></li>
+      <li><div><b>Field pair</b><small><code>.field-pair</code>: two equal columns, 8px apart.</small></div></li>
+      <li><div><b>Validation box</b><small><code>.errors</code>: <code>--color-danger-bg</code>, <code>--color-danger-fg</code>, <code>--radius-md</code>, bold 14px. Hidden until there is something to fix.</small></div></li>
+      <li><div><b>Action row</b><small><code>.field-actions</code>: 16px above, buttons share the row. White secondary first, blue primary last.</small></div></li>
+      <li><div><b>Cancel</b><small>A <a href="link.html">quiet link</a> under the row. It keeps nothing and asks nothing.</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="ds-section" id="variants"><h2><a href="#variants">Variants</a></h2>
+  <h3>Composed: the song editor</h3>
+  <div class="ds-example">
+    <div class="ds-stage ds-stage--tall">
+      <div class="overlay">
+        <form class="modal modal-wide" role="dialog" aria-modal="true" aria-labelledby="fl-se-h" novalidate>
+          <h3 id="fl-se-h">Edit “Frère Jacques”</h3>
+          <div class="form-field"><label class="field-label" for="fl-se-title">Title</label><input class="field" id="fl-se-title" maxlength="80" value="Frère Jacques"></div>
+          <div class="field-pair">
+            <div><label class="field-label" for="fl-se-emoji">Emoji</label><input class="field" id="fl-se-emoji" maxlength="4" value="🔔"></div>
+            <div><label class="field-label" for="fl-se-bpm">Tempo (BPM)</label><input class="field" id="fl-se-bpm" type="number" min="40" max="220" value="96"></div>
+          </div>
+          <div class="field-pair">
+            <div><label class="field-label" for="fl-se-diff">Difficulty</label><select class="select" id="fl-se-diff"><option selected>⭐ Easy</option><option>⭐⭐ Medium</option><option>⭐⭐⭐ Brave</option></select></div>
+            <div><label class="field-label" for="fl-se-art">Art style</label><select class="select" id="fl-se-art"><option>Aqua</option><option>Pink</option><option>Sky</option><option selected>Gold</option></select></div>
+          </div>
+          <label class="field-label" for="fl-se-notes">Phrases &amp; notes</label>
+          <textarea class="field" id="fl-se-notes" spellcheck="false" aria-describedby="fl-se-notes-h">[
+  { "lyric": "Frère Jacques, Frère Jacques",
+    "notes": [ { "midi": 60, "start": 0, "dur": 1, "syll": "Frè" } ] }
+]</textarea>
+          <p class="field-hint" id="fl-se-notes-h">JSON. midi 60 = middle C; times in beats.</p>
+          <div class="field-actions"><button class="btn btn-white btn-sm" type="button">Preview ▶</button><button class="btn btn-sm" type="submit">Save ✨</button></div>
+          <button class="link-quiet" type="button">Cancel</button>
+        </form>
+      </div>
+    </div>
+    <div class="ds-example__caption"><span>Single column, two pairs, a textarea with its hint, the action row and Cancel, in a wide dialog over the sky.</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;form class="modal modal-wide" role="dialog" aria-modal="true" aria-labelledby="song-h" novalidate&gt;
+  &lt;h3 id="song-h"&gt;Edit “Frère Jacques”&lt;/h3&gt;
+  &lt;div class="form-field"&gt;…title…&lt;/div&gt;
+  &lt;div class="field-pair"&gt;
+    &lt;div&gt;…emoji…&lt;/div&gt;
+    &lt;div&gt;…tempo…&lt;/div&gt;
+  &lt;/div&gt;
+  …
+  &lt;div class="errors" hidden&gt;&lt;/div&gt;
+  &lt;div class="field-actions"&gt;
+    &lt;button class="btn btn-white btn-sm" type="button"&gt;Preview ▶&lt;/button&gt;
+    &lt;button class="btn btn-sm" type="submit"&gt;Save ✨&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;button class="link-quiet" type="button"&gt;Cancel&lt;/button&gt;
+&lt;/form&gt;</code></pre></details>
+  </div>
+  <h3>Responsive row and group</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack ds-w-screen">
+      <div class="form-row form-row--2" style="width: 100%;">
+        <div class="form-field"><label class="field-label" for="fl-rr-name">Name</label><input class="field" id="fl-rr-name" placeholder="Tiger"></div>
+        <div class="form-field"><label class="field-label" for="fl-rr-emoji">Emoji</label><input class="field" id="fl-rr-emoji" maxlength="4" placeholder="🐯"></div>
+      </div>
+      <fieldset class="form-group" style="width: 100%;">
+        <legend>After each song</legend>
+        <label class="check"><input type="checkbox" checked><span class="check-box" aria-hidden="true"></span><span>Offer the tricky part</span></label>
+        <label class="check"><input type="checkbox"><span class="check-box" aria-hidden="true"></span><span>Show family high scores</span></label>
+      </fieldset>
+      <div class="form-actions" style="width: 100%;"><button class="btn btn-white btn-sm" type="button">Preview ▶</button><button class="btn btn-sm" type="submit">Save</button></div>
+    </div>
+    <div class="ds-example__caption"><span><code>.form-row--2</code> is two columns from 640px and one below; <code>.form-actions</code> wraps its buttons instead of squeezing them.</span></div>
+  </div>
+  <h3>Validation box: mock and system</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack ds-w-screen">
+      <div class="errors" style="width: 100%;">
+        <div>• A song needs a title.</div>
+        <div>• Tempo must be between 40 and 220 BPM.</div>
+        <div>• Note 3: midi 96 is outside 48–84 (C3–C6).</div>
+      </div>
+      <div class="form-summary" role="group" aria-labelledby="fl-sum-h" tabindex="-1" style="width: 100%;">
+        <p id="fl-sum-h"><b>💙 A few things to fix before saving:</b></p>
+        <ul>
+          <li><a href="#fl-se-title">A song needs a title.</a></li>
+          <li><a href="#fl-se-bpm">Tempo must be between 40 and 220 BPM.</a></li>
+          <li><a href="#fl-se-notes">Note 3: midi 96 is outside 48–84 (C3–C6).</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ds-example__caption"><span>Top: <code>.errors</code> as the song editor ships it. Bottom: <code>.form-summary</code>, which gets focus on Save and links each problem to its field.</span></div>
+  </div>
+</section>
+
+<section class="ds-section" id="sizes" data-na="Layouts take their dialog's width: 340px standard, 440px for the song editor (.modal-wide)."><h2><a href="#sizes">Sizes</a></h2><p class="ds-na">Layouts take their dialog's width: 340px standard, 440px for the song editor (.modal-wide).</p></section>
+
+<section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+  <div class="ds-matrix"><table>
+    <thead><tr><th scope="col">State</th><th scope="col">Example</th><th scope="col">Behaviour</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Default</th><td><div class="field-actions"><button class="btn btn-white btn-sm" type="button">Preview ▶</button><button class="btn btn-sm" type="button">Create ✨</button></div></td><td>Validation box hidden (<code>hidden</code>). Starts from a working template.</td></tr>
+      <tr><th scope="row">Invalid</th><td><div class="errors"><div>• A song needs a title.</div><div>• The melody spans 36 semitones — keep it within 16.</div></div></td><td>Shown on Save. Same rules the server enforces, checked on the device first. Nothing typed is cleared. Focus moves to the box; each field is marked <code>aria-invalid</code>.</td></tr>
+      <tr><th scope="row">Busy</th><td><div class="field-actions"><button class="btn btn-white btn-sm" type="button" disabled>Preview ▶</button><button class="btn btn-sm" type="button" aria-busy="true">Create ✨</button></div></td><td>Save shows its spinner and ignores taps; other actions wait. Only family-server saves are ever busy.</td></tr>
+      <tr><th scope="row">Failed</th><td><div class="errors"><div>• The family server isn't answering. Your song is still here; check the server is on, then try Save again.</div></div></td><td>Server unreachable mid-save. Says what happened and what to do; the dialog stays open with everything kept.</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Both themes</h3>
+  <div class="ds-themes">
+    <div data-theme="light"><div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0;"><div class="field-pair" style="width: 100%;"><div><label class="field-label" for="fl-th-l1">Emoji</label><input class="field" id="fl-th-l1" value="🎵"></div><div><label class="field-label" for="fl-th-l2">Tempo (BPM)</label><input class="field" id="fl-th-l2" value="300" aria-invalid="true"></div></div><div class="errors" style="width: 100%;"><div>• Tempo must be between 40 and 220 BPM.</div></div><div class="field-actions" style="width: 100%;"><button class="btn btn-white btn-sm" type="button">Preview ▶</button><button class="btn btn-sm" type="button">Create ✨</button></div></div></div>
+    <div data-theme="dark"><div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0;"><div class="field-pair" style="width: 100%;"><div><label class="field-label" for="fl-th-d1">Emoji</label><input class="field" id="fl-th-d1" value="🎵"></div><div><label class="field-label" for="fl-th-d2">Tempo (BPM)</label><input class="field" id="fl-th-d2" value="300" aria-invalid="true"></div></div><div class="errors" style="width: 100%;"><div>• Tempo must be between 40 and 220 BPM.</div></div><div class="field-actions" style="width: 100%;"><button class="btn btn-white btn-sm" type="button">Preview ▶</button><button class="btn btn-sm" type="button">Create ✨</button></div></div></div>
+  </div>
+</section>
+
+<section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+  <ul>
+    <li>Forms are one column at every width, inside a dialog no wider than 440px. Dialogs stay centred cards on phones (they are not bottom sheets; mocks README, open question 1) and scroll inside when taller than 84vh.</li>
+    <li><code>.field-pair</code> stays two-up even at 320px, so only pair fields with short values (an emoji, a number, a select with short options). Each half is then about 120px.</li>
+    <li><code>.form-row--2</code> is one column below 640px (<code>40rem</code>) and two above; use it on wide grown-up pages, not in dialogs.</li>
+    <li><code>.field-actions</code> keeps both buttons on one row with equal widths; labels must fit about 130px each at 320px (<em>Preview ▶</em>, <em>Create ✨</em> do). <code>.form-actions</code> wraps when they would not.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="theming"><h2><a href="#theming">Theming</a></h2>
+  <p>Layout classes carry no colour except the validation box, which uses <code>--color-danger-bg</code> and <code>--color-danger-fg</code>; both are re-tuned in the night studio and keep 4.5:1. Spacing uses <code>--space-2</code> (pairs, actions), <code>--space-3</code> (between fields) and <code>--space-4</code> (above actions) in both themes.</p>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <h3>Role and pattern</h3>
+  <p>A <code>&lt;form&gt;</code> in an <a href="https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/">APG modal dialog</a> (<code>role="dialog"</code>, <code>aria-modal="true"</code>, labelled by its <code>&lt;h3&gt;</code>). Groups are <code>&lt;fieldset&gt;</code> + <code>&lt;legend&gt;</code>. Use <code>novalidate</code> and the system's messages instead of the browser's bubbles, which cannot be styled or made gentle.</p>
+  <h3>Keyboard</h3>
+  <table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody>
+    <tr><td><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>Moves through fields in visual order: left before right in a pair, then the actions, then Cancel. Focus stays inside the dialog.</td></tr>
+    <tr><td><kbd>Enter</kbd> (in a single-line field)</td><td>Submits: same as the primary button.</td></tr>
+    <tr><td><kbd>Esc</kbd></td><td>Closes the dialog, like Cancel; focus returns to the button that opened it.</td></tr>
+    <tr><td><kbd>Enter</kbd> on a summary link</td><td>Moves focus to that field.</td></tr>
+  </tbody></table>
+  <h3>Focus</h3>
+  <p>On open, focus goes to the first field. On a failed Save, focus moves to the validation box (<code>tabindex="-1"</code>) so its heading and list are read; each link then moves to its field. After a successful save the dialog closes and focus returns to the opener.</p>
+  <h3>Labelling</h3>
+  <p>Every field has a visible label, the dialog is named by its title, and each problem names its field (<em>Note 3: …</em>, <em>Tempo …</em>). Fields with a problem get <code>aria-invalid="true"</code> and point at their message with <code>aria-describedby</code>.</p>
+  <h3>Contrast</h3>
+  <div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);">
+    <div class="ds-pair"><span>Validation box text</span><span class="ds-pair__ratio" data-contrast="--color-danger-fg|--color-danger-bg" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Labels in a dialog</span><span class="ds-pair__ratio" data-contrast="--color-fg-default|--color-bg-surface-raised" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Field edges in a dialog</span><span class="ds-pair__ratio" data-contrast="--color-border-strong|--color-bg-surface" data-min="3"></span></div>
+    <div class="ds-pair"><span>Cancel link in a dialog</span><span class="ds-pair__ratio" data-contrast="--color-fg-link|--color-bg-surface" data-min="4.5"></span></div>
+  </div>
+  <h3>Motion</h3>
+  <p>The dialog pops in (<code>.pop</code>); the validation box appears without animation. Reduced motion removes the pop.</p>
+  <h3>Touch</h3>
+  <p>Small buttons in the action row are 44px tall with 8px between them; Cancel sits 16px below so it is not hit by mistake.</p>
+</section>
+
+<section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+  <ul>
+    <li>Dialog titles say what is being made or changed: <em>New song 🎵</em>, <em>Edit Bea</em>, <em>New avatar 😊</em>.</li>
+    <li>The primary button names the result with a little sparkle: <em>Create ✨</em>, <em>Save ✨</em>, <em>Add singer ⭐</em>. The secondary is a different action, never a second Save.</li>
+    <li>The validation box opens gently (<em>A few things to fix before saving:</em>) and lists each problem as one sentence with its fix.</li>
+    <li>Failures say what happened and what to do, in grown-up words. Never the browser's raw text.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas"><div class="field-pair" style="width: 100%;"><div><label class="field-label" for="fl-do-1">Emoji</label><input class="field" id="fl-do-1" value="🔔"></div><div><label class="field-label" for="fl-do-2">Tempo (BPM)</label><input class="field" id="fl-do-2" value="96"></div></div></div><figcaption>Pair two short values that belong together.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><div class="field-pair" style="width: 100%;"><div><label class="field-label" for="fl-dont-1">Title</label><input class="field" id="fl-dont-1" value="Row, Row, Row Your Boat"></div><div><label class="field-label" for="fl-dont-2">Avatar name</label><input class="field" id="fl-dont-2" value="Sleepy Sloth"></div></div></div><figcaption>Long values in a pair are cut off at phone width; give each its own row.</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas"><div class="errors" style="width: 100%;"><div>• The family server isn't answering. Your song is still here; try Save again in a moment.</div></div></div><figcaption>What happened, that nothing is lost, and what to do.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><div class="errors" style="width: 100%;"><div>• Failed to fetch</div></div></div><figcaption>The browser's raw message, as the song editor's failed state shows today (D19).</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+  <div class="ds-table-wrap"><table class="ds-table">
+<thead><tr><th scope="col">Use</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+<tbody>
+<tr><td>Pair gap, action gap</td><td><code>--space-2</code></td><td><span data-theme="light" data-token="--space-2"></span></td><td><span data-theme="dark" data-token="--space-2"></span></td></tr>
+<tr><td>Between fields</td><td><code>--space-3</code></td><td><span data-theme="light" data-token="--space-3"></span></td><td><span data-theme="dark" data-token="--space-3"></span></td></tr>
+<tr><td>Above the action row</td><td><code>--space-4</code></td><td><span data-theme="light" data-token="--space-4"></span></td><td><span data-theme="dark" data-token="--space-4"></span></td></tr>
+<tr><td>Validation box</td><td><code>--color-danger-bg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-danger-bg" data-swatch></i><span data-token="--color-danger-bg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-danger-bg" data-swatch></i><span data-token="--color-danger-bg"></span></span></td></tr>
+<tr><td>Validation text</td><td><code>--color-danger-fg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-danger-fg" data-swatch></i><span data-token="--color-danger-fg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-danger-fg" data-swatch></i><span data-token="--color-danger-fg"></span></span></td></tr>
+<tr><td>Validation box corners</td><td><code>--radius-md</code></td><td><span data-theme="light" data-token="--radius-md"></span></td><td><span data-theme="dark" data-token="--radius-md"></span></td></tr>
+<tr><td>Validation text size</td><td><code>--font-size-sm</code></td><td><span data-theme="light" data-token="--font-size-sm"></span></td><td><span data-theme="dark" data-token="--font-size-sm"></span></td></tr>
+<tr><td>Standard dialog width</td><td><code>--layout-dialog-max</code></td><td><span data-theme="light" data-token="--layout-dialog-max"></span></td><td><span data-theme="dark" data-token="--layout-dialog-max"></span></td></tr>
+<tr><td>Song editor width</td><td><code>--layout-dialog-wide-max</code></td><td><span data-theme="light" data-token="--layout-dialog-wide-max"></span></td><td><span data-theme="dark" data-token="--layout-dialog-wide-max"></span></td></tr>
+</tbody></table></div>
+</section>
+
+<section class="ds-section" id="code"><h2><a href="#code">Code</a></h2>
+  <pre><code>&lt;div class="field-pair"&gt;
+  &lt;div&gt;&lt;label class="field-label" for="song-emoji"&gt;Emoji&lt;/label&gt;&lt;input class="field" id="song-emoji" maxlength="4"&gt;&lt;/div&gt;
+  &lt;div&gt;&lt;label class="field-label" for="song-bpm"&gt;Tempo (BPM)&lt;/label&gt;&lt;input class="field" id="song-bpm" type="number" min="40" max="220"&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="form-summary" role="group" aria-labelledby="sum-h" tabindex="-1"&gt;
+  &lt;p id="sum-h"&gt;&lt;b&gt;💙 A few things to fix before saving:&lt;/b&gt;&lt;/p&gt;
+  &lt;ul&gt;&lt;li&gt;&lt;a href="#song-title"&gt;A song needs a title.&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="field-actions"&gt;
+  &lt;button class="btn btn-white btn-sm" type="button"&gt;Preview ▶&lt;/button&gt;
+  &lt;button class="btn btn-sm" type="submit"&gt;Create ✨&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+  <table class="ds-table"><thead><tr><th scope="col">Class</th><th scope="col">Effect</th></tr></thead><tbody>
+    <tr><td><code>.field-pair</code></td><td>Two equal columns, 8px gap, at every width.</td></tr>
+    <tr><td><code>.form-row</code> <code>.form-row--2</code></td><td>Grid, 12px gap; two columns from 640px.</td></tr>
+    <tr><td><code>fieldset.form-group</code></td><td>Resets the fieldset; legend styled as a label.</td></tr>
+    <tr><td><code>.field-actions</code></td><td>Action row, 16px above, buttons share it equally.</td></tr>
+    <tr><td><code>.form-actions</code></td><td>Same, wrapping, 12px gap.</td></tr>
+    <tr><td><code>.errors</code></td><td>The mocks' validation box: one <code>&lt;div&gt;</code> per problem.</td></tr>
+    <tr><td><code>.form-summary</code></td><td>Validation box with links to fields; focus target on Save.</td></tr>
+    <tr><td><code>.modal-wide</code></td><td>440px scrolling dialog for long forms.</td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+  <ul>
+    <li><a href="../../mocks/dialogs/song-editor/default.html">dialogs/song-editor/default</a> (two <code>.field-pair</code> rows, <code>.field-actions</code>, hidden <code>.errors</code>)</li>
+    <li><a href="../../mocks/dialogs/song-editor/invalid.html">dialogs/song-editor/invalid</a> (six problems in <code>.errors</code>, nothing cleared)</li>
+    <li><a href="../../mocks/dialogs/song-editor/failed.html">dialogs/song-editor/failed</a> (raw "Failed to fetch" in <code>.errors</code>)</li>
+    <li><a href="../../mocks/dialogs/avatar-editor/default.html">dialogs/avatar-editor/default</a> (single column)</li>
+    <li><a href="../../mocks/dialogs/singer-editor/edit.html">dialogs/singer-editor/edit</a> (child field, avatar picker and photo in one column)</li>
+  </ul>
+  <p><code>.form-row</code>, <code>.form-actions</code>, <code>fieldset.form-group</code> and <code>.form-summary</code> are new in the system. Drift that applies: dialogs gain <code>aria-modal</code>, labelling by the title, focus in and back, Esc to close (D15); raw "Failed to fetch" replaced by grown-up copy (D19); gaps snapped to the 4px grid (D11). Still open in the app: no busy state on server saves (mocks README, open question 3) and validation not tied to fields (open question 4). See the <a href="../index.html#drift">drift log</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

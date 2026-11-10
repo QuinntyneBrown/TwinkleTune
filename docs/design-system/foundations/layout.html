@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layout — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune layout: the single 470px child column at every width, dialog widths, breakpoints, columns, gutters and margins for grown-up and docs pages, with a live grid.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Foundation</p>
+      <h1>Layout</h1>
+      <p class="ds-lead">Every child screen is one centred 470px column, on a phone, a tablet or a laptop. Breakpoints, columns and gutters exist only for grown-up pages, marketing and these docs.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill">Tokens <code>--layout-*</code></span><span class="ds-pill">Mobile first</span><span class="ds-pill">Status: stable</span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#child-column">The child column</a></li><li><a href="#breakpoints">Breakpoints</a></li><li><a href="#grid">Grid, gutters and margins</a></li><li><a href="#templates">Page templates</a></li><li><a href="#usage">Usage</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#tokens">Tokens</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>TwinkleTune has two layout systems on purpose.</p>
+  <ul>
+    <li><b>The child column.</b> Every screen a child uses (Welcome, Home, Songs, Sing, Results, Tips, Me, Duet, Find My Voice) is one centred column, at most 470px wide (<code>--layout-screen-max</code>), with the sky filling the rest. Nothing reflows between a phone in her hand and a tablet on a stand, so the one big action is always in the same place.</li>
+    <li><b>The responsive grid.</b> Grown-up pages on wide screens (family-server managers in the Grown-Ups Corner), the marketing site and this documentation use a 4, 8 or 12 column grid whose columns, gutter and margin change at the <code>md</code> and <code>lg</code> breakpoints.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="child-column"><h2><a href="#child-column">The child column</a></h2>
+  <p>The frame below is wider than a phone; the screen stays a 470px column in the middle. Side padding is <code>--layout-margin</code> (20px at phone width), top padding <code>--space-7</code>, and the bottom clears the floating nav by <code>--layout-bottomnav-clearance</code>.</p>
+  <div class="ds-stage">
+    <div class="screen screen--nonav">
+      <div class="topbar"><a class="icon-btn" href="#child-column" aria-label="Back">⬅️</a><span class="title">Pick a Song</span><span class="spacer"></span></div>
+      <div class="stack">
+        <div class="card stack stack-sm"><strong style="font: var(--text-h4);">Twinkle Twinkle Little Star</strong><span style="font: var(--text-body-sm); color: var(--color-fg-muted);">Easy · 1 min · Moved 3 notes higher</span></div>
+        <div class="card stack stack-sm"><strong style="font: var(--text-h4);">London Bridge</strong><span style="font: var(--text-body-sm); color: var(--color-fg-muted);">Easy · 1 min · Moved 3 notes higher</span></div>
+        <button class="btn btn-xl" type="button">Let's sing! 🎤</button>
+      </div>
+    </div>
+  </div>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <thead><tr><th scope="col">Part</th><th scope="col">Width</th><th scope="col">Token</th></tr></thead>
+    <tbody>
+      <tr><td>Child screen column (<code>.screen</code>, <code>.container-screen</code>)</td><td>470px max</td><td><code>--layout-screen-max</code></td></tr>
+      <tr><td>Standard dialog (<code>.modal</code>)</td><td>340px max</td><td><code>--layout-dialog-max</code></td></tr>
+      <tr><td>Manager dialogs (<code>.modal-wide</code>), bottom nav</td><td>440px max</td><td><code>--layout-dialog-wide-max</code></td></tr>
+      <tr><td>Name card, Welcome button</td><td>360px max</td><td><code>--size-form-max</code> (see <a href="shape.html">Shape</a>)</td></tr>
+      <tr><td>Top bar row</td><td>52px tall</td><td><code>--layout-topbar-height</code></td></tr>
+      <tr><td>Space under content for the bottom nav</td><td>128px</td><td><code>--layout-bottomnav-clearance</code></td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li>At 320px the column is the viewport minus 20px margins on each side; nothing scrolls sideways.</li>
+    <li>Dialogs use <code>min(max, 100%)</code>, so on the narrowest phones they fill the scrim's padding instead of overflowing.</li>
+    <li>Two-up grids inside the column (<code>.tiles</code>, <code>.profile-grid</code>) stay two-up at every width; they do not become three or four columns on a tablet.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="breakpoints"><h2><a href="#breakpoints">Breakpoints</a></h2>
+  <p>Mobile first, <code>min-width</code> queries only, written in rem so they follow the reader's text size. Custom properties cannot be read inside <code>@media</code>, so the values are repeated there by convention.</p>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <thead><tr><th scope="col">Token</th><th scope="col">Min width</th><th scope="col">Typical device</th><th scope="col">Columns</th><th scope="col">Gutter</th><th scope="col">Margin</th></tr></thead>
+    <tbody>
+      <tr><td>(base)</td><td>0</td><td>Phones</td><td>4</td><td>16px (<code>--space-4</code>)</td><td>20px (<code>--space-5</code>)</td></tr>
+      <tr><td><code>--layout-breakpoint-sm</code></td><td>40rem · 640px</td><td>Large phones, landscape</td><td>4</td><td>16px</td><td>20px</td></tr>
+      <tr><td><code>--layout-breakpoint-md</code></td><td>48rem · 768px</td><td>Tablets</td><td>8</td><td>24px (<code>--space-6</code>)</td><td>32px (<code>--space-8</code>)</td></tr>
+      <tr><td><code>--layout-breakpoint-lg</code></td><td>64rem · 1024px</td><td>Laptops; docs sidebar appears</td><td>12</td><td>32px (<code>--space-8</code>)</td><td>48px (<code>--space-12</code>)</td></tr>
+      <tr><td><code>--layout-breakpoint-xl</code></td><td>80rem · 1280px</td><td>Desktops; container reaches its max</td><td>12</td><td>32px</td><td>48px</td></tr>
+      <tr><td><code>--layout-breakpoint-2xl</code></td><td>96rem · 1536px</td><td>Wide screens; content stays at the container max</td><td>12</td><td>32px</td><td>auto</td></tr>
+    </tbody>
+  </table></div>
+  <pre><code>/* tokens.css switches the layout tokens; components read the tokens */
+@media (min-width: 48rem) { :root { --layout-columns: 8;  --layout-gutter: var(--space-6); --layout-margin: var(--space-8); } }
+@media (min-width: 64rem) { :root { --layout-columns: 12; --layout-gutter: var(--space-8); --layout-margin: var(--space-12); } }</code></pre>
+  <p>Because <code>.screen</code> pads its sides with its own <code>--space-5</code>, the child column keeps 20px margins even when <code>--layout-margin</code> grows on a tablet.</p>
+</section>
+
+<section class="ds-section" id="grid"><h2><a href="#grid">Grid, gutters and margins</a></h2>
+  <p>The live grid below reads <code>--layout-columns</code>, <code>--layout-gutter</code> and <code>--layout-margin</code>, so it shows 4, 8 or 12 columns as you resize this window. Twelve cells are drawn; at 4 or 8 columns they wrap.</p>
+  <div class="ds-grid-demo" aria-label="Live layout grid" role="img"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span></div>
+  <h3>Each breakpoint, fixed</h3>
+  <p>The same grid pinned to each breakpoint's values, so all three can be compared at once.</p>
+  <p><b>Phone</b>: 4 columns, 16px gutter, 20px margin.</p>
+  <div class="ds-table-wrap"><div class="ds-grid-demo" role="img" aria-label="Phone grid: 4 columns" style="--layout-columns: 4; --layout-gutter: var(--space-4); --layout-margin: var(--space-5);"><span>1</span><span>2</span><span>3</span><span>4</span></div></div>
+  <p><b>Tablet</b> (md): 8 columns, 24px gutter, 32px margin.</p>
+  <div class="ds-table-wrap"><div class="ds-grid-demo" role="img" aria-label="Tablet grid: 8 columns" style="--layout-columns: 8; --layout-gutter: var(--space-6); --layout-margin: var(--space-8);"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div></div>
+  <p><b>Laptop and up</b> (lg): 12 columns, 32px gutter, 48px margin.</p>
+  <div class="ds-table-wrap"><div class="ds-grid-demo" role="img" aria-label="Laptop grid: 12 columns" style="--layout-columns: 12; --layout-gutter: var(--space-8); --layout-margin: var(--space-12);"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span></div></div>
+  <ul>
+    <li><b>Margin</b> is the space from the viewport edge to content (<code>--layout-margin</code>).</li>
+    <li><b>Gutter</b> is the space between columns (<code>--layout-gutter</code>).</li>
+    <li><b>Container</b> caps content at <code>--layout-container-max</code> (1280px) and centres it: <code>.container</code>.</li>
+    <li><b>Measure</b> caps prose at <code>--layout-measure</code> (65ch).</li>
+    <li><code>.grid</code> is <code>repeat(var(--layout-columns), minmax(0, 1fr))</code> with the gutter as its gap. Card lists use <code>.grid-auto</code> (auto-fill with a minimum width) instead of spanning columns by hand.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="templates"><h2><a href="#templates">Page templates</a></h2>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <thead><tr><th scope="col">Template</th><th scope="col">Structure</th><th scope="col">Used by</th></tr></thead>
+    <tbody>
+      <tr><td>Child screen</td><td>Sky background, <code>.screen</code> column, <code>.topbar</code>, content stack, floating <code>.bottomnav</code></td><td>Home, Songs, Tips, Me</td></tr>
+      <tr><td>Centred child screen</td><td><code>.screen.screen--center</code>, no bottom nav, Twinkle and one big action</td><td>Welcome, Find My Voice, Results</td></tr>
+      <tr><td>Stage screen</td><td><code>.screen</code> with the pitch stage and lyrics filling the column; no bottom nav</td><td>Sing, Duet, Tuner</td></tr>
+      <tr><td>Dialog</td><td><code>.overlay</code> scrim, centred <code>.modal</code> or <code>.modal-wide</code></td><td>Pause, parent gate, Grown-Ups Corner, managers</td></tr>
+      <tr><td>Grown-up wide page</td><td><code>.container</code> with a <code>.sidenav</code> (<code>--layout-sidebar-width</code>, 256px) at lg and up, <code>.grid</code> content</td><td>Family-server managers on a laptop (not in the mocks yet)</td></tr>
+      <tr><td>Docs shell</td><td>Sticky 256px sidebar at lg and up, 72rem content column</td><td>These pages</td></tr>
+    </tbody>
+  </table></div>
+  <p>See the real screens: <a href="../../mocks/pages/home/default.html">Home</a>, <a href="../../mocks/pages/welcome/default.html">Welcome</a>, <a href="../../mocks/pages/sing/default.html">Sing</a>, <a href="../../mocks/dialogs/pause/default.html">Pause dialog</a>, <a href="../../mocks/dialogs/song-manager/default.html">Song manager</a>.</p>
+</section>
+
+<section class="ds-section" id="usage"><h2><a href="#usage">Usage</a></h2>
+  <ul>
+    <li>Do not add breakpoints to child screens. If a child screen looks empty on a tablet, that is the sky doing its job.</li>
+    <li>Fixed parts (bottom nav, toast host) centre on the viewport and cap at the column or wide-dialog width, so they line up with the column.</li>
+    <li>Use <code>100dvh</code> rather than <code>100vh</code> for full-height layouts so mobile browser bars do not clip the action; fixed bottom parts add <code>env(safe-area-inset-bottom)</code>.</li>
+    <li>Grown-up pages read the layout tokens, never their own media queries, wherever a token covers the case.</li>
+    <li>Content order in the DOM is reading order at every width; layout never reorders the one big action away from its place.</li>
+  </ul>
+  <p>Behaviour per component at each breakpoint is on <a href="responsive.html">Responsive</a>.</p>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <ul>
+    <li><b>Reflow (WCAG 1.4.10).</b> Everything works at 320 CSS px without sideways scrolling; only data tables scroll, inside <code>.table-wrap</code>.</li>
+    <li><b>Zoom.</b> Breakpoints are rem, so a reader with large text gets the narrower layout sooner rather than overlapping columns.</li>
+    <li><b>Orientation (1.3.4).</b> No screen locks to portrait or landscape; the single column works in both.</li>
+    <li><b>Landmarks.</b> Each template has one <code>&lt;main&gt;</code>; the bottom nav and side nav are <code>&lt;nav&gt;</code> with a label.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+  <p>Columns, gutter and margin show the values for the current window width.</p>
+  <div class="ds-table-wrap"><table class="ds-table">
+<thead><tr><th scope="col">Use</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+<tbody>
+<tr><td>640px  large phones</td><td><code>--layout-breakpoint-sm</code></td><td><span data-theme="light" data-token="--layout-breakpoint-sm"></span></td><td><span data-theme="dark" data-token="--layout-breakpoint-sm"></span></td></tr>
+<tr><td>768px  tablets</td><td><code>--layout-breakpoint-md</code></td><td><span data-theme="light" data-token="--layout-breakpoint-md"></span></td><td><span data-theme="dark" data-token="--layout-breakpoint-md"></span></td></tr>
+<tr><td>1024px laptops</td><td><code>--layout-breakpoint-lg</code></td><td><span data-theme="light" data-token="--layout-breakpoint-lg"></span></td><td><span data-theme="dark" data-token="--layout-breakpoint-lg"></span></td></tr>
+<tr><td>1280px desktops</td><td><code>--layout-breakpoint-xl</code></td><td><span data-theme="light" data-token="--layout-breakpoint-xl"></span></td><td><span data-theme="dark" data-token="--layout-breakpoint-xl"></span></td></tr>
+<tr><td>1536px wide screens</td><td><code>--layout-breakpoint-2xl</code></td><td><span data-theme="light" data-token="--layout-breakpoint-2xl"></span></td><td><span data-theme="dark" data-token="--layout-breakpoint-2xl"></span></td></tr>
+<tr><td></td><td><code>--layout-columns</code></td><td><span data-theme="light" data-token="--layout-columns"></span></td><td><span data-theme="dark" data-token="--layout-columns"></span></td></tr>
+<tr><td></td><td><code>--layout-gutter</code></td><td><span data-theme="light" data-token="--layout-gutter"></span></td><td><span data-theme="dark" data-token="--layout-gutter"></span></td></tr>
+<tr><td>the screen&#x27;s side padding (was 22px)</td><td><code>--layout-margin</code></td><td><span data-theme="light" data-token="--layout-margin"></span></td><td><span data-theme="dark" data-token="--layout-margin"></span></td></tr>
+<tr><td>grown-ups and docs pages</td><td><code>--layout-container-max</code></td><td><span data-theme="light" data-token="--layout-container-max"></span></td><td><span data-theme="dark" data-token="--layout-container-max"></span></td></tr>
+<tr><td>470px: the one centred column every child screen uses</td><td><code>--layout-screen-max</code></td><td><span data-theme="light" data-token="--layout-screen-max"></span></td><td><span data-theme="dark" data-token="--layout-screen-max"></span></td></tr>
+<tr><td>340px: standard dialog</td><td><code>--layout-dialog-max</code></td><td><span data-theme="light" data-token="--layout-dialog-max"></span></td><td><span data-theme="dark" data-token="--layout-dialog-max"></span></td></tr>
+<tr><td>440px: manager dialogs, bottom nav</td><td><code>--layout-dialog-wide-max</code></td><td><span data-theme="light" data-token="--layout-dialog-wide-max"></span></td><td><span data-theme="dark" data-token="--layout-dialog-wide-max"></span></td></tr>
+<tr><td></td><td><code>--layout-measure</code></td><td><span data-theme="light" data-token="--layout-measure"></span></td><td><span data-theme="dark" data-token="--layout-measure"></span></td></tr>
+<tr><td></td><td><code>--layout-sidebar-width</code></td><td><span data-theme="light" data-token="--layout-sidebar-width"></span></td><td><span data-theme="dark" data-token="--layout-sidebar-width"></span></td></tr>
+<tr><td>52px: the icon-button row</td><td><code>--layout-topbar-height</code></td><td><span data-theme="light" data-token="--layout-topbar-height"></span></td><td><span data-theme="dark" data-token="--layout-topbar-height"></span></td></tr>
+<tr><td>---------- Semantic: shape ------------------------------------------</td><td><code>--layout-bottomnav-clearance</code></td><td><span data-theme="light" data-token="--layout-bottomnav-clearance"></span></td><td><span data-theme="dark" data-token="--layout-bottomnav-clearance"></span></td></tr>
+</tbody></table></div>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

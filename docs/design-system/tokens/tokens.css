@@ -59,7 +59,8 @@
   line-gap-override: 0%;
 }
 
-:root {
+:root,
+[data-theme="light"] {
   /* ---------- Primitives: colour --------------------------------------- */
   --palette-white: #ffffff;
 

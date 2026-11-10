@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feedback and loading — TwinkleTune design system</title>
+<meta name="description" content="Which feedback to use for which moment in TwinkleTune (cheers, coach bubble, streak chip, toasts, busy buttons) and how loading looks.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Pattern</p>
+      <h1>Feedback and loading</h1>
+      <p class="ds-lead">Twinkle reacts to everything a singer does, but always with the lightest touch that fits the moment: a cheer beside her star, a line in Twinkle's bubble, a toast at the top. Loading is just as gentle: a quiet line, never a wall of spinners.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill">Status: stable</span><span class="ds-pill">Encouragement only</span><span class="ds-pill">Classes <code>.feedback-pop</code> <code>.bubble</code> <code>.toast</code> <code>.quiet-note</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#when">When to use which</a></li><li><a href="#structure">Structure</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>Feedback in TwinkleTune has one job: tell a child what went well and what to try next. There is no negative channel. A note that slips by simply stays blue, silence is not a wrong note, and a failed server call never reaches her as an error.</p>
+  <p>The channels, from closest to the action to furthest away:</p>
+  <ol>
+    <li><b>On the stage</b>: a landed note turns gold (<code>.note.hit</code>), her star glows gold (<code>.singer.on-note</code>), and a cheer pops beside it (<code>.feedback-pop</code>: <em>Perfect! ✨</em>, <em>Yes! 💙</em>). See <a href="../components/pitch-stage.html">pitch stage</a>.</li>
+    <li><b>The streak chip</b>: from three landed notes in a row, <em>🔥 7 in a row!</em> shows in the stage's corner.</li>
+    <li><b>Twinkle's bubble</b>: a sentence of encouragement or a hint, under the stage and on most screens. See <a href="../components/coach-bubble.html">coach bubble</a>.</li>
+    <li><b>Toasts</b>: short events at the top of the screen (sparkles, every fifth streak, a duet partner finishing, a removal). See <a href="notifications.html">notifications</a>.</li>
+    <li><b>Inline results</b>: the score card, stars and the gold <code>.badge-toast</code> on Results.</li>
+  </ol>
+</section>
+
+<section class="ds-section" id="when"><h2><a href="#when">When to use which</a></h2>
+  <table class="ds-table"><thead><tr><th scope="col">Moment</th><th scope="col">Feedback</th><th scope="col">Why</th></tr></thead><tbody>
+    <tr><td>She lands a note</td><td>Gold pill, gold ring on her star, cheer pop for 1.2 s</td><td>Right where she is looking; no words to read mid-song</td></tr>
+    <tr><td>She misses a note, or is quiet</td><td>Nothing. The pill stays blue</td><td>No cross, no sound, no message: silence is not a wrong note</td></tr>
+    <tr><td>Three or more in a row</td><td>Streak chip <em>🔥 N in a row!</em></td><td>Persistent while the streak lasts; hides when it ends, without comment</td></tr>
+    <tr><td>Every fifth in a row</td><td>Gold toast <em>🔥 5 in a row!</em> for 1.6 s</td><td>Short so it never covers the lyrics for long</td></tr>
+    <tr><td>General encouragement during a song</td><td>Twinkle's bubble in the live row: <em>You're doing wonderfully! 💙</em></td><td>Calm, readable, does not move</td></tr>
+    <tr><td>A tip or a next step on a screen</td><td>Twinkle's bubble at the top of the screen</td><td>She is the guide; the bubble is her voice</td></tr>
+    <tr><td>A thing happened (saved, removed, sparkles added)</td><td>Toast</td><td>Confirms without taking focus or blocking</td></tr>
+    <tr><td>A result she earned</td><td>Inline on Results: stars, score card, <code>.badge-toast</code></td><td>Stays on screen; she can look as long as she likes</td></tr>
+    <tr><td>A grown-up save in progress</td><td><code>aria-busy="true"</code> on the button</td><td>Only family-server saves are ever busy</td></tr>
+    <tr><td>Something needs a decision</td><td>A <a href="dialogs-and-overlays.html">dialog</a>, never a toast</td><td>A toast vanishes in 2.2 s and cannot be tapped</td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="structure"><h2><a href="#structure">Structure</a></h2>
+  <p>During a song every channel is on screen at once, each in its own place so they never compete: cheers and the streak chip inside the stage, Twinkle and the sparkle count below the lyrics, toasts above everything at the top.</p>
+  <div class="ds-example">
+    <div class="ds-stage ds-stage--tall">
+      <div class="screen screen--nonav">
+        <section class="stage" aria-label="Pitch game — match the notes">
+          <span class="streak-chip show">🔥 7 in a row!</span>
+          <div class="note-track">
+            <span class="note hit" style="left:0.75rem;top:6rem;width:3.5rem">der</span>
+            <span class="note now" style="left:calc(21% + 2rem);top:10.5rem;width:4.5rem">what</span>
+            <span class="note" style="left:calc(21% + 7rem);top:11.4rem;width:4.5rem">you</span>
+            <span class="note" style="left:calc(21% + 12rem);top:14.2rem;width:8rem">are</span>
+          </div>
+          <div class="singer on-note" role="img" aria-label="You" style="top:10rem">🦄</div>
+          <span class="feedback-pop" data-state="held" style="top:7.5rem">Perfect! ✨</span>
+          <span class="stage-label">SING TO MOVE YOUR STAR ↑↓</span>
+        </section>
+        <div class="live-row">
+          <div class="bubble bubble-left">You're doing wonderfully! 💙</div>
+          <div class="sparkles-pill" title="Sparkles earned">✨ 90</div>
+        </div>
+      </div>
+      <div class="toast-host" role="status" aria-live="polite"><span class="toast toast-gold">🔥 5 in a row!</span></div>
+    </div>
+    <div class="ds-example__caption"><span>Landed note (gold), the note to sing now (ringed), a held cheer, the streak chip, Twinkle's bubble, the sparkle count and a streak toast.</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;section class="stage" aria-label="Pitch game — match the notes"&gt;
+  &lt;span class="streak-chip show"&gt;🔥 7 in a row!&lt;/span&gt;
+  &lt;div class="note-track"&gt;&lt;span class="note hit" style="…"&gt;der&lt;/span&gt;…&lt;/div&gt;
+  &lt;div class="singer on-note" role="img" aria-label="You"&gt;🦄&lt;/div&gt;
+  &lt;span class="feedback-pop"&gt;Perfect! ✨&lt;/span&gt;
+&lt;/section&gt;
+&lt;div class="live-row"&gt;
+  &lt;div class="bubble bubble-left"&gt;You're doing wonderfully! 💙&lt;/div&gt;
+  &lt;div class="sparkles-pill"&gt;✨ 90&lt;/div&gt;
+&lt;/div&gt;</code></pre></details>
+  </div>
+
+  <h3>Loading</h3>
+  <p>Most screens render straight from the device and never load. Only family-server data waits, and on the home LAN it normally answers at once, so loading is as small as it can be.</p>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack ds-sky">
+      <p class="quiet-note">Looking for the family… ☁️</p>
+      <div class="modal modal-wide"><h3>🏆 Twinkle Twinkle Little Star</h3><p class="quiet-note">Loading…</p></div>
+      <span class="loading-line"><span class="spinner" aria-hidden="true"></span>Fetching the songbook…</span>
+      <div class="skeleton-row" aria-hidden="true"><span class="skeleton skeleton-circle"></span><div class="stack stack-sm"><span class="skeleton skeleton-title"></span><span class="skeleton skeleton-text"></span></div></div>
+    </div>
+    <div class="ds-example__caption"><span>Top to bottom: the profile picker's quiet line, a board dialog's quiet line, a spinner with words and a skeleton row (both for slower grown-up lists, not in the mocks yet).</span></div>
+  </div>
+  <table class="ds-table"><thead><tr><th scope="col">Expected wait</th><th scope="col">Show</th><th scope="col">Example</th></tr></thead><tbody>
+    <tr><td>Under ~300 ms (the reachability probe)</td><td>Nothing: keep the screen's frame (top bar) and draw the content when it arrives</td><td>Duet Time while <code>/health</code> is probed</td></tr>
+    <tr><td>Short, in a dialog or list</td><td><code>.quiet-note</code> in place of the rows</td><td><em>Loading…</em> in the song board and managers</td></tr>
+    <tr><td>Short, on a child screen</td><td><code>.quiet-note</code> in Twinkle's words</td><td><em>Looking for the family… ☁️</em></td></tr>
+    <tr><td>Longer than a second (large grown-up lists)</td><td><a href="../components/skeleton.html">Skeleton</a> rows shaped like the result, or a <a href="../components/spinner.html">spinner</a> with words</td><td>Not in the mocks yet; added for the family-server managers</td></tr>
+    <tr><td>A save</td><td>Busy button</td><td><em>Create ✨</em>, <em>Add singer ⭐</em></td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+  <div class="ds-matrix"><table>
+    <thead><tr><th scope="col">Part</th><th scope="col">Idle</th><th scope="col">Positive</th><th scope="col">No mic</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Note pill</th><td><span class="note" style="position:static;display:inline-flex;width:5rem">you</span></td><td><span class="note hit" style="position:static;display:inline-flex;width:5rem">you</span></td><td><span class="note" style="position:static;display:inline-flex;width:5rem">you</span></td></tr>
+      <tr><th scope="row">Cheer</th><td>None</td><td><span class="feedback-pop" data-state="held" style="position:static">Yes! 💙</span></td><td>None</td></tr>
+      <tr><th scope="row">Streak chip</th><td>Hidden below three</td><td><span class="streak-chip show" style="position:static">🔥 3 in a row!</span></td><td>Hidden</td></tr>
+      <tr><th scope="row">Sparkles</th><td><span class="sparkles-pill">✨ 0</span></td><td><span class="sparkles-pill">✨ 90</span></td><td><span class="sparkles-pill">✨ 0</span> (never earns)</td></tr>
+      <tr><th scope="row">Button</th><td><button class="btn btn-sm" type="button">Create ✨</button></td><td>—</td><td><button class="btn btn-sm" type="button" aria-busy="true">Create ✨</button> busy</td></tr>
+    </tbody>
+  </table></div>
+  <p>There is no "negative" column because there is no negative state. In <a href="empty-and-error-states.html">no-mic mode</a> the stage label reads <em>SING ALONG AND HAVE FUN 🎶</em>, her star rests mid-stage at 75% opacity, and nothing is scored.</p>
+  <h3>Both themes</h3>
+  <div class="ds-themes">
+    <div data-theme="light"><div class="ds-col"><div class="bubble bubble-left">You're doing wonderfully! 💙</div><span class="toast toast-gold">+5 sparkles ✨</span><p class="quiet-note">Looking for the family… ☁️</p></div></div>
+    <div data-theme="dark"><div class="ds-col"><div class="bubble bubble-left">You're doing wonderfully! 💙</div><span class="toast toast-gold">+5 sparkles ✨</span><p class="quiet-note">Looking for the family… ☁️</p></div></div>
+  </div>
+</section>
+
+<section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+  <ul>
+    <li>The stage is a fixed 300px tall at every width; notes scroll at 90px per beat and the "now" line stays 21% from the left, so cheers always appear in the same place relative to her star.</li>
+    <li>The live row keeps the bubble and sparkle pill side by side; the bubble wraps to more lines rather than the pill dropping below.</li>
+    <li>Toasts are centred at the top with 24px clear on each side; long toasts wrap inside their pill instead of widening past the column.</li>
+    <li>Loading lines are centred in the space the content will fill, so the layout does not jump when rows arrive.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <h3>Announcing</h3>
+  <p>The toast host is a polite live region (<code>role="status" aria-live="polite"</code>, D16), so toasts are read without moving focus. Cheers and pill colours are decorative and are not announced note by note: a screen reader would talk over the music. The streak and the sparkle total are text and can be read on demand; Results states everything in words (<em>You landed 18 of 24 notes!</em>).</p>
+  <h3>Loading</h3>
+  <p>A list region that is loading gets <code>aria-busy="true"</code> and the quiet line as its only content. Spinners and skeletons are <code>aria-hidden</code>; the words beside them carry the meaning. A busy button keeps its accessible name while its label is visually hidden.</p>
+  <h3>Not by colour alone</h3>
+  <p>A landed note turns gold <em>and</em> raises a worded cheer; the streak chip says the number; the sparkle pill shows a count. Nothing relies on gold versus blue to be understood (WCAG 1.4.1).</p>
+  <h3>Contrast</h3>
+  <div class="ds-example__canvas ds-example__canvas--stack ds-w-form">
+    <div class="ds-pair"><span>Cheer and sung words</span><span class="ds-pair__ratio" data-contrast="--color-fg-accent|--color-bg-surface" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Streak chip and gold toast</span><span class="ds-pair__ratio" data-contrast="--color-reward-fg|--color-reward-bg" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Quiet loading line</span><span class="ds-pair__ratio" data-contrast="--color-fg-muted|--color-bg-canvas" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Stage label</span><span class="ds-pair__ratio" data-contrast="--color-fg-subtle|--color-bg-surface-sunken" data-min="4.5"></span></div>
+  </div>
+  <h3>Motion</h3>
+  <p>Cheers float up and fade over <code>--duration-progress</code>; toasts pop in over <code>--duration-slow</code>; spinners turn and skeletons pulse. Under <code>prefers-reduced-motion</code> cheers appear and disappear without travel, toasts fade, spinners stop as a ring and skeletons hold still. Nothing flashes more than three times a second.</p>
+</section>
+
+<section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+  <ul>
+    <li>Cheers are one or two words plus one emoji: <em>Perfect! ✨</em>, <em>Yes! 💙</em>. They are praise for what she did, never a grade.</li>
+    <li>Twinkle's lines are one sentence, second person, present tense: <em>You're doing wonderfully! 💙</em>, <em>Your songs are tuned and ready. Let's make today sparkle! ✨</em></li>
+    <li>Loading copy is short and calm: <em>Loading…</em> for grown-up lists, a Twinkle-style line for children (<em>Looking for the family… ☁️</em>). Never <em>Please wait</em>.</li>
+    <li>Counts are numerals: <em>🔥 7 in a row!</em>, <em>+5 sparkles ✨</em>, <em>18 of 24 notes</em>.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas"><span class="note" style="position:static;display:inline-flex;width:5rem">are</span></div><figcaption>Let a missed note pass in its normal blue. The next note is a fresh chance.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><span class="toast toast-pink">Missed that one!</span></div><figcaption>Comment on a miss, in any colour. There is no message for a note that didn't land.</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas"><p class="quiet-note">Loading…</p></div><figcaption>Swap the rows for one quiet line while a short family-server list loads.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><span class="spinner spinner-lg" aria-hidden="true"></span><span class="spinner spinner-lg" aria-hidden="true"></span><span class="spinner spinner-lg" aria-hidden="true"></span></div><figcaption>Show a spinner per card, or a spinner with no words, on a child screen.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+  <ul>
+    <li><a href="../../mocks/pages/sing/default.html">pages/sing/default</a> (gold pills, cheer, streak chip, Twinkle's bubble, sparkle pill), <a href="../../mocks/pages/sing/practice.html">practice</a> (<em>Yes! 💙</em>), <a href="../../mocks/pages/sing/no-mic.html">no-mic</a></li>
+    <li><a href="../../mocks/notifications/toast/stacked.html">notifications/toast/stacked</a>, <a href="../../mocks/notifications/toast/success.html">success</a></li>
+    <li><a href="../../mocks/pages/results/default.html">pages/results/default</a> (score card, stars, badge toast)</li>
+    <li><a href="../../mocks/pages/profiles/loading.html">pages/profiles/loading</a>, <a href="../../mocks/pages/duet/loading.html">pages/duet/loading</a> (draws nothing), <a href="../../mocks/dialogs/song-board/loading.html">dialogs/song-board/loading</a>, <a href="../../mocks/dialogs/song-manager/loading.html">dialogs/song-manager/loading</a>, <a href="../../mocks/dialogs/avatar-manager/loading.html">dialogs/avatar-manager/loading</a></li>
+    <li><a href="../../mocks/dialogs/singer-editor/default.html">dialogs/singer-editor/default</a> (no busy state in the mocks; the system adds it)</li>
+  </ul>
+  <p>Drift fixed: cheers, countdown and sung words moved from brand blue to <code>--color-fg-accent</code> (D04); stage label raised to the 12px floor and <code>--color-fg-subtle</code> (D03, D10); toast host made a live region (D16); 41 durations collapsed to the motion scale (D14). Skeleton and spinner are not in the mocks yet; they are added for the family-server managers. See the <a href="../index.html#drift">drift log</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

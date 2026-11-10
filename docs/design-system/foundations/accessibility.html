@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accessibility — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune accessibility: the WCAG 2.2 AA commitments, the children-specific commitments, focus, target sizes and control heights, the component contract and the testing procedure.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Foundation</p>
+      <h1>Accessibility</h1>
+      <p class="ds-lead">TwinkleTune is built for children from five years old, some of whom cannot read yet, some of whom use a switch or a screen reader, and all of whom deserve to feel good about singing. Every component meets WCAG 2.2 AA, and the system adds commitments of its own for children.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill">WCAG 2.2 AA</span><span class="ds-pill">Child target 52px</span><span class="ds-pill">Encouragement only</span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#commitments">WCAG 2.2 AA commitments</a></li><li><a href="#children">Commitments for children</a></li><li><a href="#focus">Focus</a></li><li><a href="#targets">Target sizes</a></li><li><a href="#control-heights">Control heights</a></li><li><a href="#contract">Component contract</a></li><li><a href="#testing">Testing procedure</a></li><li><a href="#usage">Usage</a></li><li><a href="#tokens">Tokens</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>Accessibility here is by construction: tokens are chosen so the contrast pairs pass in both themes, components ship with their keyboard model and labels, and the checker scripts catch the mechanical slips. This page is the list every component page's <code>#accessibility</code> section answers to.</p>
+  <ul>
+    <li><a href="#commitments">WCAG 2.2 AA commitments</a>, criterion by criterion, as TwinkleTune keeps them.</li>
+    <li><a href="#children">Commitments for children</a> that go beyond WCAG: no colour-only feedback, no timers that punish, no failure language.</li>
+    <li>The interaction tokens this page owns: <a href="#focus">focus ring</a>, <a href="#targets">target sizes</a> and <a href="#control-heights">control heights</a>.</li>
+    <li>The <a href="#contract">component contract</a> and the <a href="#testing">testing procedure</a>.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="commitments"><h2><a href="#commitments">WCAG 2.2 AA commitments</a></h2>
+  <h3>Perceivable</h3>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <thead><tr><th scope="col">Requirement</th><th scope="col">SC</th><th scope="col">How TwinkleTune keeps it</th></tr></thead>
+    <tbody>
+      <tr><td>Text contrast</td><td>1.4.3</td><td>Body, label and secondary text at least 4.5:1 on every surface, in both themes. The extraction moved the toy-button blue (D01), soft and faint inks (D02, D03), blue text (D04), pink ink (D05) and mint ink (D06) to passing tokens. Pairs live in <code>tokens/contrast-pairs.json</code>.</td></tr>
+      <tr><td>Non-text contrast</td><td>1.4.11</td><td>Field edges use <code>--color-border-strong</code> (3.7:1, D07); progress fills end on 3:1 (D22); the focus ring is 3:1 or better (D21). Dashed add-cards and dividers are decorative and documented as such.</td></tr>
+      <tr><td>Use of colour</td><td>1.4.1</td><td>Status is colour plus emoji plus words. Selected cards keep "SINGING NOW ⭐" and <code>aria-current</code> (D25); a landed note turns gold and gets a cheer.</td></tr>
+      <tr><td>Resize and reflow</td><td>1.4.4, 1.4.10</td><td>Sizes in <code>rem</code>; one column at 320px. See <a href="responsive.html">Responsive</a>.</td></tr>
+      <tr><td>Text spacing</td><td>1.4.12</td><td>Bubbles, buttons and pills grow with their text; nothing has a fixed height that clips at 1.5× line height.</td></tr>
+      <tr><td>Images</td><td>1.1.1</td><td>Twinkle, song art and sky decor are <code>aria-hidden</code>; the microphone and goal ring are <code>role="img"</code> with a label; profile photos take <code>alt=""</code> because the singer's name is written beside them.</td></tr>
+      <tr><td>Motion</td><td>2.3.3</td><td>Every animation reads duration tokens that zero under <code>prefers-reduced-motion</code>. See <a href="motion.html#accessibility">Motion</a>.</td></tr>
+      <tr><td>Input purpose</td><td>1.3.5</td><td>There are no accounts, e-mail or payment fields. The singer name field is a nickname: new markup adds <code>autocomplete="nickname"</code> (the mocks have none).</td></tr>
+    </tbody>
+  </table></div>
+  <div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);">
+    <div class="ds-pair"><span>Body text on the sky</span><span class="ds-pair__ratio" data-contrast="--color-fg-default|--color-bg-canvas" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Secondary text on the sky</span><span class="ds-pair__ratio" data-contrast="--color-fg-muted|--color-bg-canvas" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Subtle text on a card</span><span class="ds-pair__ratio" data-contrast="--color-fg-subtle|--color-bg-surface" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Accent text on a card</span><span class="ds-pair__ratio" data-contrast="--color-fg-accent|--color-bg-surface" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Label on the toy button</span><span class="ds-pair__ratio" data-contrast="--color-fg-on-accent|--color-accent" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Pink nudge text</span><span class="ds-pair__ratio" data-contrast="--color-gentle-fg|--color-gentle-bg" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Field edge on a card</span><span class="ds-pair__ratio" data-contrast="--color-border-strong|--color-bg-surface" data-min="3"></span></div>
+  </div>
+
+  <h3>Operable</h3>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <thead><tr><th scope="col">Requirement</th><th scope="col">SC</th><th scope="col">How TwinkleTune keeps it</th></tr></thead>
+    <tbody>
+      <tr><td>Keyboard</td><td>2.1.1, 2.1.2</td><td>Everything works with <kbd>Tab</kbd>, <kbd>Enter</kbd>, <kbd>Space</kbd> and the arrows a pattern calls for. Dialogs hold focus and release it on <kbd>Esc</kbd> (D15).</td></tr>
+      <tr><td>Focus visible and appearance</td><td>2.4.7, 2.4.11</td><td>One ring for everything: 3px <code>--color-focus-ring</code> at a 3px offset on <code>:focus-visible</code>. See <a href="#focus">Focus</a>.</td></tr>
+      <tr><td>Focus order</td><td>2.4.3</td><td>DOM order is visual order; no positive <code>tabindex</code>; the page behind a dialog is <code>inert</code>.</td></tr>
+      <tr><td>Target size</td><td>2.5.8</td><td>At least 24px everywhere, 52px for anything a child taps. See <a href="#targets">Targets</a>.</td></tr>
+      <tr><td>Dragging</td><td>2.5.7</td><td>The only slider (mic timing) is a native range input with keyboard and tap steps.</td></tr>
+      <tr><td>Timing</td><td>2.2.1</td><td>Nothing a child does is timed. Toasts repeat what the screen already shows, so their 2.2s life loses nothing; grown-up failures stay on screen until dismissed (the mocks auto-dismiss them like any toast; the system does not).</td></tr>
+      <tr><td>Pause, stop, hide</td><td>2.2.2</td><td>Ambient loops are decorative and stop under reduced motion; a song can always be paused.</td></tr>
+      <tr><td>Skip and landmarks</td><td>2.4.1</td><td>"Skip to content" to <code>#main</code>; <code>main</code> and <code>nav</code> landmarks on every screen.</td></tr>
+      <tr><td>Titles and headings</td><td>2.4.2, 2.4.6</td><td>One <code>&lt;h1&gt;</code> per screen; the Sing screen's is visually hidden.</td></tr>
+      <tr><td>Pointer cancellation</td><td>2.5.2</td><td>Actions fire on <code>click</code>, never on press.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Understandable</h3>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <thead><tr><th scope="col">Requirement</th><th scope="col">SC</th><th scope="col">How TwinkleTune keeps it</th></tr></thead>
+    <tbody>
+      <tr><td>Labels</td><td>3.3.2</td><td>Every field has a visible label tied by <code>for</code>/<code>id</code>; placeholders are examples, never labels.</td></tr>
+      <tr><td>Error identification</td><td>3.3.1, 3.3.3</td><td>Grown-up forms mark <code>aria-invalid</code>, tie the message with <code>aria-describedby</code> and say how to fix it. Children's screens have no errors (see <a href="#children">below</a>).</td></tr>
+      <tr><td>Error prevention</td><td>3.3.4</td><td>Destructive actions sit behind the parent gate and a confirm dialog whose safe choice keeps things ("Keep my stuff").</td></tr>
+      <tr><td>Redundant entry</td><td>3.3.7</td><td>The voice range is captured once and reused by every song; editors pre-fill current values.</td></tr>
+      <tr><td>Accessible authentication</td><td>3.3.8</td><td>There are no accounts or passwords. The parent gate is a deterrent for children, not authentication; a grown-up can always answer it.</td></tr>
+      <tr><td>Consistency</td><td>3.2.3, 3.2.4</td><td>Same bottom nav, same back button, same icon meanings on every screen.</td></tr>
+      <tr><td>On input</td><td>3.2.2</td><td>Choosing a filter chip filters in place; nothing navigates on change.</td></tr>
+      <tr><td>Language</td><td>3.1.1, 3.1.2</td><td><code>&lt;html lang="en"&gt;</code> on every screen; French lyric lines (Frère Jacques) add <code>lang="fr"</code>, which the mocks do not yet.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Robust</h3>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <thead><tr><th scope="col">Requirement</th><th scope="col">SC</th><th scope="col">How TwinkleTune keeps it</th></tr></thead>
+    <tbody>
+      <tr><td>Name, role, value</td><td>4.1.2</td><td>Native elements first. Avatar picks get <code>aria-label</code> + <code>aria-pressed</code> in a group (D17); difficulty chips are filter chips with <code>aria-pressed</code> (D18).</td></tr>
+      <tr><td>Status messages</td><td>4.1.3</td><td>The toast host is <code>role="status" aria-live="polite"</code> (D16); the Find My Voice message (<em>Keep holding it… 62% ✨</em>) becomes a polite live region too.</td></tr>
+      <tr><td>Valid structure</td><td>–</td><td>No duplicate ids, no interactive element inside another, dialogs are <code>aria-modal</code> and labelled by their heading (D15).</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="ds-section" id="children"><h2><a href="#children">Commitments for children</a></h2>
+  <p>WCAG is the floor. These are the promises a singing app for small children makes on top of it, and every new string, colour and animation is checked against them.</p>
+  <ul class="ds-checklist">
+    <li><span><b>No colour-only feedback.</b> A landed note turns gold <em>and</em> a cheer pops (<em>Perfect! ✨</em>); a selected card says <em>SINGING NOW ⭐</em>; stars come with "2 stars earned". A child who cannot tell gold from blue loses nothing.</span></li>
+    <li><span><b>No failure colour, sound or icon.</b> No red, no crosses, no buzzer. A note that slips by simply stays blue. Pink is the gentlest nudge there is and always says what to try next.</span></li>
+    <li><span><b>No timers that punish.</b> Nothing times out on a child. Silence is not a wrong note: Find My Voice waits as long as she needs, the Sing screen keeps going whether she sings or not, and the parent gate never locks.</span></li>
+    <li><span><b>No failure language.</b> No "wrong", "missed", "failed", "try harder" or "game over". Every result headline is praise (<em>Super / Beautiful / Brave Singing</em>), and a tricky part is an offer, never a penalty. See <a href="content.html">Content</a>.</span></li>
+    <li><span><b>Never show an error to a child.</b> Server problems fall back to the bundled songs and cached data with a calm note (<em>Offline songbook — duets and family scores come back when the server does.</em>) and a way to keep singing.</span></li>
+    <li><span><b>Pre-readers can play.</b> Every action has an emoji and sits in the same place on every screen; the one big obvious action is always the largest thing in reach.</span></li>
+    <li><span><b>Big targets, generous gaps.</b> 52px minimum for anything a child taps, 8px or more between neighbours.</span></li>
+    <li><span><b>Calm motion.</b> Slow, decorative loops that stop under reduced motion; nothing flashes.</span></li>
+    <li><span><b>Grown-up actions are fenced.</b> Destructive and settings actions sit behind the parent gate so a curious tap cannot erase a singer.</span></li>
+    <li><span><b>Privacy is accessibility too.</b> No account, no sign-in, nothing to remember; singing audio never leaves the device.</span></li>
+  </ul>
+</section>
+
+<section class="ds-section" id="focus"><h2><a href="#focus">Focus</a></h2>
+  <p>One ring for every interactive element: an outline of <code>--focus-ring-width</code> (3px) in <code>--color-focus-ring</code>, offset by <code>--focus-ring-offset</code> (3px), shown on <code>:focus-visible</code> only. The offset lets the surface show through, so the ring contrasts with both the control and the page. The mocks used the brand blue at 2.6:1 (D21).</p>
+  <div class="ds-themes">
+    <div data-theme="light"><div class="ds-example__canvas ds-sky" style="padding: var(--space-4);">
+      <button class="btn" type="button" data-state="focus">Let's sing! 🎤</button>
+      <button class="icon-btn" type="button" aria-label="Pause" data-state="focus">⏸</button>
+      <a class="bn-item" href="#focus" data-state="focus"><span class="ico" aria-hidden="true">🎵</span>Songs</a>
+    </div></div>
+    <div data-theme="dark"><div class="ds-example__canvas ds-sky" style="padding: var(--space-4);">
+      <button class="btn" type="button" data-state="focus">Let's sing! 🎤</button>
+      <button class="icon-btn" type="button" aria-label="Pause" data-state="focus">⏸</button>
+      <a class="bn-item" href="#focus" data-state="focus"><span class="ico" aria-hidden="true">🎵</span>Songs</a>
+    </div></div>
+  </div>
+  <div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);">
+    <div class="ds-pair"><span>Ring on a card</span><span class="ds-pair__ratio" data-contrast="--color-focus-ring|--color-bg-surface" data-min="3"></span></div>
+    <div class="ds-pair"><span>Ring on the sky</span><span class="ds-pair__ratio" data-contrast="--color-focus-ring|--color-bg-canvas" data-min="3"></span></div>
+    <div class="ds-pair"><span>Ring on a dialog</span><span class="ds-pair__ratio" data-contrast="--color-focus-ring|--color-bg-surface-raised" data-min="3"></span></div>
+  </div>
+  <pre><code>:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}</code></pre>
+  <ul>
+    <li>Use <code>outline</code>, not <code>box-shadow</code>, so the ring survives forced-colours mode (where it becomes <code>Highlight</code>). <code>--shadow-focus</code> exists only for parts that clip outlines.</li>
+    <li>Round controls round their ring (<code>border-radius: 50%</code> on icon buttons).</li>
+    <li>Dialogs move focus to their first action on open and return it to the opener on close.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="targets"><h2><a href="#targets">Target sizes</a></h2>
+  <p>Three steps. WCAG 2.2 AA asks for 24px; TwinkleTune asks for more wherever a child's finger lands.</p>
+  <div class="ds-example">
+    <div class="ds-example__canvas">
+      <span class="ds-col"><button class="mini-btn" type="button" aria-label="High scores for Twinkle Twinkle Little Star">🏆</button><small>24px · <code>--target-min</code></small></span>
+      <span class="ds-col"><button class="btn btn-sm btn-white" type="button">Re-do</button><small>44px · <code>--target-comfortable</code></small></span>
+      <span class="ds-col"><button class="icon-btn" type="button" aria-label="Go back">←</button><small>52px · <code>--target-child</code></small></span>
+    </div>
+    <div class="ds-example__caption"><span>A secondary glyph control, a grown-up row button, and a child control.</span></div>
+  </div>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <thead><tr><th scope="col">Token</th><th scope="col">Size</th><th scope="col">Rule</th></tr></thead>
+    <tbody>
+      <tr><td><code>--target-min</code></td><td>24px</td><td>The floor for any target (2.5.8). Only secondary glyph controls (🏆, 🎤🎤 Duet) sit here, with 8px or more to their neighbours (D23).</td></tr>
+      <tr><td><code>--target-comfortable</code></td><td>44px</td><td>Grown-up rows, dialogs and chips; the tip arrow grew to this (D23).</td></tr>
+      <tr><td><code>--target-child</code></td><td>52px</td><td>Anything a child taps: icon buttons, play buttons, toy buttons, avatar picks, number keys, bottom-nav items.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="ds-section" id="control-heights"><h2><a href="#control-heights">Control heights</a></h2>
+  <p>Buttons and fields share three heights so a field and its button line up in a row.</p>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack ds-w-form">
+      <button class="btn btn-sm" type="button">That's me! · 44px</button>
+      <button class="btn" type="button">Add singer ⭐ · 56px</button>
+      <button class="btn btn-xl" type="button">Let's go! · 68px</button>
+    </div>
+    <div class="ds-example__caption"><span><code>--control-height-sm</code>, <code>-md</code> and <code>-lg</code>: small toy button and field, the toy button, the extra-large hero button and name input.</span></div>
+  </div>
+  <p>The small height (44px) is below the child target, so it appears only in grown-up rows and dialogs. Every child-facing button is medium or larger.</p>
+</section>
+
+<section class="ds-section" id="contract"><h2><a href="#contract">Component contract</a></h2>
+  <p>Every component page's <code>#accessibility</code> section contains all seven:</p>
+  <ol>
+    <li><b>Role and pattern</b>: the native element or the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/">WAI-ARIA Authoring Practices</a> pattern it follows, linked.</li>
+    <li><b>Keyboard map</b>: a <code>.ds-keys</code> table of keys and effects.</li>
+    <li><b>Focus</b>: where it starts, where it goes on close, how the ring looks.</li>
+    <li><b>Labelling</b>: what must be named, how, and what a screen reader announces. Decorative emoji hidden.</li>
+    <li><b>Contrast</b>: the token pairs involved, live in both themes.</li>
+    <li><b>Motion</b>: what animates and what reduced motion does.</li>
+    <li><b>Touch</b>: target sizes and the alternative to any hover.</li>
+  </ol>
+  <p>Plus, for TwinkleTune: <b>the encouragement test</b>. Every string and state a child can see is checked against the <a href="#children">commitments for children</a>.</p>
+</section>
+
+<section class="ds-section" id="testing"><h2><a href="#testing">Testing procedure</a></h2>
+  <ol>
+    <li><b>Automated</b>: <code>check_contrast.py</code> for every declared pair in both themes; <code>check_design_system.py</code> for labels, names, alt text, landmarks, headings and links.</li>
+    <li><b>Keyboard</b>: Tab through each component page's examples and each mock flow (Welcome → Home → Songs → Sing → Pause → Results). Focus is always visible, never trapped outside a dialog, and returns to the opener.</li>
+    <li><b>Screen reader</b>: VoiceOver on iOS (the likeliest device) and NVDA on Windows, on one dialog (Pause), one form (song editor), the Results screen and the high-score table. Emoji are not read twice; star counts and progress are announced as words.</li>
+    <li><b>Zoom and reflow</b>: 200% and 400% zoom, and a 320px viewport. See <a href="responsive.html#testing">Responsive</a>.</li>
+    <li><b>Preferences</b>: emulate <code>prefers-reduced-motion</code>, <code>prefers-contrast: more</code> and <code>forced-colors: active</code>.</li>
+    <li><b>Encouragement read-through</b>: read every new child-facing string aloud as if to a five-year-old who just sang badly. If it stings, rewrite it.</li>
+  </ol>
+</section>
+
+<section class="ds-section" id="usage"><h2><a href="#usage">Usage</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas"><span class="toast toast-pink">That sounds close to your low note — reach a little higher! 🐦</span></div><figcaption>A nudge says what to try next, in pink, with words.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><span class="pill pill-danger">Wrong note</span></div><figcaption>Red plus "wrong" is a telling-off. It never appears on a child's screen.</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas"><button class="icon-btn" type="button" aria-label="Pause">⏸</button></div><figcaption>A 52px icon button with a spoken name.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><button class="mini-btn" type="button">⏸</button></div><figcaption>A small unnamed glyph for a primary child action: too small to hit, nothing to hear.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+  <p>Target sizes, the focus ring and control heights. The ring's colour, <code>--color-focus-ring</code>, is on <a href="color.html#tokens">Color</a>.</p>
+  <div class="ds-table-wrap"><table class="ds-table">
+<thead><tr><th scope="col">Use</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+<tbody>
+<tr><td>24px  WCAG 2.2 AA minimum</td><td><code>--target-min</code></td><td><span data-theme="light" data-token="--target-min"></span></td><td><span data-theme="dark" data-token="--target-min"></span></td></tr>
+<tr><td>44px  recommended touch target</td><td><code>--target-comfortable</code></td><td><span data-theme="light" data-token="--target-comfortable"></span></td><td><span data-theme="dark" data-token="--target-comfortable"></span></td></tr>
+<tr><td>52px  TwinkleTune minimum for anything a child taps</td><td><code>--target-child</code></td><td><span data-theme="light" data-token="--target-child"></span></td><td><span data-theme="dark" data-token="--target-child"></span></td></tr>
+<tr><td>3px</td><td><code>--focus-ring-width</code></td><td><span data-theme="light" data-token="--focus-ring-width"></span></td><td><span data-theme="dark" data-token="--focus-ring-width"></span></td></tr>
+<tr><td></td><td><code>--focus-ring-offset</code></td><td><span data-theme="light" data-token="--focus-ring-offset"></span></td><td><span data-theme="dark" data-token="--focus-ring-offset"></span></td></tr>
+<tr><td>44px  small toy button, field</td><td><code>--control-height-sm</code></td><td><span data-theme="light" data-token="--control-height-sm"></span></td><td><span data-theme="dark" data-token="--control-height-sm"></span></td></tr>
+<tr><td>56px  toy button</td><td><code>--control-height-md</code></td><td><span data-theme="light" data-token="--control-height-md"></span></td><td><span data-theme="dark" data-token="--control-height-md"></span></td></tr>
+<tr><td>68px  extra-large button, name input</td><td><code>--control-height-lg</code></td><td><span data-theme="light" data-token="--control-height-lg"></span></td><td><span data-theme="dark" data-token="--control-height-lg"></span></td></tr>
+</tbody></table></div>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

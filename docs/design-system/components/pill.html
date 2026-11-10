@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pill — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune pills: the generic tone pills, the in-your-key and key labels, tip minutes, the profile tag and counts, in both themes.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Component · Data display</p>
+      <h1>Pill</h1>
+      <p class="ds-lead">Pills are the small rounded labels that say a little more about a song, a tip or a singer: ✓ In your key, 🎯 Your key ✓, 1 min, SINGING NOW ⭐. They inform; they are not buttons.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill"><code>&lt;span&gt;</code></span><span class="ds-pill">Status: stable</span><span class="ds-pill">Class <code>.pill</code> · <code>.tuned</code> · <code>.key-chip</code> · <code>.tip-min</code> · <code>.profile-tag</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>A pill is a short status or meta label attached to something else. It never asks to be tapped (with one exception, the pink <em>Find my voice →</em>, below). If tapping it should do something, use a <a href="chip.html">chip</a> or a <a href="button.html">button</a>.</p>
+  <p>The mocks grew one class per place; the system keeps those names (page objects depend on them) and adds a generic <code>.pill</code> with tone modifiers for new places.</p>
+  <ul>
+    <li><b>In your key</b> (<code>.tuned</code>): mint, on every song row once she has a voice range. <em>✓ In your key</em>.</li>
+    <li><b>Find my voice</b> (<code>.tuned.tuned-cta</code>): the pink link that takes its place when she has no voice range yet. The only interactive pill.</li>
+    <li><b>Key label</b> (<code>.key-chip</code>): the bigger mint label on Sing, <em>🎯 Your key ✓</em>, or white <em>Standard key</em> (<code>.standard</code>) when the song is not transposed.</li>
+    <li><b>Tip minutes</b> (<code>.tip-min</code>): how long a tip takes, <em>1 min</em>, <em>read</em>.</li>
+    <li><b>Profile tag</b> (<code>.profile-tag</code>): text-only, blue, capitals: <em>SINGING NOW ⭐</em> on the active singer's card.</li>
+    <li><b>Generic</b> (<code>.pill</code> + <code>.pill-info</code>, <code>-success</code>, <code>-reward</code>, <code>-gentle</code>, <code>-danger</code>, <code>.pill-count</code>): new, for grown-up screens such as <em>built-in</em> / <em>family song</em> and nav counts.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="anatomy"><h2><a href="#anatomy">Anatomy</a></h2>
+  <div class="ds-anatomy">
+    <figure class="ds-anatomy__figure">
+      <span class="tuned">✓ In your key</span>
+      <span class="ds-callout" style="left: 44%; top: 8%;" aria-hidden="true">1</span>
+      <span class="ds-callout" style="left: 56%; top: 8%;" aria-hidden="true">2</span>
+      <span class="ds-callout" style="left: 50%; top: 76%;" aria-hidden="true">3</span>
+    </figure>
+    <ol class="ds-anatomy__list">
+      <li><div><b>Mark (optional, leading)</b><small>✓, 🎯 or another emoji. A shape that repeats the meaning, so it never rests on colour.</small></div></li>
+      <li><div><b>Label</b><small>12px (<code>--font-size-xs</code>, the floor), black weight. One to three words.</small></div></li>
+      <li><div><b>Body</b><small>Pill (<code>--radius-full</code>), 4 × 8px padding (<code>.tuned</code>), tinted by tone: <code>--color-success-bg</code> here.</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="ds-section" id="variants"><h2><a href="#variants">Variants</a></h2>
+  <h3>Product pills</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-sky">
+      <span class="tuned">✓ In your key</span>
+      <a class="tuned tuned-cta" href="#variants">Find my voice →</a>
+      <span class="key-chip">🎯 Your key ✓</span>
+      <span class="key-chip standard">Standard key</span>
+      <span class="tip-min">1 min</span>
+      <span class="tip-min">read</span>
+      <span class="profile-tag">SINGING NOW ⭐</span>
+    </div>
+    <div class="ds-example__caption"><span>In your key · Find my voice (link) · key label and Standard key · tip minutes · profile tag.</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;span class="tuned"&gt;✓ In your key&lt;/span&gt;
+&lt;a class="tuned tuned-cta" href="/voice-setup"&gt;Find my voice →&lt;/a&gt;
+&lt;span class="key-chip"&gt;🎯 Your key ✓&lt;/span&gt;
+&lt;span class="key-chip standard"&gt;Standard key&lt;/span&gt;
+&lt;span class="tip-min"&gt;1 min&lt;/span&gt;
+&lt;span class="profile-tag"&gt;SINGING NOW ⭐&lt;/span&gt;</code></pre></details>
+  </div>
+  <h3>In context</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-sky ds-example__canvas--stack">
+      <div class="song-meta"><span>⏱ 0:29</span><span>⭐ Easy</span><span class="tuned">✓ In your key</span><span class="visually-hidden">Moved 3 notes higher for you</span></div>
+      <div class="song-meta"><span>⏱ 0:18</span><span>⭐ Easy</span><a class="tuned tuned-cta" href="#variants">Find my voice →</a></div>
+    </div>
+    <div class="ds-example__caption"><span>Song meta for Ada (range found) and for Bea (no range yet).</span></div>
+  </div>
+  <h3>Generic tone pills</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas">
+      <span class="pill">built-in</span>
+      <span class="pill pill-info">family song</span>
+      <span class="pill pill-success">✓ Saved</span>
+      <span class="pill pill-reward">⭐ Family best</span>
+      <span class="pill pill-gentle">💗 New</span>
+      <span class="pill pill-danger">Offline</span>
+      <span class="pill pill-count" aria-label="8 songs">8</span>
+    </div>
+    <div class="ds-example__caption"><span><code>.pill</code> neutral, info, success, reward, gentle, danger and count. Grown-up screens only, except reward.</span></div>
+  </div>
+</section>
+
+<section class="ds-section" id="sizes"><h2><a href="#sizes">Sizes</a></h2>
+  <p>Pills are text-sized. The key label on Sing is the one larger pill, because it sits alone in the top bar and must be read mid-song.</p>
+  <div class="ds-example">
+    <div class="ds-example__canvas">
+      <span class="tuned">✓ In your key</span>
+      <span class="tip-min">2 min</span>
+      <span class="key-chip">🎯 Your key ✓</span>
+    </div>
+    <div class="ds-example__caption"><span>Small: 4 × 8px padding (<code>.tuned</code>, <code>.pill</code>) · medium: 8 × 12px (<code>.tip-min</code>) · large: 8 × 16px (<code>.key-chip</code>). All 12px text.</span></div>
+  </div>
+</section>
+
+<section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+  <p>Static pills have no interaction states; their "state" is which variant is shown. The <em>Find my voice</em> link has the full set.</p>
+  <div class="ds-matrix"><table>
+    <thead><tr><th scope="col">Pill</th><th scope="col">Default</th><th scope="col">Hover</th><th scope="col">Focus</th><th scope="col">Pressed</th><th scope="col">Disabled</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Find my voice</th><td><a style="white-space: nowrap;" class="tuned tuned-cta" href="#states">Find my voice →</a></td><td><a style="white-space: nowrap;" class="tuned tuned-cta" href="#states" data-state="hover">Find my voice →</a></td><td><a style="white-space: nowrap;" class="tuned tuned-cta" href="#states" data-state="focus">Find my voice →</a></td><td><a style="white-space: nowrap;" class="tuned tuned-cta" href="#states" data-state="active">Find my voice →</a></td><td><span class="ds-na" style="padding: var(--space-1) var(--space-2);">Links are never disabled</span></td></tr>
+    </tbody>
+  </table></div>
+  <h3>Status pairs</h3>
+  <div class="ds-matrix"><table>
+    <thead><tr><th scope="col">Meaning</th><th scope="col">Shown</th><th scope="col">Instead of</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Song transposed to her voice range</th><td><span class="key-chip">🎯 Your key ✓</span></td><td><span class="key-chip standard">Standard key</span></td></tr>
+      <tr><th scope="row">Song row, range known / unknown</th><td><span class="tuned">✓ In your key</span></td><td><a style="white-space: nowrap;" class="tuned tuned-cta" href="#states">Find my voice →</a></td></tr>
+      <tr><th scope="row">Active singer</th><td><span class="profile-tag">SINGING NOW ⭐</span></td><td>No tag on the other cards</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Both themes</h3>
+  <div class="ds-themes">
+    <div data-theme="light"><div class="ds-example__canvas" style="padding: 0;"><span class="tuned">✓ In your key</span><a class="tuned tuned-cta" href="#states">Find my voice →</a><span class="key-chip">🎯 Your key ✓</span><span class="tip-min">1 min</span><span class="profile-tag">SINGING NOW ⭐</span><span class="pill pill-reward">⭐ Family best</span></div></div>
+    <div data-theme="dark"><div class="ds-example__canvas" style="padding: 0;"><span class="tuned">✓ In your key</span><a class="tuned tuned-cta" href="#states">Find my voice →</a><span class="key-chip">🎯 Your key ✓</span><span class="tip-min">1 min</span><span class="profile-tag">SINGING NOW ⭐</span><span class="pill pill-reward">⭐ Family best</span></div></div>
+  </div>
+</section>
+
+<section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+  <ul>
+    <li>Pills do not wrap internally: <code>.pill</code>, <code>.key-chip</code> and <code>.tip-min</code> set <code>white-space: nowrap</code>. <code>.tuned</code> does not yet, so <em>Find my voice →</em> can break in a squeezed cell; give it <code>nowrap</code> when it ships. Inside <code>.song-meta</code> the whole pill moves to the next line at narrow widths.</li>
+    <li>On Sing, the title truncates with an ellipsis before the key label shrinks: the label is part of what Twinkle promised her.</li>
+    <li>The profile tag sits under the name on its own line on every width.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="theming"><h2><a href="#theming">Theming</a></h2>
+  <p>The generic pill reads two component tokens, <code>--pill-bg</code> and <code>--pill-fg</code>, which each tone overrides with a semantic pair (<code>--color-success-bg</code> / <code>--color-success-fg</code> and so on). The product pills read the same semantic pairs directly: mint for <code>.tuned</code> and <code>.key-chip</code>, <code>--color-gentle-bg</code> / <code>--color-gentle-fg</code> for the call to action, <code>--color-bg-subtle</code> / <code>--color-fg-accent</code> for tip minutes, and <code>--color-fg-accent</code> alone for the profile tag.</p>
+  <pre><code>/* A new tone without touching .pill */
+.pill-duet { --pill-bg: var(--color-reward-bg-subtle); --pill-fg: var(--color-reward-fg); }</code></pre>
+  <p>In the night studio the tints deepen and their text lightens, keeping every pair at 4.5:1 or more.</p>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <h3>Role and pattern</h3>
+  <p>No APG pattern: a static pill is plain text in a <code>&lt;span&gt;</code> and needs no role. It is not a live region; a pill that changes while she watches (Standard key → Your key) is announced by the toast or dialog that explains the change (<em>Song tuned for you</em>). The call-to-action pill is a real <code>&lt;a href&gt;</code> (<a href="https://www.w3.org/WAI/ARIA/apg/patterns/link/">APG Link</a>).</p>
+  <h3>Keyboard</h3>
+  <table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody>
+    <tr><td><kbd>Tab</kbd></td><td>Skips static pills. Stops on <em>Find my voice →</em>.</td></tr>
+    <tr><td><kbd>Enter</kbd></td><td>Follows <em>Find my voice →</em> to Find My Voice.</td></tr>
+  </tbody></table>
+  <h3>Focus</h3>
+  <p>Only the call-to-action pill takes focus: the shared 3px <code>--color-focus-ring</code> at a 3px offset.</p>
+  <h3>Labelling</h3>
+  <p>The mocks explain the shift only in a <code>title</code> (<em>"Moved 3 notes higher for you 💙"</em>), which touch users and most screen readers never get. Put that sentence where everyone can reach it: as visually hidden text next to the pill, in a <a href="tooltip.html">tooltip</a> that also opens on focus, or in the <em>Song tuned for you</em> dialog. Counts carry an <code>aria-label</code> that says what is counted (<em>8 songs</em>).</p>
+  <h3>Contrast</h3>
+  <div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);">
+    <div class="ds-pair"><span>In your key / Your key</span><span class="ds-pair__ratio" data-contrast="--color-success-fg|--color-success-bg" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Find my voice</span><span class="ds-pair__ratio" data-contrast="--color-gentle-fg|--color-gentle-bg" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Tip minutes</span><span class="ds-pair__ratio" data-contrast="--color-fg-accent|--color-bg-subtle" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Profile tag on its card</span><span class="ds-pair__ratio" data-contrast="--color-fg-accent|--color-bg-surface" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Standard key</span><span class="ds-pair__ratio" data-contrast="--color-fg-muted|--color-bg-surface" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Reward pill</span><span class="ds-pair__ratio" data-contrast="--color-reward-fg|--color-reward-bg" data-min="4.5"></span></div>
+  </div>
+  <h3>Motion</h3>
+  <p>None. Pills do not animate; the screen around them does.</p>
+  <h3>Touch</h3>
+  <p>Static pills are not targets. <em>Find my voice →</em> is small (about 24px tall) and therefore never the only way in: Welcome leads straight into Find My Voice, the Home goal card links to it while she has no range, and the Grown-Ups Corner has a full <em>Re-do</em> button.</p>
+</section>
+
+<section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+  <ul>
+    <li>Say what is good about the thing: <em>In your key</em>, <em>Family best</em>. A pill never reports a shortfall (no <em>Too high</em>, <em>Not tuned</em>).</li>
+    <li>Use <em>Standard key</em>, a neutral fact, when a song is not transposed, never <em>Not your key</em>.</li>
+    <li>Tip minutes are a number plus <em>min</em>, or <em>read</em> for a tip with no timer.</li>
+    <li>The profile tag is the one all-caps label; nothing else shouts.</li>
+    <li>Keep to 12px. Smaller text was raised to the floor during extraction (D10).</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas"><span class="tuned">✓ In your key</span><span class="visually-hidden">Moved 3 notes higher for you</span></div><figcaption>Give the shift in text everyone can reach, here visually hidden beside the pill.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><span class="tuned" title="Moved 3 notes higher for you 💙">✓ In your key</span></div><figcaption>Keep the explanation only in <code>title</code>. On a tablet it never appears.</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas"><span class="key-chip">🎯 Your key ✓</span><span class="key-chip standard">Standard key</span></div><figcaption>Pair colour with words and a mark: the mint label says <em>Your key ✓</em>; the white one says <em>Standard key</em>.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><span class="pill pill-danger">Not your key</span></div><figcaption>Use a danger tone or failure words on a child screen. Being in the standard key is not a problem.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+  <div class="ds-table-wrap"><table class="ds-table">
+<thead><tr><th scope="col">Use</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+<tbody>
+<tr><td>In your key body</td><td><code>--color-success-bg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-success-bg" data-swatch></i><span data-token="--color-success-bg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-success-bg" data-swatch></i><span data-token="--color-success-bg"></span></span></td></tr>
+<tr><td>In your key label</td><td><code>--color-success-fg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-success-fg" data-swatch></i><span data-token="--color-success-fg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-success-fg" data-swatch></i><span data-token="--color-success-fg"></span></span></td></tr>
+<tr><td>Find my voice body</td><td><code>--color-gentle-bg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-gentle-bg" data-swatch></i><span data-token="--color-gentle-bg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-gentle-bg" data-swatch></i><span data-token="--color-gentle-bg"></span></span></td></tr>
+<tr><td>Find my voice label</td><td><code>--color-gentle-fg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-gentle-fg" data-swatch></i><span data-token="--color-gentle-fg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-gentle-fg" data-swatch></i><span data-token="--color-gentle-fg"></span></span></td></tr>
+<tr><td>Tip minutes body (<code>--pill-bg</code> default)</td><td><code>--color-bg-subtle</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-bg-subtle" data-swatch></i><span data-token="--color-bg-subtle"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-bg-subtle" data-swatch></i><span data-token="--color-bg-subtle"></span></span></td></tr>
+<tr><td>Tip minutes, profile tag</td><td><code>--color-fg-accent</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-accent" data-swatch></i><span data-token="--color-fg-accent"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-accent" data-swatch></i><span data-token="--color-fg-accent"></span></span></td></tr>
+<tr><td>Standard key and neutral label (<code>--pill-fg</code> default)</td><td><code>--color-fg-muted</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-muted" data-swatch></i><span data-token="--color-fg-muted"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-muted" data-swatch></i><span data-token="--color-fg-muted"></span></span></td></tr>
+<tr><td>Reward body</td><td><code>--color-reward-bg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-reward-bg" data-swatch></i><span data-token="--color-reward-bg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-reward-bg" data-swatch></i><span data-token="--color-reward-bg"></span></span></td></tr>
+<tr><td>Reward label</td><td><code>--color-reward-fg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-reward-fg" data-swatch></i><span data-token="--color-reward-fg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-reward-fg" data-swatch></i><span data-token="--color-reward-fg"></span></span></td></tr>
+<tr><td>Count body</td><td><code>--color-accent</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-accent" data-swatch></i><span data-token="--color-accent"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-accent" data-swatch></i><span data-token="--color-accent"></span></span></td></tr>
+<tr><td>Count label</td><td><code>--color-fg-on-accent</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-on-accent" data-swatch></i><span data-token="--color-fg-on-accent"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-on-accent" data-swatch></i><span data-token="--color-fg-on-accent"></span></span></td></tr>
+<tr><td>Label size</td><td><code>--font-size-xs</code></td><td><span data-theme="light" data-token="--font-size-xs"></span></td><td><span data-theme="dark" data-token="--font-size-xs"></span></td></tr>
+<tr><td>Label weight</td><td><code>--font-weight-black</code></td><td><span data-theme="light" data-token="--font-weight-black"></span></td><td><span data-theme="dark" data-token="--font-weight-black"></span></td></tr>
+<tr><td>Corners</td><td><code>--radius-full</code></td><td><span data-theme="light" data-token="--radius-full"></span></td><td><span data-theme="dark" data-token="--radius-full"></span></td></tr>
+<tr><td>Profile tag tracking</td><td><code>--letter-spacing-wide</code></td><td><span data-theme="light" data-token="--letter-spacing-wide"></span></td><td><span data-theme="dark" data-token="--letter-spacing-wide"></span></td></tr>
+</tbody></table></div>
+</section>
+
+<section class="ds-section" id="code"><h2><a href="#code">Code</a></h2>
+  <pre><code>&lt;span class="tuned"&gt;✓ In your key&lt;/span&gt;&lt;span class="visually-hidden"&gt;Moved 3 notes higher for you&lt;/span&gt;
+&lt;a class="tuned tuned-cta" href="/voice-setup"&gt;Find my voice →&lt;/a&gt;
+&lt;span class="pill pill-info"&gt;family song&lt;/span&gt;
+&lt;span class="pill pill-count" aria-label="8 songs"&gt;8&lt;/span&gt;</code></pre>
+  <table class="ds-table"><thead><tr><th scope="col">Class</th><th scope="col">Effect</th></tr></thead><tbody>
+    <tr><td><code>.tuned</code> / <code>.tuned-cta</code></td><td>Mint "In your key" / pink "Find my voice" link.</td></tr>
+    <tr><td><code>.key-chip</code> / <code>.standard</code></td><td>Large mint key label on Sing / white Standard key.</td></tr>
+    <tr><td><code>.tip-min</code></td><td>Tip duration.</td></tr>
+    <tr><td><code>.profile-tag</code></td><td>Blue all-caps text tag, no body.</td></tr>
+    <tr><td><code>.pill</code></td><td>Generic neutral pill; overline type.</td></tr>
+    <tr><td><code>.pill-info</code> <code>.pill-success</code> <code>.pill-reward</code> <code>.pill-gentle</code> <code>.pill-danger</code></td><td>Tone; sets <code>--pill-bg</code> and <code>--pill-fg</code>.</td></tr>
+    <tr><td><code>.pill-count</code></td><td>Blue number badge, at least 24px wide.</td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+  <p>Extracted from these mocks:</p>
+  <ul>
+    <li><a href="../../mocks/pages/songs/default.html">pages/songs/default</a> (<code>.tuned</code> on every row)</li>
+    <li><a href="../../mocks/pages/songs/no-range.html">pages/songs/no-range</a> (<code>.tuned-cta</code> Find my voice)</li>
+    <li><a href="../../mocks/pages/sing/default.html">pages/sing/default</a> and <a href="../../mocks/pages/sing/standard-key.html">pages/sing/standard-key</a> (<code>.key-chip</code>)</li>
+    <li><a href="../../mocks/pages/tips/default.html">pages/tips/default</a> (<code>.tip-min</code>)</li>
+    <li><a href="../../mocks/pages/profiles/default.html">pages/profiles/default</a> (<code>.profile-tag</code>)</li>
+  </ul>
+  <p>The generic <code>.pill</code> tones and <code>.pill-count</code> are not in the mocks yet; added for the Grown-Ups Corner, family-server managers and the sidebar nav.</p>
+  <p>Drift fixed during extraction: "In your key" mint ink was 4.39:1 and moved to <code>--palette-mint-700</code> (D06); blue text in tip minutes and the profile tag was 2.6:1 and moved to <code>--color-fg-accent</code> (D04); pink ink on pink moved to <code>--color-gentle-fg</code> (D05); 10.5 to 11.5px pill and tag text was raised to 12px (D10); the active singer is told by the tag text as well as the card ring (D25). See the <a href="../index.html#drift">drift log</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

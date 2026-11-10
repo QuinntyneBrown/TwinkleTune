@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Elevation — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune elevation: four soft blue shadow levels, glows and rings, the toy lip, surface hierarchy in both themes, and the z-order scale.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Foundation</p>
+      <h1>Elevation</h1>
+      <p class="ds-lead">Things float on the sky like soft clouds. Shadows are blue-tinted and gentle, toy buttons stand on a solid lip, and in the night studio surfaces rise by getting lighter.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill">Tokens <code>--shadow-*</code> <code>--lip-*</code> <code>--z-*</code></span><span class="ds-pill">Status: stable</span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#shadows">Shadow levels</a></li><li><a href="#glows">Glows, rings and focus</a></li><li><a href="#lip">The toy lip</a></li><li><a href="#surfaces">Surfaces in both themes</a></li><li><a href="#z-order">Z-order</a></li><li><a href="#usage">Usage</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#tokens">Tokens</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>Elevation in TwinkleTune does three jobs:</p>
+  <ul>
+    <li><b>Lift</b>: four shadow levels (<code>--shadow-1</code> to <code>--shadow-4</code>), tinted with the brand blue in the sky studio so they read as soft light, never grey dirt.</li>
+    <li><b>Press</b>: the toy lip (<code>--lip-*</code>), a solid offset shadow in the control's edge colour that makes buttons look pushable and shrinks when pressed.</li>
+    <li><b>Stack</b>: the z-order scale (<code>--z-*</code>), so the bottom nav, dialog scrim, dialogs and toasts always overlap in the same order.</li>
+  </ul>
+  <p>The mocks had seven drop shadows, five rings and several glows. They collapse to four levels, two glows, two rings and three lip depths (D13).</p>
+</section>
+
+<section class="ds-section" id="shadows"><h2><a href="#shadows">Shadow levels</a></h2>
+  <p>Higher means more important and more temporary. Level 1 sits in the page; level 4 interrupts it.</p>
+  <div class="ds-themes">
+    <div data-theme="light"><div class="ds-shadow-grid">
+      <div style="--shadow: var(--shadow-1);">shadow-1</div>
+      <div style="--shadow: var(--shadow-2);">shadow-2</div>
+      <div style="--shadow: var(--shadow-3);">shadow-3</div>
+      <div style="--shadow: var(--shadow-4);">shadow-4</div>
+    </div></div>
+    <div data-theme="dark"><div class="ds-shadow-grid">
+      <div style="--shadow: var(--shadow-1);">shadow-1</div>
+      <div style="--shadow: var(--shadow-2);">shadow-2</div>
+      <div style="--shadow: var(--shadow-3);">shadow-3</div>
+      <div style="--shadow: var(--shadow-4);">shadow-4</div>
+    </div></div>
+  </div>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <thead><tr><th scope="col">Level</th><th scope="col">Token</th><th scope="col">Used by</th><th scope="col">Behaviour</th></tr></thead>
+    <tbody>
+      <tr><td>1 · resting</td><td><code>--shadow-1</code></td><td>Chips, tiles, song rows, bubbles, icon buttons, table wrap</td><td>Part of the page; scrolls with it</td></tr>
+      <tr><td>2 · card</td><td><code>--shadow-2</code></td><td><code>.card</code>, pitch stage, quote</td><td>Groups content; scrolls with the page</td></tr>
+      <tr><td>3 · floating</td><td><code>--shadow-3</code></td><td><code>.bottomnav</code>, <code>.toast</code>, tooltip, skip link</td><td>Fixed or transient; stays above scrolling content</td></tr>
+      <tr><td>4 · modal</td><td><code>--shadow-4</code></td><td><code>.modal</code>, <code>.modal-wide</code></td><td>Interrupts; always over the scrim</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="ds-section" id="glows"><h2><a href="#glows">Glows, rings and focus</a></h2>
+  <p>Glows celebrate, rings select. Neither is ever the only sign of a state.</p>
+  <div class="ds-themes">
+    <div data-theme="light"><div class="ds-shadow-grid">
+      <div style="--shadow: var(--shadow-glow-accent);">glow-accent</div>
+      <div style="--shadow: var(--shadow-glow-reward);">glow-reward</div>
+      <div style="--shadow: var(--shadow-ring-accent);">ring-accent</div>
+      <div style="--shadow: var(--shadow-ring-reward);">ring-reward</div>
+      <div style="--shadow: var(--shadow-focus);">focus</div>
+    </div></div>
+    <div data-theme="dark"><div class="ds-shadow-grid">
+      <div style="--shadow: var(--shadow-glow-accent);">glow-accent</div>
+      <div style="--shadow: var(--shadow-glow-reward);">glow-reward</div>
+      <div style="--shadow: var(--shadow-ring-accent);">ring-accent</div>
+      <div style="--shadow: var(--shadow-ring-reward);">ring-reward</div>
+      <div style="--shadow: var(--shadow-focus);">focus</div>
+    </div></div>
+  </div>
+  <ul>
+    <li><code>--shadow-glow-accent</code>: the Sing a Song hero tile and the Find My Voice microphone, the two things that most want a tap. In the night studio it becomes a plain dark lift.</li>
+    <li><code>--shadow-glow-reward</code>: a landed note on the pitch stage glows gold for a moment. The note also turns gold and the syllable stays readable, so the glow is never the only feedback.</li>
+    <li><code>--shadow-ring-accent</code>: the singer who is singing now (with the text "SINGING NOW ⭐") and today's day disc (with <code>aria-current</code>) (D25).</li>
+    <li><code>--shadow-ring-reward</code>: the current Find My Voice step and the singer's star while she is on the note.</li>
+    <li><code>--shadow-focus</code>: a two-ring focus indicator (surface gap, then <code>--color-focus-ring</code>) for parts that cannot use <code>outline</code>, such as rounded inputs inside a well.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="lip"><h2><a href="#lip">The toy lip</a></h2>
+  <p>A solid offset shadow, no blur, in the control's own edge colour. It is written as <code>box-shadow: var(--lip-rest) var(--btn-edge)</code>: the lip token holds the offset and the component supplies the colour. Pressing moves the body down by the difference and shrinks the lip to 1px, so the button visibly clicks.</p>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-sky">
+      <button class="btn" type="button">Rest · 6px</button>
+      <button class="btn" type="button" data-state="active">Pressed · 1px</button>
+      <button class="num" type="button" aria-label="Answer 7">7</button>
+      <span class="chip active">Easy</span>
+    </div>
+    <div class="ds-example__caption"><span><code>--lip-rest</code> on toy buttons and play buttons; <code>--lip-small</code> on number keys, the active chip and the streak chip; <code>--lip-pressed</code> while held.</span></div>
+  </div>
+  <div class="ds-themes">
+    <div data-theme="light"><div class="cluster"><button class="btn" type="button">Blue</button><button class="btn btn-white" type="button">White</button><button class="btn btn-pink" type="button">Pink</button><button class="btn btn-gold" type="button">Gold</button></div></div>
+    <div data-theme="dark"><div class="cluster"><button class="btn" type="button">Blue</button><button class="btn btn-white" type="button">White</button><button class="btn btn-pink" type="button">Pink</button><button class="btn btn-gold" type="button">Gold</button></div></div>
+  </div>
+  <p>Lip colours: blue <code>--color-accent-edge</code>, white <code>--color-border-default</code>, pink <code>--color-gentle-edge</code>, gold <code>--color-reward-edge</code>. A disabled button flattens to the pressed lip.</p>
+</section>
+
+<section class="ds-section" id="surfaces"><h2><a href="#surfaces">Surfaces in both themes</a></h2>
+  <p>In the sky studio, surfaces are white and shadows do the lifting. In the night studio, shadows nearly vanish against navy, so <b>surfaces rise by getting lighter</b>: canvas is the darkest navy, cards are lighter, dialogs and toasts lighter still, and wells sink below the canvas. The mocks had the dark canvas lighter than its cards, which made everything look sunk into holes (D08).</p>
+  <div class="ds-themes">
+    <div data-theme="light">
+      <div class="stack" style="background: var(--color-bg-canvas); padding: var(--space-4); border-radius: var(--radius-lg);">
+        <span style="font: var(--text-caption); color: var(--color-fg-muted);">Canvas · <code>--color-bg-canvas</code></span>
+        <div class="stack stack-sm" style="background: var(--color-bg-surface); box-shadow: var(--shadow-2); padding: var(--space-4); border-radius: var(--radius-xl);">
+          <span style="font: var(--text-caption);">Surface · cards</span>
+          <div style="background: var(--color-bg-surface-sunken); padding: var(--space-3); border-radius: var(--radius-md); font: var(--text-caption);">Sunken · wells, manager rows</div>
+          <div style="background: var(--color-bg-subtle); padding: var(--space-3); border-radius: var(--radius-md); font: var(--text-caption);">Subtle · tints, keys</div>
+        </div>
+        <div style="background: var(--color-bg-surface-raised); box-shadow: var(--shadow-4); padding: var(--space-4); border-radius: var(--radius-xl); font: var(--text-caption);">Raised · dialogs, toasts, bottom nav</div>
+      </div>
+    </div>
+    <div data-theme="dark">
+      <div class="stack" style="background: var(--color-bg-canvas); padding: var(--space-4); border-radius: var(--radius-lg);">
+        <span style="font: var(--text-caption); color: var(--color-fg-muted);">Canvas · <code>--color-bg-canvas</code></span>
+        <div class="stack stack-sm" style="background: var(--color-bg-surface); box-shadow: var(--shadow-2); padding: var(--space-4); border-radius: var(--radius-xl);">
+          <span style="font: var(--text-caption);">Surface · cards</span>
+          <div style="background: var(--color-bg-surface-sunken); padding: var(--space-3); border-radius: var(--radius-md); font: var(--text-caption);">Sunken · wells, manager rows</div>
+          <div style="background: var(--color-bg-subtle); padding: var(--space-3); border-radius: var(--radius-md); font: var(--text-caption);">Subtle · tints, keys</div>
+        </div>
+        <div style="background: var(--color-bg-surface-raised); box-shadow: var(--shadow-4); padding: var(--space-4); border-radius: var(--radius-xl); font: var(--text-caption);">Raised · dialogs, toasts, bottom nav</div>
+      </div>
+    </div>
+  </div>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <thead><tr><th scope="col">Surface</th><th scope="col">Colour role</th><th scope="col">Shadow</th><th scope="col">Sky studio</th><th scope="col">Night studio</th></tr></thead>
+    <tbody>
+      <tr><td>Sunken</td><td><code>--color-bg-surface-sunken</code></td><td>none</td><td>Palest sky</td><td>Darker than canvas</td></tr>
+      <tr><td>Canvas</td><td><code>--color-bg-canvas</code> (+ <code>--gradient-sky</code>)</td><td>none</td><td>Sky gradient</td><td>Darkest navy</td></tr>
+      <tr><td>Surface</td><td><code>--color-bg-surface</code></td><td><code>--shadow-1</code>/<code>2</code></td><td>White</td><td>One step lighter</td></tr>
+      <tr><td>Raised</td><td><code>--color-bg-surface-raised</code></td><td><code>--shadow-3</code>/<code>4</code></td><td>White</td><td>Two steps lighter</td></tr>
+    </tbody>
+  </table></div>
+  <p>Colour values are on <a href="color.html#semantic">Color</a>; the theme mechanics are on <a href="theming.html">Theming</a>.</p>
+</section>
+
+<section class="ds-section" id="z-order"><h2><a href="#z-order">Z-order</a></h2>
+  <p>Use these tokens for every <code>z-index</code>. Gaps between values leave room for local stacking inside a component (the pitch stage layers notes, the singer's star and the streak chip with <code>calc(var(--z-raised) + n)</code>).</p>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <thead><tr><th scope="col">Layer</th><th scope="col">Token</th><th scope="col">Value</th><th scope="col">What lives here</th></tr></thead>
+    <tbody>
+      <tr><td>Base</td><td><code>--z-base</code></td><td>0</td><td>The sky: clouds, twinkling stars, floating notes</td></tr>
+      <tr><td>Raised</td><td><code>--z-raised</code></td><td>1</td><td><code>.screen</code> content above the sky</td></tr>
+      <tr><td>Sticky</td><td><code>--z-sticky</code></td><td>50</td><td>The floating bottom nav</td></tr>
+      <tr><td>Dropdown</td><td><code>--z-dropdown</code></td><td>60</td><td>Menus on grown-up rows</td></tr>
+      <tr><td>Overlay</td><td><code>--z-overlay</code></td><td>100</td><td>Dialog scrim (<code>.overlay</code>)</td></tr>
+      <tr><td>Modal</td><td><code>--z-modal</code></td><td>110</td><td>Dialogs; a stacked dialog (parent gate over the Grown-Ups Corner) is a new overlay on top</td></tr>
+      <tr><td>Popover</td><td><code>--z-popover</code></td><td>120</td><td>Popovers opened from inside a dialog</td></tr>
+      <tr><td>Toast</td><td><code>--z-toast</code></td><td>200</td><td><code>.toast-host</code>: cheers and badges appear above everything, even dialogs</td></tr>
+      <tr><td>Tooltip</td><td><code>--z-tooltip</code></td><td>300</td><td>Tooltips and the skip link</td></tr>
+    </tbody>
+  </table></div>
+  <div class="ds-stage">
+    <div class="toast-host" role="status" aria-live="polite"><div class="toast toast-gold"><span aria-hidden="true">🏅</span> New badge: Show Stopper!</div></div>
+    <div class="overlay"><div class="modal"><h3>Take a little break?</h3><p>Your song waits right here.</p><button class="btn" type="button">Keep singing ▶</button></div></div>
+  </div>
+  <p>A toast (z 200) lands above an open dialog (z 110) over its scrim (z 100), as in <a href="../../mocks/notifications/toast/stacked.html">notifications/toast/stacked</a>.</p>
+</section>
+
+<section class="ds-section" id="usage"><h2><a href="#usage">Usage</a></h2>
+  <ul>
+    <li>Pick a level by behaviour, not looks: if it scrolls with the page it is 1 or 2; if it floats it is 3; if it blocks the page it is 4.</li>
+    <li>Never stack two shadows on one element or invent a fifth level. A card inside a card has no shadow of its own; use a sunken or subtle background.</li>
+    <li>Only toy controls get a lip. A card or tile with a lip looks pressable and confuses a child.</li>
+    <li>Use z tokens, never raw numbers. A new layer that does not fit the table needs a new token, not <code>z-index: 9999</code>.</li>
+    <li>Shadow tokens are themed: do not hand-write a dark-mode shadow.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <ul>
+    <li><b>Shadows are never the boundary.</b> A control's edge must meet 3:1 by its fill or border (<code>--color-border-strong</code>), not by its shadow, which disappears in forced-colours mode and on dim screens.</li>
+    <li><b>Selection is never a ring alone</b> (WCAG 1.4.1). Rings come with text, a filled shape or <code>aria-current</code>/<code>aria-pressed</code> (D25).</li>
+    <li><b>Focus</b> uses <code>outline</code> where possible so forced-colours mode keeps it; <code>--shadow-focus</code> is for the few places outline cannot follow the shape.</li>
+    <li><b>Motion.</b> The press travel and lip change run over <code>--duration-fast</code>, which reduced motion sets to near zero; the state still changes, just instantly.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+  <div class="ds-table-wrap"><table class="ds-table">
+<thead><tr><th scope="col">Use</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+<tbody>
+<tr><td>chips, tiles, rows, bubbles</td><td><code>--shadow-1</code></td><td><span data-theme="light" data-token="--shadow-1"></span></td><td><span data-theme="dark" data-token="--shadow-1"></span></td></tr>
+<tr><td>cards, stage, quote</td><td><code>--shadow-2</code></td><td><span data-theme="light" data-token="--shadow-2"></span></td><td><span data-theme="dark" data-token="--shadow-2"></span></td></tr>
+<tr><td>bottom nav, toasts (floating)</td><td><code>--shadow-3</code></td><td><span data-theme="light" data-token="--shadow-3"></span></td><td><span data-theme="dark" data-token="--shadow-3"></span></td></tr>
+<tr><td>dialogs</td><td><code>--shadow-4</code></td><td><span data-theme="light" data-token="--shadow-4"></span></td><td><span data-theme="dark" data-token="--shadow-4"></span></td></tr>
+<tr><td>hero tile, mic</td><td><code>--shadow-glow-accent</code></td><td><span data-theme="light" data-token="--shadow-glow-accent"></span></td><td><span data-theme="dark" data-token="--shadow-glow-accent"></span></td></tr>
+<tr><td>a landed note</td><td><code>--shadow-glow-reward</code></td><td><span data-theme="light" data-token="--shadow-glow-reward"></span></td><td><span data-theme="dark" data-token="--shadow-glow-reward"></span></td></tr>
+<tr><td>selected card, today</td><td><code>--shadow-ring-accent</code></td><td><span data-theme="light" data-token="--shadow-ring-accent"></span></td><td><span data-theme="dark" data-token="--shadow-ring-accent"></span></td></tr>
+<tr><td>current step, on-note singer</td><td><code>--shadow-ring-reward</code></td><td><span data-theme="light" data-token="--shadow-ring-reward"></span></td><td><span data-theme="dark" data-token="--shadow-ring-reward"></span></td></tr>
+<tr><td>The toy lip: a solid offset shadow in the control&#x27;s edge colour.</td><td><code>--shadow-focus</code></td><td><span data-theme="light" data-token="--shadow-focus"></span></td><td><span data-theme="dark" data-token="--shadow-focus"></span></td></tr>
+<tr><td>6px  toy buttons</td><td><code>--lip-rest</code></td><td><span data-theme="light" data-token="--lip-rest"></span></td><td><span data-theme="dark" data-token="--lip-rest"></span></td></tr>
+<tr><td>4px  number keys, active chip, streak chip</td><td><code>--lip-small</code></td><td><span data-theme="light" data-token="--lip-small"></span></td><td><span data-theme="dark" data-token="--lip-small"></span></td></tr>
+<tr><td>1px  while pressed</td><td><code>--lip-pressed</code></td><td><span data-theme="light" data-token="--lip-pressed"></span></td><td><span data-theme="dark" data-token="--lip-pressed"></span></td></tr>
+<tr><td></td><td><code>--z-base</code></td><td><span data-theme="light" data-token="--z-base"></span></td><td><span data-theme="dark" data-token="--z-base"></span></td></tr>
+<tr><td></td><td><code>--z-raised</code></td><td><span data-theme="light" data-token="--z-raised"></span></td><td><span data-theme="dark" data-token="--z-raised"></span></td></tr>
+<tr><td>bottom navigation</td><td><code>--z-sticky</code></td><td><span data-theme="light" data-token="--z-sticky"></span></td><td><span data-theme="dark" data-token="--z-sticky"></span></td></tr>
+<tr><td></td><td><code>--z-dropdown</code></td><td><span data-theme="light" data-token="--z-dropdown"></span></td><td><span data-theme="dark" data-token="--z-dropdown"></span></td></tr>
+<tr><td>dialog scrim</td><td><code>--z-overlay</code></td><td><span data-theme="light" data-token="--z-overlay"></span></td><td><span data-theme="dark" data-token="--z-overlay"></span></td></tr>
+<tr><td></td><td><code>--z-modal</code></td><td><span data-theme="light" data-token="--z-modal"></span></td><td><span data-theme="dark" data-token="--z-modal"></span></td></tr>
+<tr><td></td><td><code>--z-popover</code></td><td><span data-theme="light" data-token="--z-popover"></span></td><td><span data-theme="dark" data-token="--z-popover"></span></td></tr>
+<tr><td></td><td><code>--z-toast</code></td><td><span data-theme="light" data-token="--z-toast"></span></td><td><span data-theme="dark" data-token="--z-toast"></span></td></tr>
+<tr><td>---------- Semantic: interaction ------------------------------------</td><td><code>--z-tooltip</code></td><td><span data-theme="light" data-token="--z-tooltip"></span></td><td><span data-theme="dark" data-token="--z-tooltip"></span></td></tr>
+</tbody></table></div>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

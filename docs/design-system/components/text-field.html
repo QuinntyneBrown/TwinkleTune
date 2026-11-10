@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Text field — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune text fields: the child name input, grown-up dialog fields and the duet room code, three sizes, every state, both themes.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Component · Inputs</p>
+      <h1>Text field</h1>
+      <p class="ds-lead">A sunken well with a strong edge and big, bold type. The child's name field on Welcome is the largest; grown-up fields in the family-server dialogs are the same shape at body size.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill">Native <code>&lt;input&gt;</code></span><span class="ds-pill">Status: stable</span><span class="ds-pill">Class <code>.name-input</code> / <code>.field</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>Use a text field when the answer is a few words someone types: a singer's name, a song title, a tempo, a room code. If there are only a handful of possible answers, offer them as buttons instead (the <a href="avatar-picker.html">avatar picker</a>, a <a href="select.html">select</a> or a <a href="radio-group.html">radio group</a>): typing is the hardest thing a young child does in the app.</p>
+  <ul>
+    <li><b>Child field</b> (<code>.name-input</code>) is the big one: 24px extra-bold type in a 24px-radius well. It appears twice: <em>My name is…</em> on Welcome and <em>Name</em> in the singer editor. One per screen. The same class also styles the Duet lobby's song picker (see <a href="select.html">select</a>).</li>
+    <li><b>Grown-up field</b> (<code>.field</code>) is the compact one for the family-server editors: song title, emoji, tempo, avatar name. It sits behind the <a href="number-pad.html">parent gate</a>, so a child never has to fill it in.</li>
+    <li><b>Room code</b> (<code>.name-input.code-input</code>) is the child field tuned for four capital letters, centred and widely spaced, on Duet's join screen. Its partner is the <a href="duet-code.html">duet code</a> display.</li>
+  </ul>
+  <p>Wrap the field in a <a href="form-field.html">form field</a> to add a hint, an error or a counter, and lay several out with <a href="form-layout.html">form layout</a>. Multi-line input is the <a href="textarea.html">textarea</a>.</p>
+</section>
+
+<section class="ds-section" id="anatomy"><h2><a href="#anatomy">Anatomy</a></h2>
+  <div class="ds-anatomy">
+    <figure class="ds-anatomy__figure">
+      <div class="card name-card">
+        <label for="tf-anat-name">My name is…</label>
+        <input class="name-input" id="tf-anat-name" type="text" maxlength="20" placeholder="Type your name">
+      </div>
+      <span class="ds-callout" style="left: 12%; top: 18%;" aria-hidden="true">1</span>
+      <span class="ds-callout" style="left: 50%; top: 62%;" aria-hidden="true">2</span>
+      <span class="ds-callout" style="left: 8%; top: 62%;" aria-hidden="true">3</span>
+      <span class="ds-callout" style="left: 92%; top: 82%;" aria-hidden="true">4</span>
+    </figure>
+    <ol class="ds-anatomy__list">
+      <li><div><b>Label</b><small>Always visible, above the field. Baloo 2 bold, 18px on child screens (<code>.name-card label</code>), 16px for grown-ups (<code>.field-label</code>). It is the accessible name.</small></div></li>
+      <li><div><b>Placeholder (optional)</b><small>A hint of what to type, in <code>--color-fg-subtle</code>. It disappears on the first letter, so it never carries anything she needs to remember.</small></div></li>
+      <li><div><b>Well</b><small><code>--color-bg-surface-sunken</code>, so the field reads as a slot to fill rather than a card to tap. Child: 16 × 20px padding, <code>--radius-lg</code>. Grown-up: 8 × 12px padding, <code>--radius-md</code>.</small></div></li>
+      <li><div><b>Edge</b><small>3px (<code>--border-width-thick</code>) in <code>--color-border-strong</code>, 3.7:1 against the well. Turns blue on hover, focus-ring blue with a doubled edge on focus, danger red when invalid.</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="ds-section" id="variants"><h2><a href="#variants">Variants</a></h2>
+  <h3>Child field</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-sky">
+      <div class="card name-card">
+        <label for="tf-var-kid">My name is…</label>
+        <input class="name-input" id="tf-var-kid" type="text" maxlength="20" placeholder="Type your name" value="Ada">
+      </div>
+    </div>
+    <div class="ds-example__caption"><span>Welcome's name card: a white card on the sky holding one big field.</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;div class="card name-card"&gt;
+  &lt;label for="kid-name"&gt;My name is…&lt;/label&gt;
+  &lt;input class="name-input" id="kid-name" type="text" maxlength="20"
+         autocomplete="off" placeholder="Type your name"&gt;
+&lt;/div&gt;</code></pre></details>
+  </div>
+  <h3>Grown-up field</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack ds-w-form">
+      <label class="field-label" for="tf-var-title">Title</label>
+      <input class="field" id="tf-var-title" type="text" maxlength="80" value="Frère Jacques">
+      <label class="field-label" for="tf-var-bpm">Tempo (BPM)</label>
+      <input class="field" id="tf-var-bpm" type="number" min="40" max="220" value="96">
+    </div>
+    <div class="ds-example__caption"><span>The song editor's title and tempo. <code>type="number"</code> keeps the same look and adds a numeric keyboard.</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;label class="field-label" for="song-title"&gt;Title&lt;/label&gt;
+&lt;input class="field" id="song-title" type="text" maxlength="80"&gt;
+&lt;label class="field-label" for="song-bpm"&gt;Tempo (BPM)&lt;/label&gt;
+&lt;input class="field" id="song-bpm" type="number" min="40" max="220" value="100"&gt;</code></pre></details>
+  </div>
+  <h3>Room code</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-sky">
+      <div class="card ds-w-form">
+        <h4 class="display duet-heading" id="tf-var-code-h">Type the room code 🔑</h4>
+        <input class="name-input code-input" maxlength="4" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="ABCD" aria-label="Room code" value="KWTM">
+      </div>
+    </div>
+    <div class="ds-example__caption"><span>Duet join: four letters, uppercase as she types, centred with 0.4em tracking so each letter matches a tile on the host's screen.</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;input class="name-input code-input" maxlength="4" autocapitalize="characters"
+       autocomplete="off" spellcheck="false" placeholder="ABCD" aria-label="Room code"&gt;</code></pre></details>
+  </div>
+</section>
+
+<section class="ds-section" id="sizes"><h2><a href="#sizes">Sizes</a></h2>
+  <p>Grown-up fields come in three sizes; the large one is exactly the child field's look, for the rare grown-up screen that has a single question. Child screens only ever use <code>.name-input</code>.</p>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack ds-w-form">
+      <input class="field field-sm" type="text" aria-label="Small field example" value="Small · 14px">
+      <input class="field" type="text" aria-label="Medium field example" value="Medium · 16px">
+      <input class="field field-lg" type="text" aria-label="Large field example" value="Large · 24px">
+    </div>
+    <div class="ds-example__caption"><span><code>.field-sm</code> for dense manager rows, <code>.field</code> in dialogs, <code>.field-lg</code> (same as <code>.name-input</code>) for a single big question.</span></div>
+  </div>
+</section>
+
+<section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+  <p>Hover and focus are forced here with <code>data-state</code>; real fields get them from <code>:hover</code> and <code>:focus</code>. Invalid is <code>aria-invalid="true"</code>, which the mocks do not set yet (see Sources).</p>
+  <div class="ds-matrix"><table>
+    <thead><tr><th scope="col">Variant</th><th scope="col">Empty</th><th scope="col">Filled</th><th scope="col">Hover</th><th scope="col">Focus</th><th scope="col">Invalid</th><th scope="col">Disabled</th><th scope="col">Read-only</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Child</th>
+        <td><input class="name-input" type="text" aria-label="Name, empty" placeholder="Type your name"></td>
+        <td><input class="name-input" type="text" aria-label="Name, filled" value="Bea"></td>
+        <td><input class="name-input" type="text" aria-label="Name, hover" value="Bea" data-state="hover"></td>
+        <td><input class="name-input" type="text" aria-label="Name, focus" value="Bea" data-state="focus"></td>
+        <td><input class="name-input" type="text" aria-label="Name, invalid" value="" aria-invalid="true"></td>
+        <td><input class="name-input" type="text" aria-label="Name, disabled" value="Bea" disabled></td>
+        <td><span class="ds-na">Not used</span></td></tr>
+      <tr><th scope="row">Grown-up</th>
+        <td><input class="field" type="text" aria-label="Avatar name, empty" placeholder="Tiger"></td>
+        <td><input class="field" type="text" aria-label="Avatar name, filled" value="Tiger"></td>
+        <td><input class="field" type="text" aria-label="Avatar name, hover" value="Tiger" data-state="hover"></td>
+        <td><input class="field" type="text" aria-label="Avatar name, focus" value="Tiger" data-state="focus"></td>
+        <td><input class="field" type="text" aria-label="Avatar name, invalid" value="" aria-invalid="true"></td>
+        <td><input class="field" type="text" aria-label="Avatar name, disabled" value="Tiger" disabled></td>
+        <td><input class="field" type="text" aria-label="Song id, read-only" value="frere-jacques" readonly></td></tr>
+      <tr><th scope="row">Room code</th>
+        <td><input class="name-input code-input" maxlength="4" aria-label="Room code, empty" placeholder="ABCD"></td>
+        <td><input class="name-input code-input" maxlength="4" aria-label="Room code, filled" value="KWTM"></td>
+        <td><input class="name-input code-input" maxlength="4" aria-label="Room code, hover" value="KWTM" data-state="hover"></td>
+        <td><input class="name-input code-input" maxlength="4" aria-label="Room code, focus" value="KWTM" data-state="focus"></td>
+        <td><input class="name-input code-input" maxlength="4" aria-label="Room code, invalid" value="KW" aria-invalid="true"></td>
+        <td><input class="name-input code-input" maxlength="4" aria-label="Room code, disabled" value="KWTM" disabled></td>
+        <td><span class="ds-na">Not used</span></td></tr>
+    </tbody>
+  </table></div>
+  <h3>Both themes</h3>
+  <div class="ds-themes">
+    <div data-theme="light"><div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0;"><input class="name-input" type="text" aria-label="Name, light theme" placeholder="Type your name"><input class="field" type="text" aria-label="Title, light theme" value="Twinkle Twinkle Little Star"><input class="field" type="text" aria-label="Title, light theme, focus" value="Hot Cross Buns" data-state="focus"></div></div>
+    <div data-theme="dark"><div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0;"><input class="name-input" type="text" aria-label="Name, dark theme" placeholder="Type your name"><input class="field" type="text" aria-label="Title, dark theme" value="Twinkle Twinkle Little Star"><input class="field" type="text" aria-label="Title, dark theme, focus" value="Hot Cross Buns" data-state="focus"></div></div>
+  </div>
+  <ul>
+    <li><b>Focus</b> swaps the edge to <code>--color-focus-ring</code> and adds a 2px ring outside it, so the edge reads as 5px. The field does not use the shared offset outline because the caret is already inside it and the doubled edge is enough.</li>
+    <li><b>Invalid</b> only changes the edge. It is never shown alone: the message under the field (a <a href="inline-message.html">field error</a>) says what to do. On a child screen nothing is ever invalid: an empty name on Welcome simply becomes <em>Superstar</em>.</li>
+    <li><b>Disabled</b> greys the text and flattens the well to <code>--color-bg-subtle</code>. Avoid it; hide a field that cannot be used instead.</li>
+    <li><b>Read-only</b> (grown-up only) keeps the text readable, flattens the well and dashes the edge, so it reads as a value to copy, not a slot to fill.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+  <ul>
+    <li>Fields are always full width of their container. The child field's card stops at <code>--size-form-max</code> (360px), matching the Welcome button beneath it.</li>
+    <li>In dialogs, fields fill the dialog (340px standard, 440px for the song editor). Two short fields can share a row in a <code>.field-pair</code>; see <a href="form-layout.html">form layout</a>.</li>
+    <li>Type never shrinks below 16px in a grown-up field, so iOS does not zoom on focus. <code>.field-sm</code> (14px) is only for desktop-width manager rows.</li>
+    <li>The room code is sized for four letters at 28px with wide tracking; at 320px it still fits with room to spare. Do not use <code>.code-input</code> for anything longer.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="theming"><h2><a href="#theming">Theming</a></h2>
+  <p>Text fields read semantic tokens directly; there are no component tokens. The well is <code>--color-bg-surface-sunken</code>, the edge <code>--color-border-strong</code>, the text <code>--color-fg-default</code>, the placeholder <code>--color-fg-subtle</code>. In the night studio the well darkens below its card, so it still reads as recessed, and the edge lightens to keep 3:1.</p>
+  <pre><code>/* A field on a pink card keeps its own well; do not tint the field. */
+.again-card .field { background: var(--color-bg-surface-sunken); }</code></pre>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <h3>Role and pattern</h3>
+  <p>Native <code>&lt;input&gt;</code>; no ARIA role. There is no APG widget pattern for a plain text box; follow the <a href="https://www.w3.org/WAI/tutorials/forms/">WAI Forms tutorial</a> for labels, instructions and validation.</p>
+  <h3>Keyboard</h3>
+  <table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody>
+    <tr><td><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>Moves into and out of the field in DOM order.</td></tr>
+    <tr><td><kbd>Enter</kbd></td><td>Submits the enclosing form (Welcome: same as <em>Let's Sing!</em>; room code: same as <em>Join the duet!</em>).</td></tr>
+    <tr><td><kbd>↑</kbd> / <kbd>↓</kbd></td><td>On <code>type="number"</code> (tempo), steps the value by 1 within <code>min</code>/<code>max</code>.</td></tr>
+    <tr><td><kbd>Esc</kbd></td><td>Inside a dialog, closes the dialog (the field keeps no state of its own).</td></tr>
+  </tbody></table>
+  <h3>Focus</h3>
+  <p>Focus is shown on the field's own edge: <code>--color-focus-ring</code> plus a 2px ring, at least 3:1 against the well, the card and the dialog. Focus never moves into a field by itself on child screens, because the on-screen keyboard would cover the screen before she has read it.</p>
+  <h3>Labelling</h3>
+  <ul>
+    <li>Every field has a visible <code>&lt;label for&gt;</code>. Placeholders (<em>Type your name</em>, <em>Tiger</em>) are examples, never the label.</li>
+    <li>The room code is named by <code>aria-label="Room code"</code>, and its visible heading <em>Type the room code</em> contains that name, so voice control works.</li>
+    <li>Hints and errors join the name through <code>aria-describedby</code>; see <a href="form-field.html">form field</a>.</li>
+    <li>Singer names use <code>autocomplete="off"</code>: on a shared family tablet, autofill would offer one child another child's name.</li>
+  </ul>
+  <h3>Contrast</h3>
+  <div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);">
+    <div class="ds-pair"><span>Typed text in the well</span><span class="ds-pair__ratio" data-contrast="--color-fg-default|--color-bg-surface-sunken" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Placeholder in the well</span><span class="ds-pair__ratio" data-contrast="--color-fg-subtle|--color-bg-surface-sunken" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Edge against the well</span><span class="ds-pair__ratio" data-contrast="--color-border-strong|--color-bg-surface-sunken" data-min="3"></span></div>
+    <div class="ds-pair"><span>Edge against the card</span><span class="ds-pair__ratio" data-contrast="--color-border-strong|--color-bg-surface" data-min="3"></span></div>
+    <div class="ds-pair"><span>Invalid edge against the card</span><span class="ds-pair__ratio" data-contrast="--color-danger-solid|--color-bg-surface" data-min="3"></span></div>
+    <div class="ds-pair"><span>Focus edge inside a dialog</span><span class="ds-pair__ratio" data-contrast="--color-focus-ring|--color-bg-surface-raised" data-min="3"></span></div>
+  </div>
+  <h3>Motion</h3>
+  <p>The edge colour changes instantly; no transition is needed. The only motion near a field is the <code>.shake</code> nudge some apps use for wrong input, and TwinkleTune never uses it on a field: shaking reads as "wrong".</p>
+  <h3>Touch</h3>
+  <p>The child field is about 70px tall and the grown-up field 44px (16px type plus padding and edges), both above the 44px comfortable target. The whole label is also a tap target for its field.</p>
+</section>
+
+<section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+  <ul>
+    <li>Child labels are the start of a sentence she finishes: <em>My name is…</em>. Grown-up labels are a plain noun: <em>Name</em>, <em>Title</em>, <em>Emoji</em>, <em>Tempo (BPM)</em>.</li>
+    <li>Placeholders show a real example (<em>Tiger</em>, <em>🐯</em>, <em>ABCD</em>) or a short instruction (<em>Type your name</em>). Never put rules there.</li>
+    <li>Put units in the label, not after the value: <em>Tempo (BPM)</em>.</li>
+    <li>Set <code>maxlength</code> to the server's limit (name 20, avatar name 30, title 80, emoji 4, code 4) so nothing she types is rejected later.</li>
+    <li>When something is missing, say what to add, kindly: <em>Every singer needs a name! 💙</em>, <em>A song needs a title.</em>. Never <em>Required</em>, <em>Invalid</em> or <em>Error</em>.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas ds-example__canvas--stack"><label class="field-label" for="tf-do-name">Name</label><input class="field" id="tf-do-name" type="text" placeholder="Tiger"></div><figcaption>A visible label above, an example as the placeholder (the avatar editor).</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas ds-example__canvas--stack"><input class="field" type="text" aria-label="Name" placeholder="Name"></div><figcaption>The placeholder as the only label. It vanishes on the first letter, and its subtle grey is the faintest text in the system.</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas ds-example__canvas--stack"><input class="field" type="text" aria-label="Singer name, kept" value="" aria-invalid="true" aria-describedby="tf-do-err"><p class="field-error" id="tf-do-err">Every singer needs a name!</p></div><figcaption>The edge and a message under the field together, so it does not rely on colour.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas ds-example__canvas--stack"><input class="name-input shake" type="text" aria-label="Name, shaking" value="" aria-invalid="true"></div><figcaption>A red edge alone, shaken. No words, no fix, and the shake reads as "wrong" to a child.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+  <div class="ds-table-wrap"><table class="ds-table">
+<thead><tr><th scope="col">Use</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+<tbody>
+<tr><td>Well</td><td><code>--color-bg-surface-sunken</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-bg-surface-sunken" data-swatch></i><span data-token="--color-bg-surface-sunken"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-bg-surface-sunken" data-swatch></i><span data-token="--color-bg-surface-sunken"></span></span></td></tr>
+<tr><td>Edge</td><td><code>--color-border-strong</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-border-strong" data-swatch></i><span data-token="--color-border-strong"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-border-strong" data-swatch></i><span data-token="--color-border-strong"></span></span></td></tr>
+<tr><td>Edge (hover)</td><td><code>--color-accent</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-accent" data-swatch></i><span data-token="--color-accent"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-accent" data-swatch></i><span data-token="--color-accent"></span></span></td></tr>
+<tr><td>Edge and ring (focus)</td><td><code>--color-focus-ring</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-focus-ring" data-swatch></i><span data-token="--color-focus-ring"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-focus-ring" data-swatch></i><span data-token="--color-focus-ring"></span></span></td></tr>
+<tr><td>Edge (invalid)</td><td><code>--color-danger-solid</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-danger-solid" data-swatch></i><span data-token="--color-danger-solid"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-danger-solid" data-swatch></i><span data-token="--color-danger-solid"></span></span></td></tr>
+<tr><td>Typed text</td><td><code>--color-fg-default</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-default" data-swatch></i><span data-token="--color-fg-default"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-default" data-swatch></i><span data-token="--color-fg-default"></span></span></td></tr>
+<tr><td>Placeholder</td><td><code>--color-fg-subtle</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-subtle" data-swatch></i><span data-token="--color-fg-subtle"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-subtle" data-swatch></i><span data-token="--color-fg-subtle"></span></span></td></tr>
+<tr><td>Text (disabled)</td><td><code>--color-fg-disabled</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-disabled" data-swatch></i><span data-token="--color-fg-disabled"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-disabled" data-swatch></i><span data-token="--color-fg-disabled"></span></span></td></tr>
+<tr><td>Well (disabled, read-only)</td><td><code>--color-bg-subtle</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-bg-subtle" data-swatch></i><span data-token="--color-bg-subtle"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-bg-subtle" data-swatch></i><span data-token="--color-bg-subtle"></span></span></td></tr>
+<tr><td>Edge width</td><td><code>--border-width-thick</code></td><td><span data-theme="light" data-token="--border-width-thick"></span></td><td><span data-theme="dark" data-token="--border-width-thick"></span></td></tr>
+<tr><td>Focus ring width</td><td><code>--border-width-thin</code></td><td><span data-theme="light" data-token="--border-width-thin"></span></td><td><span data-theme="dark" data-token="--border-width-thin"></span></td></tr>
+<tr><td>Corners (child, large)</td><td><code>--radius-lg</code></td><td><span data-theme="light" data-token="--radius-lg"></span></td><td><span data-theme="dark" data-token="--radius-lg"></span></td></tr>
+<tr><td>Corners (grown-up)</td><td><code>--radius-md</code></td><td><span data-theme="light" data-token="--radius-md"></span></td><td><span data-theme="dark" data-token="--radius-md"></span></td></tr>
+<tr><td>Child text</td><td><code>--font-size-2xl</code></td><td><span data-theme="light" data-token="--font-size-2xl"></span></td><td><span data-theme="dark" data-token="--font-size-2xl"></span></td></tr>
+<tr><td>Grown-up text</td><td><code>--font-size-md</code></td><td><span data-theme="light" data-token="--font-size-md"></span></td><td><span data-theme="dark" data-token="--font-size-md"></span></td></tr>
+<tr><td>Room code text</td><td><code>--font-size-3xl</code></td><td><span data-theme="light" data-token="--font-size-3xl"></span></td><td><span data-theme="dark" data-token="--font-size-3xl"></span></td></tr>
+<tr><td>Child card max width</td><td><code>--size-form-max</code></td><td><span data-theme="light" data-token="--size-form-max"></span></td><td><span data-theme="dark" data-token="--size-form-max"></span></td></tr>
+</tbody></table></div>
+</section>
+
+<section class="ds-section" id="code"><h2><a href="#code">Code</a></h2>
+  <pre><code>&lt;!-- Child --&gt;
+&lt;label for="singer-name"&gt;Name&lt;/label&gt;
+&lt;input class="name-input" id="singer-name" maxlength="20" autocomplete="off" placeholder="Type the name"&gt;
+
+&lt;!-- Grown-up, with a hint --&gt;
+&lt;label class="field-label" for="avatar-emoji"&gt;Emoji&lt;/label&gt;
+&lt;input class="field" id="avatar-emoji" maxlength="4" placeholder="🐯" aria-describedby="avatar-emoji-hint"&gt;
+&lt;p class="field-hint" id="avatar-emoji-hint"&gt;One emoji, like 🐯 or 🦒.&lt;/p&gt;
+
+&lt;!-- Room code --&gt;
+&lt;input class="name-input code-input" maxlength="4" autocapitalize="characters" aria-label="Room code"&gt;</code></pre>
+  <table class="ds-table"><thead><tr><th scope="col">Class / attribute</th><th scope="col">Effect</th></tr></thead><tbody>
+    <tr><td><code>.name-input</code></td><td>Child field: 24px extra-bold, large radius.</td></tr>
+    <tr><td><code>.field</code></td><td>Grown-up field: 16px bold, medium radius. Also styles <code>&lt;select&gt;</code> and <code>&lt;textarea&gt;</code> in the mocks.</td></tr>
+    <tr><td><code>.field-sm</code> <code>.field-lg</code></td><td>Grown-up sizes; omit for medium.</td></tr>
+    <tr><td><code>.code-input</code></td><td>With <code>.name-input</code>: uppercase, centred, 0.4em tracking, 28px display type.</td></tr>
+    <tr><td><code>.name-card</code></td><td>Parent card on Welcome; styles its <code>&lt;label&gt;</code>. <code>.name-card--dialog</code> drops the max width inside dialogs.</td></tr>
+    <tr><td><code>aria-invalid="true"</code></td><td>Danger edge. Pair with a <code>.field-error</code> via <code>aria-describedby</code>.</td></tr>
+    <tr><td><code>disabled</code> / <code>readonly</code></td><td>Greyed / flattened with a dashed edge (<code>.field</code> only).</td></tr>
+    <tr><td><code>data-state="hover|focus"</code></td><td>Documentation only.</td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+  <p>Extracted from these mocks:</p>
+  <ul>
+    <li><a href="../../mocks/pages/welcome/default.html">pages/welcome/default</a> (child field in the name card)</li>
+    <li><a href="../../mocks/dialogs/singer-editor/default.html">dialogs/singer-editor/default</a> and <a href="../../mocks/dialogs/singer-editor/invalid.html">invalid</a> (child field in a dialog; missing name told by a pink toast)</li>
+    <li><a href="../../mocks/dialogs/avatar-editor/default.html">dialogs/avatar-editor/default</a> (grown-up emoji and name fields with example placeholders)</li>
+    <li><a href="../../mocks/dialogs/song-editor/default.html">dialogs/song-editor/default</a> and <a href="../../mocks/dialogs/song-editor/edit.html">edit</a> (title, emoji, number tempo)</li>
+    <li><a href="../../mocks/pages/duet/join.html">pages/duet/join</a> (room code)</li>
+  </ul>
+  <p>Drift fixed during extraction: field edges were the pale <code>--pale</code> at 1.37:1 and are now <code>--color-border-strong</code> (3.7:1) (D07); placeholders used <code>--ink-faint</code> at 1.71:1 and now use <code>--color-fg-subtle</code> (D03); the blue focus edge was 2.6:1 and is now <code>--color-focus-ring</code> (D21); radii snapped to 16px and 24px (D12). Still open in the app: fields are never marked <code>aria-invalid</code> and validation arrives as a toast (mocks README, open question 4). See the <a href="../index.html#drift">drift log</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

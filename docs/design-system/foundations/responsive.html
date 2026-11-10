@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Responsive — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune responsive rules: mobile first, one column at every width, per-component behaviour, touch targets (52px for children), and the 360 / 768 / 1280 test matrix.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Foundation</p>
+      <h1>Responsive</h1>
+      <p class="ds-lead">Every child screen is one centred column, at most 470px wide, from a small phone to a desktop monitor. Nothing rearranges between sizes, so the big obvious action is always in the same place. Breakpoints exist only for grown-up pages, the docs and marketing.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill">Mobile first</span><span class="ds-pill">One column, 470px</span><span class="ds-pill">Child target 52px</span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#column">The one column</a></li><li><a href="#components">Component behaviour by width</a></li><li><a href="#touch">Touch and pointer</a></li><li><a href="#testing">Test matrix</a></li><li><a href="#usage">Usage</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#tokens">Tokens</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <ul>
+    <li><b>Mobile first.</b> Base styles target a 360px phone held in a small hand. Wider screens add margin around the column, not more columns.</li>
+    <li><b>One column, always.</b> <code>.screen</code> is capped at <code>--layout-screen-max</code> (470px) and centred. A child who sings on a tablet one day and a phone the next finds every button where she left it.</li>
+    <li><b>Touch is the primary input.</b> Anything a child taps is at least 52px (<code>--target-child</code>). Hover is a bonus, never the only way to discover something.</li>
+    <li><b>Grown-up surfaces may grow.</b> The family-server managers, these docs and the marketing site use the 4 / 8 / 12-column grid on <a href="layout.html">Layout</a>.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="column"><h2><a href="#column">The one column</a></h2>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-sky">
+      <div class="ds-col ds-w-screen">
+        <div class="coach-home ds-w-full">
+          <svg class="mascot mascot-sm" viewBox="0 0 120 120" aria-hidden="true"><path class="twinkle-body" d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z" stroke-width="7" stroke-linejoin="round"/><circle class="twinkle-eye" cx="48" cy="56" r="4.5"/><circle class="twinkle-eye" cx="72" cy="56" r="4.5"/><circle class="twinkle-cheek" cx="41" cy="66" r="5.5"/><circle class="twinkle-cheek" cx="79" cy="66" r="5.5"/><path class="twinkle-smile" d="M50 66 Q60 76 70 66" fill="none" stroke-width="4" stroke-linecap="round"/></svg>
+          <div class="bubble bubble-left">Your songs are tuned and ready. Let's make today sparkle! ✨</div>
+        </div>
+        <a class="hero-tile ds-w-full" href="#column"><h2>Sing a Song</h2><p>Every song in YOUR key 💙</p><span class="go">Let's go! ▶</span><span class="big-mic" aria-hidden="true">🎤</span></a>
+        <div class="cta-row ds-w-full"><button class="btn btn-white" type="button">Sing again 🔁</button><button class="btn btn-pink" type="button">New song 🎵</button></div>
+      </div>
+    </div>
+    <div class="ds-example__caption"><span>The Home column at its 470px cap. At 360px the same parts stack in the same order; at 1280px the sky simply gets wider.</span></div>
+  </div>
+  <ul>
+    <li>Side padding is <code>--layout-margin</code> (20px) on child screens; the bottom keeps <code>--layout-bottomnav-clearance</code> so the floating nav never covers the last card.</li>
+    <li>Two-up grids inside the column (<code>.tiles</code>, <code>.cta-row</code>) stay two-up at every width; at 360px each half is still wider than 150px.</li>
+    <li>Type does not scale with the viewport. Sizes are fixed steps in <code>rem</code> so browser zoom and the device's text-size setting work.</li>
+    <li>Use <code>100dvh</code> for full-height screens so mobile browser chrome does not clip the bottom action, and add <code>env(safe-area-inset-bottom)</code> under fixed parts.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="components"><h2><a href="#components">Component behaviour by width</a></h2>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <thead><tr><th scope="col">Component</th><th scope="col">Below 640px</th><th scope="col">640px and up</th></tr></thead>
+    <tbody>
+      <tr><td><a href="../components/top-bar.html">Top bar</a></td><td colspan="2">Back button, centred title, balancing spacer. Long titles wrap to two lines; never truncate.</td></tr>
+      <tr><td><a href="../components/bottom-nav.html">Bottom nav</a></td><td colspan="2">Floating pill, centred, at most <code>--layout-dialog-wide-max</code> wide, above the safe area. Four items at every width.</td></tr>
+      <tr><td><a href="../components/dialog.html">Dialog</a></td><td colspan="2">Centred card, at most 340px (440px for managers) at every width. The mocks record that dialogs are not bottom sheets on phones; the system keeps the centred card because the content is short and the one action is always visible.</td></tr>
+      <tr><td><a href="../components/toast.html">Toast</a></td><td colspan="2">Top centre, sized to its text, never wider than the viewport minus 32px. Stacks downward.</td></tr>
+      <tr><td><a href="../components/song-row.html">Song row</a></td><td colspan="2">Art, title and meta, play button. Meta pills wrap under the title; the play button never moves.</td></tr>
+      <tr><td><a href="../components/pitch-stage.html">Pitch stage</a></td><td colspan="2">Full column width, fixed 300px height. The "now" line stays 21% from the left so lead time is the same on every device.</td></tr>
+      <tr><td><a href="../components/button.html">Button</a> rows</td><td colspan="2"><code>.cta-row</code> buttons share the row equally; <code>.btn-xl</code> fills the column. Labels wrap rather than shrink.</td></tr>
+      <tr><td><a href="../components/list.html">Setting and manager rows</a></td><td>Actions wrap below the label</td><td>Actions sit at the end of the row</td></tr>
+      <tr><td><a href="../components/table.html">Table</a></td><td>Scrolls sideways inside <code>.table-wrap</code></td><td>Fits; the page never scrolls sideways</td></tr>
+      <tr><td><a href="../components/sidebar-nav.html">Sidebar nav</a></td><td>Hidden behind a menu button</td><td>Visible from 1024px on grown-up pages only</td></tr>
+      <tr><td><a href="../components/form-layout.html">Form layout</a></td><td>One field per row</td><td><code>.form-row--2</code> pairs short related fields from 768px</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="ds-section" id="touch"><h2><a href="#touch">Touch and pointer</a></h2>
+  <div class="ds-example">
+    <div class="ds-example__canvas">
+      <button class="icon-btn" type="button" aria-label="Pause">⏸</button>
+      <button class="btn" type="button">Keep singing ▶</button>
+      <button class="btn btn-sm btn-white" type="button">Re-do</button>
+      <button class="mini-btn" type="button" aria-label="High scores for London Bridge">🏆</button>
+    </div>
+    <div class="ds-example__caption"><span>52px child controls; a 44px grown-up button; a 24px mini button that keeps 8px from its neighbours.</span></div>
+  </div>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <thead><tr><th scope="col">Who taps it</th><th scope="col">Minimum</th><th scope="col">Examples</th></tr></thead>
+    <tbody>
+      <tr><td>A child, primary action</td><td>52px (<code>--target-child</code>)</td><td>Toy buttons (56–68px), icon buttons, play buttons, avatar picks, number keys, bottom-nav items</td></tr>
+      <tr><td>A grown-up, in a row or dialog</td><td>44px (<code>--target-comfortable</code>)</td><td>Small buttons, chips, the tip arrow (D23), alert dismiss</td></tr>
+      <tr><td>Secondary glyph controls</td><td>24px (<code>--target-min</code>) with 8px spacing</td><td>The 🏆 and 🎤🎤 Duet mini buttons (D23)</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li><b>No hover-only affordances.</b> Badge hints shown by <code>title</code> on hover are also reachable by tapping the badge; tooltips open on focus and tap.</li>
+    <li><b>Actions fire on release</b> (<code>click</code>), so a child who lands on the wrong button can slide off it.</li>
+    <li><b>Singing needs no gestures.</b> On the Sing screen the voice moves the star; the only touch targets are Pause and, in the countdown, nothing at all.</li>
+    <li><b>No orientation lock.</b> Landscape shows the same column centred; the pitch stage keeps its height.</li>
+    <li><b>Drag has an alternative.</b> The mic-timing slider is a native range input, adjustable with arrow keys and taps.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="testing"><h2><a href="#testing">Test matrix</a></h2>
+  <div class="ds-table-wrap"><table class="ds-table">
+    <thead><tr><th scope="col">Viewport</th><th scope="col">Stands for</th><th scope="col">Check</th></tr></thead>
+    <tbody>
+      <tr><td>360 × 800</td><td>A small phone, the design target</td><td>No sideways scroll; every label fits or wraps; the one action is visible without scrolling on Home, Sing and Results; bottom nav clears the last card.</td></tr>
+      <tr><td>768 × 1024</td><td>A tablet on the kitchen table</td><td>The column is centred at 470px; nothing stretches; dialogs stay centred cards.</td></tr>
+      <tr><td>1280 × 800</td><td>A laptop; grown-ups and the docs</td><td>Child screens unchanged; grown-up pages use the 12-column grid and sidebar.</td></tr>
+      <tr><td>320 wide, and 200% / 400% zoom</td><td>WCAG 1.4.10 reflow and 1.4.4 resize</td><td>Content reflows into one column with no loss; only tables scroll inside their wrapper.</td></tr>
+    </tbody>
+  </table></div>
+  <p>Screenshot every mock and every design-system page at the three viewports (the mocks skill's <code>screenshot_mocks.py</code> works on <code>docs/design-system</code> with <code>--out</code>).</p>
+</section>
+
+<section class="ds-section" id="usage"><h2><a href="#usage">Usage</a></h2>
+  <ul>
+    <li>Write <code>min-width</code> queries in <code>rem</code> (<code>48rem</code>, <code>64rem</code>) and only for grown-up layouts. A child screen that needs a media query is usually trying to do too much.</li>
+    <li>Prefer intrinsic layout (<code>flex-wrap</code>, <code>minmax()</code>, <code>min(100%, …)</code>) over breakpoints.</li>
+    <li>Shorten words before shrinking type. A button label that wraps at 360px is too long.</li>
+  </ul>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas"><div class="cta-row ds-w-form"><button class="btn btn-white" type="button">Sing again 🔁</button><button class="btn btn-pink" type="button">New song 🎵</button></div></div><figcaption>Two short labels share the row at any width.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><div class="cta-row ds-w-form"><button class="btn btn-white" type="button">Sing this song all over again 🔁</button><button class="btn btn-pink" type="button">Choose a brand new song 🎵</button></div></div><figcaption>Long labels wrap into tall, uneven buttons at 360px.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <ul>
+    <li><b>Reflow (1.4.10)</b>: one column at 320px with no two-dimensional scrolling, except data tables inside <code>.table-wrap</code>.</li>
+    <li><b>Resize text (1.4.4)</b>: all sizes are in <code>rem</code>; 200% text never clips a button label or hides the action.</li>
+    <li><b>Orientation (1.3.4)</b>: portrait and landscape both work.</li>
+    <li><b>Target size (2.5.8)</b>: every target is at least 24px; child targets 52px. See <a href="accessibility.html#targets">Accessibility</a>.</li>
+    <li><b>Focus not obscured (2.4.11)</b>: the bottom nav and toasts never cover the focused element; screens keep bottom clearance for the nav.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+  <p>Responsive owns no tokens. Breakpoints, columns, gutters, margins and the screen cap are on <a href="layout.html#tokens">Layout</a>; target sizes and control heights on <a href="accessibility.html#tokens">Accessibility</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

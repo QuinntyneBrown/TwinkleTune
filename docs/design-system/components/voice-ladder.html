@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Voice ladder — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune voice ladder: rungs (idle, lit, now, captured), the microphone and the equaliser, every state of Find My Voice, both themes.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Component · Singing</p>
+      <h1>Voice ladder</h1>
+      <p class="ds-lead">Find My Voice's ladder of twelve rungs, the big microphone and the little equaliser. The singer climbs the ladder with her voice; the lowest and highest comfy notes she holds become her voice range.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill"><code>&lt;section aria-label&gt;</code> + live message</span><span class="ds-pill">Status: stable</span><span class="ds-pill">Class <code>.ladder-card</code> / <code>.rung</code> / <code>.mic</code> / <code>.eq</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>The voice ladder is Find My Voice, the one-minute game that captures a singer's <b>voice range</b>. She sings her lowest comfy note and holds it, then her highest. Each rung is a step of pitch, bottom (🌊 low) to top (⭐ high); her avatar climbs to the rung she is singing, and a held note is captured in gold with its name (<em>Low B3 ✓</em>). From the range, every song gets a <b>shift</b> that fits her voice.</p>
+  <p>It has three parts that always appear together on the Find My Voice screen:</p>
+  <ul>
+    <li><b>Ladder card</b> (<code>.ladder-card</code>): twelve <code>.rung</code>s in <code>.ladder</code>, plus <code>.ladder-side</code> with ⭐ HIGH · LOW 🌊.</li>
+    <li><b>Microphone</b> (<code>.mic</code>): a 92px blue disc that pulses while listening.</li>
+    <li><b>Equaliser</b> (<code>.eq</code>): seven bars beside the listen message that dance while sound is heard.</li>
+  </ul>
+  <p>The step dots above it are the <a href="stepper.html">stepper</a>; Twinkle's instructions above that are the <a href="coach-bubble.html">coach bubble</a>.</p>
+</section>
+
+<section class="ds-section" id="anatomy"><h2><a href="#anatomy">Anatomy</a></h2>
+  <div class="ds-anatomy">
+    <figure class="ds-anatomy__figure">
+      <div class="ds-w-form">
+        <section class="card ladder-card" aria-label="Your vocal range ladder">
+          <div class="ladder">
+            <div class="rung lit"></div><div class="rung lit"></div><div class="rung lit"></div>
+            <div class="rung captured lit">Low B3 ✓</div>
+            <div class="rung lit"></div><div class="rung lit"></div><div class="rung lit"></div><div class="rung lit"></div>
+            <div class="rung now"><span class="singer-dot">🦄</span></div>
+            <div class="rung"></div><div class="rung"></div><div class="rung"></div>
+          </div>
+          <div class="ladder-side" aria-hidden="true"><span>⭐</span><small>HIGH&nbsp;&nbsp;·&nbsp;&nbsp;LOW</small><span>🌊</span></div>
+        </section>
+        <div class="card card-soft listen">
+          <div class="mic live" role="img" aria-label="Microphone, listening">🎤</div>
+          <div class="listen-info"><strong role="status">Listening for your high note… ⭐</strong><div class="eq live" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+        </div>
+      </div>
+      <span class="ds-callout" style="left: 14%; top: 8%;" aria-hidden="true">1</span>
+      <span class="ds-callout" style="left: 30%; top: 50%;" aria-hidden="true">2</span>
+      <span class="ds-callout" style="left: 64%; top: 26%;" aria-hidden="true">3</span>
+      <span class="ds-callout" style="left: 84%; top: 40%;" aria-hidden="true">4</span>
+      <span class="ds-callout" style="left: 16%; top: 84%;" aria-hidden="true">5</span>
+      <span class="ds-callout" style="left: 52%; top: 92%;" aria-hidden="true">6</span>
+    </figure>
+    <ol class="ds-anatomy__list">
+      <li><div><b>Ladder</b><small><code>.ladder</code>: <code>flex-direction: column-reverse</code>, so rung 0 (lowest) is at the bottom; 8px between rungs.</small></div></li>
+      <li><div><b>Rung</b><small>A 32px pill (<code>--size-rung</code>). Idle <code>--color-mark-idle</code>; <code>.lit</code> aqua-to-sky once passed; captured rungs carry a label in 12px black caps.</small></div></li>
+      <li><div><b>Now rung and singer dot</b><small><code>.rung.now</code>: blue gradient with a pulsing ring; <code>.singer-dot</code> shows her avatar in a 40px disc at the right end.</small></div></li>
+      <li><div><b>Side scale</b><small><code>.ladder-side</code>: ⭐ at the top, 🌊 at the bottom, vertical "HIGH · LOW" between. Decorative (<code>aria-hidden</code>).</small></div></li>
+      <li><div><b>Microphone</b><small><code>.mic</code>: 92px (<code>--size-mic</code>) disc with <code>--gradient-hero</code>, 8px surface border, accent glow. <code>.live</code> pulses.</small></div></li>
+      <li><div><b>Listen message and equaliser</b><small>Baloo 2 message (a polite live region) over <code>.eq</code>: seven 8px bars, brand blue and sky alternating, that bounce while <code>.live</code>.</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="ds-section" id="variants"><h2><a href="#variants">Variants</a></h2>
+  <p>The ladder has one look. What varies is the step of the game, shown here as the singer moves through it.</p>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-sky" style="align-items: flex-start;">
+      <section class="card ladder-card" aria-label="Ladder before listening" style="flex: 1; min-width: 12rem;">
+        <div class="ladder"><div class="rung"></div><div class="rung"></div><div class="rung"></div><div class="rung"></div><div class="rung"></div><div class="rung"></div><div class="rung"></div><div class="rung"></div><div class="rung"></div><div class="rung"></div><div class="rung"></div><div class="rung"></div></div>
+        <div class="ladder-side" aria-hidden="true"><span>⭐</span><small>HIGH&nbsp;·&nbsp;LOW</small><span>🌊</span></div>
+      </section>
+      <section class="card ladder-card" aria-label="Ladder while holding the low note" style="flex: 1; min-width: 12rem;">
+        <div class="ladder"><div class="rung lit"></div><div class="rung lit"></div><div class="rung lit"></div><div class="rung now"><span class="singer-dot">🦄</span></div><div class="rung"></div><div class="rung"></div><div class="rung"></div><div class="rung"></div><div class="rung"></div><div class="rung"></div><div class="rung"></div><div class="rung"></div></div>
+        <div class="ladder-side" aria-hidden="true"><span>⭐</span><small>HIGH&nbsp;·&nbsp;LOW</small><span>🌊</span></div>
+      </section>
+      <section class="card ladder-card" aria-label="Ladder listening for the high note" style="flex: 1; min-width: 12rem;">
+        <div class="ladder"><div class="rung lit"></div><div class="rung lit"></div><div class="rung lit"></div><div class="rung captured lit">Low B3 ✓</div><div class="rung lit"></div><div class="rung lit"></div><div class="rung lit"></div><div class="rung lit"></div><div class="rung now"><span class="singer-dot">🦄</span></div><div class="rung"></div><div class="rung"></div><div class="rung"></div></div>
+        <div class="ladder-side" aria-hidden="true"><span>⭐</span><small>HIGH&nbsp;·&nbsp;LOW</small><span>🌊</span></div>
+      </section>
+    </div>
+    <div class="ds-example__caption"><span>Ready (all idle) · holding the low note (rung 3) · low B3 captured, climbing to the high note.</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;section class="card ladder-card" aria-label="Your vocal range ladder"&gt;
+  &lt;div class="ladder" data-ladder&gt;
+    &lt;div class="rung lit" data-rung="0"&gt;&lt;/div&gt; …
+    &lt;div class="rung captured lit" data-rung="3"&gt;Low B3 ✓&lt;/div&gt; …
+    &lt;div class="rung now" data-rung="8"&gt;&lt;span class="singer-dot"&gt;🦄&lt;/span&gt;&lt;/div&gt; …
+    &lt;div class="rung" data-rung="11"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="ladder-side" aria-hidden="true"&gt;&lt;span&gt;⭐&lt;/span&gt;&lt;small&gt;HIGH · LOW&lt;/small&gt;&lt;span&gt;🌊&lt;/span&gt;&lt;/div&gt;
+&lt;/section&gt;</code></pre></details>
+  </div>
+</section>
+
+<section class="ds-section" id="sizes" data-na="The ladder, microphone and equaliser each have one size; the ladder stretches to the column width."><h2><a href="#sizes">Sizes</a></h2><p class="ds-na">The ladder, microphone and equaliser each have one size; the ladder stretches to the column width.</p></section>
+
+<section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+  <div class="ds-matrix"><table>
+    <thead><tr><th scope="col">Part</th><th scope="col">Idle</th><th scope="col">Lit (passed)</th><th scope="col">Now</th><th scope="col">Captured</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Rung</th>
+        <td><div class="rung" style="width: var(--size-mascot-lg);"></div></td>
+        <td><div class="rung lit" style="width: var(--size-mascot-lg);"></div></td>
+        <td><div class="rung now" style="width: var(--size-mascot-lg);"><span class="singer-dot">🦄</span></div></td>
+        <td><div class="rung captured lit" style="width: var(--size-mascot-lg);">Low B3 ✓</div></td></tr>
+    </tbody>
+  </table></div>
+  <div class="ds-matrix"><table>
+    <thead><tr><th scope="col">Part</th><th scope="col">Waiting</th><th scope="col">Listening (no sound yet)</th><th scope="col">Hearing her</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Microphone</th><td><div class="mic" role="img" aria-label="Microphone">🎤</div></td><td><div class="mic live" role="img" aria-label="Microphone, listening">🎤</div></td><td><div class="mic live" role="img" aria-label="Microphone, listening">🎤</div></td></tr>
+      <tr><th scope="row">Equaliser</th><td><div class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></td><td><div class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></td><td><div class="eq live" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></td></tr>
+      <tr><th scope="row">Message</th><td>Press the button when you're ready!</td><td>Listening for your low note… 🌊</td><td>Keep holding it… 62% ✨</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Both themes</h3>
+  <div class="ds-themes">
+    <div data-theme="light"><section class="card ladder-card" aria-label="Ladder, light theme"><div class="ladder"><div class="rung lit"></div><div class="rung captured lit">Low B3 ✓</div><div class="rung lit"></div><div class="rung now"><span class="singer-dot">🦄</span></div><div class="rung"></div><div class="rung"></div></div><div class="ladder-side" aria-hidden="true"><span>⭐</span><span>🌊</span></div></section><div class="card card-soft listen"><div class="mic live" role="img" aria-label="Microphone, listening">🎤</div><div class="listen-info"><strong>Keep holding it… 62% ✨</strong><div class="eq live" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div></div>
+    <div data-theme="dark"><section class="card ladder-card" aria-label="Ladder, dark theme"><div class="ladder"><div class="rung lit"></div><div class="rung captured lit">Low B3 ✓</div><div class="rung lit"></div><div class="rung now"><span class="singer-dot">🦄</span></div><div class="rung"></div><div class="rung"></div></div><div class="ladder-side" aria-hidden="true"><span>⭐</span><span>🌊</span></div></section><div class="card card-soft listen"><div class="mic live" role="img" aria-label="Microphone, listening">🎤</div><div class="listen-info"><strong>Keep holding it… 62% ✨</strong><div class="eq live" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div></div>
+  </div>
+  <ul>
+    <li><b>Holding</b>: the message counts up in words and percent (<em>Keep holding it… 62% ✨</em>) for the same hold time on every device. The percentage is the progress; there is no separate bar.</li>
+    <li><b>Too quiet or wobbly</b> is not a state the child sees as a problem: the dot simply stays where it is and Twinkle's bubble encourages (<em>a big cozy “laaa”</em>).</li>
+    <li><b>Microphone blocked</b> leaves the ladder idle and opens the <a href="../../mocks/dialogs/mic-denied/default.html">mic-denied dialog</a> for a grown-up; the singer can always choose <em>Later</em> and sing in the standard key.</li>
+    <li><b>Done</b> opens the Voice found dialog with both captured notes (<em>You sing from B3 up to E5.</em>).</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+  <ul>
+    <li>The ladder card fills the screen column; rungs stretch (<code>flex: 1</code>) and the side scale keeps its width. Twelve 32px rungs and eleven 8px gaps make a 472px ladder at every width, so the game looks the same on phone and tablet.</li>
+    <li>On short phones (under 700px tall) the screen scrolls; the microphone row sits directly under the ladder so both stay in view while she sings.</li>
+    <li>The listen row keeps the microphone at 92px and lets the message wrap; the equaliser keeps its 40px height.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="theming"><h2><a href="#theming">Theming</a></h2>
+  <p>Rungs read <code>--color-mark-idle</code>, the decor gradient (<code>--color-decor-aqua</code> → <code>--color-decor-sky</code>) when lit, <code>--gradient-rung-now</code> when now and the reward gradient when captured. The microphone uses <code>--gradient-hero</code> and <code>--shadow-glow-accent</code>; the equaliser alternates <code>--color-accent-graphic</code> and <code>--color-decor-sky</code>. In the night studio idle rungs darken to <code>--palette-night-650</code> while the captured gold stays the same.</p>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <h3>Role and pattern</h3>
+  <p>The ladder is a labelled picture of progress: <code>&lt;section aria-label="Your vocal range ladder"&gt;</code>, rungs as generic elements, the side scale <code>aria-hidden</code>. The microphone is <code>role="img"</code> with an <code>aria-label</code> that says whether it is listening. The listen message is the accessible channel: give it <code>role="status"</code> (<a href="https://www.w3.org/TR/wai-aria-1.2/#status">ARIA status role</a>; no APG widget pattern applies) and update it at most once a second, rounding the hold percentage to tens. The only control is the screen's one button (<em>I'm ready — listen! 🎤</em>), a native <a href="button.html">button</a>.</p>
+  <h3>Keyboard</h3>
+  <table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody>
+    <tr><td><kbd>Tab</kbd></td><td>Back (←), <em>Later</em>, then the main button. The ladder, mic and equaliser are skipped.</td></tr>
+    <tr><td><kbd>Enter</kbd>, <kbd>Space</kbd></td><td>On the main button: starts listening. The button is removed while listening; focus moves to the listen message container (<code>tabindex="-1"</code>) so it is not lost.</td></tr>
+  </tbody></table>
+  <h3>Focus</h3>
+  <p>No ladder part is focusable. When listening ends (Voice found dialog), focus moves into the dialog; when it closes, focus returns to the main button.</p>
+  <h3>Labelling</h3>
+  <p>Captured rungs carry their note in text (<em>Low B3 ✓</em>), so the range is never in colour alone. The singer dot's avatar is decorative inside the rung; the message says what is happening (<em>Listening for your high note… ⭐</em>).</p>
+  <h3>Contrast</h3>
+  <div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);">
+    <div class="ds-pair"><span>Captured rung label</span><span class="ds-pair__ratio" data-contrast="--color-reward-fg|--color-reward-bg" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Captured label on the pale end</span><span class="ds-pair__ratio" data-contrast="--color-reward-fg|--color-reward-bg-subtle" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Now rung label on blue</span><span class="ds-pair__ratio" data-contrast="--color-fg-on-accent|--color-accent" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Side scale and listen message</span><span class="ds-pair__ratio" data-contrast="--color-fg-muted|--color-bg-surface" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Microphone disc vs card</span><span class="ds-pair__ratio" data-contrast="--color-accent|--color-bg-surface" data-min="3"></span></div>
+  </div>
+  <h3>Motion</h3>
+  <p>The now rung and the live microphone pulse a ring over <code>--duration-pulse</code>; equaliser bars bounce over <code>--duration-progress</code> with staggered delays. Under <code>prefers-reduced-motion</code> the pulses and bounce run once and stop; the message and the singer dot still update, so no information is lost.</p>
+  <h3>Touch</h3>
+  <p>Not touch targets. The microphone looks pressable but is not: the screen's button below is the one action, at 68px.</p>
+</section>
+
+<section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+  <ul>
+    <li>Listen messages say what Twinkle is doing, warmly: <em>Press the button when you're ready!</em>, <em>Listening for your low note… 🌊</em>, <em>Keep holding it… 62% ✨</em>, <em>Listening for your high note… ⭐</em>.</li>
+    <li>Captured labels: <em>Low B3 ✓</em>, <em>High E5 ✓</em>. Note names appear only here and in the Voice found dialog; grown-ups see them, children see the ladder.</li>
+    <li>Use <em>comfy</em>, never <em>correct</em>: the range is what feels good, not a test.</li>
+    <li>Never say <em>too low</em>, <em>out of range</em> or <em>failed</em>. If nothing is heard, Twinkle invites another "laaa".</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas"><div class="rung captured lit" style="width: 100%;">Low B3 ✓</div></div><figcaption>A captured rung says which note it is in text, not just in gold.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><div class="rung captured lit" style="width: 100%;"></div></div><figcaption>A gold rung with no label. The range is then only in colour and lost to anyone who cannot see it.</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas"><div class="listen-info"><strong role="status">Keep holding it… 60% ✨</strong></div></div><figcaption>One polite live message, updated at most once a second.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><div class="listen-info"><strong>Too low! Try again.</strong></div></div><figcaption>Judging the voice. Every voice has a comfy range, and Twinkle tunes the songs to it.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+  <div class="ds-table-wrap"><table class="ds-table">
+<thead><tr><th scope="col">Use</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+<tbody>
+<tr><td>Rung height</td><td><code>--size-rung</code></td><td><span data-theme="light" data-token="--size-rung"></span></td><td><span data-theme="dark" data-token="--size-rung"></span></td></tr>
+<tr><td>Idle rung</td><td><code>--color-mark-idle</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-mark-idle" data-swatch></i><span data-token="--color-mark-idle"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-mark-idle" data-swatch></i><span data-token="--color-mark-idle"></span></span></td></tr>
+<tr><td>Lit rung start</td><td><code>--color-decor-aqua</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-decor-aqua" data-swatch></i><span data-token="--color-decor-aqua"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-decor-aqua" data-swatch></i><span data-token="--color-decor-aqua"></span></span></td></tr>
+<tr><td>Lit rung end</td><td><code>--color-decor-sky</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-decor-sky" data-swatch></i><span data-token="--color-decor-sky"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-decor-sky" data-swatch></i><span data-token="--color-decor-sky"></span></span></td></tr>
+<tr><td>Now rung</td><td><code>--gradient-rung-now</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--gradient-rung-now" data-swatch></i><span data-token="--gradient-rung-now"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--gradient-rung-now" data-swatch></i><span data-token="--gradient-rung-now"></span></span></td></tr>
+<tr><td>Captured rung</td><td><code>--color-reward-bg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-reward-bg" data-swatch></i><span data-token="--color-reward-bg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-reward-bg" data-swatch></i><span data-token="--color-reward-bg"></span></span></td></tr>
+<tr><td>Captured label</td><td><code>--color-reward-fg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-reward-fg" data-swatch></i><span data-token="--color-reward-fg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-reward-fg" data-swatch></i><span data-token="--color-reward-fg"></span></span></td></tr>
+<tr><td>Singer dot</td><td><code>--size-control-sm</code></td><td><span data-theme="light" data-token="--size-control-sm"></span></td><td><span data-theme="dark" data-token="--size-control-sm"></span></td></tr>
+<tr><td>Microphone</td><td><code>--size-mic</code></td><td><span data-theme="light" data-token="--size-mic"></span></td><td><span data-theme="dark" data-token="--size-mic"></span></td></tr>
+<tr><td>Microphone fill</td><td><code>--gradient-hero</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--gradient-hero" data-swatch></i><span data-token="--gradient-hero"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--gradient-hero" data-swatch></i><span data-token="--gradient-hero"></span></span></td></tr>
+<tr><td>Microphone glow</td><td><code>--shadow-glow-accent</code></td><td><span data-theme="light" data-token="--shadow-glow-accent"></span></td><td><span data-theme="dark" data-token="--shadow-glow-accent"></span></td></tr>
+<tr><td>Equaliser bar</td><td><code>--color-accent-graphic</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-accent-graphic" data-swatch></i><span data-token="--color-accent-graphic"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-accent-graphic" data-swatch></i><span data-token="--color-accent-graphic"></span></span></td></tr>
+<tr><td>Pulse cycle</td><td><code>--duration-pulse</code></td><td><span data-theme="light" data-token="--duration-pulse"></span></td><td><span data-theme="dark" data-token="--duration-pulse"></span></td></tr>
+<tr><td>Equaliser bounce</td><td><code>--duration-progress</code></td><td><span data-theme="light" data-token="--duration-progress"></span></td><td><span data-theme="dark" data-token="--duration-progress"></span></td></tr>
+<tr><td>Side scale text</td><td><code>--color-fg-muted</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-muted" data-swatch></i><span data-token="--color-fg-muted"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-muted" data-swatch></i><span data-token="--color-fg-muted"></span></span></td></tr>
+</tbody></table></div>
+</section>
+
+<section class="ds-section" id="code"><h2><a href="#code">Code</a></h2>
+  <pre><code>&lt;div class="card card-soft listen"&gt;
+  &lt;div class="mic live" data-mic role="img" aria-label="Microphone, listening"&gt;🎤&lt;/div&gt;
+  &lt;div class="listen-info"&gt;
+    &lt;strong data-listen-msg role="status"&gt;Listening for your low note… 🌊&lt;/strong&gt;
+    &lt;div class="eq live" data-eq aria-hidden="true"&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+  <table class="ds-table"><thead><tr><th scope="col">Class / attribute</th><th scope="col">Effect</th></tr></thead><tbody>
+    <tr><td><code>.ladder-card</code> / <code>.ladder</code></td><td>Card layout / bottom-up column of rungs.</td></tr>
+    <tr><td><code>.rung</code> <code>.lit</code> <code>.now</code> <code>.captured</code></td><td>Idle / passed / current / held note (combine <code>.captured.lit</code>).</td></tr>
+    <tr><td><code>.singer-dot</code></td><td>The singer's avatar on the now rung.</td></tr>
+    <tr><td><code>.ladder-side</code></td><td>⭐ HIGH · LOW 🌊 scale; <code>aria-hidden</code>.</td></tr>
+    <tr><td><code>.listen</code> <code>.listen-info</code></td><td>Microphone row and its message column.</td></tr>
+    <tr><td><code>.mic</code> <code>.mic.live</code></td><td>Microphone; pulsing while listening.</td></tr>
+    <tr><td><code>.eq</code> <code>.eq.live</code></td><td>Seven <code>&lt;i&gt;</code> bars; bouncing while sound is heard.</td></tr>
+    <tr><td><code>data-ladder</code> <code>data-rung</code> <code>data-mic</code> <code>data-eq</code> <code>data-listen-msg</code></td><td>Hooks for the app and e2e page objects.</td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+  <p>Extracted from these mocks:</p>
+  <ul>
+    <li><a href="../../mocks/pages/voice-setup/default.html">pages/voice-setup/default</a> (ready, idle ladder)</li>
+    <li><a href="../../mocks/pages/voice-setup/listening-low.html">pages/voice-setup/listening-low</a> (live mic, quiet equaliser)</li>
+    <li><a href="../../mocks/pages/voice-setup/holding.html">pages/voice-setup/holding</a> (now rung, singer dot, 62%)</li>
+    <li><a href="../../mocks/pages/voice-setup/listening-high.html">pages/voice-setup/listening-high</a> (captured low note)</li>
+    <li><a href="../../mocks/dialogs/voice-found/default.html">dialogs/voice-found/default</a> and <a href="../../mocks/dialogs/mic-denied/default.html">dialogs/mic-denied/default</a> (what follows)</li>
+  </ul>
+  <p>Drift fixed during extraction: the vertical HIGH · LOW label was 11px and is raised to the 12px floor (D10); idle rung text moved from the faint ink to <code>--color-fg-subtle</code> (D03); 30px rungs, 10px rung gaps and 14px rung padding snapped to 32, 8 and 16px (D11); the pulse and equaliser timings mapped to <code>--duration-pulse</code> and <code>--duration-progress</code> (D14). The listen message gains <code>role="status"</code> as part of the contract. See the <a href="../index.html#drift">drift log</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

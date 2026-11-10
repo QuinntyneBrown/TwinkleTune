@@ -167,6 +167,15 @@
 <tr id="D23"><td><b>D23</b></td><td>songs, home</td><td>Mini buttons (🏆, Duet) and the tip arrow are smaller than the 52px child target.</td><td>Kept ≥ 24px with ≥ 8px between; the tip arrow grows to 44px.</td></tr>
 <tr id="D24"><td><b>D24</b></td><td>every mock with <code>.link-quiet</code></td><td>Quiet links were underlined with decorative pale dots.</td><td>Dotted underline in <code>--color-border-strong</code>, solid on hover.</td></tr>
 <tr id="D25"><td><b>D25</b></td><td>profiles, me</td><td>The singing profile and today's disc were marked by a colour ring alone.</td><td>Keep the text tag (“SINGING NOW ⭐”) and <code>aria-current</code> alongside the ring.</td></tr>
+<tr id="D26"><td><b>D26</b></td><td>every page with the bottom nav, me</td><td>Decorative emoji in nav items, badges and rows are read aloud (no <code>aria-hidden</code>).</td><td>Emoji that repeat a word are wrapped in <code>aria-hidden="true"</code>; emoji that carry meaning get a label.</td></tr>
+<tr id="D27"><td><b>D27</b></td><td>welcome, singer-editor</td><td>The singer name field has no <code>autocomplete</code> hint.</td><td><code>autocomplete="given-name"</code> on singer name fields (1.3.5).</td></tr>
+<tr id="D28"><td><b>D28</b></td><td>sing (Frère Jacques)</td><td>French lyrics carry no <code>lang</code>, so screen readers mispronounce them.</td><td>Lyric lines of a song in another language carry <code>lang</code> (3.1.2).</td></tr>
+<tr id="D29"><td><b>D29</b></td><td>notifications/toast, grown-up managers</td><td>Grown-up failure toasts dismiss themselves before they can be read.</td><td>Failures persist until dismissed, or move into the dialog's validation box; only good news auto-dismisses.</td></tr>
+<tr id="D30"><td><b>D30</b></td><td>me, results</td><td>A locked badge dimmed the whole card to 62% opacity, pulling its name below 4.5:1.</td><td>Only the disc greys out; the card sits on glass and the name stays at full <code>--color-fg-subtle</code> contrast.</td></tr>
+<tr id="D31"><td><b>D31</b></td><td>results</td><td>The result stars' <code>aria-label</code> sits on a plain <code>&lt;div&gt;</code>, which screen readers ignore.</td><td><code>role="img"</code> with a label in words (“2 of 3 stars”).</td></tr>
+<tr id="D32"><td><b>D32</b></td><td>voice-setup</td><td>The step dots' <code>aria-label="Progress"</code> sits on a plain <code>&lt;div&gt;</code> and is never announced.</td><td><code>role="img"</code> labelled “Step 2 of 3: low notes”.</td></tr>
+<tr id="D33"><td><b>D33</b></td><td>dialogs/*</td><td>The skip link stays focusable behind an open dialog, pointing at content that is inert.</td><td>Everything outside the dialog, skip link included, is inert while it is open; dialogs are named by <code>aria-labelledby</code> on their title (the parent gate's label and title disagreed).</td></tr>
+<tr id="D34"><td><b>D34</b></td><td>dialogs/parent-gate/invalid</td><td>The shake is the only feedback when another answer is tapped, and reduced motion removes it.</td><td>A visually hidden <code>role="status"</code> line says “Try another answer”.</td></tr>
     </tbody>
   </table></div>
 </section>

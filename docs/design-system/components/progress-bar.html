@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Progress bar — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune progress bar: blue, gold and pink fills, three track heights, determinate and indeterminate, every state, both themes.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Component · Feedback</p>
+      <h1>Progress bar</h1>
+      <p class="ds-lead">Rounded tracks with a gradient fill: how far through the song she is, how close the next level is, and how many notes she landed. The number is always also said in words.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill"><code>role="progressbar"</code></span><span class="ds-pill">Status: stable</span><span class="ds-pill">Class <code>.track</code> / <code>.fill</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>Use a progress bar to show a known amount of a whole: song position, level progress, notes landed. Every bar sits next to words that state the same value (<em>You landed 18 of 24 notes! 🎯</em>, <em>140 ✨ to Level 4!</em>), so the bar is a picture of the sentence, never the only source. For today's sparkle goal use the <a href="progress-ring.html">progress ring</a>; for an unknown wait use a <a href="spinner.html">spinner</a> or the indeterminate bar below.</p>
+  <ul>
+    <li><b>Blue</b> (<code>.fill</code>) is plain progress: song position on the Sing screen, level progress on Me.</li>
+    <li><b>Gold</b> (<code>.fill-gold</code>) is a reward: the landed-notes score on Results.</li>
+    <li><b>Pink</b> (<code>.fill-pink</code>) is gentle progress, such as practising the tricky part. It is in the kit but no mock uses it yet.</li>
+  </ul>
+  <p>A bar never represents failure. There is no red fill and no "low score" colour: 44% landed is the same gold as 95%.</p>
+</section>
+
+<section class="ds-section" id="anatomy"><h2><a href="#anatomy">Anatomy</a></h2>
+  <div class="ds-anatomy">
+    <figure class="ds-anatomy__figure">
+      <div class="ds-w-form">
+        <div class="progress-label"><span>Level 3</span><span>140 ✨ to Level 4!</span></div>
+        <div class="track" role="progressbar" aria-label="Level progress" aria-valuemin="0" aria-valuemax="300" aria-valuenow="160" aria-valuetext="160 of 300 sparkles, 140 to Level 4"><div class="fill" style="width:53%"></div></div>
+      </div>
+      <span class="ds-callout" style="left: 12%; top: 28%;" aria-hidden="true">1</span>
+      <span class="ds-callout" style="left: 30%; top: 64%;" aria-hidden="true">2</span>
+      <span class="ds-callout" style="left: 72%; top: 64%;" aria-hidden="true">3</span>
+      <span class="ds-callout" style="left: 52%; top: 64%;" aria-hidden="true">4</span>
+    </figure>
+    <ol class="ds-anatomy__list">
+      <li><div><b>Label row (optional)</b><small><code>.progress-label</code>: name on the left, value in words on the right, <code>--text-label</code>. Me uses its own <code>.xp-row</code>; Results puts the sentence in the card heading.</small></div></li>
+      <li><div><b>Fill</b><small><code>.fill</code>: full height, <code>--radius-full</code>, width set inline as a percentage. Blue <code>--gradient-fill</code>, gold or pink gradients.</small></div></li>
+      <li><div><b>Track</b><small><code>.track</code>: <code>--color-track</code>, <code>--radius-full</code>, 16px tall by default, clips the fill.</small></div></li>
+      <li><div><b>Fill end</b><small>The blue gradient ends in <code>--color-border-strong</code> so the leading edge stands out from the track (D22).</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="ds-section" id="variants"><h2><a href="#variants">Variants</a></h2>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack ds-w-form">
+      <div class="track" role="progressbar" aria-label="Level progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="53"><div class="fill" style="width:53%"></div></div>
+      <div class="track" role="progressbar" aria-label="Notes landed" aria-valuemin="0" aria-valuemax="24" aria-valuenow="18" aria-valuetext="18 of 24 notes"><div class="fill fill-gold" style="width:75%"></div></div>
+      <div class="track" role="progressbar" aria-label="Tricky part practice" aria-valuemin="0" aria-valuemax="100" aria-valuenow="40"><div class="fill fill-pink" style="width:40%"></div></div>
+    </div>
+    <div class="ds-example__caption"><span>Blue (Ada's level, 53%) · gold (18 of 24 notes landed) · pink (tricky part practice).</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;div class="track" role="progressbar" aria-label="Level progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="53"&gt;&lt;div class="fill" style="width:53%"&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class="track" role="progressbar" aria-label="Notes landed" aria-valuemin="0" aria-valuemax="24" aria-valuenow="18" aria-valuetext="18 of 24 notes"&gt;&lt;div class="fill fill-gold" style="width:75%"&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class="track" role="progressbar" aria-label="Tricky part practice" aria-valuemin="0" aria-valuemax="100" aria-valuenow="40"&gt;&lt;div class="fill fill-pink" style="width:40%"&gt;&lt;/div&gt;&lt;/div&gt;</code></pre></details>
+  </div>
+  <h3>Indeterminate</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack ds-w-form">
+      <div class="progress-label"><span>Uploading Mum's photo…</span></div>
+      <div class="track track-sm" role="progressbar" aria-label="Uploading photo" aria-busy="true"><div class="fill"></div></div>
+    </div>
+    <div class="ds-example__caption"><span><code>aria-busy="true"</code> on the track runs a 40% fill across it. Grown-up uploads to the family server only; no child flow waits on one.</span></div>
+  </div>
+</section>
+
+<section class="ds-section" id="sizes"><h2><a href="#sizes">Sizes</a></h2>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack ds-w-form">
+      <div class="track track-sm" role="progressbar" aria-label="Song position, small" aria-valuemin="0" aria-valuemax="100" aria-valuenow="26"><div class="fill" style="width:25.9%"></div></div>
+      <div class="track" role="progressbar" aria-label="Level progress, medium" aria-valuemin="0" aria-valuemax="100" aria-valuenow="53"><div class="fill" style="width:53%"></div></div>
+      <div class="track track-lg" role="progressbar" aria-label="Notes landed, large" aria-valuemin="0" aria-valuemax="24" aria-valuenow="18"><div class="fill fill-gold" style="width:75%"></div></div>
+    </div>
+    <div class="ds-example__caption"><span><code>.track-sm</code> 10px (song position under the title) · default 16px (level) · <code>.track-lg</code> 20px (Results score, tuner).</span></div>
+  </div>
+</section>
+
+<section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+  <div class="ds-matrix"><table>
+    <thead><tr><th scope="col">Fill</th><th scope="col">Empty (0%)</th><th scope="col">Partway</th><th scope="col">Full (100%)</th><th scope="col">Animating in</th><th scope="col">Indeterminate</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Blue</th>
+        <td><div class="track" role="progressbar" aria-label="Blue, empty" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="fill" style="width:0%"></div></div></td>
+        <td><div class="track" role="progressbar" aria-label="Blue, partway" aria-valuemin="0" aria-valuemax="100" aria-valuenow="53"><div class="fill" style="width:53%"></div></div></td>
+        <td><div class="track" role="progressbar" aria-label="Blue, full" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><div class="fill" style="width:100%"></div></div></td>
+        <td><div class="track" role="progressbar" aria-label="Blue, animating" aria-valuemin="0" aria-valuemax="100" aria-valuenow="53"><div class="fill fill-animated" style="width:53%"></div></div></td>
+        <td><div class="track" role="progressbar" aria-label="Blue, loading" aria-busy="true"><div class="fill"></div></div></td></tr>
+      <tr><th scope="row">Gold</th>
+        <td><div class="track" role="progressbar" aria-label="Gold, empty" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="fill fill-gold" style="width:0%"></div></div></td>
+        <td><div class="track" role="progressbar" aria-label="Gold, partway" aria-valuemin="0" aria-valuemax="100" aria-valuenow="44"><div class="fill fill-gold" style="width:44%"></div></div></td>
+        <td><div class="track" role="progressbar" aria-label="Gold, full" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><div class="fill fill-gold" style="width:100%"></div></div></td>
+        <td><div class="track" role="progressbar" aria-label="Gold, animating" aria-valuemin="0" aria-valuemax="100" aria-valuenow="75"><div class="fill fill-gold fill-animated" style="width:75%"></div></div></td>
+        <td>—</td></tr>
+      <tr><th scope="row">Pink</th>
+        <td><div class="track" role="progressbar" aria-label="Pink, empty" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="fill fill-pink" style="width:0%"></div></div></td>
+        <td><div class="track" role="progressbar" aria-label="Pink, partway" aria-valuemin="0" aria-valuemax="100" aria-valuenow="40"><div class="fill fill-pink" style="width:40%"></div></div></td>
+        <td><div class="track" role="progressbar" aria-label="Pink, full" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><div class="fill fill-pink" style="width:100%"></div></div></td>
+        <td><div class="track" role="progressbar" aria-label="Pink, animating" aria-valuemin="0" aria-valuemax="100" aria-valuenow="40"><div class="fill fill-pink fill-animated" style="width:40%"></div></div></td>
+        <td>—</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Both themes</h3>
+  <div class="ds-themes">
+    <div data-theme="light"><div class="ds-col" style="align-items: stretch;"><div class="track" role="progressbar" aria-label="Blue, light theme" aria-valuemin="0" aria-valuemax="100" aria-valuenow="53"><div class="fill" style="width:53%"></div></div><div class="track" role="progressbar" aria-label="Gold, light theme" aria-valuemin="0" aria-valuemax="100" aria-valuenow="75"><div class="fill fill-gold" style="width:75%"></div></div><div class="track" role="progressbar" aria-label="Pink, light theme" aria-valuemin="0" aria-valuemax="100" aria-valuenow="40"><div class="fill fill-pink" style="width:40%"></div></div></div></div>
+    <div data-theme="dark"><div class="ds-col" style="align-items: stretch;"><div class="track" role="progressbar" aria-label="Blue, dark theme" aria-valuemin="0" aria-valuemax="100" aria-valuenow="53"><div class="fill" style="width:53%"></div></div><div class="track" role="progressbar" aria-label="Gold, dark theme" aria-valuemin="0" aria-valuemax="100" aria-valuenow="75"><div class="fill fill-gold" style="width:75%"></div></div><div class="track" role="progressbar" aria-label="Pink, dark theme" aria-valuemin="0" aria-valuemax="100" aria-valuenow="40"><div class="fill fill-pink" style="width:40%"></div></div></div></div>
+  </div>
+  <ul>
+    <li><b>Empty</b> shows the bare track, as for Bea at Level 1 (<em>300 ✨ to Level 2!</em>). An empty bar is a start line, not a zero score.</li>
+    <li><b>Animating in</b> (<code>.fill-animated</code>) grows from 0 when a screen opens (Me, Results). The song-position bar on the Sing screen updates continuously and never uses it.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+  <ul>
+    <li>The track fills its container's width; height never changes with width. The fill is a percentage, so it scales with the track.</li>
+    <li>In the Sing header the small track sits under the song title and shrinks with it (<code>min-width: 0</code>) when the key chips take space.</li>
+    <li>Label rows wrap: the value moves under the name rather than truncating.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="theming"><h2><a href="#theming">Theming</a></h2>
+  <p>The track is <code>--color-track</code>; fills are <code>--gradient-fill</code> (<code>--color-accent-graphic</code> → <code>--color-border-strong</code>), the reward gradient and <code>--gradient-fill-gentle</code>. Override per instance with those tokens only. In the night studio the track sinks to <code>--palette-night-900</code> and the fills keep their hue, so gold progress still reads as a reward.</p>
+  <pre><code>/* A gentle bar inside a reward card */
+.score-card .track .fill { background: var(--gradient-fill-gentle); }</code></pre>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <h3>Role and pattern</h3>
+  <p><code>role="progressbar"</code> on the <code>.track</code> with <code>aria-valuemin</code>, <code>aria-valuemax</code>, <code>aria-valuenow</code>, and <code>aria-valuetext</code> when a count reads better than a percentage (<em>18 of 24 notes</em>). See the <a href="https://www.w3.org/TR/wai-aria-1.2/#progressbar">ARIA progressbar role</a>; the APG has no separate widget pattern for it (the related <a href="https://www.w3.org/WAI/ARIA/apg/patterns/meter/">APG Meter</a> is for values that are not progress). Give it an <code>aria-label</code> or <code>aria-labelledby</code> the visible heading. Indeterminate bars drop <code>aria-valuenow</code> and set <code>aria-busy="true"</code>. The mocks' bars have no role; the contract adds it.</p>
+  <h3>Keyboard</h3>
+  <table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody>
+    <tr><td><kbd>Tab</kbd></td><td>Skips the bar; it is not focusable.</td></tr>
+    <tr><td>Screen reader reading keys</td><td>Announce "Notes landed, progress bar, 18 of 24 notes".</td></tr>
+  </tbody></table>
+  <h3>Focus</h3>
+  <p>None. Never make a progress bar interactive; use a <a href="slider.html">slider</a> for an adjustable value.</p>
+  <h3>Labelling</h3>
+  <p>The song-position bar on the Sing screen is labelled "Song progress" and updates <code>aria-valuenow</code> at most once a second; it is not a live region. Results and Me bars are labelled by their sentence (<code>aria-labelledby</code> the heading).</p>
+  <h3>Contrast</h3>
+  <div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);">
+    <div class="ds-pair"><span>Fill end vs track (decorative)</span><span class="ds-pair__ratio" data-contrast="--color-border-strong|--color-track" data-min="1.5"></span></div>
+    <div class="ds-pair"><span>Label text beside the track</span><span class="ds-pair__ratio" data-contrast="--color-fg-muted|--color-bg-surface" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Value text on the card</span><span class="ds-pair__ratio" data-contrast="--color-fg-default|--color-bg-surface" data-min="4.5"></span></div>
+  </div>
+  <p>The bar itself is a graphic that duplicates the words next to it, so WCAG 1.4.11 does not require 3:1 between fill and track; the fill end was still darkened to <code>--color-border-strong</code> so the edge is easy to see (D22).</p>
+  <h3>Motion</h3>
+  <p><code>.fill-animated</code> grows over <code>--duration-progress</code> with <code>--ease-standard</code>; the indeterminate fill sweeps over <code>--duration-pulse</code>. Under reduced motion the fill appears at its value and the indeterminate sweep runs once, then rests.</p>
+  <h3>Touch</h3>
+  <p>Not a touch target.</p>
+</section>
+
+<section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+  <ul>
+    <li>Say the value in words next to the bar, framed as what she has: <em>You landed 18 of 24 notes! 🎯</em>, <em>140 ✨ to Level 4!</em>, <em>✨ 760 sparkles collected</em>.</li>
+    <li>Never show the gap as a loss (<em>6 notes missed</em>, <em>25% wrong</em>).</li>
+    <li>Use counts children understand ("18 of 24") over percentages; percentages are for grown-up screens and the tuner.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas ds-example__canvas--stack"><p class="display">You landed 8 of 18 notes! 🎯</p><div class="track track-lg" role="progressbar" aria-label="Notes landed" aria-valuemin="0" aria-valuemax="18" aria-valuenow="8"><div class="fill fill-gold" style="width:44%"></div></div></div><figcaption>A lower score is still gold and still celebrated in words.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas ds-example__canvas--stack"><p class="display">44%</p><div class="track track-lg" aria-hidden="true"><div class="fill" style="width:44%; background: var(--color-danger-solid);"></div></div></div><figcaption>Switching to red for a low value and showing a bare percentage. It reads as failure.</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas ds-example__canvas--stack"><div class="progress-label"><span>Level 3</span><span>140 ✨ to Level 4!</span></div><div class="track" role="progressbar" aria-label="Level progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="53"><div class="fill" style="width:53%"></div></div></div><figcaption>The bar pictures the sentence beside it, and has a role and value for screen readers.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><div class="track ds-w-full"><div class="fill" style="width:53%"></div></div></div><figcaption>A bare bar with no words and no role: the value exists only as a length.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+  <div class="ds-table-wrap"><table class="ds-table">
+<thead><tr><th scope="col">Use</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+<tbody>
+<tr><td>Track</td><td><code>--color-track</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-track" data-swatch></i><span data-token="--color-track"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-track" data-swatch></i><span data-token="--color-track"></span></span></td></tr>
+<tr><td>Blue fill</td><td><code>--gradient-fill</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--gradient-fill" data-swatch></i><span data-token="--gradient-fill"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--gradient-fill" data-swatch></i><span data-token="--gradient-fill"></span></span></td></tr>
+<tr><td>Blue fill start</td><td><code>--color-accent-graphic</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-accent-graphic" data-swatch></i><span data-token="--color-accent-graphic"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-accent-graphic" data-swatch></i><span data-token="--color-accent-graphic"></span></span></td></tr>
+<tr><td>Blue fill end</td><td><code>--color-border-strong</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-border-strong" data-swatch></i><span data-token="--color-border-strong"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-border-strong" data-swatch></i><span data-token="--color-border-strong"></span></span></td></tr>
+<tr><td>Gold fill</td><td><code>--gradient-fill-reward</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--gradient-fill-reward" data-swatch></i><span data-token="--gradient-fill-reward"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--gradient-fill-reward" data-swatch></i><span data-token="--gradient-fill-reward"></span></span></td></tr>
+<tr><td>Pink fill</td><td><code>--gradient-fill-gentle</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--gradient-fill-gentle" data-swatch></i><span data-token="--gradient-fill-gentle"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--gradient-fill-gentle" data-swatch></i><span data-token="--gradient-fill-gentle"></span></span></td></tr>
+<tr><td>Small height</td><td><code>--size-track-sm</code></td><td><span data-theme="light" data-token="--size-track-sm"></span></td><td><span data-theme="dark" data-token="--size-track-sm"></span></td></tr>
+<tr><td>Default height</td><td><code>--size-track</code></td><td><span data-theme="light" data-token="--size-track"></span></td><td><span data-theme="dark" data-token="--size-track"></span></td></tr>
+<tr><td>Large height</td><td><code>--size-track-lg</code></td><td><span data-theme="light" data-token="--size-track-lg"></span></td><td><span data-theme="dark" data-token="--size-track-lg"></span></td></tr>
+<tr><td>Corners</td><td><code>--radius-full</code></td><td><span data-theme="light" data-token="--radius-full"></span></td><td><span data-theme="dark" data-token="--radius-full"></span></td></tr>
+<tr><td>Grow-in</td><td><code>--duration-progress</code></td><td><span data-theme="light" data-token="--duration-progress"></span></td><td><span data-theme="dark" data-token="--duration-progress"></span></td></tr>
+<tr><td>Indeterminate sweep</td><td><code>--duration-pulse</code></td><td><span data-theme="light" data-token="--duration-pulse"></span></td><td><span data-theme="dark" data-token="--duration-pulse"></span></td></tr>
+<tr><td>Label row</td><td><code>--text-label</code></td><td><span data-theme="light" data-token="--text-label"></span></td><td><span data-theme="dark" data-token="--text-label"></span></td></tr>
+</tbody></table></div>
+</section>
+
+<section class="ds-section" id="code"><h2><a href="#code">Code</a></h2>
+  <pre><code>&lt;section class="card score-card"&gt;
+  &lt;h2 id="score-h"&gt;You landed 18 of 24 notes! 🎯&lt;/h2&gt;
+  &lt;div class="track" role="progressbar" aria-labelledby="score-h"
+       aria-valuemin="0" aria-valuemax="24" aria-valuenow="18" aria-valuetext="18 of 24 notes"&gt;
+    &lt;div class="fill fill-gold fill-animated" style="width:75%"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+  <table class="ds-table"><thead><tr><th scope="col">Class / attribute</th><th scope="col">Effect</th></tr></thead><tbody>
+    <tr><td><code>.track</code></td><td>The rail, 16px.</td></tr>
+    <tr><td><code>.track-sm</code> <code>.track-lg</code></td><td>10px / 20px rail.</td></tr>
+    <tr><td><code>.fill</code></td><td>Blue fill; set <code>style="width:N%"</code>.</td></tr>
+    <tr><td><code>.fill-gold</code> <code>.fill-pink</code></td><td>Reward / gentle fill.</td></tr>
+    <tr><td><code>.fill-animated</code></td><td>Grows in from 0 once.</td></tr>
+    <tr><td><code>.progress-label</code></td><td>Name and value row above the track.</td></tr>
+    <tr><td><code>role="progressbar"</code> + <code>aria-value*</code></td><td>Required on <code>.track</code>.</td></tr>
+    <tr><td><code>aria-busy="true"</code></td><td>Indeterminate sweep; omit <code>aria-valuenow</code>.</td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+  <p>Extracted from these mocks:</p>
+  <ul>
+    <li><a href="../../mocks/pages/sing/default.html">pages/sing/default</a> (small song-position track)</li>
+    <li><a href="../../mocks/pages/me/default.html">pages/me/default</a> and <a href="../../mocks/pages/me/empty.html">me/empty</a> (level bar, partway and empty)</li>
+    <li><a href="../../mocks/pages/results/default.html">pages/results/default</a>, <a href="../../mocks/pages/results/one-star.html">one-star</a> and <a href="../../mocks/pages/results/three-stars.html">three-stars</a> (gold score bar)</li>
+    <li><a href="../../mocks/pages/tuner/listening.html">pages/tuner/listening</a> (large track as the cents rail)</li>
+  </ul>
+  <p>Drift fixed during extraction: the blue fill ended in a pale sky at 2.25:1 against the track, now <code>--color-border-strong</code> (3.3:1), with values always also given in text (D22); the 18px level track snapped to the 16px default (D11); the grow-in timing became <code>--duration-progress</code> (D14). Bars gain <code>role="progressbar"</code> and values as part of the contract. See the <a href="../index.html#drift">drift log</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

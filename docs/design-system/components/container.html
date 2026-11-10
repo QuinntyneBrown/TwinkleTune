@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Container — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune layout primitives: .screen, .container, .stack, .cluster, .grid and .grid-auto, with gutters, margins and breakpoints.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Component · Containers</p>
+      <h1>Container</h1>
+      <p class="ds-lead">The layout primitives every screen is built from: the one centred child column, the wide grown-ups container, and stack, cluster and grid for arranging what goes inside.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill"><code>&lt;main&gt;</code> / <code>&lt;div&gt;</code></span><span class="ds-pill">Status: stable</span><span class="ds-pill">Class <code>.screen</code> / <code>.container</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>Containers set width and rhythm; they draw nothing. Every child screen is one <code>.screen</code>: a single centred column, 470px at most, with 20px side margins and room at the bottom for the floating <a href="bottom-nav.html">bottom nav</a>. That one column is why buttons and cards never rearrange between a phone and a tablet.</p>
+  <ul>
+    <li><b>Screen</b> (<code>.screen</code>) is the child column, used by every page mock. <code>.screen--center</code> centres a celebratory screen (Welcome, Results); <code>.screen--nonav</code> drops the bottom-nav clearance (Sing, Find My Voice).</li>
+    <li><b>Container</b> (<code>.container</code>) is the wide frame for grown-up and marketing pages, up to 1280px. <code>.container-screen</code> narrows it back to the child column.</li>
+    <li><b>Stack</b> (<code>.stack</code>, <code>.stack-sm</code>, <code>.stack-lg</code>) spaces children vertically: 16px by default, 8px or 24px.</li>
+    <li><b>Cluster</b> (<code>.cluster</code>) lays children in a wrapping row with a 12px gap: song meta, button pairs, chips.</li>
+    <li><b>Grid</b> (<code>.grid</code>) is the responsive column grid: 4, 8 or 12 columns with the layout gutter. <code>.grid-auto</code> fills as many equal tracks as fit, as the profile grid does.</li>
+  </ul>
+  <p>The screen column and the screen-specific grids (<code>.tiles</code>, <code>.badges</code>, <code>.profile-grid</code>) come from the mocks. <code>.container</code>, <code>.stack</code>, <code>.cluster</code>, <code>.grid</code> and <code>.grid-auto</code> are not in the mocks yet; they are added for the Grown-Ups Corner, the family-server managers and marketing, and generalise what the screens already do by hand.</p>
+</section>
+
+<section class="ds-section" id="anatomy"><h2><a href="#anatomy">Anatomy</a></h2>
+  <div class="ds-anatomy">
+    <figure class="ds-anatomy__figure">
+      <div class="ds-grid-demo ds-w-full" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span></div>
+      <span class="ds-callout" style="left: 6%; top: 50%;" aria-hidden="true">1</span>
+      <span class="ds-callout" style="left: 30%; top: 30%;" aria-hidden="true">2</span>
+      <span class="ds-callout" style="left: 39%; top: 70%;" aria-hidden="true">3</span>
+    </figure>
+    <ol class="ds-anatomy__list">
+      <li><div><b>Margin</b><small><code>--layout-margin</code>: 20px on phones, 32px from 768px, 48px from 1024px. The screen's side padding.</small></div></li>
+      <li><div><b>Column</b><small><code>--layout-columns</code>: 4, then 8 from 768px, then 12 from 1024px. Child screens use the single 470px column regardless.</small></div></li>
+      <li><div><b>Gutter</b><small><code>--layout-gutter</code>: 16px, then 24px, then 32px. Stacks and clusters use the spacing scale instead.</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="ds-section" id="variants"><h2><a href="#variants">Variants</a></h2>
+  <h3>Screen column</h3>
+  <div class="ds-example">
+    <div class="ds-stage ds-stage--short">
+      <div class="screen screen--center">
+        <div class="stack ds-w-full">
+          <section class="card card--center" aria-label="Screen column example"><p class="quiet-note">One centred column, 470px at most</p></section>
+          <button class="btn btn-xl" type="button">Let's go!</button>
+        </div>
+      </div>
+    </div>
+    <div class="ds-example__caption"><span><code>.screen.screen--center</code> with a <code>.stack</code> inside, on the sky stage.</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;main id="main" class="screen screen--center"&gt;
+  &lt;div class="stack"&gt;…&lt;/div&gt;
+&lt;/main&gt;</code></pre></details>
+  </div>
+  <h3>Stack and cluster</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack">
+      <div class="stack stack-sm">
+        <div class="list-item"><span>Twinkle Twinkle Little Star</span></div>
+        <div class="list-item"><span>Mary Had a Little Lamb</span></div>
+      </div>
+      <div class="cluster">
+        <span class="pill">⏱ 0:29</span><span class="pill">⭐ Easy</span><span class="tuned">✓ In your key</span>
+      </div>
+    </div>
+    <div class="ds-example__caption"><span><code>.stack.stack-sm</code> (8px) and a <code>.cluster</code> (12px, wraps).</span></div>
+  </div>
+  <h3>Grid and auto grid</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack">
+      <div class="grid"><div class="card">1</div><div class="card">2</div><div class="card">3</div><div class="card">4</div></div>
+      <div class="grid-auto">
+        <div class="profile-card"><div class="avatar avatar-lg" aria-hidden="true">🦄</div><strong>Ada</strong></div>
+        <div class="profile-card"><div class="avatar avatar-lg" aria-hidden="true">🐱</div><strong>Bea</strong></div>
+        <div class="profile-card"><div class="avatar avatar-lg"><img class="avatar-photo" src="../../mocks/assets/img/photo-mum.svg" alt=""></div><strong>Mum</strong></div>
+      </div>
+    </div>
+    <div class="ds-example__caption"><span><code>.grid</code> takes the current column count; <code>.grid-auto</code> fits 150px tracks (<code>--grid-min</code>).</span></div>
+  </div>
+</section>
+
+<section class="ds-section" id="sizes"><h2><a href="#sizes">Sizes</a></h2>
+  <table class="ds-table"><thead><tr><th scope="col">Primitive</th><th scope="col">Max width / gap</th><th scope="col">Token</th></tr></thead><tbody>
+    <tr><td><code>.screen</code>, <code>.container-screen</code></td><td>470px</td><td><code>--layout-screen-max</code></td></tr>
+    <tr><td><code>.container</code></td><td>1280px</td><td><code>--layout-container-max</code></td></tr>
+    <tr><td>Standard dialog / wide dialog</td><td>340px / 440px</td><td><code>--layout-dialog-max</code>, <code>--layout-dialog-wide-max</code></td></tr>
+    <tr><td><code>.stack-sm</code> / <code>.stack</code> / <code>.stack-lg</code></td><td>8 / 16 / 24px</td><td><code>--space-2</code>, <code>--space-4</code>, <code>--space-6</code></td></tr>
+    <tr><td><code>.cluster</code></td><td>12px</td><td><code>--space-3</code> (override with <code>--cluster-gap</code>)</td></tr>
+    <tr><td><code>.grid</code></td><td>16 / 24 / 32px gutter</td><td><code>--layout-gutter</code></td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="states" data-na="Layout primitives have no interactive states."><h2><a href="#states">States</a></h2><p class="ds-na">Layout primitives have no interactive states.</p></section>
+
+<section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+  <ul>
+    <li>Mobile first. Breakpoints are <code>--layout-breakpoint-sm</code> 640px, <code>-md</code> 768px, <code>-lg</code> 1024px, <code>-xl</code> 1280px. Columns, gutter and margin step up at 768px and 1024px.</li>
+    <li>The child column never widens. On a tablet the sky fills the rest of the screen; the column stays centred so a child's thumb finds the same buttons.</li>
+    <li><code>.screen</code> pads 28px top, 20px sides and 128px bottom (<code>--layout-bottomnav-clearance</code>) so the last card scrolls clear of the floating nav.</li>
+    <li><code>.grid-auto</code> uses <code>min(100%, …)</code> so a single track never overflows a 320px screen.</li>
+    <li>Content reflows to one column at 320px CSS width (WCAG 1.4.10); nothing scrolls horizontally except a <code>.table-wrap</code> or a <code>.chip-row</code>.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="theming"><h2><a href="#theming">Theming</a></h2>
+  <p>Containers read only layout and spacing tokens, which are the same in both themes. The page sky behind <code>.screen</code> comes from <code>--gradient-sky</code> on <code>body</code>, which the night studio swaps for the deep gradient.</p>
+  <pre><code>/* A looser stack for a marketing section */
+.feature-list { --stack-gap: var(--space-10); }</code></pre>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <h3>Role and pattern</h3>
+  <p>No APG widget applies; containers are structure. <code>.screen</code> is the <code>&lt;main id="main"&gt;</code> landmark that the skip link targets (<a href="https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/">APG Landmark Regions</a>). Stacks, clusters and grids are plain <code>&lt;div&gt;</code>s, or <code>&lt;ul&gt;</code> when the children are a list.</p>
+  <h3>Keyboard</h3>
+  <table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody>
+    <tr><td><kbd>Tab</kbd></td><td>Follows DOM order. Grids and clusters never reorder visually (no <code>order</code>, no <code>row-reverse</code>), so focus moves left to right, top to bottom.</td></tr>
+  </tbody></table>
+  <h3>Focus</h3>
+  <p>Containers are never focusable. Leave room for focus rings: a 3px ring at 3px offset needs 6px of clear space, which the 8px minimum gap provides.</p>
+  <h3>Labelling</h3>
+  <p>One <code>&lt;main&gt;</code> per page. A grid of singers or badges that a screen reader should hear as a set is a <code>&lt;ul&gt;</code> with <code>role="list"</code> kept (some browsers drop it with <code>list-style: none</code>).</p>
+  <h3>Contrast</h3>
+  <div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);">
+    <div class="ds-pair"><span>Body text on the page sky</span><span class="ds-pair__ratio" data-contrast="--color-fg-default|--color-bg-canvas" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Secondary text on the page sky</span><span class="ds-pair__ratio" data-contrast="--color-fg-muted|--color-bg-canvas" data-min="4.5"></span></div>
+  </div>
+  <h3>Motion</h3>
+  <p>Containers do not animate. Children entering a stack use the screen's staggered rise, removed under <code>prefers-reduced-motion</code>.</p>
+  <h3>Touch</h3>
+  <p>Keep at least 8px between adjacent targets in a cluster (<code>--cluster-gap</code> never below <code>--space-2</code>), so targets smaller than 52px still meet WCAG 2.5.8 spacing.</p>
+</section>
+
+<section class="ds-section" id="content" data-na="Layout primitives carry no copy of their own."><h2><a href="#content">Content</a></h2><p class="ds-na">Layout primitives carry no copy of their own.</p></section>
+
+<section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas"><div class="stack ds-w-full"><div class="card">Goal</div><div class="card">Tip</div></div></div><figcaption>Let the stack own the gap between cards.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><div class="ds-w-full"><div class="card" style="margin-bottom: var(--space-2);">Goal</div><div class="card" style="margin-top: var(--space-6);">Tip</div></div></div><figcaption>Per-card margins drift (the mocks had 6, 10, 14 and 18px gaps before D11).</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas ds-sky"><div class="container-screen ds-w-full"><button class="btn btn-block" type="button">Keep singing ▶</button></div></div><figcaption>Child screens stay in the 470px column on every device.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas ds-sky"><div class="grid ds-w-full"><button class="btn btn-sm" type="button">Sing</button><button class="btn btn-sm btn-white" type="button">Tips</button><button class="btn btn-sm btn-pink" type="button">Me</button><button class="btn btn-sm btn-gold" type="button">Duet</button></div></div><figcaption>Spreading a child screen into a multi-column grid on tablets: there is no longer one obvious action.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+  <div class="ds-table-wrap"><table class="ds-table">
+<thead><tr><th scope="col">Use</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+<tbody>
+<tr><td>Child column</td><td><code>--layout-screen-max</code></td><td><span data-theme="light" data-token="--layout-screen-max"></span></td><td><span data-theme="dark" data-token="--layout-screen-max"></span></td></tr>
+<tr><td>Wide container</td><td><code>--layout-container-max</code></td><td><span data-theme="light" data-token="--layout-container-max"></span></td><td><span data-theme="dark" data-token="--layout-container-max"></span></td></tr>
+<tr><td>Side margin</td><td><code>--layout-margin</code></td><td><span data-theme="light" data-token="--layout-margin"></span></td><td><span data-theme="dark" data-token="--layout-margin"></span></td></tr>
+<tr><td>Columns</td><td><code>--layout-columns</code></td><td><span data-theme="light" data-token="--layout-columns"></span></td><td><span data-theme="dark" data-token="--layout-columns"></span></td></tr>
+<tr><td>Gutter</td><td><code>--layout-gutter</code></td><td><span data-theme="light" data-token="--layout-gutter"></span></td><td><span data-theme="dark" data-token="--layout-gutter"></span></td></tr>
+<tr><td>Bottom clearance</td><td><code>--layout-bottomnav-clearance</code></td><td><span data-theme="light" data-token="--layout-bottomnav-clearance"></span></td><td><span data-theme="dark" data-token="--layout-bottomnav-clearance"></span></td></tr>
+<tr><td>Dialog width</td><td><code>--layout-dialog-max</code></td><td><span data-theme="light" data-token="--layout-dialog-max"></span></td><td><span data-theme="dark" data-token="--layout-dialog-max"></span></td></tr>
+<tr><td>Wide dialog width</td><td><code>--layout-dialog-wide-max</code></td><td><span data-theme="light" data-token="--layout-dialog-wide-max"></span></td><td><span data-theme="dark" data-token="--layout-dialog-wide-max"></span></td></tr>
+<tr><td>Small stack</td><td><code>--space-2</code></td><td><span data-theme="light" data-token="--space-2"></span></td><td><span data-theme="dark" data-token="--space-2"></span></td></tr>
+<tr><td>Cluster gap</td><td><code>--space-3</code></td><td><span data-theme="light" data-token="--space-3"></span></td><td><span data-theme="dark" data-token="--space-3"></span></td></tr>
+<tr><td>Stack gap</td><td><code>--space-4</code></td><td><span data-theme="light" data-token="--space-4"></span></td><td><span data-theme="dark" data-token="--space-4"></span></td></tr>
+<tr><td>Large stack</td><td><code>--space-6</code></td><td><span data-theme="light" data-token="--space-6"></span></td><td><span data-theme="dark" data-token="--space-6"></span></td></tr>
+</tbody></table></div>
+</section>
+
+<section class="ds-section" id="code"><h2><a href="#code">Code</a></h2>
+  <pre><code>&lt;main id="main" class="screen"&gt;
+  &lt;div class="stack"&gt;
+    &lt;section class="card goal" aria-label="Today's goal"&gt;…&lt;/section&gt;
+    &lt;a class="hero-tile" href="/songs"&gt;…&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/main&gt;
+
+&lt;div class="container"&gt;
+  &lt;ul class="grid-auto" role="list" style="--grid-min: var(--size-mascot-lg)"&gt;…&lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+  <table class="ds-table"><thead><tr><th scope="col">Class / property</th><th scope="col">Effect</th></tr></thead><tbody>
+    <tr><td><code>.screen</code> <code>.screen--center</code> <code>.screen--nonav</code></td><td>Child column; centred; without bottom-nav clearance.</td></tr>
+    <tr><td><code>.container</code> <code>.container-screen</code></td><td>Wide frame; narrowed to the child column.</td></tr>
+    <tr><td><code>.stack</code> <code>.stack-sm</code> <code>.stack-lg</code> / <code>--stack-gap</code></td><td>Vertical rhythm.</td></tr>
+    <tr><td><code>.cluster</code> / <code>--cluster-gap</code></td><td>Wrapping row.</td></tr>
+    <tr><td><code>.grid</code> <code>.grid-auto</code> / <code>--grid-min</code></td><td>Column grid; auto-fill grid.</td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+  <ul>
+    <li><a href="../../mocks/pages/home/default.html">pages/home/default</a> (<code>.screen</code>)</li>
+    <li><a href="../../mocks/pages/welcome/default.html">pages/welcome/default</a> (<code>.screen--center</code>)</li>
+    <li><a href="../../mocks/pages/sing/default.html">pages/sing/default</a> (<code>.screen--nonav</code>)</li>
+    <li><a href="../../mocks/pages/profiles/default.html">pages/profiles/default</a> (auto-fill profile grid, the model for <code>.grid-auto</code>)</li>
+  </ul>
+  <p><code>.container</code>, <code>.stack</code>, <code>.cluster</code>, <code>.grid</code> and <code>.grid-auto</code> are not in the mocks yet; they are added for the Grown-Ups Corner, family-server managers and marketing. Drift fixed during extraction: the 22px screen margin and the 6/10/14/18px ad-hoc gaps snapped to the 4px grid (D11). See the <a href="../index.html#drift">drift log</a> and the <a href="../foundations/layout.html">layout foundation</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

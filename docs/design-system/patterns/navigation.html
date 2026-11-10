@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Navigation and page structure — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune navigation and page structure: the floating bottom nav, the top bar and back behaviour, one big action per screen, and the Home to Results singing flow.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Pattern</p>
+      <h1>Navigation and page structure</h1>
+      <p class="ds-lead">Four places to go, one obvious thing to do on each, and a back arrow that always goes somewhere predictable. A five-year-old should never wonder where she is or how to get back to singing.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill">Status: stable</span><span class="ds-pill">One column</span><span class="ds-pill">Classes <code>.bottomnav</code> <code>.topbar</code> <code>.screen</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#when">When to use which</a></li><li><a href="#structure">Structure</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>TwinkleTune is a single centred column (470px at most) on every device. Navigation has three layers:</p>
+  <ul>
+    <li><b>The <a href="../components/bottom-nav.html">bottom nav</a></b>: a floating white pill with 🏠 Home, 🎵 Songs, 💡 Tips and ⭐ Me. It appears only on those four hub screens.</li>
+    <li><b>The <a href="../components/top-bar.html">top bar</a></b>: a round ← back <a href="../components/icon-button.html">icon button</a>, a centred title and a balancing spacer. Every screen below a hub has one; Sing replaces back with ⏸ Pause.</li>
+    <li><b>The one big action</b>: each screen has a single obvious next step (a hero tile, an extra-large button, a play button per song), so most journeys are a chain of big taps rather than menu choices.</li>
+  </ul>
+  <p>Grown-up areas open as dialogs from ⚙️ on Me, behind the parent gate, so they never appear in the child's navigation. Wide grown-up pages may use a <a href="../components/sidebar-nav.html">sidebar nav</a> and <a href="../components/breadcrumb.html">breadcrumb</a>; neither is in the mocks yet.</p>
+</section>
+
+<section class="ds-section" id="when"><h2><a href="#when">When to use which</a></h2>
+  <table class="ds-table"><thead><tr><th scope="col">Screen type</th><th scope="col">Navigation</th><th scope="col">Screens</th></tr></thead><tbody>
+    <tr><td>Hub</td><td>Bottom nav, current item marked; a greeting or <code>.topbar</code> heading</td><td>Home, Songs, Tips, Me</td></tr>
+    <tr><td>Task or detail</td><td><code>.topbar</code> with ← back, no bottom nav (<code>.screen--nonav</code>)</td><td>Profiles, Duet, Tuner, Find My Voice</td></tr>
+    <tr><td>Immersive</td><td>No bar at all, or ⏸ only; leaving goes through a dialog</td><td>Sing (Pause), Results (its buttons are the navigation)</td></tr>
+    <tr><td>First run</td><td>No navigation; one extra-large button forward</td><td>Welcome</td></tr>
+    <tr><td>A choice that interrupts</td><td><a href="dialogs-and-overlays.html">Dialog</a>, not a screen</td><td>Pause, tuned for you, voice found, parent gate</td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="structure"><h2><a href="#structure">Structure</a></h2>
+  <h3>Hub screen: Home</h3>
+  <p>Top to bottom: greeting (avatar links to switch singer, <em>Hi, Ada! 👋</em>, streak chip) → Twinkle's bubble → today's goal → <b>the big blue Sing a Song tile</b> → two quieter tiles → tip of the day → floating bottom nav.</p>
+  <div class="ds-example">
+    <div class="ds-stage ds-stage--tall">
+      <div class="screen">
+        <header class="hello">
+          <a href="#structure" aria-label="Switch singer"><span class="avatar" aria-hidden="true">🦄</span></a>
+          <div class="hello-text"><h2>Hi, Ada! 👋</h2><p>Level 3 Fledgling</p></div>
+          <div class="streak-chip-top">⭐ 4-day streak</div>
+        </header>
+        <div class="coach-home"><div class="bubble bubble-left">Your songs are tuned and ready. Let's make today sparkle! ✨</div></div>
+        <a class="hero-tile" href="#structure">
+          <h2>Sing a Song</h2>
+          <p>Every song in YOUR key 💙</p>
+          <span class="go">Let's go! ▶</span>
+          <span class="big-mic" aria-hidden="true">🎤</span>
+        </a>
+        <div class="tiles">
+          <a class="tile tile-pink" href="#structure"><span class="ico" aria-hidden="true">🎈</span><strong>Warm-Ups</strong><span>2-minute voice games</span></a>
+          <a class="tile tile-white" href="#structure"><span class="ico" aria-hidden="true">💖</span><strong>My Songs</strong><span>4 songs mastered</span></a>
+        </div>
+      </div>
+      <nav class="bottomnav" aria-label="Main navigation (example)">
+        <a class="bn-item" href="#structure" aria-current="page"><span class="ico" aria-hidden="true">🏠</span>Home</a>
+        <a class="bn-item" href="#structure"><span class="ico" aria-hidden="true">🎵</span>Songs</a>
+        <a class="bn-item" href="#structure"><span class="ico" aria-hidden="true">💡</span>Tips</a>
+        <a class="bn-item" href="#structure"><span class="ico" aria-hidden="true">⭐</span>Me</a>
+      </nav>
+    </div>
+    <div class="ds-example__caption"><span>One big action (the blue tile); everything else is quieter. The nav floats 16px above the bottom edge and the screen keeps 128px clear for it.</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;main id="main" class="screen"&gt; … &lt;a class="hero-tile" href="/songs"&gt;…&lt;/a&gt; … &lt;/main&gt;
+&lt;nav class="bottomnav" aria-label="Main navigation"&gt;
+  &lt;a class="bn-item active" href="/" aria-current="page"&gt;&lt;span class="ico" aria-hidden="true"&gt;🏠&lt;/span&gt;Home&lt;/a&gt;
+  &lt;a class="bn-item" href="/songs"&gt;&lt;span class="ico" aria-hidden="true"&gt;🎵&lt;/span&gt;Songs&lt;/a&gt;
+  &lt;a class="bn-item" href="/tips"&gt;&lt;span class="ico" aria-hidden="true"&gt;💡&lt;/span&gt;Tips&lt;/a&gt;
+  &lt;a class="bn-item" href="/me"&gt;&lt;span class="ico" aria-hidden="true"&gt;⭐&lt;/span&gt;Me&lt;/a&gt;
+&lt;/nav&gt;</code></pre></details>
+  </div>
+
+  <h3>Task screen: the top bar</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-example__canvas--stack ds-sky">
+      <header class="topbar ds-w-screen"><a class="icon-btn" href="#structure" aria-label="Go back">←</a><h2 class="title">Duet Time 🎤🎤</h2><span class="spacer"></span></header>
+      <header class="sing-top ds-w-screen"><button class="icon-btn" type="button" aria-label="Pause">⏸</button><div class="sing-title"><strong>Twinkle Twinkle Little Star</strong><div class="track"><div class="fill" style="width:26%"></div></div></div><span class="key-chip">🎯 Your key ✓</span></header>
+    </div>
+    <div class="ds-example__caption"><span>The top bar centres its title with an empty spacer the size of the back button. Sing swaps back for Pause and the title for the song with its progress.</span></div>
+  </div>
+
+  <h3>The singing flow</h3>
+  <ol>
+    <li><a href="../../mocks/pages/home/default.html">Home</a>: tap the <em>Sing a Song</em> tile.</li>
+    <li><a href="../../mocks/pages/songs/default.html">Songs</a>: tap ▶ on a song (or <em>Sing it again!</em>). The first time a shifted song is opened this visit, <a href="../../mocks/dialogs/tuned-for-you/default.html">Tuned just for YOU!</a> explains the shift.</li>
+    <li><a href="../../mocks/pages/sing/ready.html">Sing, ready</a> → <a href="../../mocks/pages/sing/countdown.html">countdown</a> → <a href="../../mocks/pages/sing/default.html">singing</a>. ⏸ opens <a href="../../mocks/dialogs/pause/default.html">Pause</a>: <em>Keep singing ▶</em>, <em>Start over 🔁</em>, <em>Pick another song 🎵</em>.</li>
+    <li><a href="../../mocks/pages/results/default.html">Results</a>: <em>Practice the tricky part 🎯</em> (gold, when offered), <em>Sing again 🔁</em>, <em>New song 🎵</em>, or <em>Home 🏠</em>.</li>
+  </ol>
+  <p>Each step has exactly one primary action and at most two calm alternatives. The flow never dead-ends: every screen leads back to singing in one tap.</p>
+</section>
+
+<section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+  <div class="ds-matrix"><table>
+    <thead><tr><th scope="col">Part</th><th scope="col">Default</th><th scope="col">Hover</th><th scope="col">Focus</th><th scope="col">Current</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Nav item</th><td><a class="bn-item" href="#states"><span class="ico" aria-hidden="true">🎵</span>Songs</a></td><td><a class="bn-item" href="#states" data-state="hover"><span class="ico" aria-hidden="true">🎵</span>Songs</a></td><td><a class="bn-item" href="#states" data-state="focus"><span class="ico" aria-hidden="true">🎵</span>Songs</a></td><td><a class="bn-item" href="#states" aria-current="page"><span class="ico" aria-hidden="true">🎵</span>Songs</a></td></tr>
+      <tr><th scope="row">Back</th><td><a class="icon-btn" href="#states" aria-label="Go back">←</a></td><td><a class="icon-btn" href="#states" aria-label="Go back" data-state="hover">←</a></td><td><a class="icon-btn" href="#states" aria-label="Go back" data-state="focus">←</a></td><td>—</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Back behaviour</h3>
+  <ul>
+    <li>← goes to a fixed parent, not browser history: Songs, Profiles and Tuner → Home; Duet → Songs. A child who arrived from a deep link still lands somewhere familiar.</li>
+    <li>Sing has no back arrow. ⏸ pauses the music and opens the Pause dialog; leaving the song is a choice in that dialog. In a duet the choice is <em>Leave the duet 👋</em>, which closes the room for both singers.</li>
+    <li>Results has no top bar. Its buttons are the way on, and <em>Home 🏠</em> is the quiet way out.</li>
+    <li>Until a profile exists, every route goes to Welcome; until a voice range exists, Home invites <em>Find my voice</em> but does not force it.</li>
+  </ul>
+  <h3>Both themes</h3>
+  <div class="ds-themes">
+    <div data-theme="light"><div class="ds-col"><a class="bn-item" href="#states" aria-current="page"><span class="ico" aria-hidden="true">🏠</span>Home</a><header class="topbar ds-w-full"><a class="icon-btn" href="#states" aria-label="Go back">←</a><h2 class="title">Pick a Song 🎵</h2><span class="spacer"></span></header></div></div>
+    <div data-theme="dark"><div class="ds-col"><a class="bn-item" href="#states" aria-current="page"><span class="ico" aria-hidden="true">🏠</span>Home</a><header class="topbar ds-w-full"><a class="icon-btn" href="#states" aria-label="Go back">←</a><h2 class="title">Pick a Song 🎵</h2><span class="spacer"></span></header></div></div>
+  </div>
+</section>
+
+<section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+  <ul>
+    <li>The column is 470px at most at every width; on a tablet or laptop it simply sits in the middle of the sky. Nothing moves to a sidebar for children.</li>
+    <li>The bottom nav is <code>min(440px, 100vw − 40px)</code> wide and floats 16px above the bottom (plus the safe-area inset on phones with a home indicator). Hub screens keep 128px of bottom padding so content never hides beneath it.</li>
+    <li>Top bar titles are 32px Baloo 2; a title that would wrap at 320px is shortened in the copy, never truncated (the Sing title is the exception: long song names ellipsise beside the progress bar).</li>
+    <li>Grown-up pages wider than 1024px may add a sidebar nav; the child app never does.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <h3>Landmarks and headings</h3>
+  <p>Each screen has a skip link to <code>&lt;main id="main"&gt;</code>, one <code>&lt;h1&gt;</code> (the top-bar title, the greeting, or a visually hidden <em>Singing Twinkle Twinkle Little Star</em> on Sing) and a <code>&lt;nav aria-label="Main navigation"&gt;</code> on hubs. The current item carries <code>aria-current="page"</code> as well as the tinted pill, so it is not shown by colour alone.</p>
+  <h3>Keyboard</h3>
+  <table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody>
+    <tr><td><kbd>Tab</kbd></td><td>Skip link → back button → screen content in reading order → bottom nav items.</td></tr>
+    <tr><td><kbd>Enter</kbd></td><td>Follows a nav item, the back link or a tile.</td></tr>
+    <tr><td><kbd>Space</kbd> / <kbd>Enter</kbd> on ⏸</td><td>Pauses and opens the Pause dialog; focus moves to <em>Keep singing</em>.</td></tr>
+  </tbody></table>
+  <p>On a route change focus moves to the new screen's <code>&lt;h1&gt;</code> (programmatically focusable with <code>tabindex="-1"</code>), and the document title changes, so screen-reader users hear where they arrived (WCAG 2.4.2, 2.4.3).</p>
+  <h3>Labelling and touch</h3>
+  <p>Icon-only controls are named: <em>Go back</em>, <em>Pause</em>, <em>Switch singer</em>, <em>More tips</em>, <em>Grown-ups corner</em>. Nav items show their word under the emoji. Back, pause and nav targets are 52px or more; the tip-of-the-day arrow grows to 44px (D23).</p>
+  <h3>Contrast</h3>
+  <div class="ds-example__canvas ds-example__canvas--stack ds-w-form">
+    <div class="ds-pair"><span>Nav label</span><span class="ds-pair__ratio" data-contrast="--color-fg-muted|--color-bg-surface" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Current nav label</span><span class="ds-pair__ratio" data-contrast="--color-fg-default|--color-bg-subtle" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Title on the sky</span><span class="ds-pair__ratio" data-contrast="--color-fg-default|--color-bg-canvas" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Focus ring on the sky</span><span class="ds-pair__ratio" data-contrast="--color-focus-ring|--color-bg-canvas" data-min="3"></span></div>
+  </div>
+  <h3>Motion</h3>
+  <p>Screens enter with a short rise and an 80ms stagger per block (<code>.rise .d1</code>–<code>.d8</code>); route changes fade out and in over <code>--duration-base</code>. Reduced motion removes both.</p>
+</section>
+
+<section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+  <ul>
+    <li>Nav labels are one word: <em>Home</em>, <em>Songs</em>, <em>Tips</em>, <em>Me</em>. They never change with state.</li>
+    <li>Screen titles are what she is doing, with one emoji: <em>Pick a Song 🎵</em>, <em>Who's singing? 🎤</em>, <em>Duet Time 🎤🎤</em>. Me is personal: <em>Ada's Star Journey</em>.</li>
+    <li>The big action is a happy verb phrase: <em>Let's go! ▶</em>, <em>Let's Sing! 🎤</em>, <em>Join the duet! 🎤</em>, <em>Practice the tricky part 🎯</em>.</li>
+    <li>The way out is named for where it goes: <em>Home 🏠</em>, <em>Back to songs</em>, <em>Back to singing</em>. Never just <em>Back</em> when a destination fits.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas ds-example__canvas--stack"><a class="btn btn-gold btn-xl" href="#do-dont">Practice the tricky part 🎯</a><div class="cta-row"><a class="btn btn-white" href="#do-dont">Sing again 🔁</a><a class="btn btn-pink" href="#do-dont">New song 🎵</a></div><a class="link-quiet" href="#do-dont">Home 🏠</a></div><figcaption>One big action, two calm alternatives and a quiet way home (Results).</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas ds-example__canvas--stack"><a class="btn" href="#do-dont">Sing again</a><a class="btn" href="#do-dont">New song</a><a class="btn" href="#do-dont">Home</a><a class="btn" href="#do-dont">Tips</a></div><figcaption>A stack of equal blue buttons. She cannot tell which one is "next".</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas"><header class="topbar ds-w-full"><a class="icon-btn" href="#do-dont" aria-label="Go back">←</a><h2 class="title">Who's singing? 🎤</h2><span class="spacer"></span></header></div><figcaption>A task screen has ← and no bottom nav, so there is one way back.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas ds-example__canvas--stack"><div class="bottomnav" style="position:static;transform:none;width:100%"><a class="bn-item" href="#do-dont"><span class="ico" aria-hidden="true">🏠</span>Home</a><a class="bn-item" href="#do-dont"><span class="ico" aria-hidden="true">🎵</span>Songs</a><a class="bn-item" href="#do-dont"><span class="ico" aria-hidden="true">💡</span>Tips</a><a class="bn-item" href="#do-dont"><span class="ico" aria-hidden="true">⭐</span>Me</a><a class="bn-item" href="#do-dont"><span class="ico" aria-hidden="true">⚙️</span>Settings</a></div></div><figcaption>A fifth nav item for settings. Grown-up areas sit behind ⚙️ and the parent gate, not in the child's nav.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+  <ul>
+    <li><a href="../../mocks/pages/home/default.html">pages/home/default</a> (one big action, bottom nav), <a href="../../mocks/pages/songs/default.html">pages/songs/default</a>, <a href="../../mocks/pages/tips/default.html">pages/tips/default</a>, <a href="../../mocks/pages/me/default.html">pages/me/default</a></li>
+    <li><a href="../../mocks/pages/profiles/default.html">pages/profiles/default</a>, <a href="../../mocks/pages/duet/default.html">pages/duet/default</a> (top bar and back)</li>
+    <li><a href="../../mocks/pages/sing/default.html">pages/sing/default</a>, <a href="../../mocks/dialogs/pause/default.html">dialogs/pause/default</a>, <a href="../../mocks/dialogs/pause/duet.html">duet</a>, <a href="../../mocks/pages/results/default.html">pages/results/default</a></li>
+    <li><a href="../../mocks/pages/welcome/default.html">pages/welcome/default</a> (first run, no navigation)</li>
+  </ul>
+  <p>Drift and additions: the mocks add a skip link, <code>id="main"</code>, a hidden <code>h1</code> on Sing and <code>aria-current</code> on the nav, all ahead of the app; the system keeps them. The tip arrow grows to 44px (D23); focus ring moved to <code>--color-focus-ring</code> (D21); the profile card's "singing now" keeps its words alongside the ring (D25). Sidebar nav and breadcrumb are not in the mocks yet; they are added for wide grown-up pages. See the <a href="../index.html#drift">drift log</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

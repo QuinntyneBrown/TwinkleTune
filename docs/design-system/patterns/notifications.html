@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notifications — TwinkleTune design system</title>
+<meta name="description" content="Toast notifications in TwinkleTune: the white, gold and pink looks, what each is for, timing, stacking, the live region and the copy library.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Pattern</p>
+      <h1>Notifications</h1>
+      <p class="ds-lead">TwinkleTune's only notifications are toasts: small pills that pop in at the top, say one happy or helpful thing, and float away. White confirms, gold celebrates, pink nudges. There is no red toast.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill">Status: stable</span><span class="ds-pill"><code>role="status"</code> host</span><span class="ds-pill">Classes <code>.toast-host</code> <code>.toast</code> <code>.toast-gold</code> <code>.toast-pink</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#when">When to use</a></li><li><a href="#structure">Structure</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>A toast tells a singer that something just happened, without stopping her. Toasts never take focus, cannot be tapped and leave on their own. There are no push notifications, no notification centre and no unread badges: privacy first, and nothing to nag a child.</p>
+  <p>Three looks, defined by the <a href="../components/toast.html">toast</a> component:</p>
+  <ul>
+    <li><b>White</b> (<code>.toast</code>, the <em>info</em> state): a neutral confirmation. <em>Removed 💙</em>, <em>Song deleted 💙</em>, <em>Avatar removed 💙</em>.</li>
+    <li><b>Gold</b> (<code>.toast-gold</code>, <em>success</em>): good news. <em>+5 sparkles ✨</em>, <em>🔥 5 in a row!</em>, a captured note, a saved song, a singer arriving, <em>🏆 New family record!</em></li>
+    <li><b>Pink</b> (<code>.toast-pink</code>, <em>warning</em> and <em>danger</em>): a gentle nudge that says what to try next, and the same soft pink when something did not work. <em>That sounds close to your low note — reach a little higher! 🐦</em>, <em>Can't reach the family server 📡</em>.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="when"><h2><a href="#when">When to use</a></h2>
+  <table class="ds-table"><thead><tr><th scope="col">Use a toast for</th><th scope="col">Use something else for</th></tr></thead><tbody>
+    <tr><td>Confirming an action that already happened (removed, deleted, saved)</td><td>A choice or a decision: a <a href="dialogs-and-overlays.html">dialog</a></td></tr>
+    <tr><td>Celebrating a moment mid-flow (sparkles, every fifth streak note, a duet partner finishing)</td><td>A result she should be able to read at leisure: inline on Results (<code>.badge-toast</code>, score card)</td></tr>
+    <tr><td>A short nudge about what to try next (Find My Voice, room code length)</td><td>Ongoing guidance: Twinkle's <a href="../components/coach-bubble.html">bubble</a></td></tr>
+    <tr><td>A family-server call that failed while the screen keeps working</td><td>A screen or dialog that cannot work without the server: an <a href="empty-and-error-states.html">empty or failed state</a> in place</td></tr>
+    <tr><td>—</td><td>Grown-up errors that need reading or acting on: an inline <a href="../components/alert.html">alert</a> in the dialog, which stays</td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="structure"><h2><a href="#structure">Structure</a></h2>
+  <p>One host per app, fixed at the top centre above everything (<code>--z-toast</code>), holding a column of pills 8px apart, newest at the bottom. Each pill is one line of 16px black-weight Nunito with at most one emoji.</p>
+  <div class="ds-example">
+    <div class="ds-stage">
+      <div class="screen screen--nonav">
+        <section class="stage" aria-label="Duet stage (example)">
+          <span class="opponent-chip">🐱 Bea ✨80 🔥4</span>
+          <span class="streak-chip show">🔥 5 in a row!</span>
+          <span class="stage-label">SING TO MOVE YOUR STAR ↑↓</span>
+        </section>
+      </div>
+      <div class="toast-host" role="status" aria-live="polite">
+        <span class="toast toast-gold">🔥 5 in a row!</span>
+        <span class="toast toast-gold">Bea finished — 28 notes! 🎉</span>
+      </div>
+    </div>
+    <div class="ds-example__caption"><span>Two gold toasts stacked during a duet, newest at the bottom. The host is a polite live region; pills ignore pointer events.</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;div class="toast-host" role="status" aria-live="polite"&gt;
+  &lt;span class="toast toast-gold"&gt;🔥 5 in a row!&lt;/span&gt;
+  &lt;span class="toast toast-gold"&gt;Bea finished — 28 notes! 🎉&lt;/span&gt;
+&lt;/div&gt;</code></pre></details>
+  </div>
+  <h3>Timing</h3>
+  <table class="ds-table"><thead><tr><th scope="col">Toast</th><th scope="col">Stays</th><th scope="col">Why</th></tr></thead><tbody>
+    <tr><td>Default (all three looks)</td><td>2.2 s, then fades up and away over <code>--duration-slow</code></td><td>Long enough to read a short line, short enough not to cover the screen</td></tr>
+    <tr><td>Streak (<em>🔥 5 in a row!</em>)</td><td>1.6 s</td><td>Mid-song; it must not cover the lyrics for long</td></tr>
+    <tr><td>Family record (<em>🏆 New family record!</em>)</td><td>2.6 s</td><td>Rare and worth savouring; raised only when the server says this result beat her previous best</td></tr>
+  </tbody></table>
+  <p>Stacking (a system rule; the mocks show two): at most three on screen; a fourth replaces the oldest. Identical messages raised within the same second collapse into one.</p>
+</section>
+
+<section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+  <div class="ds-matrix"><table>
+    <thead><tr><th scope="col">Look</th><th scope="col">State name</th><th scope="col">Example</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">White</th><td>info</td><td><span class="toast">Removed 💙</span></td></tr>
+      <tr><th scope="row">Gold</th><td>success</td><td><span class="toast toast-gold">+5 sparkles ✨</span></td></tr>
+      <tr><th scope="row">Gold</th><td>family record</td><td><span class="toast toast-gold">🏆 New family record!</span></td></tr>
+      <tr><th scope="row">Pink</th><td>warning</td><td><span class="toast toast-pink">That sounds close to your low note — reach a little higher! 🐦</span></td></tr>
+      <tr><th scope="row">Pink</th><td>danger</td><td><span class="toast toast-pink">Can't reach the family server 📡</span></td></tr>
+      <tr><th scope="row">Any</th><td>leaving</td><td><span class="toast bye">Song deleted 💙</span> (fading)</td></tr>
+    </tbody>
+  </table></div>
+  <p>Warning and danger share the soft pink on purpose: encouragement only, no red, no "error", and the screen underneath keeps working.</p>
+  <h3>Both themes</h3>
+  <div class="ds-themes">
+    <div data-theme="light"><div class="ds-col"><span class="toast">Removed 💙</span><span class="toast toast-gold">+5 sparkles ✨</span><span class="toast toast-pink">Codes have 4 letters!</span></div></div>
+    <div data-theme="dark"><div class="ds-col"><span class="toast">Removed 💙</span><span class="toast toast-gold">+5 sparkles ✨</span><span class="toast toast-pink">Codes have 4 letters!</span></div></div>
+  </div>
+</section>
+
+<section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+  <ul>
+    <li>The host is centred, 16px from the top (plus the safe-area inset), and at most <code>100vw − 40px</code> wide.</li>
+    <li>A pill is as wide as its words. A long nudge wraps to a second line inside the pill and keeps its rounded ends; keep copy short enough that this is rare at 360px.</li>
+    <li>The position is the same on every screen and at every width, so she learns where good news appears.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <h3>Live region (D16)</h3>
+  <p>The host carries <code>role="status"</code> and <code>aria-live="polite"</code> from page load, so each pill added to it is read once, after the current speech, without moving focus. The mocks' host is not a live region; the system adds it. Emoji are part of the text; a pill that is only an emoji is not allowed.</p>
+  <h3>Timing (WCAG 2.2.1)</h3>
+  <p>Toasts disappear on their own, so they may never be the only place important information lives and may never contain a control. Anything she must read or act on stays on screen: a dialog, an inline alert, or the Results page. Grown-up failures that need a next step get an inline <code>.alert</code> in the open dialog as well as, or instead of, the pink toast.</p>
+  <h3>Not by colour alone</h3>
+  <p>Gold, white and pink set the mood, but the words carry the meaning: <em>+5 sparkles ✨</em> and <em>Can't reach the family server 📡</em> make sense in greyscale.</p>
+  <h3>Contrast</h3>
+  <div class="ds-example__canvas ds-example__canvas--stack ds-w-form">
+    <div class="ds-pair"><span>White toast</span><span class="ds-pair__ratio" data-contrast="--color-fg-default|--color-bg-surface" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Gold toast (light end)</span><span class="ds-pair__ratio" data-contrast="--color-reward-fg|--color-reward-bg-subtle" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Gold toast (deep end)</span><span class="ds-pair__ratio" data-contrast="--color-reward-fg|--color-reward-bg" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Pink toast</span><span class="ds-pair__ratio" data-contrast="--color-gentle-fg|--color-gentle-bg" data-min="4.5"></span></div>
+  </div>
+  <h3>Motion</h3>
+  <p>Pop in with <code>--ease-spring</code> over <code>--duration-slow</code>; leave by fading up 16px. Under reduced motion they appear and fade without scale or travel.</p>
+</section>
+
+<section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+  <ul>
+    <li>One short line; one emoji at most, at the end (or a leading 🔥 / 🏆 that names the kind of news).</li>
+    <li>White confirmations end with 💙 to keep even a removal warm: <em>Removed 💙</em>.</li>
+    <li>Pink nudges say what to try, not what went wrong: <em>reach a little higher! 🐦</em>, <em>Codes have 4 letters!</em>.</li>
+    <li>Failures name what could not be reached and stop there: <em>Can't reach the family server 📡</em>, <em>Could not delete right now</em>. Never <em>Error</em>, never the browser's message (D19).</li>
+  </ul>
+  <h3>Copy library</h3>
+  <table class="ds-table"><thead><tr><th scope="col">Look</th><th scope="col">Copy</th><th scope="col">Raised when</th></tr></thead><tbody>
+    <tr><td>White</td><td><em>Removed 💙</em> · <em>Song deleted 💙</em> · <em>Avatar removed 💙</em></td><td>A grown-up removal succeeds</td></tr>
+    <tr><td>Gold</td><td><em>+5 sparkles ✨</em></td><td><em>I did it! ✨</em> on a tip</td></tr>
+    <tr><td>Gold</td><td><em>🔥 5 in a row!</em></td><td>Every fifth landed note in a row</td></tr>
+    <tr><td>Gold</td><td><em>Bea finished — 28 notes! 🎉</em></td><td>The duet partner finishes first</td></tr>
+    <tr><td>Gold</td><td><em>🏆 New family record!</em></td><td>The server reports a new best on that song</td></tr>
+    <tr><td>Pink</td><td><em>That sounds close to your low note — reach a little higher! 🐦</em></td><td>Find My Voice hears a note too close to the last one</td></tr>
+    <tr><td>Pink</td><td><em>Every singer needs a name! 💙</em> · <em>Codes have 4 letters!</em></td><td>A child form is missing something</td></tr>
+    <tr><td>Pink</td><td><em>Can't reach the family server 📡</em> · <em>Could not delete right now</em> · <em>Could not remove right now</em></td><td>A family-server call fails</td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas"><span class="toast toast-pink">Can't reach the family server 📡</span></div><figcaption>Say what couldn't be reached, in the same soft pink as a nudge.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><span class="toast toast-pink">Failed to fetch</span></div><figcaption>Pass the browser's raw message through to the toast (singer editor, failed).</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas"><span class="toast">Song deleted 💙</span></div><figcaption>Confirm a finished action with a white toast and nothing to tap.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><span class="toast">Song deleted · <span class="link-quiet">Undo</span></span></div><figcaption>Put an Undo or any control in a toast. It vanishes in 2.2 s and cannot be reached by keyboard.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+  <ul>
+    <li><a href="../../mocks/notifications/toast/info.html">notifications/toast/info</a> (white), <a href="../../mocks/notifications/toast/success.html">success</a> (gold), <a href="../../mocks/notifications/toast/warning.html">warning</a> (pink), <a href="../../mocks/notifications/toast/danger.html">danger</a> (the same pink), <a href="../../mocks/notifications/toast/stacked.html">stacked</a>, <a href="../../mocks/notifications/toast/family-record.html">family-record</a></li>
+    <li><a href="../../mocks/dialogs/singer-editor/invalid.html">dialogs/singer-editor/invalid</a>, <a href="../../mocks/dialogs/singer-editor/failed.html">failed</a>; <a href="../../mocks/dialogs/confirm-delete-song/failed.html">dialogs/confirm-delete-song/failed</a>; <a href="../../mocks/dialogs/confirm-remove-singer/failed.html">dialogs/confirm-remove-singer/failed</a></li>
+    <li><a href="../../mocks/dialogs/tip/default.html">dialogs/tip/default</a> (<em>I did it!</em> raises the gold toast)</li>
+  </ul>
+  <p>Drift fixed: the host becomes a polite live region (D16); stack spacing 10px snapped to 8px (D11); raw failure text replaced (D19); toast and dialog pop-in share the motion scale (D14). Open question kept from the mocks: toasts cannot be dismissed and failures auto-dismiss like everything else, which is why nothing essential may live only in a toast. See the <a href="../index.html#drift">drift log</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

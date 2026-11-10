@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>File upload — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune file upload: the singer editor&#x27;s photo input and a drop zone with dragging, chosen, uploading and failed states, both themes.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Component · Inputs</p>
+      <h1>File upload</h1>
+      <p class="ds-lead">A singer's photo, picked from the device and kept on the family server. The mocks use the plain file input; the system adds a dashed drop zone around the same input.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill">Native <code>&lt;input type="file"&gt;</code></span><span class="ds-pill">Status: stable (drop zone new)</span><span class="ds-pill">Class <code>.photo-input</code> / <code>.file-drop</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>There is one upload in TwinkleTune: a singer's photo, which replaces her emoji avatar (Mum has one in the mocks). It is offered in the singer editor under the avatar picker as <em>…or use a photo 📸</em>. Photos live only on the family server, at most 2 MB, as JPEG, PNG or WebP, and never go anywhere else.</p>
+  <ul>
+    <li><b>Plain</b> (<code>.photo-input</code>) is the mock: the browser's own file button, bold, never wider than the dialog.</li>
+    <li><b>Drop zone</b> (<code>.file-drop</code>) wraps the same input in a dashed sunken box that also accepts a dragged file. <b>Not in the mocks yet</b>; added for the family-server managers on wider screens, where dragging a photo from the desktop is natural.</li>
+  </ul>
+  <p>The input is always the real control; the drop zone is an enhancement. Without a family server there is nowhere to keep a photo, so the photo option is not shown at all (offline first: the emoji avatars always work).</p>
+</section>
+
+<section class="ds-section" id="anatomy"><h2><a href="#anatomy">Anatomy</a></h2>
+  <div class="ds-anatomy">
+    <figure class="ds-anatomy__figure">
+      <div class="file-drop ds-w-form">
+        <span class="ico" aria-hidden="true">📸</span>
+        <label class="field-label" for="fu-anat" style="margin: 0;">Singer photo</label>
+        <input id="fu-anat" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="fu-anat-hint">
+        <span id="fu-anat-hint">Drop a photo here or pick one. JPEG, PNG or WebP, up to 2 MB.</span>
+      </div>
+      <span class="ds-callout" style="left: 6%; top: 8%;" aria-hidden="true">1</span>
+      <span class="ds-callout" style="left: 40%; top: 10%;" aria-hidden="true">2</span>
+      <span class="ds-callout" style="left: 30%; top: 36%;" aria-hidden="true">3</span>
+      <span class="ds-callout" style="left: 30%; top: 60%;" aria-hidden="true">4</span>
+      <span class="ds-callout" style="left: 20%; top: 84%;" aria-hidden="true">5</span>
+    </figure>
+    <ol class="ds-anatomy__list">
+      <li><div><b>Zone</b><small>3px dashed <code>--color-border-strong</code>, <code>--radius-lg</code>, <code>--color-bg-surface-sunken</code>, 20px padding. Dashed says "put something here", like the add-singer card.</small></div></li>
+      <li><div><b>Emoji</b><small>📸 at <code>--font-size-4xl</code>, decorative.</small></div></li>
+      <li><div><b>Label</b><small>A visible <code>&lt;label for&gt;</code> naming what is uploaded.</small></div></li>
+      <li><div><b>File input</b><small>The browser's button and file name. It takes focus and the keyboard.</small></div></li>
+      <li><div><b>Hint</b><small>Formats and size in <code>--text-body-sm</code>, linked by <code>aria-describedby</code>.</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="ds-section" id="variants"><h2><a href="#variants">Variants</a></h2>
+  <h3>Plain (singer editor)</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas">
+      <div class="modal" style="position: static;">
+        <p class="pick-label pick-label--photo"><label for="fu-var-plain">…or use a photo 📸</label></p>
+        <input class="photo-input" id="fu-var-plain" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="fu-var-plain-hint">
+        <p class="field-hint" id="fu-var-plain-hint">Up to 2 MB. It stays on your family server.</p>
+      </div>
+    </div>
+    <div class="ds-example__caption"><span>The mock's photo input under the avatar picker, with its heading turned into the label and a privacy hint added.</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;p class="pick-label pick-label--photo"&gt;&lt;label for="singer-photo"&gt;…or use a photo 📸&lt;/label&gt;&lt;/p&gt;
+&lt;input class="photo-input" id="singer-photo" type="file"
+       accept="image/jpeg,image/png,image/webp" aria-describedby="singer-photo-hint"&gt;
+&lt;p class="field-hint" id="singer-photo-hint"&gt;Up to 2 MB. It stays on your family server.&lt;/p&gt;</code></pre></details>
+  </div>
+  <h3>Drop zone</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas">
+      <div class="file-drop ds-w-form">
+        <span class="ico" aria-hidden="true">📸</span>
+        <label class="field-label" for="fu-var-drop" style="margin: 0;">Singer photo</label>
+        <input id="fu-var-drop" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="fu-var-drop-hint">
+        <span id="fu-var-drop-hint">Drop a photo here or pick one. JPEG, PNG or WebP, up to 2 MB.</span>
+      </div>
+    </div>
+    <div class="ds-example__caption"><span>Not in the mocks yet. The whole zone accepts a drop; the input inside still works with keyboard and tap.</span></div>
+  </div>
+</section>
+
+<section class="ds-section" id="sizes" data-na="One size: full width of its column; the zone grows with its content."><h2><a href="#sizes">Sizes</a></h2><p class="ds-na">One size: full width of its column; the zone grows with its content.</p></section>
+
+<section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+  <p>Dragging and failed are set by script with <code>data-state</code> on the zone. Focus is <code>:focus-within</code> on the zone (tab into the live examples to see it). A chosen file shows its name and a preview in the avatar; the upload itself happens on <em>Save</em>, so <em>uploading</em> is the Save button's busy state.</p>
+  <div class="ds-matrix"><table>
+    <thead><tr><th scope="col">State</th><th scope="col">Drop zone</th><th scope="col">Notes</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Empty</th><td><div class="file-drop"><span class="ico" aria-hidden="true">📸</span><label for="fu-st-1">Drop a photo or pick one</label><input id="fu-st-1" type="file" accept="image/jpeg,image/png,image/webp"></div></td><td>Default.</td></tr>
+      <tr><th scope="row">Focus</th><td><div class="file-drop"><span class="ico" aria-hidden="true">📸</span><label for="fu-st-2">Tab to the input to see the ring</label><input id="fu-st-2" type="file" accept="image/jpeg,image/png,image/webp"></div></td><td>Shared ring on the zone via <code>:focus-within</code>.</td></tr>
+      <tr><th scope="row">Dragging</th><td><div class="file-drop" data-state="dragging"><span class="ico" aria-hidden="true">📸</span><label for="fu-st-3">Let go to add the photo</label><input id="fu-st-3" type="file" accept="image/jpeg,image/png,image/webp"></div></td><td>Solid accent edge, <code>--color-accent-subtle</code> fill, copy changes.</td></tr>
+      <tr><th scope="row">Chosen</th><td><div class="file-drop"><div class="avatar avatar-lg"><img class="avatar-photo" src="../../mocks/assets/img/photo-mum.svg" alt="Preview of the chosen photo"></div><label for="fu-st-4">mum.jpg · 240 KB. Pick another?</label><input id="fu-st-4" type="file" accept="image/jpeg,image/png,image/webp"></div></td><td>Preview in the avatar disc; nothing is sent yet.</td></tr>
+      <tr><th scope="row">Uploading</th><td><button class="btn btn-sm" type="button" aria-busy="true">Save changes</button></td><td>The Save button is busy; the zone is unchanged.</td></tr>
+      <tr><th scope="row">Failed</th><td><div class="file-drop" data-state="failed"><span class="ico" aria-hidden="true">💙</span><label for="fu-st-6">That photo is a bit big. Pick one under 2 MB.</label><input id="fu-st-6" type="file" accept="image/jpeg,image/png,image/webp" aria-invalid="true"></div></td><td>Danger edge and tint, a message that says what to do.</td></tr>
+      <tr><th scope="row">Disabled</th><td><span class="ds-na">Not used</span></td><td>Without a family server the option is hidden, not disabled.</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Both themes</h3>
+  <div class="ds-themes">
+    <div data-theme="light"><div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0;"><div class="file-drop"><span class="ico" aria-hidden="true">📸</span><label for="fu-th-l">Drop a photo or pick one</label><input id="fu-th-l" type="file" accept="image/jpeg,image/png,image/webp"></div><div class="file-drop" data-state="dragging"><span class="ico" aria-hidden="true">📸</span><label for="fu-th-l2">Let go to add the photo</label><input id="fu-th-l2" type="file" accept="image/jpeg,image/png,image/webp"></div></div></div>
+    <div data-theme="dark"><div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0;"><div class="file-drop"><span class="ico" aria-hidden="true">📸</span><label for="fu-th-d">Drop a photo or pick one</label><input id="fu-th-d" type="file" accept="image/jpeg,image/png,image/webp"></div><div class="file-drop" data-state="dragging"><span class="ico" aria-hidden="true">📸</span><label for="fu-th-d2">Let go to add the photo</label><input id="fu-th-d2" type="file" accept="image/jpeg,image/png,image/webp"></div></div></div>
+  </div>
+</section>
+
+<section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+  <ul>
+    <li>On phones and tablets (the app's usual home) dragging is rare; the plain input is enough and opens the camera roll or camera.</li>
+    <li>The drop zone fills its column and centres its contents. The file input is capped at 100% width so a long file name never widens the dialog.</li>
+    <li>At 320px the zone's copy wraps; keep it to one short sentence plus the hint.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="theming"><h2><a href="#theming">Theming</a></h2>
+  <p>Semantic tokens only: <code>--color-bg-surface-sunken</code> and <code>--color-border-strong</code> at rest, <code>--color-accent</code> and <code>--color-accent-subtle</code> while dragging, <code>--color-danger-bg</code>, <code>--color-danger-solid</code> and <code>--color-danger-fg</code> when failed. The file button itself is the browser's; <code>color-scheme</code> on the theme root keeps it readable in the night studio.</p>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <h3>Role and pattern</h3>
+  <p>The native <code>&lt;input type="file"&gt;</code> is the control and has its own button role and file-name announcement. No APG pattern; the drop zone adds nothing a keyboard or screen-reader user needs, which is the point. See the <a href="https://www.w3.org/WAI/tutorials/forms/">WAI Forms tutorial</a> for labelling.</p>
+  <h3>Keyboard</h3>
+  <table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody>
+    <tr><td><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>Moves to and from the file input.</td></tr>
+    <tr><td><kbd>Enter</kbd>, <kbd>Space</kbd></td><td>Opens the device's file or photo picker.</td></tr>
+    <tr><td><kbd>Esc</kbd> (in the picker)</td><td>Closes the picker without changing the chosen file.</td></tr>
+  </tbody></table>
+  <h3>Focus</h3>
+  <p>The input's own focus is drawn on the whole zone (<code>.file-drop:focus-within</code>) with the shared ring, so the large target shows it.</p>
+  <h3>Labelling</h3>
+  <ul>
+    <li>A visible <code>&lt;label for&gt;</code>. The mock names the input only with <code>aria-label="Photo"</code> and leaves the heading <em>…or use a photo 📸</em> loose; make the heading the label.</li>
+    <li>Formats and size limit in a hint linked with <code>aria-describedby</code>, so they are heard before choosing.</li>
+    <li>A failed check sets <code>aria-invalid="true"</code> and puts the message in the label or a linked <code>.field-error</code>; announce it once through the dialog's status region.</li>
+  </ul>
+  <h3>Contrast</h3>
+  <div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);">
+    <div class="ds-pair"><span>Zone edge on the well</span><span class="ds-pair__ratio" data-contrast="--color-border-strong|--color-bg-surface-sunken" data-min="3"></span></div>
+    <div class="ds-pair"><span>Copy in the zone</span><span class="ds-pair__ratio" data-contrast="--color-fg-muted|--color-bg-surface-sunken" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Failed message on its tint</span><span class="ds-pair__ratio" data-contrast="--color-danger-fg|--color-danger-bg" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Dragging edge on a card</span><span class="ds-pair__ratio" data-contrast="--color-accent|--color-bg-surface" data-min="3"></span></div>
+    <div class="ds-pair"><span>Focus ring in a dialog</span><span class="ds-pair__ratio" data-contrast="--color-focus-ring|--color-bg-surface-raised" data-min="3"></span></div>
+  </div>
+  <h3>Motion</h3>
+  <p>State changes are instant. No progress animation: photos are small and the Save button's spinner covers the wait.</p>
+  <h3>Touch</h3>
+  <p>The browser's file button is at least 44px tall on touch devices; the drop zone around it is larger but only the input opens the picker, so a stray tap on the zone does nothing surprising.</p>
+</section>
+
+<section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+  <ul>
+    <li>Say what the photo is for and where it goes: <em>…or use a photo 📸</em>, <em>It stays on your family server.</em> Privacy is a product principle, so say it at the moment of upload.</li>
+    <li>Give the rules before choosing: formats and <em>up to 2 MB</em>.</li>
+    <li>A failed check says what to do next, gently: <em>That photo is a bit big. Pick one under 2 MB.</em>, <em>That file isn't a photo we can use. Try a JPEG, PNG or WebP.</em> Never the browser's raw text (<em>Failed to fetch</em>).</li>
+    <li>If the family server is unreachable on Save: <em>The family server isn't answering. Your photo is still here; try Save again in a moment.</em></li>
+  </ul>
+</section>
+
+<section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas ds-example__canvas--stack"><label class="field-label" for="fu-do-1">…or use a photo 📸</label><input class="photo-input" id="fu-do-1" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="fu-do-1-hint"><p class="field-hint" id="fu-do-1-hint">Up to 2 MB. It stays on your family server.</p></div><figcaption>The visible heading is the label; the rules and the privacy promise are in the hint.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas ds-example__canvas--stack"><p class="pick-label pick-label--photo">…or use a photo 📸</p><input class="photo-input" type="file" aria-label="Photo"></div><figcaption>A loose heading and a hidden name, no accepted formats, no size limit: the grown-up finds out only after a failed save.</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas ds-example__canvas--stack"><div class="file-drop" data-state="failed"><span class="ico" aria-hidden="true">💙</span><label for="fu-do-2">That photo is a bit big. Pick one under 2 MB.</label><input id="fu-do-2" type="file" accept="image/jpeg,image/png,image/webp" aria-invalid="true"></div></div><figcaption>Say what happened and the fix, and keep the dialog open.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas ds-stage ds-stage--short"><div class="toast-host"><span class="toast toast-pink">Failed to fetch</span></div></div><figcaption>The browser's raw message in a toast that vanishes after two seconds (singer editor, failed).</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+  <div class="ds-table-wrap"><table class="ds-table">
+<thead><tr><th scope="col">Use</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+<tbody>
+<tr><td>Zone</td><td><code>--color-bg-surface-sunken</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-bg-surface-sunken" data-swatch></i><span data-token="--color-bg-surface-sunken"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-bg-surface-sunken" data-swatch></i><span data-token="--color-bg-surface-sunken"></span></span></td></tr>
+<tr><td>Zone edge</td><td><code>--color-border-strong</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-border-strong" data-swatch></i><span data-token="--color-border-strong"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-border-strong" data-swatch></i><span data-token="--color-border-strong"></span></span></td></tr>
+<tr><td>Zone copy</td><td><code>--color-fg-muted</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-muted" data-swatch></i><span data-token="--color-fg-muted"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-muted" data-swatch></i><span data-token="--color-fg-muted"></span></span></td></tr>
+<tr><td>Edge (dragging)</td><td><code>--color-accent</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-accent" data-swatch></i><span data-token="--color-accent"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-accent" data-swatch></i><span data-token="--color-accent"></span></span></td></tr>
+<tr><td>Zone (dragging)</td><td><code>--color-accent-subtle</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-accent-subtle" data-swatch></i><span data-token="--color-accent-subtle"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-accent-subtle" data-swatch></i><span data-token="--color-accent-subtle"></span></span></td></tr>
+<tr><td>Zone (failed)</td><td><code>--color-danger-bg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-danger-bg" data-swatch></i><span data-token="--color-danger-bg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-danger-bg" data-swatch></i><span data-token="--color-danger-bg"></span></span></td></tr>
+<tr><td>Edge (failed)</td><td><code>--color-danger-solid</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-danger-solid" data-swatch></i><span data-token="--color-danger-solid"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-danger-solid" data-swatch></i><span data-token="--color-danger-solid"></span></span></td></tr>
+<tr><td>Copy (failed)</td><td><code>--color-danger-fg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-danger-fg" data-swatch></i><span data-token="--color-danger-fg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-danger-fg" data-swatch></i><span data-token="--color-danger-fg"></span></span></td></tr>
+<tr><td>Focus ring</td><td><code>--color-focus-ring</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-focus-ring" data-swatch></i><span data-token="--color-focus-ring"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-focus-ring" data-swatch></i><span data-token="--color-focus-ring"></span></span></td></tr>
+<tr><td>Zone corners</td><td><code>--radius-lg</code></td><td><span data-theme="light" data-token="--radius-lg"></span></td><td><span data-theme="dark" data-token="--radius-lg"></span></td></tr>
+<tr><td>Edge width</td><td><code>--border-width-thick</code></td><td><span data-theme="light" data-token="--border-width-thick"></span></td><td><span data-theme="dark" data-token="--border-width-thick"></span></td></tr>
+<tr><td>Zone padding</td><td><code>--space-5</code></td><td><span data-theme="light" data-token="--space-5"></span></td><td><span data-theme="dark" data-token="--space-5"></span></td></tr>
+<tr><td>Emoji</td><td><code>--font-size-4xl</code></td><td><span data-theme="light" data-token="--font-size-4xl"></span></td><td><span data-theme="dark" data-token="--font-size-4xl"></span></td></tr>
+<tr><td>Copy and hint</td><td><code>--text-body-sm</code></td><td><span data-theme="light" data-token="--text-body-sm"></span></td><td><span data-theme="dark" data-token="--text-body-sm"></span></td></tr>
+</tbody></table></div>
+</section>
+
+<section class="ds-section" id="code"><h2><a href="#code">Code</a></h2>
+  <pre><code>&lt;div class="file-drop" data-state="dragging"&gt;
+  &lt;span class="ico" aria-hidden="true"&gt;📸&lt;/span&gt;
+  &lt;label for="singer-photo"&gt;Let go to add the photo&lt;/label&gt;
+  &lt;input id="singer-photo" type="file" accept="image/jpeg,image/png,image/webp"
+         aria-describedby="singer-photo-hint"&gt;
+  &lt;span id="singer-photo-hint"&gt;JPEG, PNG or WebP, up to 2 MB.&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+  <table class="ds-table"><thead><tr><th scope="col">Class / attribute</th><th scope="col">Effect</th></tr></thead><tbody>
+    <tr><td><code>.photo-input</code></td><td>The mock's plain input: bold, max 100% wide.</td></tr>
+    <tr><td><code>.file-drop</code></td><td>Dashed drop zone around the input.</td></tr>
+    <tr><td><code>.file-drop .ico</code></td><td>Large decorative emoji.</td></tr>
+    <tr><td><code>data-state="dragging"</code></td><td>Solid accent edge and tint; set on <code>dragenter</code>, cleared on <code>dragleave</code>/<code>drop</code>.</td></tr>
+    <tr><td><code>data-state="failed"</code></td><td>Danger edge, tint and text.</td></tr>
+    <tr><td><code>accept="image/jpeg,image/png,image/webp"</code></td><td>The server's allowed types; check the 2 MB limit on the device before Save.</td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+  <ul>
+    <li><a href="../../mocks/dialogs/singer-editor/default.html">dialogs/singer-editor/default</a> (plain photo input under the avatar picker)</li>
+    <li><a href="../../mocks/dialogs/singer-editor/edit.html">dialogs/singer-editor/edit</a> (same, editing Bea)</li>
+    <li><a href="../../mocks/dialogs/singer-editor/failed.html">dialogs/singer-editor/failed</a> (raw "Failed to fetch" toast)</li>
+    <li><a href="../../mocks/pages/profiles/default.html">pages/profiles/default</a> (Mum's photo replacing the emoji avatar)</li>
+  </ul>
+  <p>The drop zone is not in the mocks yet; added for the family-server managers. Drift that applies: raw failure text replaced by copy that says what happened and what to do (D19); dashed edges on controls use <code>--color-border-strong</code>, while decorative add cards stay <code>--color-border-decor</code> (D07); the photo input gets a visible label (mocks README, "a step ahead" item 4, goes one step further). See the <a href="../index.html#drift">drift log</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

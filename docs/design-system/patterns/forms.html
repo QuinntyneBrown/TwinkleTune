@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forms — TwinkleTune design system</title>
+<meta name="description" content="Form pattern for TwinkleTune: child forms that never block, grown-up forms with a validation box, field errors, busy saves and gentle failure copy.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Pattern</p>
+      <h1>Forms</h1>
+      <p class="ds-lead">TwinkleTune has very few forms, and most of them belong to grown-ups. A child types her name and a room code; a grown-up edits songs, avatars and singers on the family server. Both keep what was typed, check on submit, and never make a child feel she did something wrong.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill">Status: stable</span><span class="ds-pill">Classes <code>.name-card</code> <code>.field</code> <code>.form-summary</code></span><span class="ds-pill">Grown-ups and children</span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#when">When to use</a></li><li><a href="#structure">Structure</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>Forms fall into two families with different rules, because their readers are different people.</p>
+  <ul>
+    <li><b>Child forms</b>: the Welcome name card, the singer editor reached from <em>Who's singing?</em>, and the duet room code. One or two big fields (<code>.name-input</code>, 2xl Baloo type), an <a href="../components/avatar-picker.html">avatar picker</a>, one blue button. They prefer a sensible default to an error: an empty Welcome name is saved as <em>Superstar</em>.</li>
+    <li><b>Grown-up forms</b>: the song editor and the avatar editor, behind the <a href="dialogs-and-overlays.html">parent gate</a> in the Grown-Ups Corner. Smaller <code>.field</code> controls with <code>.field-label</code>, side-by-side pairs, a JSON <a href="../components/textarea.html">textarea</a>, a Preview and a Create button. These may say plainly what needs fixing.</li>
+  </ul>
+  <p>Every form here lives in a <a href="../components/dialog.html">dialog</a> or a centred <a href="../components/card.html">card</a>; there are no full-page forms. Building blocks: <a href="../components/text-field.html">text field</a>, <a href="../components/select.html">select</a>, <a href="../components/form-field.html">form field</a>, <a href="../components/form-layout.html">form layout</a>, <a href="../components/inline-message.html">inline message</a>, <a href="../components/alert.html">alert</a> and <a href="../components/button.html">button</a>.</p>
+</section>
+
+<section class="ds-section" id="when"><h2><a href="#when">When to use</a></h2>
+  <table class="ds-table"><thead><tr><th scope="col">Situation</th><th scope="col">Use</th><th scope="col">Not</th></tr></thead><tbody>
+    <tr><td>A child gives one piece of information (name, room code)</td><td>A <code>.name-card</code> or <code>.code-input</code> in a card or dialog, focused on arrival, with one blue button below</td><td>A multi-field form, a <em>Submit</em> button, an inline error list</td></tr>
+    <tr><td>The value can have a safe default</td><td>Accept empty and use the default (<em>Superstar</em>, the first avatar 🦄 pre-picked)</td><td>Blocking with a message</td></tr>
+    <tr><td>A grown-up creates or edits family content (song, avatar)</td><td>A <code>.modal.modal-wide</code> with <code>.field-label</code> + <code>.field</code>, <code>.field-pair</code> rows and <code>.field-actions</code></td><td>Separate steps or a wizard</td></tr>
+    <tr><td>A setting that applies at once (mic timing offset)</td><td>A <code>.setting-row</code> control in the Grown-Ups Corner that saves as it moves</td><td>A form with a Save button</td></tr>
+    <tr><td>Choosing one from a few pictures</td><td><a href="../components/avatar-picker.html">Avatar picker</a></td><td>A select of emoji names</td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="structure"><h2><a href="#structure">Structure</a></h2>
+  <p>Order inside a form dialog, top to bottom: emoji or title (<code>h3</code>, the dialog's name) → validation box (grown-ups, only after a failed submit) → fields in reading order → the one primary action (or a <code>.field-actions</code> pair for Preview + Create) → a <a href="../components/link.html">quiet link</a> to leave without saving (<em>Cancel</em>).</p>
+  <h3>Child form: the singer editor, name missing</h3>
+  <div class="ds-example">
+    <div class="ds-stage ds-stage--tall">
+      <div class="overlay">
+        <div class="modal" role="dialog" aria-labelledby="fm-singer-title">
+          <h3 id="fm-singer-title">Who else sings? 🌟</h3>
+          <div class="name-card name-card--dialog">
+            <label for="fm-singer-name">Name</label>
+            <input class="name-input" id="fm-singer-name" maxlength="20" placeholder="Type the name" value="" aria-invalid="true" aria-describedby="fm-singer-msg">
+          </div>
+          <div class="alert alert-gentle" id="fm-singer-msg"><span class="ico" aria-hidden="true">💙</span><div>Every singer needs a name!</div></div>
+          <p class="pick-label pick-label--dialog" id="fm-pick">Pick an avatar</p>
+          <div class="avatars avatars--wrap" role="group" aria-labelledby="fm-pick">
+            <button class="avatar-pick" type="button" aria-label="Unicorn" aria-pressed="true">🦄</button>
+            <button class="avatar-pick" type="button" aria-label="Kitten" aria-pressed="false">🐱</button>
+            <button class="avatar-pick" type="button" aria-label="Frog" aria-pressed="false">🐸</button>
+            <button class="avatar-pick" type="button" aria-label="Fox" aria-pressed="false">🦊</button>
+          </div>
+          <button class="btn" type="submit">Add singer ⭐</button>
+          <button class="link-quiet" type="button">Cancel</button>
+        </div>
+      </div>
+      <div class="toast-host" role="status" aria-live="polite"><span class="toast toast-pink">Every singer needs a name! 💙</span></div>
+    </div>
+    <div class="ds-example__caption"><span>The pink toast is the mock's behaviour; the system adds the gentle line under the field so the words stay after the toast's 2.2 s and are tied to the field.</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;div class="name-card name-card--dialog"&gt;
+  &lt;label for="singer-name"&gt;Name&lt;/label&gt;
+  &lt;input class="name-input" id="singer-name" maxlength="20"
+         aria-invalid="true" aria-describedby="singer-msg"&gt;
+&lt;/div&gt;
+&lt;div class="alert alert-gentle" id="singer-msg"&gt;&lt;span class="ico" aria-hidden="true"&gt;💙&lt;/span&gt;&lt;div&gt;Every singer needs a name!&lt;/div&gt;&lt;/div&gt;</code></pre></details>
+  </div>
+
+  <h3>Grown-up form: the song editor after a failed submit</h3>
+  <div class="ds-example">
+    <div class="ds-stage ds-stage--tall">
+      <div class="overlay">
+        <form class="modal modal-wide" role="dialog" aria-labelledby="fm-song-title" action="#structure">
+          <h3 id="fm-song-title">New song 🎵</h3>
+          <div class="form-summary" id="fm-summary" tabindex="-1">
+            <strong>Two things to fix before this song can be saved:</strong>
+            <ul>
+              <li><a href="#fm-song-name">A song needs a title.</a></li>
+              <li><a href="#fm-song-bpm">Tempo must be between 40 and 220 BPM.</a></li>
+            </ul>
+          </div>
+          <div class="form-field">
+            <label class="field-label" for="fm-song-name">Title</label>
+            <input class="field" id="fm-song-name" maxlength="80" value="" aria-invalid="true" aria-describedby="fm-song-name-err">
+            <span class="field-error" id="fm-song-name-err">A song needs a title.</span>
+          </div>
+          <div class="field-pair">
+            <div class="form-field">
+              <label class="field-label" for="fm-song-emoji">Emoji</label>
+              <input class="field" id="fm-song-emoji" maxlength="4" value="🎵">
+            </div>
+            <div class="form-field">
+              <label class="field-label" for="fm-song-bpm">Tempo (BPM)</label>
+              <input class="field" id="fm-song-bpm" type="number" min="40" max="220" value="300" aria-invalid="true" aria-describedby="fm-song-bpm-err">
+              <span class="field-error" id="fm-song-bpm-err">Between 40 and 220.</span>
+            </div>
+          </div>
+          <div class="field-pair">
+            <div class="form-field">
+              <label class="field-label" for="fm-song-diff">Difficulty</label>
+              <select class="field" id="fm-song-diff"><option selected>⭐ Easy</option><option>⭐⭐ Medium</option><option>⭐⭐⭐ Brave</option></select>
+            </div>
+            <div class="form-field">
+              <label class="field-label" for="fm-song-art">Art style</label>
+              <select class="field" id="fm-song-art"><option selected>Style 1</option><option>Style 2</option><option>Style 3</option><option>Style 4</option></select>
+            </div>
+          </div>
+          <div class="field-actions">
+            <button class="btn btn-white btn-sm" type="button">Preview ▶</button>
+            <button class="btn btn-sm" type="submit">Create ✨</button>
+          </div>
+          <button class="link-quiet" type="button">Cancel</button>
+        </form>
+      </div>
+    </div>
+    <div class="ds-example__caption"><span>The validation box sums up and links to each field; each field also carries its own short error. Nothing typed is cleared.</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;div class="form-summary" id="summary" tabindex="-1"&gt;
+  &lt;strong&gt;Two things to fix before this song can be saved:&lt;/strong&gt;
+  &lt;ul&gt;&lt;li&gt;&lt;a href="#song-title"&gt;A song needs a title.&lt;/a&gt;&lt;/li&gt;…&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="form-field"&gt;
+  &lt;label class="field-label" for="song-title"&gt;Title&lt;/label&gt;
+  &lt;input class="field" id="song-title" aria-invalid="true" aria-describedby="song-title-err"&gt;
+  &lt;span class="field-error" id="song-title-err"&gt;A song needs a title.&lt;/span&gt;
+&lt;/div&gt;</code></pre></details>
+  </div>
+  <ul>
+    <li><b>Labels</b> sit above the control (<code>.field-label</code>, Baloo 2 bold, 16px), never as placeholders. A placeholder may show an example (<em>Tiger</em>, <em>ABCD</em>).</li>
+    <li><b>Pairs</b>: short related fields share a <code>.field-pair</code> (Emoji + Tempo, Difficulty + Art style). Long fields (Title, the phrases JSON) take the full width.</li>
+    <li><b>Hints</b> for unusual input go in the label or a <code>.field-hint</code>: <em>Phrases &amp; notes (JSON — midi 60 = middle C, times in beats)</em>.</li>
+    <li><b>Actions</b>: one blue primary. Preview is white beside it in <code>.field-actions</code>. Destructive actions (<em>Remove singer 🗑️</em>) are pink and open a confirm dialog; they are never the form's submit.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+  <table class="ds-table"><thead><tr><th scope="col">State</th><th scope="col">Child form</th><th scope="col">Grown-up form</th></tr></thead><tbody>
+    <tr><td><b>Default / new</b></td><td>Empty field focused, first avatar pre-picked (<code>aria-pressed="true"</code>), blue button enabled</td><td>Empty fields with sensible defaults (🎵, 100 BPM, Easy, Style 1, a three-note <em>La la la</em> phrase)</td></tr>
+    <tr><td><b>Edit</b></td><td>Title names the singer (<em>Edit Bea</em>), button says <em>Save changes</em>, plus a pink <em>Remove singer 🗑️</em></td><td>Title names the item, fields filled, button says <em>Save</em></td></tr>
+    <tr><td><b>Invalid</b></td><td>Pink toast in Twinkle's voice, field kept, <code>aria-invalid</code> + a gentle line tied by <code>aria-describedby</code></td><td><code>.form-summary</code> at the top, focused; <code>.field-error</code> under each field; the server's rules checked on the device first</td></tr>
+    <tr><td><b>Busy</b></td><td>The blue button gets <code>aria-busy="true"</code>; the quiet Cancel stays usable</td><td>Same; Preview stays usable because it plays on the device</td></tr>
+    <tr><td><b>Failed</b></td><td>Pink toast <em>Can't reach the family server 📡</em>; dialog stays open with what was typed</td><td><code>.alert</code> above the actions saying what happened and what to do; values kept; button returns from busy</td></tr>
+    <tr><td><b>Success</b></td><td>Dialog closes; a gold toast welcomes her (<em>a singer arriving</em>)</td><td>Dialog closes back to the manager; gold toast for a saved song, white <em>Removed 💙</em> for a removal</td></tr>
+  </tbody></table>
+  <h3>Validation timing</h3>
+  <ul>
+    <li>Validate on submit, never on each keystroke or on blur. A child who pauses mid-name should not be interrupted.</li>
+    <li>After a failed submit, re-check a field as it changes and remove its error the moment it is fixed. Never add new errors before the next submit.</li>
+    <li>The device checks the same rules the server enforces (title, tempo 40–220, notes within 48–84, durations positive, no overlaps, span within 16 semitones). The server still has the final word; its messages arrive in the same box.</li>
+  </ul>
+  <h3>Busy and failed</h3>
+  <div class="ds-themes">
+    <div data-theme="light"><div class="ds-col">
+      <button class="btn btn-sm" type="submit" aria-busy="true">Create ✨</button>
+      <div class="alert alert-gentle ds-w-full"><span class="ico" aria-hidden="true">📡</span><div><strong>The song wasn't saved</strong>The family server didn't answer. Check it is switched on, then press Create again. Your notes are still here.</div></div>
+    </div></div>
+    <div data-theme="dark"><div class="ds-col">
+      <button class="btn btn-sm" type="submit" aria-busy="true">Create ✨</button>
+      <div class="alert alert-gentle ds-w-full"><span class="ico" aria-hidden="true">📡</span><div><strong>The song wasn't saved</strong>The family server didn't answer. Check it is switched on, then press Create again. Your notes are still here.</div></div>
+    </div></div>
+  </div>
+</section>
+
+<section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+  <ul>
+    <li>Form dialogs are centred at every width: <code>.modal</code> up to 340px, <code>.modal-wide</code> up to 440px, scrolling inside at 84% of the viewport height so the actions never leave the screen.</li>
+    <li><code>.field-pair</code> keeps two columns down to 320px; the fields inside are short by design. A pair whose labels would wrap to three lines becomes two full-width fields.</li>
+    <li>When the on-screen keyboard opens, the focused field scrolls into view inside the dialog; nothing is positioned against the bottom of the viewport.</li>
+    <li>Inputs are at least 16px so mobile browsers do not zoom on focus; child inputs are 24px.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <h3>Labelling</h3>
+  <p>Every control has a <code>&lt;label for&gt;</code> (the mocks are a step ahead of the app here). The room code field is named by its visible heading (<em>Type the room code 🔑</em>) through <code>aria-labelledby</code>, or <code>aria-label="Room code"</code>. The photo input is named <em>Photo</em>. The avatar row is a <code>role="group"</code> named by <em>Pick an avatar</em>, each button named and pressed with <code>aria-label</code> + <code>aria-pressed</code> (D17).</p>
+  <h3>Errors</h3>
+  <p>Invalid fields get <code>aria-invalid="true"</code> and <code>aria-describedby</code> pointing at their message. After a failed grown-up submit, focus moves to the <code>.form-summary</code> (<code>tabindex="-1"</code>), whose links move focus to each field. Error text is never carried by colour alone: <code>.field-error</code> starts with 💙 and says the rule in words (WCAG 3.3.1, 3.3.3, 1.4.1).</p>
+  <h3>Keyboard</h3>
+  <table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody>
+    <tr><td><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>Field to field in reading order, then the actions, then Cancel.</td></tr>
+    <tr><td><kbd>Enter</kbd> in a single-line field</td><td>Submits the form (Add singer, Join the duet, Create).</td></tr>
+    <tr><td><kbd>Space</kbd> / <kbd>Enter</kbd> on an avatar</td><td>Picks it; the previous one is released.</td></tr>
+    <tr><td><kbd>Esc</kbd></td><td>Same as Cancel: closes the dialog without saving, focus returns to the button that opened it.</td></tr>
+  </tbody></table>
+  <h3>Contrast</h3>
+  <div class="ds-example__canvas ds-example__canvas--stack ds-w-form">
+    <div class="ds-pair"><span>Field edge on the dialog</span><span class="ds-pair__ratio" data-contrast="--color-border-strong|--color-bg-surface-sunken" data-min="3"></span></div>
+    <div class="ds-pair"><span>Gentle message</span><span class="ds-pair__ratio" data-contrast="--color-gentle-fg|--color-gentle-bg" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Validation box (grown-ups)</span><span class="ds-pair__ratio" data-contrast="--color-danger-fg|--color-danger-bg" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Field error text</span><span class="ds-pair__ratio" data-contrast="--color-danger-fg|--color-bg-surface" data-min="4.5"></span></div>
+  </div>
+  <h3>Motion and touch</h3>
+  <p>Dialogs pop in over <code>--duration-slow</code>; the parent gate's wrong-answer wiggle is the only motion tied to input and stops under reduced motion. Child inputs are 68px tall; grown-up fields 44px; avatar buttons 64px with 16px between them.</p>
+</section>
+
+<section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+  <ul>
+    <li><b>Child messages are Twinkle talking</b>: short, warm, about what to do. <em>Every singer needs a name! 💙</em>, <em>Codes have 4 letters!</em>. Never <em>Invalid</em>, <em>Required</em> or <em>Error</em>.</li>
+    <li><b>Grown-up messages name the rule</b>: <em>Tempo must be between 40 and 220 BPM.</em>, <em>Note 3: midi 96 is outside 48–84 (C3–C6).</em> Point at the item by its position or name.</li>
+    <li><b>Failures say what happened and what to do</b>, never the raw transport message. <em>Failed to fetch</em> becomes <em>The family server didn't answer. Check it is switched on, then try again.</em> (D19)</li>
+    <li><b>Buttons say the outcome</b>: <em>Add singer ⭐</em>, <em>Save changes</em>, <em>Create ✨</em>, <em>Join the duet! 🎤</em>, <em>Add ✨</em>. The leave link is <em>Cancel</em>, or <em>Back</em> on the duet card.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas ds-example__canvas--stack"><div class="form-field"><label class="field-label" for="fm-do-bpm">Tempo (BPM)</label><input class="field" id="fm-do-bpm" type="number" value="300" aria-invalid="true" aria-describedby="fm-do-bpm-err"><span class="field-error" id="fm-do-bpm-err">Between 40 and 220.</span></div></div><figcaption>Mark the field and say the rule right under it, as well as in the box at the top.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas ds-example__canvas--stack"><div class="errors"><div>• Failed to fetch</div></div></div><figcaption>Show the browser's raw message in a list with no field and no next step (song editor, failed).</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas ds-example__canvas--stack"><div class="name-card"><label for="fm-do-name">My name is…</label><input class="name-input" id="fm-do-name" placeholder="Type your name" value=""></div></div><figcaption>Let a child carry on with an empty name: Welcome saves her as <em>Superstar</em>.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas ds-example__canvas--stack"><button class="btn btn-xl" type="button" disabled>Let's Sing! 🎤</button></div><figcaption>Disable the big button until a child has typed something. She will not know why it doesn't work.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+  <ul>
+    <li><a href="../../mocks/dialogs/singer-editor/default.html">dialogs/singer-editor/default</a>, <a href="../../mocks/dialogs/singer-editor/edit.html">edit</a>, <a href="../../mocks/dialogs/singer-editor/invalid.html">invalid</a> (pink toast, field not marked), <a href="../../mocks/dialogs/singer-editor/failed.html">failed</a> (raw <em>Failed to fetch</em> toast)</li>
+    <li><a href="../../mocks/dialogs/song-editor/default.html">dialogs/song-editor/default</a>, <a href="../../mocks/dialogs/song-editor/edit.html">edit</a>, <a href="../../mocks/dialogs/song-editor/invalid.html">invalid</a> (one error list, fields not marked), <a href="../../mocks/dialogs/song-editor/failed.html">failed</a></li>
+    <li><a href="../../mocks/dialogs/avatar-editor/default.html">dialogs/avatar-editor/default</a>, <a href="../../mocks/dialogs/avatar-editor/invalid.html">invalid</a>, <a href="../../mocks/dialogs/avatar-editor/failed.html">failed</a></li>
+    <li><a href="../../mocks/pages/duet/join.html">pages/duet/join</a> (room code, focused on arrival, upper-cased)</li>
+    <li><a href="../../mocks/pages/welcome/default.html">pages/welcome/default</a> (empty name becomes <em>Superstar</em>)</li>
+  </ul>
+  <p>Drift and open questions: the mocks validate with a toast and an unmarked list and show no busy state; the system adds <code>aria-invalid</code>, <code>aria-describedby</code>, the linked <code>.form-summary</code> and <code>aria-busy</code> saves. Raw failure text replaced (D19); field edges moved to <code>--color-border-strong</code> (D07); avatar picker named and pressed (D17); dialogs labelled and modal (D15). See the <a href="../index.html#drift">drift log</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

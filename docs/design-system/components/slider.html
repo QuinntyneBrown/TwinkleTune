@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slider — TwinkleTune design system</title>
+<meta name="description" content="TwinkleTune slider: the mic timing offset in a setting row, a stacked variant with ticks, every state, both themes.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">TwinkleTune DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Components</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/icon-button.html">Icon button</a></li>
+      <li><a href="../components/link.html">Link</a></li>
+      <li><a href="../components/menu.html">Menu</a></li>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/checkbox.html">Checkbox</a></li>
+      <li><a href="../components/radio-group.html">Radio group</a></li>
+      <li><a href="../components/switch.html">Switch</a></li>
+      <li><a href="../components/slider.html">Slider</a></li>
+      <li><a href="../components/file-upload.html">File upload</a></li>
+      <li><a href="../components/form-field.html">Form field</a></li>
+      <li><a href="../components/form-layout.html">Form layout</a></li>
+      <li><a href="../components/avatar-picker.html">Avatar picker</a></li>
+      <li><a href="../components/number-pad.html">Number pad</a></li>
+      <li><a href="../components/top-bar.html">Top bar</a></li>
+      <li><a href="../components/bottom-nav.html">Bottom nav</a></li>
+      <li><a href="../components/sidebar-nav.html">Sidebar nav</a></li>
+      <li><a href="../components/tabs.html">Tabs</a></li>
+      <li><a href="../components/breadcrumb.html">Breadcrumb</a></li>
+      <li><a href="../components/pagination.html">Pagination</a></li>
+      <li><a href="../components/stepper.html">Stepper</a></li>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/tile.html">Tile</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/tooltip.html">Tooltip</a></li>
+      <li><a href="../components/divider.html">Divider</a></li>
+      <li><a href="../components/container.html">Container</a></li>
+      <li><a href="../components/list.html">List</a></li>
+      <li><a href="../components/song-row.html">Song row</a></li>
+      <li><a href="../components/table.html">Table</a></li>
+      <li><a href="../components/description-list.html">Description list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/pill.html">Pill</a></li>
+      <li><a href="../components/chip.html">Chip</a></li>
+      <li><a href="../components/reward-badge.html">Reward badge</a></li>
+      <li><a href="../components/star-rating.html">Star rating</a></li>
+      <li><a href="../components/progress-ring.html">Progress ring</a></li>
+      <li><a href="../components/week-streak.html">Week streak</a></li>
+      <li><a href="../components/coach-bubble.html">Coach bubble</a></li>
+      <li><a href="../components/pitch-stage.html">Pitch stage</a></li>
+      <li><a href="../components/lyrics.html">Lyrics</a></li>
+      <li><a href="../components/voice-ladder.html">Voice ladder</a></li>
+      <li><a href="../components/duet-code.html">Duet code</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/inline-message.html">Inline message</a></li>
+      <li><a href="../components/progress-bar.html">Progress bar</a></li>
+      <li><a href="../components/spinner.html">Spinner</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+      <li><a href="../components/empty-state.html">Empty state</a></li>
+      <li><a href="../components/error-page.html">Error page</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/data-tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Component · Inputs</p>
+      <h1>Slider</h1>
+      <p class="ds-lead">The native range input in the accent colour, always with its value written beside it. The Grown-Ups Corner uses it for the mic timing offset, which saves as it moves.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill">Native <code>&lt;input type="range"&gt;</code></span><span class="ds-pill">Status: stable</span><span class="ds-pill">Class <code>.slider</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+<section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+  <p>Use a slider when a grown-up nudges a number within a range and the exact value matters less than the feel: <em>Mic timing offset</em>, from −300 to +300 ms in 10 ms steps, in the Grown-Ups Corner. "If cheers feel late, nudge this." The value is always shown as text beside the slider, and the setting applies as it moves.</p>
+  <ul>
+    <li><b>In a setting row</b> (the mock): label and hint on the left, slider in the middle, value on the right.</li>
+    <li><b>Stacked</b>: label above, slider and value below, with optional tick marks. For forms where several settings line up.</li>
+  </ul>
+  <p>If the exact number matters (a song's tempo), use a number <a href="text-field.html">text field</a>. Children never use a slider: dragging a thin thumb is hard for small hands. The mic timing offset belongs to the device, not the singer, which is one reason it lives behind the parent gate.</p>
+</section>
+
+<section class="ds-section" id="anatomy"><h2><a href="#anatomy">Anatomy</a></h2>
+  <div class="ds-anatomy">
+    <figure class="ds-anatomy__figure">
+      <div class="setting-row ds-w-screen">
+        <label for="sl-anat">Mic timing offset<br><small>If cheers feel late, nudge this</small></label>
+        <input class="slider" id="sl-anat" type="range" min="-300" max="300" step="10" value="40" aria-valuetext="40 milliseconds">
+        <output for="sl-anat"><b>40 ms</b></output>
+      </div>
+      <span class="ds-callout" style="left: 4%; top: 20%;" aria-hidden="true">1</span>
+      <span class="ds-callout" style="left: 46%; top: 20%;" aria-hidden="true">2</span>
+      <span class="ds-callout" style="left: 62%; top: 72%;" aria-hidden="true">3</span>
+      <span class="ds-callout" style="left: 92%; top: 20%;" aria-hidden="true">4</span>
+    </figure>
+    <ol class="ds-anatomy__list">
+      <li><div><b>Label and hint</b><small>The setting's name in extra-bold 14px, a <code>&lt;small&gt;</code> hint in <code>--color-fg-muted</code> under it.</small></div></li>
+      <li><div><b>Track</b><small>Drawn by the browser, tinted by <code>accent-color: var(--color-accent)</code>: the filled part is accent, the rest the browser's neutral.</small></div></li>
+      <li><div><b>Thumb</b><small>Browser-drawn in the accent colour. The control row is at least 44px tall.</small></div></li>
+      <li><div><b>Value</b><small><code>&lt;output&gt;</code> with the number and unit (<em>40 ms</em>), bold. The slider's position is never the only way to read it.</small></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="ds-section" id="variants"><h2><a href="#variants">Variants</a></h2>
+  <h3>In a setting row</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas">
+      <div class="modal" style="position: static;">
+        <div class="setting-row">
+          <label for="sl-var-row">Mic timing offset<br><small>If cheers feel late, nudge this</small></label>
+          <input class="slider" id="sl-var-row" type="range" min="-300" max="300" step="10" value="40" aria-valuetext="40 milliseconds">
+          <output for="sl-var-row"><b>40 ms</b></output>
+        </div>
+        <div class="setting-row">
+          <span>Voice range<br><small>B3 – E5</small></span>
+          <a class="btn btn-sm" href="#variants">Re-do</a>
+        </div>
+      </div>
+    </div>
+    <div class="ds-example__caption"><span>As in the Grown-Ups Corner, with the label tied to the slider and the value in an <code>&lt;output&gt;</code>.</span></div>
+    <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;div class="setting-row"&gt;
+  &lt;label for="latency"&gt;Mic timing offset&lt;br&gt;&lt;small&gt;If cheers feel late, nudge this&lt;/small&gt;&lt;/label&gt;
+  &lt;input class="slider" id="latency" type="range" min="-300" max="300" step="10" value="40"
+         aria-valuetext="40 milliseconds"&gt;
+  &lt;output for="latency"&gt;&lt;b&gt;40 ms&lt;/b&gt;&lt;/output&gt;
+&lt;/div&gt;</code></pre></details>
+  </div>
+  <h3>Stacked with ticks</h3>
+  <div class="ds-example">
+    <div class="ds-example__canvas ds-w-form">
+      <div class="form-field" style="width: 100%;">
+        <label class="field-label" for="sl-var-stack">Mic timing offset</label>
+        <input class="slider" id="sl-var-stack" type="range" min="-300" max="300" step="10" value="0" list="sl-var-ticks" aria-describedby="sl-var-hint" aria-valuetext="0 milliseconds, no change">
+        <datalist id="sl-var-ticks"><option value="-300"></option><option value="0"></option><option value="300"></option></datalist>
+        <p class="field-hint" id="sl-var-hint">0 ms means no change. If cheers feel late, nudge it a little and sing again.</p>
+      </div>
+    </div>
+    <div class="ds-example__caption"><span>A tick at zero helps a grown-up find "no change". The hint says what zero means.</span></div>
+  </div>
+</section>
+
+<section class="ds-section" id="sizes" data-na="One size: full width of its slot, browser-drawn thumb, 44px minimum row height."><h2><a href="#sizes">Sizes</a></h2><p class="ds-na">One size: full width of its slot, browser-drawn thumb, 44px minimum row height.</p></section>
+
+<section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+  <p>The track and thumb are drawn by the browser, so hover and pressed are the browser's own. Focus uses the shared ring on <code>:focus-visible</code>; it cannot be forced on a static page, so the Focus column holds a live slider: tab to it.</p>
+  <div class="ds-matrix"><table>
+    <thead><tr><th scope="col">Value</th><th scope="col">Default</th><th scope="col">Focus (tab here)</th><th scope="col">Disabled</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Lowest (−300 ms)</th>
+        <td><input class="slider" type="range" min="-300" max="300" step="10" value="-300" aria-label="Mic timing offset, lowest"></td>
+        <td><input class="slider" type="range" min="-300" max="300" step="10" value="-300" aria-label="Mic timing offset, lowest, focus"></td>
+        <td><input class="slider" type="range" min="-300" max="300" step="10" value="-300" aria-label="Mic timing offset, lowest, disabled" disabled></td></tr>
+      <tr><th scope="row">Zero</th>
+        <td><input class="slider" type="range" min="-300" max="300" step="10" value="0" aria-label="Mic timing offset, zero"></td>
+        <td><input class="slider" type="range" min="-300" max="300" step="10" value="0" aria-label="Mic timing offset, zero, focus"></td>
+        <td><input class="slider" type="range" min="-300" max="300" step="10" value="0" aria-label="Mic timing offset, zero, disabled" disabled></td></tr>
+      <tr><th scope="row">Highest (+300 ms)</th>
+        <td><input class="slider" type="range" min="-300" max="300" step="10" value="300" aria-label="Mic timing offset, highest"></td>
+        <td><input class="slider" type="range" min="-300" max="300" step="10" value="300" aria-label="Mic timing offset, highest, focus"></td>
+        <td><input class="slider" type="range" min="-300" max="300" step="10" value="300" aria-label="Mic timing offset, highest, disabled" disabled></td></tr>
+    </tbody>
+  </table></div>
+  <h3>Both themes</h3>
+  <div class="ds-themes">
+    <div data-theme="light"><div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0;"><input class="slider" type="range" min="-300" max="300" step="10" value="40" aria-label="Mic timing offset, light theme"></div></div>
+    <div data-theme="dark"><div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0;"><input class="slider" type="range" min="-300" max="300" step="10" value="40" aria-label="Mic timing offset, dark theme"></div></div>
+  </div>
+  <ul>
+    <li><b>Disabled</b> is 55% opaque with a not-allowed cursor. The mic offset is never disabled; it works without a family server and without a microphone permission.</li>
+    <li>No invalid state: the range itself prevents a bad value.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+  <ul>
+    <li>In a setting row the slider takes the remaining space (<code>flex: 1</code>) between label and value. At 320px inside a 340px dialog that leaves it about 100px; if the label wraps further, move to the stacked variant.</li>
+    <li>The value keeps its width so the slider does not jump as the number changes; reserve room for the longest value (<em>−300 ms</em>).</li>
+    <li>Stacked sliders are full width of the form column.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="theming"><h2><a href="#theming">Theming</a></h2>
+  <p>One token: <code>accent-color: var(--color-accent)</code>. The browser picks the unfilled track and the thumb's outline to contrast with it, so the slider follows the theme without custom track CSS. Set <code>color-scheme</code> on the theme root so the unfilled track is dark in the night studio.</p>
+</section>
+
+<section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+  <h3>Role and pattern</h3>
+  <p>Native <code>&lt;input type="range"&gt;</code>, which has the slider role and value built in (<a href="https://www.w3.org/WAI/ARIA/apg/patterns/slider/">APG Slider</a>). Add <code>aria-valuetext</code> when the number alone is unclear: <em>40 milliseconds</em> reads better than "40", and <em>minus 120 milliseconds</em> better than "-120".</p>
+  <h3>Keyboard</h3>
+  <table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody>
+    <tr><td><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>Moves to and from the slider.</td></tr>
+    <tr><td><kbd>→</kbd> / <kbd>↑</kbd></td><td>Increases by one step (10 ms).</td></tr>
+    <tr><td><kbd>←</kbd> / <kbd>↓</kbd></td><td>Decreases by one step.</td></tr>
+    <tr><td><kbd>Page Up</kbd> / <kbd>Page Down</kbd></td><td>Larger jumps (browser-defined, about a tenth of the range).</td></tr>
+    <tr><td><kbd>Home</kbd> / <kbd>End</kbd></td><td>Lowest (−300 ms) / highest (+300 ms).</td></tr>
+  </tbody></table>
+  <h3>Focus</h3>
+  <p>The shared ring (3px <code>--color-focus-ring</code>, 3px offset) around the whole control on <code>:focus-visible</code>.</p>
+  <h3>Labelling</h3>
+  <p>Tie the visible label to the slider with <code>&lt;label for&gt;</code>; the mock gives it only <code>aria-label</code> and leaves the visible text loose. Show the value in an <code>&lt;output for&gt;</code>, and update <code>aria-valuetext</code> with it.</p>
+  <h3>Dragging alternative</h3>
+  <p>WCAG 2.5.7: a single tap anywhere on the track moves the thumb there, and the arrow keys step it, so dragging is never required.</p>
+  <h3>Contrast</h3>
+  <div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);">
+    <div class="ds-pair"><span>Filled track and thumb on a dialog</span><span class="ds-pair__ratio" data-contrast="--color-accent|--color-bg-surface" data-min="3"></span></div>
+    <div class="ds-pair"><span>Label and value in a dialog</span><span class="ds-pair__ratio" data-contrast="--color-fg-default|--color-bg-surface-raised" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Hint in a dialog</span><span class="ds-pair__ratio" data-contrast="--color-fg-muted|--color-bg-surface-raised" data-min="4.5"></span></div>
+    <div class="ds-pair"><span>Focus ring in a dialog</span><span class="ds-pair__ratio" data-contrast="--color-focus-ring|--color-bg-surface-raised" data-min="3"></span></div>
+  </div>
+  <p>The unfilled track is browser-drawn and not tokenised; the value text carries the information either way.</p>
+  <h3>Motion</h3>
+  <p>None; the thumb follows the pointer.</p>
+  <h3>Touch</h3>
+  <p>The control is at least 44px tall. Keep at least 8px between the slider and the value so a thumb at the end is not mistaken for a tap on the text.</p>
+</section>
+
+<section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+  <ul>
+    <li>The label names the setting; the hint says when to touch it, in the reader's words: <em>If cheers feel late, nudge this</em>.</li>
+    <li>Always show the value with its unit: <em>40 ms</em>, <em>−120 ms</em>, <em>0 ms</em>. Use a real minus sign.</li>
+    <li>Mark the zero point (a tick, or "0 ms means no change" in the hint) so a grown-up can always get back to where they started.</li>
+  </ul>
+</section>
+
+<section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+  <div class="ds-dodont">
+    <figure class="ds-do"><div class="ds-example__canvas"><div class="setting-row" style="width: 100%;"><label for="sl-do-1">Mic timing offset</label><input class="slider" id="sl-do-1" type="range" min="-300" max="300" step="10" value="40"><output for="sl-do-1"><b>40 ms</b></output></div></div><figcaption>Label tied to the slider, value written beside it.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas"><div class="setting-row" style="width: 100%;"><span>Mic timing offset</span><input class="slider" type="range" min="-300" max="300" step="10" value="40" aria-label="Offset"></div></div><figcaption>No value, and the visible label is not the slider's name. The grown-up cannot tell where "no change" is.</figcaption></figure>
+    <figure class="ds-do"><div class="ds-example__canvas ds-example__canvas--stack"><label class="field-label" for="sl-do-2">Tempo (BPM)</label><input class="field" id="sl-do-2" type="number" min="40" max="220" value="96"></div><figcaption>An exact number someone types: a number field.</figcaption></figure>
+    <figure class="ds-dont"><div class="ds-example__canvas ds-example__canvas--stack"><input class="slider" type="range" min="40" max="220" value="96" aria-label="Tempo"></div><figcaption>A slider for an exact tempo. Hitting 96 precisely is fiddly.</figcaption></figure>
+  </div>
+</section>
+
+<section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+  <div class="ds-table-wrap"><table class="ds-table">
+<thead><tr><th scope="col">Use</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+<tbody>
+<tr><td>Filled track and thumb (accent-color)</td><td><code>--color-accent</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-accent" data-swatch></i><span data-token="--color-accent"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-accent" data-swatch></i><span data-token="--color-accent"></span></span></td></tr>
+<tr><td>Label and value</td><td><code>--color-fg-default</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-default" data-swatch></i><span data-token="--color-fg-default"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-default" data-swatch></i><span data-token="--color-fg-default"></span></span></td></tr>
+<tr><td>Hint</td><td><code>--color-fg-muted</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-muted" data-swatch></i><span data-token="--color-fg-muted"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-muted" data-swatch></i><span data-token="--color-fg-muted"></span></span></td></tr>
+<tr><td>Focus ring</td><td><code>--color-focus-ring</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-focus-ring" data-swatch></i><span data-token="--color-focus-ring"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-focus-ring" data-swatch></i><span data-token="--color-focus-ring"></span></span></td></tr>
+<tr><td>Minimum height</td><td><code>--target-comfortable</code></td><td><span data-theme="light" data-token="--target-comfortable"></span></td><td><span data-theme="dark" data-token="--target-comfortable"></span></td></tr>
+<tr><td>Gap in a setting row</td><td><code>--space-3</code></td><td><span data-theme="light" data-token="--space-3"></span></td><td><span data-theme="dark" data-token="--space-3"></span></td></tr>
+</tbody></table></div>
+</section>
+
+<section class="ds-section" id="code"><h2><a href="#code">Code</a></h2>
+  <pre><code>&lt;div class="setting-row"&gt;
+  &lt;label for="latency"&gt;Mic timing offset&lt;br&gt;&lt;small&gt;If cheers feel late, nudge this&lt;/small&gt;&lt;/label&gt;
+  &lt;input class="slider" id="latency" type="range" min="-300" max="300" step="10" value="40"
+         aria-valuetext="40 milliseconds"&gt;
+  &lt;output for="latency"&gt;&lt;b&gt;40 ms&lt;/b&gt;&lt;/output&gt;
+&lt;/div&gt;
+&lt;script&gt;
+latency.addEventListener('input', () =&gt; {
+  out.textContent = `${latency.value} ms`;
+  latency.setAttribute('aria-valuetext', `${latency.value} milliseconds`);
+  saveDeviceSetting('latencyMs', Number(latency.value)); // device, not singer
+});
+&lt;/script&gt;</code></pre>
+  <table class="ds-table"><thead><tr><th scope="col">Class / attribute</th><th scope="col">Effect</th></tr></thead><tbody>
+    <tr><td><code>.slider</code></td><td>Full width, accent colour, 44px minimum height.</td></tr>
+    <tr><td><code>.setting-row input[type=range]</code></td><td>The mock's selector: fills the row's free space.</td></tr>
+    <tr><td><code>min</code> <code>max</code> <code>step</code></td><td>Range and step (mic offset: −300, 300, 10).</td></tr>
+    <tr><td><code>list</code> + <code>&lt;datalist&gt;</code></td><td>Tick marks.</td></tr>
+    <tr><td><code>aria-valuetext</code></td><td>Spoken value with unit and meaning.</td></tr>
+    <tr><td><code>disabled</code></td><td>Dimmed.</td></tr>
+  </tbody></table>
+</section>
+
+<section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+  <ul>
+    <li><a href="../../mocks/dialogs/grown-ups-corner/default.html">dialogs/grown-ups-corner/default</a> (mic timing offset in a <code>.setting-row</code>, −300 to 300 ms, value in <code>&lt;b&gt;</code>)</li>
+  </ul>
+  <p>The <code>.slider</code> class and the stacked variant are new in the system. Drift that applies: the accent was brand blue at 2.6:1 on white and is now <code>--color-accent</code> (D01); focus ring <code>--color-focus-ring</code> (D21). The mock names the slider with <code>aria-label</code> only, a step ahead of the app, which had no name at all (mocks README, "a step ahead" item 4); the system ties the visible label instead. See the <a href="../index.html#drift">drift log</a>.</p>
+</section>
+
+    <footer class="ds-footer"><span>TwinkleTune design system · extracted from <a href="../../mocks/index.html">docs/mocks</a></span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>
