@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Find My Voice · listening-high — TwinkleTune mocks</title>
+<meta name="mock:kind" content="page">
+<meta name="mock:screen" content="voice-setup">
+<meta name="mock:state" content="listening-high">
+<meta name="mock:requirements" content="VP-L2-1 VP-L2-2 VP-L2-3 VP-L2-5 VP-L2-6 VP-L2-7 VP-L2-15">
+<meta name="description" content="Step 3 of 3: the low note is captured in gold and she is reaching for her high note.">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<link rel="stylesheet" href="../../assets/ui.css">
+<link rel="stylesheet" href="../../assets/mock.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="sky sky--day" aria-hidden="true">
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="fnote">🎵</span>
+  <span class="fnote">🎶</span>
+</div>
+<main id="main" class="screen screen--nonav">
+    <header class="topbar rise">
+      <a class="icon-btn" href="../../pages/home/default.html" aria-label="Go back">←</a>
+      <h1 class="title">Find My Voice</h1>
+      <a class="link-quiet spacer" href="../../pages/home/default.html">Later</a>
+    </header>
+
+    <div class="steps rise d1" aria-label="Progress" data-steps>
+      <span class="step-dot done"></span>
+      <span class="step-dot done"></span>
+      <span class="step-dot now"></span>
+    </div>
+
+    <div class="coach rise d2">
+      <svg class="mascot mascot-sm" viewBox="0 0 120 120" aria-hidden="true">
+      <path class="twinkle-body" d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z" stroke-width="7" stroke-linejoin="round"/>
+      <circle class="twinkle-eye" cx="48" cy="56" r="4.5"/>
+      <circle class="twinkle-eye" cx="72" cy="56" r="4.5"/>
+      <circle class="twinkle-cheek" cx="41" cy="66" r="5.5"/>
+      <circle class="twinkle-cheek" cx="79" cy="66" r="5.5"/>
+      <path class="twinkle-smile" d="M50 66 Q60 76 70 66" fill="none" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+      <div class="bubble bubble-left" data-bubble>
+        Beautiful! Now squeak up high like a baby bird — your <strong>highest comfy</strong> <strong>“laaa”</strong>!
+      </div>
+    </div>
+
+    <section class="card ladder-card rise d3" aria-label="Your vocal range ladder">
+      <div class="ladder" data-ladder>
+        <div class="rung lit" data-rung="0"></div>
+        <div class="rung lit" data-rung="1"></div>
+        <div class="rung lit" data-rung="2"></div>
+        <div class="rung captured lit" data-rung="3">Low B3 ✓</div>
+        <div class="rung lit" data-rung="4"></div>
+        <div class="rung lit" data-rung="5"></div>
+        <div class="rung lit" data-rung="6"></div>
+        <div class="rung lit" data-rung="7"></div>
+        <div class="rung now" data-rung="8"><span class="singer-dot">🦄</span></div>
+        <div class="rung" data-rung="9"></div>
+        <div class="rung" data-rung="10"></div>
+        <div class="rung" data-rung="11"></div>
+      </div>
+      <div class="ladder-side" aria-hidden="true">
+        <span>⭐</span>
+        <small>HIGH&nbsp;&nbsp;·&nbsp;&nbsp;LOW</small>
+        <span>🌊</span>
+      </div>
+    </section>
+
+    <div class="card card-soft listen rise d4">
+      <div class="mic live" data-mic role="img" aria-label="Microphone">🎤</div>
+      <div class="listen-info">
+        <strong data-listen-msg>Listening for your high note… ⭐</strong>
+        <div class="eq live" data-eq aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+    </div>
+
+    <div class="why rise d5">
+      <span class="ico">💙</span>
+      <span>Twinkle remembers your range, then <strong>tunes every song to fit YOUR voice</strong> — never too high, never too low.</span>
+    </div>
+
+    <div class="ctas rise d6">
+      
+    </div>
+</main>
+
+<aside class="mock-notes" aria-label="Design notes">
+  <p class="mock-note">The captured rung turns gold with the note name, the note is played back, and a gold toast confirms it.</p>
+  <p class="mock-note">A high note fewer than four semitones above the low one is not accepted: a pink toast asks her to reach a little higher (notifications/toast/warning).</p>
+</aside>
+
+<nav class="mock-bar" aria-label="Mock navigation">
+  <a class="mock-bar__home" href="../../index.html" aria-label="All mocks">⌂</a>
+  <span class="mock-bar__screen">Find My Voice</span>
+  <ul class="mock-bar__states">
+    <li><a href="default.html">default</a></li>
+    <li><a href="listening-low.html">listening-low</a></li>
+    <li><a href="holding.html">holding</a></li>
+    <li><a href="listening-high.html" aria-current="page">listening-high</a></li>
+  </ul>
+  <button type="button" data-theme-toggle aria-pressed="false">☾ Dark</button>
+  <button type="button" data-chrome-toggle aria-label="Hide mock chrome">×</button>
+</nav>
+<script src="../../assets/mock.js"></script>
+</body>
+</html>

@@ -1,0 +1,631 @@
+{
+  "project": "TwinkleTune",
+  "required_states": {
+    "page": [
+      "default",
+      "loading",
+      "empty",
+      "error"
+    ],
+    "dialog": [
+      "default",
+      "busy",
+      "invalid"
+    ],
+    "notification": [
+      "info",
+      "success",
+      "warning",
+      "danger"
+    ]
+  },
+  "screens": [
+    {
+      "id": "welcome",
+      "kind": "page",
+      "title": "Welcome",
+      "route": "#/welcome",
+      "requirements": [
+        "PP-L2-5",
+        "PP-L2-6",
+        "CE-L2-1",
+        "GC-L2-2"
+      ],
+      "states": [
+        "default",
+        "returning"
+      ],
+      "not_applicable": {
+        "loading": "Renders synchronously from the singer's on-device state; there is no request to wait for.",
+        "empty": "The default state is the first-run, nothing-yet form; there is no collection on this screen.",
+        "error": "Linking the new profile to the family server fails silently and the singer stays local (PP-L2-6); nothing is shown."
+      }
+    },
+    {
+      "id": "voice-setup",
+      "kind": "page",
+      "title": "Find My Voice",
+      "route": "#/voice",
+      "requirements": [
+        "VP-L2-1",
+        "VP-L2-2",
+        "VP-L2-3",
+        "VP-L2-5",
+        "VP-L2-6",
+        "VP-L2-7",
+        "VP-L2-15"
+      ],
+      "states": [
+        "default",
+        "listening-low",
+        "holding",
+        "listening-high"
+      ],
+      "not_applicable": {
+        "loading": "Renders synchronously from the singer's on-device state; there is no request to wait for.",
+        "empty": "There is no collection; the intro step (default) is the nothing-captured-yet state.",
+        "error": "The only failure is a refused microphone, which opens the mic-denied dialog (dialogs/mic-denied)."
+      }
+    },
+    {
+      "id": "home",
+      "kind": "page",
+      "title": "Home",
+      "route": "#/home",
+      "requirements": [
+        "RP-L2-2",
+        "RP-L2-3",
+        "RP-L2-4",
+        "RP-L2-10",
+        "CE-L2-2",
+        "CE-L2-6",
+        "AS-L2-5",
+        "VP-L2-13"
+      ],
+      "states": [
+        "default",
+        "empty",
+        "goal-complete"
+      ],
+      "not_applicable": {
+        "loading": "Renders synchronously from the singer's on-device state; there is no request to wait for.",
+        "error": "Reads only on-device state, so there is no load that can fail."
+      }
+    },
+    {
+      "id": "songs",
+      "kind": "page",
+      "title": "Pick a Song",
+      "route": "#/songs",
+      "requirements": [
+        "SL-L2-4",
+        "SL-L2-5",
+        "SL-L2-14",
+        "VP-L2-12",
+        "HS-L2-13",
+        "DM-L2-13"
+      ],
+      "states": [
+        "default",
+        "offline",
+        "no-range",
+        "filtered",
+        "no-results",
+        "empty"
+      ],
+      "not_applicable": {
+        "loading": "The cached or bundled songbook paints in the same frame as the screen; the family songbook swaps in when the server answers.",
+        "error": "A failed songbook request is not an error for the child: the screen falls back to the cached or bundled catalogue (see the offline state)."
+      }
+    },
+    {
+      "id": "sing",
+      "kind": "page",
+      "title": "Sing!",
+      "route": "#/sing?song=…",
+      "requirements": [
+        "SG-L2-2",
+        "SG-L2-3",
+        "SG-L2-4",
+        "SG-L2-5",
+        "SG-L2-6",
+        "SG-L2-7",
+        "SG-L2-8",
+        "SG-L2-11",
+        "SG-L2-12",
+        "SG-L2-14",
+        "SG-L2-17",
+        "DM-L2-14",
+        "CE-L2-3"
+      ],
+      "states": [
+        "default",
+        "ready",
+        "countdown",
+        "no-mic",
+        "standard-key",
+        "practice",
+        "duet"
+      ],
+      "not_applicable": {
+        "loading": "Songs are note data already on the device; the stage is built synchronously.",
+        "empty": "An unknown song id redirects to Pick a Song; the stage never renders without notes.",
+        "error": "A refused microphone opens the mic-ask dialog (dialogs/mic-ask); nothing else can fail."
+      }
+    },
+    {
+      "id": "results",
+      "kind": "page",
+      "title": "Results",
+      "route": "#/results",
+      "requirements": [
+        "SR-L2-9",
+        "SR-L2-10",
+        "SR-L2-11",
+        "SR-L2-12",
+        "SR-L2-13",
+        "SR-L2-14",
+        "SR-L2-16",
+        "SR-L2-17",
+        "DM-L2-15",
+        "CE-L2-8",
+        "CE-L2-9"
+      ],
+      "states": [
+        "default",
+        "three-stars",
+        "one-star",
+        "no-range",
+        "no-mic",
+        "duet-waiting",
+        "duet"
+      ],
+      "not_applicable": {
+        "loading": "Shows the result already stored on the device by the Sing screen.",
+        "empty": "With no stored result the route redirects to Home; the screen never renders empty.",
+        "error": "The family high-score submission is fire-and-forget; a failure is silent and changes nothing on screen."
+      }
+    },
+    {
+      "id": "tips",
+      "kind": "page",
+      "title": "Twinkle's Tips",
+      "route": "#/tips",
+      "requirements": [
+        "CE-L2-4",
+        "CE-L2-5",
+        "CE-L2-7",
+        "AS-L2-5"
+      ],
+      "states": [
+        "default",
+        "filtered"
+      ],
+      "not_applicable": {
+        "loading": "The tips are bundled with the app.",
+        "empty": "The tip set is fixed and every category has at least one tip.",
+        "error": "Reads only on-device state, so there is no load that can fail."
+      }
+    },
+    {
+      "id": "me",
+      "kind": "page",
+      "title": "My Star Journey",
+      "route": "#/me",
+      "requirements": [
+        "RP-L2-1",
+        "RP-L2-2",
+        "RP-L2-4",
+        "RP-L2-5",
+        "RP-L2-6",
+        "RP-L2-9",
+        "VP-L2-14",
+        "GC-L2-2"
+      ],
+      "states": [
+        "default",
+        "empty"
+      ],
+      "not_applicable": {
+        "loading": "Renders synchronously from the singer's on-device state; there is no request to wait for.",
+        "error": "Reads only on-device state, so there is no load that can fail."
+      }
+    },
+    {
+      "id": "profiles",
+      "kind": "page",
+      "title": "Who's singing?",
+      "route": "#/profiles",
+      "requirements": [
+        "PP-L2-3",
+        "PP-L2-14",
+        "PP-L2-16",
+        "FS-L2-15"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error"
+      ]
+    },
+    {
+      "id": "duet",
+      "kind": "page",
+      "title": "Duet Time",
+      "route": "#/duet",
+      "requirements": [
+        "DM-L2-1",
+        "DM-L2-2",
+        "DM-L2-4",
+        "DM-L2-12",
+        "DM-L2-13",
+        "DM-L2-16"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "error",
+        "no-profile",
+        "join",
+        "lobby-waiting",
+        "lobby-ready"
+      ],
+      "not_applicable": {
+        "empty": "There is no collection; a room with one singer is the lobby-waiting state."
+      }
+    },
+    {
+      "id": "tuner",
+      "kind": "page",
+      "title": "Tuner (dev)",
+      "route": "#/tuner",
+      "requirements": [
+        "AE-L2-17"
+      ],
+      "states": [
+        "default",
+        "listening",
+        "error"
+      ],
+      "not_applicable": {
+        "loading": "A diagnostic screen with no data to fetch.",
+        "empty": "The idle readout (default) is the nothing-heard state."
+      }
+    },
+    {
+      "id": "mic-ask",
+      "kind": "dialog",
+      "title": "Microphone needed (Sing)",
+      "opens_from": "sing",
+      "requirements": [
+        "SG-L2-20",
+        "SG-L2-14",
+        "AE-L2-14"
+      ],
+      "states": [
+        "default"
+      ],
+      "not_applicable": {
+        "busy": "Every button acts at once and closes the dialog; there is no request to wait for.",
+        "invalid": "The dialog has no inputs."
+      }
+    },
+    {
+      "id": "mic-denied",
+      "kind": "dialog",
+      "title": "Microphone needed (Find My Voice)",
+      "opens_from": "voice-setup",
+      "requirements": [
+        "VP-L2-15",
+        "AE-L2-14"
+      ],
+      "states": [
+        "default"
+      ],
+      "not_applicable": {
+        "busy": "Every button acts at once and closes the dialog; there is no request to wait for.",
+        "invalid": "The dialog has no inputs."
+      }
+    },
+    {
+      "id": "voice-found",
+      "kind": "dialog",
+      "title": "Voice found",
+      "opens_from": "voice-setup",
+      "requirements": [
+        "VP-L2-10",
+        "VP-L2-11",
+        "VP-L2-12"
+      ],
+      "states": [
+        "default"
+      ],
+      "not_applicable": {
+        "busy": "Every button acts at once and closes the dialog; there is no request to wait for.",
+        "invalid": "The dialog has no inputs."
+      }
+    },
+    {
+      "id": "tuned-for-you",
+      "kind": "dialog",
+      "title": "Song tuned for you",
+      "opens_from": "sing",
+      "requirements": [
+        "SG-L2-13",
+        "VP-L2-12"
+      ],
+      "states": [
+        "default"
+      ],
+      "not_applicable": {
+        "busy": "Every button acts at once and closes the dialog; there is no request to wait for.",
+        "invalid": "The dialog has no inputs."
+      }
+    },
+    {
+      "id": "pause",
+      "kind": "dialog",
+      "title": "Paused",
+      "opens_from": "sing",
+      "requirements": [
+        "SG-L2-18",
+        "SG-L2-17"
+      ],
+      "states": [
+        "default",
+        "practice",
+        "duet"
+      ],
+      "not_applicable": {
+        "busy": "Every button acts at once and closes the dialog; there is no request to wait for.",
+        "invalid": "The dialog has no inputs."
+      }
+    },
+    {
+      "id": "tip",
+      "kind": "dialog",
+      "title": "Tip walk-through",
+      "opens_from": "tips",
+      "requirements": [
+        "CE-L2-5"
+      ],
+      "states": [
+        "default"
+      ],
+      "not_applicable": {
+        "busy": "Every button acts at once and closes the dialog; there is no request to wait for.",
+        "invalid": "The dialog has no inputs."
+      }
+    },
+    {
+      "id": "parent-gate",
+      "kind": "dialog",
+      "title": "Parent gate",
+      "opens_from": "me",
+      "requirements": [
+        "GC-L2-1",
+        "GC-L2-2"
+      ],
+      "states": [
+        "default",
+        "invalid"
+      ],
+      "not_applicable": {
+        "busy": "Every button acts at once and closes the dialog; there is no request to wait for."
+      }
+    },
+    {
+      "id": "grown-ups-corner",
+      "kind": "dialog",
+      "title": "Grown-Ups Corner",
+      "opens_from": "me",
+      "requirements": [
+        "GC-L2-3",
+        "GC-L2-4",
+        "GC-L2-5",
+        "GC-L2-10"
+      ],
+      "states": [
+        "default"
+      ],
+      "not_applicable": {
+        "busy": "The slider saves as it moves and every other control navigates; nothing waits.",
+        "invalid": "The only input is a range slider, which cannot hold an invalid value."
+      }
+    },
+    {
+      "id": "confirm-reset",
+      "kind": "dialog",
+      "title": "Confirm reset",
+      "opens_from": "me",
+      "requirements": [
+        "GC-L2-9"
+      ],
+      "states": [
+        "default"
+      ],
+      "not_applicable": {
+        "busy": "Every button acts at once and closes the dialog; there is no request to wait for.",
+        "invalid": "The dialog has no inputs."
+      }
+    },
+    {
+      "id": "song-board",
+      "kind": "dialog",
+      "title": "Family high scores",
+      "opens_from": "songs",
+      "requirements": [
+        "HS-L2-7",
+        "HS-L2-12",
+        "HS-L2-13",
+        "HS-L2-15"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "failed"
+      ],
+      "not_applicable": {
+        "busy": "The board is read-only; its only wait is the first load (see the loading state).",
+        "invalid": "The dialog has no inputs."
+      }
+    },
+    {
+      "id": "singer-editor",
+      "kind": "dialog",
+      "title": "New or edit singer",
+      "opens_from": "profiles",
+      "requirements": [
+        "PP-L2-8",
+        "PP-L2-9",
+        "PP-L2-13",
+        "PP-L2-15"
+      ],
+      "states": [
+        "default",
+        "edit",
+        "invalid",
+        "failed"
+      ],
+      "not_applicable": {
+        "busy": "The app shows no busy state while the family server answers; the dialog closes when it does. Listed in the README as an open question."
+      }
+    },
+    {
+      "id": "confirm-remove-singer",
+      "kind": "dialog",
+      "title": "Confirm remove singer",
+      "opens_from": "profiles",
+      "requirements": [
+        "PP-L2-15"
+      ],
+      "states": [
+        "default",
+        "failed"
+      ],
+      "not_applicable": {
+        "busy": "The app shows no busy state while the family server answers; the dialog closes when it does. Listed in the README as an open question.",
+        "invalid": "The dialog has no inputs."
+      }
+    },
+    {
+      "id": "song-manager",
+      "kind": "dialog",
+      "title": "Songbook manager",
+      "opens_from": "me",
+      "requirements": [
+        "GC-L2-6",
+        "SL-L2-11"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "failed"
+      ],
+      "not_applicable": {
+        "busy": "The list is read-only; its only wait is the first load (see the loading state).",
+        "invalid": "The dialog has no inputs."
+      }
+    },
+    {
+      "id": "song-editor",
+      "kind": "dialog",
+      "title": "Song editor",
+      "opens_from": "me",
+      "requirements": [
+        "GC-L2-6",
+        "SL-L2-7",
+        "SL-L2-10"
+      ],
+      "states": [
+        "default",
+        "edit",
+        "invalid",
+        "failed"
+      ],
+      "not_applicable": {
+        "busy": "The app shows no busy state while the family server answers; the dialog closes when it does. Listed in the README as an open question."
+      }
+    },
+    {
+      "id": "confirm-delete-song",
+      "kind": "dialog",
+      "title": "Confirm delete song",
+      "opens_from": "me",
+      "requirements": [
+        "GC-L2-7"
+      ],
+      "states": [
+        "default",
+        "family",
+        "failed"
+      ],
+      "not_applicable": {
+        "busy": "The app shows no busy state while the family server answers; the dialog closes when it does. Listed in the README as an open question.",
+        "invalid": "The dialog has no inputs."
+      }
+    },
+    {
+      "id": "avatar-manager",
+      "kind": "dialog",
+      "title": "Avatar manager",
+      "opens_from": "me",
+      "requirements": [
+        "GC-L2-8",
+        "PP-L2-11",
+        "PP-L2-12"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "failed"
+      ],
+      "not_applicable": {
+        "busy": "The list is read-only; its only wait is the first load (see the loading state).",
+        "invalid": "The dialog has no inputs."
+      }
+    },
+    {
+      "id": "avatar-editor",
+      "kind": "dialog",
+      "title": "Avatar editor",
+      "opens_from": "me",
+      "requirements": [
+        "GC-L2-8",
+        "PP-L2-11"
+      ],
+      "states": [
+        "default",
+        "edit",
+        "invalid",
+        "failed"
+      ],
+      "not_applicable": {
+        "busy": "The app shows no busy state while the family server answers; the dialog closes when it does. Listed in the README as an open question."
+      }
+    },
+    {
+      "id": "toast",
+      "kind": "notification",
+      "title": "Toast",
+      "opens_from": "sing",
+      "requirements": [
+        "AS-L2-7",
+        "CE-L2-3",
+        "CE-L2-8",
+        "HS-L2-14",
+        "DM-L2-16"
+      ],
+      "states": [
+        "info",
+        "success",
+        "warning",
+        "danger",
+        "stacked",
+        "family-record"
+      ]
+    }
+  ]
+}

@@ -27,6 +27,9 @@ const STICKERS = [
   { slug: 'sticker-1-twinkle-star', title: 'Twinkle the star' },
   { slug: 'sticker-2-wordmark-cloud', title: 'TwinkleTune wordmark cloud' },
   { slug: 'sticker-3-sparkle-dust', title: 'Mistakes are sparkle dust' },
+  { slug: 'sticker-4-singing-logo', title: 'Singing logo' },
+  { slug: 'sticker-5-app-icon', title: 'App icon' },
+  { slug: 'sticker-6-night-badge', title: 'Night badge' },
 ]
 
 /** PNG chunk reader — enough to assert dimensions and pixel format. */
@@ -123,6 +126,7 @@ ${idioms.replace(/^/gm, '      ')}
         stroke: #ff00ff;
         stroke-width: 2;
         stroke-linejoin: round;
+        vector-effect: non-scaling-stroke;
       }
     </style>
   </defs>
@@ -251,7 +255,8 @@ try {
     )
   }
 
-  // Contact sheet, handy for reviewing all three at sticker size at once.
+  // Contact sheet, handy for reviewing the whole set at sticker size at once:
+  // three to a row.
   const context = await browser.newContext({ viewport: { width: 1500, height: 620 } })
   const page = await context.newPage()
   // Inlined as data URIs — a setContent page has an opaque origin and cannot
@@ -263,7 +268,7 @@ try {
     })
   ).then((parts) => parts.join(''))
   await page.setContent(
-    `<body style="margin:0;padding:40px;background:#F8FBFD;display:flex;gap:36px;align-items:flex-start;font:600 16px system-ui;color:#2B5876">
+    `<body style="margin:0;padding:40px;width:1212px;background:#F8FBFD;display:flex;flex-wrap:wrap;gap:36px;align-items:flex-start;font:600 16px system-ui;color:#2B5876">
        <style>figure{margin:0;text-align:center}figcaption{margin-top:14px}img{display:block}</style>
        ${tiles}
      </body>`

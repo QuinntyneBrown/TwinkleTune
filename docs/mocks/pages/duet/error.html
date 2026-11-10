@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Duet Time · error — TwinkleTune mocks</title>
+<meta name="mock:kind" content="page">
+<meta name="mock:screen" content="duet">
+<meta name="mock:state" content="error">
+<meta name="mock:requirements" content="DM-L2-1 DM-L2-2 DM-L2-4 DM-L2-12 DM-L2-13 DM-L2-16">
+<meta name="description" content="The family server cannot be reached: duets wait, solo singing is one tap away.">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<link rel="stylesheet" href="../../assets/ui.css">
+<link rel="stylesheet" href="../../assets/mock.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="sky sky--day" aria-hidden="true">
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="fnote">🎵</span>
+  <span class="fnote">🎶</span>
+</div>
+<main id="main" class="screen screen--nonav">
+    <header class="topbar rise">
+      <a class="icon-btn" href="../../pages/songs/default.html" aria-label="Go back">←</a>
+      <h1 class="title">Duet Time 🎤🎤</h1>
+      <span class="spacer"></span>
+    </header>
+    <div data-stage>
+      <div class="new-songs new-songs--spaced">
+        <span class="ico">📡</span>
+        Duets need the family server, and it isn't reachable right now.<br>
+        <div class="new-songs-action"><a class="btn btn-sm" href="../../pages/songs/offline.html">Sing solo instead ▶</a></div>
+      </div>
+    </div>
+</main>
+
+<nav class="mock-bar" aria-label="Mock navigation">
+  <a class="mock-bar__home" href="../../index.html" aria-label="All mocks">⌂</a>
+  <span class="mock-bar__screen">Duet Time</span>
+  <ul class="mock-bar__states">
+    <li><a href="default.html">default</a></li>
+    <li><a href="loading.html">loading</a></li>
+    <li><a href="error.html" aria-current="page">error</a></li>
+    <li><a href="no-profile.html">no-profile</a></li>
+    <li><a href="join.html">join</a></li>
+    <li><a href="lobby-waiting.html">lobby-waiting</a></li>
+    <li><a href="lobby-ready.html">lobby-ready</a></li>
+  </ul>
+  <button type="button" data-theme-toggle aria-pressed="false">☾ Dark</button>
+  <button type="button" data-chrome-toggle aria-label="Hide mock chrome">×</button>
+</nav>
+<script src="../../assets/mock.js"></script>
+</body>
+</html>

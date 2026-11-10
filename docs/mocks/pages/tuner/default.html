@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tuner (dev) · default — TwinkleTune mocks</title>
+<meta name="mock:kind" content="page">
+<meta name="mock:screen" content="tuner">
+<meta name="mock:state" content="default">
+<meta name="mock:requirements" content="AE-L2-17">
+<meta name="description" content="The hidden diagnostic tuner, idle.">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<link rel="stylesheet" href="../../assets/ui.css">
+<link rel="stylesheet" href="../../assets/mock.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="sky sky--day" aria-hidden="true">
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="fnote">🎵</span>
+  <span class="fnote">🎶</span>
+</div>
+<main id="main" class="screen screen--nonav">
+    <header class="topbar rise">
+      <a class="icon-btn" href="../../pages/home/default.html" aria-label="Go back">←</a>
+      <h1 class="title">Tuner (dev)</h1>
+      <span class="spacer"></span>
+    </header>
+    <section class="card">
+      <div class="tuner-note" data-note>—</div>
+      <div class="tuner-cents">
+        <div class="center"></div>
+        <div class="needle" data-needle></div>
+      </div>
+      <div class="tuner-meta">
+        <span data-hz>0.0 Hz</span>
+        <span data-clarity>clarity 0%</span>
+        <span data-rms>rms 0.000</span>
+      </div>
+    </section>
+    <div class="ctas ctas--tight">
+      <button class="btn btn-xl" data-toggle>Start listening 🎤</button>
+    </div>
+</main>
+
+<aside class="mock-notes" aria-label="Design notes">
+  <p class="mock-note">A developer aid for checking pitch detection. No link in the app leads here.</p>
+</aside>
+
+<nav class="mock-bar" aria-label="Mock navigation">
+  <a class="mock-bar__home" href="../../index.html" aria-label="All mocks">⌂</a>
+  <span class="mock-bar__screen">Tuner (dev)</span>
+  <ul class="mock-bar__states">
+    <li><a href="default.html" aria-current="page">default</a></li>
+    <li><a href="listening.html">listening</a></li>
+    <li><a href="error.html">error</a></li>
+  </ul>
+  <button type="button" data-theme-toggle aria-pressed="false">☾ Dark</button>
+  <button type="button" data-chrome-toggle aria-label="Hide mock chrome">×</button>
+</nav>
+<script src="../../assets/mock.js"></script>
+</body>
+</html>

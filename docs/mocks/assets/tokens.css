@@ -1,0 +1,12 @@
+/* ============================================================
+   tokens.css — TwinkleTune mock tokens
+
+   The mocks read the design system's tokens: docs/design-system/tokens/tokens.css
+   is the single source of truth (extracted from these mocks on 2026-11-09).
+   Change a value there, not here. See docs/design-system/README.md for the
+   drift that extraction corrected (contrast, scale and theme fixes).
+
+   Light is the shipped product and stays the default whatever the OS
+   prefers: assets/mock.js always sets data-theme on <html>.
+   ============================================================ */
+@import url("../../design-system/tokens/tokens.css");

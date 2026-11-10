@@ -1,0 +1,359 @@
+{
+  "$comment": "Foreground/background token pairs checked by scripts/check_contrast.py for TwinkleTune. 4.5:1 is WCAG 2.2 AA for normal text (1.4.3); 3:1 for large text, UI component edges and focus indicators (1.4.11). Decorative pairs carry a lower min and say so.",
+  "pairs": [
+    {
+      "fg": "--color-fg-default",
+      "bg": "--color-bg-canvas",
+      "min": 4.5,
+      "note": "body text on page sky"
+    },
+    {
+      "fg": "--color-fg-default",
+      "bg": "--color-bg-surface",
+      "min": 4.5,
+      "note": "body text on cards, bubbles, inputs"
+    },
+    {
+      "fg": "--color-fg-default",
+      "bg": "--color-bg-surface-raised",
+      "min": 4.5,
+      "note": "body text on dialogs, toasts, bottom nav"
+    },
+    {
+      "fg": "--color-fg-default",
+      "bg": "--color-bg-surface-sunken",
+      "min": 4.5,
+      "note": "body text on input wells, manager rows"
+    },
+    {
+      "fg": "--color-fg-default",
+      "bg": "--color-bg-subtle",
+      "min": 4.5,
+      "note": "body text on tints: mini buttons, number keys"
+    },
+    {
+      "fg": "--color-fg-default",
+      "bg": "--color-bg-subtle-hover",
+      "min": 4.5,
+      "note": "body text on hovered tints"
+    },
+    {
+      "fg": "--color-fg-muted",
+      "bg": "--color-bg-canvas",
+      "min": 4.5,
+      "note": "secondary text: tagline, greetings over the sky"
+    },
+    {
+      "fg": "--color-fg-muted",
+      "bg": "--color-bg-surface",
+      "min": 4.5,
+      "note": "secondary text: secondary text on cards"
+    },
+    {
+      "fg": "--color-fg-muted",
+      "bg": "--color-bg-surface-raised",
+      "min": 4.5,
+      "note": "secondary text: dialog body copy"
+    },
+    {
+      "fg": "--color-fg-muted",
+      "bg": "--color-bg-surface-sunken",
+      "min": 4.5,
+      "note": "secondary text: manager row meta"
+    },
+    {
+      "fg": "--color-fg-muted",
+      "bg": "--color-bg-subtle",
+      "min": 4.5,
+      "note": "secondary text: text on tints"
+    },
+    {
+      "fg": "--color-fg-muted",
+      "bg": "--color-track",
+      "min": 4.5,
+      "note": "weekday letters and labels beside tracks"
+    },
+    {
+      "fg": "--color-fg-subtle",
+      "bg": "--color-bg-surface",
+      "min": 4.5,
+      "note": "subtle text: lyric context lines, locked badge names"
+    },
+    {
+      "fg": "--color-fg-subtle",
+      "bg": "--color-bg-surface-raised",
+      "min": 4.5,
+      "note": "subtle text: metadata in dialogs"
+    },
+    {
+      "fg": "--color-fg-subtle",
+      "bg": "--color-bg-surface-sunken",
+      "min": 4.5,
+      "note": "subtle text: placeholders inside inputs"
+    },
+    {
+      "fg": "--color-fg-inverse",
+      "bg": "--color-bg-inverse",
+      "min": 4.5,
+      "note": "tooltip text"
+    },
+    {
+      "fg": "--color-fg-link",
+      "bg": "--color-bg-surface",
+      "min": 4.5,
+      "note": "quiet links on cards and dialogs"
+    },
+    {
+      "fg": "--color-fg-link",
+      "bg": "--color-bg-canvas",
+      "min": 4.5,
+      "note": "quiet links over the sky"
+    },
+    {
+      "fg": "--color-fg-link-hover",
+      "bg": "--color-bg-surface",
+      "min": 4.5,
+      "note": "hovered links"
+    },
+    {
+      "fg": "--color-fg-accent",
+      "bg": "--color-bg-surface",
+      "min": 4.5,
+      "note": "blue text: sung words, profile tag, hero 'Let's go!'"
+    },
+    {
+      "fg": "--color-fg-accent",
+      "bg": "--color-bg-subtle",
+      "min": 4.5,
+      "note": "mini buttons, tip minutes"
+    },
+    {
+      "fg": "--color-fg-accent",
+      "bg": "--color-bg-canvas",
+      "min": 4.5,
+      "note": "wordmark 'Twinkle', countdown over the sky"
+    },
+    {
+      "fg": "--color-fg-on-accent",
+      "bg": "--color-accent",
+      "min": 4.5,
+      "note": "primary toy button label"
+    },
+    {
+      "fg": "--color-fg-on-accent",
+      "bg": "--color-accent-hover",
+      "min": 4.5,
+      "note": "primary button label (hover)"
+    },
+    {
+      "fg": "--color-fg-on-accent",
+      "bg": "--color-accent-active",
+      "min": 4.5,
+      "note": "primary button label (pressed)"
+    },
+    {
+      "fg": "--color-accent",
+      "bg": "--color-bg-surface",
+      "min": 3,
+      "note": "primary button edge vs card"
+    },
+    {
+      "fg": "--color-accent",
+      "bg": "--color-bg-canvas",
+      "min": 3,
+      "note": "primary button edge vs sky"
+    },
+    {
+      "fg": "--color-border-strong",
+      "bg": "--color-bg-surface",
+      "min": 3,
+      "note": "field and control edges (1.4.11)"
+    },
+    {
+      "fg": "--color-border-strong",
+      "bg": "--color-bg-surface-sunken",
+      "min": 3,
+      "note": "field edges on input wells"
+    },
+    {
+      "fg": "--color-focus-ring",
+      "bg": "--color-bg-surface",
+      "min": 3,
+      "note": "focus ring vs card (2.4.11)"
+    },
+    {
+      "fg": "--color-focus-ring",
+      "bg": "--color-bg-canvas",
+      "min": 3,
+      "note": "focus ring vs sky"
+    },
+    {
+      "fg": "--color-focus-ring",
+      "bg": "--color-bg-surface-raised",
+      "min": 3,
+      "note": "focus ring inside dialogs"
+    },
+    {
+      "fg": "--color-gentle-fg",
+      "bg": "--color-gentle-bg",
+      "min": 4.5,
+      "note": "pink button, nudge toast, current lyric word"
+    },
+    {
+      "fg": "--color-gentle-fg",
+      "bg": "--color-gentle-bg-subtle",
+      "min": 4.5,
+      "note": "text on the pale end of pink gradients"
+    },
+    {
+      "fg": "--color-reward-fg",
+      "bg": "--color-reward-bg",
+      "min": 4.5,
+      "note": "gold button, streak chip, landed note syllable"
+    },
+    {
+      "fg": "--color-reward-fg",
+      "bg": "--color-reward-bg-subtle",
+      "min": 4.5,
+      "note": "text on the pale end of gold gradients"
+    },
+    {
+      "fg": "--color-fg-on-danger",
+      "bg": "--color-danger-solid",
+      "min": 4.5,
+      "note": "destructive confirm label (grown-ups)"
+    },
+    {
+      "fg": "--color-fg-on-danger",
+      "bg": "--color-danger-solid-hover",
+      "min": 4.5,
+      "note": "destructive confirm label (hover)"
+    },
+    {
+      "fg": "--color-danger-solid",
+      "bg": "--color-bg-surface",
+      "min": 3,
+      "note": "destructive button edge"
+    },
+    {
+      "fg": "--color-info-fg",
+      "bg": "--color-info-bg",
+      "min": 4.5,
+      "note": "info message text"
+    },
+    {
+      "fg": "--color-info-icon",
+      "bg": "--color-info-bg",
+      "min": 3,
+      "note": "info message icon"
+    },
+    {
+      "fg": "--color-success-fg",
+      "bg": "--color-success-bg",
+      "min": 4.5,
+      "note": "success message text"
+    },
+    {
+      "fg": "--color-success-icon",
+      "bg": "--color-success-bg",
+      "min": 3,
+      "note": "success message icon"
+    },
+    {
+      "fg": "--color-warning-fg",
+      "bg": "--color-warning-bg",
+      "min": 4.5,
+      "note": "warning message text"
+    },
+    {
+      "fg": "--color-warning-icon",
+      "bg": "--color-warning-bg",
+      "min": 3,
+      "note": "warning message icon"
+    },
+    {
+      "fg": "--color-danger-fg",
+      "bg": "--color-danger-bg",
+      "min": 4.5,
+      "note": "danger message text"
+    },
+    {
+      "fg": "--color-danger-icon",
+      "bg": "--color-danger-bg",
+      "min": 3,
+      "note": "danger message icon"
+    },
+    {
+      "fg": "--color-info-fg",
+      "bg": "--color-bg-surface",
+      "min": 4.5,
+      "note": "info text on cards"
+    },
+    {
+      "fg": "--color-success-fg",
+      "bg": "--color-bg-surface",
+      "min": 4.5,
+      "note": "success text on cards",
+      "themes": [
+        "dark"
+      ]
+    },
+    {
+      "fg": "--color-danger-fg",
+      "bg": "--color-bg-surface",
+      "min": 4.5,
+      "note": "field error text under input"
+    },
+    {
+      "fg": "--color-danger-fg",
+      "bg": "--color-bg-surface-raised",
+      "min": 4.5,
+      "note": "validation text in dialogs"
+    },
+    {
+      "fg": "--color-danger-solid",
+      "bg": "--color-bg-surface",
+      "min": 3,
+      "note": "invalid field border"
+    },
+    {
+      "fg": "--color-success-fg",
+      "bg": "--color-bg-surface",
+      "min": 4.5,
+      "note": "'In your key' text on cards",
+      "themes": [
+        "light"
+      ]
+    },
+    {
+      "fg": "--color-info-solid",
+      "bg": "--color-bg-surface",
+      "min": 3,
+      "note": "solid info marks vs card"
+    },
+    {
+      "fg": "--color-success-solid",
+      "bg": "--color-bg-surface",
+      "min": 3,
+      "note": "solid success marks vs card"
+    },
+    {
+      "fg": "--color-reward-fg",
+      "bg": "--color-warning-solid",
+      "min": 4.5,
+      "note": "label on a solid gold mark"
+    },
+    {
+      "fg": "--color-border-strong",
+      "bg": "--color-track",
+      "min": 1.5,
+      "note": "progress fill end vs track (decorative; value always also in text)"
+    },
+    {
+      "fg": "--color-mascot-face",
+      "bg": "--color-reward-bg",
+      "min": 4.5,
+      "note": "Twinkle's face on her gold body (both themes)"
+    }
+  ]
+}

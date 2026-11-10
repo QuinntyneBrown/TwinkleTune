@@ -106,6 +106,14 @@ body.preview .sticker {
 .cut-cloud { stroke-width: calc(10px + var(--cut-extra)); }  /* cloud      */
 .cut-flat { stroke-width: var(--cut-extra); }                /* sparkles   */
 
+/* For a shape that keeps its source coordinates and carries its own
+   transform="… scale(k)" — the logo mark on stickers 4-6. The transform would
+   scale the rim along with the art, so the rim is divided back out: set --k to
+   the element's scale and --art to its art stroke in source units. */
+.cut-scaled {
+  stroke-width: calc(var(--art, 0px) + var(--cut-extra) / var(--k, 1));
+}
+
 .tt-star-face circle { stroke: none; }
 
 text {

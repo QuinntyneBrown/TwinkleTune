@@ -1,0 +1,9 @@
+/* ============================================================
+   ui.css — TwinkleTune component kit, shared by every mock
+
+   The kit now lives in the design system: docs/design-system/assets/components.css
+   (same selectors and class names, token-only, with documented states).
+   Class names and accessible names remain a contract with the Playwright
+   page objects in e2e/pages/: extend components.css, never fork it per mock.
+   ============================================================ */
+@import url("../../design-system/assets/components.css");

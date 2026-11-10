@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Welcome · default — TwinkleTune mocks</title>
+<meta name="mock:kind" content="page">
+<meta name="mock:screen" content="welcome">
+<meta name="mock:state" content="default">
+<meta name="mock:requirements" content="PP-L2-5 PP-L2-6 CE-L2-1 GC-L2-2">
+<meta name="description" content="First run: Twinkle introduces herself and asks for a name and an avatar.">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<link rel="stylesheet" href="../../assets/ui.css">
+<link rel="stylesheet" href="../../assets/mock.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="sky sky--day" aria-hidden="true">
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="fnote">🎵</span>
+  <span class="fnote">🎶</span>
+</div>
+<main id="main" class="screen screen--center screen--nonav">
+    <svg class="mascot mascot-lg pop" viewBox="0 0 120 120" aria-hidden="true">
+      <path class="twinkle-body" d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z" stroke-width="7" stroke-linejoin="round"/>
+      <circle class="twinkle-eye" cx="48" cy="56" r="4.5"/>
+      <circle class="twinkle-eye" cx="72" cy="56" r="4.5"/>
+      <circle class="twinkle-cheek" cx="41" cy="66" r="5.5"/>
+      <circle class="twinkle-cheek" cx="79" cy="66" r="5.5"/>
+      <path class="twinkle-smile" d="M50 66 Q60 76 70 66" fill="none" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+    <h1 class="logo rise d1"><span class="tw">Twinkle</span>Tune</h1>
+    <p class="tagline rise d2">Sing your heart out! 🎤</p>
+
+    <div class="hello-bubble rise d3">
+      <div class="bubble bubble-left">Hi! I'm <strong>Twinkle</strong>, your singing buddy. What should I call you?</div>
+    </div>
+
+    <div class="card name-card rise d4">
+      <label for="kid-name">My name is…</label>
+      <input class="name-input" id="kid-name" type="text" maxlength="20" placeholder="Type your name" value="">
+    </div>
+
+    <p class="pick-label rise d5">Pick your singer! 🌟</p>
+    <div class="avatars rise d5">
+      <button class="avatar-pick picked" data-avatar="🦄" aria-pressed="true">🦄</button>
+      <button class="avatar-pick" data-avatar="🐱" aria-pressed="false">🐱</button>
+      <button class="avatar-pick" data-avatar="🐸" aria-pressed="false">🐸</button>
+      <button class="avatar-pick" data-avatar="🦊" aria-pressed="false">🦊</button>
+    </div>
+
+    <div class="welcome-cta rise d6">
+      <button class="btn btn-xl" data-go data-mock-href="../../pages/voice-setup/default.html">Let's Sing! 🎤</button>
+    </div>
+
+    <p class="grownups rise d7">
+      <a class="link-quiet" href="../../pages/profiles/default.html">👨‍👧‍👧 Family profiles</a>
+      <button class="link-quiet" data-grownups data-mock-href="../../dialogs/parent-gate/default.html">🔒 Grown-Ups Corner</button>
+    </p>
+</main>
+
+<aside class="mock-notes" aria-label="Design notes">
+  <p class="mock-note">First run, no profile yet. The route guard sends every other route here until a profile exists.</p>
+  <p class="mock-note">An empty name is saved as “Superstar”. “Let's Sing!” goes to Find My Voice when the singer has no voice range yet, otherwise Home.</p>
+  <p class="mock-note">Entrance: mascot pops in, then each block rises with an 80 ms stagger (<code>.rise .d1</code>–<code>.d7</code>). Reduced motion removes it.</p>
+</aside>
+
+<nav class="mock-bar" aria-label="Mock navigation">
+  <a class="mock-bar__home" href="../../index.html" aria-label="All mocks">⌂</a>
+  <span class="mock-bar__screen">Welcome</span>
+  <ul class="mock-bar__states">
+    <li><a href="default.html" aria-current="page">default</a></li>
+    <li><a href="returning.html">returning</a></li>
+  </ul>
+  <button type="button" data-theme-toggle aria-pressed="false">☾ Dark</button>
+  <button type="button" data-chrome-toggle aria-label="Hide mock chrome">×</button>
+</nav>
+<script src="../../assets/mock.js"></script>
+</body>
+</html>

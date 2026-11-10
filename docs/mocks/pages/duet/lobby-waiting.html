@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Duet Time · lobby-waiting — TwinkleTune mocks</title>
+<meta name="mock:kind" content="page">
+<meta name="mock:screen" content="duet">
+<meta name="mock:state" content="lobby-waiting">
+<meta name="mock:requirements" content="DM-L2-1 DM-L2-2 DM-L2-4 DM-L2-12 DM-L2-13 DM-L2-16">
+<meta name="description" content="Ada made a room: the code in big tiles and an empty seat for her duet buddy.">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<link rel="stylesheet" href="../../assets/ui.css">
+<link rel="stylesheet" href="../../assets/mock.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="sky sky--day" aria-hidden="true">
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="fnote">🎵</span>
+  <span class="fnote">🎶</span>
+</div>
+<main id="main" class="screen screen--nonav">
+    <header class="topbar rise">
+      <a class="icon-btn" href="../../pages/songs/default.html" aria-label="Go back">←</a>
+      <h1 class="title">Duet Time 🎤🎤</h1>
+      <span class="spacer"></span>
+    </header>
+    <div data-stage>
+      <div class="card card--center rise">
+        <p class="duet-eyebrow">ROOM CODE</p>
+        <div class="duet-code" aria-label="Room code KWTM"><span>K</span><span>W</span><span>T</span><span>M</span></div>
+        <p class="duet-hint">
+          Tell your duet buddy this code!
+        </p>
+      </div>
+      <div class="duet-players rise d1">
+        <div class="profile-card">
+          <div class="avatar avatar-lg">🦄</div>
+          <strong>Ada</strong>
+        </div>
+        <div class="profile-card profile-new"><span class="profile-wait">⏳</span><strong>Waiting…</strong></div>
+      </div>
+      <div class="ctas rise d2" data-song-area></div>
+    </div>
+</main>
+
+<aside class="mock-notes" aria-label="Design notes">
+  <p class="mock-note">Rooms live in the server's memory only and hold exactly two singers.</p>
+</aside>
+
+<nav class="mock-bar" aria-label="Mock navigation">
+  <a class="mock-bar__home" href="../../index.html" aria-label="All mocks">⌂</a>
+  <span class="mock-bar__screen">Duet Time</span>
+  <ul class="mock-bar__states">
+    <li><a href="default.html">default</a></li>
+    <li><a href="loading.html">loading</a></li>
+    <li><a href="error.html">error</a></li>
+    <li><a href="no-profile.html">no-profile</a></li>
+    <li><a href="join.html">join</a></li>
+    <li><a href="lobby-waiting.html" aria-current="page">lobby-waiting</a></li>
+    <li><a href="lobby-ready.html">lobby-ready</a></li>
+  </ul>
+  <button type="button" data-theme-toggle aria-pressed="false">☾ Dark</button>
+  <button type="button" data-chrome-toggle aria-label="Hide mock chrome">×</button>
+</nav>
+<script src="../../assets/mock.js"></script>
+</body>
+</html>

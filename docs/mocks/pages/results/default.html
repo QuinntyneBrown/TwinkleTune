@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Results · default — TwinkleTune mocks</title>
+<meta name="mock:kind" content="page">
+<meta name="mock:screen" content="results">
+<meta name="mock:state" content="default">
+<meta name="mock:requirements" content="SR-L2-9 SR-L2-10 SR-L2-11 SR-L2-12 SR-L2-13 SR-L2-14 SR-L2-16 SR-L2-17 DM-L2-15 CE-L2-8 CE-L2-9">
+<meta name="description" content="Two stars on London Bridge: 18 of 24 notes landed, a new badge, and an invitation to practise the tricky part.">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<link rel="stylesheet" href="../../assets/ui.css">
+<link rel="stylesheet" href="../../assets/mock.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<canvas class="reactive-scene reactive-scene--results" data-reactive-scene aria-hidden="true"></canvas>
+<div class="sky sky--day" aria-hidden="true">
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="fnote">🎵</span>
+  <span class="fnote">🎶</span>
+</div>
+<main id="main" class="screen screen--center screen--nonav">
+    <svg class="mascot pop" viewBox="0 0 120 120" aria-hidden="true">
+      <path class="twinkle-body" d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z" stroke-width="7" stroke-linejoin="round"/>
+      <circle class="twinkle-eye" cx="48" cy="56" r="4.5"/>
+      <circle class="twinkle-eye" cx="72" cy="56" r="4.5"/>
+      <circle class="twinkle-cheek" cx="41" cy="66" r="5.5"/>
+      <circle class="twinkle-cheek" cx="79" cy="66" r="5.5"/>
+      <path class="twinkle-smile" d="M48 64 Q60 80 72 64" fill="none" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+    <h1 class="whoop rise d1">Beautiful Singing, Ada! 🎉
+      <small>London Bridge</small>
+    </h1>
+    <div class="stars-row" aria-label="2 stars earned">
+      <span class="pop d2"><svg viewBox="0 0 120 120" aria-hidden="true"><path class="star-shape" d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z" stroke-width="7" stroke-linejoin="round"/></svg></span>
+      <span class="pop d4"><svg viewBox="0 0 120 120" aria-hidden="true"><path class="star-shape" d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z" stroke-width="7" stroke-linejoin="round"/></svg></span>
+      <span class="pop d6 empty"><svg viewBox="0 0 120 120" aria-hidden="true"><path class="star-shape star-shape--empty" d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z" stroke-width="7" stroke-linejoin="round"/></svg></span>
+    </div>
+    
+    <section class="card score-card rise d3">
+      <h2>You landed 18 of 24 notes! 🎯</h2>
+      <div class="track"><div class="fill fill-gold fill-animated" style="width:75%"></div></div>
+      <p class="score-note">Sung in YOUR key — high five for those notes!</p>
+      <div class="marks">
+        <span class="mark"><b>⭐⭐</b>Pitch</span>
+        <span class="mark"><b>⭐⭐⭐</b>Timing</span>
+        <span class="mark"><b>⭐⭐</b>Braveness</span>
+      </div>
+    </section>
+    <div class="badge-toast pop d5">🔟 New badge: Perfect Ten!</div>
+    <div class="result-coach rise d6">
+      <svg class="mascot mascot-sm" viewBox="0 0 120 120" aria-hidden="true">
+      <path class="twinkle-body" d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z" stroke-width="7" stroke-linejoin="round"/>
+      <circle class="twinkle-eye" cx="48" cy="56" r="4.5"/>
+      <circle class="twinkle-eye" cx="72" cy="56" r="4.5"/>
+      <circle class="twinkle-cheek" cx="41" cy="66" r="5.5"/>
+      <circle class="twinkle-cheek" cx="79" cy="66" r="5.5"/>
+      <path class="twinkle-smile" d="M50 66 Q60 76 70 66" fill="none" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+      <div class="bubble bubble-left">Your notes <strong>sparkled!</strong> The “My fair lady!” part was tricky — want to practice just that bit?</div>
+    </div>
+    <div class="result-ctas">
+      <a class="btn btn-gold btn-xl rise d7" href="../../pages/sing/practice.html">Practice the tricky part 🎯</a>
+      <div class="cta-row rise d8">
+        <a class="btn btn-white" href="../../pages/sing/ready.html">Sing again 🔁</a>
+        <a class="btn btn-pink" href="../../pages/songs/default.html">New song 🎵</a>
+      </div>
+      <a class="link-quiet rise d8" href="../../pages/home/default.html" data-home>Home 🏠</a>
+    </div>
+</main>
+
+<aside class="mock-notes" aria-label="Design notes">
+  <p class="mock-note">Stars pop in one after another; the gold bar grows to the landed share. A full-screen reactive scene celebrates behind.</p>
+  <p class="mock-note">The headline is always praise: Super, Beautiful or Brave Singing. There is no failing result.</p>
+  <p class="mock-note">The tricky part is offered only when a phrase of three or more notes landed under 75%.</p>
+</aside>
+
+<nav class="mock-bar" aria-label="Mock navigation">
+  <a class="mock-bar__home" href="../../index.html" aria-label="All mocks">⌂</a>
+  <span class="mock-bar__screen">Results</span>
+  <ul class="mock-bar__states">
+    <li><a href="default.html" aria-current="page">default</a></li>
+    <li><a href="three-stars.html">three-stars</a></li>
+    <li><a href="one-star.html">one-star</a></li>
+    <li><a href="no-range.html">no-range</a></li>
+    <li><a href="no-mic.html">no-mic</a></li>
+    <li><a href="duet-waiting.html">duet-waiting</a></li>
+    <li><a href="duet.html">duet</a></li>
+  </ul>
+  <button type="button" data-theme-toggle aria-pressed="false">☾ Dark</button>
+  <button type="button" data-chrome-toggle aria-label="Hide mock chrome">×</button>
+</nav>
+<script src="../../assets/mock.js"></script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Family high scores · empty — TwinkleTune mocks</title>
+<meta name="mock:kind" content="dialog">
+<meta name="mock:screen" content="song-board">
+<meta name="mock:state" content="empty">
+<meta name="mock:requirements" content="HS-L2-7 HS-L2-12 HS-L2-13 HS-L2-15">
+<meta name="description" content="Nobody has a score on this song yet.">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<link rel="stylesheet" href="../../assets/ui.css">
+<link rel="stylesheet" href="../../assets/mock.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="mock-behind" inert aria-hidden="true">
+<div class="sky sky--day" aria-hidden="true">
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="fnote">🎵</span>
+  <span class="fnote">🎶</span>
+</div>
+<main id="main" class="screen">
+    <header class="topbar rise">
+      <a class="icon-btn" href="../../pages/home/default.html" aria-label="Go back">←</a>
+      <h1 class="title">Pick a Song 🎵</h1>
+      <span class="spacer"></span>
+    </header>
+
+    <div class="chip-row rise d1" role="tablist" aria-label="Song difficulty">
+      <button class="chip active" data-filter="0" role="tab" aria-selected="true">⭐ All</button>
+      <button class="chip" data-filter="1" role="tab">😊 Easy</button>
+      <button class="chip" data-filter="2" role="tab">🙂 Medium</button>
+      <button class="chip" data-filter="3" role="tab">😤 Brave</button>
+    </div>
+
+    <div data-list>
+      <section class="again-card rise d2" aria-label="Sing it again">
+        <span class="art-emoji" aria-hidden="true">🌉</span>
+        <div class="again-body">
+          <strong>Sing it again!</strong>
+          <small>London Bridge · you know this one ✨</small>
+        </div>
+        <button class="btn btn-pink" data-sing="londonbridge" aria-label="Sing London Bridge again" data-mock-href="../../pages/sing/ready.html">▶</button>
+      </section>
+      <article class="song rise d2" data-diff="1">
+      <div class="art art-1" aria-hidden="true">⭐</div>
+      <div class="song-body">
+        <strong>Twinkle Twinkle Little Star</strong>
+        <div class="song-meta">
+          <span>⏱ 0:29</span>
+          <span>⭐ Easy</span>
+          <span class="tuned" title="Moved 3 notes higher for you 💙">✓ In your key</span>
+          <span class="song-actions">
+            <button class="mini-btn" data-board="twinkle" aria-label="High scores for Twinkle Twinkle Little Star" data-mock-href="../../dialogs/song-board/default.html">🏆</button>
+            <button class="mini-btn" data-duet="twinkle" aria-label="Duet Twinkle Twinkle Little Star" data-mock-href="../../pages/duet/default.html">🎤🎤 Duet</button>
+          </span>
+        </div>
+      </div>
+      <button class="play" data-sing="twinkle" aria-label="Sing Twinkle Twinkle Little Star" data-mock-href="../../pages/sing/ready.html">▶</button>
+    </article>
+      <article class="song rise d3" data-diff="1">
+      <div class="art art-2" aria-hidden="true">🐑</div>
+      <div class="song-body">
+        <strong>Mary Had a Little Lamb</strong>
+        <div class="song-meta">
+          <span>⏱ 0:18</span>
+          <span>⭐ Easy</span>
+          <span class="tuned" title="Moved 4 notes higher for you 💙">✓ In your key</span>
+          <span class="song-actions">
+            <button class="mini-btn" data-board="mary" aria-label="High scores for Mary Had a Little Lamb" data-mock-href="../../dialogs/song-board/default.html">🏆</button>
+            <button class="mini-btn" data-duet="mary" aria-label="Duet Mary Had a Little Lamb" data-mock-href="../../pages/duet/default.html">🎤🎤 Duet</button>
+          </span>
+        </div>
+      </div>
+      <button class="play" data-sing="mary" aria-label="Sing Mary Had a Little Lamb" data-mock-href="../../pages/sing/ready.html">▶</button>
+    </article>
+      <article class="song rise d4" data-diff="1">
+      <div class="art art-4" aria-hidden="true">🥐</div>
+      <div class="song-body">
+        <strong>Hot Cross Buns</strong>
+        <div class="song-meta">
+          <span>⏱ 0:10</span>
+          <span>⭐ Easy</span>
+          <span class="tuned" title="Moved 6 notes higher for you 💙">✓ In your key</span>
+          <span class="song-actions">
+            <button class="mini-btn" data-board="hotcrossbuns" aria-label="High scores for Hot Cross Buns" data-mock-href="../../dialogs/song-board/default.html">🏆</button>
+            <button class="mini-btn" data-duet="hotcrossbuns" aria-label="Duet Hot Cross Buns" data-mock-href="../../pages/duet/default.html">🎤🎤 Duet</button>
+          </span>
+        </div>
+      </div>
+      <button class="play" data-sing="hotcrossbuns" aria-label="Sing Hot Cross Buns" data-mock-href="../../pages/sing/ready.html">▶</button>
+    </article>
+      <article class="song rise d5" data-diff="2">
+      <div class="art art-1" aria-hidden="true">🌉</div>
+      <div class="song-body">
+        <strong>London Bridge</strong>
+        <div class="song-meta">
+          <span>⏱ 0:17</span>
+          <span>⭐⭐ Medium</span>
+          <span class="tuned" title="Moved 3 notes higher for you 💙">✓ In your key</span>
+          <span class="song-actions">
+            <button class="mini-btn" data-board="londonbridge" aria-label="High scores for London Bridge" data-mock-href="../../dialogs/song-board/default.html">🏆</button>
+            <button class="mini-btn" data-duet="londonbridge" aria-label="Duet London Bridge" data-mock-href="../../pages/duet/default.html">🎤🎤 Duet</button>
+          </span>
+        </div>
+      </div>
+      <button class="play" data-sing="londonbridge" aria-label="Sing London Bridge" data-mock-href="../../pages/sing/ready.html">▶</button>
+    </article>
+      <article class="song rise d6" data-diff="2">
+      <div class="art art-2" aria-hidden="true">🚜</div>
+      <div class="song-body">
+        <strong>Old MacDonald</strong>
+        <div class="song-meta">
+          <span>⏱ 0:14</span>
+          <span>⭐⭐ Medium</span>
+          <span class="tuned" title="Moved 6 notes higher for you 💙">✓ In your key</span>
+          <span class="song-actions">
+            <button class="mini-btn" data-board="oldmacdonald" aria-label="High scores for Old MacDonald" data-mock-href="../../dialogs/song-board/default.html">🏆</button>
+            <button class="mini-btn" data-duet="oldmacdonald" aria-label="Duet Old MacDonald" data-mock-href="../../pages/duet/default.html">🎤🎤 Duet</button>
+          </span>
+        </div>
+      </div>
+      <button class="play" data-sing="oldmacdonald" aria-label="Sing Old MacDonald" data-mock-href="../../pages/sing/ready.html">▶</button>
+    </article>
+      <article class="song rise d7" data-diff="3">
+      <div class="art art-3" aria-hidden="true">🛶</div>
+      <div class="song-body">
+        <strong>Row, Row, Row Your Boat</strong>
+        <div class="song-meta">
+          <span>⏱ 0:11</span>
+          <span>⭐⭐⭐ Brave</span>
+          <span class="tuned" title="Moved 2 notes higher for you 💙">✓ In your key</span>
+          <span class="song-actions">
+            <button class="mini-btn" data-board="rowyourboat" aria-label="High scores for Row, Row, Row Your Boat" data-mock-href="../../dialogs/song-board/default.html">🏆</button>
+            <button class="mini-btn" data-duet="rowyourboat" aria-label="Duet Row, Row, Row Your Boat" data-mock-href="../../pages/duet/default.html">🎤🎤 Duet</button>
+          </span>
+        </div>
+      </div>
+      <button class="play" data-sing="rowyourboat" aria-label="Sing Row, Row, Row Your Boat" data-mock-href="../../pages/sing/ready.html">▶</button>
+    </article>
+      <article class="song rise d8" data-diff="2">
+      <div class="art art-3" aria-hidden="true">✝️</div>
+      <div class="song-body">
+        <strong>Jesus Loves Me</strong>
+        <div class="song-meta">
+          <span>⏱ 0:38</span>
+          <span>⭐⭐ Medium</span>
+          <span class="tuned" title="Moved 2 notes higher for you 💙">✓ In your key</span>
+          <span class="song-actions">
+            <button class="mini-btn" data-board="jesuslovesme" aria-label="High scores for Jesus Loves Me" data-mock-href="../../dialogs/song-board/default.html">🏆</button>
+            <button class="mini-btn" data-duet="jesuslovesme" aria-label="Duet Jesus Loves Me" data-mock-href="../../pages/duet/default.html">🎤🎤 Duet</button>
+          </span>
+        </div>
+      </div>
+      <button class="play" data-sing="jesuslovesme" aria-label="Sing Jesus Loves Me" data-mock-href="../../pages/sing/ready.html">▶</button>
+    </article>
+      <article class="song rise d8" data-diff="1">
+      <div class="art art-4" aria-hidden="true">🔔</div>
+      <div class="song-body">
+        <strong>Frère Jacques</strong>
+        <div class="song-meta">
+          <span>⏱ 0:20</span>
+          <span>⭐ Easy</span>
+          <span class="tuned" title="Moved 3 notes higher for you 💙">✓ In your key</span>
+          <span class="song-actions">
+            <button class="mini-btn" data-board="frerejacques" aria-label="High scores for Frère Jacques" data-mock-href="../../dialogs/song-board/default.html">🏆</button>
+            <button class="mini-btn" data-duet="frerejacques" aria-label="Duet Frère Jacques" data-mock-href="../../pages/duet/default.html">🎤🎤 Duet</button>
+          </span>
+        </div>
+      </div>
+      <button class="play" data-sing="frerejacques" aria-label="Sing Frère Jacques" data-mock-href="../../pages/sing/ready.html">▶</button>
+    </article>
+      <div class="new-songs rise d8">
+        <span class="ico" aria-hidden="true">🎁</span>
+        Grown-ups can add new songs in the Grown-Ups Corner!
+      </div>
+    </div>
+</main>
+<nav class="bottomnav" aria-label="Main navigation">
+  <a class="bn-item" href="../../pages/home/default.html"><span class="ico">🏠</span>Home</a>
+  <a class="bn-item active" href="../../pages/songs/default.html" aria-current="page"><span class="ico">🎵</span>Songs</a>
+  <a class="bn-item" href="../../pages/tips/default.html"><span class="ico">💡</span>Tips</a>
+  <a class="bn-item" href="../../pages/me/default.html"><span class="ico">⭐</span>Me</a>
+</nav>
+</div><div class="overlay">
+  <div class="modal modal-wide" role="dialog" aria-label="High scores for Twinkle Twinkle Little Star">
+    <h3>🏆 Twinkle Twinkle Little Star</h3>
+    <div data-board>
+      <p class="quiet-note">No scores yet — be the first! ⭐</p>
+    </div>
+    <button class="link-quiet" data-close data-mock-href="../../pages/songs/default.html">Close</button>
+  </div>
+</div>
+
+<nav class="mock-bar" aria-label="Mock navigation">
+  <a class="mock-bar__home" href="../../index.html" aria-label="All mocks">⌂</a>
+  <span class="mock-bar__screen">Family high scores</span>
+  <ul class="mock-bar__states">
+    <li><a href="default.html">default</a></li>
+    <li><a href="loading.html">loading</a></li>
+    <li><a href="empty.html" aria-current="page">empty</a></li>
+    <li><a href="failed.html">failed</a></li>
+  </ul>
+  <button type="button" data-theme-toggle aria-pressed="false">☾ Dark</button>
+  <button type="button" data-chrome-toggle aria-label="Hide mock chrome">×</button>
+</nav>
+<script src="../../assets/mock.js"></script>
+</body>
+</html>

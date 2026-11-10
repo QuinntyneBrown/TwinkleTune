@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sing! · duet — TwinkleTune mocks</title>
+<meta name="mock:kind" content="page">
+<meta name="mock:screen" content="sing">
+<meta name="mock:state" content="duet">
+<meta name="mock:requirements" content="SG-L2-2 SG-L2-3 SG-L2-4 SG-L2-5 SG-L2-6 SG-L2-7 SG-L2-8 SG-L2-11 SG-L2-12 SG-L2-14 SG-L2-17 DM-L2-14 CE-L2-3">
+<meta name="description" content="A duet in progress: the other singer&#x27;s live sparkles and streak in the top-left chip.">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<link rel="stylesheet" href="../../assets/ui.css">
+<link rel="stylesheet" href="../../assets/mock.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="sky sky--sing" aria-hidden="true">
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="fnote">♪</span>
+  <span class="fnote">♫</span>
+  <span class="fnote">♩</span>
+  <span class="fnote">♬</span>
+  <span class="fnote">♫</span>
+  <span class="fnote">♪</span>
+</div>
+<main id="main" class="screen screen--nonav">
+    <h1 class="visually-hidden">Singing Twinkle Twinkle Little Star</h1>
+    <header class="sing-top rise">
+      <button class="icon-btn" data-pause aria-label="Pause" data-mock-href="../../dialogs/pause/duet.html">⏸</button>
+      <div class="sing-title">
+        <strong>Twinkle Twinkle Little Star</strong>
+        <div class="track"><div class="fill" data-progress style="width:25.9%"></div></div>
+      </div>
+      <span class="key-chip" title="Moved 3 notes higher for you 💙">🎯 Your key ✓</span>
+    </header>
+
+    <section class="stage rise d1" aria-label="Pitch game — match the notes" data-stage>
+      <canvas class="reactive-scene" data-reactive-scene aria-hidden="true"></canvas>
+      <span class="streak-chip show" data-streak>🔥 7 in a row!</span>
+      <span class="opponent-chip" data-opponent>🐱 Bea ✨80 🔥4</span>
+      <div class="note-track" data-track>
+        <span class="note hit" style="left:calc(21% + -19.406rem);top:7.104rem;width:5.125rem">I</span>
+        <span class="note hit" style="left:calc(21% + -13.781rem);top:8.521rem;width:5.125rem">won</span>
+        <span class="note hit" style="left:calc(21% + -8.156rem);top:8.521rem;width:5.125rem">der</span>
+        <span class="note now" style="left:calc(21% + -2.531rem);top:11.354rem;width:5.125rem">what</span>
+        <span class="note" style="left:calc(21% + 3.094rem);top:11.354rem;width:5.125rem">you</span>
+        <span class="note" style="left:calc(21% + 8.719rem);top:14.188rem;width:10.75rem">are</span>
+        <span class="note" style="left:calc(21% + 19.969rem);top:4.271rem;width:5.125rem">Up</span>
+        <span class="note" style="left:calc(21% + 25.594rem);top:4.271rem;width:5.125rem">a</span>
+        <span class="note" style="left:calc(21% + 31.219rem);top:7.104rem;width:5.125rem">bove</span>
+        <span class="note" style="left:calc(21% + 36.844rem);top:7.104rem;width:5.125rem">the</span>
+      </div>
+      <div class="singer on-note" data-singer role="img" aria-label="You" style="top:10.542rem">🦄</div>
+      <span class="feedback-pop" data-state="held" style="top:9.542rem">Perfect! ✨</span>
+      <span class="stage-label" data-stage-label>SING TO MOVE YOUR STAR ↑↓</span>
+      <div class="countdown" data-countdown hidden></div>
+    </section>
+
+    <section class="card lyrics rise d2" aria-label="Lyrics">
+      <p class="lyr-line lyr-prev" data-prev>Twinkle, twinkle, little star</p>
+      <p class="lyr-line lyr-now" data-now><span class="word-done">How</span> <span class="word-done">I</span> <span class="word-done">won</span> <span class="word-done">der</span> <span class="word-now">what</span> <span>you</span> <span>are</span></p>
+      <p class="lyr-line lyr-next" data-next>Up above the world so high</p>
+    </section>
+
+    <div class="live-row rise d3">
+      <svg class="mascot mascot-sm" viewBox="0 0 120 120" aria-hidden="true">
+      <path class="twinkle-body" d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z" stroke-width="7" stroke-linejoin="round"/>
+      <circle class="twinkle-eye" cx="48" cy="56" r="4.5"/>
+      <circle class="twinkle-eye" cx="72" cy="56" r="4.5"/>
+      <circle class="twinkle-cheek" cx="41" cy="66" r="5.5"/>
+      <circle class="twinkle-cheek" cx="79" cy="66" r="5.5"/>
+      <path class="twinkle-smile" d="M48 64 Q60 80 72 64" fill="none" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+      <div class="bubble bubble-left" data-coach>You're doing wonderfully! 💙</div>
+      <div class="sparkles-pill" data-sparkles title="Sparkles earned">✨ 90</div>
+    </div>
+</main>
+
+<aside class="mock-notes" aria-label="Design notes">
+  <p class="mock-note">Only tiny score events cross the network, never audio. The chip reads “ready!” until the first tick arrives.</p>
+</aside>
+
+<nav class="mock-bar" aria-label="Mock navigation">
+  <a class="mock-bar__home" href="../../index.html" aria-label="All mocks">⌂</a>
+  <span class="mock-bar__screen">Sing!</span>
+  <ul class="mock-bar__states">
+    <li><a href="default.html">default</a></li>
+    <li><a href="ready.html">ready</a></li>
+    <li><a href="countdown.html">countdown</a></li>
+    <li><a href="no-mic.html">no-mic</a></li>
+    <li><a href="standard-key.html">standard-key</a></li>
+    <li><a href="practice.html">practice</a></li>
+    <li><a href="duet.html" aria-current="page">duet</a></li>
+  </ul>
+  <button type="button" data-theme-toggle aria-pressed="false">☾ Dark</button>
+  <button type="button" data-chrome-toggle aria-label="Hide mock chrome">×</button>
+</nav>
+<script src="../../assets/mock.js"></script>
+</body>
+</html>

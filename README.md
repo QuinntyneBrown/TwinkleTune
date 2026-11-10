@@ -1,103 +1,204 @@
-# TwinkleTune ⭐
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/logo/twinkletune-logo-dark.png">
+    <img src="docs/logo/twinkletune-logo.png" alt="TwinkleTune" width="440">
+  </picture>
+</p>
 
-A singing app for young performers. Every song is **tuned to the singer's own voice**, a friendly star coach named **Twinkle** gives note-by-note feedback while they sing, and the only kind of feedback that exists is encouragement. With the optional **family server**, sisters can switch profiles, duet head-to-head on two devices with live note streaks, and chase family high scores.
+<p align="center">
+  An encouragement-only singing app for young performers.
+</p>
 
-Built for kids: one big obvious action per screen, few words, big rounded type, and chunky toy-like buttons.
+<p align="center">
+  <a href="https://github.com/QuinntyneBrown/TwinkleTune/actions/workflows/ci-cd.yml"><img src="https://github.com/QuinntyneBrown/TwinkleTune/actions/workflows/ci-cd.yml/badge.svg?branch=main" alt="CI and deployment status"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT licence"></a>
+</p>
 
-## How it works
+<p align="center">
+  <a href="https://twinkletune.app">Website</a> ·
+  <a href="#getting-started">Getting started</a> ·
+  <a href="#documentation">Documentation</a> ·
+  <a href="#contributing">Contributing</a>
+</p>
 
-- 🎯 **Find My Voice** — a 1-minute game listens for the singer's lowest and highest comfortable notes, then transposes every song to sit in that range. Songs are synthesized from note data, so re-keying is artifact-free. The range saves to her profile and follows her across devices.
-- 🎤 **Sing!** — syllable pills scroll toward the singer's star avatar, which moves with their live pitch (Web Audio + [pitchy](https://github.com/ianprime0509/pitchy) pitch detection). Scoring is octave-forgiving — kids naturally sing in their own octave.
-- 🎤🎤 **Duets** — make a 4-letter room code, a sister joins from her device, both sing the same song at once and watch each other's sparkles and note streaks live (SignalR). Results lead with the *combined* family sparkles.
-- 👨‍👧‍👧 **Profiles** — switchable singers with a picked avatar or an uploaded photo; per-song **family high scores** with a 🏆 board on every song card.
-- 🎉 **Celebrate** — stars, confetti, streaks, sparkles, and badges. Tricky phrases become an invitation: "want to practice just that bit?" (looped at 70% tempo, never a penalty).
-- 💡 **Twinkle's Tips** — warm-ups and confidence boosters ("mistakes are sparkle dust").
-- 🔒 **Grown-Ups Corner** — parent-gated: mic latency offset, voice re-setup, **song editor** (create/edit/delete songs with live preview), avatar manager, reset.
+# TwinkleTune
 
-**Privacy:** badges, streaks and sparkles stay in the device's `localStorage`. Profiles, songs, photos and high scores live only on *your* home server (`backend/data/` — one SQLite file plus a photos folder). During duets, only live score events cross the network. Singing audio never leaves the device, and there are no accounts. Solo play works fully offline; every server feature degrades gracefully.
+TwinkleTune is a singing app for young performers. Every song is transposed to the singer's own
+voice range, a star coach named **Twinkle** gives note-by-note feedback while she sings, and the
+only kind of feedback that exists is encouragement.
 
-The seeded songs are seven hand-encoded **public-domain** melodies: Twinkle Twinkle Little Star, Mary Had a Little Lamb, Hot Cross Buns, London Bridge, Old MacDonald, Row Row Row Your Boat, and Jesus Loves Me. Grown-ups can add more in the song editor.
+The app is an offline-first PWA: pitch detection, scoring and rewards run entirely on the device.
+An optional, self-hosted **family server** on the home network adds switchable profiles, a shared
+songbook, family high scores and two-device duets. Every server feature is a progressive
+enhancement, so solo play works fully offline.
 
-## Repository layout
+## Contents
 
-```
-frontend/        The app — Vite + TypeScript, no framework
-  src/audio/     Web Audio synth player, mic pitch tracker, voice-range math
-  src/songs/     Song schema + bundled catalog + server songbook w/ offline cache
-  src/state/     per-profile localStorage store, octave-folded scoring, badges
-  src/screens/   One module per screen (incl. profiles picker + duet lobby)
-  src/api/       REST client + SignalR duet client
-  src/ui/        Shared parts: mascot, modals, toasts, managers, bottom nav
-  public/        PWA manifest, icons, service worker
-backend/         Family server — .NET 10, Clean Architecture
-  src/TwinkleTune.Domain/          entities + song invariants (no dependencies)
-  src/TwinkleTune.Application/     services, DTOs, in-memory duet rooms
-  src/TwinkleTune.Infrastructure/  EF Core + SQLite, photo storage, seeding
-  src/TwinkleTune.Api/             minimal API + SignalR DuetHub
-  tests/                           unit + integration (incl. 2-client duet flow)
-marketing/       Public brochure — dependency-free HTML/CSS/JS + product screenshots
-infra/           Azure Static Web Apps infrastructure (Bicep)
-.github/         CI/CD — tests every layer, publishes marketing + the PWA on main
-e2e/             Playwright suites: offline app (npm test) and
-                 full-stack duets/profiles (npm run test:server)
-docs/
-  PLAN.md            Build plan (mockups → working app)
-  PLAN-BACKEND.md    Build plan (backend milestone)
-  adr/               Architecture decision records
-  mocks/             The original HTML design mockups (open mocks/index.html)
-```
+- [Features](#features)
+- [Getting started](#getting-started)
+- [Building and testing](#building-and-testing)
+- [Project structure](#project-structure)
+- [Documentation](#documentation)
+- [Deployment](#deployment)
+- [Privacy](#privacy)
+- [Contributing](#contributing)
+- [Security](#security)
+- [License](#license)
 
-Palette: `#F4DBE3` · `#5EA8DA` · `#83C5F1` · `#B9DDF5` · `#AFE3F4`
+## Features
+
+- **Find My Voice.** A one-minute game listens for the singer's lowest and highest comfortable
+  notes, then transposes every song to sit in that range. Songs are synthesised from note data,
+  so re-keying has no artefacts. The range is saved to her profile and follows her across devices.
+- **Sing.** Syllable pills scroll toward the singer's star avatar, which moves with her live pitch
+  (Web Audio and [pitchy](https://github.com/ianprime0509/pitchy) pitch detection). Scoring is
+  octave-forgiving, because children naturally sing in their own octave.
+- **Duets.** One singer makes a 4-letter room code and another joins from her own device. Both
+  sing the same song and watch each other's sparkles and note streaks live over SignalR. Results
+  lead with the combined family sparkles.
+- **Profiles and high scores.** Switchable singers with a picked avatar or an uploaded photo, and
+  a family high-score board on every song card.
+- **Celebration.** Stars, confetti, streaks, sparkles and badges. A tricky part becomes an
+  invitation to practise just that phrase at 70% tempo, never a penalty.
+- **Twinkle's Tips.** Warm-ups and confidence boosters, such as "mistakes are sparkle dust".
+- **Grown-Ups Corner.** Behind a parent gate: mic latency offset, voice re-setup, a song editor
+  with live preview, an avatar manager and reset.
+
+The app ships with seven hand-encoded **public-domain** melodies: Twinkle Twinkle Little Star,
+Mary Had a Little Lamb, Hot Cross Buns, London Bridge, Old MacDonald, Row Row Row Your Boat and
+Jesus Loves Me. Grown-ups can add more in the song editor.
 
 ## Getting started
 
-**Frontend only (solo play, fully offline):**
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) 22 or later
+- [.NET SDK](https://dotnet.microsoft.com/download) 10.0, only for the family server
+
+### Run the app
+
+Solo play needs nothing but the frontend, and works fully offline.
 
 ```bash
 cd frontend
 npm install
-npm run dev      # → http://localhost:5173
+npm run dev      # http://localhost:5173
 ```
 
-**With the family server (profiles, duets, high scores, song editor):**
+### Run the family server (optional)
+
+The server adds profiles, duets, high scores and the song editor.
 
 ```bash
 cd backend
-dotnet run --project src/TwinkleTune.Api    # → http://localhost:5240
+dotnet run --project src/TwinkleTune.Api    # http://localhost:5240
 ```
 
-The frontend looks for the server at `http://localhost:5240` by default; point it elsewhere with
-`VITE_API_URL`. For two-device duets on your Wi-Fi, serve both apps on your PC's LAN address and
-add that origin to `Cors:Origins` in `backend/src/TwinkleTune.Api/appsettings.json`. The server is
-designed for **home-LAN use only** — don't expose it to the internet (no auth by design; see ADR-0002).
+The frontend looks for the server at `http://localhost:5240`. Set `VITE_API_URL` to point it
+elsewhere. For two-device duets on your Wi-Fi, serve both apps on your computer's LAN address and
+add that origin to `Cors:Origins` in `backend/src/TwinkleTune.Api/appsettings.json`.
 
-| Command (where)              | What it does                                           |
-|------------------------------|--------------------------------------------------------|
-| `npm test` (frontend/)       | Unit tests (scoring, store, badges, songs)             |
-| `npm run build` (frontend/)  | Type-check + production build to `dist/`               |
-| `dotnet test` (backend/)     | Backend unit + integration tests (incl. SignalR duet)  |
-| `npm test` (e2e/)            | Playwright suite against the offline app               |
-| `npm run test:server` (e2e/) | Full-stack Playwright suite (isolated test database)   |
+> [!WARNING]
+> The family server has no authentication, by design. It is for the home network only. Do not
+> expose it to the internet. See the ADRs in [`docs/adr/`](docs/adr/).
 
-### Putting it on a tablet
+### Install it on a tablet
 
-`npm run build`, host `frontend/dist/` anywhere (any static host, or `npm run preview` on your LAN), open it on the tablet and **Add to Home Screen** — the PWA installs with its own icon and works offline after the first visit.
+Run `npm run build` in `frontend/`, host `frontend/dist/` on any static host (or run
+`npm run preview` on your LAN), open it on the tablet and choose **Add to Home Screen**. The PWA
+installs with its own icon and works offline after the first visit.
 
-### Marketing site and Azure
+## Building and testing
 
-The standalone brochure in `marketing/` follows the same sibling-folder boundary as the app and backend. Preview it with the frontend's Vite installation:
+| Command | Where | What it does |
+|---|---|---|
+| `npm test` | `frontend/` | Unit tests for scoring, note judging, the store, badges and songs |
+| `npm run build` | `frontend/` | Type-check and production build to `dist/` |
+| `dotnet test` | `backend/` | Unit and integration tests, including a two-client SignalR duet |
+| `npm test` | `e2e/` | Playwright suite against the offline app |
+| `npm run test:server` | `e2e/` | Full-stack Playwright suite on an isolated test database |
+| `npm run test:marketing` | `e2e/` | Playwright suite for the marketing site |
+
+No test needs a database server or a real microphone. The end-to-end suites run in Chromium and
+replace the microphone with a re-tunable oscillator.
+
+`#/tuner` in the app is a developer tuner (note name, cents needle, clarity) for checking pitch
+detection against a piano app.
+
+## Project structure
+
+```
+frontend/        The app: Vite + TypeScript, no framework
+  src/audio/     Web Audio synth, mic pitch tracker, voice-range math
+  src/songs/     Song schema, bundled catalogue, server songbook with offline cache
+  src/state/     Per-singer store, scoring, note judging, badges
+  src/screens/   One module per screen
+  src/rendering/ Canvas and WebGPU playfield
+  src/api/       REST client and SignalR duet client
+  src/ui/        Shared parts: mascot, modals, toasts, bottom nav
+  public/        PWA manifest, icons, service worker
+backend/         Family server: .NET 10, Clean Architecture
+  src/TwinkleTune.Domain/          Entities and song invariants, no dependencies
+  src/TwinkleTune.Application/     Services, DTOs, in-memory duet rooms
+  src/TwinkleTune.Infrastructure/  EF Core + SQLite, photo storage, seeding
+  src/TwinkleTune.Api/             Controllers, SignalR DuetHub, health check
+  tests/                           Unit and integration tests
+e2e/             Playwright suites for the app, the full stack and the marketing site
+marketing/       Public brochure: dependency-free HTML, CSS and JavaScript
+infra/           Azure Static Web Apps infrastructure (Bicep)
+docs/            Specifications, designs, mocks, ADRs and brand assets
+.github/         CI/CD workflow
+```
+
+## Documentation
+
+| Document | Contents |
+|---|---|
+| [`docs/specs/`](docs/specs/README.md) | Requirements for each subsystem, with acceptance criteria and the glossary |
+| [`docs/detailed-designs/`](docs/detailed-designs/) | Per-feature designs with diagrams |
+| [`docs/mocks/`](docs/mocks/) | HTML mocks of every screen, the visual source of truth (open `index.html`) |
+| [`docs/adr/`](docs/adr/) | Architecture decision records |
+| [`docs/deployment.md`](docs/deployment.md) | Azure provisioning and the deployment pipeline |
+| [`docs/stickers/`](docs/stickers/README.md) | Print-ready promotional stickers |
+| [`AGENTS.md`](AGENTS.md) | Architecture rules, domain vocabulary and the development workflow |
+
+The design is a soft pastel "sky studio" set in Baloo 2 and Nunito. Its palette is `#F4DBE3`,
+`#5EA8DA`, `#83C5F1`, `#B9DDF5` and `#AFE3F4`.
+
+## Deployment
+
+A green push to `main` publishes the marketing site at [twinkletune.app](https://twinkletune.app)
+and the offline PWA at [twinkletune.app/app](https://twinkletune.app/app) through Azure Static Web
+Apps. The family server is deliberately never deployed. See
+[`docs/deployment.md`](docs/deployment.md) for provisioning and pipeline details.
+
+To preview the marketing site locally, use the frontend's Vite installation:
 
 ```bash
 cd frontend
 npm run dev -- --host 127.0.0.1 --port 4175 ../marketing
 ```
 
-Production serves the brochure at `/` and the offline PWA at `/app/` through Azure Static Web Apps. The LAN-only family API is deliberately not exposed. Provisioning, GitHub environment, and deployment details are in [`docs/deployment.md`](docs/deployment.md).
+## Privacy
 
-### Handy hidden screen
+- Singing audio never leaves the device.
+- There are no accounts, no analytics and no third-party network calls.
+- Badges, streaks and sparkles stay in the device's `localStorage`.
+- Profiles, songs, photos and high scores live only on your own family server, in
+  `backend/data/` (one SQLite file and a photos folder).
+- During a duet, only live score events cross the network.
 
-`#/tuner` is a developer tuner (note name, cents needle, clarity) for sanity-checking pitch detection against a piano app.
+## Contributing
 
-## Design
+Contributions are welcome: bug reports, fixes, new public-domain songs, accessibility improvements
+and documentation. Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request, and
+report bugs through [GitHub Issues](https://github.com/QuinntyneBrown/TwinkleTune/issues).
 
-The design mockups in `docs/mocks/` are the visual source of truth — a soft pastel "sky studio" built from the palette above, with Baloo 2 + Nunito type. Start at `docs/mocks/index.html` for a gallery of every screen and dialog.
+## Security
+
+Do not report security issues in a public issue. Follow the private reporting process in
+[SECURITY.md](SECURITY.md).
+
+## License
+
+TwinkleTune is licensed under the [MIT License](LICENSE).

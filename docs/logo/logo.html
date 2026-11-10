@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>TwinkleTune logo — horizontal lockup</title>
+    <style>
+      /* The app's own faces, shared with the stickers so nothing is fetched. */
+      @font-face {
+        font-family: "Baloo 2";
+        src: url("../stickers/src/fonts/Baloo2-Variable.ttf") format("truetype");
+        font-weight: 400 800;
+        font-display: block;
+      }
+      html, body { margin: 0; background: transparent; }
+      .logo { display: block; width: 732px; height: 170px; }
+
+      /* On light grounds: "Twinkle" in Tune Blue, "Tune" in Ink, a blue note.
+         On dark grounds (body.dark): Sky and white, as the frame's "On dark"
+         lockup sets them. */
+      .twinkle, .note { fill: #5ea8da; }
+      .tune { fill: #2b5876; }
+      body.dark .twinkle, body.dark .note { fill: #83c5f1; }
+      body.dark .tune { fill: #ffffff; }
+    </style>
+  </head>
+  <body>
+    <!--
+      The primary horizontal lockup from the "TwinkleTune Logo" frame in Magic
+      Patterns (components/Mark.tsx and components/Wordmark.tsx; link in
+      docs/stickers/README.md). The mark keeps its 138 x 120 source coordinates,
+      placed with translate(5 5) scale(1.3333). The wordmark is half the mark's
+      width in font size, as in the frame's largest lockup.
+    -->
+    <svg class="logo" viewBox="0 0 732 170" xmlns="http://www.w3.org/2000/svg">
+      <title>TwinkleTune</title>
+
+      <g transform="translate(5 5) scale(1.3333)">
+        <path
+          d="M60 10 L75.87 40.16 L109.46 45.93 L85.68 70.34 L90.57 104.07 L60 89 L29.43 104.07 L34.32 70.34 L10.54 45.93 L44.13 40.16 Z"
+          fill="#FFD66B"
+          stroke="#E8B445"
+          stroke-width="7"
+          stroke-linejoin="round"
+        />
+        <path d="M55 30 Q58 22 60 19" fill="none" stroke="#FFF1C2" stroke-width="4" stroke-linecap="round" />
+        <circle cx="50" cy="60" r="4.4" fill="#2B5876" />
+        <circle cx="70" cy="60" r="4.4" fill="#2B5876" />
+        <circle cx="42.5" cy="70" r="5.4" fill="#F4DBE3" />
+        <circle cx="77.5" cy="70" r="5.4" fill="#F4DBE3" />
+        <ellipse cx="60" cy="73.5" rx="6" ry="7" fill="#2B5876" />
+        <ellipse cx="60" cy="77.5" rx="3.6" ry="2.4" fill="#F4A6BD" />
+        <g class="note">
+          <ellipse cx="113" cy="33" rx="7.2" ry="5.4" transform="rotate(-22 113 33)" />
+          <rect x="117.6" y="6" width="3.8" height="27" rx="1.9" />
+          <path d="M119.5 6 C126 9 134 13 132 25 C130 19 125 16.5 119.5 16 Z" />
+        </g>
+      </g>
+
+      <!-- Baloo 2 800, tracking -0.02em, dotless i. The sparkle that dots it
+           is 0.3em across, centred 1.429em from the start of the word and
+           0.7em above the baseline. -->
+      <text
+        x="211"
+        y="119"
+        font-family="'Baloo 2'"
+        font-weight="800"
+        font-size="92"
+        letter-spacing="-1.84"
+      ><tspan class="twinkle">Tw&#x131;nkle</tspan><tspan class="tune">Tune</tspan></text>
+      <path
+        transform="translate(328.7 40.8) scale(1.38)"
+        d="M10 0.5 Q11 9 19.5 10 Q11 11 10 19.5 Q9 11 0.5 10 Q9 9 10 0.5 Z"
+        fill="#FFD66B"
+        stroke="#E8B445"
+        stroke-width="1.4"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </body>
+</html>

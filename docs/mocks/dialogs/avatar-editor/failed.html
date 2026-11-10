@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Avatar editor · failed — TwinkleTune mocks</title>
+<meta name="mock:kind" content="dialog">
+<meta name="mock:screen" content="avatar-editor">
+<meta name="mock:state" content="failed">
+<meta name="mock:requirements" content="GC-L2-8 PP-L2-11">
+<meta name="description" content="The family server cannot be reached: a pink toast, and the form stays open.">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<link rel="stylesheet" href="../../assets/ui.css">
+<link rel="stylesheet" href="../../assets/mock.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="mock-behind" inert aria-hidden="true">
+<div class="sky sky--day" aria-hidden="true">
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="fnote">🎵</span>
+  <span class="fnote">🎶</span>
+</div>
+<main id="main" class="screen">
+    <header class="me-head rise">
+      <button class="icon-btn me-gear" data-settings aria-label="Grown-ups corner" data-mock-href="../../dialogs/parent-gate/default.html">⚙️</button>
+      <div class="avatar avatar-lg pop" role="img" aria-label="Your avatar">🦄</div>
+      <h1>Ada's Star Journey</h1>
+      <p>Level 3 Fledgling 🐦</p>
+    </header>
+
+    <section class="card xp rise d1" aria-label="Level progress">
+      <div class="xp-row">
+        <b>Level 3</b>
+        <span>140 ✨ to Level 4!</span>
+        <b class="xp-next">Level 4</b>
+      </div>
+      <div class="track"><div class="fill fill-animated" style="width:53%"></div></div>
+      <p class="xp-total">✨ 760 sparkles collected</p>
+    </section>
+
+    <h2 class="section-title rise d2">⭐ This week</h2>
+    <section class="card week rise d2" aria-label="Weekly singing streak">
+      <div class="day done"><i>⭐</i>M</div>
+      <div class="day done"><i>⭐</i>T</div>
+      <div class="day done"><i>⭐</i>W</div>
+      <div class="day done today"><i>⭐</i>T</div>
+      <div class="day"><i>·</i>F</div>
+      <div class="day"><i>·</i>S</div>
+      <div class="day"><i>·</i>S</div>
+    </section>
+
+    <h2 class="section-title rise d3">🏅 My badges</h2>
+    <div class="badges">
+      <div class="badge pop d3" title="Sing your very first song">
+        <span class="ico">🎤</span>
+        <strong>First Song</strong>
+      </div>
+      <div class="badge pop d4" title="Sing three days in a row">
+        <span class="ico">🔥</span>
+        <strong>3-Day Streak</strong>
+      </div>
+      <div class="badge locked pop d5" title="Land the highest notes of a song">
+        <span class="ico">🔒</span>
+        <strong>High Note Hero</strong>
+      </div>
+      <div class="badge pop d6" title="Earn three stars on any song">
+        <span class="ico">🎭</span>
+        <strong>Show Stopper</strong>
+      </div>
+      <div class="badge locked pop d7" title="Finish a Brave (3-star difficulty) song">
+        <span class="ico">🔒</span>
+        <strong>Brave Bird</strong>
+      </div>
+      <div class="badge pop d8" title="Land ten notes in a row">
+        <span class="ico">🔟</span>
+        <strong>Perfect Ten</strong>
+      </div>
+    </div>
+
+    <h2 class="section-title rise d6">💖 Songs I shine at</h2>
+    <div class="mastered rise d6">
+      <span class="em">⭐</span>
+      <span>Twinkle Twinkle Little Star</span>
+      <b>★★★</b>
+    </div>
+    <div class="mastered rise d7">
+      <span class="em">🐑</span>
+      <span>Mary Had a Little Lamb</span>
+      <b>★★★</b>
+    </div>
+    <div class="mastered rise d8">
+      <span class="em">🥐</span>
+      <span>Hot Cross Buns</span>
+      <b>★★☆</b>
+    </div>
+    <div class="mastered rise d8">
+      <span class="em">🌉</span>
+      <span>London Bridge</span>
+      <b>★★☆</b>
+    </div>
+
+    <div class="growth rise d8">
+      <span class="em" aria-hidden="true">📈</span>
+      <p>Your voice goes from <strong>B3</strong> to <strong>E5</strong> —
+      that's <strong>18 notes</strong>! Twinkle keeps every song tuned to match.</p>
+    </div>
+</main>
+<nav class="bottomnav" aria-label="Main navigation">
+  <a class="bn-item" href="../../pages/home/default.html"><span class="ico">🏠</span>Home</a>
+  <a class="bn-item" href="../../pages/songs/default.html"><span class="ico">🎵</span>Songs</a>
+  <a class="bn-item" href="../../pages/tips/default.html"><span class="ico">💡</span>Tips</a>
+  <a class="bn-item active" href="../../pages/me/default.html" aria-current="page"><span class="ico">⭐</span>Me</a>
+</nav>
+</div><div class="overlay">
+  <div class="modal" role="dialog" aria-label="New avatar">
+    <h3>New avatar 😊</h3>
+    <label class="field-label" for="avatar-emoji">Emoji</label>
+    <input class="field" id="avatar-emoji" data-f-emoji maxlength="4" value="🐯" placeholder="🐯">
+    <label class="field-label" for="avatar-name">Name</label>
+    <input class="field" id="avatar-name" data-f-name maxlength="30" value="" placeholder="Tiger">
+    <button class="btn" data-save data-mock-href="../../dialogs/avatar-manager/default.html">Add ✨</button>
+    <button class="link-quiet" data-close data-mock-href="../../dialogs/avatar-manager/default.html">Cancel</button>
+  </div>
+</div><div class="toast-host">
+  <span class="toast toast-pink">Failed to fetch</span>
+</div>
+
+<nav class="mock-bar" aria-label="Mock navigation">
+  <a class="mock-bar__home" href="../../index.html" aria-label="All mocks">⌂</a>
+  <span class="mock-bar__screen">Avatar editor</span>
+  <ul class="mock-bar__states">
+    <li><a href="default.html">default</a></li>
+    <li><a href="edit.html">edit</a></li>
+    <li><a href="invalid.html">invalid</a></li>
+    <li><a href="failed.html" aria-current="page">failed</a></li>
+  </ul>
+  <button type="button" data-theme-toggle aria-pressed="false">☾ Dark</button>
+  <button type="button" data-chrome-toggle aria-label="Hide mock chrome">×</button>
+</nav>
+<script src="../../assets/mock.js"></script>
+</body>
+</html>

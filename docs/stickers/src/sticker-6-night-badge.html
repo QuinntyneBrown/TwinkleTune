@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>TwinkleTune sticker — night badge</title>
+    <link rel="stylesheet" href="stickers.css" />
+  </head>
+  <body>
+    <div class="stage">
+      <!--
+        Sticker 6 — the "On dark" lockup from the "TwinkleTune Logo" frame in
+        Magic Patterns, as a round badge: Ink ground, the note and "Twinkle" in
+        Sky, "Tune" in white. The mark keeps Mark.tsx's 138 x 120 coordinates,
+        placed with translate(284.4 162.4) scale(2.4).
+      -->
+      <!-- Drawn 1:1 on the canvas, so --cut-extra stays at 130px for the same
+           65px rim as the rest of the set. See stickers.css. -->
+      <svg
+        class="sticker"
+        viewBox="0 0 900 900"
+        xmlns="http://www.w3.org/2000/svg"
+        style="--cut-extra: 130px"
+      >
+        <title>TwinkleTune logo on a night-sky badge: Sing your heart out!</title>
+
+        <!-- Centres the cut on the canvas: the two left-hand sparkles reach
+             further out than the right-hand one. A translate only, with no
+             scale, so the rim width is unaffected. -->
+        <g transform="translate(4.5 0)">
+
+          <defs>
+            <!-- The rim is a ring here, so the URL follows it: an arc concentric
+                 with the badge (r 350), down the middle of the 65px rim —
+                 350 + half of (65px rim + 20px cap height). It runs left to
+                 right through the bottom so the letters stand upright. -->
+            <path id="urlArc" fill="none" d="M 57.5 450 A 392.5 392.5 0 0 0 842.5 450" />
+          </defs>
+
+          <!-- ── Die-cut silhouette ────────────────────────────────────────── -->
+          <g>
+            <path
+              class="keyline cut-flat"
+              d="M133 264 Q140 295 171 302 Q140 309 133 340 Q126 309 95 302 Q126 295 133 264 Z"
+            />
+            <path
+              class="keyline cut-flat"
+              d="M759 252 Q765 280 793 286 Q765 292 759 320 Q753 292 725 286 Q753 280 759 252 Z"
+            />
+            <path
+              class="keyline cut-flat"
+              d="M121 540 Q126 565 151 570 Q126 575 121 600 Q116 575 91 570 Q116 565 121 540 Z"
+            />
+            <circle class="keyline cut-flat" cx="450" cy="450" r="350" />
+          </g>
+
+          <!-- ── Badge ─────────────────────────────────────────────────────── -->
+          <circle cx="450" cy="450" r="350" fill="#2B5876" />
+          <circle cx="450" cy="450" r="326" fill="none" stroke="#83C5F1" stroke-width="5" />
+
+          <!-- Edge sparkles straddle the badge's outline so the die cut picks up
+               their points. -->
+          <path
+            d="M133 264 Q140 295 171 302 Q140 309 133 340 Q126 309 95 302 Q126 295 133 264 Z"
+            fill="#FFD66B"
+          />
+          <path
+            d="M759 252 Q765 280 793 286 Q765 292 759 320 Q753 292 725 286 Q753 280 759 252 Z"
+            fill="#5EA8DA"
+          />
+          <path
+            d="M121 540 Q126 565 151 570 Q126 575 121 600 Q116 575 91 570 Q116 565 121 540 Z"
+            fill="#DDAEC6"
+          />
+
+          <!-- ── The mark, with its note in Sky (Mark.tsx, verbatim) ───────── -->
+          <g transform="translate(284.4 162.4) scale(2.4)">
+            <path
+              d="M60 10 L75.87 40.16 L109.46 45.93 L85.68 70.34 L90.57 104.07 L60 89 L29.43 104.07 L34.32 70.34 L10.54 45.93 L44.13 40.16 Z"
+              fill="#FFD66B"
+              stroke="#E8B445"
+              stroke-width="7"
+              stroke-linejoin="round"
+            />
+            <path d="M55 30 Q58 22 60 19" fill="none" stroke="#FFF1C2" stroke-width="4" stroke-linecap="round" />
+            <circle cx="50" cy="60" r="4.4" fill="#2B5876" />
+            <circle cx="70" cy="60" r="4.4" fill="#2B5876" />
+            <circle cx="42.5" cy="70" r="5.4" fill="#F4DBE3" />
+            <circle cx="77.5" cy="70" r="5.4" fill="#F4DBE3" />
+            <ellipse cx="60" cy="73.5" rx="6" ry="7" fill="#2B5876" />
+            <ellipse cx="60" cy="77.5" rx="3.6" ry="2.4" fill="#F4A6BD" />
+            <ellipse cx="113" cy="33" rx="7.2" ry="5.4" transform="rotate(-22 113 33)" fill="#83C5F1" />
+            <rect x="117.6" y="6" width="3.8" height="27" rx="1.9" fill="#83C5F1" />
+            <path d="M119.5 6 C126 9 134 13 132 25 C130 19 125 16.5 119.5 16 Z" fill="#83C5F1" />
+          </g>
+
+          <!-- ── The wordmark, on-dark colours (Wordmark.tsx) ──────────────── -->
+          <!-- Baloo 2 800, tracking -0.02em, dotless i. The sparkle that dots it
+               is 0.3em across, centred 1.429em from the start of the word and
+               0.7em above the baseline, as in sticker 4. -->
+          <text
+            x="193"
+            y="517"
+            font-family="'Baloo 2'"
+            font-weight="800"
+            font-size="92"
+            letter-spacing="-1.84"
+          ><tspan fill="#83C5F1">Tw&#x131;nkle</tspan><tspan fill="#FFFFFF">Tune</tspan></text>
+          <path
+            transform="translate(310.7 438.8) scale(1.38)"
+            d="M10 0.5 Q11 9 19.5 10 Q11 11 10 19.5 Q9 11 0.5 10 Q9 9 10 0.5 Z"
+            fill="#FFD66B"
+            stroke="#E8B445"
+            stroke-width="1.4"
+            stroke-linejoin="round"
+          />
+
+          <!-- Tagline in the app's pink chip -->
+          <rect x="265" y="552" width="370" height="56" rx="28" fill="#F4DBE3" />
+          <text
+            x="450"
+            y="581"
+            text-anchor="middle"
+            dominant-baseline="central"
+            font-family="'Nunito'"
+            font-weight="800"
+            font-size="28"
+            letter-spacing="0.4"
+            fill="#A05F83"
+          >
+            Sing your heart out!
+          </text>
+
+          <!-- A little sparkle dust under the chip -->
+          <path d="M450 646 Q454 664 472 668 Q454 672 450 690 Q446 672 428 668 Q446 664 450 646 Z" fill="#FFD66B" />
+          <path d="M385 641 Q388 652 399 655 Q388 658 385 669 Q382 658 371 655 Q382 652 385 641 Z" fill="#83C5F1" />
+          <path d="M515 641 Q518 652 529 655 Q518 658 515 669 Q512 658 501 655 Q512 652 515 641 Z" fill="#F4DBE3" />
+
+          <!-- ── Edge URL ──────────────────────────────────────────────────── -->
+          <text
+            text-anchor="middle"
+            font-family="'Nunito'"
+            font-weight="800"
+            font-size="28"
+            letter-spacing="7"
+            fill="#000000"
+          >
+            <textPath href="#urlArc" startOffset="50%">TWINKLETUNE.APP</textPath>
+          </text>
+        </g>
+      </svg>
+    </div>
+  </body>
+</html>

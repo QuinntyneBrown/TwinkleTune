@@ -19,3 +19,9 @@ data/
 *.db
 bin/
 obj/
+
+# mock screenshots (writing-html-mocks)
+docs/mocks/.cache/
+
+# design-system harvest and screenshots (extracting-design-systems)
+docs/design-system/.cache/

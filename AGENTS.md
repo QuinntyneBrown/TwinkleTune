@@ -23,7 +23,9 @@ progressive enhancement: solo play works fully offline.
   (detailed, with GIVEN/WHEN/THEN acceptance criteria). `README.md` there is the master index,
   subsystem catalogue and glossary.
 - `docs/detailed-designs/`: per-feature designs, `{subsystem}/{feature}/README.md` plus diagrams
-- `docs/mocks/`: hand-written HTML mocks, the visual source of truth (start at `index.html`)
+- `docs/mocks/`: hand-written HTML mocks, the visual source of truth (start at `index.html`). One
+  file per screen state under `pages/`, `dialogs/` and `notifications/`, sharing `assets/tokens.css`
+  and `assets/ui.css`; `README.md` there has the conventions and the coverage matrix.
 - `docs/adr/`: architecture decisions. Read the relevant ADRs before changing the areas they cover.
 - `.claude/skills/`, `.agents/skills/`: skills copied from Hewn; `.codex/skills/`: design-book PDF
 

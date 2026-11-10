@@ -1,6 +1,6 @@
 # TwinkleTune promotional stickers
 
-Three die-cut vinyl stickers for giveaways — laptops, water bottles, the lid of
+Six die-cut vinyl stickers for giveaways — laptops, water bottles, the lid of
 a keyboard case. Every shape, colour and glyph is derived from the app's own
 assets rather than redrawn by eye, so a sticker on a laptop and the app on a
 phone read as the same product.
@@ -11,8 +11,9 @@ phone read as the same product.
 | `mascotSVG()` in `frontend/src/ui/parts.ts` | Twinkle's star path, face, blush and happy mouth |
 | `frontend/public/icon.svg` | the app-icon star on the cloud sticker |
 | `.logo` / `.logo .tw` in `frontend/src/styles/screens.css` | the blue/ink wordmark split |
+| the [TwinkleTune Logo frame](https://www.magicpatterns.com/os/q2anquMW2vyVxri9RrwPb1/oCGzbLtUELXrbvoD8c9TRj) in Magic Patterns (`components/Mark.tsx`, `components/Wordmark.tsx`) | the singing-star mark, the sparkle-dotted wordmark and the three lockups on stickers 4–6 |
 
-## The three designs
+## The designs
 
 ### 1 — Twinkle the star
 
@@ -40,7 +41,36 @@ and `Sing your heart out!` sits in the app's pink chip.
 The line from Twinkle's Tips, in a speech bubble, with Twinkle peeking over the
 bottom-right corner. Nunito 800 for the kicker, Baloo 2 800 for the payload.
 
-All three together:
+### 4 — Singing logo
+
+![Singing logo](sticker-4-singing-logo-preview.png)
+
+The stacked logo lockup, cut to its own outline with no backing shape. The mark
+is Twinkle mid-song — the chubbier star, open mouth and blue note from
+`Mark.tsx` — and keeps its source coordinates: the 138 × 120 viewBox is placed
+with `translate(146.4 128.4) scale(4.4)` rather than redrawn. The wordmark
+follows `Wordmark.tsx`: Baloo 2 800 at −0.02em tracking, a dotless `ı`, and a
+gold sparkle standing in for the dot, 0.3em across and 0.7em above the baseline.
+
+### 5 — App icon
+
+![App icon](sticker-5-app-icon-preview.png)
+
+The frame's app-icon lockup: the mark without its note, filling three quarters
+of a Tune Blue tile with 22% corners and a `#3F88BC` underside. At icon size the
+note drops away so the face stays readable; at sticker size there is room, so it
+hops out of the top-right corner in Ink, which reads on both the tile and the
+white rim.
+
+### 6 — Night badge
+
+![Night badge](sticker-6-night-badge-preview.png)
+
+The frame's "On dark" lockup as a round badge: Ink ground, the note and
+`Twinkle` in Sky `#83C5F1`, `Tune` in white, and `Sing your heart out!` in the
+pink chip. The one sticker in the set for dark laptops and cases.
+
+The whole set:
 
 ![Contact sheet](contact-sheet.png)
 
@@ -69,16 +99,22 @@ shape's own art stroke plus `--cut-extra`, so exactly 65px of white shows past
 the edge — see the `.cut-*` classes in `src/stickers.css`.
 
 `--cut-extra` is in art-space units and each sticker overrides it on its `<svg>`
-element, because all three scale their artwork to the canvas by a different
+element, because stickers 1–3 scale their artwork to the canvas by a different
 factor. Setting one shared value would make the rim visibly thicker on the
-stickers that scale up more; dividing 130px by each sticker's own scale lands all
-three on the same 65px. The edge type is sized the same way.
+stickers that scale up more; dividing 130px by each sticker's own scale lands
+them all on the same 65px. The edge type is sized the same way.
+
+Stickers 4–6 are drawn 1:1, so theirs stays at 130px. Their logo mark is the
+exception: it keeps its source coordinates and carries its own
+`transform="… scale(k)"`, which would scale the rim along with the art. Those
+shapes use `.cut-scaled`, which divides the rim back out by `--k`.
 
 ### The edge URL
 
-All three carry `TWINKLETUNE.APP` in black Nunito 800 tracked caps, curved along
+Every sticker carries `TWINKLETUNE.APP` in black Nunito 800 tracked caps along
 the white rim — below the banner on the star, below the cloud, and *above* the
-bubble. The bubble is the odd one out on purpose: its tail and the star peeking
+bubble. On the logo and the app icon it runs straight, under a flat bottom edge;
+on the night badge it follows the ring. The bubble is the odd one out on purpose: its tail and the star peeking
 over the corner leave only ~250px of clean bottom run, where the top edge is
 straight and clear from x 160 to x 740.
 
@@ -111,7 +147,7 @@ docs/stickers/
   sticker-N-*.png            print-ready, transparent, 900 × 900
   sticker-N-*-preview.png    on paper, with a drop shadow — for review only
   sticker-N-*.svg            standalone editable vector (generated)
-  contact-sheet.png          all three at review size
+  contact-sheet.png          the whole set at review size
   render-stickers.mjs        the renderer
   src/
     sticker-N-*.html         the artwork — edit these

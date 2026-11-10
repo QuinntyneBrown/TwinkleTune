@@ -1,0 +1,654 @@
+/* ==========================================================================
+   TwinkleTune design tokens — the single source of truth for colour, type,
+   space, shape, elevation, motion, layout and z-order.
+
+   Extracted from docs/mocks (assets/tokens.css + assets/ui.css, 92 mocks) on
+   2026-11-09. Every value traces to a mock or to a correction logged in
+   docs/design-system/README.md ("Drift found in the mocks").
+
+   Three tiers:
+     1. Primitives  (--palette-*, --font-family-*, --font-size-*, --font-weight-*,
+                    --line-height-*, --letter-spacing-*) raw values, read only by
+                    semantic tokens.
+     2. Semantic    (--color-*, --gradient-*, --text-*, --space-*, --radius-*,
+                    --shadow-*, --lip-*, --duration-*, --ease-*, --z-*, --layout-*,
+                    --target-*, --control-height-*) meaning-based aliases that
+                    components consume. Themes override this tier only.
+     3. Component   (--btn-*, --field-*, --modal-* …) declared in
+                    assets/components.css, always aliasing a semantic token.
+
+   Themes: light ("sky studio", the shipped product) is :root. Dark ("the
+   studio at night") applies with [data-theme="dark"], or when the OS prefers
+   dark and the page has not forced [data-theme="light"]. The app ships light
+   only; the mocks always set data-theme explicitly, so they open light.
+
+   Composite tokens (gradients, focus shadow) are repeated inside the dark
+   blocks so that a nested [data-theme] wrapper recomputes them.
+   ========================================================================== */
+
+/* Self-hosted, exactly as the app does it: no third-party network calls. */
+@font-face {
+  font-family: "Baloo 2";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("../../mocks/assets/fonts/baloo2-v23-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("../../mocks/assets/fonts/nunito-v32-latin.woff2") format("woff2");
+}
+/* Metric-matched fallbacks (frontend/index.html) so a missing webface never reflows. */
+@font-face {
+  font-family: "Baloo 2 Fallback";
+  src: local("Helvetica Neue"), local("Arial"), local("Segoe UI"), local("Roboto");
+  size-adjust: 88.5%;
+  ascent-override: 121.8%;
+  descent-override: 59.2%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Nunito Fallback";
+  src: local("Helvetica Neue"), local("Arial"), local("Segoe UI"), local("Roboto");
+  size-adjust: 93.1%;
+  ascent-override: 108.6%;
+  descent-override: 37.9%;
+  line-gap-override: 0%;
+}
+
+:root {
+  /* ---------- Primitives: colour --------------------------------------- */
+  --palette-white: #ffffff;
+
+  /* Sky: the brand blues, palest to deepest. 400 is the shipped --blue. */
+  --palette-sky-25: #f7fbfe;   /* input wells, manager rows, stage floor */
+  --palette-sky-50: #eff7fd;   /* tints: number keys, mini buttons, idle rungs and days */
+  --palette-sky-100: #e3f1fb;  /* progress tracks, sky haze */
+  --palette-sky-150: #d3e6f6;  /* white-button lip, hairlines */
+  --palette-sky-200: #b9ddf5;  /* "pale": page sky, dashed edges */
+  --palette-sky-250: #afe3f4;  /* "aqua": top of the page sky */
+  --palette-sky-300: #83c5f1;  /* "sky": gradient partner */
+  --palette-sky-400: #5ea8da;  /* "blue": brand blue, fills and dark-theme accent */
+  --palette-sky-500: #3f88bc;  /* "blue-edge": control borders, fill ends */
+  --palette-sky-600: #2f78ae;  /* accent: primary buttons with white labels (4.75:1) */
+  --palette-sky-700: #245e8a;  /* accent text, hover */
+  --palette-sky-800: #1b4a6e;  /* primary button lip */
+
+  /* Ink: text, from faint to deepest. 700 is the shipped --ink. */
+  --palette-ink-50: #e8eef3;   /* locked badge disc */
+  --palette-ink-200: #c6d9e8;  /* empty result star edge */
+  --palette-ink-300: #a8c6dc;  /* decorative lines (tuner centre) */
+  --palette-ink-500: #4a7392;  /* subtle text, placeholders */
+  --palette-ink-600: #3a6180;  /* muted text */
+  --palette-ink-700: #2b5876;  /* body text, Twinkle's face */
+
+  /* Night: the dark-theme navy ramp, from the mocks' dark values. */
+  --palette-night-50: #eaf4fc;
+  --palette-night-200: #a9c6dd;
+  --palette-night-300: #8fb0ca;
+  --palette-night-400: #7c90a3;
+  --palette-night-500: #35587a;
+  --palette-night-550: #2f6e9e;
+  --palette-night-600: #23466d;
+  --palette-night-650: #1f3f61;
+  --palette-night-700: #1b3855;
+  --palette-night-750: #173759;
+  --palette-night-800: #16304d;
+  --palette-night-850: #1b2f52;
+  --palette-night-900: #0f2740;
+  --palette-night-950: #0c2036;
+  --palette-night-990: #0b1d30;
+
+  /* Pink: the gentle family. */
+  --palette-pink-50: #fbeaf1;
+  --palette-pink-100: #f4dbe3;
+  --palette-pink-200: #ebc3d6;
+  --palette-pink-300: #ddaec6;
+  --palette-pink-700: #8e4f72;
+  --palette-pink-dark-100: #f6cde0;
+  --palette-pink-dark-700: #5c4064;
+  --palette-pink-dark-800: #4b3352;
+  --palette-pink-dark-850: #3b2a44;
+  --palette-pink-dark-900: #33223a;
+
+  /* Gold: sparkles, stars and rewards. Identical in both themes. */
+  --palette-gold-100: #ffe9ae;
+  --palette-gold-300: #ffd66b;
+  --palette-gold-500: #e8b445;
+  --palette-gold-700: #8a6a1a;
+  --palette-gold-800: #7a5a14;
+
+  /* Mint ("in your key") and rose (grown-ups' validation box). */
+  --palette-mint-50: #e4f4ec;
+  --palette-mint-300: #8fd1b1;
+  --palette-mint-700: #276b4e;
+  --palette-mint-dark-100: #9be5c5;
+  --palette-mint-dark-900: #17443a;
+  --palette-rose-50: #fbe9ef;
+  --palette-rose-700: #a8336b;
+  --palette-rose-dark-100: #ffb8d4;
+  --palette-rose-dark-900: #4a2338;
+
+  /* ---------- Primitives: typography ----------------------------------- */
+  --font-family-display: "Baloo 2", "Baloo 2 Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-family-sans: "Nunito", "Nunito Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-family-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --font-size-xs: 0.75rem;    /* 12px  captions, pills, weekday letters (the floor) */
+  --font-size-sm: 0.875rem;   /* 14px  secondary text, small buttons' meta */
+  --font-size-md: 1rem;       /* 16px  body, bubbles, chips, small buttons */
+  --font-size-lg: 1.125rem;   /* 18px  card titles, labels, list titles */
+  --font-size-xl: 1.25rem;    /* 20px  buttons, section titles */
+  --font-size-2xl: 1.5rem;    /* 24px  dialog titles, current lyric, extra-large buttons */
+  --font-size-3xl: 1.75rem;   /* 28px  screen titles, Me heading */
+  --font-size-4xl: 2.25rem;   /* 36px  results cheer, hero tile, avatar glyphs */
+  --font-size-5xl: 2.75rem;   /* 44px  wordmark, dialog emoji */
+  --font-size-6xl: 3.5rem;    /* 56px  "Go!" */
+  --font-size-7xl: 5.25rem;   /* 84px  countdown numerals */
+  --font-size-8xl: 6rem;      /* 96px  tuner note */
+
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;      /* body copy is bold in TwinkleTune */
+  --font-weight-extrabold: 800; /* labels, chips, display headings */
+  --font-weight-black: 900;     /* pills, numbers, toasts */
+
+  --line-height-none: 1;
+  --line-height-tight: 1.1;   /* display, screen titles */
+  --line-height-snug: 1.25;   /* card titles, lyrics */
+  --line-height-normal: 1.5;  /* body, bubbles */
+
+  --letter-spacing-tight: -0.01em;  /* wordmark */
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.1em;     /* all-caps labels */
+  --letter-spacing-widest: 0.4em;   /* the duet room code */
+
+  /* ---------- Semantic: colour (light, "sky studio") ------------------- */
+  --color-bg-canvas: var(--palette-sky-200);          /* page sky (darkest stop) */
+  --color-bg-surface: var(--palette-white);           /* cards, buttons, bubbles, inputs */
+  --color-bg-surface-raised: var(--palette-white);    /* dialogs, toasts, bottom nav */
+  --color-bg-surface-sunken: var(--palette-sky-25);   /* input wells, manager rows */
+  --color-bg-subtle: var(--palette-sky-50);           /* tints: mini buttons, keys, idle marks */
+  --color-bg-subtle-hover: var(--palette-sky-100);
+  --color-bg-inverse: var(--palette-ink-700);         /* tooltips */
+  --color-bg-backdrop: rgb(43 88 118 / 0.45);         /* dialog scrim (ink) */
+  --color-bg-glass: rgb(255 255 255 / 0.85);          /* chips, soft cards, clouds over the sky */
+  --color-bg-glass-faint: rgb(255 255 255 / 0.55);    /* dashed "add" cards, empty notes */
+
+  --color-fg-default: var(--palette-ink-700);
+  --color-fg-muted: var(--palette-ink-600);           /* secondary text; passes on the sky too */
+  --color-fg-subtle: var(--palette-ink-500);          /* placeholders, lyric context, locked names */
+  --color-fg-disabled: var(--palette-ink-300);        /* inactive; exempt from contrast */
+  --color-fg-inverse: var(--palette-white);
+  --color-fg-link: var(--palette-ink-700);
+  --color-fg-link-hover: var(--palette-sky-700);
+  --color-fg-accent: var(--palette-sky-700);          /* blue text: sung words, tags, mini buttons */
+  --color-fg-on-accent: var(--palette-white);
+  --color-fg-on-danger: var(--palette-white);
+
+  --color-border-default: var(--palette-sky-150);     /* hairlines, dividers (decorative) */
+  --color-border-decor: var(--palette-sky-200);       /* dashed "add" outlines (decorative) */
+  --color-border-strong: var(--palette-sky-500);      /* control edges, 3:1 */
+  --color-border-inverse: var(--palette-ink-300);
+
+  --color-accent: var(--palette-sky-600);             /* primary toy buttons, selected chips */
+  --color-accent-hover: var(--palette-sky-700);
+  --color-accent-active: var(--palette-sky-700);
+  --color-accent-edge: var(--palette-sky-800);        /* the toy lip under the primary button */
+  --color-accent-subtle: var(--palette-sky-50);
+  --color-accent-subtle-hover: var(--palette-sky-100);
+  --color-accent-graphic: var(--palette-sky-400);     /* brand blue in fills, rings, equaliser */
+
+  --color-focus-ring: var(--palette-sky-600);
+  --color-focus-ring-offset: var(--color-bg-surface);
+
+  --color-gentle-bg: var(--palette-pink-100);         /* pink buttons, nudges, current word */
+  --color-gentle-bg-subtle: var(--palette-pink-50);
+  --color-gentle-fg: var(--palette-pink-700);
+  --color-gentle-edge: var(--palette-pink-300);
+  --color-gentle-deep: var(--palette-pink-200);
+
+  --color-reward-bg: var(--palette-gold-300);         /* sparkles, stars, gold buttons, hit notes */
+  --color-reward-bg-subtle: var(--palette-gold-100);
+  --color-reward-fg: var(--palette-gold-800);
+  --color-reward-edge: var(--palette-gold-500);
+
+  --color-track: var(--palette-sky-100);              /* progress tracks, ring remainder */
+  --color-mark-idle: var(--palette-sky-50);           /* idle rung, day, empty star */
+  --color-mark-idle-edge: var(--palette-ink-200);
+  --color-locked-bg: var(--palette-ink-50);
+  --color-mascot-face: var(--palette-ink-700);        /* Twinkle's eyes and smile, both themes */
+
+  --color-decor-aqua: var(--palette-sky-250);
+  --color-decor-pale: var(--palette-sky-200);
+  --color-decor-sky: var(--palette-sky-300);
+  --color-decor-haze: var(--palette-sky-100);
+  --color-decor-line: var(--palette-sky-50);          /* pitch-stage staff lines */
+
+  --color-info-bg: var(--palette-sky-50);
+  --color-info-fg: var(--palette-ink-700);
+  --color-info-border: var(--palette-sky-200);
+  --color-info-icon: var(--palette-sky-600);
+  --color-info-solid: var(--palette-sky-600);
+
+  --color-success-bg: var(--palette-mint-50);
+  --color-success-fg: var(--palette-mint-700);
+  --color-success-border: var(--palette-mint-300);
+  --color-success-icon: var(--palette-mint-700);
+  --color-success-solid: var(--palette-mint-700);
+
+  --color-warning-bg: var(--palette-gold-100);
+  --color-warning-fg: var(--palette-gold-800);
+  --color-warning-border: var(--palette-gold-500);
+  --color-warning-icon: var(--palette-gold-700);
+  --color-warning-solid: var(--palette-gold-300);
+
+  --color-danger-bg: var(--palette-rose-50);
+  --color-danger-fg: var(--palette-rose-700);
+  --color-danger-border: var(--palette-pink-300);
+  --color-danger-icon: var(--palette-rose-700);
+  --color-danger-solid: var(--palette-rose-700);      /* grown-ups' destructive confirm only */
+  --color-danger-solid-hover: var(--palette-pink-700);
+
+  /* ---------- Semantic: gradients (decorative fills) -------------------- */
+  --gradient-sky: linear-gradient(180deg, var(--color-decor-aqua) 0%, var(--color-decor-pale) 40%, var(--color-decor-haze) 68%, var(--color-gentle-bg) 100%);
+  --gradient-cool: linear-gradient(135deg, var(--color-decor-aqua), var(--color-decor-pale));
+  --gradient-pale: linear-gradient(135deg, var(--color-decor-pale), var(--color-decor-aqua));
+  --gradient-deep: linear-gradient(135deg, var(--color-decor-pale), var(--color-decor-sky));
+  --gradient-gentle: linear-gradient(135deg, var(--color-gentle-bg), var(--color-gentle-bg-subtle));
+  --gradient-avatar: linear-gradient(135deg, var(--color-gentle-bg), var(--color-decor-pale));
+  --gradient-reward: linear-gradient(135deg, var(--color-reward-bg-subtle), var(--color-reward-bg));
+  --gradient-hero: linear-gradient(135deg, var(--color-accent), var(--color-accent-graphic) 70%, var(--color-decor-sky));
+  --gradient-fill: linear-gradient(90deg, var(--color-accent-graphic), var(--color-border-strong));
+  --gradient-fill-reward: linear-gradient(90deg, var(--color-reward-bg-subtle), var(--color-reward-bg));
+  --gradient-fill-gentle: linear-gradient(90deg, var(--color-gentle-bg), var(--color-gentle-deep));
+  --gradient-rung-lit: linear-gradient(90deg, var(--color-decor-aqua), var(--color-decor-sky));
+  --gradient-rung-now: linear-gradient(90deg, var(--color-accent-graphic), var(--color-accent));
+
+  /* ---------- Semantic: typography roles ------------------------------- */
+  --text-display: var(--font-weight-extrabold) var(--font-size-5xl) / var(--line-height-none) var(--font-family-display);
+  --text-h1: var(--font-weight-extrabold) var(--font-size-4xl) / var(--line-height-tight) var(--font-family-display);
+  --text-h2: var(--font-weight-bold) var(--font-size-3xl) / var(--line-height-tight) var(--font-family-display);
+  --text-h3: var(--font-weight-bold) var(--font-size-2xl) / var(--line-height-snug) var(--font-family-display);
+  --text-h4: var(--font-weight-bold) var(--font-size-lg) / var(--line-height-snug) var(--font-family-display);
+  --text-body-lg: var(--font-weight-bold) var(--font-size-lg) / var(--line-height-normal) var(--font-family-sans);
+  --text-body: var(--font-weight-bold) var(--font-size-md) / var(--line-height-normal) var(--font-family-sans);
+  --text-body-sm: var(--font-weight-bold) var(--font-size-sm) / var(--line-height-normal) var(--font-family-sans);
+  --text-caption: var(--font-weight-extrabold) var(--font-size-xs) / var(--line-height-normal) var(--font-family-sans);
+  --text-label: var(--font-weight-extrabold) var(--font-size-sm) / var(--line-height-normal) var(--font-family-sans);
+  --text-overline: var(--font-weight-black) var(--font-size-xs) / var(--line-height-normal) var(--font-family-sans);
+  --text-code: var(--font-weight-regular) var(--font-size-sm) / var(--line-height-normal) var(--font-family-mono);
+  --text-button: var(--font-weight-bold) var(--font-size-xl) / var(--line-height-tight) var(--font-family-display);
+
+  /* ---------- Semantic: spacing (4px base) ----------------------------- */
+  --space-0: 0;
+  --space-0-5: 0.125rem; /* 2px  hairline gaps */
+  --space-1: 0.25rem;    /* 4px  icon-to-label, tight stacks */
+  --space-2: 0.5rem;     /* 8px  chip gaps, label-to-field */
+  --space-3: 0.75rem;    /* 12px compact padding, between rows */
+  --space-4: 1rem;       /* 16px default padding, stack gap */
+  --space-5: 1.25rem;    /* 20px card padding, screen margin */
+  --space-6: 1.5rem;     /* 24px dialog padding, between cards */
+  --space-7: 1.75rem;    /* 28px dialog top padding, screen top */
+  --space-8: 2rem;       /* 32px button horizontal padding */
+  --space-10: 2.5rem;    /* 40px */
+  --space-12: 3rem;      /* 48px centred-screen top */
+  --space-16: 4rem;      /* 64px */
+  --space-20: 5rem;      /* 80px */
+  --space-24: 6rem;      /* 96px */
+  --space-32: 8rem;      /* 128px clearance above the bottom nav */
+
+  /* ---------- Semantic: layout ----------------------------------------- */
+  --layout-breakpoint-sm: 40rem;   /* 640px  large phones */
+  --layout-breakpoint-md: 48rem;   /* 768px  tablets */
+  --layout-breakpoint-lg: 64rem;   /* 1024px laptops */
+  --layout-breakpoint-xl: 80rem;   /* 1280px desktops */
+  --layout-breakpoint-2xl: 96rem;  /* 1536px wide screens */
+
+  --layout-columns: 4;
+  --layout-gutter: var(--space-4);
+  --layout-margin: var(--space-5);      /* the screen's side padding (was 22px) */
+  --layout-container-max: 80rem;        /* grown-ups and docs pages */
+  --layout-screen-max: 29.375rem;       /* 470px: the one centred column every child screen uses */
+  --layout-dialog-max: 21.25rem;        /* 340px: standard dialog */
+  --layout-dialog-wide-max: 27.5rem;    /* 440px: manager dialogs, bottom nav */
+  --layout-measure: 65ch;
+  --layout-sidebar-width: 16rem;
+  --layout-topbar-height: 3.25rem;      /* 52px: the icon-button row */
+  --layout-bottomnav-clearance: var(--space-32);
+
+  /* ---------- Semantic: shape ------------------------------------------ */
+  --radius-xs: 0.25rem;   /* 4px  bubble tail, needle */
+  --radius-sm: 0.5rem;    /* 8px  focus outline corners, small marks */
+  --radius-md: 1rem;      /* 16px fields, number keys, manager rows, room-code tiles */
+  --radius-lg: 1.5rem;    /* 24px list rows, tiles, bubbles, badges, inputs (large) */
+  --radius-xl: 2rem;      /* 32px cards, dialogs, stage, hero tile */
+  --radius-full: 999px;   /* toy buttons, chips, pills, tracks, avatars */
+
+  --border-width-hairline: 1px;
+  --border-width-thin: 0.125rem;   /* 2px  dividers, dotted quiet links */
+  --border-width-thick: 0.1875rem; /* 3px  field edges, dashed add cards, focus ring */
+  --border-width-heavy: 0.25rem;   /* 4px  avatar and singer rings */
+
+  /* ---------- Semantic: dimensions (art, marks and controls) ------------ */
+  --size-dot: 0.875rem;          /* 14px  stepper dots */
+  --size-track-sm: 0.625rem;     /* 10px  song progress on the Sing screen */
+  --size-track: 1rem;            /* 16px  default progress track, level bar */
+  --size-track-lg: 1.25rem;      /* 20px  results score bar, tuner bar */
+  --size-rung: 2rem;             /* 32px  voice-ladder rung, pitch-stage note */
+  --size-control-sm: 2.5rem;     /* 40px  row icon buttons, weekday discs */
+  --size-control: 3.25rem;       /* 52px  icon buttons, play buttons */
+  --size-avatar: 3.5rem;         /* 56px  avatar, badge disc, tip icon, number key */
+  --size-art: 4rem;              /* 64px  song art, goal ring, singer */
+  --size-avatar-pick: 4.5rem;    /* 72px  avatar picker, small Twinkle */
+  --size-avatar-lg: 5.25rem;     /* 84px  profile avatar, result stars */
+  --size-mic: 5.75rem;           /* 92px  the Find My Voice microphone */
+  --size-mascot: 6.875rem;       /* 110px Twinkle */
+  --size-mascot-lg: 9.375rem;    /* 150px Twinkle on Welcome */
+  --size-stage: 18.75rem;        /* 300px pitch-stage height */
+  --size-form-max: 22.5rem;      /* 360px name card and welcome button */
+
+  /* ---------- Semantic: elevation -------------------------------------- */
+  --shadow-1: 0 0.375rem 1.125rem rgb(94 168 218 / 0.18);  /* chips, tiles, rows, bubbles */
+  --shadow-2: 0 0.75rem 2rem rgb(94 168 218 / 0.25);       /* cards, stage, quote */
+  --shadow-3: 0 0.875rem 2.125rem rgb(43 88 118 / 0.25);   /* bottom nav, toasts (floating) */
+  --shadow-4: 0 1.5rem 3.75rem rgb(43 88 118 / 0.35);      /* dialogs */
+  --shadow-glow-accent: 0 1rem 2.25rem rgb(94 168 218 / 0.45);  /* hero tile, mic */
+  --shadow-glow-reward: 0 0 1.375rem rgb(255 214 107 / 0.85);   /* a landed note */
+  --shadow-ring-accent: 0 0 0 0.25rem rgb(94 168 218 / 0.35);   /* selected card, today */
+  --shadow-ring-reward: 0 0 0 0.3125rem rgb(255 214 107 / 0.4);  /* current step, on-note singer */
+  --shadow-focus: 0 0 0 var(--focus-ring-offset) var(--color-focus-ring-offset), 0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--color-focus-ring);
+  /* The toy lip: a solid offset shadow in the control's edge colour. */
+  --lip-rest: 0 0.375rem 0;      /* 6px  toy buttons */
+  --lip-small: 0 0.25rem 0;      /* 4px  number keys, active chip, streak chip */
+  --lip-pressed: 0 0.0625rem 0;  /* 1px  while pressed */
+
+  /* ---------- Semantic: motion ----------------------------------------- */
+  --duration-instant: 0ms;
+  --duration-fast: 120ms;        /* press, lip */
+  --duration-base: 200ms;        /* hover, colour, small reveals */
+  --duration-slow: 400ms;        /* dialog and toast pop-in */
+  --duration-deliberate: 700ms;  /* staggered screen entrance */
+  --duration-stagger: 80ms;      /* step between staggered children */
+  --duration-progress: 1200ms;   /* bars growing on arrival */
+  --duration-pulse: 1600ms;      /* listening pulse ring */
+  --duration-ambient: 3400ms;    /* Twinkle floating, stars twinkling */
+  --duration-drift: 95s;         /* clouds crossing the sky */
+  --ease-standard: cubic-bezier(0.2, 0.8, 0.3, 1);
+  --ease-enter: cubic-bezier(0.2, 0.8, 0.3, 1.1);
+  --ease-exit: cubic-bezier(0.3, 0, 1, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ---------- Semantic: z-order ---------------------------------------- */
+  --z-base: 0;
+  --z-raised: 1;
+  --z-sticky: 50;      /* bottom navigation */
+  --z-dropdown: 60;
+  --z-overlay: 100;    /* dialog scrim */
+  --z-modal: 110;
+  --z-popover: 120;
+  --z-toast: 200;
+  --z-tooltip: 300;
+
+  /* ---------- Semantic: interaction ------------------------------------ */
+  --target-min: 1.5rem;          /* 24px  WCAG 2.2 AA minimum */
+  --target-comfortable: 2.75rem; /* 44px  recommended touch target */
+  --target-child: 3.25rem;       /* 52px  TwinkleTune minimum for anything a child taps */
+  --focus-ring-width: 0.1875rem; /* 3px */
+  --focus-ring-offset: 0.1875rem;
+  --control-height-sm: 2.75rem;  /* 44px  small toy button, field */
+  --control-height-md: 3.5rem;   /* 56px  toy button */
+  --control-height-lg: 4.25rem;  /* 68px  extra-large button, name input */
+
+  color-scheme: light;
+}
+
+/* Responsive layout tokens. The child screens stay one column; the grid
+   serves the docs, the Grown-Ups Corner on wide screens and marketing. */
+@media (min-width: 48rem) {
+  :root {
+    --layout-columns: 8;
+    --layout-gutter: var(--space-6);
+    --layout-margin: var(--space-8);
+  }
+}
+@media (min-width: 64rem) {
+  :root {
+    --layout-columns: 12;
+    --layout-gutter: var(--space-8);
+    --layout-margin: var(--space-12);
+  }
+}
+
+/* ---------- Dark theme: the sky studio at night ---------------------------- */
+[data-theme="dark"] {
+  --color-bg-canvas: var(--palette-night-900);
+  --color-bg-surface: var(--palette-night-800);
+  --color-bg-surface-raised: var(--palette-night-700);
+  --color-bg-surface-sunken: var(--palette-night-950);
+  --color-bg-subtle: var(--palette-night-650);
+  --color-bg-subtle-hover: var(--palette-night-600);
+  --color-bg-inverse: var(--palette-night-50);
+  --color-bg-backdrop: rgb(2 10 20 / 0.6);
+  --color-bg-glass: rgb(30 62 96 / 0.85);
+  --color-bg-glass-faint: rgb(30 62 96 / 0.55);
+  --color-fg-default: var(--palette-night-50);
+  --color-fg-muted: var(--palette-night-200);
+  --color-fg-subtle: var(--palette-night-300);
+  --color-fg-disabled: var(--palette-night-400);
+  --color-fg-inverse: var(--palette-night-800);
+  --color-fg-link: var(--palette-night-50);
+  --color-fg-link-hover: var(--palette-sky-300);
+  --color-fg-accent: var(--palette-sky-300);
+  --color-fg-on-accent: var(--palette-night-990);
+  --color-fg-on-danger: var(--palette-night-990);
+  --color-border-default: var(--palette-night-950);
+  --color-border-decor: var(--palette-night-500);
+  --color-border-strong: var(--palette-sky-400);
+  --color-border-inverse: var(--palette-night-400);
+  --color-accent: var(--palette-sky-400);
+  --color-accent-hover: var(--palette-sky-300);
+  --color-accent-active: var(--palette-sky-300);
+  --color-accent-edge: var(--palette-night-550);
+  --color-accent-subtle: var(--palette-night-650);
+  --color-accent-subtle-hover: var(--palette-night-600);
+  --color-accent-graphic: var(--palette-sky-400);
+  --color-focus-ring: var(--palette-sky-300);
+  --color-focus-ring-offset: var(--color-bg-surface);
+  --color-gentle-bg: var(--palette-pink-dark-800);
+  --color-gentle-bg-subtle: var(--palette-pink-dark-850);
+  --color-gentle-fg: var(--palette-pink-dark-100);
+  --color-gentle-edge: var(--palette-pink-dark-900);
+  --color-gentle-deep: var(--palette-pink-dark-700);
+  --color-reward-bg: var(--palette-gold-300);
+  --color-reward-bg-subtle: var(--palette-gold-100);
+  --color-reward-fg: var(--palette-gold-800);
+  --color-reward-edge: var(--palette-gold-500);
+  --color-track: var(--palette-night-900);
+  --color-mark-idle: var(--palette-night-650);
+  --color-mark-idle-edge: var(--palette-night-500);
+  --color-locked-bg: var(--palette-night-650);
+  --color-mascot-face: var(--palette-ink-700);
+  --color-decor-aqua: var(--palette-night-750);
+  --color-decor-pale: var(--palette-night-600);
+  --color-decor-sky: var(--palette-night-550);
+  --color-decor-haze: var(--palette-night-850);
+  --color-decor-line: var(--palette-night-650);
+  --color-info-bg: var(--palette-night-650);
+  --color-info-fg: var(--palette-night-50);
+  --color-info-border: var(--palette-night-500);
+  --color-info-icon: var(--palette-sky-300);
+  --color-info-solid: var(--palette-sky-400);
+  --color-success-bg: var(--palette-mint-dark-900);
+  --color-success-fg: var(--palette-mint-dark-100);
+  --color-success-border: var(--palette-mint-700);
+  --color-success-icon: var(--palette-mint-dark-100);
+  --color-success-solid: var(--palette-mint-dark-100);
+  --color-warning-bg: var(--palette-gold-100);
+  --color-warning-fg: var(--palette-gold-800);
+  --color-warning-border: var(--palette-gold-500);
+  --color-warning-icon: var(--palette-gold-700);
+  --color-warning-solid: var(--palette-gold-300);
+  --color-danger-bg: var(--palette-rose-dark-900);
+  --color-danger-fg: var(--palette-rose-dark-100);
+  --color-danger-border: var(--palette-rose-700);
+  --color-danger-icon: var(--palette-rose-dark-100);
+  --color-danger-solid: var(--palette-rose-dark-100);
+  --color-danger-solid-hover: var(--palette-pink-dark-100);
+  --gradient-sky: linear-gradient(180deg, var(--color-decor-aqua) 0%, var(--color-decor-pale) 40%, var(--color-decor-haze) 68%, var(--color-gentle-bg) 100%);
+  --gradient-cool: linear-gradient(135deg, var(--color-decor-aqua), var(--color-decor-pale));
+  --gradient-pale: linear-gradient(135deg, var(--color-decor-pale), var(--color-decor-aqua));
+  --gradient-deep: linear-gradient(135deg, var(--color-decor-pale), var(--color-decor-sky));
+  --gradient-gentle: linear-gradient(135deg, var(--color-gentle-bg), var(--color-gentle-bg-subtle));
+  --gradient-avatar: linear-gradient(135deg, var(--color-gentle-bg), var(--color-decor-pale));
+  --gradient-reward: linear-gradient(135deg, var(--color-reward-bg-subtle), var(--color-reward-bg));
+  --gradient-hero: linear-gradient(135deg, var(--color-accent-edge), var(--color-decor-sky) 70%, var(--color-decor-pale));
+  --gradient-fill: linear-gradient(90deg, var(--color-decor-sky), var(--color-accent-graphic));
+  --gradient-fill-reward: linear-gradient(90deg, var(--color-reward-bg-subtle), var(--color-reward-bg));
+  --gradient-fill-gentle: linear-gradient(90deg, var(--color-gentle-bg), var(--color-gentle-deep));
+  --gradient-rung-lit: linear-gradient(90deg, var(--color-decor-aqua), var(--color-decor-sky));
+  --gradient-rung-now: linear-gradient(90deg, var(--color-decor-sky), var(--color-accent-graphic));
+  --shadow-1: 0 0.375rem 1.125rem rgb(2 10 20 / 0.35);
+  --shadow-2: 0 0.75rem 2rem rgb(2 10 20 / 0.45);
+  --shadow-3: 0 0.875rem 2.125rem rgb(2 10 20 / 0.5);
+  --shadow-4: 0 1.5rem 3.75rem rgb(2 10 20 / 0.6);
+  --shadow-glow-accent: 0 1rem 2.25rem rgb(2 10 20 / 0.5);
+  --shadow-focus: 0 0 0 var(--focus-ring-offset) var(--color-focus-ring-offset), 0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--color-focus-ring);
+  color-scheme: dark;
+}
+
+/* Follow the OS preference unless the page has explicitly chosen light.
+   Keep identical to the block above. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg-canvas: var(--palette-night-900);
+    --color-bg-surface: var(--palette-night-800);
+    --color-bg-surface-raised: var(--palette-night-700);
+    --color-bg-surface-sunken: var(--palette-night-950);
+    --color-bg-subtle: var(--palette-night-650);
+    --color-bg-subtle-hover: var(--palette-night-600);
+    --color-bg-inverse: var(--palette-night-50);
+    --color-bg-backdrop: rgb(2 10 20 / 0.6);
+    --color-bg-glass: rgb(30 62 96 / 0.85);
+    --color-bg-glass-faint: rgb(30 62 96 / 0.55);
+    --color-fg-default: var(--palette-night-50);
+    --color-fg-muted: var(--palette-night-200);
+    --color-fg-subtle: var(--palette-night-300);
+    --color-fg-disabled: var(--palette-night-400);
+    --color-fg-inverse: var(--palette-night-800);
+    --color-fg-link: var(--palette-night-50);
+    --color-fg-link-hover: var(--palette-sky-300);
+    --color-fg-accent: var(--palette-sky-300);
+    --color-fg-on-accent: var(--palette-night-990);
+    --color-fg-on-danger: var(--palette-night-990);
+    --color-border-default: var(--palette-night-950);
+    --color-border-decor: var(--palette-night-500);
+    --color-border-strong: var(--palette-sky-400);
+    --color-border-inverse: var(--palette-night-400);
+    --color-accent: var(--palette-sky-400);
+    --color-accent-hover: var(--palette-sky-300);
+    --color-accent-active: var(--palette-sky-300);
+    --color-accent-edge: var(--palette-night-550);
+    --color-accent-subtle: var(--palette-night-650);
+    --color-accent-subtle-hover: var(--palette-night-600);
+    --color-accent-graphic: var(--palette-sky-400);
+    --color-focus-ring: var(--palette-sky-300);
+    --color-focus-ring-offset: var(--color-bg-surface);
+    --color-gentle-bg: var(--palette-pink-dark-800);
+    --color-gentle-bg-subtle: var(--palette-pink-dark-850);
+    --color-gentle-fg: var(--palette-pink-dark-100);
+    --color-gentle-edge: var(--palette-pink-dark-900);
+    --color-gentle-deep: var(--palette-pink-dark-700);
+    --color-reward-bg: var(--palette-gold-300);
+    --color-reward-bg-subtle: var(--palette-gold-100);
+    --color-reward-fg: var(--palette-gold-800);
+    --color-reward-edge: var(--palette-gold-500);
+    --color-track: var(--palette-night-900);
+    --color-mark-idle: var(--palette-night-650);
+    --color-mark-idle-edge: var(--palette-night-500);
+    --color-locked-bg: var(--palette-night-650);
+    --color-mascot-face: var(--palette-ink-700);
+    --color-decor-aqua: var(--palette-night-750);
+    --color-decor-pale: var(--palette-night-600);
+    --color-decor-sky: var(--palette-night-550);
+    --color-decor-haze: var(--palette-night-850);
+    --color-decor-line: var(--palette-night-650);
+    --color-info-bg: var(--palette-night-650);
+    --color-info-fg: var(--palette-night-50);
+    --color-info-border: var(--palette-night-500);
+    --color-info-icon: var(--palette-sky-300);
+    --color-info-solid: var(--palette-sky-400);
+    --color-success-bg: var(--palette-mint-dark-900);
+    --color-success-fg: var(--palette-mint-dark-100);
+    --color-success-border: var(--palette-mint-700);
+    --color-success-icon: var(--palette-mint-dark-100);
+    --color-success-solid: var(--palette-mint-dark-100);
+    --color-warning-bg: var(--palette-gold-100);
+    --color-warning-fg: var(--palette-gold-800);
+    --color-warning-border: var(--palette-gold-500);
+    --color-warning-icon: var(--palette-gold-700);
+    --color-warning-solid: var(--palette-gold-300);
+    --color-danger-bg: var(--palette-rose-dark-900);
+    --color-danger-fg: var(--palette-rose-dark-100);
+    --color-danger-border: var(--palette-rose-700);
+    --color-danger-icon: var(--palette-rose-dark-100);
+    --color-danger-solid: var(--palette-rose-dark-100);
+    --color-danger-solid-hover: var(--palette-pink-dark-100);
+    --gradient-sky: linear-gradient(180deg, var(--color-decor-aqua) 0%, var(--color-decor-pale) 40%, var(--color-decor-haze) 68%, var(--color-gentle-bg) 100%);
+    --gradient-cool: linear-gradient(135deg, var(--color-decor-aqua), var(--color-decor-pale));
+    --gradient-pale: linear-gradient(135deg, var(--color-decor-pale), var(--color-decor-aqua));
+    --gradient-deep: linear-gradient(135deg, var(--color-decor-pale), var(--color-decor-sky));
+    --gradient-gentle: linear-gradient(135deg, var(--color-gentle-bg), var(--color-gentle-bg-subtle));
+    --gradient-avatar: linear-gradient(135deg, var(--color-gentle-bg), var(--color-decor-pale));
+    --gradient-reward: linear-gradient(135deg, var(--color-reward-bg-subtle), var(--color-reward-bg));
+    --gradient-hero: linear-gradient(135deg, var(--color-accent-edge), var(--color-decor-sky) 70%, var(--color-decor-pale));
+    --gradient-fill: linear-gradient(90deg, var(--color-decor-sky), var(--color-accent-graphic));
+    --gradient-fill-reward: linear-gradient(90deg, var(--color-reward-bg-subtle), var(--color-reward-bg));
+    --gradient-fill-gentle: linear-gradient(90deg, var(--color-gentle-bg), var(--color-gentle-deep));
+    --gradient-rung-lit: linear-gradient(90deg, var(--color-decor-aqua), var(--color-decor-sky));
+    --gradient-rung-now: linear-gradient(90deg, var(--color-decor-sky), var(--color-accent-graphic));
+    --shadow-1: 0 0.375rem 1.125rem rgb(2 10 20 / 0.35);
+    --shadow-2: 0 0.75rem 2rem rgb(2 10 20 / 0.45);
+    --shadow-3: 0 0.875rem 2.125rem rgb(2 10 20 / 0.5);
+    --shadow-4: 0 1.5rem 3.75rem rgb(2 10 20 / 0.6);
+    --shadow-glow-accent: 0 1rem 2.25rem rgb(2 10 20 / 0.5);
+    --shadow-focus: 0 0 0 var(--focus-ring-offset) var(--color-focus-ring-offset), 0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--color-focus-ring);
+    color-scheme: dark;
+  }
+}
+
+/* ---------- Preference overrides ------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0.01ms;
+    --duration-base: 0.01ms;
+    --duration-slow: 0.01ms;
+    --duration-deliberate: 0.01ms;
+    --duration-stagger: 0.01ms;
+    --duration-progress: 0.01ms;
+    --duration-pulse: 0.01ms;
+    --duration-ambient: 0.01ms;
+    --duration-drift: 0.01ms;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --color-border-default: var(--color-border-strong);
+    --color-border-decor: var(--color-border-strong);
+    --color-fg-muted: var(--color-fg-default);
+    --color-fg-subtle: var(--color-fg-muted);
+  }
+}
+
+/* Windows High Contrast / forced colours: hand control to system colours. */
+@media (forced-colors: active) {
+  :root {
+    --color-focus-ring: Highlight;
+    --color-border-default: CanvasText;
+    --color-border-strong: CanvasText;
+  }
+}

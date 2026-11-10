@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>TwinkleTune sticker — singing logo</title>
+    <link rel="stylesheet" href="stickers.css" />
+  </head>
+  <body>
+    <div class="stage">
+      <!--
+        Sticker 4 — the stacked logo lockup, cut to its own outline.
+        The mark and wordmark are the "TwinkleTune Logo" frame in Magic Patterns
+        (components/Mark.tsx and components/Wordmark.tsx; link in the README).
+        The mark keeps its source coordinates — a 138 x 120 viewBox — and is
+        placed with translate(146.4 128.4) scale(4.4), so nothing is redrawn.
+      -->
+      <!-- Drawn 1:1 on the canvas, so --cut-extra stays at 130px for the same
+           65px rim as the rest of the set. See stickers.css. -->
+      <svg
+        class="sticker"
+        viewBox="0 0 900 900"
+        xmlns="http://www.w3.org/2000/svg"
+        style="--cut-extra: 130px"
+      >
+        <title>TwinkleTune logo: Twinkle the star singing a note above the wordmark</title>
+
+        <!-- Centres the cut on the canvas: the pink sparkle reaches further
+             left than the gold one does right. A translate only, with no
+             scale, so the rim width is unaffected. -->
+        <g transform="translate(2.5 2)">
+
+          <defs>
+            <!-- The wordmark's baseline is the artwork's bottom edge (no letter
+                 descends), so the rim below it is flat and the URL runs straight:
+                 baseline 740 + half of (65px rim + 20px cap height). -->
+            <path id="urlArc" fill="none" d="M 210 782.5 L 690 782.5" />
+          </defs>
+
+          <!-- ── Die-cut silhouette ────────────────────────────────────────── -->
+          <g>
+            <path
+              class="keyline cut-flat"
+              d="M120 254 Q127 285 158 292 Q127 299 120 330 Q113 299 82 292 Q113 285 120 254 Z"
+            />
+            <path
+              class="keyline cut-flat"
+              d="M735 364 Q741 394 771 400 Q741 406 735 436 Q729 406 699 400 Q729 394 735 364 Z"
+            />
+            <path
+              class="keyline cut-scaled"
+              style="--k: 4.4; --art: 7px"
+              transform="translate(146.4 128.4) scale(4.4)"
+              d="M60 10 L75.87 40.16 L109.46 45.93 L85.68 70.34 L90.57 104.07 L60 89 L29.43 104.07 L34.32 70.34 L10.54 45.93 L44.13 40.16 Z"
+            />
+            <ellipse
+              class="keyline cut-scaled"
+              style="--k: 4.4"
+              transform="translate(146.4 128.4) scale(4.4) rotate(-22 113 33)"
+              cx="113"
+              cy="33"
+              rx="7.2"
+              ry="5.4"
+            />
+            <path
+              class="keyline cut-scaled"
+              style="--k: 4.4"
+              transform="translate(146.4 128.4) scale(4.4)"
+              d="M117.6 33 L117.6 6 C126 9 134 13 132 25 C130 19 125 16.5 121.4 16 L121.4 33 Z"
+            />
+            <path
+              class="keyline cut-scaled"
+              style="--k: 1.965; --art: 1.4px"
+              transform="translate(251.05 628.65) scale(1.965)"
+              d="M10 0.5 Q11 9 19.5 10 Q11 11 10 19.5 Q9 11 0.5 10 Q9 9 10 0.5 Z"
+            />
+            <text
+              class="keyline cut-flat"
+              x="83.5"
+              y="740"
+              font-family="'Baloo 2'"
+              font-weight="800"
+              font-size="131"
+              letter-spacing="-2.62"
+            >Tw&#x131;nkleTune</text>
+          </g>
+
+          <!-- ── Edge sparkles ─────────────────────────────────────────────── -->
+          <path
+            d="M120 254 Q127 285 158 292 Q127 299 120 330 Q113 299 82 292 Q113 285 120 254 Z"
+            fill="#DDAEC6"
+          />
+          <path
+            d="M735 364 Q741 394 771 400 Q741 406 735 436 Q729 406 699 400 Q729 394 735 364 Z"
+            fill="#FFD66B"
+          />
+
+          <!-- ── The mark: Twinkle singing a note (Mark.tsx, verbatim) ─────── -->
+          <g transform="translate(146.4 128.4) scale(4.4)">
+            <path
+              d="M60 10 L75.87 40.16 L109.46 45.93 L85.68 70.34 L90.57 104.07 L60 89 L29.43 104.07 L34.32 70.34 L10.54 45.93 L44.13 40.16 Z"
+              fill="#FFD66B"
+              stroke="#E8B445"
+              stroke-width="7"
+              stroke-linejoin="round"
+            />
+            <path d="M55 30 Q58 22 60 19" fill="none" stroke="#FFF1C2" stroke-width="4" stroke-linecap="round" />
+            <circle cx="50" cy="60" r="4.4" fill="#2B5876" />
+            <circle cx="70" cy="60" r="4.4" fill="#2B5876" />
+            <circle cx="42.5" cy="70" r="5.4" fill="#F4DBE3" />
+            <circle cx="77.5" cy="70" r="5.4" fill="#F4DBE3" />
+            <ellipse cx="60" cy="73.5" rx="6" ry="7" fill="#2B5876" />
+            <ellipse cx="60" cy="77.5" rx="3.6" ry="2.4" fill="#F4A6BD" />
+            <ellipse cx="113" cy="33" rx="7.2" ry="5.4" transform="rotate(-22 113 33)" fill="#5EA8DA" />
+            <rect x="117.6" y="6" width="3.8" height="27" rx="1.9" fill="#5EA8DA" />
+            <path d="M119.5 6 C126 9 134 13 132 25 C130 19 125 16.5 119.5 16 Z" fill="#5EA8DA" />
+          </g>
+
+          <!-- ── The wordmark (Wordmark.tsx) ───────────────────────────────── -->
+          <!-- Baloo 2 800, tracking -0.02em, with a dotless i. The sparkle that
+               dots it is 0.3em across, centred 1.429em from the start of the
+               word (measured: 0.135em back from where the n begins) and 0.7em
+               above the baseline — the same offsets Wordmark.tsx uses. -->
+          <text
+            x="83.5"
+            y="740"
+            font-family="'Baloo 2'"
+            font-weight="800"
+            font-size="131"
+            letter-spacing="-2.62"
+          ><tspan fill="#5EA8DA">Tw&#x131;nkle</tspan><tspan fill="#2B5876">Tune</tspan></text>
+          <path
+            transform="translate(251.05 628.65) scale(1.965)"
+            d="M10 0.5 Q11 9 19.5 10 Q11 11 10 19.5 Q9 11 0.5 10 Q9 9 10 0.5 Z"
+            fill="#FFD66B"
+            stroke="#E8B445"
+            stroke-width="1.4"
+            stroke-linejoin="round"
+          />
+
+          <!-- ── Edge URL ──────────────────────────────────────────────────── -->
+          <text
+            text-anchor="middle"
+            font-family="'Nunito'"
+            font-weight="800"
+            font-size="28"
+            letter-spacing="7"
+            fill="#000000"
+          >
+            <textPath href="#urlArc" startOffset="50%">TWINKLETUNE.APP</textPath>
+          </text>
+        </g>
+      </svg>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home · goal-complete — TwinkleTune mocks</title>
+<meta name="mock:kind" content="page">
+<meta name="mock:screen" content="home">
+<meta name="mock:state" content="goal-complete">
+<meta name="mock:requirements" content="RP-L2-2 RP-L2-3 RP-L2-4 RP-L2-10 CE-L2-2 CE-L2-6 AS-L2-5 VP-L2-13">
+<meta name="description" content="Three songs sung today: the goal ring is full and the card celebrates.">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<link rel="stylesheet" href="../../assets/ui.css">
+<link rel="stylesheet" href="../../assets/mock.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="sky sky--day" aria-hidden="true">
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="tstar">✦</span>
+  <span class="fnote">🎵</span>
+  <span class="fnote">🎶</span>
+</div>
+<main id="main" class="screen">
+    <header class="hello rise">
+      <a href="../../pages/profiles/default.html" title="Switch singer" aria-label="Switch singer">
+        <div class="avatar" role="img" aria-label="Your avatar">🦄</div>
+      </a>
+      <div class="hello-text">
+        <h1>Hi, Ada! 👋</h1>
+        <p>Level 3 Fledgling</p>
+      </div>
+      <div class="streak-chip-top" title="Singing streak">⭐ 4-day streak</div>
+    </header>
+
+    <div class="coach-home rise d1">
+      <svg class="mascot mascot-sm" viewBox="0 0 120 120" aria-hidden="true">
+      <path class="twinkle-body" d="M60 6 L75 42 L114 45 L84 71 L94 110 L60 89 L26 110 L36 71 L6 45 L45 42 Z" stroke-width="7" stroke-linejoin="round"/>
+      <circle class="twinkle-eye" cx="48" cy="56" r="4.5"/>
+      <circle class="twinkle-eye" cx="72" cy="56" r="4.5"/>
+      <circle class="twinkle-cheek" cx="41" cy="66" r="5.5"/>
+      <circle class="twinkle-cheek" cx="79" cy="66" r="5.5"/>
+      <path class="twinkle-smile" d="M50 66 Q60 76 70 66" fill="none" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+      <div class="bubble bubble-left">Your songs are tuned and ready. Let's make today sparkle! ✨</div>
+    </div>
+
+    <section class="card goal rise d2" aria-label="Today's goal">
+      <div class="goal-ring" style="--goal:360deg" role="img" aria-label="3 of 3 songs done">
+        <b>3/3</b>
+      </div>
+      <div class="goal-info">
+        <strong>Today's sparkle goal</strong>
+        <span>Goal complete — you did it! 🎉</span>
+      </div>
+      <span class="goal-spark" aria-hidden="true">✨</span>
+    </section>
+
+    <a class="hero-tile rise d3" href="../../pages/songs/default.html">
+      <span class="spark">✦</span>
+      <span class="spark">✦</span>
+      <span class="spark">✦</span>
+      <h2>Sing a Song</h2>
+      <p>Every song in YOUR key 💙</p>
+      <span class="go">Let's go! ▶</span>
+      <span class="big-mic" aria-hidden="true">🎤</span>
+    </a>
+
+    <div class="tiles">
+      <a class="tile tile-pink rise d4" href="../../pages/tips/default.html">
+        <span class="ico" aria-hidden="true">🎈</span>
+        <strong>Warm-Ups</strong>
+        <span>2-minute voice games</span>
+      </a>
+      <a class="tile tile-white rise d5" href="../../pages/me/default.html">
+        <span class="ico" aria-hidden="true">💖</span>
+        <strong>My Songs</strong>
+        <span>4 songs mastered</span>
+      </a>
+    </div>
+
+    <section class="card tip-day rise d6" aria-label="Tip of the day">
+      <div class="lamp" aria-hidden="true">🚒</div>
+      <div class="tip-day-body">
+        <strong>Tip of the day</strong>
+        <p>Siren like a firetruck — Slide your voice low to high — wheee-ooo!</p>
+      </div>
+      <a class="tip-arrow" href="../../pages/tips/default.html" aria-label="More tips">→</a>
+    </section>
+</main>
+<nav class="bottomnav" aria-label="Main navigation">
+  <a class="bn-item active" href="../../pages/home/default.html" aria-current="page"><span class="ico">🏠</span>Home</a>
+  <a class="bn-item" href="../../pages/songs/default.html"><span class="ico">🎵</span>Songs</a>
+  <a class="bn-item" href="../../pages/tips/default.html"><span class="ico">💡</span>Tips</a>
+  <a class="bn-item" href="../../pages/me/default.html"><span class="ico">⭐</span>Me</a>
+</nav>
+
+<aside class="mock-notes" aria-label="Design notes">
+  <p class="mock-note">The ring stops at 3/3; singing more songs keeps earning sparkles but the goal does not grow.</p>
+</aside>
+
+<nav class="mock-bar" aria-label="Mock navigation">
+  <a class="mock-bar__home" href="../../index.html" aria-label="All mocks">⌂</a>
+  <span class="mock-bar__screen">Home</span>
+  <ul class="mock-bar__states">
+    <li><a href="default.html">default</a></li>
+    <li><a href="empty.html">empty</a></li>
+    <li><a href="goal-complete.html" aria-current="page">goal-complete</a></li>
+  </ul>
+  <button type="button" data-theme-toggle aria-pressed="false">☾ Dark</button>
+  <button type="button" data-chrome-toggle aria-label="Hide mock chrome">×</button>
+</nav>
+<script src="../../assets/mock.js"></script>
+</body>
+</html>
