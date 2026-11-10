@@ -4,6 +4,7 @@
 
 import { describe, expect, it } from 'vitest'
 import {
+  describePicker,
   listMicrophonesFrom,
   microphoneConstraints,
   resolveMicrophone,
@@ -99,5 +100,38 @@ describe('microphoneConstraints (AE-L2-14)', () => {
       autoGainControl: false,
       deviceId: { exact: 'id-headset' },
     })
+  })
+})
+
+describe('describePicker: the list (GC-L2-12)', () => {
+  it('offers the system default first, then each microphone, with the system default selected at first', () => {
+    expect(describePicker(null, listing())).toEqual({
+      mode: 'list',
+      options: [
+        { value: '', label: 'System default' },
+        { value: 'id-built-in', label: 'Built-in microphone' },
+        { value: 'id-headset', label: "Ada's headset" },
+      ],
+      selected: '',
+      missing: false,
+    })
+  })
+
+  it('shows the saved choice as selected', () => {
+    expect(describePicker(headset, listing()).selected).toBe('id-headset')
+  })
+
+  it('selects a microphone found by name under its current identifier', () => {
+    const rotated = listing({ microphones: [builtIn, { deviceId: 'id-new', label: "Ada's headset" }] })
+    const view = describePicker(headset, rotated)
+    expect(view.selected).toBe('id-new')
+    expect(view.missing).toBe(false)
+  })
+
+  it('lists a single microphone beside the system default', () => {
+    expect(describePicker(null, listing({ microphones: [builtIn] })).options).toEqual([
+      { value: '', label: 'System default' },
+      { value: 'id-built-in', label: 'Built-in microphone' },
+    ])
   })
 })

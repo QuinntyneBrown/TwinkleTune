@@ -60,3 +60,23 @@ export function microphoneConstraints(deviceId: string | null): MediaTrackConstr
   const base = { echoCancellation: false, noiseSuppression: false, autoGainControl: false }
   return deviceId === null ? base : { ...base, deviceId: { exact: deviceId } }
 }
+
+/** What the Grown-Ups Corner's microphone picker shows. */
+export interface PickerView {
+  mode: 'list'
+  /** the system default (value '') first, then each microphone */
+  options: { value: string; label: string }[]
+  /** the value of the selected option */
+  selected: string
+  missing: boolean
+}
+
+export const SYSTEM_DEFAULT_LABEL = 'System default'
+
+export function describePicker(choice: MicrophoneChoice | null, listing: MicrophoneListing): PickerView {
+  const options = [
+    { value: '', label: SYSTEM_DEFAULT_LABEL },
+    ...listing.microphones.map((m) => ({ value: m.deviceId, label: m.label })),
+  ]
+  return { mode: 'list', options, selected: resolveMicrophone(choice, listing) ?? '', missing: false }
+}
