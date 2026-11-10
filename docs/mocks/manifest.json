@@ -135,6 +135,7 @@
         "SG-L2-12",
         "SG-L2-14",
         "SG-L2-17",
+        "SG-L2-28",
         "DM-L2-14",
         "CE-L2-3"
       ],
@@ -425,14 +426,20 @@
         "GC-L2-4",
         "GC-L2-5",
         "GC-L2-10",
-        "GC-L2-11"
+        "GC-L2-11",
+        "GC-L2-12",
+        "AE-L2-22"
       ],
       "states": [
-        "default"
+        "default",
+        "names-hidden",
+        "declined",
+        "not-plugged-in",
+        "unsupported"
       ],
       "not_applicable": {
-        "busy": "The slider and the pitch matching choice save at once and every other control navigates; nothing waits.",
-        "invalid": "The inputs are a range slider and a one-of-three choice; neither can hold an invalid value."
+        "busy": "The slider, the microphone picker and the pitch matching choice save as they change and every other control navigates; the microphone list is read in a moment and the row simply fills in.",
+        "invalid": "The inputs are a range slider, a select of listed microphones and a one-of-three choice; none can hold an invalid value. A remembered microphone that is not plugged in is its own state (not-plugged-in)."
       }
     },
     {

@@ -7,7 +7,7 @@
 <meta name="mock:kind" content="page">
 <meta name="mock:screen" content="sing">
 <meta name="mock:state" content="ready">
-<meta name="mock:requirements" content="SG-L2-2 SG-L2-3 SG-L2-4 SG-L2-5 SG-L2-6 SG-L2-7 SG-L2-8 SG-L2-11 SG-L2-12 SG-L2-14 SG-L2-17 DM-L2-14 CE-L2-3">
+<meta name="mock:requirements" content="SG-L2-2 SG-L2-3 SG-L2-4 SG-L2-5 SG-L2-6 SG-L2-7 SG-L2-8 SG-L2-11 SG-L2-12 SG-L2-14 SG-L2-17 SG-L2-28 DM-L2-14 CE-L2-3">
 <meta name="description" content="Before the first tap: the song is laid out and one big button starts it.">
 <link rel="stylesheet" href="../../assets/tokens.css">
 <link rel="stylesheet" href="../../assets/ui.css">
@@ -73,13 +73,15 @@
       <circle class="twinkle-cheek" cx="79" cy="66" r="5.5"/>
       <path class="twinkle-smile" d="M48 64 Q60 80 72 64" fill="none" stroke-width="4" stroke-linecap="round"/>
     </svg>
-      <div class="bubble bubble-left" data-coach>Take a big balloon breath… 🎈</div>
+      <div class="bubble bubble-left" data-coach>Psst… headphones or a headset help me hear just you! 🎧</div>
       <div class="sparkles-pill" data-sparkles title="Sparkles earned">✨ 0</div>
     </div>
 </main>
 
 <aside class="mock-notes" aria-label="Design notes">
   <p class="mock-note">The tap is required to start audio. Next comes the “Tuned just for YOU!” dialog (once per song), then the microphone prompt.</p>
+  <p class="mock-note">Twinkle's bubble carries the headphone tip the first time the Sing screen opens in a visit (song, practice or duet). After that it says “Take a big balloon breath… 🎈”. The tip is never a step: the start button is still the one action, and a duet starts together whether or not either tablet showed it.</p>
+  <p class="mock-note">The tip stays through the count-in and gives way to the first phrase cue. If she picks “Sing just for fun”, nothing is listening, so the bubble goes back to the balloon breath.</p>
 </aside>
 
 <nav class="mock-bar" aria-label="Mock navigation">

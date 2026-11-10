@@ -7,8 +7,8 @@
 <meta name="mock:kind" content="dialog">
 <meta name="mock:screen" content="grown-ups-corner">
 <meta name="mock:state" content="default">
-<meta name="mock:requirements" content="GC-L2-3 GC-L2-4 GC-L2-5 GC-L2-10 GC-L2-11">
-<meta name="description" content="The grown-ups&#x27; hub: what data lives where, mic timing, pitch matching, voice range, family content, singers, and reset.">
+<meta name="mock:requirements" content="GC-L2-3 GC-L2-4 GC-L2-5 GC-L2-10 GC-L2-11 GC-L2-12 AE-L2-22">
+<meta name="description" content="The grown-ups&#x27; hub: what data lives where, mic timing, the microphone, pitch matching, voice range, family content, singers, and reset.">
 <link rel="stylesheet" href="../../assets/tokens.css">
 <link rel="stylesheet" href="../../assets/ui.css">
 <link rel="stylesheet" href="../../assets/mock.css">
@@ -132,6 +132,15 @@
       <b data-latency-label>40 ms</b>
     </div>
     <div class="setting-row">
+      <span>Microphone<br><small data-microphone-hint>A headset works best: it stops the tablet hearing its own melody</small></span>
+      <select class="select select-sm" data-microphone aria-label="Microphone">
+        <option value="">System default</option>
+        <option value="mic-built-in">Built-in microphone</option>
+        <option value="mic-headset" selected>Ada&#x27;s headset</option>
+        <option value="mic-usb">USB microphone</option>
+      </select>
+    </div>
+    <div class="setting-row">
       <span id="strictness-label">Pitch matching<br><small>How close a note must be to count</small></span>
       <div class="radio-group" role="radiogroup" aria-labelledby="strictness-label" data-strictness>
         <label class="radio"><input type="radio" name="strictness" value="gentle"><span class="radio-dot" aria-hidden="true"></span><span>Gentle</span></label>
@@ -163,6 +172,8 @@
 
 <aside class="mock-notes" aria-label="Design notes">
   <p class="mock-note">The mic timing offset belongs to this device and saves as the slider moves.</p>
+  <p class="mock-note">The microphone choice belongs to this device too: every singer on it shares it, it saves the moment it is picked, and it never leaves the device. It takes effect the next time the app starts listening. With one microphone the list is simply shorter; with none chosen, “System default” is selected.</p>
+  <p class="mock-note">A microphone plugged in while the hub is open appears in the list by itself.</p>
   <p class="mock-note">Pitch matching saves at once, with no save button. It belongs to this singer on this device, so Bea keeps her own, and it starts on Precise.</p>
   <p class="mock-note">Songs and Avatars open their managers; Manage goes to the profile picker.</p>
   <p class="mock-note">On a screen shorter than the dialog, the dialog scrolls so Close is always reachable.</p>
@@ -173,6 +184,10 @@
   <span class="mock-bar__screen">Grown-Ups Corner</span>
   <ul class="mock-bar__states">
     <li><a href="default.html" aria-current="page">default</a></li>
+    <li><a href="names-hidden.html">names-hidden</a></li>
+    <li><a href="declined.html">declined</a></li>
+    <li><a href="not-plugged-in.html">not-plugged-in</a></li>
+    <li><a href="unsupported.html">unsupported</a></li>
   </ul>
   <button type="button" data-theme-toggle aria-pressed="false">☾ Dark</button>
   <button type="button" data-chrome-toggle aria-label="Hide mock chrome">×</button>
