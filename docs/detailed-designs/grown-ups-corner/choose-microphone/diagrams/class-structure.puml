@@ -63,7 +63,7 @@ class PitchTracker {
 
 class "settings.ts" as SettingsMod <<module>> {
   +showSettings(): void
-  -renderMicrophones(listing): void
+  -renderMicrophones(declined: boolean): Promise<void>
 }
 
 MicrophoneListing --> "0..*" MicrophoneInfo
