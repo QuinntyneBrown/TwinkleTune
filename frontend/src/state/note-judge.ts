@@ -62,6 +62,11 @@ export class NoteJudge {
     private readonly notes: readonly JudgeNote[],
     /** semitones the song is transposed by; targets are `note.midi + shift` */
     private readonly shift = 0,
+    /**
+     * the singer's hit tolerance: how many cents either side of a note still
+     * counts as on-pitch (see `hitToleranceCents`). Fixed for the judge's life.
+     */
+    private readonly toleranceCents = HIT_TOLERANCE_CENTS,
   ) {
     this.results = notes.map((n) => ({
       phraseIdx: n.phraseIdx,
@@ -168,7 +173,7 @@ export class NoteJudge {
   }
 
   private onPitch(idx: number, sungMidi: number): boolean {
-    return Math.abs(foldCents(sungMidi, this.notes[idx].midi + this.shift)) <= HIT_TOLERANCE_CENTS
+    return Math.abs(foldCents(sungMidi, this.notes[idx].midi + this.shift)) <= this.toleranceCents
   }
 
   private credit(idx: number, scoreBeat: number, ms: number): void {
