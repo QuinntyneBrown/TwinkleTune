@@ -198,7 +198,7 @@ const memoryStorage = (): StorageLike => {
   }
 }
 
-const rootStorage: StorageLike = typeof localStorage !== 'undefined' ? localStorage : memoryStorage()
+export const rootStorage: StorageLike = typeof localStorage !== 'undefined' ? localStorage : memoryStorage()
 
 /* ---- per-singer profile namespacing -------------------------------------- */
 
