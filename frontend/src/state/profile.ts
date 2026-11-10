@@ -13,6 +13,7 @@ export function applySingerToProfile(s: ApiSinger): void {
           ? { low: s.rangeLow, high: s.rangeHigh }
           : (prev?.range ?? null),
       latencyMs: prev?.latencyMs ?? 0,
+      strictness: prev?.strictness, // the device's own choice; the server never holds it
       singerId: s.id,
       avatarId: s.avatarId,
       photoUrl: s.hasPhoto ? api.singers.photoUrl(s.id) : null,

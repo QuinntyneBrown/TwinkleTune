@@ -67,6 +67,7 @@ export function renderWelcome(root: HTMLElement): void {
         avatar,
         range: prev?.range ?? null,
         latencyMs: prev?.latencyMs ?? 0,
+        strictness: prev?.strictness,
         singerId: prev?.singerId ?? null,
         avatarId: prev?.avatarId ?? null,
         photoUrl: prev?.photoUrl ?? null,

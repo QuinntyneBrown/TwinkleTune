@@ -41,4 +41,18 @@ test.describe('Welcome & onboarding', () => {
     await expect(page).toHaveURL(/#\/home$/)
     await expect(homePage.greeting).toContainText('Hi, Quinn!')
   })
+
+  // Traces to: GC-L2-11
+  test('a returning singer keeps the pitch strictness a grown-up chose for her', async ({
+    page,
+    welcomePage,
+  }) => {
+    await seedApp(page, { strictness: 'gentle' })
+    await welcomePage.goto()
+
+    await welcomePage.letsSingButton.click()
+    await expect(page).toHaveURL(/#\/home$/)
+
+    expect((await readState(page)).profile.strictness).toBe('gentle')
+  })
 })
