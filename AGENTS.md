@@ -74,6 +74,8 @@ codes VP, AE, SL, SG, SR, RP, PP, HS, DM, CE, GC, AS, FS. Identifiers are never 
 - Persistence goes through the `StorageLike` seam in `src/state/store.ts`, namespaced per singer.
   Mic latency offset belongs to the device; voice range belongs to the singer and syncs; pitch
   strictness belongs to the singer but stays on the device and never syncs.
+  The microphone choice belongs to the device too: it lives under its own device-level key
+  (`src/state/device.ts`), is shared by every singer, and never syncs.
 - The API client uses `VITE_API_URL` (default `http://localhost:5240`) and probes `/health` with a
   short timeout. Server calls fail soft to the bundled catalogue and cached data, never to an
   error the child sees.

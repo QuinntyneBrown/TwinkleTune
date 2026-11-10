@@ -1,0 +1,18 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context — Choose microphone
+
+Person(grownup, "Grown-up", "Picks the microphone the tablet listens on")
+Person(singer, "Young singer", "Sings into whichever microphone is listening")
+System(twinkle, "TwinkleTune web app", "On-device singing app; holds one microphone choice per device (TypeScript)")
+System_Ext(browser, "Browser media devices", "enumerateDevices, getUserMedia and the devicechange event")
+System_Ext(storage, "Browser localStorage", "Device-level key twinkletune:microphone")
+System_Ext(server, "Family server", "Holds singers, songs and scores; nothing about microphones")
+
+Rel(grownup, twinkle, "Picks a microphone in the Grown-Ups Corner")
+Rel(singer, twinkle, "Sings; never sees a microphone error")
+Rel(twinkle, browser, "Lists microphones; opens the chosen one or the system default")
+Rel(twinkle, storage, "Writes the choice the moment it is picked")
+Rel(twinkle, server, "Syncs name, avatar and range only — never the microphone", "JSON/HTTPS")
+@enduml

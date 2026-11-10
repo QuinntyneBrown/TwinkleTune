@@ -60,7 +60,11 @@ from the Web Audio plumbing so it can be driven by synthesised audio in tests.
   `PitchAnalyzer`; `stop()` releases everything. The `running` getter is true
   while an analyser exists.
 - **`start()`** — async method that calls `getUserMedia` with `echoCancellation`,
-  `noiseSuppression`, and `autoGainControl` all `false`, builds a
+  `noiseSuppression`, and `autoGainControl` all `false`, on the system default
+  or, when the device has a microphone choice, on that microphone with a
+  fallback to the system default if it is unavailable (`AE-L2-22`; see
+  [choose microphone](../../grown-ups-corner/choose-microphone/README.md)). A
+  permission denial is rethrown whichever was asked for. It then builds a
   `MediaStreamAudioSourceNode` and an `AnalyserNode` with
   `fftSize = HISTORY_SIZE`, and connects them.
 - **`read()`** — analyses the newest window only and returns its frame. The
@@ -216,8 +220,10 @@ analyzer owns a `BandLimiter` and depends on the `pitchy` `PitchDetector` for
 
 ### Behaviour — acquire the microphone and read a frame
 
-`start()` requests the microphone with echo cancellation, noise suppression, and
-auto-gain off (`AE-L2-14`); the `alt` models the denied-permission path.
+`start()` requests the microphone — the chosen one when the device has a
+microphone choice, the system default otherwise or as the fallback
+(`AE-L2-22`) — with echo cancellation, noise suppression, and auto-gain off
+(`AE-L2-14`); the `alt` models the denied-permission path.
 `readHops()` then takes the history and, for each hop that has come due
 (`AE-L2-21`), band-limits the window (`AE-L2-19`) and applies the level gate
 (`AE-L2-11`), the McLeod estimate (`AE-L2-10`), the clarity and bounds gate

@@ -21,12 +21,13 @@ The terms below are used throughout.
 - person property — datum that describes the singer herself and therefore
   follows her to any device, such as her voice range
 - device property — datum that describes the hardware or its environment and
-  therefore stays on it, such as the microphone latency offset
+  therefore stays on it, such as the microphone latency offset and the
+  microphone choice
 - server-owned data — records held in the family server's SQLite file and photos
   folder: avatars, singers, songs, and high scores
 - device-owned data — records held in the browser's `localStorage`: sparkles,
   badges, day-streaks, per-song bests, latency, each singer's pitch strictness
-  level, and the local profile
+  level, the microphone choice, and the local profile
 - profile namespacing — storage-key scheme that gives each server singer her own
   device-side state blob on a shared tablet
 - linked profile — device profile carrying a `singerId`, so its device-side
@@ -60,6 +61,10 @@ Device-owned state (`frontend/src/state/store.ts`):
   device property kept per device, and the `strictness` comment records the pitch
   strictness level as kept per singer on the device and never synced; `singerId` is `null` or absent for a local-only
   profile.
+- **`deviceSettings`** (`frontend/src/state/device.ts`) — holds the microphone
+  choice under the device-level key `twinkletune:microphone`, outside every
+  singer's blob, so it is shared by every singer on the device and no profile
+  sync can carry it.
 - **`KEY`** — `'twinkletune:v1'`, the unlinked state blob.
 - **`profileKey(singerId)`** — `` `${KEY}:${singerId}` ``, the per-singer blob on
   a shared device.
@@ -96,7 +101,7 @@ refines a level-1 (L1) requirement, cited by identifier.
 
 | L2 ID | Refines (L1) | Requirement |
 |-------|--------------|-------------|
-| `FS-L2-16` | `FS-L1-6` | The platform shall keep on-device the rewards (sparkles, badges, day-streaks), the mic latency (a device property), and each singer's pitch strictness level (a grown-up's choice that stays on the device it was made on); the server shall own profiles, avatars, photos, songs, and high scores, and the voice range shall live on the singer (a person property that follows her across devices). |
+| `FS-L2-16` | `FS-L1-6` | The platform shall keep on-device the rewards (sparkles, badges, day-streaks), the mic latency (a device property), each singer's pitch strictness level (a grown-up's choice that stays on the device it was made on), and the microphone choice (a device property shared by every singer on the device, never sent to the server); the server shall own profiles, avatars, photos, songs, and high scores, and the voice range shall live on the singer (a person property that follows her across devices). |
 
 ## Diagrams
 

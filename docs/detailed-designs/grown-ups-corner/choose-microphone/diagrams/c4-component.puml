@@ -1,0 +1,36 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Choose microphone
+
+Container_Boundary(ui, "Grown-Ups Corner hub (settings.ts)") {
+  Component(select, "[data-microphone] select", "HTML select", "System default, the listed microphones, a not-plugged-in entry")
+  Component(button, "[data-microphone-names] button", "HTML button", "Show microphones, when names are withheld")
+  Component(hint, "[data-microphone-hint]", "HTML element", "One sentence saying what the row means now")
+  Component(render, "renderMicrophones()", "TypeScript", "Fills the row from the picker view model")
+}
+Container_Boundary(audio, "Audio engine (audio/)") {
+  Component(pure, "microphone.ts", "Pure TypeScript", "listMicrophonesFrom, resolveMicrophone, microphoneConstraints, describePicker")
+  Component(access, "microphone-access.ts", "TypeScript", "listMicrophones, revealMicrophoneNames, onMicrophonesChanged")
+  Component(tracker, "PitchTracker.start()", "pitch.ts", "Opens the resolved microphone; falls back to the system default")
+}
+Container_Boundary(state, "State (state/)") {
+  Component(device, "deviceSettings", "device.ts", "getMicrophone / setMicrophone")
+  ComponentDb(local, "localStorage", "Browser storage", "twinkletune:microphone")
+}
+System_Ext(browser, "Browser media devices", "enumerateDevices / getUserMedia / devicechange")
+
+Rel(render, pure, "describePicker(choice, listing)")
+Rel(render, select, "options and selected value")
+Rel(render, hint, "sentence for the mode")
+Rel(select, device, "change: setMicrophone({ deviceId, label }) or null")
+Rel(button, access, "click: revealMicrophoneNames()")
+Rel(render, access, "listMicrophones(); onMicrophonesChanged()")
+Rel(access, pure, "listMicrophonesFrom(devices)")
+Rel(access, browser, "enumerateDevices; getUserMedia then stop; devicechange")
+Rel(tracker, device, "getMicrophone()")
+Rel(tracker, access, "listMicrophones()")
+Rel(tracker, pure, "resolveMicrophone; microphoneConstraints")
+Rel(tracker, browser, "getUserMedia (EC/NS/AGC off, deviceId exact when chosen)")
+Rel(device, local, "getItem / setItem / removeItem")
+@enduml

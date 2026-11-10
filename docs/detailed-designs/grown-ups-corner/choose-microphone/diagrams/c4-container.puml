@@ -1,0 +1,23 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers — Choose microphone
+
+Person(grownup, "Grown-up", "Picks the microphone")
+System_Boundary(twinkle, "TwinkleTune web app") {
+  Container(hub, "Grown-Ups Corner hub", "TypeScript (ui/settings.ts)", "Microphone row: select, Show microphones button, hint")
+  Container(device, "Device settings", "TypeScript (state/device.ts)", "getMicrophone / setMicrophone through StorageLike")
+  Container(engine, "Audio engine", "TypeScript (audio/)", "Lists microphones, resolves the choice, opens the stream")
+  Container(screens, "Listening screens", "TypeScript (sing.ts, voice-setup.ts, tuner.ts)", "Call PitchTracker.start()")
+  ContainerDb(local, "Device storage", "localStorage", "twinkletune:microphone = { deviceId, label }")
+}
+System_Ext(browser, "Browser media devices", "enumerateDevices / getUserMedia / devicechange")
+
+Rel(grownup, hub, "Chooses an entry")
+Rel(hub, engine, "listMicrophones(), revealMicrophoneNames(), describePicker()")
+Rel(hub, device, "setMicrophone(choice or null)")
+Rel(device, local, "setItem / removeItem")
+Rel(screens, engine, "tracker.start()")
+Rel(engine, device, "getMicrophone() at every start")
+Rel(engine, browser, "Lists devices; opens the chosen microphone or the system default", "Media Capture")
+@enduml

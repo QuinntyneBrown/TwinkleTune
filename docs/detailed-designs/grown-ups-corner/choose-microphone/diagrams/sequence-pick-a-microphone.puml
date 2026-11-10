@@ -1,0 +1,71 @@
+@startuml
+title UML sequence behaviour — Pick a microphone in the hub
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Grown-up" as actor
+box "Frontend — TwinkleTune web app" #E0F2FE
+  participant "Grown-Ups Corner hub" as hub
+  participant "microphone-access.ts" as access
+  participant "microphone.ts (pure)" as pure
+  participant "deviceSettings" as device
+end box
+box "Device — Browser" #FFF4E5
+  participant "mediaDevices" as media
+  database "localStorage" as local
+end box
+
+actor -> hub : Pass the parent gate; the hub opens
+hub -> access : listMicrophones()
+access -> media : enumerateDevices()
+media --> access : devices
+access -> pure : listMicrophonesFrom(devices)
+pure --> hub : listing { supported, namesHidden, microphones }
+hub -> device : getMicrophone()
+hub -> pure : describePicker(choice, listing)
+pure --> hub : { mode, options, selected, missing }
+
+alt mode = names-hidden
+  hub --> actor : "Show microphones" button and its hint (GC-L2-12)
+  actor -> hub : Tap "Show microphones"
+  hub -> access : revealMicrophoneNames()
+  access -> media : getUserMedia({ audio: true })
+  alt allowed
+    media --> access : MediaStream
+    access -> media : stop every track at once; analyse nothing (AE-L2-22)
+    access --> hub : true
+    hub -> access : listMicrophones() again
+    hub --> actor : The list, with names
+  else declined
+    media --> access : NotAllowedError
+    access --> hub : false
+    hub --> actor : Hint says the names stay hidden; the button stays (GC-L2-12)
+  end
+else mode = unsupported
+  hub --> actor : "System default" alone, disabled, with the reason in words
+else mode = list
+  hub --> actor : System default, the microphones, and any not-plugged-in entry
+end
+
+actor -> hub : Choose "Ada's headset"
+hub -> device : setMicrophone({ deviceId, label }) (GC-L2-12)
+device -> local : setItem("twinkletune:microphone", JSON)
+hub -> hub : render again from the saved choice
+
+opt a microphone is plugged in while the hub is open
+  media --> access : devicechange
+  access --> hub : listener()
+  hub -> access : listMicrophones(); render again (GC-L2-12)
+end
+@enduml

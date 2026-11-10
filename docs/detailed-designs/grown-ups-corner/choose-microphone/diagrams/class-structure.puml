@@ -1,0 +1,81 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Choose microphone
+
+interface MicrophoneInfo {
+  +deviceId: string
+  +label: string
+}
+
+interface MicrophoneListing {
+  +supported: boolean
+  +namesHidden: boolean
+  +microphones: MicrophoneInfo[]
+}
+
+interface PickerView {
+  +mode: 'list' | 'names-hidden' | 'unsupported'
+  +options: { value: string, label: string }[]
+  +selected: string
+  +missing: boolean
+}
+
+class "microphone.ts" as Pure <<module, pure>> {
+  +listMicrophonesFrom(devices): MicrophoneListing
+  +resolveMicrophone(choice, listing): string | null
+  +microphoneConstraints(deviceId): MediaTrackConstraints
+  +describePicker(choice, listing): PickerView
+}
+
+class "microphone-access.ts" as Access <<module>> {
+  +listMicrophones(): Promise<MicrophoneListing>
+  +revealMicrophoneNames(): Promise<boolean>
+  +onMicrophonesChanged(listener): () => void
+}
+
+interface DeviceSettings {
+  +getMicrophone(): MicrophoneChoice | null
+  +setMicrophone(choice: MicrophoneChoice | null): void
+}
+
+interface StorageLike {
+  +getItem(key: string): string | null
+  +setItem(key: string, value: string): void
+  +removeItem(key: string): void
+}
+
+class PitchTracker {
+  +start(choice?: MicrophoneChoice | null): Promise<void>
+  -open(deviceId: string | null): Promise<MediaStream>
+  +stop(): void
+}
+
+class "settings.ts" as SettingsMod <<module>> {
+  +showSettings(): void
+  -renderMicrophones(listing): void
+}
+
+MicrophoneListing --> "0..*" MicrophoneInfo
+Pure ..> MicrophoneListing
+Pure ..> PickerView
+Access ..> Pure : listMicrophonesFrom
+DeviceSettings ..> StorageLike : twinkletune:microphone
+DeviceSettings ..> MicrophoneInfo : MicrophoneChoice has the same shape
+PitchTracker ..> DeviceSettings : getMicrophone
+PitchTracker ..> Access : listMicrophones
+PitchTracker ..> Pure : resolveMicrophone, microphoneConstraints
+SettingsMod ..> DeviceSettings : setMicrophone
+SettingsMod ..> Access
+SettingsMod ..> Pure : describePicker
+@enduml

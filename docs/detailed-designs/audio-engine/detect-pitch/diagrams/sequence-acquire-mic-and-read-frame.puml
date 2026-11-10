@@ -27,7 +27,12 @@ box "Device — Browser Web Audio & microphone" #FFF4E5
 end box
 
 caller -> tracker : start()
-tracker -> mic : getUserMedia({ echoCancellation:false, noiseSuppression:false, autoGainControl:false }) (AE-L2-14)
+tracker -> tracker : resolve the device's microphone choice, if any (AE-L2-22)
+tracker -> mic : getUserMedia({ echoCancellation:false, noiseSuppression:false, autoGainControl:false, deviceId when chosen }) (AE-L2-14)
+opt the chosen microphone is unavailable
+  mic --> tracker : OverconstrainedError / NotFoundError
+  tracker -> mic : getUserMedia on the system default, same processing flags (AE-L2-22)
+end
 alt permission granted
   mic --> tracker : MediaStream
   tracker -> analyser : createMediaStreamSource + createAnalyser (fftSize 8192)

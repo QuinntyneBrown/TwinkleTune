@@ -29,7 +29,7 @@ end box
 actor -> hub : Tap "Start everything over"
 hub -> hub : close() removes the hub overlay
 hub -> confirm : showModal "Really start over?" (GC-L2-9)
-confirm --> actor : "This erases the profile, sparkles, badges and voice range on this device."
+confirm --> actor : "This erases the profile, sparkles, badges, voice range and microphone choice on this device."
 
 alt "Yes, erase everything"
   actor -> confirm : Tap [data-yes]
@@ -37,6 +37,7 @@ alt "Yes, erase everything"
   store -> store : state = emptyState() with a null profile and zeroed counters
   store -> local : removeItem(twinkletune:v1[:singerId])
   local --> store : Key removed
+  confirm -> local : deviceSettings.setMicrophone(null) removes twinkletune:microphone (GC-L2-12)
   confirm -> confirm : close2() removes the confirmation
   confirm -> router : location.hash = "#/welcome"
   router -> welcome : Render onboarding for a null profile
