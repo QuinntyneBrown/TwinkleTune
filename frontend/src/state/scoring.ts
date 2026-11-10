@@ -29,6 +29,32 @@ export interface NoteResult {
 }
 
 export const HIT_TOLERANCE_CENTS = 50
+
+/**
+ * How closely a singer's pitch must match a note for it to count. A grown-up
+ * chooses the level per singer in the Grown-Ups Corner; it stays on the device.
+ */
+export type PitchStrictness = 'gentle' | 'just-right' | 'precise'
+
+const TOLERANCE_BY_STRICTNESS: Record<PitchStrictness, number> = {
+  gentle: 80,
+  'just-right': 65,
+  precise: HIT_TOLERANCE_CENTS,
+}
+
+/** A stored level, or Precise when it is missing or not one of the three. */
+export function pitchStrictness(value: unknown): PitchStrictness {
+  return value === 'gentle' || value === 'just-right' ? value : 'precise'
+}
+
+/**
+ * The half-width, in cents after octave folding, of the band inside which a
+ * sung pitch is on-pitch for a singer on this level (inclusive). A singer with
+ * no level is judged as Precise: the rule that applied before levels existed.
+ */
+export function hitToleranceCents(value: unknown): number {
+  return TOLERANCE_BY_STRICTNESS[pitchStrictness(value)]
+}
 /**
  * minimum-sample guard: less on-pitch singing than this can never land a note.
  * 45 ms is three frames at 60 fps and two at 30 fps.
