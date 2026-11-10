@@ -1,4 +1,5 @@
 import { test, expect, type Page } from '@playwright/test'
+import { SingPage } from '../pages/sing.page'
 
 const API = 'http://localhost:5240'
 
@@ -73,6 +74,19 @@ test('two singers on two devices reach a live duet', async ({ browser }) => {
   await expect(mia).toHaveURL(/duet=1/, { timeout: 15_000 })
   await expect(zoe.locator('.opponent-chip')).toContainText('Mia')
   await expect(mia.locator('.opponent-chip')).toContainText('Zoe')
+
+  // SG-L2-28, DM-L2-4: each tablet shows the headphone tip in Twinkle's bubble, and it is no
+  // step in the start: one "I'm ready!" tap on each tablet and both are singing
+  const zoeSing = new SingPage(zoe)
+  const miaSing = new SingPage(mia)
+  await expect(zoeSing.coach).toHaveText(SingPage.HEADPHONE_TIP)
+  await expect(miaSing.coach).toHaveText(SingPage.HEADPHONE_TIP)
+  await expect(zoe.getByRole('dialog')).toHaveCount(0)
+  await expect(mia.getByRole('dialog')).toHaveCount(0)
+  await zoeSing.duetReadyButton.click()
+  await miaSing.duetReadyButton.click()
+  await expect(zoeSing.stageLabel).toHaveText(/MOVE YOUR STAR/)
+  await expect(miaSing.stageLabel).toHaveText(/MOVE YOUR STAR/)
 
   await ctxA.close()
   await ctxB.close()
