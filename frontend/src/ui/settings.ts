@@ -1,5 +1,8 @@
 import { pitchStrictness, type PitchStrictness } from '../state/scoring'
 import { store } from '../state/store'
+import { deviceSettings } from '../state/device'
+import { describePicker, SYSTEM_DEFAULT_LABEL } from '../audio/microphone'
+import { listMicrophones } from '../audio/microphone-access'
 import { midiToName } from '../audio/range'
 import { showModal } from './modal'
 import { showAvatarManager, showSongManager } from './managers'
@@ -10,6 +13,7 @@ const STRICTNESS_CHOICES: readonly { value: PitchStrictness; label: string }[] =
   { value: 'just-right', label: 'Just&nbsp;right' },
   { value: 'precise', label: 'Precise' },
 ]
+const MICROPHONE_HINT = 'A headset works best: it stops the tablet hearing its own melody'
 
 /** The Grown-Ups Corner — reached only through the parent gate. */
 export function showSettings(): void {
@@ -32,6 +36,13 @@ export function showSettings(): void {
         <span>Mic timing offset<br><small style="color:var(--ink-soft)">If cheers feel late, nudge this</small></span>
         <input type="range" min="-300" max="300" step="10" value="${profile?.latencyMs ?? 0}" data-latency>
         <b data-latency-label>${profile?.latencyMs ?? 0} ms</b>
+      </div>
+      <div class="setting-row">
+        <span>Microphone<br><small style="color:var(--ink-soft)" data-microphone-hint>${MICROPHONE_HINT}</small></span>
+        <select class="select select-sm" data-microphone aria-label="Microphone">
+          <option value="">${SYSTEM_DEFAULT_LABEL}</option>
+        </select>
+        <button class="btn btn-sm btn-white" data-microphone-names hidden>Show microphones</button>
       </div>
       <div class="setting-row">
         <span id="strictness-label">Pitch matching<br><small style="color:var(--ink-soft)">How close a note must be to count</small></span>
@@ -78,6 +89,23 @@ export function showSettings(): void {
           if (st.profile) st.profile.strictness = chosen
         })
       })
+
+      // the microphone picker: one choice per device, saved the moment it is picked
+      const micSelect = modal.querySelector('[data-microphone]') as HTMLSelectElement
+      const renderMicrophones = async (): Promise<void> => {
+        const view = describePicker(deviceSettings.getMicrophone(), await listMicrophones())
+        micSelect.replaceChildren(...view.options.map((o) => new Option(o.label, o.value)))
+        micSelect.value = view.selected
+      }
+      micSelect.addEventListener('change', () => {
+        const picked = micSelect.selectedOptions[0]
+        deviceSettings.setMicrophone(
+          picked && picked.value !== '' ? { deviceId: picked.value, label: picked.text } : null,
+        )
+        void renderMicrophones()
+      })
+      void renderMicrophones()
+
       modal.querySelector('[data-close]')?.addEventListener('click', close)
       modal.querySelector('[data-close-link]')?.addEventListener('click', close)
       modal.querySelector('[data-close-link2]')?.addEventListener('click', close)
@@ -96,7 +124,7 @@ export function showSettings(): void {
           html: `
             <span class="modal-emoji">🫣</span>
             <h3>Really start over?</h3>
-            <p>This erases the profile, sparkles, badges and voice range on this device.</p>
+            <p>This erases the profile, sparkles, badges, voice range and microphone choice on this device.</p>
             <button class="btn btn-pink" data-yes>Yes, erase everything</button>
             <button class="link-quiet" data-no>Keep my stuff</button>
           `,
@@ -104,6 +132,7 @@ export function showSettings(): void {
             m2.querySelector('[data-no]')?.addEventListener('click', close2)
             m2.querySelector('[data-yes]')?.addEventListener('click', () => {
               store.reset()
+              deviceSettings.setMicrophone(null)
               close2()
               location.hash = '#/welcome'
             })

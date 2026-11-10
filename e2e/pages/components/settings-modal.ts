@@ -8,6 +8,11 @@ export class SettingsModal {
   readonly latencySlider: Locator
   readonly latencyLabel: Locator
   readonly strictnessGroup: Locator
+  readonly microphoneSelect: Locator
+  readonly microphoneOptions: Locator
+  readonly selectedMicrophone: Locator
+  readonly microphoneHint: Locator
+  readonly showMicrophonesButton: Locator
   readonly redoVoiceLink: Locator
   readonly resetButton: Locator
   readonly closeButton: Locator
@@ -20,6 +25,11 @@ export class SettingsModal {
     this.latencySlider = this.dialog.locator('[data-latency]')
     this.latencyLabel = this.dialog.locator('[data-latency-label]')
     this.strictnessGroup = this.dialog.locator('[data-strictness]')
+    this.microphoneSelect = this.dialog.getByRole('combobox', { name: 'Microphone' })
+    this.microphoneOptions = this.microphoneSelect.locator('option')
+    this.selectedMicrophone = this.microphoneSelect.locator('option:checked')
+    this.microphoneHint = this.dialog.locator('[data-microphone-hint]')
+    this.showMicrophonesButton = this.dialog.getByRole('button', { name: 'Show microphones' })
     this.redoVoiceLink = this.dialog.getByRole('link', { name: 'Re-do' })
     this.resetButton = this.dialog.getByRole('button', { name: 'Start everything over' })
     this.closeButton = this.dialog.getByRole('button', { name: 'Close' })
@@ -44,5 +54,10 @@ export class SettingsModal {
       input.value = String(value)
       input.dispatchEvent(new Event('input', { bubbles: true }))
     }, ms)
+  }
+
+  /** Pick an entry of the microphone picker by its visible name. */
+  async chooseMicrophone(name: string): Promise<void> {
+    await this.microphoneSelect.selectOption({ label: name })
   }
 }

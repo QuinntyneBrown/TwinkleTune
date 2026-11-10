@@ -1,5 +1,6 @@
 import { test, expect } from '../fixtures/test'
-import { readState, seedApp } from '../fixtures/seed'
+import { FakeMic } from '../fixtures/fake-mic'
+import { readMicrophone, readState, seedApp } from '../fixtures/seed'
 
 test.describe('Grown-Ups Corner', () => {
   test('the parent gate blocks wrong answers and opens on the right one', async ({
@@ -157,5 +158,114 @@ test.describe('Grown-Ups Corner', () => {
     await expect(settings).toContainText('Badges & streaks stay on this device')
     await settings.getByRole('button', { name: 'Close' }).click()
     await expect(settings).toHaveCount(0)
+  })
+
+  // Traces to: GC-L2-3, GC-L2-12
+  test('the microphone picker lists the device\'s microphones, starting on the system default', async ({
+    page,
+    fakeMic,
+    mePage,
+  }) => {
+    await seedApp(page)
+    await fakeMic.plugIn([FakeMic.BUILT_IN, FakeMic.HEADSET])
+    await mePage.goto()
+    await mePage.openSettings()
+
+    await expect(mePage.settings.microphoneOptions).toHaveText([
+      'System default',
+      'Built-in microphone',
+      "Ada's headset",
+    ])
+    await expect(mePage.settings.selectedMicrophone).toHaveText('System default')
+    await expect(mePage.settings.microphoneHint).toHaveText(
+      'A headset works best: it stops the tablet hearing its own melody',
+    )
+    await expect(mePage.settings.showMicrophonesButton).toBeHidden()
+    expect(await readMicrophone(page)).toBeNull()
+  })
+
+  // Traces to: GC-L2-12, AE-L2-22
+  test('a picked microphone is saved at once, survives a reload, and is what the next song listens on', async ({
+    page,
+    fakeMic,
+    mePage,
+    singPage,
+  }) => {
+    await seedApp(page)
+    await fakeMic.use(FakeMic.C4)
+    await fakeMic.plugIn([FakeMic.BUILT_IN, FakeMic.HEADSET])
+    await mePage.goto()
+    await mePage.openSettings()
+
+    await mePage.settings.chooseMicrophone("Ada's headset")
+    expect(await readMicrophone(page)).toEqual(FakeMic.HEADSET) // no save button
+
+    await page.reload()
+    await mePage.openSettings()
+    await expect(mePage.settings.selectedMicrophone).toHaveText("Ada's headset")
+    await mePage.settings.closeButton.click()
+
+    await singPage.open('hotcrossbuns')
+    await singPage.startButton.click()
+    await expect(singPage.stageLabel).toHaveText(/MOVE YOUR STAR/)
+    expect(await fakeMic.requests()).toEqual([FakeMic.HEADSET.deviceId])
+  })
+
+  // Traces to: GC-L2-12
+  test('picking the system default forgets the microphone choice', async ({ page, fakeMic, mePage }) => {
+    await seedApp(page, { microphone: FakeMic.HEADSET })
+    await fakeMic.plugIn([FakeMic.BUILT_IN, FakeMic.HEADSET])
+    await mePage.goto()
+    await mePage.openSettings()
+    await expect(mePage.settings.selectedMicrophone).toHaveText("Ada's headset")
+
+    await mePage.settings.chooseMicrophone('System default')
+
+    await expect(mePage.settings.selectedMicrophone).toHaveText('System default')
+    expect(await readMicrophone(page)).toBeNull()
+  })
+
+  // Traces to: GC-L2-12, FS-L2-16
+  test('the microphone choice stays on the device: it is no part of the singer\'s state', async ({
+    page,
+    fakeMic,
+    mePage,
+  }) => {
+    await seedApp(page)
+    await fakeMic.plugIn([FakeMic.BUILT_IN, FakeMic.HEADSET])
+    await mePage.goto()
+    await mePage.openSettings()
+
+    await mePage.settings.chooseMicrophone("Ada's headset")
+
+    expect(await readMicrophone(page)).toEqual(FakeMic.HEADSET)
+    expect(JSON.stringify(await readState(page))).not.toContain('headset')
+  })
+
+  // Traces to: GC-L2-9, GC-L2-12
+  test('"start everything over" also forgets the microphone choice, and says so', async ({
+    page,
+    fakeMic,
+    mePage,
+  }) => {
+    await seedApp(page, { microphone: FakeMic.HEADSET })
+    await fakeMic.plugIn([FakeMic.BUILT_IN, FakeMic.HEADSET])
+    await mePage.goto()
+
+    // backing out keeps it
+    await mePage.openSettings()
+    await mePage.settings.resetButton.click()
+    await expect(mePage.settings.confirmDialog).toContainText(
+      'This erases the profile, sparkles, badges, voice range and microphone choice on this device.',
+    )
+    await mePage.settings.keepButton.click()
+    expect(await readMicrophone(page)).toEqual(FakeMic.HEADSET)
+
+    await mePage.openSettings()
+    await mePage.settings.resetButton.click()
+    await mePage.settings.eraseButton.click()
+
+    await expect(page).toHaveURL(/#\/welcome$/)
+    expect(await readMicrophone(page)).toBeNull()
   })
 })
