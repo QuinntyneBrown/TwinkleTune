@@ -63,20 +63,33 @@ export function microphoneConstraints(deviceId: string | null): MediaTrackConstr
 
 /** What the Grown-Ups Corner's microphone picker shows. */
 export interface PickerView {
-  mode: 'list'
+  /**
+   * 'list': the options can be picked. 'names-hidden': the browser withholds
+   * the names until the microphone is allowed, so there is nothing to list yet.
+   * 'unsupported': the browser cannot list microphones at all.
+   */
+  mode: 'list' | 'names-hidden' | 'unsupported'
   /** the system default (value '') first, then each microphone */
   options: { value: string; label: string }[]
   /** the value of the selected option */
   selected: string
+  /** the remembered microphone is not plugged in; it is listed, marked in words, and selected */
   missing: boolean
 }
 
 export const SYSTEM_DEFAULT_LABEL = 'System default'
+export const NOT_PLUGGED_IN_SUFFIX = ' (not plugged in)'
 
 export function describePicker(choice: MicrophoneChoice | null, listing: MicrophoneListing): PickerView {
-  const options = [
-    { value: '', label: SYSTEM_DEFAULT_LABEL },
-    ...listing.microphones.map((m) => ({ value: m.deviceId, label: m.label })),
-  ]
-  return { mode: 'list', options, selected: resolveMicrophone(choice, listing) ?? '', missing: false }
+  const systemDefault = { value: '', label: SYSTEM_DEFAULT_LABEL }
+  if (!listing.supported) return { mode: 'unsupported', options: [systemDefault], selected: '', missing: false }
+  if (listing.namesHidden) return { mode: 'names-hidden', options: [systemDefault], selected: '', missing: false }
+
+  const options = [systemDefault, ...listing.microphones.map((m) => ({ value: m.deviceId, label: m.label }))]
+  const found = resolveMicrophone(choice, listing)
+  if (choice && found === null) {
+    options.push({ value: choice.deviceId, label: `${choice.label}${NOT_PLUGGED_IN_SUFFIX}` })
+    return { mode: 'list', options, selected: choice.deviceId, missing: true }
+  }
+  return { mode: 'list', options, selected: found ?? '', missing: false }
 }

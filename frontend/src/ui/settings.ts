@@ -2,7 +2,7 @@ import { pitchStrictness, type PitchStrictness } from '../state/scoring'
 import { store } from '../state/store'
 import { deviceSettings } from '../state/device'
 import { describePicker, SYSTEM_DEFAULT_LABEL } from '../audio/microphone'
-import { listMicrophones } from '../audio/microphone-access'
+import { listMicrophones, onMicrophonesChanged, revealMicrophoneNames } from '../audio/microphone-access'
 import { midiToName } from '../audio/range'
 import { showModal } from './modal'
 import { showAvatarManager, showSongManager } from './managers'
@@ -13,7 +13,14 @@ const STRICTNESS_CHOICES: readonly { value: PitchStrictness; label: string }[] =
   { value: 'just-right', label: 'Just&nbsp;right' },
   { value: 'precise', label: 'Precise' },
 ]
+
+/** What the microphone row says under its label. Words carry every state; colour carries none. */
 const MICROPHONE_HINT = 'A headset works best: it stops the tablet hearing its own melody'
+const NAMES_HIDDEN_HINT = 'Allow the microphone once to see the ones on this device'
+const DECLINED_HINT =
+  "The microphone was not allowed, so the names stay hidden. You can allow it in the browser's settings."
+const UNSUPPORTED_HINT = 'This browser picks the microphone itself'
+const missingHint = (name: string) => `${name} is not plugged in, so the system default is listening for now`
 
 /** The Grown-Ups Corner — reached only through the parent gate. */
 export function showSettings(): void {
@@ -92,17 +99,43 @@ export function showSettings(): void {
 
       // the microphone picker: one choice per device, saved the moment it is picked
       const micSelect = modal.querySelector('[data-microphone]') as HTMLSelectElement
-      const renderMicrophones = async (): Promise<void> => {
-        const view = describePicker(deviceSettings.getMicrophone(), await listMicrophones())
+      const micNames = modal.querySelector('[data-microphone-names]') as HTMLButtonElement
+      const micHint = modal.querySelector('[data-microphone-hint]') as HTMLElement
+      const renderMicrophones = async (declined = false): Promise<void> => {
+        const listing = await listMicrophones()
+        const choice = deviceSettings.getMicrophone()
+        const view = describePicker(choice, listing)
         micSelect.replaceChildren(...view.options.map((o) => new Option(o.label, o.value)))
         micSelect.value = view.selected
+        micSelect.disabled = view.mode === 'unsupported'
+        micSelect.hidden = view.mode === 'names-hidden'
+        micNames.hidden = view.mode !== 'names-hidden'
+        micHint.textContent =
+          view.mode === 'unsupported'
+            ? UNSUPPORTED_HINT
+            : view.mode === 'names-hidden'
+              ? declined
+                ? DECLINED_HINT
+                : NAMES_HIDDEN_HINT
+              : view.missing && choice
+                ? missingHint(choice.label)
+                : MICROPHONE_HINT
       }
       micSelect.addEventListener('change', () => {
         const picked = micSelect.selectedOptions[0]
-        deviceSettings.setMicrophone(
-          picked && picked.value !== '' ? { deviceId: picked.value, label: picked.text } : null,
-        )
+        const listed = picked && picked.value !== '' && picked.value !== deviceSettings.getMicrophone()?.deviceId
+        if (listed) deviceSettings.setMicrophone({ deviceId: picked.value, label: picked.text })
+        else if (!picked || picked.value === '') deviceSettings.setMicrophone(null)
         void renderMicrophones()
+      })
+      micNames.addEventListener('click', async () => {
+        // asks for the microphone only to read the names; the stream is stopped at once
+        const allowed = await revealMicrophoneNames()
+        void renderMicrophones(!allowed)
+      })
+      const stopWatching = onMicrophonesChanged(() => {
+        if (modal.isConnected) void renderMicrophones()
+        else stopWatching()
       })
       void renderMicrophones()
 
