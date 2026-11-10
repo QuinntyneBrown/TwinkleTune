@@ -60,7 +60,9 @@ in `frontend/src/styles/twinkle.css`. Nothing crosses the network.
   dialog.
 - **`.overlay`** — the stylesheet rule: `position: fixed; inset: 0; z-index: 100`,
   a `rgba(43, 88, 118, .45)` scrim with a `4px` backdrop blur, `display: grid;
-  place-items: center`, and a `0.25s` `fadein`.
+  place-items: center`, `overflow-y: auto`, and a `0.25s` `fadein`. A card that
+  fits is centred; a card taller than the screen starts at the top and scrolls
+  with the overlay, so its last control can always be reached (`AS-L2-6`).
 - **`.modal`** — the card rule: white, `border-radius: 32px`, `28px 24px` padding,
   `width: min(340px, 100%)`, entering with a `0.4s` `popin` spring. `.modal h3`
   renders at `24px` in the display face.
@@ -91,7 +93,7 @@ refines a level-1 (L1) requirement, cited by identifier.
 
 | L2 ID | Refines (L1) | Requirement |
 |-------|--------------|-------------|
-| `AS-L2-6` | `AS-L1-3` | The shell shall provide a modal primitive that renders an accessible dialog over a backdrop, supports a non-dismissible mode, and closes on backdrop click when dismissible. |
+| `AS-L2-6` | `AS-L1-3` | The shell shall provide a modal primitive that renders an accessible dialog over a backdrop, supports a non-dismissible mode, and closes on backdrop click when dismissible. A dialog taller than the screen shall scroll, so that every one of its controls can be reached. |
 | `AS-L2-7` | `AS-L1-3` | The shell shall provide a transient toast with neutral, gold (celebratory), and pink (gentle) variants that auto-dismisses after a short interval. |
 
 ## Diagrams

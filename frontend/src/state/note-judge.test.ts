@@ -287,3 +287,71 @@ describe('NoteJudge.observeHops — judging every hop the engine heard (SG-L2-26
     expect(judge.results[1]).toMatchObject({ totalMs: 0, voicedMs: 0, hitMs: 0 })
   })
 })
+
+describe('NoteJudge — the singer’s hit tolerance (SR-L2-20, SG-L2-9, SG-L2-25)', () => {
+  const GENTLE = 80
+  const JUST_RIGHT = 65
+  const PRECISE = 50
+  const oneC = [note(60, 0, 1, 0)]
+  const onNote = (toleranceCents: number | undefined, sungMidi: number) =>
+    new NoteJudge(oneC, 0, toleranceCents).observe(0.5, sungMidi).onNote
+
+  it('takes a pitch 60 cents off on Just right and Gentle, but not on Precise', () => {
+    expect(onNote(JUST_RIGHT, 60.6)).toBe(true)
+    expect(onNote(GENTLE, 60.6)).toBe(true)
+    expect(onNote(PRECISE, 60.6)).toBe(false)
+  })
+
+  it('takes a pitch 75 cents off on Gentle only', () => {
+    expect(onNote(GENTLE, 59.25)).toBe(true)
+    expect(onNote(JUST_RIGHT, 59.25)).toBe(false)
+    expect(onNote(PRECISE, 59.25)).toBe(false)
+  })
+
+  it('includes the bound itself and nothing a cent beyond it', () => {
+    expect(onNote(GENTLE, 60.8)).toBe(true)
+    expect(onNote(GENTLE, 60.81)).toBe(false)
+    expect(onNote(JUST_RIGHT, 60.65)).toBe(true)
+    expect(onNote(JUST_RIGHT, 60.66)).toBe(false)
+    expect(onNote(PRECISE, 60.5)).toBe(true)
+    expect(onNote(PRECISE, 60.51)).toBe(false)
+  })
+
+  it('forgives the octave at every level', () => {
+    expect(onNote(GENTLE, 72.75)).toBe(true)
+    expect(onNote(JUST_RIGHT, 48.6)).toBe(true)
+  })
+
+  it('judges at 50 cents when no tolerance is given', () => {
+    expect(onNote(undefined, 60.5)).toBe(true)
+    expect(onNote(undefined, 60.6)).toBe(false)
+  })
+
+  it('tallies sung but not on-pitch time for a pitch outside the tolerance', () => {
+    const judge = new NoteJudge(oneC, 0, PRECISE)
+    see(judge, 0.5, 60.6)
+    expect(judge.results[0]).toMatchObject({ totalMs: 10, voicedMs: 10, hitMs: 0 })
+  })
+
+  it('uses the same tolerance for a neighbouring note', () => {
+    // 70 cents above C, held 100 ms into the E note
+    const gentle = new NoteJudge(cThenE, 0, GENTLE)
+    see(gentle, 1 + ms(100), 60.7, TOL)
+    expect(gentle.results[0]).toMatchObject({ voicedMs: 10, hitMs: 10 })
+    expect(gentle.results[1]).toMatchObject({ voicedMs: 0, hitMs: 0, totalMs: 10 })
+
+    const precise = new NoteJudge(cThenE, 0, PRECISE)
+    see(precise, 1 + ms(100), 60.7, TOL)
+    expect(precise.results[0]).toMatchObject({ voicedMs: 0, hitMs: 0 })
+    expect(precise.results[1]).toMatchObject({ voicedMs: 10, hitMs: 0, totalMs: 10 })
+  })
+
+  it('gives a pitch inside two overlapping bands to the active note', () => {
+    // C then C sharp: 60 cents above C is also 40 cents below C sharp
+    const cThenCSharp = [note(60, 0, 1, 0), note(61, 1, 1, 1)]
+    const judge = new NoteJudge(cThenCSharp, 0, GENTLE)
+    expect(see(judge, 1 + ms(100), 60.6, TOL)).toEqual({ activeIdx: 1, onNote: true })
+    expect(judge.results[1]).toMatchObject({ voicedMs: 10, hitMs: 10 })
+    expect(judge.results[0]).toMatchObject({ voicedMs: 0, hitMs: 0 })
+  })
+})

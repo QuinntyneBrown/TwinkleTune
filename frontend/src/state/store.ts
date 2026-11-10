@@ -1,5 +1,5 @@
 import type { Song } from '../songs/types'
-import type { SongSummary } from './scoring'
+import type { PitchStrictness, SongSummary } from './scoring'
 import { evaluateBadges } from './badges'
 
 export interface StorageLike {
@@ -21,6 +21,11 @@ export interface Profile {
   range: VoiceRange | null
   /** mic latency compensation in ms (grown-ups setting; a device property, kept per device) */
   latencyMs: number
+  /**
+   * how closely her pitch must match a note (grown-ups setting). Kept per singer on
+   * this device and never synced; absent means Precise.
+   */
+  strictness?: PitchStrictness
   /** server singer id when linked to the family server; null/undefined = local-only profile */
   singerId?: string | null
   avatarId?: string | null

@@ -257,7 +257,7 @@
     <li>The card is centred at every width, with 20px (<code>--space-5</code>) of scrim around it. It is <code>min(340px, 100%)</code> or <code>min(440px, 100%)</code>, so at 320px it fills the width less the scrim padding.</li>
     <li>It is not a bottom sheet on phones: the app keeps one centred card everywhere, and so does the system.</li>
     <li>The wide card scrolls inside itself past 84vh. Keep the actions at the end of the content, not pinned, so a scrolled form reads top to bottom.</li>
-    <li>In landscape on a phone, a standard child dialog may scroll too; its actions must never be cut off.</li>
+    <li>A standard card taller than the screen scrolls with the overlay (<code>overflow-y: auto</code> on <code>.overlay</code>): the Grown-Ups Corner on a short phone, or any child dialog in landscape. Its actions must never be cut off.</li>
   </ul>
 </section>
 

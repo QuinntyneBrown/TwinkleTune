@@ -139,7 +139,7 @@ The product is decomposed into thirteen subsystems. Each has its own `L1.md` and
 | **HS** | [family-high-scores](./family-high-scores/) | Server‑owned per‑song family high scores, upsert‑if‑better semantics, and per‑song / per‑singer boards. |
 | **DM** | [duet-multiplayer](./duet-multiplayer/) | Two‑device real‑time duets: room codes, the SignalR relay, synchronised start, opponent overlay, and combined results. |
 | **CE** | [coaching-and-encouragement](./coaching-and-encouragement/) | The Twinkle mascot, tips and warm‑ups, celebration, and the encouragement‑only tone system. |
-| **GC** | [grown-ups-corner](./grown-ups-corner/) | The parent gate, mic‑latency calibration, voice re‑setup, the song and avatar managers, reset, and privacy disclosure. |
+| **GC** | [grown-ups-corner](./grown-ups-corner/) | The parent gate, mic‑latency calibration, the pitch strictness choice, voice re‑setup, the song and avatar managers, reset, and privacy disclosure. |
 | **AS** | [application-shell](./application-shell/) | Client routing, screen shell and bottom navigation, the installable PWA, and offline caching. |
 | **FS** | [family-server-platform](./family-server-platform/) | Backend architecture (Clean Architecture, EF Core + SQLite), REST/CORS/health surface, security posture, and graceful client degradation. |
 
@@ -151,6 +151,7 @@ The product is decomposed into thirteen subsystems. Each has its own `L1.md` and
 |------|------------|
 | **Sparkle** | The universal reward point. Ten sparkles are awarded per landed note. Sparkles drive levels and the daily goal. |
 | **Landed note** | A note the singer matched (within tolerance, octave‑folded) for at least half of the frames in which her voice was heard, and for a meaningful share of the note. |
+| **Pitch strictness** | How closely a singer's pitch must match a note for it to count: one of three levels a grown‑up chooses per singer — Gentle (±80 cents), Just right (±65), or Precise (±50, the default). Kept on the device. |
 | **Octave folding / pitch class** | Comparing sung and target pitch modulo an octave, so a child singing the right note in a different octave still counts as correct. |
 | **Shift / transpose** | The number of semitones a song is moved so its notes sit inside the singer's voice range. |
 | **Range (voice range)** | A singer's lowest and highest comfortable notes, captured by "Find My Voice" and stored per singer. |
@@ -185,3 +186,4 @@ The product is decomposed into thirteen subsystems. Each has its own `L1.md` and
 | 1.5 | 2026-11-09 | Voice‑comprehension improvements | Fixed‑step pitch analysis independent of frame pacing (AE-L2-21, SG-L2-26, SR-L2-19). |
 | 1.6 | 2026-11-09 | Voice‑comprehension improvements | Find My Voice capture window on the fixed step (VP-L2-3, VP-L2-4). |
 | 1.7 | 2026-11-10 | Sing screen mock parity | Pitch lanes drawn by every scene renderer (SG-L2-27). |
+| 1.8 | 2026-11-10 | Adjustable pitch strictness | A grown‑up chooses Gentle, Just right, or Precise per singer; the hit tolerance follows it (GC-L1-8, GC-L2-3, GC-L2-11, SR-L2-2, SR-L2-20, SG-L2-9, SG-L2-25, PP-L2-1, FS-L2-16). A dialog taller than the screen scrolls (AS-L2-6). |

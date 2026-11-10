@@ -6,8 +6,10 @@ Each piece of TwinkleTune's data has exactly one owner, and which owner it is
 follows a single question: does the datum belong to the person or to the machine
 she is holding? A voice range belongs to the person, so it lives on the server
 and follows her to the other tablet. A microphone latency offset belongs to the
-tablet, so it stays there and never travels. Sparkles, badges, and day-streaks
-stay on the device that earned them; profiles, avatars, photos, songs, and high
+tablet, so it stays there and never travels. A singer's pitch strictness level is
+a grown-up's private choice about how she is judged, so it also stays on the
+device it was made on. Sparkles, badges, and day-streaks stay on the device that
+earned them; profiles, avatars, photos, songs, and high
 scores live on the family server.
 
 This feature covers that split — where each datum is stored, why, and what a
@@ -23,7 +25,8 @@ The terms below are used throughout.
 - server-owned data — records held in the family server's SQLite file and photos
   folder: avatars, singers, songs, and high scores
 - device-owned data — records held in the browser's `localStorage`: sparkles,
-  badges, day-streaks, per-song bests, latency, and the local profile
+  badges, day-streaks, per-song bests, latency, each singer's pitch strictness
+  level, and the local profile
 - profile namespacing — storage-key scheme that gives each server singer her own
   device-side state blob on a shared tablet
 - linked profile — device profile carrying a `singerId`, so its device-side
@@ -52,9 +55,10 @@ Device-owned state (`frontend/src/state/store.ts`):
 - **`AppState`** — `profile`, `sparkles`, `singDays`, `plays`, `bests`,
   `badges`, `lastResult`, `lastSongId`, and `lastNewBadges`. None of these
   fields is sent to the server.
-- **`Profile`** — `name`, `avatar`, `range`, `latencyMs`, `singerId`,
-  `avatarId`, and `photoUrl`. The `latencyMs` comment records it as a device
-  property kept per device; `singerId` is `null` or absent for a local-only
+- **`Profile`** — `name`, `avatar`, `range`, `latencyMs`, `strictness`,
+  `singerId`, `avatarId`, and `photoUrl`. The `latencyMs` comment records it as a
+  device property kept per device, and the `strictness` comment records the pitch
+  strictness level as kept per singer on the device and never synced; `singerId` is `null` or absent for a local-only
   profile.
 - **`KEY`** — `'twinkletune:v1'`, the unlinked state blob.
 - **`profileKey(singerId)`** — `` `${KEY}:${singerId}` ``, the per-singer blob on
@@ -69,7 +73,7 @@ Where the two meet (`frontend/src/state/profile.ts`):
 
 - **`applySingerToProfile(s)`** — merges the server's view of a singer into the
   device profile, taking `name`, `avatarEmoji`, `rangeLow`/`rangeHigh`, and the
-  photo URL, and preserving the device's own `latencyMs`.
+  photo URL, and preserving the device's own `latencyMs` and `strictness`.
 - **`activateSinger(s)`** — calls `adoptLegacyState`, records the active singer,
   switches the store to `profileKey(s.id)`, and applies the server fields.
 - **`pushProfileToServer()`** — sends `name`, `avatarId`, `rangeLow`, and
@@ -92,15 +96,15 @@ refines a level-1 (L1) requirement, cited by identifier.
 
 | L2 ID | Refines (L1) | Requirement |
 |-------|--------------|-------------|
-| `FS-L2-16` | `FS-L1-6` | The platform shall keep on-device the rewards (sparkles, badges, day-streaks) and the mic latency (a device property); the server shall own profiles, avatars, photos, songs, and high scores; and the voice range shall live on the singer, a person property that follows her across devices. |
+| `FS-L2-16` | `FS-L1-6` | The platform shall keep on-device the rewards (sparkles, badges, day-streaks), the mic latency (a device property), and each singer's pitch strictness level (a grown-up's choice that stays on the device it was made on); the server shall own profiles, avatars, photos, songs, and high scores, and the voice range shall live on the singer (a person property that follows her across devices). |
 
 ## Diagrams
 
 ### System context
 
 One singer, two devices, one server: her range and her family high scores follow
-her, while each tablet keeps its own latency offset and its own rewards
-(`FS-L2-16`).
+her, while each tablet keeps its own latency offset, its own pitch strictness
+level for her, and its own rewards (`FS-L2-16`).
 
 ![C4 system context for the data-ownership split](diagrams/c4-context.png)
 
@@ -113,7 +117,8 @@ in the SQLite file and the photos folder on the home machine (`FS-L2-16`).
 
 ### Components
 
-The store holds rewards, bests, and latency behind a namespaced key, while the
+The store holds rewards, bests, latency, and the pitch strictness level behind a
+namespaced key, while the
 `Singer`, `Avatar`, `Song`, and `HighScore` entities hold everything the server
 owns (`FS-L2-16`).
 
@@ -129,7 +134,7 @@ server, with `singerId` as the only link between them (`FS-L2-16`).
 ### Behaviour — capture a range on one device and read it on another
 
 "Find My Voice" writes the range to the device profile and to the server singer;
-a second tablet reads it back with the profile, while its own latency offset and
-reward totals stay local (`FS-L2-16`).
+a second tablet reads it back with the profile, while its own latency offset,
+pitch strictness level, and reward totals stay local (`FS-L2-16`).
 
 ![Sequence diagram for a voice range following the singer across devices](diagrams/sequence-range-follows-the-singer.png)

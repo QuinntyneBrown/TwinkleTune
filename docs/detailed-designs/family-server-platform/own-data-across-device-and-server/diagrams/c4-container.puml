@@ -5,7 +5,7 @@ title Containers — Own data across device and server
 
 Person(ada, "Ada, the young singer", "Plays on two devices")
 System_Boundary(device, "TwinkleTune web app on one device") {
-  Container(store, "State store", "TypeScript (state/store.ts)", "Sparkles, badges, singDays, bests, latencyMs")
+  Container(store, "State store", "TypeScript (state/store.ts)", "Sparkles, badges, singDays, bests, latencyMs, strictness")
   Container(profile, "Profile bridge", "TypeScript (state/profile.ts)", "Applies and pushes the server view of a singer")
   ContainerDb(local, "localStorage", "Browser storage", "twinkletune:v1[:singerId] and twinkletune:active-singer")
 }

@@ -1,0 +1,87 @@
+@startuml
+' --- shared skin header ---
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+' --------------------------
+title Class structure — Choose pitch strictness
+
+enum PitchStrictness {
+  gentle
+  just-right
+  precise
+}
+
+interface Profile {
+  +name: string
+  +avatar: string
+  +range: VoiceRange | null
+  +latencyMs: number
+  +strictness?: PitchStrictness
+  +singerId?: string | null
+}
+
+interface AppState {
+  +profile: Profile | null
+  +sparkles: number
+  +bests: Record<string, SongBest>
+}
+
+interface Store {
+  +get(): AppState
+  +update(fn: (s: AppState) => void): void
+  +switchKey(key: string): void
+  +reset(): void
+}
+
+interface StorageLike {
+  +getItem(key: string): string | null
+  +setItem(key: string, value: string): void
+  +removeItem(key: string): void
+}
+
+class "scoring.ts" as ScoringMod <<module>> {
+  +HIT_TOLERANCE_CENTS: number = 50
+  +pitchStrictness(value: unknown): PitchStrictness
+  +hitToleranceCents(value: unknown): number
+}
+
+class NoteJudge {
+  -toleranceCents: number
+  +NoteJudge(notes: JudgeNote[], shift: number, toleranceCents: number)
+  +observe(scoreBeat: number, sungMidi: number?, toleranceBeats: number, frameMs: number): Observation
+}
+
+class "settings.ts" as SettingsMod <<module>> {
+  +showSettings(): void
+  -onStrictnessChange(value: string): void
+}
+
+class "profile.ts" as ProfileMod <<module>> {
+  +applySingerToProfile(s: ApiSinger): void
+  +pushProfileToServer(): Promise<void>
+}
+
+class "sing.ts" as SingMod <<screen>> {
+  -judge: NoteJudge
+}
+
+Profile --> "0..1" PitchStrictness : strictness
+AppState --> "0..1" Profile : profile
+Store --> AppState : holds
+Store ..> StorageLike : persists through
+SettingsMod ..> Store : store.update
+SettingsMod ..> ScoringMod : pitchStrictness
+ProfileMod ..> Profile : preserves prev.strictness
+SingMod ..> Profile : reads strictness at mount
+SingMod ..> ScoringMod : hitToleranceCents
+SingMod *-- "1" NoteJudge : builds with the tolerance
+ScoringMod ..> PitchStrictness : maps to cents
+@enduml

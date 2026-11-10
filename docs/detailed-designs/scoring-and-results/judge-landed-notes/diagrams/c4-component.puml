@@ -18,7 +18,7 @@ Container_Boundary(scoring, "Scoring rules (scoring.ts)") {
 }
 
 Rel(loop, judge, "observe(scoreBeat, sungMidi, toleranceBeats, frameMs)")
-Rel(judge, fold, "foldCents(sungMidi, n.midi + shift) vs HIT_TOLERANCE_CENTS")
+Rel(judge, fold, "foldCents(sungMidi, n.midi + shift) vs the singer's hit tolerance")
 Rel(judge, result, "Adds frame time to totalMs, voicedMs, hitMs; sets firstHitFrac")
 Rel(finalize, judge, "finalize(scoreBeat, toleranceBeats)")
 Rel(judge, landed, "Settles a landed note at its end")

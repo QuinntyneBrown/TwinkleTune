@@ -7,8 +7,8 @@
 <meta name="mock:kind" content="dialog">
 <meta name="mock:screen" content="grown-ups-corner">
 <meta name="mock:state" content="default">
-<meta name="mock:requirements" content="GC-L2-3 GC-L2-4 GC-L2-5 GC-L2-10">
-<meta name="description" content="The grown-ups&#x27; hub: what data lives where, mic timing, voice range, family content, singers, and reset.">
+<meta name="mock:requirements" content="GC-L2-3 GC-L2-4 GC-L2-5 GC-L2-10 GC-L2-11">
+<meta name="description" content="The grown-ups&#x27; hub: what data lives where, mic timing, pitch matching, voice range, family content, singers, and reset.">
 <link rel="stylesheet" href="../../assets/tokens.css">
 <link rel="stylesheet" href="../../assets/ui.css">
 <link rel="stylesheet" href="../../assets/mock.css">
@@ -132,6 +132,14 @@
       <b data-latency-label>40 ms</b>
     </div>
     <div class="setting-row">
+      <span id="strictness-label">Pitch matching<br><small>How close a note must be to count</small></span>
+      <div class="radio-group" role="radiogroup" aria-labelledby="strictness-label" data-strictness>
+        <label class="radio"><input type="radio" name="strictness" value="gentle"><span class="radio-dot" aria-hidden="true"></span><span>Gentle</span></label>
+        <label class="radio"><input type="radio" name="strictness" value="just-right"><span class="radio-dot" aria-hidden="true"></span><span>Just&nbsp;right</span></label>
+        <label class="radio"><input type="radio" name="strictness" value="precise" checked><span class="radio-dot" aria-hidden="true"></span><span>Precise</span></label>
+      </div>
+    </div>
+    <div class="setting-row">
       <span>Voice range<br><small>B3 – E5</small></span>
       <a class="btn btn-sm" href="../../pages/voice-setup/default.html" data-close-link>Re-do</a>
     </div>
@@ -155,7 +163,9 @@
 
 <aside class="mock-notes" aria-label="Design notes">
   <p class="mock-note">The mic timing offset belongs to this device and saves as the slider moves.</p>
+  <p class="mock-note">Pitch matching saves at once, with no save button. It belongs to this singer on this device, so Bea keeps her own, and it starts on Precise.</p>
   <p class="mock-note">Songs and Avatars open their managers; Manage goes to the profile picker.</p>
+  <p class="mock-note">On a screen shorter than the dialog, the dialog scrolls so Close is always reachable.</p>
 </aside>
 
 <nav class="mock-bar" aria-label="Mock navigation">

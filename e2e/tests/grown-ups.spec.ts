@@ -33,6 +33,84 @@ test.describe('Grown-Ups Corner', () => {
     expect(state.profile.latencyMs).toBe(100)
   })
 
+  // Traces to: GC-L2-11
+  test('pitch strictness opens on Precise for a singer nobody has chosen a level for', async ({
+    page,
+    mePage,
+  }) => {
+    await seedApp(page)
+    await mePage.goto()
+    await mePage.openSettings()
+
+    await expect(mePage.settings.strictnessGroup).toHaveAccessibleName(/Pitch matching/)
+    await expect(mePage.settings.strictnessGroup.getByRole('radio')).toHaveCount(3)
+    await expect(mePage.settings.strictnessChoice('Precise')).toBeChecked()
+    await expect(mePage.settings.strictnessChoice('Gentle')).not.toBeChecked()
+    await expect(mePage.settings.strictnessChoice('Just right')).not.toBeChecked()
+  })
+
+  // Traces to: GC-L2-11
+  test('a chosen pitch strictness saves at once and is still chosen after a reload', async ({
+    page,
+    welcomePage,
+    voiceSetupPage,
+    mePage,
+  }) => {
+    // onboard through the app: a seeded state would be re-seeded by the reload
+    await page.goto('/')
+    await welcomePage.completeOnboarding('Echo', '🐱')
+    await voiceSetupPage.laterLink.click()
+    await mePage.goto()
+    await mePage.openSettings()
+
+    await mePage.settings.chooseStrictness('Gentle')
+    await expect(mePage.settings.strictnessChoice('Gentle')).toBeChecked()
+    await expect(mePage.settings.strictnessChoice('Precise')).not.toBeChecked()
+    expect((await readState(page)).profile.strictness).toBe('gentle')
+
+    await page.reload()
+    await mePage.openSettings()
+    await expect(mePage.settings.strictnessChoice('Gentle')).toBeChecked()
+  })
+
+  // Traces to: GC-L2-11
+  test('a stored pitch strictness is the one shown as chosen', async ({ page, mePage }) => {
+    await seedApp(page, { strictness: 'just-right' })
+    await mePage.goto()
+    await mePage.openSettings()
+
+    await expect(mePage.settings.strictnessChoice('Just right')).toBeChecked()
+    await expect(mePage.settings.strictnessChoice('Precise')).not.toBeChecked()
+  })
+
+  // Traces to: GC-L2-11
+  test('a stored pitch strictness the app does not know reads as Precise', async ({
+    page,
+    mePage,
+  }) => {
+    await seedApp(page, { strictness: 'strictest' as never })
+    await mePage.goto()
+    await mePage.openSettings()
+
+    await expect(mePage.settings.strictnessChoice('Precise')).toBeChecked()
+  })
+
+  // Traces to: AS-L2-6
+  test('on a screen shorter than the dialog, it scrolls so Close can be reached', async ({
+    page,
+    mePage,
+  }) => {
+    await page.setViewportSize({ width: 360, height: 640 })
+    await seedApp(page)
+    await mePage.goto()
+    await mePage.openSettings()
+
+    await mePage.settings.closeButton.scrollIntoViewIfNeeded()
+    await expect(mePage.settings.closeButton).toBeInViewport({ ratio: 1 })
+    await mePage.settings.closeButton.click()
+    await expect(mePage.settings.dialog).toHaveCount(0)
+  })
+
   test('voice setup can be redone from settings', async ({ page, mePage, voiceSetupPage }) => {
     await seedApp(page)
     await mePage.goto()

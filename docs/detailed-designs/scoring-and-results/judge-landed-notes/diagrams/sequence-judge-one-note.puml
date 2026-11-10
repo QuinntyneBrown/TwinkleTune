@@ -38,7 +38,7 @@ judge -> result : totalMs += t
 alt pitch detected
   judge -> rules : foldCents(sungMidi, n.midi + shift) (SR-L2-1)
   rules --> judge : signed cents in (-600, +600]
-  alt |cents| <= HIT_TOLERANCE_CENTS (50)
+  alt |cents| <= the singer's hit tolerance: 80, 65 or 50 (SR-L2-20)
     judge -> result : voicedMs += t, hitMs += t
     opt firstHitFrac is null
       judge -> result : firstHitFrac = (scoreBeat - n.start) / n.dur

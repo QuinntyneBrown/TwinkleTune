@@ -5,7 +5,7 @@ import { songBeats, songRange } from '../songs/types'
 import { SongPlayer } from '../audio/player'
 import { HOP_MS, PitchTracker } from '../audio/pitch'
 import { computeShift, describeShift } from '../audio/range'
-import { noteLanded, summarize } from '../state/scoring'
+import { hitToleranceCents, noteLanded, summarize } from '../state/scoring'
 import { NoteJudge, TIMING_TOLERANCE_MS } from '../state/note-judge'
 import { recordPlay, store, todayISO } from '../state/store'
 import { mascotSVG } from '../ui/parts'
@@ -81,7 +81,9 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
   let pausedModal: { close: () => void } | null = null
 
   // per-note live accumulation
-  const judge = new NoteJudge(windowNotes, shift)
+  // judged at the pitch strictness a grown-up chose for this singer (Precise when none);
+  // fixed for the song, so a change in the Grown-Ups Corner applies from the next one
+  const judge = new NoteJudge(windowNotes, shift, hitToleranceCents(profile.strictness))
   const results = judge.results
   let nowIdx = -1
   let streak = 0

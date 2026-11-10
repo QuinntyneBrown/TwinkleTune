@@ -39,6 +39,8 @@ export interface SeedOptions {
   /** Defaults to A3–G4 ({low: 57, high: 67}); pass null for "voice not set up yet". */
   range?: { low: number; high: number } | null
   latencyMs?: number
+  /** Pitch strictness level; leave out for a singer nobody has chosen one for (judged as Precise). */
+  strictness?: 'gentle' | 'just-right' | 'precise'
   sparkles?: number
   singDays?: string[]
   plays?: Record<string, number>
@@ -61,6 +63,7 @@ export function buildState(o: SeedOptions = {}): Record<string, unknown> {
       avatar: o.avatar ?? '🦄',
       range: o.range === undefined ? { low: 57, high: 67 } : o.range,
       latencyMs: o.latencyMs ?? 0,
+      ...(o.strictness ? { strictness: o.strictness } : {}),
     },
     sparkles: o.sparkles ?? 0,
     singDays: o.singDays ?? [],

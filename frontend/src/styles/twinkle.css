@@ -140,6 +140,23 @@ a{color:inherit}
 .chip-row{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 12px;scrollbar-width:none}
 .chip-row::-webkit-scrollbar{display:none}
 
+/* ---------- radio group (one of a few choices) ---------- */
+.radio-group{display:flex;flex-direction:column;gap:4px}
+.radio{
+  position:relative;display:flex;align-items:center;gap:12px;cursor:pointer;
+  min-height:44px;padding-block:8px;font-weight:700;font-size:15px;color:var(--ink);
+}
+.radio input{position:absolute;opacity:0;width:44px;height:44px;margin:0;cursor:pointer}
+.radio-dot{
+  flex:none;width:24px;height:24px;display:grid;place-items:center;
+  border:3px solid var(--ink-soft);border-radius:50%;
+  transition:background-color .25s ease,border-color .25s ease;
+}
+.radio:hover .radio-dot{border-color:var(--blue);background:var(--pale)}
+.radio input:checked + .radio-dot{border-color:var(--blue)}
+.radio input:checked + .radio-dot::after{content:"";width:12px;height:12px;border-radius:50%;background:var(--blue)}
+.radio input:focus-visible + .radio-dot{outline:3px solid var(--blue);outline-offset:3px}
+
 /* ---------- bottom navigation ---------- */
 .bottomnav{
   position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:50;
@@ -206,6 +223,7 @@ a{color:inherit}
   position:fixed;inset:0;z-index:100;
   background:rgba(43,88,118,.45);backdrop-filter:blur(4px);
   display:grid;place-items:center;padding:20px;
+  overflow-y:auto;overscroll-behavior:contain; /* a card taller than the screen scrolls; its actions are never cut off */
   animation:fadein .25s ease both;
 }
 @keyframes fadein{from{opacity:0}to{opacity:1}}

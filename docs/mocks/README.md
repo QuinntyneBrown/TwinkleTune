@@ -200,7 +200,7 @@ Legend: ✅ mock exists · ➖ not applicable (reason in manifest) · ❌ missin
 | Paused (`pause`) | [✅](dialogs/pause/default.html) | ➖ | ➖ | [✅](dialogs/pause/practice.html) | [✅](dialogs/pause/duet.html) |  |  |  |  |  | `SG-L2-18`, `SG-L2-17` |
 | Tip walk-through (`tip`) | [✅](dialogs/tip/default.html) | ➖ | ➖ |  |  |  |  |  |  |  | `CE-L2-5` |
 | Parent gate (`parent-gate`) | [✅](dialogs/parent-gate/default.html) | ➖ | [✅](dialogs/parent-gate/invalid.html) |  |  |  |  |  |  |  | `GC-L2-1`, `GC-L2-2` |
-| Grown-Ups Corner (`grown-ups-corner`) | [✅](dialogs/grown-ups-corner/default.html) | ➖ | ➖ |  |  |  |  |  |  |  | `GC-L2-3`, `GC-L2-4`, `GC-L2-5`, `GC-L2-10` |
+| Grown-Ups Corner (`grown-ups-corner`) | [✅](dialogs/grown-ups-corner/default.html) | ➖ | ➖ |  |  |  |  |  |  |  | `GC-L2-3`, `GC-L2-4`, `GC-L2-5`, `GC-L2-10`, `GC-L2-11` |
 | Confirm reset (`confirm-reset`) | [✅](dialogs/confirm-reset/default.html) | ➖ | ➖ |  |  |  |  |  |  |  | `GC-L2-9` |
 | Family high scores (`song-board`) | [✅](dialogs/song-board/default.html) | ➖ | ➖ |  |  | [✅](dialogs/song-board/loading.html) | [✅](dialogs/song-board/empty.html) | [✅](dialogs/song-board/failed.html) |  |  | `HS-L2-7`, `HS-L2-12`, `HS-L2-13`, `HS-L2-15` |
 | New or edit singer (`singer-editor`) | [✅](dialogs/singer-editor/default.html) | ➖ | [✅](dialogs/singer-editor/invalid.html) |  |  |  |  | [✅](dialogs/singer-editor/failed.html) | [✅](dialogs/singer-editor/edit.html) |  | `PP-L2-8`, `PP-L2-9`, `PP-L2-13`, `PP-L2-15` |

@@ -25,6 +25,8 @@ interface NoteResult {
 
 class "scoring.ts" as ScoringMod <<module>> {
   +HIT_TOLERANCE_CENTS: number = 50
+  +pitchStrictness(value: unknown): PitchStrictness
+  +hitToleranceCents(value: unknown): number
   +MIN_HIT_MS: number = 45
   +MIN_PRECISION: number = 0.5
   +MIN_COVERAGE: number = 0.25

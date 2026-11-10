@@ -5,7 +5,7 @@ title Components — Own data across device and server
 
 Container_Boundary(device, "TwinkleTune web app on one device") {
   Component(state, "AppState", "TypeScript interface", "sparkles, singDays, plays, bests, badges — never sent to the server")
-  Component(prof, "Profile", "TypeScript interface", "name, avatar, range, latencyMs (device property), singerId")
+  Component(prof, "Profile", "TypeScript interface", "name, avatar, range, latencyMs and strictness (device-held), singerId")
   Component(keys, "profileKey / ACTIVE_KEY", "Storage keys", "Per-singer namespacing on a shared device")
   Component(bridge, "profile.ts", "Bridge module", "applySingerToProfile, activateSinger, pushProfileToServer")
   ComponentDb(local, "localStorage", "Browser storage", "Device-owned blobs")
@@ -20,7 +20,7 @@ Container_Boundary(server, "TwinkleTune family server") {
 
 Rel(state, local, "Persisted under the active key (FS-L2-16)")
 Rel(prof, keys, "Bound to a singer by singerId (FS-L2-16)")
-Rel(bridge, prof, "Merges server fields, preserving latencyMs (FS-L2-16)")
+Rel(bridge, prof, "Merges server fields, preserving latencyMs and strictness (FS-L2-16)")
 Rel(bridge, singer, "Reads and writes the range (FS-L2-16)", "JSON/HTTP")
 Rel(singer, avatar, "References")
 Rel(score, singer, "Belongs to")

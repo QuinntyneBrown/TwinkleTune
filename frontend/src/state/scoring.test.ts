@@ -1,5 +1,14 @@
 import { describe, expect, it } from 'vitest'
-import { foldCents, MIN_HIT_MS, noteLanded, summarize, type NoteResult } from './scoring'
+import {
+  foldCents,
+  HIT_TOLERANCE_CENTS,
+  hitToleranceCents,
+  MIN_HIT_MS,
+  noteLanded,
+  pitchStrictness,
+  summarize,
+  type NoteResult,
+} from './scoring'
 import { getSong } from '../songs/catalog'
 import type { Song } from '../songs/types'
 
@@ -38,6 +47,33 @@ describe('foldCents (octave-forgiving pitch compare)', () => {
   })
   it('handles fractional midis', () => {
     expect(foldCents(60.25, 60)).toBeCloseTo(25)
+  })
+})
+
+describe('pitch strictness (SR-L2-20)', () => {
+  it('maps each level to its hit tolerance in cents', () => {
+    expect(hitToleranceCents('gentle')).toBe(80)
+    expect(hitToleranceCents('just-right')).toBe(65)
+    expect(hitToleranceCents('precise')).toBe(50)
+  })
+
+  it('judges a singer with no level as Precise, exactly as before the levels existed', () => {
+    expect(hitToleranceCents(undefined)).toBe(50)
+    expect(hitToleranceCents(null)).toBe(50)
+    expect(hitToleranceCents(undefined)).toBe(HIT_TOLERANCE_CENTS)
+  })
+
+  it('judges an unrecognised stored value as Precise', () => {
+    for (const stored of ['strict', '', 'GENTLE', 65, {}, 'toString']) {
+      expect(pitchStrictness(stored)).toBe('precise')
+      expect(hitToleranceCents(stored)).toBe(50)
+    }
+  })
+
+  it('keeps a recognised level as it is', () => {
+    expect(pitchStrictness('gentle')).toBe('gentle')
+    expect(pitchStrictness('just-right')).toBe('just-right')
+    expect(pitchStrictness('precise')).toBe('precise')
   })
 })
 

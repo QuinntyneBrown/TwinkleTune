@@ -15,6 +15,11 @@ export class FakeMic {
   static readonly A4 = 440
   static readonly C4 = 261.63
 
+  /** `hz` sung `cents` sharp (or flat, when negative): a steady, slightly out-of-tune voice. */
+  static detuned(hz: number, cents: number): number {
+    return hz * Math.pow(2, cents / 1200)
+  }
+
   async use(hz: number): Promise<void> {
     await this.page.addInitScript((startHz) => {
       const live: { osc: OscillatorNode | null; gain: GainNode | null } = { osc: null, gain: null }

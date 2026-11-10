@@ -424,14 +424,15 @@
         "GC-L2-3",
         "GC-L2-4",
         "GC-L2-5",
-        "GC-L2-10"
+        "GC-L2-10",
+        "GC-L2-11"
       ],
       "states": [
         "default"
       ],
       "not_applicable": {
-        "busy": "The slider saves as it moves and every other control navigates; nothing waits.",
-        "invalid": "The only input is a range slider, which cannot hold an invalid value."
+        "busy": "The slider and the pitch matching choice save at once and every other control navigates; nothing waits.",
+        "invalid": "The inputs are a range slider and a one-of-three choice; neither can hold an invalid value."
       }
     },
     {

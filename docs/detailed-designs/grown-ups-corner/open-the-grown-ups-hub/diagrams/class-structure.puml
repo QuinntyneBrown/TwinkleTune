@@ -23,6 +23,7 @@ interface Profile {
   +avatar: string
   +range: VoiceRange | null
   +latencyMs: number
+  +strictness?: PitchStrictness
   +singerId?: string | null
   +avatarId?: string | null
   +photoUrl?: string | null

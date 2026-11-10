@@ -72,7 +72,8 @@ codes VP, AE, SL, SG, SR, RP, PP, HS, DM, CE, GC, AS, FS. Identifiers are never 
 - Keep pure logic (scoring, note judging, range math, badges, store) free of DOM and Web Audio so
   unit tests and the synthetic singer can drive it.
 - Persistence goes through the `StorageLike` seam in `src/state/store.ts`, namespaced per singer.
-  Mic latency offset belongs to the device; voice range belongs to the singer and syncs.
+  Mic latency offset belongs to the device; voice range belongs to the singer and syncs; pitch
+  strictness belongs to the singer but stays on the device and never syncs.
 - The API client uses `VITE_API_URL` (default `http://localhost:5240`) and probes `/health` with a
   short timeout. Server calls fail soft to the bundled catalogue and cached data, never to an
   error the child sees.

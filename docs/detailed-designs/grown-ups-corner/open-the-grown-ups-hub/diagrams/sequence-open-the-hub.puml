@@ -40,9 +40,9 @@ else no range stored
   hub -> hub : rangeLabel = "not set yet" (GC-L2-5)
 end
 
-hub -> hub : Compose six controls: latency, voice range, songs, avatars, singers, reset (GC-L2-3)
+hub -> hub : Compose seven controls: latency, pitch matching, voice range, songs, avatars, singers, reset (GC-L2-3)
 hub -> host : showModal({ ariaLabel: 'Grown-ups corner', html, onMount })
 host -> hub : onMount(modal, close)
-hub -> hub : Bind slider input, close link, both hand-off links, both manager buttons
+hub -> hub : Bind slider input, pitch strictness change, close link, both hand-off links, both manager buttons
 host --> actor : Present the Grown-Ups Corner card (GC-L2-3)
 @enduml

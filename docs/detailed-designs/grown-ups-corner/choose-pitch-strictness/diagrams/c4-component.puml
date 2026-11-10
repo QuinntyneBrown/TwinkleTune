@@ -1,0 +1,31 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components — Choose pitch strictness
+
+Container_Boundary(hub, "Grown-Ups Corner hub (settings.ts)") {
+  Component(group, "[data-strictness] radio group", "HTML radiogroup", "Three native radios named strictness: gentle, just-right, precise")
+  Component(handler, "radio change handler", "TypeScript listener", "Writes the chosen level through store.update")
+}
+Container_Boundary(state, "State") {
+  Component(store, "store.update(fn)", "state/store.ts", "Mutates AppState then serializes it")
+  ComponentDb(local, "localStorage blob", "Browser storage", "twinkletune:v1[:singerId]")
+  Component(merge, "applySingerToProfile()", "state/profile.ts", "Carries the level across as prev.strictness")
+}
+Container_Boundary(judging, "Judging") {
+  Component(norm, "pitchStrictness()", "state/scoring.ts", "The stored value, or precise when missing or unknown")
+  Component(map, "hitToleranceCents()", "state/scoring.ts", "gentle 80, just-right 65, precise 50")
+  Component(mount, "Sing screen mount", "screens/sing.ts", "Builds the judge once per song")
+  Component(judge, "NoteJudge", "state/note-judge.ts", "on-pitch when |foldCents| <= toleranceCents")
+}
+
+Rel(group, handler, "change event on a radio")
+Rel(handler, store, "profile.strictness = pitchStrictness(input.value)")
+Rel(store, local, "setItem(key, JSON.stringify(state))")
+Rel(merge, store, "Rebuilds the profile without discarding the level")
+Rel(group, norm, "Which radio opens checked")
+Rel(mount, store, "store.get().profile.strictness")
+Rel(mount, map, "hitToleranceCents(profile.strictness)")
+Rel(map, norm, "Applies the Precise default")
+Rel(mount, judge, "new NoteJudge(windowNotes, shift, toleranceCents)")
+@enduml

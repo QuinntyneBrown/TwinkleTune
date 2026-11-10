@@ -44,9 +44,12 @@ Frontend — state store (`frontend/src/state/store.ts`):
 - **`AppState`** — interface holding `profile`, `sparkles`, `singDays`, `plays`,
   `bests`, `badges`, `lastResult`, `lastSongId`, and `lastNewBadges`.
 - **`Profile`** — interface holding `name`, `avatar`, `range: VoiceRange | null`,
-  `latencyMs`, and the optional `singerId`, `avatarId`, and `photoUrl`. The
-  comment on `latencyMs` records that mic latency is a device property and stays
-  per device, while `range` belongs to the singer.
+  `latencyMs`, and the optional `strictness`, `singerId`, `avatarId`, and
+  `photoUrl`. The comment on `latencyMs` records that mic latency is a device
+  property and stays per device, while `range` belongs to the singer. The
+  optional `strictness` is the singer's pitch strictness level: because each
+  singer has her own blob, two singers on one device keep different levels, and
+  the field is never sent to the server.
 - **`createStore(storage, initialKey = KEY)`** — closes over one mutable `key`.
   `load()` parses the blob at `key`, merging it over `emptyState()`, and falls
   back to `emptyState()` when the entry is absent or the JSON is corrupt.
@@ -78,7 +81,7 @@ refines a level-1 (L1) requirement, cited by identifier.
 
 | L2 ID | Refines (L1) | Requirement |
 |-------|--------------|-------------|
-| `PP-L2-1` | `PP-L1-1` | A profile shall hold the singer's name, chosen avatar emoji, optional voice range, device mic latency, and — when server-linked — the server singer id, avatar id, and photo URL. |
+| `PP-L2-1` | `PP-L1-1` | A profile shall hold the singer's name, chosen avatar emoji, optional voice range, device mic latency, optional pitch strictness level (held on this device and never sent to the server), and — when server-linked — the server singer id, avatar id, and photo URL. |
 | `PP-L2-2` | `PP-L1-2` | Each singer's on-device state shall be stored under a per-singer key, and the active singer id shall be persisted separately, so two singers' data never mix. |
 | `PP-L2-4` | `PP-L1-6` | The first profile to be activated shall adopt any pre-profiles state blob, so earlier solo progress (sparkles, badges) is preserved, and the legacy blob shall then be removed. |
 

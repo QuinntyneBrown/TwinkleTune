@@ -142,6 +142,11 @@ export interface SimulationOptions {
   /** the profile's mic timing offset, as the sing loop applies it */
   latencyMs?: number
   /**
+   * The singer's hit tolerance in cents, as the sing loop derives it from her
+   * pitch strictness level. Leave it out for a singer with no level.
+   */
+  toleranceCents?: number
+  /**
    * The latencies (in seconds) the browser reports for this device. Defaults to
    * an accurate report of the room; pass `{}` for a browser that reports nothing.
    */
@@ -154,13 +159,13 @@ export function simulatePerformance(
   song: Song,
   singer: Singer,
   room: Room,
-  { fps = 60, stutter = 0, latencyMs = 0, seed = 1, reported }: SimulationOptions = {},
+  { fps = 60, stutter = 0, latencyMs = 0, seed = 1, reported, toleranceCents }: SimulationOptions = {},
 ): PerformanceOutcome {
   const samples = synthesizeSinging(song, singer, room, seed)
   const spb = 60 / song.bpm
   const notes = song.phrases.flatMap((p, phraseIdx) => p.notes.map((n, noteIdx) => ({ ...n, phraseIdx, noteIdx })))
   const analyzer = new PitchAnalyzer(FFT_SIZE)
-  const judge = new NoteJudge(notes, 0)
+  const judge = new NoteJudge(notes, 0, toleranceCents)
   const history = new Float32Array(HISTORY_SIZE)
   const toleranceBeats = TIMING_TOLERANCE_MS / 1000 / spb
   const totalSec = samples.length / SAMPLE_RATE

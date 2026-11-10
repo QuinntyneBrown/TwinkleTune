@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { createStore, recordPlay, streakCount, type StorageLike } from './store'
-import type { SongSummary } from './scoring'
+import { hitToleranceCents, pitchStrictness, type SongSummary } from './scoring'
 import { getSong } from '../songs/catalog'
 import type { Song } from '../songs/types'
 
@@ -101,5 +101,50 @@ describe('recordPlay', () => {
     const s = store.get()
     expect(s.singDays).toEqual(['2026-06-11'])
     expect(s.bests['twinkle'].stars).toBe(0)
+  })
+})
+
+describe('pitch strictness is kept per singer on the device (GC-L2-11)', () => {
+  const profile = { name: 'Ada', avatar: '🦄', range: null, latencyMs: 0 }
+
+  it('keeps a different level for each singer on one device', () => {
+    const storage = fakeStorage()
+    const store = createStore(storage, 'twinkletune:v1:ada')
+    store.update((s) => {
+      s.profile = { ...profile, strictness: 'gentle' }
+    })
+    store.switchKey('twinkletune:v1:bea')
+    store.update((s) => {
+      s.profile = { ...profile, name: 'Bea' }
+    })
+
+    expect(pitchStrictness(store.get().profile?.strictness)).toBe('precise')
+    store.switchKey('twinkletune:v1:ada')
+    expect(store.get().profile?.strictness).toBe('gentle')
+  })
+
+  it('survives a reload', () => {
+    const storage = fakeStorage()
+    createStore(storage).update((s) => {
+      s.profile = { ...profile, strictness: 'just-right' }
+    })
+    expect(createStore(storage).get().profile?.strictness).toBe('just-right')
+  })
+
+  it('reads a blob written before the levels existed as Precise', () => {
+    const storage = fakeStorage()
+    storage.setItem('twinkletune:v1', JSON.stringify({ profile, sparkles: 120 }))
+    const store = createStore(storage)
+    expect(store.get().profile?.strictness).toBeUndefined()
+    expect(hitToleranceCents(store.get().profile?.strictness)).toBe(50)
+  })
+
+  it('returns to Precise when everything is started over', () => {
+    const store = createStore(fakeStorage())
+    store.update((s) => {
+      s.profile = { ...profile, strictness: 'gentle' }
+    })
+    store.reset()
+    expect(pitchStrictness(store.get().profile?.strictness)).toBe('precise')
   })
 })

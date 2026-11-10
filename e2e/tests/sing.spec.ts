@@ -134,6 +134,42 @@ test.describe('Sing a song', () => {
     await expect(resultsPage.scoreCard).toContainText('You landed 7 of 17 notes')
   })
 
+  // A steady C sung 60 cents sharp: outside Precise (50 cents), inside Gentle (80 cents).
+  // Hot Cross Buns has seven Cs; nothing else in it is within reach of this pitch.
+  // Traces to: SR-L2-20, GC-L2-11
+  test('a singer on Gentle lands notes that the same singing misses on Precise', async ({
+    page,
+    fakeMic,
+    singPage,
+    resultsPage,
+  }) => {
+    await seedApp(page, { strictness: 'gentle' })
+    await fakeMic.use(FakeMic.detuned(FakeMic.C4, 60))
+    await singPage.open('hotcrossbuns')
+
+    await singPage.startButton.click()
+    await singPage.waitForResults()
+
+    await expect(resultsPage.scoreCard).toContainText('You landed 7 of 17 notes')
+  })
+
+  // Traces to: SR-L2-20
+  test('a singer with no chosen level is judged as Precise', async ({
+    page,
+    fakeMic,
+    singPage,
+    resultsPage,
+  }) => {
+    await seedApp(page)
+    await fakeMic.use(FakeMic.detuned(FakeMic.C4, 60))
+    await singPage.open('hotcrossbuns')
+
+    await singPage.startButton.click()
+    await singPage.waitForResults()
+
+    await expect(resultsPage.scoreCard).toContainText('You landed 0 of 17 notes')
+  })
+
   test('a shifted song explains its new key, and pause works', async ({
     page,
     fakeMic,
