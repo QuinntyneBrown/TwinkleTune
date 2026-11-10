@@ -1,8 +1,11 @@
 import { PitchDetector } from 'pitchy'
 import { BandLimiter } from './band-limit'
 import { pipelineLatencyMs } from './latency'
+import { microphoneConstraints, resolveMicrophone, type MicrophoneChoice } from './microphone'
+import { listMicrophones } from './microphone-access'
 import { audioCtx } from './player'
 import { hzToMidi } from './range'
+import { deviceSettings } from '../state/device'
 
 export interface PitchFrame {
   hz: number
@@ -136,23 +139,37 @@ export class PitchTracker {
     return this.analyser !== null
   }
 
-  /** Throws DOMException (NotAllowedError) when the mic is denied. */
-  async start(): Promise<void> {
+  /**
+   * Starts listening on the device's microphone choice, or on the system
+   * default when there is none or the chosen microphone is not available: a
+   * headset left in another room is never an error. Throws DOMException
+   * (NotAllowedError) when the mic is denied.
+   */
+  async start(choice: MicrophoneChoice | null = deviceSettings.getMicrophone()): Promise<void> {
     if (this.running) return
     const ctx = audioCtx()
-    this.media = await navigator.mediaDevices.getUserMedia({
-      audio: {
-        echoCancellation: false,
-        noiseSuppression: false,
-        autoGainControl: false,
-      },
-    })
+    const wanted = choice ? resolveMicrophone(choice, await listMicrophones()) : null
+    this.media = await this.open(wanted)
     const settings = this.media.getAudioTracks()[0]?.getSettings() as { latency?: number } | undefined
     this.inputLatency = settings?.latency
     this.source = ctx.createMediaStreamSource(this.media)
     this.analyser = ctx.createAnalyser()
     this.analyser.fftSize = HISTORY_SIZE // the time-domain history it keeps for us
     this.source.connect(this.analyser)
+  }
+
+  private async open(deviceId: string | null): Promise<MediaStream> {
+    const request = (id: string | null) =>
+      navigator.mediaDevices.getUserMedia({ audio: microphoneConstraints(id) })
+    if (deviceId === null) return request(null)
+    try {
+      return await request(deviceId)
+    } catch (e) {
+      const name = (e as { name?: string } | null)?.name
+      if (name === 'NotAllowedError' || name === 'SecurityError') throw e
+      // unplugged a moment ago, or a stale identifier: listen on the system default instead
+      return request(null)
+    }
   }
 
   read(): PitchFrame | null {
