@@ -2,7 +2,7 @@
 
 **Document type:** Software Requirements Specification (SRS), master index
 **Product:** TwinkleTune — a voice‑personalized singing app for young performers
-**Specification baseline:** v1.0
+**Specification baseline:** v1.10
 **Status:** Approved for release baseline
 **Last updated:** 2026-11-10
 
@@ -125,7 +125,7 @@ These principles bind every subsystem and are restated as requirements where the
 
 ## 4. Subsystem catalogue
 
-The product is decomposed into thirteen subsystems. Each has its own `L1.md` and `L2.md`.
+The product is decomposed into fourteen subsystems. Each has its own `L1.md` and `L2.md`.
 
 | Code | Subsystem | Responsibility |
 |------|-----------|----------------|
@@ -142,6 +142,7 @@ The product is decomposed into thirteen subsystems. Each has its own `L1.md` and
 | **GC** | [grown-ups-corner](./grown-ups-corner/) | The parent gate, mic‑latency calibration, the microphone picker, the pitch strictness choice, voice re‑setup, the song and avatar managers, reset, and privacy disclosure. |
 | **AS** | [application-shell](./application-shell/) | Client routing, screen shell and bottom navigation, the installable PWA, and offline caching. |
 | **FS** | [family-server-platform](./family-server-platform/) | Backend architecture (Clean Architecture, EF Core + SQLite), REST/CORS/health surface, security posture, and graceful client degradation. |
+| **CL** | [command-line-interface](./command-line-interface/) | `TwinkleTune.Cli` — the installable .NET operations tool (System.CommandLine + Microsoft.Extensions, command‑per‑file, SOLID) that seeds and administers the server's data store out‑of‑band. |
 
 ---
 
@@ -160,6 +161,8 @@ The product is decomposed into thirteen subsystems. Each has its own `L1.md` and
 | **Duet room** | An ephemeral, in‑memory, 4‑letter‑code room hosting exactly two singers for a synchronised head‑to‑head song. |
 | **Family server** | The optional self‑hosted .NET backend that stores profiles, songs, photos, and high scores on the home LAN. |
 | **Seed song** | One of the seven bundled public‑domain melodies, present both in the offline bundle and in the server's seed data. |
+| **Family CLI (`TwinkleTune.Cli`)** | The installable .NET command‑line tool a grown‑up runs to administer the family server's data store out‑of‑band from the running host (see CL subsystem). |
+| **Seed command** | The CLI's `twinkletune seed` command that idempotently writes the default avatars and seven seed songs — the product's seeding mechanism, replacing implicit start‑up seeding. |
 | **Parent gate** | A client‑side challenge (a simple arithmetic question) that guards the Grown‑Ups Corner and destructive actions. |
 | **No‑mic mode** | A "just for fun" play mode with no microphone; it never earns scored badges or high scores. |
 | **Microphone choice** | The microphone a grown‑up picked for a device in the Grown‑Ups Corner. One per device, shared by every singer on it, kept on the device and never synced. |
@@ -191,3 +194,4 @@ The product is decomposed into thirteen subsystems. Each has its own `L1.md` and
 | 1.7 | 2026-11-10 | Sing screen mock parity | Pitch lanes drawn by every scene renderer (SG-L2-27). |
 | 1.8 | 2026-11-10 | Adjustable pitch strictness | A grown‑up chooses Gentle, Just right, or Precise per singer; the hit tolerance follows it (GC-L1-8, GC-L2-3, GC-L2-11, SR-L2-2, SR-L2-20, SG-L2-9, SG-L2-25, PP-L2-1, FS-L2-16). A dialog taller than the screen scrolls (AS-L2-6). |
 | 1.9 | 2026-11-10 | Microphone choice and headphone guidance | A grown‑up can pick the microphone the device listens on, with the system default as fallback (AE-L1-8, AE-L2-14, AE-L2-22, GC-L1-9, GC-L2-3, GC-L2-9, GC-L2-12, FS-L2-16); a headphone tip before singing (SG-L1-10, SG-L2-28). |
+| 1.10 | 2026-11-10 | Quinntyne Brown, Claude | Added the **Command‑Line Interface (CL)** subsystem (`TwinkleTune.Cli`): installable .NET tool, System.CommandLine + Microsoft.Extensions, command‑per‑file/SOLID, seeding moved from server start‑up into the `seed` command (ADR‑0003). FS‑L2‑4 updated to reflect the move. |
