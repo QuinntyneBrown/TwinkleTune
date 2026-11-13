@@ -7,7 +7,7 @@ namespace TwinkleTune.Api.Hubs;
 /// Relay for family duets. Scoring happens entirely on each client; the hub only passes
 /// tiny score events between the two singers and announces the synchronized start.
 /// </summary>
-public class DuetHub(IRoomService rooms, DuetPresenceMonitor presence) : Hub
+public class DuetHub(IRoomService rooms, DuetPresenceMonitor presence, TimeProvider time) : Hub
 {
     public async Task<RoomStateDto> CreateRoom(DuetPlayerInfo info)
     {
@@ -44,6 +44,22 @@ public class DuetHub(IRoomService rooms, DuetPresenceMonitor presence) : Hub
             ?? throw new HubException("You need two singers in the room to start!");
         await Clients.Group(start.Code).SendAsync("SongStarted", start.SongId, start.StartAtUtc);
     }
+
+    /// <summary>
+    /// A singer tapped "I'm ready!". Once both have, the room is given one start instant on the
+    /// server's clock, a short lead ahead, and each device begins its count-in at that instant.
+    /// </summary>
+    public async Task Ready()
+    {
+        if (rooms.MarkReady(Context.ConnectionId) is { SingAtUtc: { } singAt } ready)
+            await Clients.Group(ready.Code).SendAsync("SingAt", singAt);
+    }
+
+    /// <summary>
+    /// The server's clock, so a device can work out how far its own clock is off and place the
+    /// shared start instant without trusting two tablets to agree on the time.
+    /// </summary>
+    public DateTimeOffset ServerTime() => time.GetUtcNow();
 
     public async Task ScoreTick(ScoreTick tick)
     {

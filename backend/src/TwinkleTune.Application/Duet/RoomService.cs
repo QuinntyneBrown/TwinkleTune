@@ -14,6 +14,11 @@ public record RoomStateDto(string Code, List<DuetPlayerInfo> Players, Guid? Song
 
 public record JoinResult(RoomStateDto? Room, string? Error);
 public record StartResult(string Code, Guid SongId, DateTimeOffset StartAtUtc);
+/// <summary>
+/// A singer said she is ready. <see cref="SingAtUtc"/> is the shared start instant, set once
+/// both singers are ready; null while she waits for her buddy.
+/// </summary>
+public record ReadyResult(string Code, DateTimeOffset? SingAtUtc);
 public record FinishResult(string Code, bool BothDone, List<DuetSummary> Summaries);
 public record LeaveResult(string Code, DuetPlayerInfo Player, bool RoomClosed);
 
@@ -28,22 +33,25 @@ public record AwayResult(string Code, Guid SingerId, DateTimeOffset AwaySince);
 
 /// <summary>The room as it stands, handed to a singer who rejoins so she is back in step at once.</summary>
 public record RoomSnapshot(
-    string Code, List<PlayerSnapshot> Players, Guid? SongId, DateTimeOffset? StartAtUtc, DuetResult? Result);
-public record PlayerSnapshot(DuetPlayerInfo Info, ScoreTick? LastTick, DuetSummary? Summary);
+    string Code, List<PlayerSnapshot> Players, Guid? SongId, DateTimeOffset? StartAtUtc,
+    DateTimeOffset? SingAtUtc, DuetResult? Result);
+public record PlayerSnapshot(DuetPlayerInfo Info, bool Ready, ScoreTick? LastTick, DuetSummary? Summary);
 public record RejoinResult(RoomSnapshot? Room, string? Error);
 
 /// <summary>Read-only picture of the in-memory rooms, for a grown-up debugging a duet.</summary>
 public record DuetDiagnostics(DateTimeOffset TimestampUtc, List<RoomDiagnostics> Rooms);
 public record RoomDiagnostics(
     string Code, List<PlayerDiagnostics> Players, Guid? SongId,
-    DateTimeOffset? StartAtUtc, DateTimeOffset LastActivityUtc);
-public record PlayerDiagnostics(string Name, bool Connected, bool Finished, int? LastNoteIdx);
+    DateTimeOffset? StartAtUtc, DateTimeOffset? SingAtUtc, DateTimeOffset LastActivityUtc);
+public record PlayerDiagnostics(string Name, bool Connected, bool Ready, bool Finished, int? LastNoteIdx);
 
 public interface IRoomService
 {
     RoomStateDto Create(string connectionId, DuetPlayerInfo info);
     JoinResult Join(string code, string connectionId, DuetPlayerInfo info);
     StartResult? StartSong(string connectionId, Guid songId);
+    /// <summary>Marks the singer ready; once both are, sets the shared start a short lead ahead.</summary>
+    ReadyResult? MarkReady(string connectionId);
     string? GetRoomCode(string connectionId);
     /// <summary>Remembers the singer's latest tick for a rejoining buddy; returns her room code.</summary>
     string? RecordTick(string connectionId, ScoreTick tick);
@@ -75,6 +83,8 @@ public class RoomService(TimeProvider time, TimeSpan? reconnectGrace = null) : I
     private const int MaxPlayers = 2
 ;
     private static readonly TimeSpan IdleExpiry = TimeSpan.FromMinutes(30);
+    // long enough for the instant to reach both devices before it arrives
+    private static readonly TimeSpan StartLead = TimeSpan.FromSeconds(3);
     // no ambiguous letters (I/L/O), so codes are easy for kids to read out loud
     private const string CodeAlphabet = "ABCDEFGHJKMNPQRSTUVWXYZ";
 
@@ -84,6 +94,8 @@ public class RoomService(TimeProvider time, TimeSpan? reconnectGrace = null) : I
         public DuetPlayerInfo Info { get; } = info;
         public DuetSummary? Summary { get; set; }
         public ScoreTick? LastTick { get; set; }
+        /// <summary>She tapped "I'm ready!" for the song that was started.</summary>
+        public bool Ready { get; set; }
         /// <summary>When her connection dropped; null while she is connected.</summary>
         public DateTimeOffset? AwaySince { get; set; }
     }
@@ -94,6 +106,8 @@ public class RoomService(TimeProvider time, TimeSpan? reconnectGrace = null) : I
         public List<Player> Players { get; } = new(MaxPlayers);
         public Guid? SongId { get; set; }
         public DateTimeOffset? StartAtUtc { get; set; }
+        /// <summary>The instant both devices begin the count-in; set once both singers are ready.</summary>
+        public DateTimeOffset? SingAtUtc { get; set; }
         public DateTimeOffset LastActivity { get; set; } = now;
     }
 
@@ -147,14 +161,31 @@ public class RoomService(TimeProvider time, TimeSpan? reconnectGrace = null) : I
         {
             if (room.Players.Count < MaxPlayers) return null;
             room.SongId = songId;
-            room.StartAtUtc = time.GetUtcNow().AddSeconds(3);
+            room.StartAtUtc = time.GetUtcNow() + StartLead;
+            room.SingAtUtc = null;
             room.LastActivity = time.GetUtcNow();
             foreach (var p in room.Players)
             {
                 p.Summary = null;
                 p.LastTick = null;
+                p.Ready = false;
             }
             return new StartResult(room.Code, songId, room.StartAtUtc.Value);
+        }
+    }
+
+    public ReadyResult? MarkReady(string connectionId)
+    {
+        if (GetRoom(connectionId) is not { } room) return null;
+        lock (room)
+        {
+            var player = room.Players.FirstOrDefault(p => p.ConnectionId == connectionId);
+            if (player is null) return null;
+            player.Ready = true;
+            room.LastActivity = time.GetUtcNow();
+            if (room.SingAtUtc is null && room.Players.Count == MaxPlayers && room.Players.All(p => p.Ready))
+                room.SingAtUtc = time.GetUtcNow() + StartLead;
+            return new ReadyResult(room.Code, room.SingAtUtc);
         }
     }
 
@@ -272,8 +303,8 @@ public class RoomService(TimeProvider time, TimeSpan? reconnectGrace = null) : I
                 rooms.Add(new RoomDiagnostics(
                     room.Code,
                     room.Players.Select(p => new PlayerDiagnostics(
-                        p.Info.Name, p.AwaySince is null, p.Summary is not null, p.LastTick?.NoteIdx)).ToList(),
-                    room.SongId, room.StartAtUtc, room.LastActivity));
+                        p.Info.Name, p.AwaySince is null, p.Ready, p.Summary is not null, p.LastTick?.NoteIdx)).ToList(),
+                    room.SongId, room.StartAtUtc, room.SingAtUtc, room.LastActivity));
             }
         }
         return new DuetDiagnostics(time.GetUtcNow(), rooms.OrderBy(r => r.Code).ToList());
@@ -306,8 +337,8 @@ public class RoomService(TimeProvider time, TimeSpan? reconnectGrace = null) : I
         var summaries = room.Players.Where(p => p.Summary is not null).Select(p => p.Summary!).ToList();
         return new RoomSnapshot(
             room.Code,
-            room.Players.Select(p => new PlayerSnapshot(p.Info, p.LastTick, p.Summary)).ToList(),
-            room.SongId, room.StartAtUtc,
+            room.Players.Select(p => new PlayerSnapshot(p.Info, p.Ready, p.LastTick, p.Summary)).ToList(),
+            room.SongId, room.StartAtUtc, room.SingAtUtc,
             room.Players.Count == MaxPlayers && summaries.Count == MaxPlayers ? DuetResult.From(summaries) : null);
     }
 
