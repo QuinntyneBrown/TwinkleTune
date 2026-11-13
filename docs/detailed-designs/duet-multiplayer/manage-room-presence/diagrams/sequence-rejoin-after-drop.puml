@@ -1,0 +1,64 @@
+@startuml
+title UML sequence behaviour — Rejoin after a dropped connection
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer (guest device)" as guest
+box "Frontend — TwinkleTune web app (guest device)" #E0F2FE
+  participant "Sing screen" as guestSing
+  participant "DuetClient (guest)" as guestClient
+end box
+box "Frontend — TwinkleTune web app (host device)" #E0F2FE
+  participant "DuetClient (host)" as hostClient
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "DuetHub" as hub
+  participant "DuetPresenceMonitor" as monitor
+end box
+box "Backend — TwinkleTune Application and Domain" #ECFDF3
+  participant "RoomService" as service
+end box
+
+hostClient -> hub : invoke ScoreTick(tick)
+hub -> service : RecordTick(connectionId, tick) (DM-L2-19)
+service --> hub : Room code; the tick is kept as LastTick
+hub -> guestClient : Send OpponentTick(tick)
+
+guest -> guestClient : Wi-Fi drops for a few seconds
+guestClient -> hub : Transport reports the disconnect
+hub -> service : Disconnect(old connectionId) (DM-L2-18)
+service --> hub : AwayResult — the seat is held, the host is told nothing
+hub -> monitor : ExpireAfterGrace(away)
+
+hostClient -> hub : invoke ScoreTick(tick)
+hub -> service : RecordTick(connectionId, tick)
+note over guestClient : The tick is missed while she is away
+
+guestClient -> guestClient : Automatic reconnection succeeds on a new connection
+guestClient -> hub : invoke RejoinRoom(code, singerId) (DM-L2-19)
+hub -> service : Rejoin(code, new connectionId, singerId)
+service --> hub : RoomSnapshot(players with LastTick and Summary, songId, startAtUtc, result)
+hub -> hub : Groups.AddToGroupAsync(new connectionId, code)
+hub --> guestClient : RoomSnapshot
+guestClient -> guestSing : onResync(snapshot)
+guestSing --> guest : Opponent chip repainted from her buddy's LastTick
+opt she finished the song while offline
+  guestClient -> hub : invoke FinishSong(mySummary) again (DM-L2-19)
+end
+
+monitor -> monitor : ReconnectGrace runs out
+monitor -> service : ExpireAway(away)
+service --> monitor : null — she is no longer away since that drop
+note over hostClient : No PlayerLeft was ever sent (DM-L2-18)
+@enduml

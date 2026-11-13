@@ -40,6 +40,8 @@ export default defineConfig({
         PhotosPath: path.resolve(__dirname, '.tmp', 'photos'),
         DataPath: path.resolve(__dirname, '.tmp'),
         Cors__Origins__0: 'http://localhost:5175',
+        // a dropped duet singer is announced as gone after 2 s here, not the family server's 20 s
+        Duet__ReconnectGraceSeconds: '2',
         ASPNETCORE_ENVIRONMENT: 'Development',
       },
     },

@@ -1,9 +1,6 @@
-import {
-  HubConnection,
-  HubConnectionBuilder,
-  LogLevel,
-} from '@microsoft/signalr'
+import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 import { API_URL } from './client'
+import { delayUntil, estimateClockOffset, type ClockSample } from './clock-sync'
 
 export interface DuetPlayerInfo {
   singerId: string
@@ -41,9 +38,59 @@ export interface DuetResult {
   combinedSparkles: number
 }
 
+/** One singer's seat in a room snapshot: who she is and how far she has got. */
+export interface PlayerSnapshot {
+  info: DuetPlayerInfo
+  /** she has tapped "I'm ready!" for the song that was started */
+  ready: boolean
+  lastTick: DuetTick | null
+  summary: DuetSummary | null
+}
+
+/** The room as it stands, handed back by the server when a dropped singer rejoins. */
+export interface RoomSnapshot {
+  code: string
+  players: PlayerSnapshot[]
+  songId: string | null
+  startAtUtc: string | null
+  /** the shared start instant on the server's clock, once both singers are ready */
+  singAtUtc: string | null
+  result: DuetResult | null
+}
+
+/** The other singer's seat in a snapshot: her latest tick and summary, for the opponent chip. */
+export function buddyIn(room: RoomSnapshot, me: DuetPlayerInfo): PlayerSnapshot | null {
+  return room.players.find((p) => p.info.singerId !== me.singerId || p.info.name !== me.name) ?? null
+}
+
+/** The part of a SignalR connection the duet client uses, so a test can stand in for the hub. */
+export interface DuetConnection {
+  invoke<T = unknown>(method: string, ...args: unknown[]): Promise<T>
+  on(event: string, handler: (...args: never[]) => void): void
+  onreconnected(handler: () => void): void
+  stop(): Promise<void>
+}
+
 /** Thin wrapper over the SignalR hub so screens never touch the connection directly. */
 export class DuetClient {
-  private constructor(private conn: HubConnection) {}
+  /** the room this connection sits in, so a reconnect knows where to go back to */
+  private seat: { code: string; singerId: string } | null = null
+  /** the finish summary of the song in progress, in case it was sent into a dead line */
+  private sentSummary: DuetSummary | null = null
+  private resync: ((room: RoomSnapshot) => void) | null = null
+  /** milliseconds to add to this device's clock to get the family server's clock */
+  private clockOffsetMs = 0
+
+  private constructor(
+    private conn: DuetConnection,
+    private now: () => number = Date.now,
+  ) {
+    // an automatic reconnect comes back on a new connection the room has never seen
+    conn.onreconnected(() => void this.rejoin())
+    conn.on('SongStarted', () => {
+      this.sentSummary = null
+    })
+  }
 
   static async connect(): Promise<DuetClient> {
     const conn = new HubConnectionBuilder()
@@ -55,12 +102,78 @@ export class DuetClient {
     return new DuetClient(conn)
   }
 
-  createRoom(info: DuetPlayerInfo): Promise<RoomState> {
-    return this.conn.invoke<RoomState>('CreateRoom', info)
+  /** Wraps a connection that is already started. */
+  static over(conn: DuetConnection, now: () => number = Date.now): DuetClient {
+    return new DuetClient(conn, now)
   }
 
-  joinRoom(code: string, info: DuetPlayerInfo): Promise<RoomState> {
-    return this.conn.invoke<RoomState>('JoinRoom', code, info)
+  /**
+   * Asks the server the time a few times and keeps the best answer, so the shared start can be
+   * placed on the server's clock. A server that cannot be asked leaves the clocks assumed equal.
+   */
+  async measureClockOffset(rounds = 3): Promise<void> {
+    const samples: ClockSample[] = []
+    try {
+      for (let i = 0; i < rounds; i++) {
+        const sentAt = this.now()
+        const serverTime = Date.parse(await this.conn.invoke<string>('ServerTime'))
+        samples.push({ sentAt, receivedAt: this.now(), serverTime })
+      }
+    } catch {
+      /* keep whatever was measured */
+    }
+    if (samples.length > 0) this.clockOffsetMs = estimateClockOffset(samples)
+  }
+
+  /** How long this device should wait for an instant on the server's clock. */
+  waitUntil(serverInstantUtc: string): number {
+    return delayUntil(Date.parse(serverInstantUtc), this.now(), this.clockOffsetMs)
+  }
+
+  /** She tapped "I'm ready!". The server answers both singers with `SingAt` once both have. */
+  ready(): Promise<void> {
+    return this.conn.invoke('Ready')
+  }
+
+  /** Called with how long to wait before the count-in, once both singers are ready. */
+  onSingAt(cb: (waitMs: number) => void): void {
+    this.conn.on('SingAt', (singAtUtc: string) => cb(this.waitUntil(singAtUtc)))
+  }
+
+  async createRoom(info: DuetPlayerInfo): Promise<RoomState> {
+    const room = await this.conn.invoke<RoomState>('CreateRoom', info)
+    this.seat = { code: room.code, singerId: info.singerId }
+    return room
+  }
+
+  async joinRoom(code: string, info: DuetPlayerInfo): Promise<RoomState> {
+    const room = await this.conn.invoke<RoomState>('JoinRoom', code, info)
+    this.seat = { code: room.code, singerId: info.singerId }
+    return room
+  }
+
+  /**
+   * Takes her seat back on the new connection and hands the screen the room as it stands.
+   * A finish the server never received is sent again, so the combined result can still arrive.
+   */
+  private async rejoin(): Promise<void> {
+    const seat = this.seat
+    if (!seat) return
+    try {
+      const room = await this.conn.invoke<RoomSnapshot>('RejoinRoom', seat.code, seat.singerId)
+      const mine = room.players.find((p) => p.info.singerId === seat.singerId)
+      if (this.sentSummary && !mine?.summary) {
+        void this.conn.invoke('FinishSong', this.sentSummary).catch(() => {})
+      }
+      this.resync?.(room)
+    } catch {
+      /* the room closed while she was away; her own song carries on */
+    }
+  }
+
+  /** Called with the room as it stands after a reconnect. One screen listens at a time. */
+  onResync(cb: (room: RoomSnapshot) => void): void {
+    this.resync = cb
   }
 
   startSong(songId: string): Promise<void> {
@@ -72,6 +185,7 @@ export class DuetClient {
   }
 
   finish(summary: DuetSummary): Promise<void> {
+    this.sentSummary = summary
     return this.conn.invoke('FinishSong', summary)
   }
 
@@ -95,6 +209,7 @@ export class DuetClient {
   }
 
   async leave(): Promise<void> {
+    this.seat = null
     try {
       await this.conn.invoke('LeaveRoom')
     } catch {

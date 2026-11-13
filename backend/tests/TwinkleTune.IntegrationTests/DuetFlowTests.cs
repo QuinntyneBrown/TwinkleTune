@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 using TwinkleTune.Application.Duet;
@@ -12,18 +11,7 @@ public class DuetFlowTests(ApiFactory factory) : IClassFixture<ApiFactory>
 
     private record DuetResultDto(List<DuetSummary> Players, int CombinedSparkles);
 
-    private async Task<HubConnection> ConnectAsync()
-    {
-        var connection = new HubConnectionBuilder()
-            .WithUrl(new Uri(factory.Server.BaseAddress, "hubs/duet"), options =>
-            {
-                options.HttpMessageHandlerFactory = _ => factory.Server.CreateHandler();
-                options.Transports = HttpTransportType.LongPolling;
-            })
-            .Build();
-        await connection.StartAsync();
-        return connection;
-    }
+    private Task<HubConnection> ConnectAsync() => factory.ConnectDuetAsync();
 
     [Fact]
     public async Task Two_singers_complete_a_full_duet()

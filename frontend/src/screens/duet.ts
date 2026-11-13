@@ -127,12 +127,25 @@ export function renderDuet(root: HTMLElement, params: URLSearchParams): () => vo
         showLobby(c, lobbyRoom)
       }
     })
-    c.onSongStarted((songId) => {
+    const enterSong = (songId: string): void => {
       const session = duetSession.get()
       if (!session || !lobbyRoom) return
       session.opponent = lobbyRoom.players.find((p) => p.singerId !== me.singerId || p.name !== me.name) ?? null
       handedOff = true
       location.hash = `#/sing?song=${songId}&duet=1`
+    }
+    c.onSongStarted(enterSong)
+    // back from a dropped connection: repaint the lobby as the room stands now, and
+    // follow her buddy into the song if it started while she was away
+    c.onResync((room) => {
+      if (handedOff) return
+      showLobby(c, {
+        code: room.code,
+        players: room.players.map((p) => p.info),
+        songId: room.songId,
+        startAtUtc: room.startAtUtc,
+      })
+      if (room.songId && !room.result) enterSong(room.songId)
     })
   }
 

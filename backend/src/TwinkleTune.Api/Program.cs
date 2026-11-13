@@ -1,5 +1,6 @@
 using TwinkleTune.Api.Hubs;
 using TwinkleTune.Application;
+using TwinkleTune.Application.Duet;
 using TwinkleTune.Infrastructure;
 using TwinkleTune.Infrastructure.Persistence;
 
@@ -11,7 +12,13 @@ var connectionString = builder.Configuration.GetConnectionString("Default")
                        ?? $"Data Source={Path.Combine(dataDir, "twinkletune.db")}";
 var photosPath = builder.Configuration["PhotosPath"] ?? Path.Combine(dataDir, "photos");
 
-builder.Services.AddApplicationServices();
+// how long a dropped duet connection keeps its seat; the default suits a home Wi-Fi blip
+var duetReconnectGrace = builder.Configuration.GetValue<double?>("Duet:ReconnectGraceSeconds") is { } seconds
+    ? TimeSpan.FromSeconds(seconds)
+    : (TimeSpan?)null;
+
+builder.Services.AddApplicationServices(duetReconnectGrace);
+builder.Services.AddSingleton<DuetPresenceMonitor>();
 builder.Services.AddInfrastructure(connectionString, photosPath);
 builder.Services.AddControllers();
 builder.Services.AddSignalR();
@@ -34,6 +41,8 @@ app.UseCors("app");
 if (app.Environment.IsDevelopment()) app.MapOpenApi();
 
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
+// live in-memory duet rooms, for a grown-up debugging a stuck duet on the home LAN
+app.MapGet("/diagnostics/duet", (IRoomService rooms) => Results.Ok(rooms.GetDiagnostics()));
 app.MapControllers();
 app.MapHub<DuetHub>("/hubs/duet");
 

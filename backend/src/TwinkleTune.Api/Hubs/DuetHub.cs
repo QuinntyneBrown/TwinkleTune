@@ -7,7 +7,7 @@ namespace TwinkleTune.Api.Hubs;
 /// Relay for family duets. Scoring happens entirely on each client; the hub only passes
 /// tiny score events between the two singers and announces the synchronized start.
 /// </summary>
-public class DuetHub(IRoomService rooms) : Hub
+public class DuetHub(IRoomService rooms, DuetPresenceMonitor presence, TimeProvider time) : Hub
 {
     public async Task<RoomStateDto> CreateRoom(DuetPlayerInfo info)
     {
@@ -26,6 +26,18 @@ public class DuetHub(IRoomService rooms) : Hub
         return state;
     }
 
+    /// <summary>
+    /// Puts a singer whose connection dropped back in her seat, and hands her the room as it
+    /// stands so her screen is in step again at once.
+    /// </summary>
+    public async Task<RoomSnapshot> RejoinRoom(string code, Guid singerId)
+    {
+        var result = rooms.Rejoin(code, Context.ConnectionId, singerId);
+        if (result.Error is not null) throw new HubException(result.Error);
+        await Groups.AddToGroupAsync(Context.ConnectionId, result.Room!.Code);
+        return result.Room;
+    }
+
     public async Task StartSong(Guid songId)
     {
         var start = rooms.StartSong(Context.ConnectionId, songId)
@@ -33,9 +45,25 @@ public class DuetHub(IRoomService rooms) : Hub
         await Clients.Group(start.Code).SendAsync("SongStarted", start.SongId, start.StartAtUtc);
     }
 
+    /// <summary>
+    /// A singer tapped "I'm ready!". Once both have, the room is given one start instant on the
+    /// server's clock, a short lead ahead, and each device begins its count-in at that instant.
+    /// </summary>
+    public async Task Ready()
+    {
+        if (rooms.MarkReady(Context.ConnectionId) is { SingAtUtc: { } singAt } ready)
+            await Clients.Group(ready.Code).SendAsync("SingAt", singAt);
+    }
+
+    /// <summary>
+    /// The server's clock, so a device can work out how far its own clock is off and place the
+    /// shared start instant without trusting two tablets to agree on the time.
+    /// </summary>
+    public DateTimeOffset ServerTime() => time.GetUtcNow();
+
     public async Task ScoreTick(ScoreTick tick)
     {
-        if (rooms.GetRoomCode(Context.ConnectionId) is { } code)
+        if (rooms.RecordTick(Context.ConnectionId, tick) is { } code)
             await Clients.OthersInGroup(code).SendAsync("OpponentTick", tick);
     }
 
@@ -46,19 +74,19 @@ public class DuetHub(IRoomService rooms) : Hub
         await Clients.OthersInGroup(result.Code).SendAsync("OpponentFinished", summary);
         if (result.BothDone)
         {
-            await Clients.Group(result.Code).SendAsync("DuetResult", new
-            {
-                Players = result.Summaries,
-                CombinedSparkles = result.Summaries.Sum(s => s.Sparkles),
-            });
+            await Clients.Group(result.Code).SendAsync("DuetResult", DuetResult.From(result.Summaries));
         }
     }
 
     public Task LeaveRoom() => HandleLeaveAsync();
 
+    /// <summary>
+    /// A dropped connection is not a goodbye: the seat is held for the reconnect grace, and only
+    /// a singer who has not rejoined by then is announced as gone.
+    /// </summary>
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
-        await HandleLeaveAsync();
+        if (rooms.Disconnect(Context.ConnectionId) is { } away) presence.ExpireAfterGrace(away);
         await base.OnDisconnectedAsync(exception);
     }
 
