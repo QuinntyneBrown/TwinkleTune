@@ -12,12 +12,16 @@ public class ApiFactory : WebApplicationFactory<Program>
 
     public string PhotosPath => Path.Combine(_root, "photos");
 
+    /// <summary>Short, so a test can wait out the reconnect grace of a dropped duet singer.</summary>
+    public static readonly TimeSpan ReconnectGrace = TimeSpan.FromSeconds(2);
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         Directory.CreateDirectory(_root);
         builder.UseSetting("ConnectionStrings:Default", $"Data Source={Path.Combine(_root, "test.db")}");
         builder.UseSetting("PhotosPath", PhotosPath);
         builder.UseSetting("DataPath", _root);
+        builder.UseSetting("Duet:ReconnectGraceSeconds", ReconnectGrace.TotalSeconds.ToString());
     }
 
     /// <summary>Opens a started duet hub connection against the in-memory test server.</summary>

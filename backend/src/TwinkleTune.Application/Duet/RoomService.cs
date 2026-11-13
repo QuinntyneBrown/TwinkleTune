@@ -17,12 +17,27 @@ public record StartResult(string Code, Guid SongId, DateTimeOffset StartAtUtc);
 public record FinishResult(string Code, bool BothDone, List<DuetSummary> Summaries);
 public record LeaveResult(string Code, DuetPlayerInfo Player, bool RoomClosed);
 
+/// <summary>Both singers' summaries and the shared sparkle total the results lead with.</summary>
+public record DuetResult(List<DuetSummary> Players, int CombinedSparkles)
+{
+    public static DuetResult From(List<DuetSummary> summaries) => new(summaries, summaries.Sum(s => s.Sparkles));
+}
+
+/// <summary>A dropped connection's seat, held until <see cref="IRoomService.ReconnectGrace"/> runs out.</summary>
+public record AwayResult(string Code, Guid SingerId, DateTimeOffset AwaySince);
+
+/// <summary>The room as it stands, handed to a singer who rejoins so she is back in step at once.</summary>
+public record RoomSnapshot(
+    string Code, List<PlayerSnapshot> Players, Guid? SongId, DateTimeOffset? StartAtUtc, DuetResult? Result);
+public record PlayerSnapshot(DuetPlayerInfo Info, ScoreTick? LastTick, DuetSummary? Summary);
+public record RejoinResult(RoomSnapshot? Room, string? Error);
+
 /// <summary>Read-only picture of the in-memory rooms, for a grown-up debugging a duet.</summary>
 public record DuetDiagnostics(DateTimeOffset TimestampUtc, List<RoomDiagnostics> Rooms);
 public record RoomDiagnostics(
     string Code, List<PlayerDiagnostics> Players, Guid? SongId,
     DateTimeOffset? StartAtUtc, DateTimeOffset LastActivityUtc);
-public record PlayerDiagnostics(string Name, bool Finished);
+public record PlayerDiagnostics(string Name, bool Connected, bool Finished, int? LastNoteIdx);
 
 public interface IRoomService
 {
@@ -30,17 +45,33 @@ public interface IRoomService
     JoinResult Join(string code, string connectionId, DuetPlayerInfo info);
     StartResult? StartSong(string connectionId, Guid songId);
     string? GetRoomCode(string connectionId);
+    /// <summary>Remembers the singer's latest tick for a rejoining buddy; returns her room code.</summary>
+    string? RecordTick(string connectionId, ScoreTick tick);
     FinishResult? Finish(string connectionId, DuetSummary summary);
     LeaveResult? Leave(string connectionId);
+
+    /// <summary>How long a dropped connection's seat is held before the singer counts as gone.</summary>
+    TimeSpan ReconnectGrace { get; }
+    /// <summary>Marks the singer away but keeps her seat. Null when the connection is in no room.</summary>
+    AwayResult? Disconnect(string connectionId);
+    /// <summary>Puts a singer back in her seat on a new connection and returns the room as it stands.</summary>
+    RejoinResult Rejoin(string code, string connectionId, Guid singerId);
+    /// <summary>Removes the singer if she is still away from that same drop. Null when she came back.</summary>
+    LeaveResult? ExpireAway(AwayResult away);
     DuetDiagnostics GetDiagnostics();
 }
 
 /// <summary>
 /// In-memory duet rooms. Deliberately not persisted: a duet that outlives a server
 /// restart is not a real family scenario (ADR-0002). Rooms expire after 30 idle minutes.
+/// A dropped connection keeps its seat for <see cref="ReconnectGrace"/>, so a Wi-Fi blip is not a goodbye.
 /// </summary>
-public class RoomService(TimeProvider time) : IRoomService
+public class RoomService(TimeProvider time, TimeSpan? reconnectGrace = null) : IRoomService
 {
+    public static readonly TimeSpan DefaultReconnectGrace = TimeSpan.FromSeconds(20);
+
+    public TimeSpan ReconnectGrace { get; } = reconnectGrace ?? DefaultReconnectGrace;
+
     private const int MaxPlayers = 2
 ;
     private static readonly TimeSpan IdleExpiry = TimeSpan.FromMinutes(30);
@@ -49,9 +80,12 @@ public class RoomService(TimeProvider time) : IRoomService
 
     private sealed class Player(string connectionId, DuetPlayerInfo info)
     {
-        public string ConnectionId { get; } = connectionId;
+        public string ConnectionId { get; set; } = connectionId;
         public DuetPlayerInfo Info { get; } = info;
         public DuetSummary? Summary { get; set; }
+        public ScoreTick? LastTick { get; set; }
+        /// <summary>When her connection dropped; null while she is connected.</summary>
+        public DateTimeOffset? AwaySince { get; set; }
     }
 
     private sealed class Room(string code, DateTimeOffset now)
@@ -91,6 +125,12 @@ public class RoomService(TimeProvider time) : IRoomService
 
         lock (room)
         {
+            // a dropped singer typing the code again takes her own seat back
+            if (room.Players.FirstOrDefault(p => p.AwaySince is not null && p.Info.SingerId == info.SingerId) is { } seat)
+            {
+                Reseat(room, seat, connectionId);
+                return new JoinResult(ToState(room), null);
+            }
             if (room.Players.Count >= MaxPlayers)
                 return new JoinResult(null, "That room already has two singers!");
             room.Players.Add(new Player(connectionId, info));
@@ -109,13 +149,28 @@ public class RoomService(TimeProvider time) : IRoomService
             room.SongId = songId;
             room.StartAtUtc = time.GetUtcNow().AddSeconds(3);
             room.LastActivity = time.GetUtcNow();
-            foreach (var p in room.Players) p.Summary = null;
+            foreach (var p in room.Players)
+            {
+                p.Summary = null;
+                p.LastTick = null;
+            }
             return new StartResult(room.Code, songId, room.StartAtUtc.Value);
         }
     }
 
     public string? GetRoomCode(string connectionId) =>
         _connectionToCode.TryGetValue(connectionId, out var code) ? code : null;
+
+    public string? RecordTick(string connectionId, ScoreTick tick)
+    {
+        if (GetRoom(connectionId) is not { } room) return null;
+        lock (room)
+        {
+            if (room.Players.FirstOrDefault(p => p.ConnectionId == connectionId) is { } player)
+                player.LastTick = tick;
+            return room.Code;
+        }
+    }
 
     public FinishResult? Finish(string connectionId, DuetSummary summary)
     {
@@ -139,12 +194,72 @@ public class RoomService(TimeProvider time) : IRoomService
         {
             var player = room.Players.FirstOrDefault(p => p.ConnectionId == connectionId);
             if (player is null) return null;
-            room.Players.Remove(player);
-            room.LastActivity = time.GetUtcNow();
-            var closed = room.Players.Count == 0;
-            if (closed) _rooms.TryRemove(code, out _);
-            return new LeaveResult(code, player.Info, closed);
+            return Remove(room, player);
         }
+    }
+
+    public AwayResult? Disconnect(string connectionId)
+    {
+        if (!_connectionToCode.TryRemove(connectionId, out var code)) return null;
+        if (!_rooms.TryGetValue(code, out var room)) return null;
+        lock (room)
+        {
+            var player = room.Players.FirstOrDefault(p => p.ConnectionId == connectionId);
+            if (player is null) return null;
+            player.AwaySince = time.GetUtcNow();
+            return new AwayResult(code, player.Info.SingerId, player.AwaySince.Value);
+        }
+    }
+
+    public RejoinResult Rejoin(string code, string connectionId, Guid singerId)
+    {
+        code = code.Trim().ToUpperInvariant();
+        if (_rooms.TryGetValue(code, out var room))
+        {
+            lock (room)
+            {
+                // her old connection may not have been noticed as gone yet, so any seat of hers will do
+                var seat = room.Players.Where(p => p.Info.SingerId == singerId)
+                    .OrderByDescending(p => p.AwaySince is not null).FirstOrDefault();
+                if (seat is not null)
+                {
+                    Reseat(room, seat, connectionId);
+                    return new RejoinResult(ToSnapshot(room), null);
+                }
+            }
+        }
+        return new RejoinResult(null, "That room has closed — make a new one!");
+    }
+
+    public LeaveResult? ExpireAway(AwayResult away)
+    {
+        if (!_rooms.TryGetValue(away.Code, out var room)) return null;
+        lock (room)
+        {
+            var player = room.Players.FirstOrDefault(p =>
+                p.Info.SingerId == away.SingerId && p.AwaySince == away.AwaySince);
+            return player is null ? null : Remove(room, player);
+        }
+    }
+
+    /// <summary>Takes the player out and closes the room once it is empty. Call under the room lock.</summary>
+    private LeaveResult Remove(Room room, Player player)
+    {
+        room.Players.Remove(player);
+        room.LastActivity = time.GetUtcNow();
+        var closed = room.Players.Count == 0;
+        if (closed) _rooms.TryRemove(room.Code, out _);
+        return new LeaveResult(room.Code, player.Info, closed);
+    }
+
+    /// <summary>Binds a seat to a new connection. Call under the room lock.</summary>
+    private void Reseat(Room room, Player seat, string connectionId)
+    {
+        _connectionToCode.TryRemove(seat.ConnectionId, out _);
+        seat.ConnectionId = connectionId;
+        seat.AwaySince = null;
+        room.LastActivity = time.GetUtcNow();
+        _connectionToCode[connectionId] = room.Code;
     }
 
     public DuetDiagnostics GetDiagnostics()
@@ -156,7 +271,8 @@ public class RoomService(TimeProvider time) : IRoomService
             {
                 rooms.Add(new RoomDiagnostics(
                     room.Code,
-                    room.Players.Select(p => new PlayerDiagnostics(p.Info.Name, p.Summary is not null)).ToList(),
+                    room.Players.Select(p => new PlayerDiagnostics(
+                        p.Info.Name, p.AwaySince is null, p.Summary is not null, p.LastTick?.NoteIdx)).ToList(),
                     room.SongId, room.StartAtUtc, room.LastActivity));
             }
         }
@@ -184,6 +300,16 @@ public class RoomService(TimeProvider time) : IRoomService
 
     private static string NewCode() =>
         new(Enumerable.Range(0, 4).Select(_ => CodeAlphabet[Random.Shared.Next(CodeAlphabet.Length)]).ToArray());
+
+    private static RoomSnapshot ToSnapshot(Room room)
+    {
+        var summaries = room.Players.Where(p => p.Summary is not null).Select(p => p.Summary!).ToList();
+        return new RoomSnapshot(
+            room.Code,
+            room.Players.Select(p => new PlayerSnapshot(p.Info, p.LastTick, p.Summary)).ToList(),
+            room.SongId, room.StartAtUtc,
+            room.Players.Count == MaxPlayers && summaries.Count == MaxPlayers ? DuetResult.From(summaries) : null);
+    }
 
     private static RoomStateDto ToState(Room room) =>
         new(room.Code, room.Players.Select(p => p.Info).ToList(), room.SongId, room.StartAtUtc);

@@ -12,7 +12,13 @@ var connectionString = builder.Configuration.GetConnectionString("Default")
                        ?? $"Data Source={Path.Combine(dataDir, "twinkletune.db")}";
 var photosPath = builder.Configuration["PhotosPath"] ?? Path.Combine(dataDir, "photos");
 
-builder.Services.AddApplicationServices();
+// how long a dropped duet connection keeps its seat; the default suits a home Wi-Fi blip
+var duetReconnectGrace = builder.Configuration.GetValue<double?>("Duet:ReconnectGraceSeconds") is { } seconds
+    ? TimeSpan.FromSeconds(seconds)
+    : (TimeSpan?)null;
+
+builder.Services.AddApplicationServices(duetReconnectGrace);
+builder.Services.AddSingleton<DuetPresenceMonitor>();
 builder.Services.AddInfrastructure(connectionString, photosPath);
 builder.Services.AddControllers();
 builder.Services.AddSignalR();
