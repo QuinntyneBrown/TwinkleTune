@@ -46,7 +46,23 @@ Frontend — duet API adapter (`frontend/src/api/duet.ts`):
   `.configureLogging(LogLevel.Warning)`, starting it, and wrapping it in a
   `DuetClient`. The constructor is private, so the connection is never handed to
   a screen directly.
-- **`DuetClient.leave()`** — invokes `LeaveRoom`, swallows a rejection from a
+- **`DuetClient.over(conn)`** — wraps a connection that is already started. It
+  takes the `DuetConnection` interface — the `invoke`, `on`, `onreconnected`, and
+  `stop` the client uses — so a test can stand in for the hub.
+- **`createRoom(info)`** and **`joinRoom(code, info)`** — remember the seat
+  (`code` and `singerId`) once the hub accepts, so a reconnect knows where to go
+  back to.
+- **`rejoin()`** — registered with `conn.onreconnected`. An automatic reconnect
+  comes back on a new connection the room has never seen, so the client invokes
+  `RejoinRoom(code, singerId)`, re-sends the finish summary of the song in
+  progress when the snapshot shows the server never received it, and passes the
+  `RoomSnapshot` to the screen's resync handler. A rejected rejoin is swallowed:
+  the room closed while she was away and her own song carries on.
+- **`onResync(cb)`** — sets the single handler called with the room as it stands
+  after a reconnect. Each screen replaces the previous screen's handler.
+- **`buddyIn(room, me)`** — the other singer's `PlayerSnapshot`, or `null` while
+  she is alone.
+- **`DuetClient.leave()`** — forgets the seat, invokes `LeaveRoom`, swallows a rejection from a
   connection that has already gone, and then calls `conn.stop()`.
 - **`onPlayerJoined(cb)`** and **`onPlayerLeft(cb)`** — register handlers for the
   two presence events, each carrying a `DuetPlayerInfo`.
@@ -64,6 +80,12 @@ Frontend — screens (`frontend/src/screens/duet.ts`, `sing.ts`, `results.ts`):
   `lobbyRoom.players` when not already present, raises the gold toast
   `` `${p.name} is here! 🎉` ``, and repaints; on `PlayerLeft` filters the player
   out, raises the pink toast `` `${p.name} left 💙` ``, and repaints.
+- **lobby resync** — `wireRoomEvents` also sets `c.onResync`: the lobby repaints
+  from the snapshot, and follows her buddy into the song when it started while
+  she was away.
+- **sing and results resync** — `renderSing` repaints the opponent chip from her
+  buddy's `lastTick` and stores a combined result that arrived while she was
+  away; the waiting results panel paints that result.
 - **`renderDuet` teardown** — returns a function that calls `duetSession.end()`
   unless `handedOff` is true, so leaving the lobby releases the room while
   navigating into the song does not.
@@ -150,7 +172,8 @@ Coverage: `RoomServiceTests` exercises leave, room closure, and idle removal;
 `RoomReconnectTests` exercises the held seat, rejoin, the snapshot, and grace
 expiry; `DuetFlowTests` exercises the `PlayerLeft` notification over a live
 connection; `DuetReconnectTests` drops a real connection, rejoins on a new one,
-and waits out the grace.
+and waits out the grace; `duet.test.ts` drives `DuetClient` over a stand-in
+connection through a reconnect.
 
 ## Requirements
 

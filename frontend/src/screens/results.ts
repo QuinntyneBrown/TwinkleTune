@@ -168,6 +168,12 @@ export function renderResults(root: HTMLElement, params: URLSearchParams): () =>
         duet.result = result
         paintDuet(result)
       })
+      // back from a dropped connection: the combined result may have been sent while she was away
+      duet.client.onResync((room) => {
+        if (!room.result) return
+        duet.result = room.result
+        paintDuet(room.result)
+      })
     }
 
     root.querySelector('[data-again-duet]')?.addEventListener('click', async () => {

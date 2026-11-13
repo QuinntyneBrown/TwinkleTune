@@ -1,5 +1,5 @@
 import { getSongById } from '../songs/repo'
-import { duetSession } from '../api/duet'
+import { buddyIn, duetSession, type DuetTick } from '../api/duet'
 import type { SongNote } from '../songs/types'
 import { songBeats, songRange } from '../songs/types'
 import { SongPlayer } from '../audio/player'
@@ -178,9 +178,16 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
     const opp = duet.opponent
     opponentEl.hidden = false
     opponentEl.textContent = `${opp?.avatar ?? '🎤'} ${opp?.name ?? 'Duet buddy'} · ready!`
-    duet.client.onOpponentTick((t) => {
+    const paintOpponent = (t: DuetTick): void => {
       opponentEl.textContent =
         `${opp?.avatar ?? '🎤'} ${opp?.name ?? 'Buddy'} ✨${t.sparkles}${t.streak >= 3 ? ` 🔥${t.streak}` : ''}`
+    }
+    duet.client.onOpponentTick(paintOpponent)
+    // back from a dropped connection: catch up on what her buddy did while she was away
+    duet.client.onResync((room) => {
+      const tick = buddyIn(room, duet.me)?.lastTick
+      if (tick) paintOpponent(tick)
+      if (room.result) duet.result = room.result
     })
     duet.client.onOpponentFinished((s) => {
       toast(`${s.name} finished — ${s.landed} notes! 🎉`, 'gold')
