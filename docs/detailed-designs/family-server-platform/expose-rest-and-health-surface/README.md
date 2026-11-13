@@ -45,6 +45,13 @@ Mapping (`Program.cs`, after `app.UseCors("app")`):
   document is reachable in development and absent everywhere else.
 - **`app.MapGet("/health", () => Results.Ok(new { status = "ok" }));`** — the
   health endpoint, returning HTTP 200 and the body `{ "status": "ok" }`.
+- **`app.MapGet("/diagnostics/duet", (IRoomService rooms) => Results.Ok(rooms.GetDiagnostics()));`**
+  — the duet diagnostics endpoint. It returns a `DuetDiagnostics` snapshot of
+  the in-memory room registry: a timestamp and, per room, the code, the singers
+  (name, connected, ready, finished, last note index), the song id, the start
+  time, and the last activity. It reads memory only and changes nothing, so a
+  grown-up can open it in a browser on the home network to see why a duet is
+  stuck.
 - **`app.MapControllers();`** — activates the attribute routes below.
 - **`app.MapHub<DuetHub>("/hubs/duet");`** — mounts the duet hub.
 
@@ -85,6 +92,7 @@ refines a level-1 (L1) requirement, cited by identifier.
 |-------|--------------|-------------|
 | `FS-L2-8` | `FS-L1-3` | The Api shall host REST controllers and the duet SignalR hub at `/hubs/duet`, and shall expose OpenAPI documentation in the development environment only. |
 | `FS-L2-9` | `FS-L1-3` | The server shall expose a health endpoint returning HTTP 200 with an OK status. |
+| `FS-L2-20` | `FS-L1-3` | The server shall expose a read-only diagnostics endpoint returning the live in-memory duet rooms, so a grown-up can see why a duet is stuck. |
 
 ## Diagrams
 

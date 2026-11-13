@@ -91,7 +91,8 @@ Layer dependency direction (strict, see ADR-0002):
 - `TwinkleTune.Application`: plain services, repository interfaces, DTOs, the in-memory duet room
   service. No MediatR/CQRS.
 - `TwinkleTune.Infrastructure`: EF Core + SQLite, repositories, photo storage, seeding
-- `TwinkleTune.Api`: controllers, `DuetHub` at `/hubs/duet`, `/health`, DI composition, CORS
+- `TwinkleTune.Api`: controllers, `DuetHub` at `/hubs/duet`, `/health`,
+  `/diagnostics/duet`, DI composition, CORS
 
 Non-obvious rules:
 

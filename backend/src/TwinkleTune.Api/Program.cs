@@ -1,5 +1,6 @@
 using TwinkleTune.Api.Hubs;
 using TwinkleTune.Application;
+using TwinkleTune.Application.Duet;
 using TwinkleTune.Infrastructure;
 using TwinkleTune.Infrastructure.Persistence;
 
@@ -34,6 +35,8 @@ app.UseCors("app");
 if (app.Environment.IsDevelopment()) app.MapOpenApi();
 
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
+// live in-memory duet rooms, for a grown-up debugging a stuck duet on the home LAN
+app.MapGet("/diagnostics/duet", (IRoomService rooms) => Results.Ok(rooms.GetDiagnostics()));
 app.MapControllers();
 app.MapHub<DuetHub>("/hubs/duet");
 

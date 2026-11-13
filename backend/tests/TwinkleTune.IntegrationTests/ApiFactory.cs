@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.SignalR.Client;
 
 namespace TwinkleTune.IntegrationTests;
 
@@ -16,6 +18,20 @@ public class ApiFactory : WebApplicationFactory<Program>
         builder.UseSetting("ConnectionStrings:Default", $"Data Source={Path.Combine(_root, "test.db")}");
         builder.UseSetting("PhotosPath", PhotosPath);
         builder.UseSetting("DataPath", _root);
+    }
+
+    /// <summary>Opens a started duet hub connection against the in-memory test server.</summary>
+    public async Task<HubConnection> ConnectDuetAsync()
+    {
+        var connection = new HubConnectionBuilder()
+            .WithUrl(new Uri(Server.BaseAddress, "hubs/duet"), options =>
+            {
+                options.HttpMessageHandlerFactory = _ => Server.CreateHandler();
+                options.Transports = HttpTransportType.LongPolling;
+            })
+            .Build();
+        await connection.StartAsync();
+        return connection;
     }
 
     protected override void Dispose(bool disposing)

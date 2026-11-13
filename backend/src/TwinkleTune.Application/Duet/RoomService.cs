@@ -17,6 +17,13 @@ public record StartResult(string Code, Guid SongId, DateTimeOffset StartAtUtc);
 public record FinishResult(string Code, bool BothDone, List<DuetSummary> Summaries);
 public record LeaveResult(string Code, DuetPlayerInfo Player, bool RoomClosed);
 
+/// <summary>Read-only picture of the in-memory rooms, for a grown-up debugging a duet.</summary>
+public record DuetDiagnostics(DateTimeOffset TimestampUtc, List<RoomDiagnostics> Rooms);
+public record RoomDiagnostics(
+    string Code, List<PlayerDiagnostics> Players, Guid? SongId,
+    DateTimeOffset? StartAtUtc, DateTimeOffset LastActivityUtc);
+public record PlayerDiagnostics(string Name, bool Finished);
+
 public interface IRoomService
 {
     RoomStateDto Create(string connectionId, DuetPlayerInfo info);
@@ -25,6 +32,7 @@ public interface IRoomService
     string? GetRoomCode(string connectionId);
     FinishResult? Finish(string connectionId, DuetSummary summary);
     LeaveResult? Leave(string connectionId);
+    DuetDiagnostics GetDiagnostics();
 }
 
 /// <summary>
@@ -137,6 +145,22 @@ public class RoomService(TimeProvider time) : IRoomService
             if (closed) _rooms.TryRemove(code, out _);
             return new LeaveResult(code, player.Info, closed);
         }
+    }
+
+    public DuetDiagnostics GetDiagnostics()
+    {
+        var rooms = new List<RoomDiagnostics>();
+        foreach (var room in _rooms.Values)
+        {
+            lock (room)
+            {
+                rooms.Add(new RoomDiagnostics(
+                    room.Code,
+                    room.Players.Select(p => new PlayerDiagnostics(p.Info.Name, p.Summary is not null)).ToList(),
+                    room.SongId, room.StartAtUtc, room.LastActivity));
+            }
+        }
+        return new DuetDiagnostics(time.GetUtcNow(), rooms.OrderBy(r => r.Code).ToList());
     }
 
     private Room? GetRoom(string connectionId) =>
