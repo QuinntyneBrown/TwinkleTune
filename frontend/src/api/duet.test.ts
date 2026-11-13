@@ -1,6 +1,6 @@
 // Acceptance Test
-// Traces to: DM-L2-19
-// Description: After an automatic reconnect the duet client rejoins its room by itself and hands the screens the room as it stands
+// Traces to: DM-L2-19, DM-L2-20, DM-L2-21
+// Description: After an automatic reconnect the duet client rejoins its room by itself and hands the screens the room as it stands; the shared start is placed on the server's clock
 
 import { describe, expect, it } from 'vitest'
 import { buddyIn, DuetClient, type DuetConnection, type DuetSummary, type RoomSnapshot } from './duet'
@@ -16,11 +16,12 @@ function snapshot(over: Partial<RoomSnapshot> = {}): RoomSnapshot {
   return {
     code: 'KWTM',
     players: [
-      { info: zoe, lastTick: { landed: 5, streak: 5, sparkles: 50, noteIdx: 6 }, summary: null },
-      { info: mia, lastTick: null, summary: null },
+      { info: zoe, ready: false, lastTick: { landed: 5, streak: 5, sparkles: 50, noteIdx: 6 }, summary: null },
+      { info: mia, ready: false, lastTick: null, summary: null },
     ],
     songId: 'song-1',
     startAtUtc: '2026-06-12T12:00:03Z',
+    singAtUtc: null,
     result: null,
     ...over,
   }
@@ -30,6 +31,9 @@ function snapshot(over: Partial<RoomSnapshot> = {}): RoomSnapshot {
 class FakeHub implements DuetConnection {
   calls: Array<{ method: string; args: unknown[] }> = []
   rejoinAnswer: RoomSnapshot | Error = snapshot()
+  /** the server's clock, and how long a ServerTime answer takes to come back */
+  serverNow = (): number => 0
+  onServerTime = (): void => {}
   private reconnected: Array<() => void> = []
   private handlers = new Map<string, Array<(...args: never[]) => void>>()
 
@@ -37,6 +41,11 @@ class FakeHub implements DuetConnection {
     this.calls.push({ method, args })
     if (method === 'CreateRoom' || method === 'JoinRoom') {
       return Promise.resolve({ code: 'KWTM', players: [zoe, mia], songId: null, startAtUtc: null } as T)
+    }
+    if (method === 'ServerTime') {
+      const answer = new Date(this.serverNow()).toISOString()
+      this.onServerTime()
+      return Promise.resolve(answer as T)
     }
     if (method === 'RejoinRoom') {
       return this.rejoinAnswer instanceof Error
@@ -134,7 +143,7 @@ describe('DM-L2-19 — the duet client rejoins after a reconnect', () => {
     await client.finish(miaSummary)
     hub.calls = []
     hub.rejoinAnswer = snapshot({
-      players: [snapshot().players[0], { info: mia, lastTick: null, summary: miaSummary }],
+      players: [snapshot().players[0], { info: mia, ready: true, lastTick: null, summary: miaSummary }],
     })
 
     await hub.reconnect()
@@ -166,5 +175,51 @@ describe('DM-L2-19 — the duet client rejoins after a reconnect', () => {
     await hub.reconnect()
 
     expect(seen).toEqual([])
+  })
+})
+
+describe('DM-L2-20, DM-L2-21 — the shared start is placed on the server clock', () => {
+  /** A tablet whose clock runs 90 seconds behind the family server, 20 ms away from it. */
+  function slowTablet(): { hub: FakeHub; client: DuetClient; device: { now: number } } {
+    const device = { now: 1_000_000 }
+    const hub = new FakeHub()
+    hub.serverNow = () => device.now + 90_000 + 10 // read half-way through the round trip
+    hub.onServerTime = () => {
+      device.now += 20
+    }
+    return { hub, client: DuetClient.over(hub, () => device.now), device }
+  }
+
+  it('tells the server she is ready', async () => {
+    const { hub, client } = slowTablet()
+    await client.ready()
+    expect(hub.invoked('Ready')).toEqual([[]])
+  })
+
+  it('waits three seconds for a start three seconds ahead, on a tablet 90 seconds behind', async () => {
+    const { hub, client, device } = slowTablet()
+    await client.measureClockOffset()
+    const waits: number[] = []
+    client.onSingAt((waitMs) => waits.push(waitMs))
+
+    hub.raise('SingAt', new Date(device.now + 90_000 + 3000).toISOString())
+
+    expect(waits).toEqual([3000])
+  })
+
+  it('starts at once when the clock could not be measured and the instant looks long past', () => {
+    const { hub, client, device } = slowTablet()
+    const waits: number[] = []
+    client.onSingAt((waitMs) => waits.push(waitMs))
+
+    hub.raise('SingAt', new Date(device.now - 60_000).toISOString())
+
+    expect(waits).toEqual([0])
+  })
+
+  it('works out the wait for a start instant found in a rejoin snapshot', async () => {
+    const { client, device } = slowTablet()
+    await client.measureClockOffset()
+    expect(client.waitUntil(new Date(device.now + 90_000 + 1500).toISOString())).toBe(1500)
   })
 })

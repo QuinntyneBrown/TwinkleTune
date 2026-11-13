@@ -1,5 +1,6 @@
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 import { API_URL } from './client'
+import { delayUntil, estimateClockOffset, type ClockSample } from './clock-sync'
 
 export interface DuetPlayerInfo {
   singerId: string
@@ -40,6 +41,8 @@ export interface DuetResult {
 /** One singer's seat in a room snapshot: who she is and how far she has got. */
 export interface PlayerSnapshot {
   info: DuetPlayerInfo
+  /** she has tapped "I'm ready!" for the song that was started */
+  ready: boolean
   lastTick: DuetTick | null
   summary: DuetSummary | null
 }
@@ -50,6 +53,8 @@ export interface RoomSnapshot {
   players: PlayerSnapshot[]
   songId: string | null
   startAtUtc: string | null
+  /** the shared start instant on the server's clock, once both singers are ready */
+  singAtUtc: string | null
   result: DuetResult | null
 }
 
@@ -73,8 +78,13 @@ export class DuetClient {
   /** the finish summary of the song in progress, in case it was sent into a dead line */
   private sentSummary: DuetSummary | null = null
   private resync: ((room: RoomSnapshot) => void) | null = null
+  /** milliseconds to add to this device's clock to get the family server's clock */
+  private clockOffsetMs = 0
 
-  private constructor(private conn: DuetConnection) {
+  private constructor(
+    private conn: DuetConnection,
+    private now: () => number = Date.now,
+  ) {
     // an automatic reconnect comes back on a new connection the room has never seen
     conn.onreconnected(() => void this.rejoin())
     conn.on('SongStarted', () => {
@@ -93,8 +103,41 @@ export class DuetClient {
   }
 
   /** Wraps a connection that is already started. */
-  static over(conn: DuetConnection): DuetClient {
-    return new DuetClient(conn)
+  static over(conn: DuetConnection, now: () => number = Date.now): DuetClient {
+    return new DuetClient(conn, now)
+  }
+
+  /**
+   * Asks the server the time a few times and keeps the best answer, so the shared start can be
+   * placed on the server's clock. A server that cannot be asked leaves the clocks assumed equal.
+   */
+  async measureClockOffset(rounds = 3): Promise<void> {
+    const samples: ClockSample[] = []
+    try {
+      for (let i = 0; i < rounds; i++) {
+        const sentAt = this.now()
+        const serverTime = Date.parse(await this.conn.invoke<string>('ServerTime'))
+        samples.push({ sentAt, receivedAt: this.now(), serverTime })
+      }
+    } catch {
+      /* keep whatever was measured */
+    }
+    if (samples.length > 0) this.clockOffsetMs = estimateClockOffset(samples)
+  }
+
+  /** How long this device should wait for an instant on the server's clock. */
+  waitUntil(serverInstantUtc: string): number {
+    return delayUntil(Date.parse(serverInstantUtc), this.now(), this.clockOffsetMs)
+  }
+
+  /** She tapped "I'm ready!". The server answers both singers with `SingAt` once both have. */
+  ready(): Promise<void> {
+    return this.conn.invoke('Ready')
+  }
+
+  /** Called with how long to wait before the count-in, once both singers are ready. */
+  onSingAt(cb: (waitMs: number) => void): void {
+    this.conn.on('SingAt', (singAtUtc: string) => cb(this.waitUntil(singAtUtc)))
   }
 
   async createRoom(info: DuetPlayerInfo): Promise<RoomState> {
