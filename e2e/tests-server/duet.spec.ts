@@ -42,12 +42,8 @@ test('songs come from the server with duet buttons and score boards', async ({ p
   await expect(page.getByRole('dialog')).toContainText(/No scores yet|%/)
 })
 
-test('two singers on two devices reach a live duet', async ({ browser }) => {
-  const ctxA = await browser.newContext()
-  const ctxB = await browser.newContext()
-  const zoe = await ctxA.newPage()
-  const mia = await ctxB.newPage()
-
+/** Zoe makes a room, Mia joins it, and Zoe starts the song: both land on the duet sing screen. */
+async function startDuet(zoe: Page, mia: Page): Promise<void> {
   await createProfile(zoe, 'Zoe')
   await createProfile(mia, 'Mia')
 
@@ -69,9 +65,18 @@ test('two singers on two devices reach a live duet', async ({ browser }) => {
   await expect(startBtn).toBeVisible({ timeout: 15_000 })
   await startBtn.click()
 
-  // the synchronized start lands both singers on the duet sing screen
+  // starting the song lands both singers on the duet sing screen
   await expect(zoe).toHaveURL(/duet=1/, { timeout: 15_000 })
   await expect(mia).toHaveURL(/duet=1/, { timeout: 15_000 })
+}
+
+test('two singers on two devices reach a live duet', async ({ browser }) => {
+  const ctxA = await browser.newContext()
+  const ctxB = await browser.newContext()
+  const zoe = await ctxA.newPage()
+  const mia = await ctxB.newPage()
+
+  await startDuet(zoe, mia)
   await expect(zoe.locator('.opponent-chip')).toContainText('Mia')
   await expect(mia.locator('.opponent-chip')).toContainText('Zoe')
 
@@ -84,9 +89,58 @@ test('two singers on two devices reach a live duet', async ({ browser }) => {
   await expect(zoe.getByRole('dialog')).toHaveCount(0)
   await expect(mia.getByRole('dialog')).toHaveCount(0)
   await zoeSing.duetReadyButton.click()
-  await miaSing.duetReadyButton.click()
   await expect(zoeSing.stageLabel).toHaveText(/MOVE YOUR STAR/)
+
+  // DM-L2-20: Zoe is ready first, so her tablet waits for Mia instead of starting without her
+  await expect(zoeSing.duetWaiting).toContainText('Waiting for Mia')
+  await expect(miaSing.duetReadyButton).toBeVisible()
+
+  // once Mia is ready too, both tablets are given one start instant and count in together
+  await miaSing.duetReadyButton.click()
   await expect(miaSing.stageLabel).toHaveText(/MOVE YOUR STAR/)
+  await expect(zoeSing.countdown).toHaveText(/^[1-4]$/, { timeout: 10_000 })
+  await expect(miaSing.countdown).toHaveText(/^[1-4]$/, { timeout: 10_000 })
+  await expect(zoeSing.duetWaiting).toHaveCount(0)
+  await expect(miaSing.duetWaiting).toHaveCount(0)
+
+  await ctxA.close()
+  await ctxB.close()
+})
+
+test('a singer waiting for her duet buddy is never left stuck', async ({ browser }) => {
+  const ctxA = await browser.newContext()
+  const ctxB = await browser.newContext()
+  const zoe = await ctxA.newPage()
+  const mia = await ctxB.newPage()
+
+  await startDuet(zoe, mia)
+  const zoeSing = new SingPage(zoe)
+  await zoeSing.duetReadyButton.click()
+  await expect(zoeSing.duetWaiting).toContainText('Waiting for Mia')
+
+  // DM-L2-20, DM-L2-18: Mia's tablet goes away and does not come back, so once the reconnect
+  // grace has run out Zoe's own song starts
+  await ctxB.close()
+  await expect(zoeSing.countdown).toHaveText(/^[1-4]$/, { timeout: 15_000 })
+  await expect(zoeSing.duetWaiting).toHaveCount(0)
+
+  await ctxA.close()
+})
+
+test('a singer can leave the duet while she waits for her buddy', async ({ browser }) => {
+  const ctxA = await browser.newContext()
+  const ctxB = await browser.newContext()
+  const zoe = await ctxA.newPage()
+  const mia = await ctxB.newPage()
+
+  await startDuet(zoe, mia)
+  const zoeSing = new SingPage(zoe)
+  await zoeSing.duetReadyButton.click()
+  await expect(zoeSing.duetWaiting).toContainText('Waiting for Mia')
+
+  // DM-L2-20: the wait has a way out
+  await zoeSing.leaveDuetLink.click()
+  await expect(zoe).toHaveURL(/#\/duet$/)
 
   await ctxA.close()
   await ctxB.close()

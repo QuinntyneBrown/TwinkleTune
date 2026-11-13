@@ -137,6 +137,7 @@
         "SG-L2-17",
         "SG-L2-28",
         "DM-L2-14",
+        "DM-L2-20",
         "CE-L2-3"
       ],
       "states": [
@@ -146,7 +147,8 @@
         "no-mic",
         "standard-key",
         "practice",
-        "duet"
+        "duet",
+        "duet-waiting"
       ],
       "not_applicable": {
         "loading": "Songs are note data already on the device; the stage is built synchronously.",

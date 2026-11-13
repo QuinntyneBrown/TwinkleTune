@@ -1,0 +1,70 @@
+@startuml
+title UML sequence behaviour — Both singers ready, one shared count-in
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam rectangle {
+  BorderColor #344054
+  FontColor #101828
+}
+skinparam package {
+  BorderColor #667085
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+actor "Singer (host device)" as host
+actor "Singer (guest device)" as guest
+box "Frontend — TwinkleTune web app (host device)" #E0F2FE
+  participant "Sing screen (host)" as hostSing
+  participant "DuetClient (host)" as hostClient
+end box
+box "Frontend — TwinkleTune web app (guest device)" #E0F2FE
+  participant "Sing screen (guest)" as guestSing
+  participant "DuetClient (guest)" as guestClient
+end box
+box "Backend — TwinkleTune API application" #D1FADF
+  participant "DuetHub" as hub
+end box
+box "Backend — TwinkleTune Application and Domain" #ECFDF3
+  participant "RoomService" as service
+end box
+
+note over hostSing, guestSing : SongStarted has taken both devices to the singing screen (DM-L2-4)
+hostSing -> hostClient : measureClockOffset()
+loop 3 rounds
+  hostClient -> hub : invoke ServerTime() (DM-L2-21)
+  hub --> hostClient : Server time
+end
+hostClient -> hostClient : estimateClockOffset — keep the shortest round trip
+note over guestClient : The guest device measures its own offset the same way
+
+host -> hostSing : Tap "I'm ready! 🎤🎤"
+hostSing -> hostSing : Microphone starts listening
+hostSing -> hostClient : ready()
+hostClient -> hub : invoke Ready() (DM-L2-20)
+hub -> service : MarkReady(connectionId)
+service --> hub : ReadyResult(code, SingAtUtc = null)
+hostSing --> host : "Waiting for <buddy>… ⏳" in place of the start button
+
+guest -> guestSing : Tap "I'm ready! 🎤🎤"
+guestSing -> guestClient : ready()
+guestClient -> hub : invoke Ready()
+hub -> service : MarkReady(connectionId)
+service -> service : Both ready: SingAtUtc = now + 3 s
+service --> hub : ReadyResult(code, SingAtUtc)
+hub -> hostClient : Send SingAt(singAtUtc) to the group (DM-L2-20)
+hub -> guestClient : Send SingAt(singAtUtc) to the group
+hostClient -> hostSing : onSingAt(wait = singAt − (device now + offset)) (DM-L2-21)
+guestClient -> guestSing : onSingAt(wait = singAt − (device now + offset))
+hostSing --> host : "Here we go! 🎤🎤"
+guestSing --> guest : "Here we go! 🎤🎤"
+note over hostSing, guestSing : Both waits end at the same instant on the server's clock
+hostSing -> hostSing : begin() — four-beat count-in (DM-L2-5)
+guestSing -> guestSing : begin() — four-beat count-in (DM-L2-5)
+
+opt her buddy leaves, or her ready cannot be sent, while she waits
+  hostSing -> hostSing : startTogether(0) — her own song starts at once (DM-L2-20)
+end
+@enduml

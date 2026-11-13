@@ -640,6 +640,12 @@ a{color:inherit}
 }
 /* pointer-events inherits: without this the "Tap to start" button can't be tapped */
 .countdown .btn{pointer-events:auto}
+/* duet: she is ready and her buddy is not yet (DM-L2-20) */
+.countdown .duet-wait{
+  display:grid;gap:var(--space-2);justify-items:center;padding:0 var(--space-4);
+  font-size:var(--font-size-2xl);line-height:var(--line-height-snug);text-align:center;
+}
+.countdown .link-quiet{pointer-events:auto;font-size:var(--font-size-md)}
 
 .lyrics{margin-top:var(--space-4);text-align:center;padding:var(--space-5) var(--space-4);min-height:calc(var(--size-art) * 2)}
 .lyr-line{font-family:var(--font-family-display);font-weight:var(--font-weight-bold);line-height:1.3}

@@ -92,6 +92,9 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
   let started = false
   let finished = false
   let pausedModal: { close: () => void } | null = null
+  // duet: she has said she is ready and the shared start instant has not arrived yet
+  let waitingForBuddy = false
+  let startTimer = 0
 
   // per-note live accumulation
   // judged at the pitch strictness a grown-up chose for this singer (Precise when none);
@@ -185,10 +188,18 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
     duet.client.onOpponentTick(paintOpponent)
     // back from a dropped connection: catch up on what her buddy did while she was away
     duet.client.onResync((room) => {
-      const tick = buddyIn(room, duet.me)?.lastTick
-      if (tick) paintOpponent(tick)
+      const buddy = buddyIn(room, duet.me)
+      if (buddy?.lastTick) paintOpponent(buddy.lastTick)
       if (room.result) duet.result = room.result
+      // the shared start may have been sent, or her buddy may have gone, while she was away
+      if (room.singAtUtc) startTogether(duet.client.waitUntil(room.singAtUtc))
+      else if (!buddy) startTogether(0)
     })
+    // both tablets begin the count-in at one instant on the family server's clock
+    void duet.client.measureClockOffset()
+    duet.client.onSingAt((waitMs) => startTogether(waitMs))
+    // never left waiting: if her buddy goes, her own song starts
+    duet.client.onPlayerLeft(() => startTogether(0))
     duet.client.onOpponentFinished((s) => {
       toast(`${s.name} finished — ${s.landed} notes! 🎉`, 'gold')
     })
@@ -380,6 +391,43 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
     if (!raf) loop()
   }
 
+  /** The wait for her buddy is over: begin the count-in after `waitMs`. */
+  function startTogether(waitMs: number): void {
+    if (!waitingForBuddy) return
+    waitingForBuddy = false
+    countdown.innerHTML = waitMs > 0 ? '<span class="duet-wait">Here we go! 🎤🎤</span>' : ''
+    startTimer = window.setTimeout(() => {
+      if (!finished) begin()
+    }, waitMs)
+  }
+
+  function leaveDuet(): void {
+    finished = true
+    void duetSession.end()
+    location.hash = '#/duet'
+  }
+
+  /**
+   * Solo, the song starts at once. In a duet she tells the server she is ready and waits for the
+   * start instant it gives both singers, so the two tablets count in together.
+   */
+  function go(): void {
+    if (!duet) {
+      begin()
+      return
+    }
+    if (waitingForBuddy || started) return
+    waitingForBuddy = true
+    countdown.innerHTML = `
+      <div class="duet-wait" data-duet-wait>
+        <span>Waiting for ${duet.opponent?.name ?? 'your duet buddy'}… ⏳</span>
+        <button class="link-quiet" data-leave-duet>Leave the duet 👋</button>
+      </div>`
+    countdown.querySelector('[data-leave-duet]')?.addEventListener('click', leaveDuet)
+    // never left waiting: a ready that cannot be sent starts her own song
+    duet.client.ready().catch(() => startTogether(0))
+  }
+
   function finish(): void {
     if (finished) return
     finalizeNotesUpTo(Infinity)
@@ -445,7 +493,7 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
           noMic = true
           stageLabel.textContent = 'SING ALONG AND HAVE FUN 🎶'
           coachEl.textContent = READY_LINE // nothing is listening, so the headphone tip has no place
-          begin()
+          go()
         })
         modal.querySelector('[data-back]')?.addEventListener('click', () => {
           close()
@@ -459,7 +507,7 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
     try {
       await tracker.start()
       stageLabel.textContent = 'SING TO MOVE YOUR STAR ↑↓'
-      begin()
+      go()
     } catch {
       micDialog()
     }
@@ -528,11 +576,10 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
         })
         modal.querySelector('[data-songs]')?.addEventListener('click', () => {
           close()
-          finished = true
           if (duet) {
-            void duetSession.end()
-            location.hash = '#/duet'
+            leaveDuet()
           } else {
+            finished = true
             location.hash = '#/songs'
           }
         })
@@ -551,6 +598,7 @@ export function renderSing(root: HTMLElement, params: URLSearchParams): () => vo
   return () => {
     finished = true
     cancelAnimationFrame(raf)
+    clearTimeout(startTimer)
     player.stop()
     tracker.stop()
     wakeLock.destroy()

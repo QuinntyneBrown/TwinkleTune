@@ -14,6 +14,9 @@ export class SingPage extends BasePage {
   readonly singer: Locator
   readonly startButton: Locator
   readonly duetReadyButton: Locator
+  /** "Waiting for <buddy>…", shown in place of the start button until both singers are ready (DM-L2-20). */
+  readonly duetWaiting: Locator
+  readonly leaveDuetLink: Locator
   readonly coach: Locator
   readonly pauseButton: Locator
   readonly countdown: Locator
@@ -42,6 +45,8 @@ export class SingPage extends BasePage {
     this.singer = page.locator('[data-singer]')
     this.startButton = page.getByRole('button', { name: 'Tap to start' })
     this.duetReadyButton = page.getByRole('button', { name: "I'm ready!" })
+    this.duetWaiting = page.locator('[data-duet-wait]')
+    this.leaveDuetLink = page.getByRole('button', { name: 'Leave the duet' })
     this.coach = page.locator('[data-coach]')
     this.pauseButton = page.getByRole('button', { name: 'Pause' })
     this.countdown = page.locator('[data-countdown]')
